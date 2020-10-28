@@ -26,12 +26,14 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
+
         // Password Resets
         Schema::create('password_resets', function (Blueprint $table) {
             $table->string('email')->index();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
+
 
         // Failed Jobs - Queue
         Schema::create('failed_jobs', function (Blueprint $table) {
@@ -42,6 +44,7 @@ class CoreV1 extends Migration
             $table->longText('exception');
             $table->timestamp('failed_at')->useCurrent();
         });
+
 
         // Permissions
         Schema::create('permissions', function (Blueprint $table) {
@@ -58,6 +61,7 @@ class CoreV1 extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
 
         // Companies
         Schema::create('companies', function (Blueprint $table) {
@@ -78,9 +82,13 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
+
         // Employees
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id');
+            $table->bigInteger('company_id');
+            $table->bigInteger('permission_id');
             $table->string('name');
             $table->string('gender');
             $table->string('position');
@@ -93,6 +101,7 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
+
         // Warehouses
         Schema::create('warehouses', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -103,9 +112,11 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
+
         // Products
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('company_id');
             $table->string('name');
             $table->string('selling_price');
             $table->string('purchase_price');
@@ -117,18 +128,24 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
+
         // Product Images
         Schema::create('product_images', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('product_id');
             $table->string('name');
             $table->string('original_name');
             $table->timestamps();
             $table->softDeletes();
         });
 
+
         // Merchandise
         Schema::create('merchandises', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('merchandise_category_id');
+            $table->bigInteger('product_id');
+            $table->bigInteger('warehouse_id');
             $table->string('on_hand');
             $table->string('min_on_hand');
             $table->timestamp('expires_on')->nullable();
@@ -137,6 +154,7 @@ class CoreV1 extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
 
         // Merchandise Categories
         Schema::create('merchandise_categories', function (Blueprint $table) {
@@ -148,9 +166,11 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
+
         // Work In Process
         Schema::create('in_process_products', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('product_id');
             $table->string('in_process');
             $table->string('progress');
             $table->timestamp('started_on')->nullable();
@@ -160,9 +180,12 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
+
         // Finished Products
         Schema::create('finished_products', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('in_process_product_id');
+            $table->bigInteger('warehouse_id');
             $table->string('on_hand');
             $table->string('min_on_hand');
             $table->timestamp('expires_on')->nullable();
@@ -172,9 +195,12 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
+
         // Raw Material
         Schema::create('raw_materials', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('company_id');
+            $table->bigInteger('warehouse_id');
             $table->string('on_hand');
             $table->string('min_on_hand');
             $table->string('unit_of_measurement');
@@ -186,18 +212,22 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
+        
         // Bill of Materials
         Schema::create('bill_of_materials', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('product_id');
             $table->json('materials');
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
         });
 
+
         // MRO Items
         Schema::create('mro_items', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('company_id');
             $table->string('name');
             $table->string('on_hand');
             $table->string('min_on_hand');
