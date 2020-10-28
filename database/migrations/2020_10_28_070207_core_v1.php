@@ -26,14 +26,12 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
-
         // Password Resets
         Schema::create('password_resets', function (Blueprint $table) {
             $table->string('email')->index();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
-
 
         // Failed Jobs - Queue
         Schema::create('failed_jobs', function (Blueprint $table) {
@@ -44,7 +42,6 @@ class CoreV1 extends Migration
             $table->longText('exception');
             $table->timestamp('failed_at')->useCurrent();
         });
-
 
         // Permissions
         Schema::create('permissions', function (Blueprint $table) {
@@ -61,7 +58,6 @@ class CoreV1 extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
 
         // Companies
         Schema::create('companies', function (Blueprint $table) {
@@ -82,7 +78,6 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
-
         // Employees
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -99,8 +94,11 @@ class CoreV1 extends Migration
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
-        });
 
+            $table->index('company_id');
+            $table->index('permission_id');
+            $table->index('user_id');
+        });
 
         // Warehouses
         Schema::create('warehouses', function (Blueprint $table) {
@@ -111,7 +109,6 @@ class CoreV1 extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
 
         // Products
         Schema::create('products', function (Blueprint $table) {
@@ -126,8 +123,9 @@ class CoreV1 extends Migration
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
-        });
 
+            $table->index('company_id');
+        });
 
         // Product Images
         Schema::create('product_images', function (Blueprint $table) {
@@ -137,8 +135,9 @@ class CoreV1 extends Migration
             $table->string('original_name');
             $table->timestamps();
             $table->softDeletes();
-        });
 
+            $table->index('product_id');
+        });
 
         // Merchandise
         Schema::create('merchandises', function (Blueprint $table) {
@@ -153,8 +152,11 @@ class CoreV1 extends Migration
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
-        });
 
+            $table->index('merchandise_category_id');
+            $table->index('product_id');
+            $table->index('warehouse_id');
+        });
 
         // Merchandise Categories
         Schema::create('merchandise_categories', function (Blueprint $table) {
@@ -165,7 +167,6 @@ class CoreV1 extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
 
         // Work In Process
         Schema::create('in_process_products', function (Blueprint $table) {
@@ -178,8 +179,9 @@ class CoreV1 extends Migration
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
-        });
 
+            $table->index('product_id');
+        });
 
         // Finished Products
         Schema::create('finished_products', function (Blueprint $table) {
@@ -193,8 +195,10 @@ class CoreV1 extends Migration
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
-        });
 
+            $table->index('in_process_product_id');
+            $table->index('warehouse_id');
+        });
 
         // Raw Material
         Schema::create('raw_materials', function (Blueprint $table) {
@@ -210,9 +214,11 @@ class CoreV1 extends Migration
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('company_id');
+            $table->index('warehouse_id');
         });
 
-        
         // Bill of Materials
         Schema::create('bill_of_materials', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -221,8 +227,9 @@ class CoreV1 extends Migration
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
-        });
 
+            $table->index('product_id');
+        });
 
         // MRO Items
         Schema::create('mro_items', function (Blueprint $table) {
@@ -239,6 +246,8 @@ class CoreV1 extends Migration
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('company_id');
         });
     }
 
