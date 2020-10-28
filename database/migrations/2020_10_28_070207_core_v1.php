@@ -131,8 +131,8 @@ class CoreV1 extends Migration
             $table->bigIncrements('id');
             $table->string('on_hand');
             $table->string('min_on_hand');
-            $table->timestamp('expires_on');
-            $table->timestamp('brought_on');
+            $table->timestamp('expires_on')->nullable();
+            $table->timestamp('brought_on')->nullable();
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
@@ -153,8 +153,8 @@ class CoreV1 extends Migration
             $table->bigIncrements('id');
             $table->string('in_process');
             $table->string('progress');
-            $table->timestamp('started_on');
-            $table->timestamp('finishes_on');
+            $table->timestamp('started_on')->nullable();
+            $table->timestamp('finishes_on')->nullable();
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
@@ -165,8 +165,8 @@ class CoreV1 extends Migration
             $table->bigIncrements('id');
             $table->string('on_hand');
             $table->string('min_on_hand');
-            $table->timestamp('expires_on');
-            $table->timestamp('brought_on');
+            $table->timestamp('expires_on')->nullable();
+            $table->timestamp('brought_on')->nullable();
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
@@ -180,7 +180,7 @@ class CoreV1 extends Migration
             $table->string('unit_of_measurement');
             $table->string('purchase_price');
             $table->json('properties');
-            $table->timestamp('expires_on');
+            $table->timestamp('expires_on')->nullable();
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
@@ -204,8 +204,8 @@ class CoreV1 extends Migration
             $table->string('unit_of_measurement');
             $table->string('purchase_price');
             $table->json('properties');
-            $table->timestamp('brought_on');
-            $table->timestamp('expires_on');
+            $table->timestamp('brought_on')->nullable();
+            $table->timestamp('expires_on')->nullable();
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
@@ -219,21 +219,21 @@ class CoreV1 extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_resets');
-        Schema::dropIfExists('failed_jobs');
-        Schema::dropIfExists('permissions');
-        Schema::dropIfExists('companies');
-        Schema::dropIfExists('employees');
-        Schema::dropIfExists('warehouses');
-        Schema::dropIfExists('products');
-        Schema::dropIfExists('product_images');
-        Schema::dropIfExists('merchandises');
-        Schema::dropIfExists('merchandise_categories');
-        Schema::dropIfExists('in_process_products');
-        Schema::dropIfExists('finished_products');
-        Schema::dropIfExists('raw_materials');
-        Schema::dropIfExists('bill_of_materials');
-        Schema::dropIfExists('mro_items');
+        Schema::drop('users');
+        Schema::drop('password_resets');
+        Schema::drop('failed_jobs');
+        Schema::drop('permissions');
+        Schema::drop('companies');
+        Schema::drop('employees');
+        Schema::drop('warehouses');
+        Schema::drop('products');
+        Schema::drop('product_images');
+        Schema::drop('merchandises');
+        Schema::drop('merchandise_categories');
+        Schema::drop('in_process_products');
+        Schema::drop('finished_products');
+        Schema::drop('raw_materials');
+        Schema::drop('bill_of_materials');
+        Schema::drop('mro_items');
     }
 }
