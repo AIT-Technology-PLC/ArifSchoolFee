@@ -70,6 +70,7 @@ class CoreV1 extends Migration
             $table->string('phone');
             $table->string('telephone');
             $table->string('membership_plan');
+            $table->boolean('enabled')->default(0);
             $table->string('currency');
             $table->string('logo');
             $table->string('location');
