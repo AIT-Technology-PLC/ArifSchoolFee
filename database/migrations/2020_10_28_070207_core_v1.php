@@ -85,6 +85,8 @@ class CoreV1 extends Migration
             $table->bigInteger('user_id');
             $table->bigInteger('company_id');
             $table->bigInteger('permission_id');
+            $table->bigInteger('created_by');
+            $table->bigInteger('updated_by');
             $table->string('name');
             $table->string('gender');
             $table->string('position');
@@ -104,6 +106,8 @@ class CoreV1 extends Migration
         // Warehouses
         Schema::create('warehouses', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('created_by');
+            $table->bigInteger('updated_by');
             $table->string('name');
             $table->string('location');
             $table->longText('description');
@@ -115,6 +119,8 @@ class CoreV1 extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('company_id');
+            $table->bigInteger('created_by');
+            $table->bigInteger('updated_by');
             $table->string('name');
             $table->string('selling_price');
             $table->string('purchase_price');
@@ -146,6 +152,8 @@ class CoreV1 extends Migration
             $table->bigInteger('merchandise_category_id');
             $table->bigInteger('product_id');
             $table->bigInteger('warehouse_id');
+            $table->bigInteger('created_by');
+            $table->bigInteger('updated_by');
             $table->string('on_hand');
             $table->string('min_on_hand');
             $table->timestamp('expires_on')->nullable();
@@ -173,6 +181,8 @@ class CoreV1 extends Migration
         Schema::create('in_process_products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('product_id');
+            $table->bigInteger('created_by');
+            $table->bigInteger('updated_by');
             $table->string('in_process');
             $table->string('progress');
             $table->timestamp('started_on')->nullable();
@@ -189,6 +199,8 @@ class CoreV1 extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('in_process_product_id');
             $table->bigInteger('warehouse_id');
+            $table->bigInteger('created_by');
+            $table->bigInteger('updated_by');
             $table->string('on_hand');
             $table->string('min_on_hand');
             $table->timestamp('expires_on')->nullable();
@@ -206,6 +218,8 @@ class CoreV1 extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('company_id');
             $table->bigInteger('warehouse_id');
+            $table->bigInteger('created_by');
+            $table->bigInteger('updated_by');
             $table->string('on_hand');
             $table->string('min_on_hand');
             $table->string('unit_of_measurement');
@@ -236,6 +250,8 @@ class CoreV1 extends Migration
         Schema::create('mro_items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('company_id');
+            $table->bigInteger('created_by');
+            $table->bigInteger('updated_by');
             $table->string('name');
             $table->string('on_hand');
             $table->string('min_on_hand');
