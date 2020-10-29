@@ -179,6 +179,7 @@ class CoreV1 extends Migration
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('total_received');
             $table->string('on_hand');
             $table->string('min_on_hand');
             $table->timestamp('expires_on')->nullable();
@@ -226,6 +227,7 @@ class CoreV1 extends Migration
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('total_received');
             $table->string('on_hand');
             $table->string('min_on_hand');
             $table->timestamp('expires_on')->nullable();
@@ -250,6 +252,7 @@ class CoreV1 extends Migration
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('total_received');
             $table->string('on_hand');
             $table->string('min_on_hand');
             $table->string('unit_of_measurement');
@@ -290,6 +293,7 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
+            $table->string('total_received');
             $table->string('on_hand');
             $table->string('min_on_hand');
             $table->string('unit_of_measurement');
