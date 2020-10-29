@@ -82,11 +82,11 @@ class CoreV1 extends Migration
         // Employees
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('company_id')->unsigned();
-            $table->bigInteger('permission_id')->unsigned();
-            $table->bigInteger('created_by')->unsigned();
-            $table->bigInteger('updated_by')->unsigned();
+            $table->bigInteger('user_id')->nullable()->unsigned();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('permission_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
             $table->string('gender');
             $table->string('position');
@@ -112,8 +112,8 @@ class CoreV1 extends Migration
         // Warehouses
         Schema::create('warehouses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('created_by')->unsigned();
-            $table->bigInteger('updated_by')->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
             $table->string('location');
             $table->longText('description');
@@ -127,9 +127,9 @@ class CoreV1 extends Migration
         // Products
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('company_id')->unsigned();
-            $table->bigInteger('created_by')->unsigned();
-            $table->bigInteger('updated_by')->unsigned();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
             $table->string('selling_price');
             $table->string('purchase_price');
@@ -150,7 +150,7 @@ class CoreV1 extends Migration
         // Product Images
         Schema::create('product_images', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('product_id')->unsigned();
+            $table->bigInteger('product_id')->nullable()->unsigned();
             $table->string('name');
             $table->string('original_name');
             $table->timestamps();
@@ -174,11 +174,11 @@ class CoreV1 extends Migration
         // Merchandise
         Schema::create('merchandises', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('merchandise_category_id')->unsigned();
-            $table->bigInteger('product_id')->unsigned();
-            $table->bigInteger('warehouse_id')->unsigned();
-            $table->bigInteger('created_by')->unsigned();
-            $table->bigInteger('updated_by')->unsigned();
+            $table->bigInteger('merchandise_category_id')->nullable()->unsigned();
+            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('on_hand');
             $table->string('min_on_hand');
             $table->timestamp('expires_on')->nullable();
@@ -201,9 +201,9 @@ class CoreV1 extends Migration
         // Work In Process
         Schema::create('in_process_products', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('product_id')->unsigned();
-            $table->bigInteger('created_by')->unsigned();
-            $table->bigInteger('updated_by')->unsigned();
+            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('in_process');
             $table->string('progress');
             $table->timestamp('started_on')->nullable();
@@ -222,10 +222,10 @@ class CoreV1 extends Migration
         // Finished Products
         Schema::create('finished_products', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('in_process_product_id')->unsigned();
-            $table->bigInteger('warehouse_id')->unsigned();
-            $table->bigInteger('created_by')->unsigned();
-            $table->bigInteger('updated_by')->unsigned();
+            $table->bigInteger('in_process_product_id')->nullable()->unsigned();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('on_hand');
             $table->string('min_on_hand');
             $table->timestamp('expires_on')->nullable();
@@ -246,10 +246,10 @@ class CoreV1 extends Migration
         // Raw Material
         Schema::create('raw_materials', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('company_id')->unsigned();
-            $table->bigInteger('warehouse_id')->unsigned();
-            $table->bigInteger('created_by')->unsigned();
-            $table->bigInteger('updated_by')->unsigned();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('on_hand');
             $table->string('min_on_hand');
             $table->string('unit_of_measurement');
@@ -272,7 +272,7 @@ class CoreV1 extends Migration
         // Bill of Materials
         Schema::create('bill_of_materials', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('product_id')->unsigned();
+            $table->bigInteger('product_id')->nullable()->unsigned();
             $table->json('materials');
             $table->longText('description');
             $table->timestamps();
@@ -286,9 +286,9 @@ class CoreV1 extends Migration
         // MRO Items
         Schema::create('mro_items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('company_id')->unsigned();
-            $table->bigInteger('created_by')->unsigned();
-            $table->bigInteger('updated_by')->unsigned();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
             $table->string('on_hand');
             $table->string('min_on_hand');
