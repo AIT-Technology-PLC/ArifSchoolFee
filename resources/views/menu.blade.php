@@ -7,7 +7,7 @@
             <div class="has-text-weight-bold mt-3">
                 Nabil Hassen
             </div>
-            <div class="has-text-grey has-text-weight-bold is-size-7">
+            <div class="has-text-grey has-text-weight-bold">
                 Sales Officer
             </div>
         </li>
@@ -28,14 +28,12 @@
         </li>
     </ul>
 
-    <p class="menu-label">
-        <div class="has-text-weight-bold text-green is-uppercase is-size-7">
-            PRODUCT MANAGEMENT
-        </div>
+    <p class="menu-label has-text-weight-bold text-green">
+        PRODUCT MANAGEMENT
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey is-size-7 has-text-weight-medium">
+            <a class="has-text-grey">
                 <span class="icon">
                     <i class="fas fa-th-list"></i>
                 </span>
@@ -43,7 +41,7 @@
                     Product Catalog
                 </span>
             </a>
-            <a class="has-text-grey is-size-7 has-text-weight-medium">
+            <a class="has-text-grey">
                 <span class="icon">
                     <i class="fas fa-plus-circle"></i>
                 </span>
@@ -54,51 +52,45 @@
         </li>
     </ul>
 
-    <p class="menu-label">
-        <div class="has-text-weight-bold text-green is-uppercase is-size-7">
-            Manufacturing Inventory
-        </div>
+    <p class="menu-label has-text-weight-bold text-green">
+        Manufacturing Inventory
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey is-size-7 has-text-weight-medium">Finished Products</a>
+            <a class="has-text-grey">Finished Products</a>
         </li>
         <li>
-            <a class="has-text-grey is-size-7 has-text-weight-medium">In-Process Products</a>
+            <a class="has-text-grey">In-Process Products</a>
         </li>
         <li>
-            <a class="has-text-grey is-size-7 has-text-weight-medium">Raw Materials</a>
+            <a class="has-text-grey">Raw Materials</a>
         </li>
         <li>
-            <a class="has-text-grey is-size-7 has-text-weight-medium">MRO Items</a>
+            <a class="has-text-grey">MRO Items</a>
         </li>
     </ul>
 
-    <p class="menu-label">
-        <div class="has-text-weight-bold text-green is-uppercase is-size-7">
-            Merchandise Inventory
-        </div>
+    <p class="menu-label has-text-weight-bold text-green">
+        Merchandise Inventory
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey is-size-7 has-text-weight-medium">Products</a>
+            <a class="has-text-grey">Products</a>
         </li>
         <li>
-            <a class="has-text-grey is-size-7 has-text-weight-medium">Categories and Grouping</a>
+            <a class="has-text-grey">Categories and Grouping</a>
         </li>
     </ul>
 
-    <p class="menu-label">
-        <div class="has-text-weight-bold text-green is-uppercase is-size-7">
-            Settings
-        </div>
+    <p class="menu-label has-text-weight-bold text-green">
+        Settings
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey is-size-7 has-text-weight-medium">Employee Management</a>
+            <a class="has-text-grey">Employee Management</a>
         </li>
         <li>
-            <a class="has-text-grey is-size-7 has-text-weight-medium">General Settings</a>
+            <a class="has-text-grey">General Settings</a>
         </li>
     </ul>
 </aside>
