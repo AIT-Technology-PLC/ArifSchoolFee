@@ -15,12 +15,12 @@
 
     @include('header')
 
-    <main>
+    <main style="margin-top: 25px !important">
         <div class="columns is-marginless">
             <div class="column is-2">
                 @include('menu')
             </div>
-            <div class="column">
+            <div class="column bg-lightgreen">
                 @yield('content')
             </div>
         </div>
