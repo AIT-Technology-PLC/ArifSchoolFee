@@ -206,7 +206,7 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('in_process');
-            $table->string('progress');
+            $table->string('finished');
             $table->timestamp('started_on')->nullable();
             $table->timestamp('finishes_on')->nullable();
             $table->longText('description');
