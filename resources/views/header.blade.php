@@ -3,7 +3,7 @@
         <div class="navbar-brand">
             <a class="navbar-item" href="/">
                 <img src="{{ asset('img/logo.png') }}" width="120" style="max-height: 70px">
-                <span class="has-text-grey-lighter is-size-5">
+                <span class="has-text-grey-lighter has-text-weight-light is-size-4 mb-1">
                     Inventory
                 </span>
             </a>
@@ -19,7 +19,7 @@
                     <figure class="image is-32x32" style="margin: auto !important">
                         <img class="is-rounded" src="{{ asset('img/nabil.jpg') }}">
                     </figure>
-                    <h1 class="ml-3 has-text-white-ter has-text-weight-medium is-uppercase is-size-4">
+                    <h1 class="ml-3 has-text-white-ter has-text-weight-light is-uppercase is-size-5">
                         Onrica Technologies PLC
                     </h1>
                 </a>
