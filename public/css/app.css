@@ -61,6 +61,9 @@ textarea {
 nav {
     max-height: 50px !important;
 }
+.is-size-6-5 {
+    font-size: 0.875rem !important;
+}
 @media screen and (max-width: 768px) {
     .m-lr-0 {
         margin-left: 0px !important;

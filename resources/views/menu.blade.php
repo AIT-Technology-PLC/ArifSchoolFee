@@ -33,7 +33,7 @@
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey">
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
                 <span class="icon">
                     <i class="fas fa-th-list"></i>
                 </span>
@@ -41,7 +41,7 @@
                     Product Catalog
                 </span>
             </a>
-            <a class="has-text-grey">
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
                 <span class="icon">
                     <i class="fas fa-plus-circle"></i>
                 </span>
@@ -57,16 +57,44 @@
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey">Finished Products</a>
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-boxes"></i>
+                </span>
+                <span>
+                    Finished Products
+                </span>
+            </a>
         </li>
         <li>
-            <a class="has-text-grey">In-Process Products</a>
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-spinner"></i>
+                </span>
+                <span>
+                    In-process Prodcuts
+                </span>
+            </a>
         </li>
         <li>
-            <a class="has-text-grey">Raw Materials</a>
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-box-open"></i>
+                </span>
+                <span>
+                    Raw Materials
+                </span>
+            </a>
         </li>
         <li>
-            <a class="has-text-grey">MRO Items</a>
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-tools"></i>
+                </span>
+                <span>
+                    MRO Items
+                </span>
+            </a>
         </li>
     </ul>
 
@@ -75,10 +103,24 @@
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey">Products</a>
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-boxes"></i>
+                </span>
+                <span>
+                    Products
+                </span>
+            </a>
         </li>
         <li>
-            <a class="has-text-grey">Categories and Grouping</a>
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-layer-group"></i>
+                </span>
+                <span>
+                    Categories and Grouping
+                </span>
+            </a>
         </li>
     </ul>
 
@@ -87,10 +129,24 @@
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey">Employee Management</a>
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-user-cog"></i>
+                </span>
+                <span>
+                    Employee Management
+                </span>
+            </a>
         </li>
         <li>
-            <a class="has-text-grey">General Settings</a>
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-cog"></i>
+                </span>
+                <span>
+                    General Settings
+                </span>
+            </a>
         </li>
     </ul>
 </aside>
