@@ -12,17 +12,21 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="has-navbar-fixed-top">
-    <header>
-        @yield('header')
-    </header>
+
+    @include('header')
 
     <main>
-        @yield('content')
+        <div class="columns is-marginless">
+            <div class="column is-2">
+                @include('menu')
+            </div>
+            <div class="column">
+                @yield('content')
+            </div>
+        </div>
     </main>
 
-    <footer>
-        @yield('footer')
-    </footer>
+    @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js" integrity="sha256-OPn1YfcEh9W2pwF1iSS+yDk099tYj+plSrCS6Esa9NA=" crossorigin="anonymous"></script>
