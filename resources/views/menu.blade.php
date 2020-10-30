@@ -7,7 +7,7 @@
             <div class="has-text-weight-bold mt-3">
                 Nabil Hassen
             </div>
-            <div class="has-text-grey has-text-weight-bold">
+            <div class="has-text-grey has-text-weight-bold is-size-6-5">
                 Sales Officer
             </div>
         </li>
