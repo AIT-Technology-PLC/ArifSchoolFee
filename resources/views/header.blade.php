@@ -19,9 +19,9 @@
                     <figure class="image is-32x32" style="margin: auto !important">
                         <img class="is-rounded" src="{{ asset('img/nabil.jpg') }}">
                     </figure>
-                    <span class="ml-3 has-text-white-ter has-text-weight-medium is-uppercase is-size-4">
+                    <h1 class="ml-3 has-text-white-ter has-text-weight-medium is-uppercase is-size-4">
                         Onrica Technologies PLC
-                    </span>
+                    </h1>
                 </a>
             </div>
             <div class="navbar-end">

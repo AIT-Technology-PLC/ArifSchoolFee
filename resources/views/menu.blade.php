@@ -15,82 +15,90 @@
 
     <hr>
 
-    <ul class="menu-list">
+    <ul class="menu-list mb-5">
         <li>
             <a class="has-text-grey is-active">
                 <span class="icon">
                     <i class="fas fa-tachometer-alt"></i>
                 </span>
-                <span class="ml-3">
+                <span class="ml-1">
                     Dashboard
                 </span>
             </a>
         </li>
     </ul>
 
-    <p class="menu-label has-text-weight-bold text-green">
-        Product Management
+    <p class="menu-label">
+        <div class="has-text-weight-bold text-green is-uppercase is-size-7">
+            PRODUCT MANAGEMENT
+        </div>
     </p>
-    <ul class="menu-list">
+    <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey">
+            <a class="has-text-grey is-size-7 has-text-weight-medium">
                 <span class="icon">
                     <i class="fas fa-th-list"></i>
                 </span>
-                <span class="ml-3">
+                <span>
                     Product Catalog
                 </span>
             </a>
-            <a class="has-text-grey">
+            <a class="has-text-grey is-size-7 has-text-weight-medium">
                 <span class="icon">
                     <i class="fas fa-plus-circle"></i>
                 </span>
-                <span class="ml-3">
+                <span>
                     Create New Product
                 </span>
             </a>
         </li>
     </ul>
 
-    <p class="menu-label has-text-weight-bold text-green">
-        Manufacturing Inventory
+    <p class="menu-label">
+        <div class="has-text-weight-bold text-green is-uppercase is-size-7">
+            Manufacturing Inventory
+        </div>
     </p>
-    <ul class="menu-list">
+    <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey">Finished Products</a>
+            <a class="has-text-grey is-size-7 has-text-weight-medium">Finished Products</a>
         </li>
         <li>
-            <a class="has-text-grey">In-Process Products</a>
+            <a class="has-text-grey is-size-7 has-text-weight-medium">In-Process Products</a>
         </li>
         <li>
-            <a class="has-text-grey">Raw Materials</a>
+            <a class="has-text-grey is-size-7 has-text-weight-medium">Raw Materials</a>
         </li>
         <li>
-            <a class="has-text-grey">MRO Items</a>
+            <a class="has-text-grey is-size-7 has-text-weight-medium">MRO Items</a>
         </li>
     </ul>
 
-    <p class="menu-label has-text-weight-bold text-green">
-        Merchandise Inventory
+    <p class="menu-label">
+        <div class="has-text-weight-bold text-green is-uppercase is-size-7">
+            Merchandise Inventory
+        </div>
     </p>
-    <ul class="menu-list">
+    <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey">Products</a>
+            <a class="has-text-grey is-size-7 has-text-weight-medium">Products</a>
         </li>
         <li>
-            <a class="has-text-grey">Categories and Grouping</a>
+            <a class="has-text-grey is-size-7 has-text-weight-medium">Categories and Grouping</a>
         </li>
     </ul>
 
-    <p class="menu-label has-text-weight-bold text-green">
-        Settings
+    <p class="menu-label">
+        <div class="has-text-weight-bold text-green is-uppercase is-size-7">
+            Settings
+        </div>
     </p>
-    <ul class="menu-list">
+    <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey">Employee Management</a>
+            <a class="has-text-grey is-size-7 has-text-weight-medium">Employee Management</a>
         </li>
         <li>
-            <a class="has-text-grey">General Settings</a>
+            <a class="has-text-grey is-size-7 has-text-weight-medium">General Settings</a>
         </li>
     </ul>
 </aside>
