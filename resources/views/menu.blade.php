@@ -2,7 +2,7 @@
     <ul class="menu-list has-text-centered">
         <li>
             <figure class="image is-64x64" style="margin: auto !important">
-                <img class="is-rounded" src="https://bulma.io/images/placeholders/96x96.png">
+                <img class="is-rounded" src="{{ asset('img/nabil.jpg') }}">
             </figure>
             <div class="has-text-weight-bold mt-3">
                 Nabil Hassen
