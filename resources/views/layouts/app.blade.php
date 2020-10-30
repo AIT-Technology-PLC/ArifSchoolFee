@@ -15,7 +15,7 @@
 
     @include('header')
 
-    <main style="margin-top: 25px !important">
+    <main>
         <div class="columns is-marginless">
             <div class="column is-one-fifth py-5">
                 @include('menu')

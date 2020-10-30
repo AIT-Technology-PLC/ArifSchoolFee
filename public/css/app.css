@@ -58,6 +58,9 @@ textarea {
     color: #fff !important;
     border-radius: 8px !important;
 }
+nav {
+    max-height: 50px !important;
+}
 @media screen and (max-width: 768px) {
     .m-lr-0 {
         margin-left: 0px !important;
