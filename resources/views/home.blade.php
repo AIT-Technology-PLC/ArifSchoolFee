@@ -63,21 +63,21 @@
             <div class="level">
                 <div class="level-left">
                     <div class="level-item">
-                        <span class="icon is-large is-size-1 has-text-link">
+                        <span class="icon is-large is-size-1 text-gold">
                             <i class="fas fa-spinner"></i>
                         </span>
                     </div>
                 </div>
                 <div class="level-left">
                     <div class="level-item">
-                        <span class="has-text-link is-size-6 has-text-weight-bold">
+                        <span class="text-gold is-size-6 has-text-weight-bold">
                             235
                             <br>
                             <span class="is-uppercase is-size-7">
                                 Product Types
                             </span>
                             <br><br>
-                            <span class="has-text-link is-size-7 is-uppercase has-text-weight-light">
+                            <span class="text-gold is-size-7 is-uppercase has-text-weight-light">
                                 Products Being Processed
                             </span>
                         </span>
