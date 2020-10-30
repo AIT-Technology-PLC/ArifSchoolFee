@@ -53,6 +53,11 @@ input,
 textarea {
     color: white !important;
 }
+.menu-list a.is-active {
+    background-color: #3d8660 !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+}
 @media screen and (max-width: 768px) {
     .m-lr-0 {
         margin-left: 0px !important;

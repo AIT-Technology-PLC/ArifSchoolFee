@@ -17,11 +17,11 @@
 
     <ul class="menu-list">
         <li>
-            <a>
+            <a class="has-text-grey is-active">
                 <span class="icon">
                     <i class="fas fa-tachometer-alt"></i>
                 </span>
-                <span class="ml-3 has-text-weight-light">
+                <span class="ml-3">
                     Dashboard
                 </span>
             </a>
@@ -33,19 +33,19 @@
     </p>
     <ul class="menu-list">
         <li>
-            <a class="has-text-weight-light">
+            <a class="has-text-grey">
                 <span class="icon">
                     <i class="fas fa-th-list"></i>
                 </span>
-                <span class="ml-3 has-text-weight-light">
+                <span class="ml-3">
                     Product Catalog
                 </span>
             </a>
-            <a class="has-text-weight-light">
+            <a class="has-text-grey">
                 <span class="icon">
                     <i class="fas fa-plus-circle"></i>
                 </span>
-                <span class="ml-3 has-text-weight-light">
+                <span class="ml-3">
                     Create New Product
                 </span>
             </a>
@@ -57,16 +57,16 @@
     </p>
     <ul class="menu-list">
         <li>
-            <a class="has-text-weight-light">Finished Products</a>
+            <a class="has-text-grey">Finished Products</a>
         </li>
         <li>
-            <a class="has-text-weight-light">In-Process Products</a>
+            <a class="has-text-grey">In-Process Products</a>
         </li>
         <li>
-            <a class="has-text-weight-light">Raw Materials</a>
+            <a class="has-text-grey">Raw Materials</a>
         </li>
         <li>
-            <a class="has-text-weight-light">MRO Items</a>
+            <a class="has-text-grey">MRO Items</a>
         </li>
     </ul>
 
@@ -75,10 +75,10 @@
     </p>
     <ul class="menu-list">
         <li>
-            <a class="has-text-weight-light">Products</a>
+            <a class="has-text-grey">Products</a>
         </li>
         <li>
-            <a class="has-text-weight-light">Categories and Grouping</a>
+            <a class="has-text-grey">Categories and Grouping</a>
         </li>
     </ul>
 
@@ -87,10 +87,10 @@
     </p>
     <ul class="menu-list">
         <li>
-            <a class="has-text-weight-light">Employee Management</a>
+            <a class="has-text-grey">Employee Management</a>
         </li>
         <li>
-            <a class="has-text-weight-light">General Settings</a>
+            <a class="has-text-grey">General Settings</a>
         </li>
     </ul>
 </aside>
