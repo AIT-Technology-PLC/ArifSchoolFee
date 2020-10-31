@@ -15,14 +15,17 @@
 
     <hr>
 
+    <p class="menu-label has-text-weight-bold text-green">
+        Dashboard
+    </p>
     <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey is-active">
+            <a class="has-text-grey has-text-weight-normal is-size-6-5 is-active">
                 <span class="icon">
                     <i class="fas fa-tachometer-alt"></i>
                 </span>
-                <span class="ml-1">
-                    Dashboard
+                <span>
+                    Home
                 </span>
             </a>
         </li>
