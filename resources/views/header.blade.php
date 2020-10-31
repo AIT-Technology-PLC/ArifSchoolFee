@@ -31,6 +31,16 @@
                 </a>
             </div>
             <div class="navbar-end">
+                <a href="#" class="navbar-item has-text-white link-text">
+                    <span class="icon">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </a>
+                <a href="#" class="navbar-item has-text-white link-text">
+                    <span class="icon">
+                        <i class="fas fa-question-circle"></i>
+                    </span>
+                </a>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link is-arrowless">
                         <figure class="image is-24x24" style="margin: auto !important">
