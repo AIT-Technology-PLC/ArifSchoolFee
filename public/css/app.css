@@ -7,6 +7,9 @@
 .text-gold {
     color: #86843d !important;
 }
+.text-blue {
+    color: #3d6386 !important;
+}
 .bg-gold {
     background-color: #86843d !important;
     border: 1px solid #86843d !important;
@@ -22,6 +25,10 @@
 .bg-purple {
     background-color: #863d63 !important;
     border: 1px solid #863d63 !important;
+}
+.bg-blue {
+    background-color: #3d6386 !important;
+    border: 1px solid #3d6386 !important;
 }
 .link-text:hover {
     color: white !important;

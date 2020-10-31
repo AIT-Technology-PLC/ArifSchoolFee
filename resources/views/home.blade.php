@@ -69,7 +69,7 @@
         </div>
     </div>
     <div class="column is-3">
-        <div class="box text-green">
+        <div class="box text-blue">
             <div class="columns is-marginless is-vcentered is-mobile">
                 <div class="column has-text-centered is-paddingless">
                     <span class="icon is-large is-size-1">
