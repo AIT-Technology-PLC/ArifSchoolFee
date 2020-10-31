@@ -17,7 +17,7 @@
                     <div class="is-uppercase is-size-7">
                         Material Types
                     </div>
-                    <div class="is-size-7 is-uppercase has-text-weight-light mt-5">
+                    <div class="is-size-7 is-uppercase mt-5 has-text-grey">
                         Out of Stock <br> Raw Materials
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     <div class="is-uppercase is-size-7">
                         Product Types
                     </div>
-                    <div class="is-size-7 is-uppercase has-text-weight-light mt-5">
+                    <div class="is-size-7 is-uppercase mt-5 has-text-grey">
                         Available <br> Finished Goods
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                     <div class="is-uppercase is-size-7">
                         Product Types
                     </div>
-                    <div class="is-size-7 is-uppercase has-text-weight-light mt-5">
+                    <div class="is-size-7 is-uppercase mt-5 has-text-grey">
                         In Process <br> Products
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                     <div class="is-uppercase is-size-7">
                         Items
                     </div>
-                    <div class="is-size-7 is-uppercase has-text-weight-light mt-5">
+                    <div class="is-size-7 is-uppercase mt-5 has-text-grey">
                         Available <br> MRO Items
                     </div>
                 </div>
