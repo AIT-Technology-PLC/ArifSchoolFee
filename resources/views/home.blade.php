@@ -112,7 +112,8 @@
                     <div class="is-uppercase is-size-7">
                         Products
                     </div>
-                    <div class="is-size-7 is-uppercase mt-5 has-text-grey">
+                    <hr class="my-3">
+                    <div class="is-size-7 is-uppercase has-text-grey">
                         Available in Stock
                     </div>
                 </div>
@@ -134,7 +135,8 @@
                     <div class="is-uppercase is-size-7">
                         Products
                     </div>
-                    <div class="is-size-7 is-uppercase mt-5 has-text-grey">
+                    <hr class="my-3">
+                    <div class="is-size-7 is-uppercase has-text-grey">
                         Out Of Stock
                     </div>
                 </div>
@@ -156,7 +158,8 @@
                     <div class="is-uppercase is-size-7">
                         Products
                     </div>
-                    <div class="is-size-7 is-uppercase mt-5 has-text-grey">
+                    <hr class="my-3">
+                    <div class="is-size-7 is-uppercase has-text-grey">
                         Limited Stock
                     </div>
                 </div>
