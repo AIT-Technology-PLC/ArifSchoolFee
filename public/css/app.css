@@ -107,6 +107,10 @@ nav {
 ::-webkit-scrollbar-thumb:hover {
     background: #316b4d;
 }
+.scroller {
+    scrollbar-color: #3d8660 white;
+    scrollbar-width: thin;
+}
 @media screen and (max-width: 768px) {
     .m-lr-0 {
         margin-left: 0px !important;
