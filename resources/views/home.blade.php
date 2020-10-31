@@ -175,7 +175,7 @@
 <div class="columns is-marginless is-vcentered">
     <div class="column is-8">
         <div class="box">
-            <p class="has-text-black has-text-weight-bold mb-4">
+            <p class="text-green has-text-weight-medium mb-4">
                 Stock Level
             </p>
             {!! $chartjs->render() !!}
@@ -183,7 +183,7 @@
     </div>
     <div class="column is-4">
         <div class="box">
-            <p class="has-text-black has-text-weight-bold mb-4">
+            <p class="text-green has-text-weight-medium mb-4">
                 Products By Warehouse
             </p>
             {!! $pie->render() !!}
