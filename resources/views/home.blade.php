@@ -41,7 +41,7 @@
                     </div>
                     <div class="is-size-7 is-uppercase has-text-weight-light mt-5">
                         Available <br> Finished Goods
-                    </>
+                    </div>
                 </div>
             </div>
         </div>
