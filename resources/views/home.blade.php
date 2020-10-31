@@ -57,7 +57,7 @@
             <div class="columns is-marginless is-vcentered is-mobile">
                 <div class="column has-text-centered is-paddingless">
                     <span class="icon is-large is-size-1">
-                        <i class="fas fa-spinner"></i>
+                        <i class="fas fa-sync-alt"></i>
                     </span>
                 </div>
                 <div class="column is-paddingless">
