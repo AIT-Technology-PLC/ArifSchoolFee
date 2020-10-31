@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Dashboard - Onrica Inventory
+@endsection
+
 @section('content')
 <div class="columns is-marginless">
     <div class="column is-3">
