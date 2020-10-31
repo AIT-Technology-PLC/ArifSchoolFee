@@ -17,10 +17,11 @@
                     <div class="is-uppercase is-size-7">
                         Material Types
                     </div>
-                    <div class="is-size-7 is-uppercase mt-5 has-text-grey">
-                        Out of Stock <br> Raw Materials
-                    </div>
                 </div>
+            </div>
+            <hr class="my-4">
+            <div class="is-size-7 is-uppercase has-text-grey">
+                Raw Materials Out of Stock
             </div>
         </div>
     </div>
@@ -39,10 +40,11 @@
                     <div class="is-uppercase is-size-7">
                         Product Types
                     </div>
-                    <div class="is-size-7 is-uppercase mt-5 has-text-grey">
-                        Available <br> Finished Goods
-                    </div>
                 </div>
+            </div>
+            <hr class="my-4">
+            <div class="is-size-7 is-uppercase has-text-grey">
+                Finished Products Available
             </div>
         </div>
     </div>
@@ -61,10 +63,11 @@
                     <div class="is-uppercase is-size-7">
                         Product Types
                     </div>
-                    <div class="is-size-7 is-uppercase mt-5 has-text-grey">
-                        In Process <br> Products
-                    </div>
                 </div>
+            </div>
+            <hr class="my-4">
+            <div class="is-size-7 is-uppercase has-text-grey">
+                Products In Process
             </div>
         </div>
     </div>
@@ -83,10 +86,11 @@
                     <div class="is-uppercase is-size-7">
                         Items
                     </div>
-                    <div class="is-size-7 is-uppercase mt-5 has-text-grey">
-                        Available <br> MRO Items
-                    </div>
                 </div>
+            </div>
+            <hr class="my-4">
+            <div class="is-size-7 is-uppercase has-text-grey">
+                MRO Items Available
             </div>
         </div>
     </div>
