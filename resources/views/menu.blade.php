@@ -38,7 +38,7 @@
         <li>
             <a class="has-text-grey has-text-weight-normal is-size-6-5">
                 <span class="icon">
-                    <i class="fas fa-th-list"></i>
+                    <i class="fas fa-th"></i>
                 </span>
                 <span>
                     Product Catalog
@@ -134,7 +134,7 @@
         <li>
             <a class="has-text-grey has-text-weight-normal is-size-6-5">
                 <span class="icon">
-                    <i class="fas fa-user-cog"></i>
+                    <i class="fas fa-users"></i>
                 </span>
                 <span>
                     Employee Management
