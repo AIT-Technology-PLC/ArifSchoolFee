@@ -22,7 +22,7 @@
         <div class="navbar-menu">
             <div class="navbar-end">
                 <a class="navbar-item">
-                    <figure class="image is-32x32" style="margin: auto !important">
+                    <figure class="image is-24x24" style="margin: auto !important">
                         <img class="is-rounded" src="{{ asset('img/nabil.jpg') }}">
                     </figure>
                     <h1 class="ml-3 has-text-white-ter has-text-weight-light is-uppercase is-size-5">
