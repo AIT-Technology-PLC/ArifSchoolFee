@@ -20,7 +20,7 @@
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey has-text-weight-normal is-size-6-5 is-active">
+            <a href="/home" class="has-text-grey has-text-weight-normal is-size-6-5 is-active">
                 <span class="icon">
                     <i class="fas fa-tachometer-alt"></i>
                 </span>
