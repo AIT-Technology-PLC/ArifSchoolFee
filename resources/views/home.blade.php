@@ -69,4 +69,17 @@
         </div>
     </div>
 </div>
+
+<div class="columns is-marginless mt-6">
+    <div class="column is-8">
+        <div>
+            {!! $chartjs->render() !!}
+        </div>
+    </div>
+    <div class="column is-3">
+        <div>
+            {!! $pie->render() !!}
+        </div>
+    </div>
+</div>
 @endsection
