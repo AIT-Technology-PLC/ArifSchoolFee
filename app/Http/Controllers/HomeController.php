@@ -38,8 +38,8 @@ class HomeController extends Controller
             ->datasets([
                 [
                     "label" => "Percentage",
-                    'backgroundColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)', 'rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)'],
-                    'data' => [69, 50, 60, 44],
+                    'backgroundColor' => ['#3d8660', '#863d63', '#86843d', '#3d6386'],
+                    'data' => [85, 50, 60, 44],
                 ],
             ])
             ->options([
@@ -53,6 +53,7 @@ class HomeController extends Controller
                             'gridLines' => [
                                 'display' => false,
                             ],
+                            'barPercentage' => 0.25,
                         ],
                     ],
                     'yAxes' => [
@@ -83,7 +84,9 @@ class HomeController extends Controller
                     'data' => [30, 70],
                 ],
             ])
-            ->options([]);
+            ->options([
+                'cutoutPercentage' => 75,
+            ]);
 
         return $pie;
     }
