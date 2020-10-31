@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="columns is-marginless">
-    <div class="column">
+    <div class="column is-4">
         <div class="box text-green">
             <div class="columns is-marginless is-vcentered is-mobile">
                 <div class="column has-text-centered is-paddingless">
@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <div class="column">
+    <div class="column is-4">
         <div class="box text-purple">
             <div class="columns is-marginless is-vcentered is-mobile">
                 <div class="column has-text-centered is-paddingless">
@@ -46,7 +46,7 @@
             </div>
         </div>
     </div>
-    <div class="column">
+    <div class="column is-4">
         <div class="box text-gold">
             <div class="columns is-marginless is-vcentered is-mobile">
                 <div class="column has-text-centered is-paddingless">
@@ -70,14 +70,20 @@
     </div>
 </div>
 
-<div class="columns is-marginless mt-6">
+<div class="columns is-marginless is-vcentered">
     <div class="column is-8">
-        <div>
+        <div class="box">
+            <p class="has-text-black has-text-weight-bold mb-4">
+                Stock Level
+            </p>
             {!! $chartjs->render() !!}
         </div>
     </div>
-    <div class="column is-3">
-        <div>
+    <div class="column is-4">
+        <div class="box">
+            <p class="has-text-black has-text-weight-bold mb-4">
+                Products By Warehouse
+            </p>
             {!! $pie->render() !!}
         </div>
     </div>
