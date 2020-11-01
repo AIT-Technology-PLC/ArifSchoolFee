@@ -97,13 +97,8 @@ nav {
 html {
     overflow: hidden;
 }
-@media screen and (max-width: 768px) {
-    html {
-        overflow: auto;
-    }
-}
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 12.5px;
 }
 ::-webkit-scrollbar-track {
     border-radius: 10px;
@@ -118,6 +113,28 @@ html {
 .scroller {
     scrollbar-color: #b1cfbf white;
     scrollbar-width: thin;
+}
+@media screen and (max-width: 768px) {
+    html {
+        overflow: auto;
+    }
+    ::-webkit-scrollbar {
+        width: auto;
+    }
+    ::-webkit-scrollbar-track {
+        border-radius: auto;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: auto;
+        border-radius: auto;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: auto;
+    }
+    .scroller {
+        scrollbar-color: auto;
+        scrollbar-width: auto;
+    }
 }
 @media screen and (max-width: 768px) {
     .m-lr-0 {
