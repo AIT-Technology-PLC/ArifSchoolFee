@@ -18,10 +18,10 @@
 
     <main>
         <div class="columns is-marginless">
-            <div class="column is-one-fifth py-5 limit-to-100vh scroller">
+            <div id="menuLeft" class="column is-one-fifth py-5 limit-to-100vh scroller">
                 @include('menu')
             </div>
-            <div class="column bg-lightgreen py-5 limit-to-100vh scroller">
+            <div id="contentRight" class="column bg-lightgreen py-5 limit-to-100vh scroller">
                 @yield('content')
                 @include('footer')
             </div>

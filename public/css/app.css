@@ -92,7 +92,7 @@ nav {
     height: -moz-calc(100vh - 52px);
     height: -o-calc(100vh - 52px);
     overscroll-behavior: contain;
-    overflow: auto;
+    overflow: hidden;
 }
 ::-webkit-scrollbar {
     width: 4px;
