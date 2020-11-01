@@ -23,9 +23,11 @@ class HomeController extends Controller
     {
         $pie = $this->pie();
 
+        $pie2 = $this->pie2();
+
         $chartjs = $this->chartjs();
 
-        return view('home', compact('chartjs', 'pie'));
+        return view('home', compact('chartjs', 'pie', 'pie2'));
     }
 
     public function chartjs()
@@ -75,8 +77,8 @@ class HomeController extends Controller
         $pie = app()->chartjs
             ->name('pieChartTest')
             ->type('doughnut')
-            ->size(['width' => 200, 'height' => 200])
-            ->labels(['Warehouse 1', 'Warehouse 2'])
+            ->size(['width' => 191, 'height' => 200])
+            ->labels(['Plastics', 'Coal'])
             ->datasets([
                 [
                     'backgroundColor' => ['rgba(61, 134, 96, 0.9)', 'rgba(134, 61, 99, 0.9)'],
@@ -89,5 +91,26 @@ class HomeController extends Controller
             ]);
 
         return $pie;
+    }
+
+    public function pie2()
+    {
+        $pie2 = app()->chartjs
+            ->name('pie2ChartTest')
+            ->type('doughnut')
+            ->size(['width' => 191, 'height' => 200])
+            ->labels(['Sesame', 'Coffee'])
+            ->datasets([
+                [
+                    'backgroundColor' => ['rgba(61, 134, 96, 0.9)', 'rgba(134, 61, 99, 0.9)'],
+                    'hoverBackgroundColor' => ['rgba(61, 134, 96, 0.9)', 'rgba(134, 61, 99, 0.9)'],
+                    'data' => [60, 40],
+                ],
+            ])
+            ->options([
+                'cutoutPercentage' => 75,
+            ]);
+
+        return $pie2;
     }
 }
