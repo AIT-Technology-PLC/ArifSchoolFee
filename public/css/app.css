@@ -94,21 +94,29 @@ nav {
     overscroll-behavior: contain;
     overflow: hidden;
 }
+html {
+    overflow: hidden;
+}
+@media screen and (max-width: 768px) {
+    html {
+        overflow: auto;
+    }
+}
 ::-webkit-scrollbar {
-    width: 4px;
+    width: 10px;
 }
 ::-webkit-scrollbar-track {
     border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb {
-    background: #3d8660;
+    background: #b1cfbf;
     border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #316b4d;
+    background: #77aa90;
 }
 .scroller {
-    scrollbar-color: #3d8660 white;
+    scrollbar-color: #b1cfbf white;
     scrollbar-width: thin;
 }
 @media screen and (max-width: 768px) {
