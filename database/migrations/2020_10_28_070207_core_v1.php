@@ -121,44 +121,6 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
 
-        // Products
-        Schema::create('products', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('name');
-            $table->string('selling_price');
-            $table->string('purchase_price');
-            $table->string('unit_of_measurement');
-            $table->string('min_on_hand');
-            $table->boolean('is_expirable');
-            $table->json('properties');
-            $table->longText('description');
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('company_id');
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-        });
-
-        // Product Images
-        Schema::create('product_images', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('product_id')->nullable()->unsigned();
-            $table->string('name');
-            $table->string('original_name');
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('product_id');
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-        });
-
         // Product Categories
         Schema::create('product_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -178,10 +140,50 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
 
+        // Products
+        Schema::create('products', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('product_category_id')->nullable()->unsigned();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('name');
+            $table->string('selling_price');
+            $table->string('purchase_price');
+            $table->string('unit_of_measurement');
+            $table->string('min_on_hand');
+            $table->boolean('is_expirable');
+            $table->json('properties');
+            $table->longText('description');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('product_category_id');
+            $table->index('company_id');
+
+            $table->foreign('product_category_id')->references('id')->on('product_categories')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        });
+
+        // Product Images
+        Schema::create('product_images', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->string('name');
+            $table->string('original_name');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('product_id');
+
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+        });
+
         // Merchandise Products
         Schema::create('merchandises', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('product_category_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
@@ -196,11 +198,9 @@ class CoreV1 extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('product_category_id');
             $table->index('product_id');
             $table->index('warehouse_id');
 
-            $table->foreign('product_category_id')->references('id')->on('product_categories')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
@@ -210,7 +210,6 @@ class CoreV1 extends Migration
         // Manufacturing Products
         Schema::create('manufacturings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('product_category_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
@@ -227,11 +226,9 @@ class CoreV1 extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('product_category_id');
             $table->index('product_id');
             $table->index('warehouse_id');
 
-            $table->foreign('product_category_id')->references('id')->on('product_categories')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
@@ -325,9 +322,9 @@ class CoreV1 extends Migration
         Schema::drop('companies');
         Schema::drop('employees');
         Schema::drop('warehouses');
+        Schema::drop('product_categories');
         Schema::drop('products');
         Schema::drop('product_images');
-        Schema::drop('product_categories');
         Schema::drop('merchandises');
         Schema::drop('manufacturings');
         Schema::drop('raw_materials');
