@@ -51,10 +51,7 @@ class CoreV1 extends Migration
             $table->string('warehouses');
             $table->string('products');
             $table->string('merchandises');
-            $table->string('jobs');
-            $table->string('raw_materials');
-            $table->string('bill_of_materials');
-            $table->string('mro_items');
+            $table->string('manufacturings');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -165,11 +162,20 @@ class CoreV1 extends Migration
         // Product Categories
         Schema::create('product_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
             $table->json('properties');
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('company_id');
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
 
         // Merchandise Products
@@ -204,6 +210,7 @@ class CoreV1 extends Migration
         // Manufacturing Products
         Schema::create('manufacturings', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('product_category_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
