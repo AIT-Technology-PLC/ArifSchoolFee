@@ -134,6 +134,7 @@ class CoreV1 extends Migration
             $table->string('selling_price');
             $table->string('purchase_price');
             $table->string('unit_of_measurement');
+            $table->string('min_on_hand');
             $table->boolean('is_expirable');
             $table->json('properties');
             $table->longText('description');
@@ -161,8 +162,8 @@ class CoreV1 extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
-        // Merchandise Categories
-        Schema::create('merchandise_categories', function (Blueprint $table) {
+        // Product Categories
+        Schema::create('product_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->json('properties');
@@ -171,75 +172,60 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
-        // Merchandise
+        // Merchandise Products
         Schema::create('merchandises', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('merchandise_category_id')->nullable()->unsigned();
+            $table->bigInteger('product_category_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('total_received');
-            $table->string('on_hand');
-            $table->string('min_on_hand');
+            $table->string('total_on_hand');
+            $table->string('total_sold');
+            $table->string('total_broken');
             $table->timestamp('expires_on')->nullable();
-            $table->timestamp('brought_on')->nullable();
+            $table->timestamp('received_on')->nullable();
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('merchandise_category_id');
+            $table->index('product_category_id');
             $table->index('product_id');
             $table->index('warehouse_id');
 
-            $table->foreign('merchandise_category_id')->references('id')->on('merchandise_categories')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_category_id')->references('id')->on('product_categories')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
 
-        // Work In Process
-        Schema::create('in_process_products', function (Blueprint $table) {
+        // Manufacturing Products
+        Schema::create('manufacturings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('product_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('in_process');
-            $table->string('finished');
-            $table->timestamp('started_on')->nullable();
-            $table->timestamp('finishes_on')->nullable();
-            $table->longText('description');
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('product_id');
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-        });
-
-        // Finished Products
-        Schema::create('finished_products', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('in_process_product_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('total_received');
-            $table->string('on_hand');
-            $table->string('min_on_hand');
+            $table->string('total_in_process');
+            $table->string('total_finished');
+            $table->string('total_sold');
+            $table->string('total_broken');
+            $table->string('production_status'); // If in-process == finished, then status == completed otherwise in process
+            $table->timestamp('started_on')->nullable();
+            $table->timestamp('finishes_on')->nullable();
             $table->timestamp('expires_on')->nullable();
-            $table->timestamp('brought_on')->nullable();
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('in_process_product_id');
+            $table->index('product_category_id');
+            $table->index('product_id');
             $table->index('warehouse_id');
 
-            $table->foreign('in_process_product_id')->references('id')->on('in_process_products')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_category_id')->references('id')->on('product_categories')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
@@ -334,10 +320,9 @@ class CoreV1 extends Migration
         Schema::drop('warehouses');
         Schema::drop('products');
         Schema::drop('product_images');
+        Schema::drop('product_categories');
         Schema::drop('merchandises');
-        Schema::drop('merchandise_categories');
-        Schema::drop('in_process_products');
-        Schema::drop('finished_products');
+        Schema::drop('manufacturings');
         Schema::drop('raw_materials');
         Schema::drop('bill_of_materials');
         Schema::drop('mro_items');
