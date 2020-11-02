@@ -192,6 +192,7 @@ class CoreV1 extends Migration
             $table->string('total_on_hand');
             $table->string('total_sold');
             $table->string('total_broken');
+            $table->string('total_returns');
             $table->timestamp('expires_on')->nullable();
             $table->timestamp('received_on')->nullable();
             $table->longText('description');
@@ -218,7 +219,8 @@ class CoreV1 extends Migration
             $table->string('total_finished');
             $table->string('total_sold');
             $table->string('total_broken');
-            $table->string('production_status'); // If in-process == finished, then status == completed otherwise in process
+            $table->string('total_returns');
+            $table->string('production_status'); // If in-process == finished, then status == completed otherwise status == in-process
             $table->timestamp('started_on')->nullable();
             $table->timestamp('finishes_on')->nullable();
             $table->timestamp('expires_on')->nullable();
