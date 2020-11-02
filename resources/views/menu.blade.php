@@ -32,7 +32,7 @@
     </ul>
 
     <p class="menu-label has-text-weight-bold text-green">
-        PRODUCT MANAGEMENT
+        Product Management
     </p>
     <ul class="menu-list mb-5">
         <li>
@@ -41,9 +41,21 @@
                     <i class="fas fa-th"></i>
                 </span>
                 <span>
-                    Product Catalog
+                    Products and Categories
                 </span>
             </a>
+        </li>
+        <li>
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-plus-circle"></i>
+                </span>
+                <span>
+                    Create New Category
+                </span>
+            </a>
+        </li>
+        <li>
             <a class="has-text-grey has-text-weight-normal is-size-6-5">
                 <span class="icon">
                     <i class="fas fa-plus-circle"></i>
@@ -59,6 +71,16 @@
         Manufacturing Inventory
     </p>
     <ul class="menu-list mb-5">
+        <li>
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-plus-circle"></i>
+                </span>
+                <span>
+                    Start New Production
+                </span>
+            </a>
+        </li>
         <li>
             <a class="has-text-grey has-text-weight-normal is-size-6-5">
                 <span class="icon">
@@ -108,20 +130,20 @@
         <li>
             <a class="has-text-grey has-text-weight-normal is-size-6-5">
                 <span class="icon">
-                    <i class="fas fa-boxes"></i>
+                    <i class="fas fa-plus-circle"></i>
                 </span>
                 <span>
-                    Products
+                    Add New Product
                 </span>
             </a>
         </li>
         <li>
             <a class="has-text-grey has-text-weight-normal is-size-6-5">
                 <span class="icon">
-                    <i class="fas fa-layer-group"></i>
+                    <i class="fas fa-boxes"></i>
                 </span>
                 <span>
-                    Categories and Grouping
+                    Products
                 </span>
             </a>
         </li>
