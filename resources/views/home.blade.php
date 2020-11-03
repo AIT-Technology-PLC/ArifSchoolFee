@@ -290,7 +290,54 @@ Dashboard - Onrica Inventory
             </p>
         </div>
         <div class="box radius-top-0">
-            
+            <table class="table is-narrow is-hoverable is-fullwidth is-size-7">
+                <thead>
+                    <tr>
+                        <th><abbr title=""> # </abbr></th>
+                        <th><abbr title=""> Name </abbr></th>
+                        <th><abbr title=""> On Hand </abbr></th>
+                        <th><abbr title=""> Sold </abbr></th>
+                        <th><abbr title=""> Returns </abbr></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th> 1 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 2 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 3 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 4 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 5 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="column">
@@ -303,7 +350,54 @@ Dashboard - Onrica Inventory
             </p>
         </div>
         <div class="box radius-top-0">
-            
+            <table class="table is-narrow is-hoverable is-fullwidth is-size-7">
+                <thead>
+                    <tr>
+                        <th><abbr title=""> # </abbr></th>
+                        <th><abbr title=""> Name </abbr></th>
+                        <th><abbr title=""> On Hand </abbr></th>
+                        <th><abbr title=""> Sold </abbr></th>
+                        <th><abbr title=""> Returns </abbr></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th> 1 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 2 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 3 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 4 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 5 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="column">
@@ -316,7 +410,54 @@ Dashboard - Onrica Inventory
             </p>
         </div>
         <div class="box radius-top-0">
-            
+            <table class="table is-narrow is-hoverable is-fullwidth is-size-7">
+                <thead>
+                    <tr>
+                        <th><abbr title=""> # </abbr></th>
+                        <th><abbr title=""> Name </abbr></th>
+                        <th><abbr title=""> On Hand </abbr></th>
+                        <th><abbr title=""> Sold </abbr></th>
+                        <th><abbr title=""> Returns </abbr></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th> 1 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 2 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 3 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 4 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 5 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -332,7 +473,54 @@ Dashboard - Onrica Inventory
             </p>
         </div>
         <div class="box radius-top-0">
-            
+            <table class="table is-narrow is-hoverable is-fullwidth is-size-7">
+                <thead>
+                    <tr>
+                        <th><abbr title=""> # </abbr></th>
+                        <th><abbr title=""> Name </abbr></th>
+                        <th><abbr title=""> On Hand </abbr></th>
+                        <th><abbr title=""> Sold </abbr></th>
+                        <th><abbr title=""> Returns </abbr></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th> 1 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 2 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 3 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 4 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 5 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="column">
@@ -345,7 +533,54 @@ Dashboard - Onrica Inventory
             </p>
         </div>
         <div class="box radius-top-0">
-            
+            <table class="table is-narrow is-hoverable is-fullwidth is-size-7">
+                <thead>
+                    <tr>
+                        <th><abbr title=""> # </abbr></th>
+                        <th><abbr title=""> Name </abbr></th>
+                        <th><abbr title=""> On Hand </abbr></th>
+                        <th><abbr title=""> Sold </abbr></th>
+                        <th><abbr title=""> Returns </abbr></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th> 1 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 2 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 3 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 4 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr>
+                        <th> 5 </th>
+                        <td> Harari Coffee </td>
+                        <td> 100 KG </td>
+                        <td class="tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="has-text-danger"> 10 KG </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="column">
@@ -358,7 +593,54 @@ Dashboard - Onrica Inventory
             </p>
         </div>
         <div class="box radius-top-0">
-            
+            <table class="table is-narrow is-hoverable is-fullwidth is-size-7">
+                <thead>
+                    <tr>
+                        <th><abbr title=""> # </abbr></th>
+                        <th><abbr title=""> Name </abbr></th>
+                        <th><abbr title=""> On Hand </abbr></th>
+                        <th><abbr title=""> Sold </abbr></th>
+                        <th><abbr title=""> Returns </abbr></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="my-6">
+                        <th class="py-2"> 1 </th>
+                        <td class="py-2"> Harari Coffee </td>
+                        <td class="py-2"> 100 KG </td>
+                        <td class="py-2 tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="py-2" class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr class="my-6">
+                        <th class="py-2"> 2 </th>
+                        <td class="py-2"> Harari Coffee </td>
+                        <td class="py-2"> 100 KG </td>
+                        <td class="py-2 tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="py-2" class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr class="my-6">
+                        <th class="py-2"> 3 </th>
+                        <td class="py-2"> Harari Coffee </td>
+                        <td class="py-2"> 100 KG </td>
+                        <td class="py-2 tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="py-2" class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr class="my-6">
+                        <th class="py-2"> 4 </th>
+                        <td class="py-2"> Harari Coffee </td>
+                        <td class="py-2"> 100 KG </td>
+                        <td class="py-2 tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="py-2" class="has-text-danger"> 10 KG </td>
+                    </tr>
+                    <tr class="my-6">
+                        <th class="py-2"> 5 </th>
+                        <td class="py-2"> Harari Coffee </td>
+                        <td class="py-2"> 100 KG </td>
+                        <td class="py-2 tag is-small bg-green has-text-white"> 30 KG </td>
+                        <td class="py-2" class="has-text-danger"> 10 KG </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
