@@ -101,12 +101,12 @@ Dashboard - Onrica Inventory
 </div>
 
 <div class="columns is-marginless">
-    <div class="column is-4">
+    <div class="column is-3">
         <div class="box text-green">
             <div class="columns is-marginless is-vcentered is-mobile">
                 <div class="column has-text-centered is-paddingless">
                     <span class="icon is-large is-size-1">
-                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-check"></i>
                     </span>
                 </div>
                 <div class="column is-paddingless">
@@ -116,20 +116,20 @@ Dashboard - Onrica Inventory
                     <div class="is-uppercase is-size-7">
                         Products
                     </div>
-                    <hr class="my-3">
-                    <div class="is-size-7 is-uppercase has-text-grey">
-                        Available in Stock
-                    </div>
                 </div>
+            </div>
+            <hr class="my-4">
+            <div class="is-size-7 is-uppercase has-text-grey">
+                Available In Stock
             </div>
         </div>
     </div>
-    <div class="column is-4">
+    <div class="column is-3">
         <div class="box text-purple">
             <div class="columns is-marginless is-vcentered is-mobile">
                 <div class="column has-text-centered is-paddingless">
                     <span class="icon is-large is-size-1">
-                        <i class="fas fa-times-circle"></i>
+                        <i class="fas fa-times"></i>
                     </span>
                 </div>
                 <div class="column is-paddingless">
@@ -139,20 +139,43 @@ Dashboard - Onrica Inventory
                     <div class="is-uppercase is-size-7">
                         Products
                     </div>
-                    <hr class="my-3">
-                    <div class="is-size-7 is-uppercase has-text-grey">
-                        Out Of Stock
-                    </div>
                 </div>
+            </div>
+            <hr class="my-4">
+            <div class="is-size-7 is-uppercase has-text-grey">
+                Out Of Stock
             </div>
         </div>
     </div>
-    <div class="column is-4">
+    <div class="column is-3">
         <div class="box text-gold">
             <div class="columns is-marginless is-vcentered is-mobile">
                 <div class="column has-text-centered is-paddingless">
                     <span class="icon is-large is-size-1">
-                        <i class="fas fa-exclamation-circle"></i>
+                        <i class="fas fa-exclamation"></i>
+                    </span>
+                </div>
+                <div class="column is-paddingless">
+                    <div class="is-size-3 has-text-weight-bold">
+                        27
+                    </div>
+                    <div class="is-uppercase is-size-7">
+                        Product Types
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="is-size-7 is-uppercase has-text-grey">
+                Limited Stock
+            </div>
+        </div>
+    </div>
+    <div class="column is-3">
+        <div class="box text-blue">
+            <div class="columns is-marginless is-vcentered is-mobile">
+                <div class="column has-text-centered is-paddingless">
+                    <span class="icon is-large is-size-1">
+                        <i class="fas fa-undo-alt"></i>
                     </span>
                 </div>
                 <div class="column is-paddingless">
@@ -162,11 +185,11 @@ Dashboard - Onrica Inventory
                     <div class="is-uppercase is-size-7">
                         Products
                     </div>
-                    <hr class="my-3">
-                    <div class="is-size-7 is-uppercase has-text-grey">
-                        Limited Stock
-                    </div>
                 </div>
+            </div>
+            <hr class="my-4">
+            <div class="is-size-7 is-uppercase has-text-grey">
+                Returned By Clients
             </div>
         </div>
     </div>
