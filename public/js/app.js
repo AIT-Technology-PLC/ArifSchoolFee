@@ -6,10 +6,7 @@ menuScroller.mouseout(function () {
     $(this).css("overflow", "hidden");
 });
 
-var contentScroller = $("#contentRight");
-contentScroller.mouseover(function () {
-    $(this).css("overflow", "auto");
-});
-contentScroller.mouseout(function () {
-    $(this).css("overflow", "hidden");
+$(document).ready(function () {
+    var contentScroller = $("#contentRight");
+    contentScroller.css("overflow", "auto");
 });
