@@ -22,11 +22,13 @@
         <div class="navbar-menu">
             <div class="navbar-end">
                 <a class="navbar-item">
-                    <figure class="image is-24x24" style="margin: auto !important">
-                        <img class="is-rounded" src="{{ asset('img/nabil.jpg') }}">
-                    </figure>
                     <h1 class="ml-3 has-text-white-ter has-text-weight-light is-uppercase is-size-5">
-                        Onrica Technologies PLC
+                        <span class="icon is-medium has-text-white">
+                            <i class="fas fa-building"></i>
+                        </span>
+                        <span>
+                            Onrica Technologies PLC
+                        </span>
                     </h1>
                 </a>
             </div>
@@ -58,7 +60,7 @@
                             <span class="icon is-medium">
                                 <i class="fas fa-address-card"></i>
                             </span>
-                            <span> 
+                            <span>
                                 Profile
                             </span>
                         </a>
@@ -66,7 +68,7 @@
                             <span class="icon is-medium">
                                 <i class="fas fa-lock-open"></i>
                             </span>
-                            <span> 
+                            <span>
                                 Permissions
                             </span>
                         </a>
@@ -75,7 +77,7 @@
                             <span class="icon is-medium">
                                 <i class="fas fa-power-off"></i>
                             </span>
-                            <span> 
+                            <span>
                                 Logout
                             </span>
                         </a>
