@@ -278,4 +278,88 @@ Dashboard - Onrica Inventory
         </div>
     </div>
 </div>
+
+<div class="columns is-marginless is-vcentered">
+    <div class="column">
+        <div class="box mb-0 radius-bottom-0 pb-1">
+            <p class="text-green has-text-weight-medium">
+                Finished Products
+            </p>
+            <p class="is-size-7 has-text-grey mb-4">
+                Manufacturing Inventory
+            </p>
+        </div>
+        <div class="box radius-top-0">
+            
+        </div>
+    </div>
+    <div class="column">
+        <div class="box mb-0 radius-bottom-0 pb-1">
+            <p class="text-green has-text-weight-medium">
+                Products In Process
+            </p>
+            <p class="is-size-7 has-text-grey mb-4">
+                Manufacturing Inventory
+            </p>
+        </div>
+        <div class="box radius-top-0">
+            
+        </div>
+    </div>
+    <div class="column">
+        <div class="box mb-0 radius-bottom-0 pb-1">
+            <p class="text-green has-text-weight-medium">
+                Raw Materials
+            </p>
+            <p class="is-size-7 has-text-grey mb-4">
+                Manufacturing Inventory
+            </p>
+        </div>
+        <div class="box radius-top-0">
+            
+        </div>
+    </div>
+</div>
+
+<div class="columns is-marginless is-vcentered">
+    <div class="column">
+        <div class="box mb-0 radius-bottom-0 pb-1">
+            <p class="text-green has-text-weight-medium">
+                Products In Stock
+            </p>
+            <p class="is-size-7 has-text-grey mb-4">
+                Merchandise Inventory
+            </p>
+        </div>
+        <div class="box radius-top-0">
+            
+        </div>
+    </div>
+    <div class="column">
+        <div class="box mb-0 radius-bottom-0 pb-1">
+            <p class="text-green has-text-weight-medium">
+                Products Out of Stock
+            </p>
+            <p class="is-size-7 has-text-grey mb-4">
+                Merchandise Inventory
+            </p>
+        </div>
+        <div class="box radius-top-0">
+            
+        </div>
+    </div>
+    <div class="column">
+        <div class="box mb-0 radius-bottom-0 pb-1">
+            <p class="text-green has-text-weight-medium">
+                Products - Limited Stock
+            </p>
+            <p class="is-size-7 has-text-grey mb-4">
+                Merchandise Inventory
+            </p>
+        </div>
+        <div class="box radius-top-0">
+            
+        </div>
+    </div>
+</div>
 @endsection
