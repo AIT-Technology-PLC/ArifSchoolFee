@@ -36,11 +36,13 @@ class HomeController extends Controller
             ->name('barChartTest')
             ->type('bar')
             ->size(['width' => 444, 'height' => 200])
-            ->labels(['Raw Materials', 'MRO Items', 'Finished Goods', 'Merchandise'])
+            ->labels(['Raw Materials', 'MRO Items', 'Finished Goods'])
             ->datasets([
                 [
                     "label" => "Percentage",
-                    'backgroundColor' => ['#3d8660', '#863d63', '#86843d', '#3d6386'],
+                    'backgroundColor' => ['rgba(61, 134, 96, 0.5)', 'rgba(134, 61, 99, 0.5)', 'rgba(134, 132, 61, 0.5)', 'rgba(61, 99, 134, 0.5)'],
+                    'borderColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)', 'rgba(134, 132, 61, 1)', 'rgba(61, 99, 134, 1)'],
+                    'borderWidth' => 1,
                     'data' => [85, 50, 60, 44],
                 ],
             ])
@@ -55,7 +57,7 @@ class HomeController extends Controller
                             'gridLines' => [
                                 'display' => false,
                             ],
-                            'barPercentage' => 0.25,
+                            'barPercentage' => 0.7,
                         ],
                     ],
                     'yAxes' => [
@@ -81,13 +83,14 @@ class HomeController extends Controller
             ->labels(['Plastics', 'Coal'])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgba(61, 134, 96, 0.9)', 'rgba(134, 61, 99, 0.9)'],
-                    'hoverBackgroundColor' => ['rgba(61, 134, 96, 0.9)', 'rgba(134, 61, 99, 0.9)'],
+                    'backgroundColor' => ['rgba(61, 134, 96, 0.5)', 'rgba(134, 61, 99, 0.5)'],
+                    'borderColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)'],
+                    'borderWidth' => 1,
                     'data' => [30, 70],
                 ],
             ])
             ->options([
-                'cutoutPercentage' => 75,
+                'cutoutPercentage' => 50,
             ]);
 
         return $pie;
@@ -102,13 +105,14 @@ class HomeController extends Controller
             ->labels(['Sesame', 'Coffee'])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgba(61, 134, 96, 0.9)', 'rgba(134, 61, 99, 0.9)'],
-                    'hoverBackgroundColor' => ['rgba(61, 134, 96, 0.9)', 'rgba(134, 61, 99, 0.9)'],
+                    'backgroundColor' => ['rgba(61, 134, 96, 0.5)', 'rgba(134, 61, 99, 0.5)'],
+                    'borderColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)'],
+                    'borderWidth' => 1,
                     'data' => [60, 40],
                 ],
             ])
             ->options([
-                'cutoutPercentage' => 75,
+                'cutoutPercentage' => 50,
             ]);
 
         return $pie2;

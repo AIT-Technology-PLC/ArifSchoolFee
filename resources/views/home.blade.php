@@ -213,4 +213,46 @@
         </div>
     </div>
 </div>
+
+{{-- <div class="columns is-marginless is-vcentered">
+    <div class="column is-6">
+        <div class="box mb-0 radius-bottom-0 pb-1">
+            <p class="text-green has-text-weight-medium">
+                Stock Level (%)
+            </p>
+            <p class="is-size-7 has-text-grey mb-4">
+                Manufacturing Inventory
+            </p>
+        </div>
+        <div class="box radius-top-0">
+            {!! $chartjs->render() !!}
+        </div>
+    </div>
+    <div class="column is-3">
+        <div class="box mb-0 radius-bottom-0 pb-1">
+            <p class="text-green has-text-weight-medium">
+                Finished Products (%)
+            </p>
+            <p class="is-size-7 has-text-grey mb-4">
+                Manufacturing Inventory - Top 5
+            </p>
+        </div>
+        <div class="box radius-top-0">
+            {!! $pie2->render() !!}
+        </div>
+    </div>
+    <div class="column is-3">
+        <div class="box mb-0 radius-bottom-0 pb-1">
+            <p class="text-green has-text-weight-medium">
+                Raw Materials (%)
+            </p>
+            <p class="is-size-7 has-text-grey mb-4">
+                Manufacturing Inventory - Top 5
+            </p>
+        </div>
+        <div class="box radius-top-0">
+            {!! $pie->render() !!}
+        </div>
+    </div>
+</div> --}}
 @endsection
