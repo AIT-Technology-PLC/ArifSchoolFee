@@ -114,6 +114,18 @@ html {
     scrollbar-color: #b1cfbf white;
     scrollbar-width: thin;
 }
+.is-green > progress::-webkit-progress-value {
+    background-color: #3d8660 !important;
+}
+.is-purple > progress::-webkit-progress-value {
+    background-color: #863d63 !important;
+}
+.is-blue > progress::-webkit-progress-value {
+    background-color: #3d6386 !important;
+}
+.is-gold > progress::-webkit-progress-value {
+    background-color: #86843d !important;
+}
 @media screen and (max-width: 768px) {
     html {
         overflow: auto;

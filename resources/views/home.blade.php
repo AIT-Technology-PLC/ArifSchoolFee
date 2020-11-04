@@ -374,7 +374,11 @@ Dashboard - Onrica Inventory
                         <td> 100 KG </td>
                         <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
                         <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-gold has-text-white"> 45% </span> </td>
+                        <td>
+                            <span class="is-gold">
+                                <progress class="progress is-small mt-2" value="25" max="100"></progress>
+                            </span>
+                        </td>
                     </tr>
                     <tr>
                         <th> 2 </th>
@@ -382,7 +386,11 @@ Dashboard - Onrica Inventory
                         <td> 100 KG </td>
                         <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
                         <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-gold has-text-white"> 45% </span> </td>
+                        <td>
+                            <span class="is-gold">
+                                <progress class="progress is-small mt-1" value="35" max="100"></progress>
+                            </span>
+                        </td>
                     </tr>
                     <tr>
                         <th> 3 </th>
@@ -390,7 +398,11 @@ Dashboard - Onrica Inventory
                         <td> 100 KG </td>
                         <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
                         <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-gold has-text-white"> 45% </span> </td>
+                        <td>
+                            <span class="is-gold">
+                                <progress class="progress is-small mt-1" value="15" max="100"></progress>
+                            </span>
+                        </td>
                     </tr>
                     <tr>
                         <th> 4 </th>
@@ -398,7 +410,11 @@ Dashboard - Onrica Inventory
                         <td> 100 KG </td>
                         <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
                         <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-gold has-text-white"> 45% </span> </td>
+                        <td>
+                            <span class="is-gold">
+                                <progress class="progress is-small mt-1" value="80" max="100"></progress>
+                            </span>
+                        </td>
                     </tr>
                     <tr>
                         <th> 5 </th>
@@ -406,7 +422,11 @@ Dashboard - Onrica Inventory
                         <td> 100 KG </td>
                         <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
                         <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-gold has-text-white"> 45% </span> </td>
+                        <td>
+                            <span class="is-gold">
+                                <progress class="progress is-small mt-1" value="65" max="100"></progress>
+                            </span>
+                        </td>
                     </tr>
                 </tbody>
             </table>
