@@ -32,6 +32,16 @@ Create New Product Category - Onrica Technologies PLC
                         </span>
                     </div>
                 </div>
+                <div class="field mt-5">
+                    <button class="button has-text-white bg-purple is-small">
+                        <span class="icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </span>
+                        <span>
+                            Add More Form
+                        </span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
