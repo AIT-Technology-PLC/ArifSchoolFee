@@ -133,8 +133,7 @@ class HomeController extends Controller
             ->labels(['Jeans', 'Shirts', 'Socks'])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgba(61, 134, 96, 0.5)', 'rgba(134, 61, 99, 0.5)', 'rgba(134, 132, 61, 0.5)', 'rgba(61, 99, 134, 0.5)'],
-                    'borderColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)', 'rgba(134, 132, 61, 1)', 'rgba(61, 99, 134, 1)'],
+                    'backgroundColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)', 'rgba(134, 132, 61, 1)', 'rgba(61, 99, 134, 1)'],
                     'borderWidth' => 1,
                     'data' => [65, 20, 15],
                 ],
@@ -155,8 +154,7 @@ class HomeController extends Controller
             ->labels(['Sold', 'Unsold'])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgba(61, 134, 96, 0.5)', 'rgba(134, 61, 99, 0.5)', 'rgba(134, 132, 61, 0.5)', 'rgba(61, 99, 134, 0.5)'],
-                    'borderColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)', 'rgba(134, 132, 61, 1)', 'rgba(61, 99, 134, 1)'],
+                    'backgroundColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)', 'rgba(134, 132, 61, 1)', 'rgba(61, 99, 134, 1)'],
                     'borderWidth' => 1,
                     'data' => [20, 80],
                 ],
@@ -174,13 +172,12 @@ class HomeController extends Controller
             ->name('pieChartTest')
             ->type('doughnut')
             ->size(['width' => 191, 'height' => 200])
-            ->labels(['Plastics', 'Coal'])
+            ->labels(['Plastics', 'Coal', 'Oil', 'Limestone'])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgba(61, 134, 96, 0.5)', 'rgba(134, 61, 99, 0.5)'],
-                    'borderColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)'],
+                    'backgroundColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)', 'rgba(134, 132, 61, 1)', 'rgba(61, 99, 134, 1)'],
                     'borderWidth' => 1,
-                    'data' => [30, 70],
+                    'data' => [25, 30, 20, 25],
                 ],
             ])
             ->options([
@@ -199,8 +196,7 @@ class HomeController extends Controller
             ->labels(['Sesame', 'Coffee'])
             ->datasets([
                 [
-                    'backgroundColor' => ['rgba(61, 134, 96, 0.5)', 'rgba(134, 61, 99, 0.5)'],
-                    'borderColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)'],
+                    'backgroundColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)'],
                     'borderWidth' => 1,
                     'data' => [60, 40],
                 ],
