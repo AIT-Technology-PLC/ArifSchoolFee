@@ -148,7 +148,7 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
-            $table->string('selling_price');
+            $table->string('selling_price'); // price per unit of measurement
             $table->string('purchase_price');
             $table->string('unit_of_measurement');
             $table->string('min_on_hand');
@@ -215,12 +215,13 @@ class CoreV1 extends Migration
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('total_products');
             $table->string('total_in_process');
-            $table->string('total_finished');
+            $table->string('total_on_hand');
             $table->string('total_sold');
             $table->string('total_broken');
             $table->string('total_returns');
-            $table->string('production_status'); // If in-process == finished, then status == completed otherwise status == in-process
+            $table->string('production_status');
             $table->timestamp('started_on')->nullable();
             $table->timestamp('finishes_on')->nullable();
             $table->timestamp('expires_on')->nullable();
