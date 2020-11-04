@@ -15,7 +15,7 @@ Create New Product Category - Onrica Technologies PLC
         <div class="columns is-marginless">
             <div class="column is-6">
                 <div class="field">
-                    <label for="name" class="label text-green has-text-weight-normal">Name</label>
+                    <label for="name" class="label text-green has-text-weight-normal">Name <sup class="has-text-danger">*</sup> </label>
                     <div class="control has-icons-left">
                         <input id="name" name="name" type="text" class="input" placeholder="Category Name">
                         <span class="icon is-small is-left">
