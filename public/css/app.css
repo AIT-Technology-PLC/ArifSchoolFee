@@ -63,10 +63,6 @@
 .is-pointer {
     cursor: pointer !important;
 }
-input,
-textarea {
-    color: white !important;
-}
 .menu-list a.is-active {
     background-color: #3d8660 !important;
     color: #fff !important;
