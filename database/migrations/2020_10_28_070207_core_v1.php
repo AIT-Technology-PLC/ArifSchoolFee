@@ -84,7 +84,7 @@ class CoreV1 extends Migration
             $table->bigInteger('permission_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('name');
+            $table->string('name'); // redundant - found in users
             $table->string('gender');
             $table->string('position');
             $table->string('department');
