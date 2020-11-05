@@ -63,6 +63,15 @@
 .is-pointer {
     cursor: pointer !important;
 }
+select,
+input,
+textarea {
+    color: #3d8660 !important;
+    font-weight: 300 !important;
+}
+.select:after {
+    border-color: #3d8660 !important;
+}
 .menu-list a.is-active {
     background-color: #3d8660 !important;
     color: #fff !important;
