@@ -19,6 +19,10 @@ Route::get('/categories/create', function () {
     return view('categories.create');
 });
 
+Route::get('/products/create', function () {
+    return view('products.create');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

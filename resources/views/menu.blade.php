@@ -56,7 +56,7 @@
             </a>
         </li>
         <li>
-            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+            <a href="/products/create" class="has-text-grey has-text-weight-normal is-size-6-5">
                 <span class="icon">
                     <i class="fas fa-plus-circle"></i>
                 </span>
