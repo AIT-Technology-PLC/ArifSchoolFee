@@ -14,7 +14,7 @@
 </head>
 <body class="has-navbar-fixed-top">
 
-    @include('header')
+    @include('layouts.header')
 
     <main>
         <div class="columns is-marginless">
@@ -23,7 +23,7 @@
             </div>
             <div id="contentRight" class="column bg-lightgreen py-5 limit-to-100vh scroller">
                 @yield('content')
-                @include('footer')
+                @include('layouts.footer')
             </div>
         </div>
     </main>

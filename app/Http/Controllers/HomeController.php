@@ -33,7 +33,7 @@ class HomeController extends Controller
 
         $chartjsMerchandise = $this->chartjsMerchandise();
 
-        return view('home', compact('chartjs', 'pie', 'pie2', 'chartjsMerchandise', 'pieMerchandise', 'pieMerchandiseSales'));
+        return view('dashboard.home', compact('chartjs', 'pie', 'pie2', 'chartjsMerchandise', 'pieMerchandise', 'pieMerchandiseSales'));
     }
 
     public function chartjs()
