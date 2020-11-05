@@ -290,60 +290,62 @@ Dashboard - Onrica Inventory
             </p>
         </div>
         <div class="box radius-top-0">
-            <table class="table is-hoverable is-fullwidth is-size-7">
-                <thead>
-                    <tr>
-                        <th><abbr title=""> # </abbr></th>
-                        <th><abbr title=""> Name </abbr></th>
-                        <th><abbr title=""> On Hand </abbr></th>
-                        <th><abbr title=""> Sold </abbr></th>
-                        <th><abbr title=""> Returns </abbr></th>
-                        <th><abbr title=""> Broken </abbr></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th> 1 </th>
-                        <td> Harari Coffee </td>
-                        <td> 100 KG </td>
-                        <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-purple has-text-white"> 10 KG </span> </td>
-                        <td> <span class="tag is-small bg-gold has-text-white"> 5 KG </span> </td>
-                    </tr>
-                    <tr>
-                        <th> 2 </th>
-                        <td> Harari Coffee </td>
-                        <td> 100 KG </td>
-                        <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-purple has-text-white"> 10 KG </span> </td>
-                        <td> <span class="tag is-small bg-gold has-text-white"> 5 KG </span> </td>
-                    </tr>
-                    <tr>
-                        <th> 3 </th>
-                        <td> Harari Coffee </td>
-                        <td> 100 KG </td>
-                        <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-purple has-text-white"> 10 KG </span> </td>
-                        <td> <span class="tag is-small bg-gold has-text-white"> 5 KG </span> </td>
-                    </tr>
-                    <tr>
-                        <th> 4 </th>
-                        <td> Harari Coffee </td>
-                        <td> 100 KG </td>
-                        <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-purple has-text-white"> 10 KG </span> </td>
-                        <td> <span class="tag is-small bg-gold has-text-white"> 5 KG </span> </td>
-                    </tr>
-                    <tr>
-                        <th> 5 </th>
-                        <td> Harari Coffee </td>
-                        <td> 100 KG </td>
-                        <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-purple has-text-white"> 10 KG </span> </td>
-                        <td> <span class="tag is-small bg-gold has-text-white"> 5 KG </span> </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="table is-hoverable is-fullwidth is-size-7">
+                    <thead>
+                        <tr>
+                            <th><abbr title=""> # </abbr></th>
+                            <th><abbr title=""> Name </abbr></th>
+                            <th><abbr title=""> On Hand </abbr></th>
+                            <th><abbr title=""> Sold </abbr></th>
+                            <th><abbr title=""> Returns </abbr></th>
+                            <th><abbr title=""> Broken </abbr></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th> 1 </th>
+                            <td> Harari Coffee </td>
+                            <td> 100 KG </td>
+                            <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
+                            <td> <span class="tag is-small bg-purple has-text-white"> 10 KG </span> </td>
+                            <td> <span class="tag is-small bg-gold has-text-white"> 5 KG </span> </td>
+                        </tr>
+                        <tr>
+                            <th> 2 </th>
+                            <td> Harari Coffee </td>
+                            <td> 100 KG </td>
+                            <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
+                            <td> <span class="tag is-small bg-purple has-text-white"> 10 KG </span> </td>
+                            <td> <span class="tag is-small bg-gold has-text-white"> 5 KG </span> </td>
+                        </tr>
+                        <tr>
+                            <th> 3 </th>
+                            <td> Harari Coffee </td>
+                            <td> 100 KG </td>
+                            <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
+                            <td> <span class="tag is-small bg-purple has-text-white"> 10 KG </span> </td>
+                            <td> <span class="tag is-small bg-gold has-text-white"> 5 KG </span> </td>
+                        </tr>
+                        <tr>
+                            <th> 4 </th>
+                            <td> Harari Coffee </td>
+                            <td> 100 KG </td>
+                            <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
+                            <td> <span class="tag is-small bg-purple has-text-white"> 10 KG </span> </td>
+                            <td> <span class="tag is-small bg-gold has-text-white"> 5 KG </span> </td>
+                        </tr>
+                        <tr>
+                            <th> 5 </th>
+                            <td> Harari Coffee </td>
+                            <td> 100 KG </td>
+                            <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
+                            <td> <span class="tag is-small bg-purple has-text-white"> 10 KG </span> </td>
+                            <td> <span class="tag is-small bg-gold has-text-white"> 5 KG </span> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="column">
@@ -356,80 +358,82 @@ Dashboard - Onrica Inventory
             </p>
         </div>
         <div class="box radius-top-0">
-            <table class="table is-hoverable is-fullwidth is-size-7">
-                <thead>
-                    <tr>
-                        <th><abbr title=""> # </abbr></th>
-                        <th><abbr title=""> Name </abbr></th>
-                        <th><abbr title=""> In Process </abbr></th>
-                        <th><abbr title=""> Finished </abbr></th>
-                        <th><abbr title=""> Expected </abbr></th>
-                        <th><abbr title=""> Progress </abbr></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th> 1 </th>
-                        <td> Harari Coffee </td>
-                        <td> 100 KG </td>
-                        <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
-                        <td>
-                            <span class="is-gold">
-                                <progress class="progress is-small mt-2" value="25" max="100"></progress>
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th> 2 </th>
-                        <td> Harari Coffee </td>
-                        <td> 100 KG </td>
-                        <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
-                        <td>
-                            <span class="is-gold">
-                                <progress class="progress is-small mt-1" value="35" max="100"></progress>
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th> 3 </th>
-                        <td> Harari Coffee </td>
-                        <td> 100 KG </td>
-                        <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
-                        <td>
-                            <span class="is-gold">
-                                <progress class="progress is-small mt-1" value="15" max="100"></progress>
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th> 4 </th>
-                        <td> Harari Coffee </td>
-                        <td> 100 KG </td>
-                        <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
-                        <td>
-                            <span class="is-gold">
-                                <progress class="progress is-small mt-1" value="80" max="100"></progress>
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th> 5 </th>
-                        <td> Harari Coffee </td>
-                        <td> 100 KG </td>
-                        <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
-                        <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
-                        <td>
-                            <span class="is-gold">
-                                <progress class="progress is-small mt-1" value="65" max="100"></progress>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="table is-hoverable is-fullwidth is-size-7">
+                    <thead>
+                        <tr>
+                            <th><abbr title=""> # </abbr></th>
+                            <th><abbr title=""> Name </abbr></th>
+                            <th><abbr title=""> In Process </abbr></th>
+                            <th><abbr title=""> Finished </abbr></th>
+                            <th><abbr title=""> Expected </abbr></th>
+                            <th><abbr title=""> Progress </abbr></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th> 1 </th>
+                            <td> Harari Coffee </td>
+                            <td> 100 KG </td>
+                            <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
+                            <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
+                            <td>
+                                <span class="is-gold">
+                                    <progress class="progress is-small mt-2" value="25" max="100"></progress>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> 2 </th>
+                            <td> Harari Coffee </td>
+                            <td> 100 KG </td>
+                            <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
+                            <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
+                            <td>
+                                <span class="is-gold">
+                                    <progress class="progress is-small mt-1" value="35" max="100"></progress>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> 3 </th>
+                            <td> Harari Coffee </td>
+                            <td> 100 KG </td>
+                            <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
+                            <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
+                            <td>
+                                <span class="is-gold">
+                                    <progress class="progress is-small mt-1" value="15" max="100"></progress>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> 4 </th>
+                            <td> Harari Coffee </td>
+                            <td> 100 KG </td>
+                            <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
+                            <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
+                            <td>
+                                <span class="is-gold">
+                                    <progress class="progress is-small mt-1" value="80" max="100"></progress>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> 5 </th>
+                            <td> Harari Coffee </td>
+                            <td> 100 KG </td>
+                            <td> <span class="tag is-small bg-blue has-text-white"> 30 KG </span> </td>
+                            <td> <span class="tag is-small bg-purple has-text-white"> 30 KG </span> </td>
+                            <td>
+                                <span class="is-gold">
+                                    <progress class="progress is-small mt-1" value="65" max="100"></progress>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

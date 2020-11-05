@@ -5,7 +5,7 @@ Create New Product Category - Onrica Technologies PLC
 @endsection
 
 @section('content')
-<section class="mt-3 mx-3">
+<section class="mt-3 mx-3 m-lr-0">
     <div class="box radius-bottom-0 mb-0 has-background-white-bis">
         <h1 class="title text-green has-text-weight-medium is-size-5">
             New Product Category

@@ -97,7 +97,7 @@ nav {
     height: -moz-calc(100vh - 52px);
     height: -o-calc(100vh - 52px);
     overscroll-behavior: contain;
-    overflow: hidden;
+    overflow: auto;
 }
 html {
     overflow: hidden;
@@ -132,6 +132,9 @@ html {
     background-color: #86843d !important;
 }
 @media screen and (max-width: 768px) {
+    .limit-to-100vh {
+        height: auto !important;
+    }
     html {
         overflow: auto;
     }
