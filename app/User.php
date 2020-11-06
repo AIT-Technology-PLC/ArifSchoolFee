@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Models\Employee;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -9,31 +11,31 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name', 'email', 'password', 'position',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_online_at' => 'datetime',
     ];
+
+    public function employee()
+    {
+        return $this->hasOne(Models\Employee::class, 'user_id');
+    }
+
+    public function employeesCreated()
+    {
+        return $this->hasMany(Models\Employee::class, 'created_by');
+    }
+
+    public function employeesUpdated()
+    {
+        return $this->hasMany(Models\Employee::class, 'updated_by');
+    }
 }
