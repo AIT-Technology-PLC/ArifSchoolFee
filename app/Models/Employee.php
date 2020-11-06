@@ -29,4 +29,9 @@ class Employee extends Model
     {
         return $this->belongsTo(Models\Company::class);
     }
+
+    public function permission()
+    {
+        return $this->belongsTo(Models\Permission::class);
+    }
 }
