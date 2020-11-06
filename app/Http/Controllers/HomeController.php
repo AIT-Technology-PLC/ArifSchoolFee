@@ -134,7 +134,6 @@ class HomeController extends Controller
             ->datasets([
                 [
                     'backgroundColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)', 'rgba(134, 132, 61, 1)', 'rgba(61, 99, 134, 1)'],
-                    'borderWidth' => 1,
                     'data' => [65, 20, 15],
                 ],
             ])
@@ -155,7 +154,6 @@ class HomeController extends Controller
             ->datasets([
                 [
                     'backgroundColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)', 'rgba(134, 132, 61, 1)', 'rgba(61, 99, 134, 1)'],
-                    'borderWidth' => 1,
                     'data' => [20, 80],
                 ],
             ])
@@ -176,7 +174,6 @@ class HomeController extends Controller
             ->datasets([
                 [
                     'backgroundColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)', 'rgba(134, 132, 61, 1)', 'rgba(61, 99, 134, 1)'],
-                    'borderWidth' => 1,
                     'data' => [25, 30, 20, 25],
                 ],
             ])
@@ -197,7 +194,6 @@ class HomeController extends Controller
             ->datasets([
                 [
                     'backgroundColor' => ['rgba(61, 134, 96, 1)', 'rgba(134, 61, 99, 1)'],
-                    'borderWidth' => 1,
                     'data' => [60, 40],
                 ],
             ])
