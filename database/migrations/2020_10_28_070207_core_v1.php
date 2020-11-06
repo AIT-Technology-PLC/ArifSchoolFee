@@ -20,8 +20,10 @@ class CoreV1 extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->string('position')->nullable();
+            $table->boolean('enabled')->default(0);
             $table->timestamp('last_online_at')->nullable();
+            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -60,18 +62,10 @@ class CoreV1 extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('sector');
-            $table->string('employees_num');
-            $table->string('city');
-            $table->string('manager');
-            $table->string('phone');
-            $table->string('telephone');
-            $table->string('membership_plan');
+            $table->string('sector')->nullable();
+            $table->string('membership_plan')->nullable();
             $table->boolean('enabled')->default(0);
-            $table->string('currency');
-            $table->string('logo');
-            $table->string('location');
-            $table->longText('description');
+            $table->string('currency')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -84,14 +78,6 @@ class CoreV1 extends Migration
             $table->bigInteger('permission_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('name'); // redundant - found in users
-            $table->string('gender');
-            $table->string('position');
-            $table->string('department');
-            $table->string('city');
-            $table->string('address');
-            $table->string('phone');
-            $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
 
