@@ -68,9 +68,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        DB::beginTransaction();
-
-        try {
+        $user = DB::transaction(function () use ($data) {
             $company = Company::create([
                 'name' => $data['company_name'],
             ]);
@@ -86,11 +84,8 @@ class RegisterController extends Controller
                 'company_id' => $company->id,
             ]);
 
-            DB::commit();
-
-        } catch (\Exception $e) {
-            DB::rollback();
-        }
+            return $user;
+        });
 
         return $user;
     }
