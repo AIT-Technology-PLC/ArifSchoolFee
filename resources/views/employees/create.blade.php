@@ -11,7 +11,7 @@ Add New Employee - Onrica Technologies PLC
             New Employee
         </h1>
     </div>
-    <form action="" method="POST">
+    <form action="{{ route('employees.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="box radius-bottom-0 mb-0 radius-top-0">
             <div class="columns is-marginless is-multiline">
@@ -24,7 +24,7 @@ Add New Employee - Onrica Technologies PLC
                                 <i class="fas fa-user"></i>
                             </span>
                             @error('name')
-                            <span class="help has-text-white" role="alert">
+                            <span class="help has-text-danger" role="alert">
                                 {{ $message }}
                             </span>
                             @enderror
@@ -40,7 +40,7 @@ Add New Employee - Onrica Technologies PLC
                                 <i class="fas fa-at"></i>
                             </span>
                             @error('email')
-                            <span class="help has-text-white" role="alert">
+                            <span class="help has-text-danger" role="alert">
                                 {{ $message }}
                             </span>
                             @enderror
@@ -56,7 +56,7 @@ Add New Employee - Onrica Technologies PLC
                                 <i class="fas fa-unlock"></i>
                             </span>
                             @error('password')
-                            <span class="help has-text-white" role="alert">
+                            <span class="help has-text-danger" role="alert">
                                 {{ $message }}
                             </span>
                             @enderror
@@ -67,12 +67,12 @@ Add New Employee - Onrica Technologies PLC
                     <div class="field">
                         <label for="position" class="label text-green has-text-weight-normal">Job Title/Position <sup class="has-text-danger">&nbsp;</sup> </label>
                         <div class="control has-icons-left">
-                            <input id="position" name="position" type="number" class="input" placeholder="Job Title">
+                            <input id="position" name="position" type="text" class="input" placeholder="Job Title">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-user-tie"></i>
                             </span>
                             @error('position')
-                            <span class="help has-text-white" role="alert">
+                            <span class="help has-text-danger" role="alert">
                                 {{ $message }}
                             </span>
                             @enderror
@@ -85,13 +85,18 @@ Add New Employee - Onrica Technologies PLC
                         <div class="control">
                             <label class="radio has-text-grey has-text-weight-normal">
                                 <input type="radio" name="enabled" value="1" class="mt-3">
-                                Yes, this employee can access
+                                Yes, this employee can access the system
                             </label>
                             <br>
                             <label class="radio has-text-grey has-text-weight-normal mt-2">
                                 <input type="radio" name="enabled" value="0">
-                                No, this employee can't access
+                                No, this employee can't access the system
                             </label>
+                            @error('enabled')
+                            <span class="help has-text-danger" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                     </div>
                 </div>
