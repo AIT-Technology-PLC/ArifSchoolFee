@@ -23,9 +23,7 @@ Route::get('/products/create', function () {
     return view('products.create');
 });
 
-Route::get('/employees/create', function () {
-    return view('employees.create');
-});
+Route::resource('employees', 'EmployeeController');
 
 Auth::routes();
 
