@@ -23,6 +23,10 @@ Route::get('/products/create', function () {
     return view('products.create');
 });
 
+Route::get('/employees/create', function () {
+    return view('employees.create');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
