@@ -20,7 +20,7 @@ class CoreV1 extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->timestamp('last_online_at')->nullable();
+            $table->dateTime('last_online_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
