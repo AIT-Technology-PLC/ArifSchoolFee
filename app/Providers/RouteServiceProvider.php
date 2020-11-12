@@ -80,7 +80,7 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapSettingsRoutes()
     {
-        Route::middleware(['web', 'isEmployeeEnabled'])
+        Route::middleware(['web', 'isEmployeeEnabled', 'auth'])
             ->namespace($this->namespace)
             ->group(base_path('routes/settings.php'));
     }
