@@ -27,16 +27,16 @@ class User extends Authenticatable
 
     public function employee()
     {
-        return $this->hasOne(Models\Employee::class, 'user_id');
+        return $this->hasOne(Employee::class, 'user_id');
     }
 
     public function employeesCreated()
     {
-        return $this->hasMany(Models\Employee::class, 'created_by');
+        return $this->hasMany(Employee::class, 'created_by');
     }
 
     public function employeesUpdated()
     {
-        return $this->hasMany(Models\Employee::class, 'updated_by');
+        return $this->hasMany(Employee::class, 'updated_by');
     }
 }

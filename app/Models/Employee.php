@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Company;
+use App\Models\Permission;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 
