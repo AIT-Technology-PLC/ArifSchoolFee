@@ -92,8 +92,8 @@ Employee Management
                         <td class="is-capitalized"> {{ $employee->user->name }} </td>
                         <td> {{ $employee->user->email }} </td>
                         <td class="is-capitalized">
-                            @if ($employee->user->position)
-                            {{$employee->user->position }}
+                            @if ($employee->position)
+                            {{$employee->position }}
                             @else
                             <span class="has-text-grey">
                                 Not Assigned
@@ -101,7 +101,7 @@ Employee Management
                             @endif
                         </td>
                         <td>
-                            @if ($employee->user->enabled)
+                            @if ($employee->enabled)
                             <span class="tag bg-blue has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-user-check"></i>

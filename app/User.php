@@ -12,7 +12,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'position', 'enabled',
+        'name', 'email', 'password',
     ];
 
     protected $hidden = [
@@ -22,7 +22,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_online_at' => 'datetime',
-        'enabled' => 'boolean',
     ];
 
     public function employee()

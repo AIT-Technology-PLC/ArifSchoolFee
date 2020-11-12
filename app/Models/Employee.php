@@ -10,10 +10,14 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
     protected $fillable = [
-        'user_id', 'company_id', 'permission_id', 'created_by', 'updated_by',
+        'user_id', 'company_id', 'permission_id', 'created_by', 'updated_by', 'enabled', 'position',
     ];
 
     protected $with = ['user', 'createdBy', 'updatedBy'];
+
+    protected $casts = [
+        'enabled' => 'boolean',
+    ];
 
     public function user()
     {

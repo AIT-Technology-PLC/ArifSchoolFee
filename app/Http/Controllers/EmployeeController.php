@@ -63,7 +63,7 @@ class EmployeeController extends Controller
             ]);
         });
 
-        return redirect()->back();
+        return redirect('/employees');
     }
 
     public function show(Employee $employee)
