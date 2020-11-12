@@ -73,7 +73,8 @@
                             </span>
                         </a>
                         <hr class="navbar-divider">
-                        <a class="navbar-item has-text-danger">
+                        <a class="navbar-item has-text-danger" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
                             <span class="icon is-medium">
                                 <i class="fas fa-power-off"></i>
                             </span>
@@ -81,6 +82,9 @@
                                 Logout
                             </span>
                         </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
                     </div>
                 </div>
             </div>
