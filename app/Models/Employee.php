@@ -13,8 +13,6 @@ class Employee extends Model
         'user_id', 'company_id', 'permission_id', 'created_by', 'updated_by', 'enabled', 'position',
     ];
 
-    protected $with = ['user'];
-
     protected $casts = [
         'enabled' => 'boolean',
     ];
@@ -46,7 +44,7 @@ class Employee extends Model
 
     public function getAll()
     {
-        return $this->where('company_id', auth()->user()->employee->company_id)->get();
+        return $this->with(['user', 'permission'])->where('company_id', auth()->user()->employee->company_id)->get();
     }
 
     public function countAllEmployees()

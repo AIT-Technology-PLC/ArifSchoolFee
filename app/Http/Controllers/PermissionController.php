@@ -11,19 +11,7 @@ class PermissionController extends Controller
 
     public function __construct(Permission $permission)
     {
-        $this->middleware('auth');    
-
         $this->permission = $permission;
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
     }
 
     public function show(Permission $permission)
@@ -33,7 +21,7 @@ class PermissionController extends Controller
 
     public function edit(Permission $permission)
     {
-        //
+        return view('permissions.edit', compact('permission'));
     }
 
     public function update(Request $request, Permission $permission)
