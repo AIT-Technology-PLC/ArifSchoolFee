@@ -34,5 +34,12 @@ class PermissionController extends Controller
             'manufacturings' => 'required|array',
         ]);
 
+        foreach ($data as $key => $value) {
+            $permission->update([
+                $key => implode($value),
+            ]);
+        }
+
+        return redirect('/employees');
     }
 }
