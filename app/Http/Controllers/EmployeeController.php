@@ -27,10 +27,10 @@ class EmployeeController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'position' => 'sometimes|required|string',
-            'enabled' => 'required|numeric|max:1',
+            'enabled' => 'required|integer|max:1',
         ]);
 
-        $user = DB::transaction(function () use ($data) {
+        DB::transaction(function () use ($data) {
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
@@ -43,8 +43,6 @@ class EmployeeController extends Controller
                 'user_id' => $user->id,
                 'company_id' => 3,
             ]);
-
-            return $user;
         });
 
         return redirect()->back();
