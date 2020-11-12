@@ -14,8 +14,158 @@ Set Employee Access Permissions
     <form action="{{ route('permissions.update', $permission->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            <div class="columns is-marginless is-multiline">
-                
+            <div class="columns is-marginless is-vcentered">
+                <div class="column is-6 has-text-centered">
+                    <span class="text-green">
+                        Available Modules
+                    </span>
+                </div>
+                <div class="column is-6 has-text-centered">
+                    <span class="text-green">
+                        Permission Levels
+                    </span>
+                </div>
+            </div>
+            <hr class="my-0 mb-3">
+            <div class="columns is-marginless is-vcentered">
+                <div class="column is-6 has-text-left">
+                    <div class="text-green">
+                        Settings and User Management
+                    </div>
+                    <div class="has-text-grey is-size-7">
+                        Managing employee accounts, company profile, and other settings.
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="settings" value="c">
+                        Create
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="settings" value="r">
+                        Read
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="settings" value="u">
+                        Update
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="settings" value="d">
+                        Delete
+                    </label>
+                </div>
+            </div>
+            <div class="columns is-marginless is-vcentered">
+                <div class="column is-6 has-text-left">
+                    <div class="text-green">
+                        Warehouse Management
+                    </div>
+                    <div class="has-text-grey is-size-7">
+                        Control multiple warehouses operations.
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="warehouses" value="c">
+                        Create
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="warehouses" value="r">
+                        Read
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="warehouses" value="u">
+                        Update
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="warehouses" value="d">
+                        Delete
+                    </label>
+                </div>
+            </div>
+            <div class="columns is-marginless is-vcentered">
+                <div class="column is-6 has-text-left">
+                    <div class="text-green">
+                        Products and Categories Management
+                    </div>
+                    <div class="has-text-grey is-size-7">
+                        Manage and oversee products and categories offered.
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="products" value="c">
+                        Create
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="products" value="r">
+                        Read
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="products" value="u">
+                        Update
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="products" value="d">
+                        Delete
+                    </label>
+                </div>
+            </div>
+            <div class="columns is-marginless is-vcentered">
+                <div class="column is-6 has-text-left">
+                    <div class="text-green">
+                        Merchandise Inventory Management
+                    </div>
+                    <div class="has-text-grey is-size-7">
+                        Receive new products, and manage & track product status.
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="merchandises" value="c">
+                        Create
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="merchandises" value="r">
+                        Read
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="merchandises" value="u">
+                        Update
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="merchandises" value="d">
+                        Delete
+                    </label>
+                </div>
+            </div>
+            <div class="columns is-marginless is-vcentered">
+                <div class="column is-6 has-text-left">
+                    <div class="text-green">
+                        Manufacturing Inventory Management
+                    </div>
+                    <div class="has-text-grey is-size-7">
+                        Start new production tasks, track materials, MRO and more.
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="manufacturings" value="c">
+                        Create
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="manufacturings" value="r">
+                        Read
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="manufacturings" value="u">
+                        Update
+                    </label>
+                    <label class="checkbox ml-6 m-lr-0">
+                        <input type="checkbox" name="manufacturings" value="d">
+                        Delete
+                    </label>
+                </div>
             </div>
         </div>
         <div class="box radius-top-0">
