@@ -13,6 +13,7 @@ Set Employee Access Permissions
     </div>
     <form action="{{ route('permissions.update', $permission->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
+        @method("PATCH")
         <div class="box radius-bottom-0 mb-0 radius-top-0">
             <div class="columns is-marginless is-vcentered">
                 <div class="column is-6 has-text-left">
@@ -38,19 +39,19 @@ Set Employee Access Permissions
                 </div>
                 <div class="column is-6">
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium">
-                        <input type="checkbox" name="settings" value="c">
+                        <input type="checkbox" name="settings[]" value="c">
                         Create
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="settings" value="r">
+                        <input type="checkbox" name="settings[]" value="r">
                         Read
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="settings" value="u">
+                        <input type="checkbox" name="settings[]" value="u">
                         Update
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="settings" value="d">
+                        <input type="checkbox" name="settings[]" value="d">
                         Delete
                     </label>
                 </div>
@@ -66,19 +67,19 @@ Set Employee Access Permissions
                 </div>
                 <div class="column is-6">
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium">
-                        <input type="checkbox" name="warehouses" value="c">
+                        <input type="checkbox" name="warehouses[]" value="c">
                         Create
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="warehouses" value="r">
+                        <input type="checkbox" name="warehouses[]" value="r">
                         Read
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="warehouses" value="u">
+                        <input type="checkbox" name="warehouses[]" value="u">
                         Update
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="warehouses" value="d">
+                        <input type="checkbox" name="warehouses[]" value="d">
                         Delete
                     </label>
                 </div>
@@ -94,19 +95,19 @@ Set Employee Access Permissions
                 </div>
                 <div class="column is-6">
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium">
-                        <input type="checkbox" name="products" value="c">
+                        <input type="checkbox" name="products[]" value="c">
                         Create
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="products" value="r">
+                        <input type="checkbox" name="products[]" value="r">
                         Read
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="products" value="u">
+                        <input type="checkbox" name="products[]" value="u">
                         Update
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="products" value="d">
+                        <input type="checkbox" name="products[]" value="d">
                         Delete
                     </label>
                 </div>
@@ -122,19 +123,19 @@ Set Employee Access Permissions
                 </div>
                 <div class="column is-6">
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium">
-                        <input type="checkbox" name="merchandises" value="c">
+                        <input type="checkbox" name="merchandises[]" value="c">
                         Create
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="merchandises" value="r">
+                        <input type="checkbox" name="merchandises[]" value="r">
                         Read
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="merchandises" value="u">
+                        <input type="checkbox" name="merchandises[]" value="u">
                         Update
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="merchandises" value="d">
+                        <input type="checkbox" name="merchandises[]" value="d">
                         Delete
                     </label>
                 </div>
@@ -150,19 +151,19 @@ Set Employee Access Permissions
                 </div>
                 <div class="column is-6">
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium">
-                        <input type="checkbox" name="manufacturings" value="c">
+                        <input type="checkbox" name="manufacturings[]" value="c">
                         Create
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="manufacturings" value="r">
+                        <input type="checkbox" name="manufacturings[]" value="r">
                         Read
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="manufacturings" value="u">
+                        <input type="checkbox" name="manufacturings[]" value="u">
                         Update
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="manufacturings" value="d">
+                        <input type="checkbox" name="manufacturings[]" value="d">
                         Delete
                     </label>
                 </div>
