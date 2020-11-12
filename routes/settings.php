@@ -10,4 +10,6 @@ Route::get('/products/create', function () {
 
 Route::resource('employees', 'EmployeeController');
 
+Route::resource('permissions', 'PermissionController');
+
 Route::get('/home', 'HomeController@index')->name('home');

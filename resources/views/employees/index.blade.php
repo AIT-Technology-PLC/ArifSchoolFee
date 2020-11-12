@@ -131,7 +131,7 @@ Employee Management
                                     <i class="fas fa-pen-square"></i>
                                 </span>
                             </a>
-                            <a href="" title="Modify Permissions">
+                            <a href="{{ route('permissions.edit', $employee->id) }}" title="Modify Permissions">
                                 <span class="icon is-size-5 is-medium text-gold">
                                     <i class="fas fa-lock-open"></i>
                                 </span>
