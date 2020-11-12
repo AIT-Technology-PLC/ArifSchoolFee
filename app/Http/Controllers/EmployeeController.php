@@ -14,6 +14,7 @@ class EmployeeController extends Controller
 
     public function __construct(Employee $employee)
     {
+        $this->middleware('auth');
         $this->employee = $employee;
     }
 
@@ -50,7 +51,9 @@ class EmployeeController extends Controller
 
             $this->employee->create([
                 'user_id' => $user->id,
-                'company_id' => 3,
+                'company_id' => auth()->user()->employee->company->id,
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id,
             ]);
         });
 

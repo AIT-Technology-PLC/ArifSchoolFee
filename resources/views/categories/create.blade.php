@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Create New Product Category - Onrica Technologies PLC
+Create New Product Category
 @endsection
 
 @section('content')

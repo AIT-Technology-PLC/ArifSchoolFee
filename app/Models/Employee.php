@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Company;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
@@ -30,12 +31,12 @@ class Employee extends Model
 
     public function company()
     {
-        return $this->belongsTo(Models\Company::class);
+        return $this->belongsTo(Company::class);
     }
 
     public function permission()
     {
-        return $this->belongsTo(Models\Permission::class);
+        return $this->belongsTo(Permission::class);
     }
 
     public function getAll()

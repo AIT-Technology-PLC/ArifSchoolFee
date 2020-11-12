@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Add New Employee - Onrica Technologies PLC
+Add New Employee
 @endsection
 
 @section('content')

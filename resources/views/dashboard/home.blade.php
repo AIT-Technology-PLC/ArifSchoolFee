@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Dashboard - Onrica Inventory
+Dashboard
 @endsection
 
 @section('content')

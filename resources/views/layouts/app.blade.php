@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title> @yield('title') </title>
+    <title> @yield('title') - {{ auth()->user()->employee->company->name }} </title>
 
     <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">

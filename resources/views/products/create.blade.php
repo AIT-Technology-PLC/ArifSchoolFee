@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Create New Product - Onrica Technologies PLC
+Create New Product
 @endsection
 
 @section('content')

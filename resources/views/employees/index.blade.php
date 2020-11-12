@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Employee Management - Onrica Technologies PLC
+Employee Management
 @endsection
 
 @section('content')
