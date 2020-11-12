@@ -4,11 +4,11 @@
             <figure class="image is-64x64" style="margin: auto !important">
                 <img class="is-rounded" src="{{ asset('img/nabil.jpg') }}">
             </figure>
-            <div class="has-text-weight-bold mt-3">
-                Nabil Hassen
+            <div class="has-text-weight-bold mt-3 is-capitalized">
+                {{ auth()->user()->name }}
             </div>
-            <div class="has-text-grey has-text-weight-bold is-size-6-5">
-                Sales Officer
+            <div class="has-text-grey has-text-weight-bold is-size-6-5 is-capitalized">
+                {{ auth()->user()->employee->position ?? 'Job: Not Assigned'}}
             </div>
         </li>
     </ul>

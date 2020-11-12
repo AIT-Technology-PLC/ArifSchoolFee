@@ -26,8 +26,8 @@
                         <span class="icon is-medium has-text-white">
                             <i class="fas fa-building"></i>
                         </span>
-                        <span>
-                            Onrica Technologies PLC
+                        <span class="is-capitalized">
+                            {{ auth()->user()->employee->company->name }}
                         </span>
                     </h1>
                 </a>
@@ -49,7 +49,7 @@
                             <img class="is-rounded" src="{{ asset('img/nabil.jpg') }}">
                         </figure>
                         <span class="ml-3 has-text-white is-size-7 has-text-weight-medium">
-                            Nabil Hassen
+                            {{ auth()->user()->name }}
                         </span>
                         <span class="icon has-text-white is-size-7">
                             <i class="fas fa-angle-down"></i>
