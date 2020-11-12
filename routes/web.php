@@ -15,16 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/categories/create', function () {
-    return view('categories.create');
-});
-
-Route::get('/products/create', function () {
-    return view('products.create');
-});
-
-Route::resource('employees', 'EmployeeController');
-
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
