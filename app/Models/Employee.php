@@ -13,7 +13,7 @@ class Employee extends Model
         'user_id', 'company_id', 'permission_id', 'created_by', 'updated_by', 'enabled', 'position',
     ];
 
-    protected $with = ['user', 'createdBy', 'updatedBy'];
+    protected $with = ['user'];
 
     protected $casts = [
         'enabled' => 'boolean',
