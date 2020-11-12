@@ -42,6 +42,27 @@ class Employee extends Model
 
     public function getAll()
     {
-        return $this->all();
+        return $this->where('company_id', auth()->user()->employee->company_id)->get();
+    }
+
+    public function countAllEmployees()
+    {
+        return $this->where('company_id', auth()->user()->employee->company_id)->count();
+    }
+
+    public function countEnabledEmployees()
+    {
+        return $this->where([
+            ['company_id', auth()->user()->employee->company_id],
+            ['enabled', 1],
+        ])->count();
+    }
+
+    public function countBlockedEmployees()
+    {
+        return $this->where([
+            ['company_id', auth()->user()->employee->company_id],
+            ['enabled', 0],
+        ])->count();
     }
 }

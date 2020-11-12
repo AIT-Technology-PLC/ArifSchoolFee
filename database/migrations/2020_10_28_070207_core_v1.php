@@ -20,8 +20,6 @@ class CoreV1 extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('position')->nullable();
-            $table->boolean('enabled')->default(0);
             $table->timestamp('last_online_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
@@ -78,6 +76,8 @@ class CoreV1 extends Migration
             $table->bigInteger('permission_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('position')->nullable();
+            $table->boolean('enabled')->default(0);
             $table->timestamps();
             $table->softDeletes();
 

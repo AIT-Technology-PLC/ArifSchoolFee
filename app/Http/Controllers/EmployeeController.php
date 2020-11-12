@@ -22,7 +22,13 @@ class EmployeeController extends Controller
     {
         $employees = $this->employee->getAll();
 
-        return view('employees.index', compact('employees'));
+        $totalEmployees = $this->employee->countAllEmployees();
+
+        $totalEnabledEmployees = $this->employee->countEnabledEmployees();
+
+        $totalBlockedEmployees = $this->employee->countBlockedEmployees();
+
+        return view('employees.index', compact('employees', 'totalEmployees', 'totalEnabledEmployees', 'totalBlockedEmployees'));
     }
 
     public function create()
@@ -45,15 +51,15 @@ class EmployeeController extends Controller
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
-                'position' => $data['position'],
-                'enabled' => $data['enabled'],
             ]);
 
             $this->employee->create([
                 'user_id' => $user->id,
-                'company_id' => auth()->user()->employee->company->id,
+                'company_id' => auth()->user()->employee->company_id,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'position' => $data['position'],
+                'enabled' => $data['enabled'],
             ]);
         });
 

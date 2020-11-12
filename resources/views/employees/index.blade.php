@@ -16,7 +16,7 @@ Employee Management
                 </div>
                 <div class="column is-paddingless">
                     <div class="is-size-3 has-text-weight-bold">
-                        {{ $employees->count() }}
+                        {{ $totalEmployees }}
                     </div>
                     <div class="is-uppercase is-size-7">
                         Total Employees
@@ -35,7 +35,7 @@ Employee Management
                 </div>
                 <div class="column is-paddingless">
                     <div class="is-size-3 has-text-weight-bold">
-                        13
+                        {{ $totalEnabledEmployees }}
                     </div>
                     <div class="is-uppercase is-size-7">
                         Enabled Employees
@@ -54,7 +54,7 @@ Employee Management
                 </div>
                 <div class="column is-paddingless">
                     <div class="is-size-3 has-text-weight-bold">
-                        13
+                        {{ $totalBlockedEmployees }}
                     </div>
                     <div class="is-uppercase is-size-7">
                         Blocked Employees
