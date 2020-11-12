@@ -73,12 +73,32 @@ class EmployeeController extends Controller
 
     public function edit(Employee $employee)
     {
-        //
+        return view('employees.edit', compact('employee'));
     }
 
     public function update(Request $request, Employee $employee)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'position' => 'sometimes|required|string',
+            'enabled' => 'required|integer|max:1',
+        ]);
+
+        DB::transaction(function () use ($data, $employee) {
+            $employee->user->update([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
+
+            $this->employee->update([
+                'updated_by' => auth()->user()->id,
+                'position' => $data['position'],
+                'enabled' => $data['enabled'],
+            ]);
+        });
     }
 
     public function destroy(Employee $employee)
