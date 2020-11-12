@@ -15,12 +15,12 @@ Set Employee Access Permissions
         @csrf
         <div class="box radius-bottom-0 mb-0 radius-top-0">
             <div class="columns is-marginless is-vcentered">
-                <div class="column is-6 has-text-centered">
+                <div class="column is-6 has-text-left">
                     <span class="text-green">
                         Available Modules
                     </span>
                 </div>
-                <div class="column is-6 has-text-centered">
+                <div class="column is-6 has-text-left">
                     <span class="text-green">
                         Permission Levels
                     </span>
@@ -29,7 +29,7 @@ Set Employee Access Permissions
             <hr class="my-0 mb-3">
             <div class="columns is-marginless is-vcentered">
                 <div class="column is-6 has-text-left">
-                    <div class="text-green">
+                    <div class="text-purple">
                         Settings and User Management
                     </div>
                     <div class="has-text-grey is-size-7">
@@ -37,19 +37,19 @@ Set Employee Access Permissions
                     </div>
                 </div>
                 <div class="column is-6">
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium">
                         <input type="checkbox" name="settings" value="c">
                         Create
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="settings" value="r">
                         Read
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="settings" value="u">
                         Update
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="settings" value="d">
                         Delete
                     </label>
@@ -57,7 +57,7 @@ Set Employee Access Permissions
             </div>
             <div class="columns is-marginless is-vcentered">
                 <div class="column is-6 has-text-left">
-                    <div class="text-green">
+                    <div class="text-purple">
                         Warehouse Management
                     </div>
                     <div class="has-text-grey is-size-7">
@@ -65,19 +65,19 @@ Set Employee Access Permissions
                     </div>
                 </div>
                 <div class="column is-6">
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium">
                         <input type="checkbox" name="warehouses" value="c">
                         Create
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="warehouses" value="r">
                         Read
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="warehouses" value="u">
                         Update
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="warehouses" value="d">
                         Delete
                     </label>
@@ -85,7 +85,7 @@ Set Employee Access Permissions
             </div>
             <div class="columns is-marginless is-vcentered">
                 <div class="column is-6 has-text-left">
-                    <div class="text-green">
+                    <div class="text-purple">
                         Products and Categories Management
                     </div>
                     <div class="has-text-grey is-size-7">
@@ -93,19 +93,19 @@ Set Employee Access Permissions
                     </div>
                 </div>
                 <div class="column is-6">
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium">
                         <input type="checkbox" name="products" value="c">
                         Create
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="products" value="r">
                         Read
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="products" value="u">
                         Update
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="products" value="d">
                         Delete
                     </label>
@@ -113,7 +113,7 @@ Set Employee Access Permissions
             </div>
             <div class="columns is-marginless is-vcentered">
                 <div class="column is-6 has-text-left">
-                    <div class="text-green">
+                    <div class="text-purple">
                         Merchandise Inventory Management
                     </div>
                     <div class="has-text-grey is-size-7">
@@ -121,19 +121,19 @@ Set Employee Access Permissions
                     </div>
                 </div>
                 <div class="column is-6">
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium">
                         <input type="checkbox" name="merchandises" value="c">
                         Create
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="merchandises" value="r">
                         Read
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="merchandises" value="u">
                         Update
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="merchandises" value="d">
                         Delete
                     </label>
@@ -141,7 +141,7 @@ Set Employee Access Permissions
             </div>
             <div class="columns is-marginless is-vcentered">
                 <div class="column is-6 has-text-left">
-                    <div class="text-green">
+                    <div class="text-purple">
                         Manufacturing Inventory Management
                     </div>
                     <div class="has-text-grey is-size-7">
@@ -149,19 +149,19 @@ Set Employee Access Permissions
                     </div>
                 </div>
                 <div class="column is-6">
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium">
                         <input type="checkbox" name="manufacturings" value="c">
                         Create
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="manufacturings" value="r">
                         Read
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="manufacturings" value="u">
                         Update
                     </label>
-                    <label class="checkbox ml-6 m-lr-0">
+                    <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
                         <input type="checkbox" name="manufacturings" value="d">
                         Delete
                     </label>
