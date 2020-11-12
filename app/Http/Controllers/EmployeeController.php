@@ -15,6 +15,7 @@ class EmployeeController extends Controller
     public function __construct(Employee $employee)
     {
         $this->middleware('auth');
+        
         $this->employee = $employee;
     }
 
@@ -63,7 +64,7 @@ class EmployeeController extends Controller
             ]);
         });
 
-        return redirect('/employees');
+        return redirect()->route('employees.index');
     }
 
     public function show(Employee $employee)
@@ -80,9 +81,8 @@ class EmployeeController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'position' => 'sometimes|required|string',
+            'email' => 'required|string|email|max:255',
+            'position' => 'nullable|string',
             'enabled' => 'required|integer|max:1',
         ]);
 
@@ -90,15 +90,16 @@ class EmployeeController extends Controller
             $employee->user->update([
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => Hash::make($data['password']),
             ]);
 
-            $this->employee->update([
+            $employee->update([
                 'updated_by' => auth()->user()->id,
                 'position' => $data['position'],
                 'enabled' => $data['enabled'],
             ]);
         });
+
+        return redirect()->route('employees.index');
     }
 
     public function destroy(Employee $employee)

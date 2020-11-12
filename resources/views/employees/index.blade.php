@@ -126,7 +126,7 @@ Employee Management
                         </td>
                         <td> {{ $employee->user->created_at->toFormattedDateString() }} </td>
                         <td>
-                            <a href="" title="Modify Employee Data">
+                            <a href="{{ route('employees.edit', $employee->id) }}" title="Modify Employee Data">
                                 <span class="icon is-size-5 is-medium text-green">
                                     <i class="fas fa-pen-square"></i>
                                 </span>
