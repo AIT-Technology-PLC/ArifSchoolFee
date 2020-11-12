@@ -1,10 +1,69 @@
 @extends('layouts.app')
 
 @section('title')
-Employee List - Onrica Technologies PLC
+Employee Management - Onrica Technologies PLC
 @endsection
 
 @section('content')
+<div class="columns is-marginless">
+    <div class="column is-4">
+        <div class="box text-green">
+            <div class="columns is-marginless is-vcentered is-mobile">
+                <div class="column has-text-centered is-paddingless">
+                    <span class="icon is-large is-size-1">
+                        <i class="fas fa-users"></i>
+                    </span>
+                </div>
+                <div class="column is-paddingless">
+                    <div class="is-size-3 has-text-weight-bold">
+                        {{ $employees->count() }}
+                    </div>
+                    <div class="is-uppercase is-size-7">
+                        Total Employees
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column is-4">
+        <div class="box text-blue">
+            <div class="columns is-marginless is-vcentered is-mobile">
+                <div class="column has-text-centered is-paddingless">
+                    <span class="icon is-large is-size-1">
+                        <i class="fas fa-user-check"></i>
+                    </span>
+                </div>
+                <div class="column is-paddingless">
+                    <div class="is-size-3 has-text-weight-bold">
+                        13
+                    </div>
+                    <div class="is-uppercase is-size-7">
+                        Enabled Employees
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column is-4">
+        <div class="box text-purple">
+            <div class="columns is-marginless is-vcentered is-mobile">
+                <div class="column has-text-centered is-paddingless">
+                    <span class="icon is-large is-size-1">
+                        <i class="fas fa-user-alt-slash"></i>
+                    </span>
+                </div>
+                <div class="column is-paddingless">
+                    <div class="is-size-3 has-text-weight-bold">
+                        13
+                    </div>
+                    <div class="is-uppercase is-size-7">
+                        Blocked Employees
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <section class="mt-3 mx-3 m-lr-0">
     <div class="box radius-bottom-0 mb-0 has-background-white-bis">
         <h1 class="title text-green has-text-weight-medium is-size-5">
@@ -30,31 +89,35 @@ Employee List - Onrica Technologies PLC
                     @foreach ($employees as $employee)
                     <tr>
                         <td> {{ $loop->index + 1  }} </td>
-                        <td> {{ $employee->user->name }} </td>
+                        <td class="is-capitalized"> {{ $employee->user->name }} </td>
                         <td> {{ $employee->user->email }} </td>
-                        <td>
+                        <td class="is-capitalized">
                             @if ($employee->user->position)
                             {{$employee->user->position }}
                             @else
-                            <span class="has-text-danger">
+                            <span class="has-text-grey">
                                 Not Assigned
                             </span>
                             @endif
                         </td>
                         <td>
                             @if ($employee->user->enabled)
-                            <span class="icon text-green">
-                                <i class="fas fa-circle"></i>
-                            </span>
-                            <span>
-                                Enabled
+                            <span class="tag bg-blue has-text-white">
+                                <span class="icon">
+                                    <i class="fas fa-user-check"></i>
+                                </span>
+                                <span>
+                                    Enabled
+                                </span>
                             </span>
                             @else
-                            <span class="icon has-text-danger">
-                                <i class="fas fa-circle"></i>
-                            </span>
-                            <span>
-                                Blocked
+                            <span class="tag bg-purple has-text-white">
+                                <span class="icon">
+                                    <i class="fas fa-user-alt-slash"></i>
+                                </span>
+                                <span>
+                                    Blocked
+                                </span>
                             </span>
                             @endif
                         </td>
@@ -69,7 +132,7 @@ Employee List - Onrica Technologies PLC
                                 </span>
                             </a>
                             <a href="" title="Modify Permissions">
-                                <span class="icon is-size-5 is-medium text-purple">
+                                <span class="icon is-size-5 is-medium text-gold">
                                     <i class="fas fa-lock-open"></i>
                                 </span>
                             </a>
