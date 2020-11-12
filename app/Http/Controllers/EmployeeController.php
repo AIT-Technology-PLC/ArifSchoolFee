@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Permission;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -52,9 +53,12 @@ class EmployeeController extends Controller
                 'password' => Hash::make($data['password']),
             ]);
 
+            $permission = Permission::create([]);
+
             $this->employee->create([
                 'user_id' => $user->id,
                 'company_id' => auth()->user()->employee->company_id,
+                'permission_id' => $permission->id,
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
                 'position' => $data['position'],

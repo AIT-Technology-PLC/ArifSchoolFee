@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Employee;
+use App\Models\Permission;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -79,9 +80,19 @@ class RegisterController extends Controller
                 'password' => Hash::make($data['password']),
             ]);
 
+            $permission = Permission::create([
+                'users' => 'crud',
+                'settings' => 'crud',
+                'warehouses' => 'crud',
+                'products' => 'crud',
+                'merchandises' => 'crud',
+                'manufacturings' => 'crud',
+            ]);
+
             Employee::create([
                 'user_id' => $user->id,
                 'company_id' => $company->id,
+                'permission_id' => $permission->id,
             ]);
 
             return $user;
