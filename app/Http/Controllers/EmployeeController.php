@@ -10,9 +10,18 @@ use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
+    private $employee;
+
+    public function __construct(Employee $employee)
+    {
+        $this->employee = $employee;
+    }
+
     public function index()
     {
-        //
+        $employees = $this->employee->getAll();
+
+        return view('employees.index', compact('employees'));
     }
 
     public function create()
@@ -39,7 +48,7 @@ class EmployeeController extends Controller
                 'enabled' => $data['enabled'],
             ]);
 
-            Employee::create([
+            $this->employee->create([
                 'user_id' => $user->id,
                 'company_id' => 3,
             ]);

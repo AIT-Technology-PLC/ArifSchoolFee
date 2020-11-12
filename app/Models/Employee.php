@@ -10,6 +10,8 @@ class Employee extends Model
         'user_id', 'company_id', 'permission_id', 'created_by', 'updated_by',
     ];
 
+    protected $with = ['user', 'createdBy', 'updatedBy'];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -33,5 +35,10 @@ class Employee extends Model
     public function permission()
     {
         return $this->belongsTo(Models\Permission::class);
+    }
+
+    public function getAll()
+    {
+        return $this->all();
     }
 }
