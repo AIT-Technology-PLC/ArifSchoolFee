@@ -46,12 +46,12 @@ class CoreV1 extends Migration
         // Permissions
         Schema::create('permissions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('users');
-            $table->string('settings');
-            $table->string('warehouses');
-            $table->string('products');
-            $table->string('merchandises');
-            $table->string('manufacturings');
+            $table->string('users')->default('r');
+            $table->string('settings')->default('r');
+            $table->string('warehouses')->default('r');
+            $table->string('products')->default('r');
+            $table->string('merchandises')->default('r');
+            $table->string('manufacturings')->default('r');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -179,8 +179,8 @@ class CoreV1 extends Migration
             $table->string('total_sold');
             $table->string('total_broken');
             $table->string('total_returns');
-            $table->timestamp('expires_on')->nullable();
-            $table->timestamp('received_on')->nullable();
+            $table->dateTime('expires_on')->nullable();
+            $table->dateTime('received_on')->nullable();
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
@@ -208,9 +208,9 @@ class CoreV1 extends Migration
             $table->string('total_broken');
             $table->string('total_returns');
             $table->string('production_status');
-            $table->timestamp('started_on')->nullable();
-            $table->timestamp('finishes_on')->nullable();
-            $table->timestamp('expires_on')->nullable();
+            $table->dateTime('started_on')->nullable();
+            $table->dateTime('finishes_on')->nullable();
+            $table->dateTime('expires_on')->nullable();
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
@@ -237,7 +237,7 @@ class CoreV1 extends Migration
             $table->string('unit_of_measurement');
             $table->string('purchase_price');
             $table->json('properties');
-            $table->timestamp('expires_on')->nullable();
+            $table->dateTime('expires_on')->nullable();
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
@@ -279,8 +279,8 @@ class CoreV1 extends Migration
             $table->string('unit_of_measurement');
             $table->string('purchase_price');
             $table->json('properties');
-            $table->timestamp('brought_on')->nullable();
-            $table->timestamp('expires_on')->nullable();
+            $table->dateTime('brought_on')->nullable();
+            $table->dateTime('expires_on')->nullable();
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
