@@ -14,11 +14,11 @@ class CompanyController extends Controller
 
     public function edit(Company $company)
     {
-        //
+        return view('companies.edit', compact('company'));
     }
 
     public function update(Request $request, Company $company)
     {
-        //
+        
     }
 }
