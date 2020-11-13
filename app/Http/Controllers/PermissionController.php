@@ -11,6 +11,8 @@ class PermissionController extends Controller
 
     public function __construct(Permission $permission)
     {
+        $this->authorizeResource(Permission::class);
+
         $this->permission = $permission;
     }
 
