@@ -11,17 +11,7 @@ class CompanyPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user)
-    {
-        //
-    }
-
     public function view(User $user, Company $company)
-    {
-        //
-    }
-
-    public function create(User $user)
     {
         //
     }

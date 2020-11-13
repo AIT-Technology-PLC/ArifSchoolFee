@@ -11,44 +11,21 @@ class PermissionPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user)
-    {
-        //
-    }
-
-    public function view(User $user, Permission $permission)
-    {
-        //
-    }
-
-    public function create(User $user)
-    {
-        //
-    }
-
     public function update(User $user, Permission $permission)
     {
         $areTheyFromTheSameCompany = $user->employee->company_id == $permission->employee->company_id;
-        
-        if ($areTheyFromTheSameCompany) {
+
+        $isUserEqualsToEmployee = $user->employee->id == $permission->employee->id;
+
+        if (!$isUserEqualsToEmployee && $areTheyFromTheSameCompany) {
             return Str::contains($user->employee->permission->settings, 'crud');
         }
 
         return false;
     }
 
-    public function delete(User $user, Permission $permission)
+    public function settingsMenu(User $user)
     {
-        //
-    }
-
-    public function restore(User $user, Permission $permission)
-    {
-        //
-    }
-
-    public function forceDelete(User $user, Permission $permission)
-    {
-        //
+        return Str::contains($user->employee->permission->settings, 'crud');
     }
 }
