@@ -15,6 +15,8 @@ class EmployeeController extends Controller
 
     public function __construct(Employee $employee)
     {
+        $this->authorizeResource(Employee::class, 'employees');
+
         $this->employee = $employee;
     }
 
