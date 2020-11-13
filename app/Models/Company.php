@@ -11,6 +11,10 @@ class Company extends Model
         'name', 'sector', 'membership_plan', 'currency',
     ];
 
+    protected $casts = [
+        'enabled' => 'boolean',
+    ];
+
     public function employees()
     {
         return $this->hasMany(Employee::class);
