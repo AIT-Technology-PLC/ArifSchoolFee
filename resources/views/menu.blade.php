@@ -149,6 +149,7 @@
         </li>
     </ul>
 
+    @can('update', auth()->user()->employee->permission)
     <p class="menu-label has-text-weight-bold text-green">
         Settings
     </p>
@@ -184,4 +185,5 @@
             </a>
         </li>
     </ul>
+    @endcan
 </aside>
