@@ -12,4 +12,6 @@ Route::resource('employees', 'EmployeeController');
 
 Route::resource('permissions', 'PermissionController');
 
+Route::resource('companies', 'CompanyController');
+
 Route::get('/home', 'HomeController@index')->name('home');
