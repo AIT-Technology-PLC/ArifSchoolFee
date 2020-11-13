@@ -39,19 +39,19 @@ Set Employee Access Permissions
                 </div>
                 <div class="column is-6">
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium">
-                        <input type="checkbox" name="settings[]" value="c">
+                        <input type="checkbox" name="settings[]" value="c" {{ Str::contains($permission->settings, 'c') ? 'checked' : '' }}>
                         Create
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="settings[]" value="r">
+                        <input type="checkbox" name="settings[]" value="r" {{ Str::contains($permission->settings, 'r') ? 'checked' : '' }}>
                         Read
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="settings[]" value="u">
+                        <input type="checkbox" name="settings[]" value="u" {{ Str::contains($permission->settings, 'u') ? 'checked' : '' }}>
                         Update
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="settings[]" value="d">
+                        <input type="checkbox" name="settings[]" value="d" {{ Str::contains($permission->settings, 'd') ? 'checked' : '' }}>
                         Delete
                     </label>
                 </div>
@@ -67,19 +67,19 @@ Set Employee Access Permissions
                 </div>
                 <div class="column is-6">
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium">
-                        <input type="checkbox" name="warehouses[]" value="c">
+                        <input type="checkbox" name="warehouses[]" value="c" {{ Str::contains($permission->warehouses, 'c') ? 'checked' : '' }}>
                         Create
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="warehouses[]" value="r">
+                        <input type="checkbox" name="warehouses[]" value="r" {{ Str::contains($permission->warehouses, 'r') ? 'checked' : '' }}>
                         Read
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="warehouses[]" value="u">
+                        <input type="checkbox" name="warehouses[]" value="u" {{ Str::contains($permission->warehouses, 'u') ? 'checked' : '' }}>
                         Update
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="warehouses[]" value="d">
+                        <input type="checkbox" name="warehouses[]" value="d" {{ Str::contains($permission->warehouses, 'd') ? 'checked' : '' }}>
                         Delete
                     </label>
                 </div>
@@ -95,19 +95,19 @@ Set Employee Access Permissions
                 </div>
                 <div class="column is-6">
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium">
-                        <input type="checkbox" name="products[]" value="c">
+                        <input type="checkbox" name="products[]" value="c" {{ Str::contains($permission->products, 'c') ? 'checked' : '' }}>
                         Create
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="products[]" value="r">
+                        <input type="checkbox" name="products[]" value="r" {{ Str::contains($permission->products, 'r') ? 'checked' : '' }}>
                         Read
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="products[]" value="u">
+                        <input type="checkbox" name="products[]" value="u" {{ Str::contains($permission->products, 'u') ? 'checked' : '' }}>
                         Update
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="products[]" value="d">
+                        <input type="checkbox" name="products[]" value="d" {{ Str::contains($permission->products, 'd') ? 'checked' : '' }}>
                         Delete
                     </label>
                 </div>
@@ -123,19 +123,19 @@ Set Employee Access Permissions
                 </div>
                 <div class="column is-6">
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium">
-                        <input type="checkbox" name="merchandises[]" value="c">
+                        <input type="checkbox" name="merchandises[]" value="c" {{ Str::contains($permission->merchandises, 'c') ? 'checked' : '' }}>
                         Create
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="merchandises[]" value="r">
+                        <input type="checkbox" name="merchandises[]" value="r" {{ Str::contains($permission->merchandises, 'r') ? 'checked' : '' }}>
                         Read
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="merchandises[]" value="u">
+                        <input type="checkbox" name="merchandises[]" value="u" {{ Str::contains($permission->merchandises, 'u') ? 'checked' : '' }}>
                         Update
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="merchandises[]" value="d">
+                        <input type="checkbox" name="merchandises[]" value="d" {{ Str::contains($permission->merchandises, 'd') ? 'checked' : '' }}>
                         Delete
                     </label>
                 </div>
@@ -151,19 +151,19 @@ Set Employee Access Permissions
                 </div>
                 <div class="column is-6">
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium">
-                        <input type="checkbox" name="manufacturings[]" value="c">
+                        <input type="checkbox" name="manufacturings[]" value="c" {{ Str::contains($permission->manufacturings, 'c') ? 'checked' : '' }}>
                         Create
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="manufacturings[]" value="r">
+                        <input type="checkbox" name="manufacturings[]" value="r" {{ Str::contains($permission->manufacturings, 'r') ? 'checked' : '' }}>
                         Read
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="manufacturings[]" value="u">
+                        <input type="checkbox" name="manufacturings[]" value="u" {{ Str::contains($permission->manufacturings, 'u') ? 'checked' : '' }}>
                         Update
                     </label>
                     <label class="checkbox is-uppercase text-purple has-text-weight-medium ml-6 m-lr-0">
-                        <input type="checkbox" name="manufacturings[]" value="d">
+                        <input type="checkbox" name="manufacturings[]" value="d" {{ Str::contains($permission->manufacturings, 'd') ? 'checked' : '' }}>
                         Delete
                     </label>
                 </div>
