@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+    private $company;
+
+    public function __construct(Company $company)
+    {
+        $this->authorizeResource(Company::class);
+        
+        $this->company = $company;
+    }
     public function show(Company $company)
     {
         //

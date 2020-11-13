@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Company;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Str;
 
 class CompanyPolicy
 {
@@ -27,6 +28,12 @@ class CompanyPolicy
 
     public function update(User $user, Company $company)
     {
-        //
+        $doesUserBelongsToCompany = $user->employee->company_id == $company->id;
+
+        if ($doesUserBelongsToCompany) {
+            return Str::contains($user->employee->permission->settings, 'crud');
+        }
+
+        return false;
     }
 }
