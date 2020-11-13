@@ -28,7 +28,13 @@ class EmployeePolicy
 
     public function update(User $user, Employee $employee)
     {
-        return Str::contains($user->employee->permission->settings, 'u');
+        $areTheyFromTheSameCompany = $user->employee->company_id == $employee->company_id;
+
+        if ($areTheyFromTheSameCompany) {
+            return Str::contains($user->employee->permission->settings, 'u');
+        }
+
+        return false;
     }
 
     public function delete(User $user, Employee $employee)

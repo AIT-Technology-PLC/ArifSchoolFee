@@ -28,7 +28,13 @@ class PermissionPolicy
 
     public function update(User $user, Permission $permission)
     {
-        return Str::contains($user->employee->permission->settings, 'crud');
+        $areTheyFromTheSameCompany = $user->employee->company_id == $permission->employee->company_id;
+        
+        if ($areTheyFromTheSameCompany) {
+            return Str::contains($user->employee->permission->settings, 'crud');
+        }
+
+        return false;
     }
 
     public function delete(User $user, Permission $permission)
