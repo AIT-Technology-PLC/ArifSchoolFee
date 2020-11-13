@@ -92,6 +92,7 @@ class RegisterController extends Controller
                 'user_id' => $user->id,
                 'company_id' => $company->id,
                 'permission_id' => $permission->id,
+                'enabled' => 1,
             ]);
 
             return $user;
