@@ -46,11 +46,11 @@ class CoreV1 extends Migration
         // Permissions
         Schema::create('permissions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('settings')->default('r');
-            $table->string('warehouses')->default('r');
-            $table->string('products')->default('r');
-            $table->string('merchandises')->default('r');
-            $table->string('manufacturings')->default('r');
+            $table->string('settings')->nullable();
+            $table->string('warehouses')->nullable();
+            $table->string('products')->nullable();
+            $table->string('merchandises')->nullable();
+            $table->string('manufacturings')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

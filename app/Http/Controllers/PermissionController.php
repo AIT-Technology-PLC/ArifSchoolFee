@@ -29,11 +29,11 @@ class PermissionController extends Controller
     public function update(Request $request, Permission $permission)
     {
         $data = request()->validate([
-            'settings' => 'required|array',
-            'warehouses' => 'required|array',
-            'products' => 'required|array',
-            'merchandises' => 'required|array',
-            'manufacturings' => 'required|array',
+            'settings' => 'sometimes|array',
+            'warehouses' => 'sometimes|array',
+            'products' => 'sometimes|array',
+            'merchandises' => 'sometimes|array',
+            'manufacturings' => 'sometimes|array',
         ]);
 
         foreach ($data as $key => $value) {

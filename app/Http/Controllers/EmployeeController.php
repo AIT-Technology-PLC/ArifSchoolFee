@@ -55,7 +55,13 @@ class EmployeeController extends Controller
                 'password' => Hash::make($data['password']),
             ]);
 
-            $permission = Permission::create([]);
+            $permission = Permission::create([
+                'settings' => '',
+                'warehouses' => 'cr',
+                'products' => 'crud',
+                'merchandises' => 'crud',
+                'manufacturings' => 'crud',
+            ]);
 
             $this->employee->create([
                 'user_id' => $user->id,

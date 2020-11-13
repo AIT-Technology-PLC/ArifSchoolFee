@@ -81,7 +81,6 @@ class RegisterController extends Controller
             ]);
 
             $permission = Permission::create([
-                'users' => 'crud',
                 'settings' => 'crud',
                 'warehouses' => 'crud',
                 'products' => 'crud',
