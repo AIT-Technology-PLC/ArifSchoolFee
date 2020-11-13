@@ -46,7 +46,6 @@ class CoreV1 extends Migration
         // Permissions
         Schema::create('permissions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('users')->default('r');
             $table->string('settings')->default('r');
             $table->string('warehouses')->default('r');
             $table->string('products')->default('r');
