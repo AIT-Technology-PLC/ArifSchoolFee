@@ -61,8 +61,8 @@ class CoreV1 extends Migration
             $table->string('name');
             $table->string('sector')->nullable();
             $table->string('membership_plan')->nullable();
-            $table->boolean('enabled')->default(0);
-            $table->string('currency')->nullable();
+            $table->boolean('enabled');
+            $table->string('currency');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -75,8 +75,8 @@ class CoreV1 extends Migration
             $table->bigInteger('permission_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('position')->nullable();
-            $table->boolean('enabled')->default(0);
+            $table->string('position');
+            $table->boolean('enabled');
             $table->timestamps();
             $table->softDeletes();
 

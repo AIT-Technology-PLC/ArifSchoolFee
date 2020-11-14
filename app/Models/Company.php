@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
     protected $fillable = [
-        'name', 'sector', 'membership_plan', 'currency',
+        'name', 'sector', 'membership_plan', 'currency', 'enabled'
     ];
 
     protected $casts = [

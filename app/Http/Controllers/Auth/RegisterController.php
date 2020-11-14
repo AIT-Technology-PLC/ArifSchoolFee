@@ -72,6 +72,8 @@ class RegisterController extends Controller
         $user = DB::transaction(function () use ($data) {
             $company = Company::create([
                 'name' => $data['company_name'],
+                'currency' => 'ETB',
+                'enabled' => 0,
             ]);
 
             $user = User::create([
@@ -93,6 +95,7 @@ class RegisterController extends Controller
                 'company_id' => $company->id,
                 'permission_id' => $permission->id,
                 'enabled' => 1,
+                'position' => 'Admin',
             ]);
 
             return $user;
