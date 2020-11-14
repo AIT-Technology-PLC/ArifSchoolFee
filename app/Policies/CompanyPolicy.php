@@ -11,17 +11,16 @@ class CompanyPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, Company $company)
-    {
-        //
-    }
-
     public function update(User $user, Company $company)
     {
-        $doesUserBelongsToCompany = $user->employee->company_id == $company->id;
+        $doesAdminBelongsToCompany = $user->employee->company_id == $company->id;
 
-        if ($doesUserBelongsToCompany) {
-            return Str::contains($user->employee->permission->settings, 'crud');
+        $isUserAdmin = Str::contains($user->employee->permission->settings, 'crud');
+
+        $canEditCompanyData = $isUserAdmin && $doesAdminBelongsToCompany;
+
+        if ($canEditCompanyData) {
+            return true;
         }
 
         return false;
