@@ -13,35 +13,39 @@ class EmployeePolicy
 
     public function viewAny(User $user)
     {
-        return Str::contains($user->employee->permission->settings, 'r');
+        return Str::contains($user->employee->permission->settings, 'crud');
+    }
+
+    public function create(User $user)
+    {
+        return Str::contains($user->employee->permission->settings, 'crud');
     }
 
     public function view(User $user, Employee $employee)
     {
-        $areTheyFromTheSameCompany = $user->employee->company_id == $employee->company_id;
+        $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $employee->company_id;
 
         $isUserAdmin = Str::contains($user->employee->permission->settings, 'crud');
 
         $isItMyProfie = $user->employee->id == $employee->id;
 
-        $canSeeProfile = ($isUserAdmin || $isItMyProfie) && $areTheyFromTheSameCompany;
+        $canSeeProfile = $isItMyProfie || ($isUserAdmin && $doesAdminAndEmployeeBelongToSameCompany);
 
         if ($canSeeProfile) {
             return true;
         }
     }
 
-    public function create(User $user)
-    {
-        return Str::contains($user->employee->permission->settings, 'c');
-    }
-
     public function update(User $user, Employee $employee)
     {
-        $areTheyFromTheSameCompany = $user->employee->company_id == $employee->company_id;
+        $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $employee->company_id;
 
-        if ($areTheyFromTheSameCompany) {
-            return Str::contains($user->employee->permission->settings, 'u');
+        $isUserAdmin = Str::contains($user->employee->permission->settings, 'crud');
+
+        $canEditEmployeeData = $isUserAdmin && $doesAdminAndEmployeeBelongToSameCompany;
+
+        if ($canEditEmployeeData) {
+            return true;
         }
 
         return false;
@@ -49,7 +53,17 @@ class EmployeePolicy
 
     public function delete(User $user, Employee $employee)
     {
-        return Str::contains($user->employee->permission->settings, 'd');
+        $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $employee->company_id;
+
+        $isUserAdmin = Str::contains($user->employee->permission->settings, 'crud');
+
+        $canEditEmployeeData = $isUserAdmin && $doesAdminAndEmployeeBelongToSameCompany;
+
+        if ($canEditEmployeeData) {
+            return true;
+        }
+
+        return false;
     }
 
 }
