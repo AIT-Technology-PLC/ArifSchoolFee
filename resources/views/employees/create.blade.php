@@ -84,12 +84,12 @@ Add New Employee
                         <label for="enabled" class="label text-green has-text-weight-normal"> Can this employee access the system? <sup class="has-text-danger">*</sup> </label>
                         <div class="control">
                             <label class="radio has-text-grey has-text-weight-normal">
-                                <input type="radio" name="enabled" value="1" class="mt-3">
+                                <input type="radio" name="enabled" value="1" class="mt-3" {{ old('enabled') == 1 ? 'checked' : '' }}>
                                 Yes, this employee can access the system
                             </label>
                             <br>
                             <label class="radio has-text-grey has-text-weight-normal mt-2">
-                                <input type="radio" name="enabled" value="0">
+                                <input type="radio" name="enabled" value="0" {{ old('enabled') == 0 ? 'checked' : '' }}>
                                 No, this employee can't access the system
                             </label>
                             @error('enabled')
