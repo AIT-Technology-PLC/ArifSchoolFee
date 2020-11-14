@@ -1,0 +1,1 @@
+{{ $employee->user->name }}

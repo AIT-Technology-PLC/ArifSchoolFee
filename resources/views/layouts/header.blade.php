@@ -56,7 +56,7 @@
                         </span>
                     </a>
                     <div class="navbar-dropdown is-boxed">
-                        <a href="{{ '' }}" class="navbar-item text-green">
+                        <a href="{{ route('employees.show', auth()->user()->employee->id) }}" class="navbar-item text-green">
                             <span class="icon is-medium">
                                 <i class="fas fa-address-card"></i>
                             </span>

@@ -18,7 +18,17 @@ class EmployeePolicy
 
     public function view(User $user, Employee $employee)
     {
-        return Str::contains($user->employee->permission->settings, 'r');
+        $areTheyFromTheSameCompany = $user->employee->company_id == $employee->company_id;
+
+        $isUserAdmin = Str::contains($user->employee->permission->settings, 'crud');
+
+        $isItMyProfie = $user->employee->id == $employee->id;
+
+        $canSeeProfile = ($isUserAdmin || $isItMyProfie) && $areTheyFromTheSameCompany;
+
+        if ($canSeeProfile) {
+            return true;
+        }
     }
 
     public function create(User $user)
