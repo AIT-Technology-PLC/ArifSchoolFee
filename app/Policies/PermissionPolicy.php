@@ -11,6 +11,11 @@ class PermissionPolicy
 {
     use HandlesAuthorization;
 
+    public function view(User $user, Permission $permission)
+    {
+        return $user->employee->id == $permission->employee->id;
+    }
+
     public function update(User $user, Permission $permission)
     {
         $areTheyFromTheSameCompany = $user->employee->company_id == $permission->employee->company_id;

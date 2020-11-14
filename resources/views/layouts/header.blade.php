@@ -56,7 +56,7 @@
                         </span>
                     </a>
                     <div class="navbar-dropdown is-boxed">
-                        <a class="navbar-item text-green">
+                        <a href="{{ '' }}" class="navbar-item text-green">
                             <span class="icon is-medium">
                                 <i class="fas fa-address-card"></i>
                             </span>
@@ -64,7 +64,7 @@
                                 Profile
                             </span>
                         </a>
-                        <a class="navbar-item text-green">
+                        <a href="{{ route('permissions.show', auth()->user()->employee->permission_id) }}" class="navbar-item text-green">
                             <span class="icon is-medium">
                                 <i class="fas fa-lock-open"></i>
                             </span>
