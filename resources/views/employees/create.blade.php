@@ -65,13 +65,13 @@ Add New Employee
                 </div>
                 <div class="column is-6">
                     <div class="field">
-                        <label for="position" class="label text-green has-text-weight-normal">Job Title/Position <sup class="has-text-danger">&nbsp;</sup> </label>
+                        <label for="password-confirm" class="label text-green has-text-weight-normal">Confrim Password <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
-                            <input id="position" name="position" type="text" class="input" placeholder="Job Title">
+                            <input id="password-confirm" type="password" class="input" name="password_confirmation" placeholder="Confirm Password" autocomplete="new-password">
                             <span class="icon is-small is-left">
-                                <i class="fas fa-user-tie"></i>
+                                <i class="fas fa-unlock"></i>
                             </span>
-                            @error('position')
+                            @error('password')
                             <span class="help has-text-danger" role="alert">
                                 {{ $message }}
                             </span>
@@ -93,6 +93,22 @@ Add New Employee
                                 No, this employee can't access the system
                             </label>
                             @error('enabled')
+                            <span class="help has-text-danger" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="position" class="label text-green has-text-weight-normal">Job Title/Position <sup class="has-text-danger">&nbsp;</sup> </label>
+                        <div class="control has-icons-left">
+                            <input id="position" name="position" type="text" class="input" placeholder="Job Title">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-user-tie"></i>
+                            </span>
+                            @error('position')
                             <span class="help has-text-danger" role="alert">
                                 {{ $message }}
                             </span>

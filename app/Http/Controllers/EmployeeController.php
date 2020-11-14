@@ -43,7 +43,7 @@ class EmployeeController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|confirmed',
             'position' => 'sometimes|required|string',
             'enabled' => 'required|integer|max:1',
         ]);
