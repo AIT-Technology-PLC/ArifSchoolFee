@@ -20,9 +20,9 @@ Edit Settings
                     <div class="field">
                         <label for="name" class="label text-green has-text-weight-normal">Name <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
-                            <input id="name" name="name" type="text" class="input" placeholder="Employee Name" value="{{ $company->name }}" autocomplete="name" autofocus>
+                            <input id="name" name="name" type="text" class="input" placeholder="Company Name" value="{{ $company->name }}">
                             <span class="icon is-small is-left">
-                                <i class="fas fa-user"></i>
+                                <i class="fas fa-building"></i>
                             </span>
                             @error('name')
                             <span class="help has-text-danger" role="alert">
@@ -34,38 +34,42 @@ Edit Settings
                 </div>
                 <div class="column is-6">
                     <div class="field">
-                        <label for="inventory" class="label text-green has-text-weight-normal"> Business Sector <sup class="has-text-danger"></sup> </label>
+                        <label for="sector" class="label text-green has-text-weight-normal"> Business Sector <sup class="has-text-danger"></sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
-                                <select id="inventory" name="inventory">
-                                    <option selected disabled>Type</option>
-                                    <option>Manufacturer</option>
-                                    <option>Wholesaler</option>
-                                    <option>Processor</option>
-                                    <option>Retailer</option>
+                                <select id="sector" name="sector">
+                                    <option selected disabled>Select Sector</option>
+                                    <option value="Manufacturer" {{ $company->sector == 'Manufacturer' ? 'selected' : '' }}>Manufacturer</option>
+                                    <option value="Wholesaler" {{ $company->sector == 'Wholesaler' ? 'selected' : '' }}>Wholesaler</option>
+                                    <option value="Processor" {{ $company->sector == 'Processor' ? 'selected' : '' }}>Processor</option>
+                                    <option value="Retailer" {{ $company->sector == 'Retailer' ? 'selected' : '' }}>Retailer</option>
                                 </select>
                             </div>
                             <div class="icon is-small is-left">
-                                <i class="fas fa-sitemap"></i>
+                                <i class="fas fa-city"></i>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="column is-6">
                     <div class="field">
-                        <label for="inventory" class="label text-green has-text-weight-normal"> Default Currency <sup class="has-text-danger">*</sup> </label>
+                        <label for="currency" class="label text-green has-text-weight-normal"> Currency <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
-                                <select id="inventory" name="inventory">
-                                    <option selected disabled>Type</option>
-                                    <option>Manufacturer</option>
-                                    <option>Wholesaler</option>
-                                    <option>Processor</option>
-                                    <option>Retailer</option>
+                                <select id="currency" name="currency">
+                                    <option selected disabled>Select Currency</option>
+                                    <option value="AED" {{ $company->currency == 'AED' ? 'selected' : '' }}>AED - UAE Dirham</option>
+                                    <option value="CHF" {{ $company->currency == 'CHF' ? 'selected' : '' }}>CHF - Swiss Frank</option>
+                                    <option value="CNY" {{ $company->currency == 'CNY' ? 'selected' : '' }}>CNY - China Yuan</option>
+                                    <option value="ETB" {{ $company->currency == 'ETB' ? 'selected' : '' }}>ETB - Ethiopian Birr</option>
+                                    <option value="EUR" {{ $company->currency == 'EUR' ? 'selected' : '' }}>EUR - Euro Union Countries</option>
+                                    <option value="GBP" {{ $company->currency == 'GBP' ? 'selected' : '' }}>GBP - GB Pound Sterling</option>
+                                    <option value="SAR" {{ $company->currency == 'SAR' ? 'selected' : '' }}>SAR - Saudi Riyal</option>
+                                    <option value="USD" {{ $company->currency == 'USD' ? 'selected' : '' }}>USD - US Dollar</option>
                                 </select>
                             </div>
                             <div class="icon is-small is-left">
-                                <i class="fas fa-sitemap"></i>
+                                <i class="fas fa-dollar-sign"></i>
                             </div>
                         </div>
                     </div>
