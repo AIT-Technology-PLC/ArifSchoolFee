@@ -34,6 +34,8 @@ class EmployeePolicy
         if ($canSeeProfile) {
             return true;
         }
+
+        return false;
     }
 
     public function update(User $user, Employee $employee)

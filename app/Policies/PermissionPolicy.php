@@ -13,17 +13,33 @@ class PermissionPolicy
 
     public function view(User $user, Permission $permission)
     {
-        return $user->employee->id == $permission->employee->id;
+        $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $permission->employee->company_id;
+
+        $isUserAdmin = Str::contains($user->employee->permission->settings, 'crud');
+
+        $isItMyPermission = $user->employee->id == $permission->employee->id;
+
+        $canSeePermission = $isItMyPermission || ($isUserAdmin && $doesAdminAndEmployeeBelongToSameCompany);
+
+        if ($canSeePermission) {
+            return true;
+        }
+
+        return false;
     }
 
     public function update(User $user, Permission $permission)
     {
-        $areTheyFromTheSameCompany = $user->employee->company_id == $permission->employee->company_id;
+        $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $permission->employee->company_id;
 
-        $isUserEqualsToEmployee = $user->employee->id == $permission->employee->id;
+        $isUserAdmin = Str::contains($user->employee->permission->settings, 'crud');
 
-        if (!$isUserEqualsToEmployee && $areTheyFromTheSameCompany) {
-            return Str::contains($user->employee->permission->settings, 'crud');
+        $isItMyPermission = $user->employee->id == $permission->employee->id;
+
+        $canEditPermission = !$isItMyPermission && ($isUserAdmin && $doesAdminAndEmployeeBelongToSameCompany);
+
+        if ($canEditPermission) {
+            return true;
         }
 
         return false;
