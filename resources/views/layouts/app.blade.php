@@ -19,7 +19,7 @@
     <main>
         <div class="columns is-marginless">
             <div id="menuLeft" class="column is-one-fifth py-5 limit-to-100vh scroller">
-                @include('menu')
+                @include('layouts.menu')
             </div>
             <div id="contentRight" class="column bg-lightgreen py-5 limit-to-100vh scroller">
                 @yield('content')
