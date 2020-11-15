@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Company;
 use App\Models\Employee;
 use App\Models\Permission;
 use App\User;
@@ -8,18 +7,19 @@ use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class NewCompanySeeder extends Seeder
+class AddNewEmployeeSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
     public function run(Faker $faker)
     {
-        for ($i = 0; $i <= 2; $i++) {
-            DB::transaction(function () use ($faker) {
-                $company = Company::create([
-                    'name' => $faker->company,
-                    'currency' => 'ETB',
-                    'enabled' => 0,
-                ]);
+        $companiesId = DB::table('companies')->get(['id'])->map(fn($company) => $company->id);
 
+        for ($i = 0; $i <= 2; $i++) {
+            DB::transaction(function () use ($faker, $companiesId) {
                 $user = User::create([
                     'name' => $faker->name,
                     'email' => $faker->unique()->safeEmail,
@@ -27,19 +27,23 @@ class NewCompanySeeder extends Seeder
                 ]);
 
                 $permission = Permission::create([
-                    'settings' => 'crud',
-                    'warehouses' => 'crud',
+                    'settings' => '',
+                    'warehouses' => 'cr',
                     'products' => 'crud',
                     'merchandises' => 'crud',
                     'manufacturings' => 'crud',
                 ]);
 
+                $companyId = $faker->randomElement($companiesId);
+
                 Employee::create([
                     'user_id' => $user->id,
-                    'company_id' => $company->id,
+                    'company_id' => $companyId,
                     'permission_id' => $permission->id,
-                    'enabled' => 1,
-                    'position' => 'Admin',
+                    'created_by' => $companyId,
+                    'updated_by' => $companyId,
+                    'position' => $faker->jobTitle,
+                    'enabled' => $faker->randomElement([0, 1]),
                 ]);
             });
         }
