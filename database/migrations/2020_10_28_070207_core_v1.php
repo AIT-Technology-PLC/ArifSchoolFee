@@ -138,10 +138,10 @@ class CoreV1 extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
             $table->string('type');
-            $table->string('selling_price'); // price per unit of measurement
-            $table->string('purchase_price');
+            $table->decimal('selling_price'); // price per unit of measurement
+            $table->decimal('purchase_price');
             $table->string('unit_of_measurement');
-            $table->string('min_on_hand');
+            $table->bigInteger('min_on_hand');
             $table->boolean('is_expirable');
             $table->json('properties');
             $table->longText('description');
