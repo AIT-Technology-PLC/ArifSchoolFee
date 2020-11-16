@@ -16,7 +16,9 @@ class ProductCategoryController extends Controller
 
     public function index()
     {
-        //
+        $getCompanyProductsCategories = $this->productCategory->getAll();
+
+        return view('categories.index', compact('getCompanyProductsCategories'));
     }
 
     public function create()
@@ -44,12 +46,13 @@ class ProductCategoryController extends Controller
 
     public function show(ProductCategory $productCategory)
     {
-        //
+        return view('categories.show', compact($productCategory));
     }
 
     public function edit(ProductCategory $productCategory)
     {
-        //
+        return view('categories.edit', compact($productCategory));
+        
     }
 
     public function update(Request $request, ProductCategory $productCategory)
