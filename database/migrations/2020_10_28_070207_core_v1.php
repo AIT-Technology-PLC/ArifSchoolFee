@@ -247,6 +247,7 @@ class CoreV1 extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->index('product_id');
             $table->index('company_id');
             $table->index('warehouse_id');
 
@@ -289,6 +290,7 @@ class CoreV1 extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->index('product_id');
             $table->index('company_id');
             $table->index('warehouse_id');
 
