@@ -40,4 +40,9 @@ class ProductCategory extends Model
     {
         return $this->where('company_id', auth()->user()->employee->company_id)->get();
     }
+
+    public function countProductCategoriesOfCompany()
+    {
+        return $this->where('company_id', auth()->user()->employee->company_id)->count();
+    }
 }

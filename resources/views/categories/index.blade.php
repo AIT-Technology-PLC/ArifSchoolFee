@@ -16,7 +16,7 @@ Product Categories
                 </div>
                 <div class="column is-paddingless">
                     <div class="is-size-3 has-text-weight-bold">
-                        {{ 9 }}
+                        {{ $totalProductCategoriesOfCompany }}
                     </div>
                     <div class="is-uppercase is-size-7">
                         Total Product Categories
@@ -60,9 +60,9 @@ Product Categories
                     <tr>
                         <th><abbr> # </abbr></th>
                         <th><abbr> Category </abbr></th>
-                        <th><abbr> Description </abbr></th>
                         <th><abbr> Products </abbr></th>
                         <th><abbr> Created On </abbr></th>
+                        <th><abbr> Description </abbr></th>
                         <th><abbr> Actions </abbr></th>
                     </tr>
                 </thead>
@@ -71,9 +71,9 @@ Product Categories
                     <tr>
                         <td> {{ $loop->index + 1  }} </td>
                         <td class="is-capitalized"> {{ $category->name }} </td>
-                        <td> {{ $category->description ?? 'N/A' }} </td>
                         <td class="is-capitalized"> 10 </td>
                         <td class="is-capitalized"> {{ $category->created_at->toDayDateTimeString() }} </td>
+                        <td> {{ substr($category->description, 0, 40) ?? 'N/A' }} </td>
                         <td>
                             <a href="{{ route('categories.edit', $category->id) }}" title="Modify Category Data" class="text-green is-size-6-5">
                                 <span class="icon">
