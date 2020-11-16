@@ -41,17 +41,7 @@
                     <i class="fas fa-th"></i>
                 </span>
                 <span>
-                    Products and Categories
-                </span>
-            </a>
-        </li>
-        <li>
-            <a href="/categories/create" class="has-text-grey has-text-weight-normal is-size-6-5">
-                <span class="icon">
-                    <i class="fas fa-plus-circle"></i>
-                </span>
-                <span>
-                    Create New Category
+                    Products Management
                 </span>
             </a>
         </li>
@@ -62,6 +52,26 @@
                 </span>
                 <span>
                     Create New Product
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('categories.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-layer-group"></i>
+                </span>
+                <span>
+                    Categories Management
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('categories.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-plus-circle"></i>
+                </span>
+                <span>
+                    Create New Category
                 </span>
             </a>
         </li>

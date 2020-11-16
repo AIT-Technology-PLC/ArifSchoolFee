@@ -16,9 +16,9 @@ class ProductCategoryController extends Controller
 
     public function index()
     {
-        $getCompanyProductsCategories = $this->productCategory->getAll();
+        $categories = $this->productCategory->getAll();
 
-        return view('categories.index', compact('getCompanyProductsCategories'));
+        return view('categories.index', compact('categories'));
     }
 
     public function create()
