@@ -20,18 +20,20 @@ Product Categories
                         <th><abbr> Category </abbr></th>
                         <th><abbr> Description </abbr></th>
                         <th><abbr> Products </abbr></th>
+                        <th><abbr> Created On </abbr></th>
                         <th><abbr> Actions </abbr></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($productCategories as $productCategory)
+                    @foreach ($categories as $category)
                     <tr>
                         <td> {{ $loop->index + 1  }} </td>
-                        <td class="is-capitalized"> {{ $productCategory->name }} </td>
-                        <td> {{ $productCategory->description }} </td>
+                        <td class="is-capitalized"> {{ $category->name }} </td>
+                        <td> {{ $category->description }} </td>
                         <td class="is-capitalized"> 10 </td>
+                        <td class="is-capitalized"> {{ $category->created_at->toDayDateTimeString() }} </td>
                         <td>
-                            <a href="{{ route('categories.edit', $productCategory->id) }}" title="Modify Category Data">
+                            <a href="{{ route('categories.edit', $category->id) }}" title="Modify Category Data">
                                 <span class="icon is-size-4 text-green">
                                     <i class="fas fa-pen-square"></i>
                                 </span>

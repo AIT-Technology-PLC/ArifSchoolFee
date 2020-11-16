@@ -7,18 +7,18 @@ use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
 {
-    private $productCategory;
+    private $category;
 
-    public function __construct(ProductCategory $productCategory)
+    public function __construct(ProductCategory $category)
     {
-        $this->productCategory = $productCategory;
+        $this->category = $category;
     }
 
     public function index()
     {
-        $productCategories = $this->productCategory->getAll();
+        $categories = $this->category->getAll();
 
-        return view('categories.index', compact('productCategories'));
+        return view('categories.index', compact('categories'));
     }
 
     public function create()
@@ -39,22 +39,22 @@ class ProductCategoryController extends Controller
 
         $data['company_id'] = auth()->user()->employee->company_id;
 
-        $this->productCategory->create($data);
+        $this->category->create($data);
 
         return redirect()->route('categories.index');
     }
 
-    public function show(ProductCategory $productCategory)
+    public function show(ProductCategory $category)
     {
-        return view('categories.show', compact('productCategory'));
+        return view('categories.show', compact('category'));
     }
 
-    public function edit(ProductCategory $productCategory)
+    public function edit(ProductCategory $category)
     {
-        return view('categories.edit', compact('productCategory'));
+        return view('categories.edit', compact('category'));
     }
 
-    public function update(Request $request, ProductCategory $productCategory)
+    public function update(Request $request, ProductCategory $category)
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
@@ -63,12 +63,12 @@ class ProductCategoryController extends Controller
 
         $data['updated_by'] = auth()->user()->id;
 
-        $productCategory->update($data);
+        $category->update($data);
 
         return redirect()->route('categories.index');
     }
 
-    public function destroy(ProductCategory $productCategory)
+    public function destroy(ProductCategory $category)
     {
         //
     }
