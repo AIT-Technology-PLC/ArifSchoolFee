@@ -267,14 +267,21 @@ class CoreV1 extends Migration
         Schema::create('bill_of_materials', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->json('materials');
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('product_id');
+            $table->index('company_id');
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
 
         // MRO Items
