@@ -24,14 +24,14 @@ Product Categories
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($categories as $category)
+                    @foreach ($productCategories as $productCategory)
                     <tr>
                         <td> {{ $loop->index + 1  }} </td>
-                        <td class="is-capitalized"> {{ $category->name }} </td>
-                        <td> {{ $category->description }} </td>
+                        <td class="is-capitalized"> {{ $productCategory->name }} </td>
+                        <td> {{ $productCategory->description }} </td>
                         <td class="is-capitalized"> 10 </td>
                         <td>
-                            <a href="{{ route('categories.edit', $category->id) }}" title="Modify Category Data">
+                            <a href="{{ route('categories.edit', $productCategory->id) }}" title="Modify Category Data">
                                 <span class="icon is-size-4 text-green">
                                     <i class="fas fa-pen-square"></i>
                                 </span>

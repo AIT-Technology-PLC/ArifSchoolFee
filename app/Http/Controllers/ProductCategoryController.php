@@ -16,9 +16,9 @@ class ProductCategoryController extends Controller
 
     public function index()
     {
-        $categories = $this->productCategory->getAll();
+        $productCategories = $this->productCategory->getAll();
 
-        return view('categories.index', compact('categories'));
+        return view('categories.index', compact('productCategories'));
     }
 
     public function create()
@@ -46,18 +46,26 @@ class ProductCategoryController extends Controller
 
     public function show(ProductCategory $productCategory)
     {
-        return view('categories.show', compact($productCategory));
+        return view('categories.show', compact('productCategory'));
     }
 
     public function edit(ProductCategory $productCategory)
     {
-        return view('categories.edit', compact($productCategory));
-        
+        return view('categories.edit', compact('productCategory'));
     }
 
     public function update(Request $request, ProductCategory $productCategory)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $data['updated_by'] = auth()->user()->id;
+
+        $productCategory->update($data);
+
+        return redirect()->route('categories.index');
     }
 
     public function destroy(ProductCategory $productCategory)
