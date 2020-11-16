@@ -226,17 +226,17 @@ class CoreV1 extends Migration
         // Raw Material
         Schema::create('raw_materials', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('total_received');
-            $table->string('on_hand');
-            $table->string('min_on_hand');
-            $table->string('unit_of_measurement');
-            $table->string('purchase_price');
-            $table->json('properties');
+            $table->bigInteger('total_received');
+            $table->bigInteger('total_in_process');
+            $table->bigInteger('total_on_hand');
+            $table->bigInteger('total_broken');
             $table->dateTime('expires_on')->nullable();
+            $table->dateTime('received_on')->nullable();
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
@@ -244,6 +244,7 @@ class CoreV1 extends Migration
             $table->index('company_id');
             $table->index('warehouse_id');
 
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
