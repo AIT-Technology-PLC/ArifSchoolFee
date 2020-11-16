@@ -1,12 +1,10 @@
 <?php
 
-Route::get('/categories/create', function () {
-    return view('categories.create');
-});
-
 Route::get('/products/create', function () {
     return view('products.create');
 });
+
+Route::resource('categories', 'ProductCategoryController');
 
 Route::resource('employees', 'EmployeeController');
 
