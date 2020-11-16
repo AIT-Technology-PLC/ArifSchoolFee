@@ -133,6 +133,7 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
+            $table->string('type');
             $table->string('selling_price'); // price per unit of measurement
             $table->string('purchase_price');
             $table->string('unit_of_measurement');
