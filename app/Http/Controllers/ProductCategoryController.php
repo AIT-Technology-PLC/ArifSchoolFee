@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
 {
+    private $productCategory;
+
+    public function __construct(ProductCategory $productCategory)
+    {
+        $this->productCategory = $productCategory;
+    }
+
     public function index()
     {
         //
@@ -14,12 +21,25 @@ class ProductCategoryController extends Controller
 
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $data['created_at'] = auth()->user()->id;
+
+        $data['updated_at'] = auth()->user()->id;
+
+        $data['company_id'] = auth()->user()->employee->company_id;
+
+        $this->productCategory->create($data);
+
+        return redirect()->route('companies.index');
     }
 
     public function show(ProductCategory $productCategory)
