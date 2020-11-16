@@ -14,7 +14,7 @@ Create New Product Category
     <form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            <div class="columns is-marginless">
+            <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <div class="field">
                         <label for="name" class="label text-green has-text-weight-normal">Name <sup class="has-text-danger">*</sup> </label>
@@ -45,7 +45,7 @@ Create New Product Category
                         </div>
                     </div>
                     <div class="field mt-5">
-                        <button class="button has-text-white bg-purple is-small">
+                        <button id="addNewForm" class="button has-text-white bg-purple is-small" type="button">
                             <span class="icon">
                                 <i class="fas fa-plus-circle"></i>
                             </span>
@@ -56,6 +56,7 @@ Create New Product Category
                     </div>
                 </div>
             </div>
+            <div id="newForm" class="columns is-marginless is-multiline is-hidden"></div>
         </div>
         <div class="box radius-top-0">
             <div class="columns is-marginless">
