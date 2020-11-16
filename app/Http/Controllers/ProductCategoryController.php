@@ -31,15 +31,15 @@ class ProductCategoryController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $data['created_at'] = auth()->user()->id;
+        $data['created_by'] = auth()->user()->id;
 
-        $data['updated_at'] = auth()->user()->id;
+        $data['updated_by'] = auth()->user()->id;
 
         $data['company_id'] = auth()->user()->employee->company_id;
 
         $this->productCategory->create($data);
 
-        return redirect()->route('companies.index');
+        return redirect()->route('categories.index');
     }
 
     public function show(ProductCategory $productCategory)
