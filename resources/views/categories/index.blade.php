@@ -8,7 +8,7 @@ Product Categories
 <section class="mt-3 mx-3 m-lr-0">
     <div class="box radius-bottom-0 mb-0 has-background-white-bis">
         <h1 class="title text-green has-text-weight-medium is-size-5">
-            Product Categories' List
+            Product Categories List
         </h1>
     </div>
     <div class="box radius-top-0">
@@ -29,13 +29,16 @@ Product Categories
                     <tr>
                         <td> {{ $loop->index + 1  }} </td>
                         <td class="is-capitalized"> {{ $category->name }} </td>
-                        <td> {{ $category->description }} </td>
+                        <td> {{ $category->description ?? 'N/A' }} </td>
                         <td class="is-capitalized"> 10 </td>
                         <td class="is-capitalized"> {{ $category->created_at->toDayDateTimeString() }} </td>
                         <td>
-                            <a href="{{ route('categories.edit', $category->id) }}" title="Modify Category Data">
-                                <span class="icon is-size-4 text-green">
+                            <a href="{{ route('categories.edit', $category->id) }}" title="Modify Category Data" class="text-green is-size-6-5">
+                                <span class="icon">
                                     <i class="fas fa-pen-square"></i>
+                                </span>
+                                <span>
+                                    Edit
                                 </span>
                             </a>
                         </td>
