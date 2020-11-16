@@ -170,14 +170,15 @@ class CoreV1 extends Migration
         Schema::create('merchandises', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('total_received');
-            $table->string('total_on_hand');
-            $table->string('total_sold');
-            $table->string('total_broken');
-            $table->string('total_returns');
+            $table->bigInteger('total_received');
+            $table->bigInteger('total_on_hand');
+            $table->bigInteger('total_sold');
+            $table->bigInteger('total_broken');
+            $table->bigInteger('total_returns');
             $table->dateTime('expires_on')->nullable();
             $table->dateTime('received_on')->nullable();
             $table->longText('description');
@@ -185,9 +186,11 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('product_id');
+            $table->index('company_id');
             $table->index('warehouse_id');
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
@@ -197,15 +200,16 @@ class CoreV1 extends Migration
         Schema::create('manufacturings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('total_products');
-            $table->string('total_in_process');
-            $table->string('total_on_hand');
-            $table->string('total_sold');
-            $table->string('total_broken');
-            $table->string('total_returns');
+            $table->bigInteger('total_products');
+            $table->bigInteger('total_in_process');
+            $table->bigInteger('total_on_hand');
+            $table->bigInteger('total_sold');
+            $table->bigInteger('total_broken');
+            $table->bigInteger('total_returns');
             $table->string('production_status');
             $table->dateTime('started_on')->nullable();
             $table->dateTime('finishes_on')->nullable();
@@ -215,9 +219,11 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('product_id');
+            $table->index('company_id');
             $table->index('warehouse_id');
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
