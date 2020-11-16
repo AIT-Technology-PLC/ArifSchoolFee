@@ -19,19 +19,29 @@ Create New Product Category
                     <div class="field">
                         <label for="name" class="label text-green has-text-weight-normal">Name <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
-                            <input id="name" name="name" type="text" class="input" placeholder="Category Name">
+                            <input id="name" name="name" type="text" class="input" placeholder="Category Name" value="{{ old('name') }}">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-layer-group"></i>
                             </span>
+                            @error('name')
+                            <span class="help has-text-danger" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="field mt-5">
-                        <label for="name" class="label text-green has-text-weight-normal">Description</label>
+                        <label for="description" class="label text-green has-text-weight-normal">Description</label>
                         <div class="control has-icons-left">
-                            <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note about the new category"></textarea>
+                            <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note about the new category"> {{ old('description') }} </textarea>
                             <span class="icon is-large is-left">
                                 <i class="fas fa-edit"></i>
                             </span>
+                            @error('description')
+                            <span class="help has-text-danger" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="field mt-5">

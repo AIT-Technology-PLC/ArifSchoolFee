@@ -117,8 +117,8 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
-            $table->json('properties');
-            $table->longText('description');
+            $table->json('properties')->nullable();
+            $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
