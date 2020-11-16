@@ -94,6 +94,7 @@ class CoreV1 extends Migration
         // Warehouses
         Schema::create('warehouses', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
@@ -102,6 +103,9 @@ class CoreV1 extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->index('company_id');
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
