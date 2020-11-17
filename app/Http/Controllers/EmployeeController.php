@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
-use App\Models\Permission;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -46,6 +45,7 @@ class EmployeeController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'position' => 'required|string',
             'enabled' => 'required|integer|max:1',
+            'permission' => 'required|integer',
         ]);
 
         DB::transaction(function () use ($data) {
@@ -55,18 +55,10 @@ class EmployeeController extends Controller
                 'password' => Hash::make($data['password']),
             ]);
 
-            $permission = Permission::create([
-                'settings' => '',
-                'warehouses' => 'cr',
-                'products' => 'crud',
-                'merchandises' => 'crud',
-                'manufacturings' => 'crud',
-            ]);
-
             $this->employee->create([
                 'user_id' => $user->id,
                 'company_id' => auth()->user()->employee->company_id,
-                'permission_id' => $permission->id,
+                'permission_id' => $data['permission'],
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
                 'position' => $data['position'],
