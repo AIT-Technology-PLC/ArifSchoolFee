@@ -13,19 +13,23 @@ class EmployeePolicy
 
     public function viewAny(User $user)
     {
-        return $user->employee->permission_id == 1;
+        $isUserAdmin = $user->employee->permission_id == 1 || $user->employee->permission_id == 2;
+        
+        return $isUserAdmin;
     }
 
     public function create(User $user)
     {
-        return $user->employee->permission_id == 1;
+        $isUserAdmin = $user->employee->permission_id == 1 || $user->employee->permission_id == 2;
+        
+        return $isUserAdmin;
     }
 
     public function view(User $user, Employee $employee)
     {
         $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $employee->company_id;
 
-        $isUserAdmin = $user->employee->permission_id == 1;
+        $isUserAdmin = $user->employee->permission_id == 1 || $user->employee->permission_id == 2;
 
         $isItMyProfie = $user->employee->id == $employee->id;
 
@@ -42,7 +46,7 @@ class EmployeePolicy
     {
         $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $employee->company_id;
 
-        $isUserAdmin = $user->employee->permission_id == 1;
+        $isUserAdmin = $user->employee->permission_id == 1 || $user->employee->permission_id == 2;
 
         $canEditEmployeeData = $isUserAdmin && $doesAdminAndEmployeeBelongToSameCompany;
 
@@ -57,9 +61,9 @@ class EmployeePolicy
     {
         $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $employee->company_id;
 
-        $isUserAdmin = $user->employee->permission_id == 1;
-
-        $canEditEmployeeData = $isUserAdmin && $doesAdminAndEmployeeBelongToSameCompany;
+        $isUserSuperAdmin = $user->employee->permission_id == 1;
+        
+        $canEditEmployeeData = $isUserSuperAdmin && $doesAdminAndEmployeeBelongToSameCompany;
 
         if ($canEditEmployeeData) {
             return true;

@@ -5,7 +5,6 @@ namespace App\Policies;
 use App\Models\Company;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Str;
 
 class CompanyPolicy
 {
@@ -15,9 +14,9 @@ class CompanyPolicy
     {
         $doesAdminBelongsToCompany = $user->employee->company_id == $company->id;
 
-        $isUserAdmin = $user->employee->permission_id == 1;
+        $isUserSuperAdmin = $user->employee->permission_id == 1;
 
-        $canEditCompanyData = $isUserAdmin && $doesAdminBelongsToCompany;
+        $canEditCompanyData = $isUserSuperAdmin && $doesAdminBelongsToCompany;
 
         if ($canEditCompanyData) {
             return true;

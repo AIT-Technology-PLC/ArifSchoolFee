@@ -92,17 +92,17 @@
                             <label for="permission" class="label text-green has-text-weight-normal"> Choose Role <sup class="has-text-danger">*</sup> </label>
                             <div class="control">
                                 <label class="radio has-text-grey has-text-weight-normal">
-                                    <input type="radio" name="permission" value="1" class="mt-3" {{ $employee->permission->id == 1 ? 'checked' : '' }}>
+                                    <input type="radio" name="permission" value="2" class="mt-3" {{ $employee->permission->id == 2 ? 'checked' : '' }}>
                                     Admin
                                 </label>
                                 <br>
                                 <label class="radio has-text-grey has-text-weight-normal mt-2">
-                                    <input type="radio" name="permission" value="2" {{ $employee->permission->id == 2 ? 'checked' : '' }}>
+                                    <input type="radio" name="permission" value="3" {{ $employee->permission->id == 3 ? 'checked' : '' }}>
                                     Analyst
                                 </label>
                                 <br>
                                 <label class="radio has-text-grey has-text-weight-normal mt-2">
-                                    <input type="radio" name="permission" value="3" {{ $employee->permission->id == 3 ? 'checked' : '' }}>
+                                    <input type="radio" name="permission" value="4" {{ $employee->permission->id == 4 ? 'checked' : '' }}>
                                     Operative
                                 </label>
                                 @error('permission')
