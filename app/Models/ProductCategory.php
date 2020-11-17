@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use App\User;
 use App\Models\Company;
+use App\User;
+use Illuminate\Database\Eloquent\Model;
 
 class ProductCategory extends Model
 {
@@ -35,6 +35,21 @@ class ProductCategory extends Model
     // {
     //     return $this->hasMany(Product::class);
     // }
+
+    public function setPropertiesAttribute($array)
+    {
+        $properties = [];
+
+        foreach ($array as $item) {
+            if (is_null($item['key']) || is_null($item['value'])) {
+                continue;
+            }
+
+            $properties[$item['key']] = $item['value'];
+        }
+
+        $this->attributes['properties'] = json_encode($properties);
+    }
 
     public function getAll()
     {
