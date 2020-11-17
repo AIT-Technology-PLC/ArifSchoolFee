@@ -126,14 +126,12 @@ Employee Management
                         </td>
                         <td> {{ $employee->user->created_at->toFormattedDateString() }} </td>
                         <td>
-                            <a href="{{ route('employees.edit', $employee->id) }}" title="Modify Employee Data">
-                                <span class="icon is-size-5 is-medium text-green">
+                            <a href="{{ route('employees.edit', $employee->id) }}" title="Modify Employee Data" class="text-green is-size-6-5">
+                                <span class="icon">
                                     <i class="fas fa-pen-square"></i>
                                 </span>
-                            </a>
-                            <a href="{{ route('permissions.edit', $employee->permission->id) }}" title="Modify Permissions">
-                                <span class="icon is-size-5 is-medium text-gold">
-                                    <i class="fas fa-lock-open"></i>
+                                <span>
+                                    Edit
                                 </span>
                             </a>
                         </td>

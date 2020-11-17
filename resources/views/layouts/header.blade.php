@@ -61,15 +61,7 @@
                                 <i class="fas fa-address-card"></i>
                             </span>
                             <span>
-                                Profile
-                            </span>
-                        </a>
-                        <a href="{{ route('permissions.show', auth()->user()->employee->permission_id) }}" class="navbar-item text-green">
-                            <span class="icon is-medium">
-                                <i class="fas fa-lock-open"></i>
-                            </span>
-                            <span>
-                                Permissions
+                                My Profile
                             </span>
                         </a>
                         <hr class="navbar-divider">

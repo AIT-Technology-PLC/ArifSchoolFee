@@ -159,7 +159,7 @@
         </li>
     </ul>
 
-    @can('settingsMenu', auth()->user()->employee->permission)
+    {{-- @can('settingsMenu', auth()->user()->employee->permission) --}}
     <p class="menu-label has-text-weight-bold text-green">
         Settings
     </p>
@@ -195,5 +195,5 @@
             </a>
         </li>
     </ul>
-    @endcan
+    {{-- @endcan --}}
 </aside>
