@@ -45,7 +45,7 @@ class ProductCategory extends Model
                 continue;
             }
 
-            $properties[$item['key']] = $item['value'];
+            $properties[] = $item;
         }
 
         $this->attributes['properties'] = json_encode($properties);
