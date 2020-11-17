@@ -45,17 +45,27 @@ Edit Product Category
                             @enderror
                         </div>
                     </div>
-                    <div class="field mt-5">
-                        <button class="button has-text-white bg-purple is-small">
-                            <span class="icon">
-                                <i class="fas fa-plus-circle"></i>
-                            </span>
-                            <span>
-                                Add More Form
-                            </span>
-                        </button>
+                </div>
+            </div>
+            <div class="columns is-marginless is-multiline">
+                @foreach ($category->properties as $property)
+                <div class="column is-6">
+                    <div class="field">
+                            <label for="properties[{{ $loop->index }}][{{ $property['key'] }}]" class="label text-green has-text-weight-normal">Property</label>
+                            <div class="control">
+                                <input id="properties[{{ $loop->index }}][{{ $property['key'] }}]" name="properties[{{ $loop->index }}][{{ $property['key'] }}]" type="text" class="input" value="{{ $property['key'] }}">
+                            </div>
+                        </div>
+                    </div>
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="properties[{{ $loop->index }}][{{ $property['value'] }}]" class="label text-green has-text-weight-normal">Data</label>
+                        <div class="control">
+                            <input id="properties[{{ $loop->index }}][{{ $property['value'] }}]" name="properties[{{ $loop->index }}][{{ $property['value'] }}]" type="text" class="input" value="{{ $property['value'] }}">
+                        </div>
                     </div>
                 </div>
+                @endforeach
             </div>
         </div>
         <div class="box radius-top-0">
