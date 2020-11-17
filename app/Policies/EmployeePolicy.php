@@ -13,19 +13,19 @@ class EmployeePolicy
 
     public function viewAny(User $user)
     {
-        return Str::contains($user->employee->permission->settings, 'crud');
+        return $user->employee->permission_id == 1;
     }
 
     public function create(User $user)
     {
-        return Str::contains($user->employee->permission->settings, 'crud');
+        return $user->employee->permission_id == 1;
     }
 
     public function view(User $user, Employee $employee)
     {
         $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $employee->company_id;
 
-        $isUserAdmin = Str::contains($user->employee->permission->settings, 'crud');
+        $isUserAdmin = $user->employee->permission_id == 1;
 
         $isItMyProfie = $user->employee->id == $employee->id;
 
@@ -42,7 +42,7 @@ class EmployeePolicy
     {
         $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $employee->company_id;
 
-        $isUserAdmin = Str::contains($user->employee->permission->settings, 'crud');
+        $isUserAdmin = $user->employee->permission_id == 1;
 
         $canEditEmployeeData = $isUserAdmin && $doesAdminAndEmployeeBelongToSameCompany;
 
@@ -57,7 +57,7 @@ class EmployeePolicy
     {
         $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $employee->company_id;
 
-        $isUserAdmin = Str::contains($user->employee->permission->settings, 'crud');
+        $isUserAdmin = $user->employee->permission_id == 1;
 
         $canEditEmployeeData = $isUserAdmin && $doesAdminAndEmployeeBelongToSameCompany;
 

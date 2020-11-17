@@ -15,7 +15,7 @@ class PermissionPolicy
     {
         $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $permission->employee->company_id;
 
-        $isUserAdmin = Str::contains($user->employee->permission->settings, 'crud');
+        $isUserAdmin = $user->employee->permission_id == 1;
 
         $isItMyPermission = $user->employee->id == $permission->employee->id;
 
@@ -32,7 +32,7 @@ class PermissionPolicy
     {
         $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $permission->employee->company_id;
 
-        $isUserAdmin = Str::contains($user->employee->permission->settings, 'crud');
+        $isUserAdmin = $user->employee->permission_id == 1;
 
         $isItMyPermission = $user->employee->id == $permission->employee->id;
 
@@ -47,6 +47,6 @@ class PermissionPolicy
 
     public function settingsMenu(User $user)
     {
-        return Str::contains($user->employee->permission->settings, 'crud');
+        return $user->employee->permission_id == 1;
     }
 }

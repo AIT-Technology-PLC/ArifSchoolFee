@@ -15,7 +15,7 @@ class CompanyPolicy
     {
         $doesAdminBelongsToCompany = $user->employee->company_id == $company->id;
 
-        $isUserAdmin = Str::contains($user->employee->permission->settings, 'crud');
+        $isUserAdmin = $user->employee->permission_id == 1;
 
         $canEditCompanyData = $isUserAdmin && $doesAdminBelongsToCompany;
 
