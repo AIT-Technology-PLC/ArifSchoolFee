@@ -53,7 +53,7 @@ Edit Product Category
                     <div class="field">
                             <label for="properties[{{ $loop->index }}][{{ $property['key'] }}]" class="label text-green has-text-weight-normal">Property</label>
                             <div class="control">
-                                <input id="properties[{{ $loop->index }}][{{ $property['key'] }}]" name="properties[{{ $loop->index }}][{{ $property['key'] }}]" type="text" class="input" value="{{ $property['key'] }}">
+                                <input id="properties[{{ $loop->index }}][{{ $property['key'] }}]" name="properties[{{ $loop->index }}][key]" type="text" class="input" value="{{ $property['key'] }}">
                             </div>
                         </div>
                     </div>
@@ -61,7 +61,7 @@ Edit Product Category
                     <div class="field">
                         <label for="properties[{{ $loop->index }}][{{ $property['value'] }}]" class="label text-green has-text-weight-normal">Data</label>
                         <div class="control">
-                            <input id="properties[{{ $loop->index }}][{{ $property['value'] }}]" name="properties[{{ $loop->index }}][{{ $property['value'] }}]" type="text" class="input" value="{{ $property['value'] }}">
+                            <input id="properties[{{ $loop->index }}][{{ $property['value'] }}]" name="properties[{{ $loop->index }}][value]" type="text" class="input" value="{{ $property['value'] }}">
                         </div>
                     </div>
                 </div>

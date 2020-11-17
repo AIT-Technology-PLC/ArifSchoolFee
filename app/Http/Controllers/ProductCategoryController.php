@@ -62,6 +62,7 @@ class ProductCategoryController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'properties' => 'nullable|array'
         ]);
 
         $data['updated_by'] = auth()->user()->id;
