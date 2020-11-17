@@ -87,32 +87,36 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="permission" class="label text-green has-text-weight-normal"> Choose Role <sup class="has-text-danger">*</sup> </label>
-                            <div class="control">
-                                <label class="radio has-text-grey has-text-weight-normal">
-                                    <input type="radio" name="permission" value="2" class="mt-3" {{ $employee->permission->id == 2 ? 'checked' : '' }}>
-                                    Admin
-                                </label>
-                                <br>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
-                                    <input type="radio" name="permission" value="3" {{ $employee->permission->id == 3 ? 'checked' : '' }}>
-                                    Analyst
-                                </label>
-                                <br>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
-                                    <input type="radio" name="permission" value="4" {{ $employee->permission->id == 4 ? 'checked' : '' }}>
-                                    Operative
-                                </label>
-                                @error('permission')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
+                    @can('delete', $employee)
+                        @if ($employee->permission_id != 1)
+                            <div class="column is-6">
+                                <div class="field">
+                                    <label for="permission" class="label text-green has-text-weight-normal"> Choose Role <sup class="has-text-danger">*</sup> </label>
+                                    <div class="control">
+                                        <label class="radio has-text-grey has-text-weight-normal">
+                                            <input type="radio" name="permission" value="2" class="mt-3" {{ $employee->permission->id == 2 ? 'checked' : '' }}>
+                                            Admin
+                                        </label>
+                                        <br>
+                                        <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                            <input type="radio" name="permission" value="3" {{ $employee->permission->id == 3 ? 'checked' : '' }}>
+                                            Analyst
+                                        </label>
+                                        <br>
+                                        <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                            <input type="radio" name="permission" value="4" {{ $employee->permission->id == 4 ? 'checked' : '' }}>
+                                            Operative
+                                        </label>
+                                        @error('permission')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        @endif
+                    @endcan
                 </div>
             </div>
             <div class="box radius-top-0">

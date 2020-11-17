@@ -8,7 +8,7 @@
                 {{ auth()->user()->name }}
             </div>
             <div class="has-text-grey has-text-weight-bold is-size-6-5 is-capitalized">
-                {{ auth()->user()->employee->position ?? 'Job: Not Assigned'}}
+                {{ auth()->user()->employee->position ?? 'Job: Not Assigned' }}
             </div>
         </li>
     </ul>
@@ -159,41 +159,43 @@
         </li>
     </ul>
 
-    {{-- @can('settingsMenu', auth()->user()->employee->permission) --}}
-    <p class="menu-label has-text-weight-bold text-green">
-        Settings
-    </p>
-    <ul class="menu-list mb-5">
-        <li>
-            <a href="{{ route("employees.create") }}" class="has-text-grey has-text-weight-normal is-size-6-5">
-                <span class="icon">
-                    <i class="fas fa-user-plus"></i>
-                </span>
-                <span>
-                    Add New Employee
-                </span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ route("employees.index") }}" class="has-text-grey has-text-weight-normal is-size-6-5">
-                <span class="icon">
-                    <i class="fas fa-users"></i>
-                </span>
-                <span>
-                    Employee Management
-                </span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ route('companies.edit', auth()->user()->employee->company_id) }}" class="has-text-grey has-text-weight-normal is-size-6-5">
-                <span class="icon">
-                    <i class="fas fa-cog"></i>
-                </span>
-                <span>
-                    General Settings
-                </span>
-            </a>
-        </li>
-    </ul>
-    {{-- @endcan --}}
+    @can('viewAny', auth()->user()->employee)
+        <p class="menu-label has-text-weight-bold text-green">
+            Settings
+        </p>
+        <ul class="menu-list mb-5">
+            <li>
+                <a href="{{ route('employees.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5">
+                    <span class="icon">
+                        <i class="fas fa-user-plus"></i>
+                    </span>
+                    <span>
+                        Add New Employee
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('employees.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5">
+                    <span class="icon">
+                        <i class="fas fa-users"></i>
+                    </span>
+                    <span>
+                        Employee Management
+                    </span>
+                </a>
+            </li>
+            @can('delete', auth()->user()->employee)
+                <li>
+                    <a href="{{ route('companies.edit', auth()->user()->employee->company_id) }}" class="has-text-grey has-text-weight-normal is-size-6-5">
+                        <span class="icon">
+                            <i class="fas fa-cog"></i>
+                        </span>
+                        <span>
+                            General Settings
+                        </span>
+                    </a>
+                </li>
+            @endcan
+        </ul>
+    @endcan
 </aside>
