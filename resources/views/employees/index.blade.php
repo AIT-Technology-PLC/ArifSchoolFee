@@ -78,7 +78,8 @@ Employee Management
                         <th><abbr> # </abbr></th>
                         <th><abbr> Name </abbr></th>
                         <th><abbr> Email </abbr></th>
-                        <th><abbr> Position </abbr></th>
+                        <th><abbr> Job Title </abbr></th>
+                        <th><abbr> Role </abbr></th>
                         <th><abbr> Enabled </abbr></th>
                         <th><abbr> Last Login </abbr></th>
                         <th><abbr> Added On </abbr></th>
@@ -100,6 +101,7 @@ Employee Management
                             </span>
                             @endif
                         </td>
+                        <td class="is-capitalized">{{ $employee->permission->role }}</td>
                         <td>
                             @if ($employee->enabled)
                             <span class="tag bg-blue has-text-white">
