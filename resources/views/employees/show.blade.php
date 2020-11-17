@@ -64,6 +64,19 @@ Employee Profile - {{ $employee->user->name }}
                     <div class="mt-5">
                         <h1 class="title is-size-7 has-text-grey-light is-uppercase">
                             <span class="icon">
+                                <i class="fas fa-user-cog"></i>
+                            </span>
+                            <span>
+                                Role
+                            </span>
+                        </h1>
+                        <h2 class="subtitle text-green has-text-weight-medium">
+                            {{ $employee->permission->role }}
+                        </h2>
+                    </div>
+                    <div class="mt-5">
+                        <h1 class="title is-size-7 has-text-grey-light is-uppercase">
+                            <span class="icon">
                                 <i class="fas fa-lock"></i>
                             </span>
                             <span>
