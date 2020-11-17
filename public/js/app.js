@@ -11,33 +11,34 @@ menuScroller.mouseout(function () {
     $(this).css("overflow", "hidden");
 });
 
-const addNewFormPairs = (function () {
+function keyValueInputFields() {
     let index = 0;
+    $("#newForm").removeClass("is-hidden");
     return function () {
-        index++;
-        $("#newForm").removeClass("is-hidden");
-
         $("#newForm").append(`
         <div class="column is-6">
             <div class="field">
-                    <label for="property${index}" class="label text-green has-text-weight-normal">Property</label>
+                    <label for="key${index}" class="label text-green has-text-weight-normal">Property</label>
                     <div class="control has-icons-left">
-                        <input id="property${index}" name="property${index}" type="text" class="input" placeholder="Color">
+                        <input id="key${index}" name="properties[${index}][key]" type="text" class="input" placeholder="Color">
                     </div>
                 </div>
             </div>
         <div class="column is-6">
             <div class="field">
-                <label for="data${index}" class="label text-green has-text-weight-normal">Data</label>
+                <label for="value${index}" class="label text-green has-text-weight-normal">Data</label>
                 <div class="control has-icons-left">
-                    <input id="data${index}" name="properties" type="text" class="input" placeholder="Green">
+                    <input id="value${index}" name="properties[${index}][value]" type="text" class="input" placeholder="Green">
                 </div>
             </div>
-        </div>
-    `);
+        </div>`);
+
+        index++;
     };
-})();
+}
+
+const createFields = keyValueInputFields();
 
 $("#addNewForm").click(function () {
-    addNewFormPairs();
+    createFields();
 });
