@@ -73,9 +73,13 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized"> {{ $category->name }} </td>
                                 <td class="is-capitalized">
-                                    @foreach ($category->properties as $property)
-                                        <b>{{ $property['key'] }}</b>: {{ $property['value'] }}<br />
-                                    @endforeach
+                                    @if (is_null($category->properties))
+                                        {{ 'N/A' }}
+                                    @else
+                                        @foreach ($category->properties as $property)
+                                            <b>{{ $property['key'] }}</b>: {{ $property['value'] }}<br />
+                                        @endforeach
+                                    @endif
                                 </td>
                                 <td class="is-capitalized"> 10 </td>
                                 <td class="is-capitalized"> {{ $category->created_at->toDayDateTimeString() }} </td>
