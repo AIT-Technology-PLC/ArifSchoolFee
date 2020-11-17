@@ -86,6 +86,7 @@ class EmployeeController extends Controller
             'email' => 'required|string|email|max:255',
             'position' => 'nullable|string',
             'enabled' => 'required|integer|max:1',
+            'permission' => 'required|integer',
         ]);
 
         DB::transaction(function () use ($data, $employee) {
@@ -98,6 +99,7 @@ class EmployeeController extends Controller
                 'updated_by' => auth()->user()->id,
                 'position' => $data['position'],
                 'enabled' => $data['enabled'],
+                'permission_id' => $data['permission'],
             ]);
         });
 
