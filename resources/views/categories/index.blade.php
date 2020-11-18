@@ -81,7 +81,7 @@
                                         @endforeach
                                     @endif
                                 </td>
-                                <td class="is-capitalized"> 10 </td>
+                                <td class="is-capitalized"> {{ $category->products->count() }} </td>
                                 <td class="is-capitalized"> {{ $category->created_at->toDayDateTimeString() }} </td>
                                 <td> {{ substr($category->description, 0, 40) ?? 'N/A' }} </td>
                                 <td>
