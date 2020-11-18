@@ -1,8 +1,6 @@
 <?php
 
-Route::get('/products/create', function () {
-    return view('products.create');
-});
+Route::resource('products', 'ProductController');
 
 Route::resource('categories', 'ProductCategoryController');
 
