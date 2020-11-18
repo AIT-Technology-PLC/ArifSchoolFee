@@ -51,7 +51,7 @@ class Product extends Model
 
     public function getAll()
     {
-        return $this->where('company_id', auth()->user()->employee->company_id)->get();
+        return $this->with('productCategory')->where('company_id', auth()->user()->employee->company_id)->get();
     }
 
     public function countProductsOfCompany()

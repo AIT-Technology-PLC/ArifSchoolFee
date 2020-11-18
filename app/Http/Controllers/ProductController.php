@@ -17,7 +17,11 @@ class ProductController extends Controller
 
     public function index()
     {
-        //
+        $products = $this->product->getAll();
+
+        $totalProductsOfCompany = $this->product->countProductsOfCompany();
+
+        return view('products.index', compact('products', 'totalProductsOfCompany'));
     }
 
     public function create(ProductCategory $productCategory)
