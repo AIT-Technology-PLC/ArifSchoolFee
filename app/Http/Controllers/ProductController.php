@@ -29,7 +29,26 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+            'unit_of_measurement' => 'required|string|max:255',
+            'selling_price' => 'nullable|numeric',
+            'purchase_price' => 'nullable|numeric',
+            'min_on_hand' => 'required|integer',
+            'description' => 'nullable|string',
+            'is_expirable' => 'required|integer',
+            'properties' => 'nullable|array',
+            'product_category_id' => 'nullable|integer',
+        ]);
+
+        $data['created_by'] = auth()->user()->id;
+        $data['updated_by'] = auth()->user()->id;
+        $data['company_id'] = auth()->user()->employee->company_id;
+
+        $this->product->create($data);
+
+        return redirect()->route('products.index');
     }
 
     public function show(Product $product)
@@ -44,7 +63,26 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+            'unit_of_measurement' => 'required|string|max:255',
+            'selling_price' => 'nullable|numeric',
+            'purchase_price' => 'nullable|numeric',
+            'min_on_hand' => 'required|integer',
+            'description' => 'nullable|string',
+            'is_expirable' => 'required|integer',
+            'properties' => 'nullable|array',
+            'product_category_id' => 'nullable|integer',
+        ]);
+
+        $data['created_by'] = auth()->user()->id;
+        $data['updated_by'] = auth()->user()->id;
+        $data['company_id'] = auth()->user()->employee->company_id;
+
+        $product->create($data);
+
+        return redirect()->route('products.index');
     }
 
     public function destroy(Product $product)
