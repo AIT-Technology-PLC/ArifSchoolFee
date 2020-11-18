@@ -25,13 +25,14 @@ class PermissionTableSeeder extends Seeder
         ]);
 
         $permission->create([
+            'role' => 'Operatives',
+            'description' => 'Has create, read, and update access to the whole system excluding settings',
+        ]);
+        
+        $permission->create([
             'role' => 'Analyst',
             'description' => 'Has read access to the whole system excluding settings',
         ]);
 
-        $permission->create([
-            'role' => 'Operatives',
-            'description' => 'Has create, read, and update access to the whole system excluding settings',
-        ]);
     }
 }
