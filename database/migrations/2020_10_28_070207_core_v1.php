@@ -140,8 +140,8 @@ class CoreV1 extends Migration
             $table->string('unit_of_measurement');
             $table->bigInteger('min_on_hand');
             $table->boolean('is_expirable');
-            $table->json('properties');
-            $table->longText('description');
+            $table->json('properties')->nullable();
+            $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
