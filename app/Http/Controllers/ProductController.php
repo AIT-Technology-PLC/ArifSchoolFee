@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -19,9 +20,11 @@ class ProductController extends Controller
         //
     }
 
-    public function create()
+    public function create(ProductCategory $productCategory)
     {
-        return view('products.create');
+        $productCategories = $productCategory->getAll();
+
+        return view('products.create', compact('productCategories'));
     }
 
     public function store(Request $request)
