@@ -22,15 +22,20 @@
                                 <div class="select is-fullwidth">
                                     <select id="type" name="type">
                                         <option selected disabled>Type</option>
-                                        <option class="manufacturing" {{ old('type') == 'manufacturing' ? 'selected' : '' }}>Finished Product</option>
-                                        <option class="merchandise" {{ old('type') == 'merchandise' ? 'selected' : '' }}>Merchandise Product</option>
-                                        <option class="raw" {{ old('type') == 'raw' ? 'selected' : '' }}>Raw Material</option>
-                                        <option class="mro" {{ old('type') == 'mro' ? 'selected' : '' }}>MRO Item</option>
+                                        <option value="manufacturing" {{ old('type') == 'manufacturing' ? 'selected' : '' }}>Finished Product</option>
+                                        <option value="merchandise" {{ old('type') == 'merchandise' ? 'selected' : '' }}>Merchandise Product</option>
+                                        <option value="raw" {{ old('type') == 'raw' ? 'selected' : '' }}>Raw Material</option>
+                                        <option value="mro" {{ old('type') == 'mro' ? 'selected' : '' }}>MRO Item</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-sitemap"></i>
                                 </div>
+                                @error('type')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -38,10 +43,15 @@
                         <div class="field">
                             <label for="name" class="label text-green has-text-weight-normal">Name <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input id="name" name="name" type="text" class="input" placeholder="Product Name" value="{{ old('name') }}">
+                                <input id="name" name="name" type="text" class="input" placeholder="Product Name" value="{{ old('name') ?? '' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-boxes"></i>
                                 </span>
+                                @error('name')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -79,6 +89,11 @@
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-balance-scale"></i>
                                 </div>
+                                @error('unit_of_measurement')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -86,21 +101,31 @@
                         <div class="field">
                             <label for="selling_price" class="label text-green has-text-weight-normal">Selling Price <sup class="has-text-danger">*</sup> <sup class="has-text-grey is-size-7 is-uppercase"> per Kilogram </sup> </label>
                             <div class="control has-icons-left">
-                                <input id="selling_price" name="selling_price" type="text" class="input" placeholder="Selling Price" value="{{ old('selling_price') }}">
+                                <input id="selling_price" name="selling_price" type="text" class="input" placeholder="Selling Price" value="{{ old('selling_price') ?? '0.00' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-tags"></i>
                                 </span>
+                                @error('selling_price')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="purchase_price" class="label text-green has-text-weight-normal"> Cost <sup class="has-text-danger">*</sup> </label>
+                            <label for="purchase_price" class="label text-green has-text-weight-normal"> Purchase Price <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input id="purchase_price" name="purchase_price" type="text" class="input" placeholder="Cost of Product" value="{{ old('purchase_price') }}">
+                                <input id="purchase_price" name="purchase_price" type="text" class="input" placeholder="Cost of Product" value="{{ old('purchase_price') ?? '0.00' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-dollar-sign"></i>
                                 </span>
+                                @error('purchase_price')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -108,10 +133,15 @@
                         <div class="field">
                             <label for="min_on_hand" class="label text-green has-text-weight-normal"> Minimum Level <sup class="has-text-danger">*</sup> <sup class="has-text-grey is-size-7 is-uppercase"> per Kilogram </sup> </label>
                             <div class="control has-icons-left">
-                                <input id="min_on_hand" name="min_on_hand" type="text" class="input" placeholder="What is considered low stock for this product?" value="{{ old('min_on_hand') }}">
+                                <input id="min_on_hand" name="min_on_hand" type="text" class="input" placeholder="What is considered low stock for this product?" value="{{ old('min_on_hand') ?? '0' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-battery-quarter"></i>
                                 </span>
+                                @error('min_on_hand')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -119,10 +149,15 @@
                         <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Description</label>
                             <div class="control has-icons-left">
-                                <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note about the new category">{{ old('description') }}</textarea>
+                                <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note about the new category">{{ old('description') ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-edit"></i>
                                 </span>
+                                @error('description')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -138,6 +173,11 @@
                                     <input type="radio" name="is_expirable" value="0" {{ old('is_expirable') ? '' : 'checked'  }}>
                                     No
                                 </label>
+                                @error('is_expirable')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
