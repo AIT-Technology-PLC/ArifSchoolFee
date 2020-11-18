@@ -60,9 +60,11 @@ class ProductController extends Controller
         //
     }
 
-    public function edit(Product $product)
+    public function edit(Product $product, ProductCategory $productCategory)
     {
-        //
+        $productCategories = $productCategory->getAll();
+
+        return view('products.edit', compact('product', 'productCategories'));
     }
 
     public function update(Request $request, Product $product)
@@ -71,8 +73,8 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'unit_of_measurement' => 'required|string|max:255',
-            'selling_price' => 'nullable|numeric',
-            'purchase_price' => 'nullable|numeric',
+            'selling_price' => 'required|numeric',
+            'purchase_price' => 'required|numeric',
             'min_on_hand' => 'required|integer',
             'description' => 'nullable|string',
             'is_expirable' => 'required|integer',
@@ -80,11 +82,9 @@ class ProductController extends Controller
             'product_category_id' => 'nullable|integer',
         ]);
 
-        $data['created_by'] = auth()->user()->id;
         $data['updated_by'] = auth()->user()->id;
-        $data['company_id'] = auth()->user()->employee->company_id;
 
-        $product->create($data);
+        $product->update($data);
 
         return redirect()->route('products.index');
     }
