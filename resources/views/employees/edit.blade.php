@@ -100,12 +100,12 @@
                                         <br>
                                         <label class="radio has-text-grey has-text-weight-normal mt-2">
                                             <input type="radio" name="permission" value="3" {{ $employee->permission->id == 3 ? 'checked' : '' }}>
-                                            Analyst
+                                            Operative
                                         </label>
                                         <br>
                                         <label class="radio has-text-grey has-text-weight-normal mt-2">
                                             <input type="radio" name="permission" value="4" {{ $employee->permission->id == 4 ? 'checked' : '' }}>
-                                            Operative
+                                            Analyst
                                         </label>
                                         @error('permission')
                                             <span class="help has-text-danger" role="alert">

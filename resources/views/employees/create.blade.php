@@ -127,12 +127,12 @@
                                 <br>
                                 <label class="radio has-text-grey has-text-weight-normal mt-2">
                                     <input type="radio" name="permission" value="3" {{ old('permission') == 3 ? 'checked' : '' }}>
-                                    Analyst
+                                    Operative
                                 </label>
                                 <br>
                                 <label class="radio has-text-grey has-text-weight-normal mt-2">
                                     <input type="radio" name="permission" value="4" {{ old('permission') == 4 ? 'checked' : '' }}>
-                                    Operative
+                                    Analyst
                                 </label>
                                 @error('permission')
                                     <span class="help has-text-danger" role="alert">
