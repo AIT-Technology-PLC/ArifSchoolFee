@@ -66,27 +66,29 @@
                     </div>
                 </div>
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="enabled" class="label text-green has-text-weight-normal"> Can this employee access the system? <sup class="has-text-danger">*</sup> </label>
-                            <div class="control">
-                                <label class="radio has-text-grey has-text-weight-normal">
-                                    <input type="radio" name="enabled" value="1" class="mt-3" {{ $employee->enabled ? 'checked' : '' }}>
-                                    Yes, this employee can access the system
-                                </label>
-                                <br>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
-                                    <input type="radio" name="enabled" value="0" {{ $employee->enabled ? '' : 'checked' }}>
-                                    No, this employee can't access the system
-                                </label>
-                                @error('enabled')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
+                    @if ($employee->permission_id != 1)
+                        <div class="column is-6">
+                            <div class="field">
+                                <label for="enabled" class="label text-green has-text-weight-normal"> Can this employee access the system? <sup class="has-text-danger">*</sup> </label>
+                                <div class="control">
+                                    <label class="radio has-text-grey has-text-weight-normal">
+                                        <input type="radio" name="enabled" value="1" class="mt-3" {{ $employee->enabled ? 'checked' : '' }}>
+                                        Yes, this employee can access the system
+                                    </label>
+                                    <br>
+                                    <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                        <input type="radio" name="enabled" value="0" {{ $employee->enabled ? '' : 'checked' }}>
+                                        No, this employee can't access the system
+                                    </label>
+                                    @error('enabled')
+                                        <span class="help has-text-danger" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                     @can('delete', $employee)
                         @if ($employee->permission_id != 1)
                             <div class="column is-6">

@@ -85,8 +85,8 @@ class EmployeeController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'position' => 'nullable|string',
-            'enabled' => 'required|integer|max:1',
-            'permission' => 'required|integer',
+            'enabled' => 'sometimes|required|integer|max:1',
+            'permission' => 'sometimes|required|integer',
         ]);
 
         DB::transaction(function () use ($data, $employee) {
@@ -98,8 +98,8 @@ class EmployeeController extends Controller
             $employee->update([
                 'updated_by' => auth()->user()->id,
                 'position' => $data['position'],
-                'enabled' => $data['enabled'],
-                'permission_id' => $data['permission'],
+                'enabled' => $data['enabled'] ?? 1,
+                'permission_id' => $data['permission'] ?? 1,
             ]);
         });
 
