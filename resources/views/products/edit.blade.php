@@ -63,9 +63,9 @@
                                 <div class="select is-fullwidth">
                                     <select id="product_category_id" name="product_category_id">
                                         <option selected disabled>Category</option>
-                                        @foreach ($productCategories as $productCategory)
-                                            <option value="{{ $productCategory->id }}" {{ $product->productCategory->id == $productCategory->id ? 'selected' : '' }}> 
-                                                {{ $productCategory->name }} 
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}" {{ $product->productCategory->id == $category->id ? 'selected' : '' }}> 
+                                                {{ $category->name }} 
                                             </option>
                                         @endforeach
                                     </select>

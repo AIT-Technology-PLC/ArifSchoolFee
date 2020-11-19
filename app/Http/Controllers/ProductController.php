@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function __construct(Product $product)
     {
         $this->authorizeResource(Product::class, 'product');
-        
+
         $this->product = $product;
     }
 
@@ -26,11 +26,11 @@ class ProductController extends Controller
         return view('products.index', compact('products', 'totalProductsOfCompany'));
     }
 
-    public function create(ProductCategory $productCategory)
+    public function create(ProductCategory $category)
     {
-        $productCategories = $productCategory->getAll();
+        $categories = $category->getAll();
 
-        return view('products.create', compact('productCategories'));
+        return view('products.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -62,11 +62,11 @@ class ProductController extends Controller
         //
     }
 
-    public function edit(Product $product, ProductCategory $productCategory)
+    public function edit(Product $product, ProductCategory $category)
     {
-        $productCategories = $productCategory->getAll();
+        $categories = $category->getAll();
 
-        return view('products.edit', compact('product', 'productCategories'));
+        return view('products.edit', compact('product', 'categories'));
     }
 
     public function update(Request $request, Product $product)
