@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Models\Employee;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Product;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -37,5 +37,15 @@ class User extends Authenticatable
     public function employeesUpdated()
     {
         return $this->hasMany(Employee::class, 'updated_by');
+    }
+
+    public function productsCreated()
+    {
+        return $this->hasMany(Product::class, 'created_by');
+    }
+
+    public function productsUpdated()
+    {
+        return $this->hasMany(Product::class, 'updated_by');
     }
 }
