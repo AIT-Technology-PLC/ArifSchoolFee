@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
     protected $fillable = [
-        'name', 'sector', 'membership_plan', 'currency', 'enabled'
+        'name', 'sector', 'membership_plan', 'currency', 'enabled',
     ];
 
     protected $casts = [
@@ -18,5 +18,10 @@ class Company extends Model
     public function employees()
     {
         return $this->hasMany(Employee::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
     }
 }
