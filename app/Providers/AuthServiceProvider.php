@@ -6,9 +6,11 @@ use App\Models\Company;
 use App\Models\Employee;
 use App\Models\Permission;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Policies\CompanyPolicy;
 use App\Policies\EmployeePolicy;
 use App\Policies\PermissionPolicy;
+use App\Policies\ProductCategoryPolicy;
 use App\Policies\ProductPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -24,6 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         Permission::class => PermissionPolicy::class,
         Company::class => CompanyPolicy::class,
         Product::class => ProductPolicy::class,
+        ProductCategory::class => ProductCategoryPolicy::class,
     ];
 
     /**

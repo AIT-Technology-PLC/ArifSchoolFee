@@ -11,6 +11,8 @@ class ProductCategoryController extends Controller
 
     public function __construct(ProductCategory $category)
     {
+        $this->authorizeResource(ProductCategory::class);
+        
         $this->category = $category;
     }
 
