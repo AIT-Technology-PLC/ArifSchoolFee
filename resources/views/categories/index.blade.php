@@ -64,6 +64,10 @@
                             <th><abbr> Products </abbr></th>
                             <th><abbr> Created On </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            @can('delete', $categories->first())
+                                <th><abbr> Added By </abbr></th>
+                                <th><abbr> Edited By </abbr></th>
+                            @endcan
                             <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
@@ -84,6 +88,10 @@
                                 <td class="is-capitalized"> {{ $category->products->count() }} </td>
                                 <td class="is-capitalized"> {{ $category->created_at->toDayDateTimeString() }} </td>
                                 <td> {{ substr($category->description, 0, 40) ?? 'N/A' }} </td>
+                                @can('delete', $category)
+                                    <td> {{ $category->createdBy->name ?? 'N/A' }} </td>
+                                    <td> {{ $category->updatedBy->name ?? 'N/A' }} </td>
+                                @endcan
                                 <td>
                                     <a href="{{ route('categories.edit', $category->id) }}" title="Modify Category Data" class="text-green is-size-6-5">
                                         <span class="icon">
