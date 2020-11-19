@@ -98,8 +98,8 @@ class EmployeeController extends Controller
             $employee->update([
                 'updated_by' => auth()->user()->id,
                 'position' => $data['position'],
-                'enabled' => $data['enabled'] ?? 1,
-                'permission_id' => $data['permission'] ?? 1,
+                'enabled' => $data['enabled'] ?? $employee->enabled,
+                'permission_id' => $data['permission'] ?? $employee->permission_id,
             ]);
         });
 
