@@ -63,8 +63,8 @@
                                     <select id="product_category_id" name="product_category_id">
                                         <option selected disabled>Category</option>
                                         @foreach ($productCategories as $productCategory)
-                                            <option value="{{ $productCategory->id }}" {{ old('product_category_id') == $productCategory->id ? 'selected' : '' }}> 
-                                                {{ $productCategory->name }} 
+                                            <option value="{{ $productCategory->id }}" {{ old('product_category_id') == $productCategory->id ? 'selected' : '' }}>
+                                                {{ $productCategory->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -82,8 +82,8 @@
                                 <div class="select is-fullwidth">
                                     <select id="unit_of_measurement" name="unit_of_measurement">
                                         <option selected disabled>Category</option>
-                                        <option value="Kilogram" {{ old('unit_of_measurement') == "Kilogram" ? 'selected' : '' }}> Kilogram </option>
-                                        <option class="Piece" {{ old('unit_of_measurement') == "Piece" ? 'selected' : '' }}> Piece </option>
+                                        <option value="Kilogram" {{ old('unit_of_measurement') == 'Kilogram' ? 'selected' : '' }}> Kilogram </option>
+                                        <option class="Piece" {{ old('unit_of_measurement') == 'Piece' ? 'selected' : '' }}> Piece </option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
@@ -170,7 +170,7 @@
                                     Yes
                                 </label>
                                 <label class="radio text-green has-text-weight-normal">
-                                    <input type="radio" name="is_expirable" value="0" {{ old('is_expirable') ? '' : 'checked'  }}>
+                                    <input type="radio" name="is_expirable" value="0" {{ old('is_expirable') ? '' : 'checked' }}>
                                     No
                                 </label>
                                 @error('is_expirable')
@@ -181,6 +181,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div id="newForm" class="columns is-marginless is-multiline is-hidden"></div>
+                <div class="columns is-marginless is-multiline">
                     <div class="column is-12">
                         <div class="field mt-5">
                             <button id="addNewForm" class="button has-text-white bg-purple is-small" type="button">
@@ -194,7 +197,6 @@
                         </div>
                     </div>
                 </div>
-                <div id="newForm" class="columns is-marginless is-multiline is-hidden"></div>
             </div>
             <div class="box radius-top-0">
                 <div class="columns is-marginless">

@@ -19,7 +19,7 @@
                         <div class="field">
                             <label for="name" class="label text-green has-text-weight-normal">Name <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input id="name" name="name" type="text" class="input" placeholder="Category Name" value="{{ old('name') }}">
+                                <input id="name" name="name" type="text" class="input" placeholder="Category Name" value="{{ old('name') ?? '' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-layer-group"></i>
                                 </span>
@@ -33,9 +33,7 @@
                         <div class="field mt-5">
                             <label for="description" class="label text-green has-text-weight-normal">Description</label>
                             <div class="control has-icons-left">
-                                <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6"
-                                    placeholder="Description or note about the new category"> {{ old('description') }}
-                                </textarea>
+                                <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note about the new category">{{ old('description') ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-edit"></i>
                                 </span>
@@ -46,6 +44,11 @@
                                 @enderror
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div id="newForm" class="columns is-marginless is-multiline is-hidden"></div>
+                <div class="columns is-marginless">
+                    <div class="column">
                         <div class="field mt-5">
                             <button id="addNewForm" class="button has-text-white bg-purple is-small" type="button">
                                 <span class="icon">
@@ -58,7 +61,6 @@
                         </div>
                     </div>
                 </div>
-                <div id="newForm" class="columns is-marginless is-multiline is-hidden"></div>
             </div>
             <div class="box radius-top-0">
                 <div class="columns is-marginless">
