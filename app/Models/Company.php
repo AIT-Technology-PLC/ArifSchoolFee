@@ -20,6 +20,11 @@ class Company extends Model
         return $this->hasMany(Employee::class);
     }
 
+    public function productCategories()
+    {
+        return $this->hasMany(ProductCategory::class);
+    }
+
     public function products()
     {
         return $this->hasMany(Product::class);
