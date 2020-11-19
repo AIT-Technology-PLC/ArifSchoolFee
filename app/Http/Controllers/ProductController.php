@@ -12,7 +12,7 @@ class ProductController extends Controller
 
     public function __construct(Product $product)
     {
-        $this->authorizeResource(Product::class);
+        $this->authorizeResource(Product::class, 'product');
         
         $this->product = $product;
     }

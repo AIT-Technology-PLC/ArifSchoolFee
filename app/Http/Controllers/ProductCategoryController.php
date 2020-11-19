@@ -11,8 +11,8 @@ class ProductCategoryController extends Controller
 
     public function __construct(ProductCategory $category)
     {
-        $this->authorizeResource(ProductCategory::class);
-        
+        $this->authorizeResource(ProductCategory::class, 'category');
+
         $this->category = $category;
     }
 
@@ -64,7 +64,7 @@ class ProductCategoryController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'properties' => 'nullable|array'
+            'properties' => 'nullable|array',
         ]);
 
         $data['updated_by'] = auth()->user()->id;

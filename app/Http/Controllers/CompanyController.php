@@ -11,7 +11,7 @@ class CompanyController extends Controller
 
     public function __construct(Company $company)
     {
-        $this->authorizeResource(Company::class);
+        $this->authorizeResource(Company::class, 'company');
 
         $this->company = $company;
     }
