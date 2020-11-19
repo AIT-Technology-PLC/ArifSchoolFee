@@ -55,7 +55,7 @@
         </div>
         <div class="box radius-top-0">
             <div class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7">
+                <table class="table is-hoverable is-fullwidth is-size-7 is-narrow">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
@@ -67,6 +67,10 @@
                             <th><abbr> PAR Level</abbr></th>
                             <th><abbr> Properties </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            @can('delete', $products->first())
+                                <th><abbr> Added By </abbr></th>
+                                <th><abbr> Edited By </abbr></th>
+                            @endcan
                             <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
@@ -90,6 +94,10 @@
                                     @endif
                                 </td>
                                 <td> {{ substr($product->description, 0, 40) ?? 'N/A' }} </td>
+                                @can('delete', $product)
+                                    <td> {{ $product->createdBy->name ?? 'N/A' }} </td>
+                                    <td> {{ $product->updatedBy->name ?? 'N/A' }} </td>
+                                @endcan
                                 <td>
                                     <a href="{{ route('products.edit', $product->id) }}" title="Modify Category Data" class="text-green is-size-6-5">
                                         <span class="icon">
