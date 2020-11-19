@@ -44,7 +44,7 @@ class Employee extends Model
 
     public function getAll()
     {
-        return $this->with(['user', 'permission'])->where('company_id', auth()->user()->employee->company_id)->get();
+        return $this->with(['user', 'permission', 'createdBy', 'updatedBy'])->where('company_id', auth()->user()->employee->company_id)->get();
     }
 
     public function countAllEmployees()
