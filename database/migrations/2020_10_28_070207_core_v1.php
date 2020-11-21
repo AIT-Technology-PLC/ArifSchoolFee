@@ -107,6 +107,27 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
 
+        // Suppliers
+        Schema::create('suppliers', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('company_name');
+            $table->string('contact_name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('country')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        });
+
         // Product Categories
         Schema::create('product_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -131,11 +152,12 @@ class CoreV1 extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('product_category_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('supplier_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
             $table->string('type');
-            $table->decimal('selling_price'); // price per unit of measurement
+            $table->decimal('selling_price');
             $table->decimal('purchase_price');
             $table->string('unit_of_measurement');
             $table->bigInteger('min_on_hand');
@@ -147,9 +169,11 @@ class CoreV1 extends Migration
 
             $table->index('product_category_id');
             $table->index('company_id');
+            $table->index('supplier_id');
 
             $table->foreign('product_category_id')->references('id')->on('product_categories')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
