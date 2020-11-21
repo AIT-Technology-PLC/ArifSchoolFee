@@ -377,9 +377,11 @@ class CoreV1 extends Migration
         Schema::drop('companies');
         Schema::drop('employees');
         Schema::drop('warehouses');
+        Schema::drop('suppliers');
         Schema::drop('product_categories');
         Schema::drop('products');
         Schema::drop('product_images');
+        Schema::drop('purchases');
         Schema::drop('merchandises');
         Schema::drop('manufacturings');
         Schema::drop('raw_materials');
