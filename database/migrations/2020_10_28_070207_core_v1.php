@@ -196,23 +196,26 @@ class CoreV1 extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('supplier_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->decimal('quantity');
-            $table->decimal('unit_price')->nullable();
-            $table->string('shipping_term')->nullable();
-            $table->string('shipping_company')->nullable();
-            $table->string('shipping_status')->nullable();
-            $table->string('payment_status')->nullable(); // can be percentages
-            $table->dateTime('shipped_at')->nullable();
+            $table->decimal('total_quantity');
+            $table->decimal('total_price')->nullable(); // totalPrice = totalQuantity * (product.unitPurchasePrice || Other Price)
+            $table->string('status')->nullable(); // ordered -> shipped -> delivered -> added to inventory
+            $table->string('shipping_line')->nullable();
+            $table->string('payment_status')->nullable(); // can be percentage of the purchasePrice or descriptive like full/partial
+            $table->dateTime('shipped_at')->nullable(); // the time at which the order started the shipping process
+            $table->dateTime('delivered_at')->nullable(); // the time at which the order reached the receipent's territory but not yet added to the warehouse
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('company_id');
+            $table->index('supplier_id');
             $table->index('product_id');
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
