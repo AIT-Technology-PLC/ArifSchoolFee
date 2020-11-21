@@ -64,7 +64,7 @@
                             <th><abbr> Type </abbr></th>
                             <th><abbr> Selling Price </abbr></th>
                             <th><abbr> Purchase Price </abbr></th>
-                            <th><abbr> PAR Level</abbr></th>
+                            <th><abbr> Reorder Level</abbr></th>
                             <th><abbr> Properties </abbr></th>
                             <th><abbr> Description </abbr></th>
                             @can('delete', $products->first())
