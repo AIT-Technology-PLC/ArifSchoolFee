@@ -192,6 +192,32 @@ class CoreV1 extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
+        // Purchases
+        Schema::create('purchases', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->decimal('quantity');
+            $table->decimal('unit_price')->nullable();
+            $table->string('shipping_term')->nullable();
+            $table->string('shipping_company')->nullable();
+            $table->string('shipping_status')->nullable();
+            $table->string('payment_status')->nullable(); // can be percentages
+            $table->dateTime('shipped_at')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+            $table->index('product_id');
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        });
+
         // Merchandise Products
         Schema::create('merchandises', function (Blueprint $table) {
             $table->bigIncrements('id');
