@@ -39,6 +39,11 @@ class Supplier extends Model
         return $this->with(['createdBy', 'updatedBy'])->where('company_id', auth()->user()->employee->company_id)->get();
     }
 
+    public function getSupplierNames()
+    {
+        return $this->where('company_id', auth()->user()->employee->company_id)->get(['id', 'company_name']);
+    }
+
     public function countSuppliersOfCompany()
     {
         return $this->where('company_id', auth()->user()->employee->company_id)->count();

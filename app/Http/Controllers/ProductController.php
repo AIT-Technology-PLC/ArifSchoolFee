@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -26,11 +27,13 @@ class ProductController extends Controller
         return view('products.index', compact('products', 'totalProductsOfCompany'));
     }
 
-    public function create(ProductCategory $category)
+    public function create(ProductCategory $category, Supplier $supplier)
     {
         $categories = $category->getAll();
 
-        return view('products.create', compact('categories'));
+        $suppliers = $supplier->getSupplierNames();
+
+        return view('products.create', compact('categories', 'suppliers'));
     }
 
     public function store(Request $request)
@@ -46,6 +49,7 @@ class ProductController extends Controller
             'is_expirable' => 'required|integer',
             'properties' => 'nullable|array',
             'product_category_id' => 'nullable|integer',
+            'supplier_id' => 'required|string',
         ]);
 
         $data['created_by'] = auth()->user()->id;
@@ -62,11 +66,13 @@ class ProductController extends Controller
         //
     }
 
-    public function edit(Product $product, ProductCategory $category)
+    public function edit(Product $product, ProductCategory $category, Supplier $supplier)
     {
         $categories = $category->getAll();
 
-        return view('products.edit', compact('product', 'categories'));
+        $suppliers = $supplier->getSupplierNames();
+
+        return view('products.edit', compact('product', 'categories', 'suppliers'));
     }
 
     public function update(Request $request, Product $product)
@@ -82,6 +88,7 @@ class ProductController extends Controller
             'is_expirable' => 'required|integer',
             'properties' => 'nullable|array',
             'product_category_id' => 'nullable|integer',
+            'supplier_id' => 'required|string',
         ]);
 
         $data['updated_by'] = auth()->user()->id;

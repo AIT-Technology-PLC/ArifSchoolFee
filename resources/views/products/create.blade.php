@@ -147,17 +147,22 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="description" class="label text-green has-text-weight-normal">Description</label>
+                            <label for="supplier_id" class="label text-green has-text-weight-normal"> Product Supplier <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note about the new category">{{ old('description') ?? '' }}</textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                @error('description')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
+                                <div class="select is-fullwidth">
+                                    <select id="supplier_id" name="supplier_id">
+                                        <option selected disabled>Suppliers</option>
+                                        @foreach ($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
+                                                {{ $supplier->company_name }}
+                                            </option>
+                                        @endforeach
+                                        <option value="None">None</option>
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-address-card"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -174,6 +179,22 @@
                                     No
                                 </label>
                                 @error('is_expirable')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="description" class="label text-green has-text-weight-normal">Description</label>
+                            <div class="control has-icons-left">
+                                <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note about the new category">{{ old('description') ?? '' }}</textarea>
+                                <span class="icon is-large is-left">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                                @error('description')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>
