@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Purchase;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
@@ -16,12 +18,16 @@ class PurchaseController extends Controller
 
     public function index()
     {
-        //
+        $purchases = $this->purchase->getAll();
+
+        $totalPurchases = $this->purchase->countPurchasesOfCompany();
+
+        return view('purchases.index', compact('purchases', 'totalPurchases'));
     }
 
-    public function create()
+    public function create(Product $product, Supplier $supplier)
     {
-        //
+        return view('purchases.create');
     }
 
     public function store(Request $request)
@@ -34,7 +40,7 @@ class PurchaseController extends Controller
         //
     }
 
-    public function edit(Purchase $purchase)
+    public function edit(Purchase $purchase, Product $product, Supplier $supplier)
     {
         //
     }
