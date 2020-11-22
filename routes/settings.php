@@ -10,6 +10,10 @@ Route::resource('permissions', 'PermissionController');
 
 Route::resource('companies', 'CompanyController');
 
+Route::resource('suppliers', 'SupplierController');
+
+Route::resource('purchases', 'PurchaseController');
+
 Route::get('/permission-denied', 'ErrorPageController@getPermissionDeniedPage');
 
 Route::get('/home', 'HomeController@index')->name('home');
