@@ -22,7 +22,7 @@
                             <div class="control has-icons-left">
                                 <input id="company_name" name="company_name" type="text" class="input" placeholder="Company Name" value="{{ $supplier->company_name ?? '' }}">
                                 <span class="icon is-small is-left">
-                                    <i class="fas fa-boxes"></i>
+                                    <i class="fas fa-building"></i>
                                 </span>
                                 @error('company_name')
                                     <span class="help has-text-danger" role="alert">
@@ -38,7 +38,7 @@
                             <div class="control has-icons-left">
                                 <input id="contact_name" name="contact_name" type="text" class="input" placeholder="Contact Name" value="{{ $supplier->contact_name ?? '' }}">
                                 <span class="icon is-small is-left">
-                                    <i class="fas fa-boxes"></i>
+                                    <i class="fas fa-address-book"></i>
                                 </span>
                                 @error('contact_name')
                                     <span class="help has-text-danger" role="alert">
@@ -54,7 +54,7 @@
                             <div class="control has-icons-left">
                                 <input id="email" name="email" type="text" class="input" placeholder="Email Address" value="{{ $supplier->email ?? '' }}">
                                 <span class="icon is-small is-left">
-                                    <i class="fas fa-boxes"></i>
+                                    <i class="fas fa-at"></i>
                                 </span>
                                 @error('email')
                                     <span class="help has-text-danger" role="alert">
@@ -70,7 +70,7 @@
                             <div class="control has-icons-left">
                                 <input id="phone" name="phone" type="text" class="input" placeholder="Phone/Telephone" value="{{ $supplier->phone ?? '' }}">
                                 <span class="icon is-small is-left">
-                                    <i class="fas fa-boxes"></i>
+                                    <i class="fas fa-phone"></i>
                                 </span>
                                 @error('phone')
                                     <span class="help has-text-danger" role="alert">
@@ -94,7 +94,7 @@
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
-                                    <i class="fas fa-sitemap"></i>
+                                    <i class="fas fa-globe"></i>
                                 </div>
                                 @error('country')
                                     <span class="help has-text-danger" role="alert">

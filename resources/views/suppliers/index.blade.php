@@ -11,7 +11,7 @@
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
                         <span class="icon is-large is-size-1">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-address-card"></i>
                         </span>
                     </div>
                     <div class="column is-paddingless">
