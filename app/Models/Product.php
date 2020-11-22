@@ -14,6 +14,41 @@ class Product extends Model
         'properties' => 'array',
     ];
 
+    public function productImages()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
+    public function merchandises()
+    {
+        return $this->hasMany(Merchandise::class);
+    }
+
+    public function manufacturings()
+    {
+        return $this->hasMany(Manufacturing::class);
+    }
+
+    public function rawMaterials()
+    {
+        return $this->hasMany(RawMaterial::class);
+    }
+
+    public function billOfMaterial()
+    {
+        return $this->hasOne(BillOfMaterial::class);
+    }
+
+    public function mroItems()
+    {
+        return $this->hasMany(MroItem::class);
+    }
+
     public function productCategory()
     {
         return $this->belongsTo(ProductCategory::class);
@@ -32,6 +67,11 @@ class Product extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 
     public function setPropertiesAttribute($array)
