@@ -7,14 +7,25 @@ use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
+    private $supplier;
+
+    function __construct(Supplier $supplier)
+    {
+        $this->supplier = $supplier;
+    }
+    
     public function index()
     {
-        //
+        $suppliers = $this->supplier->getAll();
+
+        $totalSuppliers = $this->supplier->countSuppliersOfCompany();
+
+        return view('suppliers.index', compact('suppliers', 'totalSuppliers'));
     }
 
     public function create()
     {
-        //
+        return view('suppliers.create');
     }
 
     public function store(Request $request)
