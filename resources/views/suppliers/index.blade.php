@@ -76,11 +76,11 @@
                         @foreach ($suppliers as $supplier)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">{{ $supplier->company_name }}</td>
-                                <td class="is-capitalized">{{ $supplier->contact_name }}</td>
-                                <td class="is-capitalized">{{ $supplier->email }}</td>
-                                <td class="is-capitalized">{{ $supplier->phone }}</td>
-                                <td class="is-capitalized">{{ $supplier->country }}</td>
+                                <td class="is-capitalized">{{ $supplier->company_name ?? 'N/A' }}</td>
+                                <td class="is-capitalized">{{ $supplier->contact_name ?? 'N/A' }}</td>
+                                <td class="is-capitalized">{{ $supplier->email ?? 'N/A' }}</td>
+                                <td class="is-capitalized">{{ $supplier->phone ?? 'N/A' }}</td>
+                                <td class="is-capitalized">{{ $supplier->country ?? 'N/A' }}</td>
                                 <td> {{ $supplier->created_at->toFormattedDateString() }} </td>
                                 @can('delete', $supplier)
                                     <td> {{ $supplier->createdBy->name ?? 'N/A' }} </td>

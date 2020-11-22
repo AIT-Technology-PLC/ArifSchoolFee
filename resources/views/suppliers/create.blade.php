@@ -33,7 +33,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="contact_name" class="label text-green has-text-weight-normal">Contact Name <sup class="has-text-danger">*</sup> </label>
+                            <label for="contact_name" class="label text-green has-text-weight-normal">Contact Name <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <input id="contact_name" name="contact_name" type="text" class="input" placeholder="Contact Name" value="{{ old('contact_name') ?? '' }}">
                                 <span class="icon is-small is-left">
@@ -49,7 +49,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="email" class="label text-green has-text-weight-normal">Email <sup class="has-text-danger">*</sup> </label>
+                            <label for="email" class="label text-green has-text-weight-normal">Email <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <input id="email" name="email" type="text" class="input" placeholder="Email Address" value="{{ old('email') ?? '' }}">
                                 <span class="icon is-small is-left">
@@ -65,7 +65,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="phone" class="label text-green has-text-weight-normal">Phone <sup class="has-text-danger">*</sup> </label>
+                            <label for="phone" class="label text-green has-text-weight-normal">Phone <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <input id="phone" name="phone" type="text" class="input" placeholder="Phone/Telephone" value="{{ old('phone') ?? '' }}">
                                 <span class="icon is-small is-left">
@@ -81,7 +81,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="country" class="label text-green has-text-weight-normal"> Country <sup class="has-text-danger">*</sup> </label>
+                            <label for="country" class="label text-green has-text-weight-normal"> Country <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="country" name="country">

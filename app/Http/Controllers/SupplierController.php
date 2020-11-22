@@ -9,11 +9,11 @@ class SupplierController extends Controller
 {
     private $supplier;
 
-    function __construct(Supplier $supplier)
+    public function __construct(Supplier $supplier)
     {
         $this->supplier = $supplier;
     }
-    
+
     public function index()
     {
         $suppliers = $this->supplier->getAll();
@@ -30,7 +30,21 @@ class SupplierController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'company_name' => 'required|string|max:255',
+            'contact_name' => 'nullable|string|max:255',
+            'email' => 'nullable|string|email|max:255',
+            'phone' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
+        ]);
+
+        $data['company_id'] = auth()->user()->employee->company_id;
+        $data['created_by'] = auth()->user()->id;
+        $data['updated_by'] = auth()->user()->id;
+
+        $this->supplier->create($data);
+
+        return redirect()->route('suppliers.index');
     }
 
     public function show(Supplier $supplier)
