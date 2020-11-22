@@ -11,6 +11,8 @@ class SupplierController extends Controller
 
     public function __construct(Supplier $supplier)
     {
+        $this->authorizeResource(Supplier::class, 'supplier');
+
         $this->supplier = $supplier;
     }
 
