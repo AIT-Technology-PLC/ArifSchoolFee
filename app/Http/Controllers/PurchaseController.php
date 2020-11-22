@@ -13,6 +13,8 @@ class PurchaseController extends Controller
 
     public function __construct(Purchase $purchase)
     {
+        $this->authorizeResource(Purchase::class, 'purchase');
+
         $this->purchase = $purchase;
     }
 
