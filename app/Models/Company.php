@@ -20,6 +20,16 @@ class Company extends Model
         return $this->hasMany(Employee::class);
     }
 
+    public function warehouses()
+    {
+        return $this->hasMany(Warehouse::class);
+    }
+
+    public function suppliers()
+    {
+        return $this->hasMany(Supplier::class);
+    }
+
     public function productCategories()
     {
         return $this->hasMany(ProductCategory::class);
@@ -28,5 +38,35 @@ class Company extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purhcase::class);
+    }
+
+    public function merchandises()
+    {
+        return $this->hasMany(Merchandise::class);
+    }
+
+    public function manufacturings()
+    {
+        return $this->hasMany(Manufacturing::class);
+    }
+
+    public function rawMaterials()
+    {
+        return $this->hasMany(RawMaterial::class);
+    }
+
+    public function billOfMaterials()
+    {
+        return $this->hasMany(BillOfMaterial::class);
+    }
+
+    public function mroItems()
+    {
+        return $this->hasMany(MroItem::class);
     }
 }
