@@ -49,7 +49,7 @@ class ProductController extends Controller
             'is_expirable' => 'required|integer',
             'properties' => 'nullable|array',
             'product_category_id' => 'nullable|integer',
-            'supplier_id' => 'required|string',
+            'supplier_id' => 'nullable|string',
         ]);
 
         $data['created_by'] = auth()->user()->id;
@@ -88,7 +88,7 @@ class ProductController extends Controller
             'is_expirable' => 'required|integer',
             'properties' => 'nullable|array',
             'product_category_id' => 'nullable|integer',
-            'supplier_id' => 'required|string',
+            'supplier_id' => 'nullable|string',
         ]);
 
         $data['updated_by'] = auth()->user()->id;
