@@ -50,7 +50,7 @@
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-green has-text-weight-medium is-size-5">
-                supplier Account Management
+                Supplier Account Management
             </h1>
         </div>
         <div class="box radius-top-0">
@@ -78,7 +78,7 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">{{ $supplier->company_name ?? 'N/A' }}</td>
                                 <td class="is-capitalized">{{ $supplier->contact_name ?? 'N/A' }}</td>
-                                <td class="is-capitalized">{{ $supplier->email ?? 'N/A' }}</td>
+                                <td>{{ $supplier->email ?? 'N/A' }}</td>
                                 <td class="is-capitalized">{{ $supplier->phone ?? 'N/A' }}</td>
                                 <td class="is-capitalized">{{ $supplier->country ?? 'N/A' }}</td>
                                 <td> {{ $supplier->created_at->toFormattedDateString() }} </td>

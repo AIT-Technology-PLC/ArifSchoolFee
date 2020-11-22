@@ -59,7 +59,19 @@ class SupplierController extends Controller
 
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        $data = $request->validate([
+            'company_name' => 'required|string|max:255',
+            'contact_name' => 'nullable|string|max:255',
+            'email' => 'nullable|string|email|max:255',
+            'phone' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
+        ]);
+
+        $data['updated_by'] = auth()->user()->id;
+
+        $supplier->update($data);
+
+        return redirect()->route('suppliers.index');
     }
 
     public function destroy(Supplier $supplier)
