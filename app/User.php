@@ -39,6 +39,36 @@ class User extends Authenticatable
         return $this->hasMany(Employee::class, 'updated_by');
     }
 
+    public function warehousesCreated()
+    {
+        return $this->hasMany(Warehouse::class, 'created_by');
+    }
+
+    public function warehousesUpdated()
+    {
+        return $this->hasMany(Warehouse::class, 'updated_by');
+    }
+
+    public function suppliersCreated()
+    {
+        return $this->hasMany(Supplier::class, 'created_by');
+    }
+
+    public function suppliersUpdated()
+    {
+        return $this->hasMany(Supplier::class, 'updated_by');
+    }
+
+    public function productCategoriesCreated()
+    {
+        return $this->hasMany(ProductCategory::class, 'created_by');
+    }
+
+    public function productCategoriesUpdated()
+    {
+        return $this->hasMany(ProductCategory::class, 'updated_by');
+    }
+
     public function productsCreated()
     {
         return $this->hasMany(Product::class, 'created_by');
@@ -47,5 +77,65 @@ class User extends Authenticatable
     public function productsUpdated()
     {
         return $this->hasMany(Product::class, 'updated_by');
+    }
+
+    public function purchasesCreated()
+    {
+        return $this->hasMany(Purchase::class, 'created_by');
+    }
+
+    public function purchasesUpdated()
+    {
+        return $this->hasMany(Purchase::class, 'updated_by');
+    }
+
+    public function merchandisesCreated()
+    {
+        return $this->hasMany(Merchandise::class, 'created_by');
+    }
+
+    public function merchandisesUpdated()
+    {
+        return $this->hasMany(Merchandise::class, 'updated_by');
+    }
+
+    public function manufacturingsCreated()
+    {
+        return $this->hasMany(Manufacturing::class, 'created_by');
+    }
+
+    public function manufacturingsUpdated()
+    {
+        return $this->hasMany(Manufacturing::class, 'updated_by');
+    }
+
+    public function rawMaterialsCreated()
+    {
+        return $this->hasMany(RawMaterial::class, 'created_by');
+    }
+
+    public function rawMaterialsUpdated()
+    {
+        return $this->hasMany(RawMaterial::class, 'updated_by');
+    }
+
+    public function billOfMaterialsCreated()
+    {
+        return $this->hasMany(BillOfMaterial::class, 'created_by');
+    }
+
+    public function billOfMaterialsUpdated()
+    {
+        return $this->hasMany(BillOfMaterial::class, 'updated_by');
+    }
+
+    public function mroItemsCreated()
+    {
+        return $this->hasMany(MroItem::class, 'created_by');
+    }
+
+    public function mroItemsUpdated()
+    {
+        return $this->hasMany(MroItem::class, 'updated_by');
     }
 }
