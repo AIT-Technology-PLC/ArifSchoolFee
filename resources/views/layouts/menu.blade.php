@@ -159,6 +159,52 @@
         </li>
     </ul>
 
+    <p class="menu-label has-text-weight-bold text-green">
+        Purchases
+    </p>
+    <ul class="menu-list mb-5">
+        <li>
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-plus-circle"></i>
+                </span>
+                <span>
+                    Create Purchase Order
+                </span>
+            </a>
+        </li>
+        <li>
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </span>
+                <span>
+                    Purchase Management
+                </span>
+            </a>
+        </li>
+        <li>
+            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-credit-card"></i>
+                </span>
+                <span>
+                    Purchase Expenses
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('suppliers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5">
+                <span class="icon">
+                    <i class="fas fa-address-card"></i>
+                </span>
+                <span>
+                    Supplier Management
+                </span>
+            </a>
+        </li>
+    </ul>
+
     @can('viewAny', auth()->user()->employee)
         <p class="menu-label has-text-weight-bold text-green">
             Settings
