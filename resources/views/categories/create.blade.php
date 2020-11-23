@@ -11,7 +11,7 @@
                 New Product Category
             </h1>
         </div>
-        <form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">

@@ -11,7 +11,7 @@
                 Edit Product - {{ $product->name }}
             </h1>
         </div>
-        <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             @method("PATCH")
             <div class="box radius-bottom-0 mb-0 radius-top-0">

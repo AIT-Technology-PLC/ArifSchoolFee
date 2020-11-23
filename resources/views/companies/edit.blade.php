@@ -11,7 +11,7 @@ Edit Settings
             Edit General Settings
         </h1>
     </div>
-    <form action="{{ route('companies.update', auth()->user()->employee->company_id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('companies.update', auth()->user()->employee->company_id) }}" method="POST" enctype="multipart/form-data" novalidate>
         @csrf
         @method('PATCH')
         <div class="box radius-bottom-0 mb-0 radius-top-0">
