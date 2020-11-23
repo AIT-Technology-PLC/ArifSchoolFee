@@ -42,3 +42,7 @@ const createFields = keyValueInputFields();
 $("#addNewForm").click(function () {
     createFields();
 });
+
+$("#createMenuButton").click(function () {
+    $("#createMenu").toggleClass("is-hidden");
+});
