@@ -11,7 +11,7 @@
                 Edit Purchase - {{ $purchase->product->name }}
             </h1>
         </div>
-        <form action="{{ route('purchases.update', $purchase->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('purchases.update', $purchase->id) }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
@@ -145,7 +145,7 @@
                         <div class="field">
                             <label for="shipped_at" class="label text-green has-text-weight-normal"> Shipping Started On <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="shipped_at" id="shipped_at" value="{{ $purchase->shipped_at->toDateString() ?? '' }}">
+                                <input class="input" type="date" name="shipped_at" id="shipped_at" value="{{ $purchase->shipped_at ? $purchase->shipped_at->toDateString() : '' }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
