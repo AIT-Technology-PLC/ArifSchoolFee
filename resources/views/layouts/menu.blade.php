@@ -164,7 +164,7 @@
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+            <a href="{{ route('purchases.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases/create') ? 'is-active' : '' }}">
                 <span class="icon">
                     <i class="fas fa-plus-circle"></i>
                 </span>
@@ -174,7 +174,7 @@
             </a>
         </li>
         <li>
-            <a class="has-text-grey has-text-weight-normal is-size-6-5">
+            <a href="{{ route('purchases.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases') ? 'is-active' : '' }}">
                 <span class="icon">
                     <i class="fas fa-shopping-bag"></i>
                 </span>
@@ -194,7 +194,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('suppliers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5">
+            <a href="{{ route('suppliers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'is-active' : '' }}">
                 <span class="icon">
                     <i class="fas fa-address-card"></i>
                 </span>
