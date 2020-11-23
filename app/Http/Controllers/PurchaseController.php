@@ -29,7 +29,11 @@ class PurchaseController extends Controller
 
     public function create(Product $product, Supplier $supplier)
     {
-        return view('purchases.create');
+        $products = $product->getAll();;
+
+        $suppliers = $supplier->getSupplierNames();
+
+        return view('purchases.create', compact('products', 'suppliers'));
     }
 
     public function store(Request $request)

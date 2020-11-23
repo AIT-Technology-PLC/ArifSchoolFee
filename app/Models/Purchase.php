@@ -10,8 +10,8 @@ class Purchase extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
-        'shipped_at' => datetime,
-        'delivered_at' => datetime,
+        'shipped_at' => 'datetime',
+        'delivered_at' => 'datetime',
     ];
 
     public function createdBy()
