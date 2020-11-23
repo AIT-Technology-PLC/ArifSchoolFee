@@ -29,7 +29,7 @@ class PurchaseController extends Controller
 
     public function create(Product $product, Supplier $supplier)
     {
-        $products = $product->getAll();;
+        $products = $product->getProductNames();;
 
         $suppliers = $supplier->getSupplierNames();
 

@@ -94,6 +94,11 @@ class Product extends Model
         return $this->with(['productCategory', 'createdBy', 'updatedBy'])->where('company_id', auth()->user()->employee->company_id)->get();
     }
 
+    public function getProductNames()
+    {
+        return $this->where('company_id', auth()->user()->employee->company_id)->get(['id', 'name']);
+    }
+
     public function countProductsOfCompany()
     {
         return $this->where('company_id', auth()->user()->employee->company_id)->count();
