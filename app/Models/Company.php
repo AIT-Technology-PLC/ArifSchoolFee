@@ -42,7 +42,7 @@ class Company extends Model
 
     public function purchases()
     {
-        return $this->hasMany(Purhcase::class);
+        return $this->hasMany(Purchase::class);
     }
 
     public function merchandises()
