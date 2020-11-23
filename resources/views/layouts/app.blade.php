@@ -40,6 +40,7 @@
     {{-- Local Assets --}}
     <script src="{{ asset('assets/jquery-3.5.1.js') }}" defer></script>
     <script src="{{ asset('assets/axios-0.20.0.js') }}" defer></script>
+    <script src="{{ asset('assets/charts-2.8.0.js') }}" defer></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 
 </body>
