@@ -5,7 +5,7 @@ Dashboard
 @endsection
 
 @section('content')
-{{-- <div class="columns is-marginless">
+<div class="columns is-marginless">
     <div class="column is-3">
         <div class="box text-green">
             <div class="columns is-marginless is-vcentered is-mobile">
@@ -140,7 +140,7 @@ Dashboard
             {!! $pie->render() !!}
         </div>
     </div>
-</div> --}}
+</div>
 
 <div class="columns is-marginless">
     <div class="column is-3">
