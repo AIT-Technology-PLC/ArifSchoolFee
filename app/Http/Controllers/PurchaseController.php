@@ -60,14 +60,14 @@ class PurchaseController extends Controller
         $purchaseDataWithoutKeyPurchase = Arr::except($purchaseData, 'purchase');
         $purchaseDataWithOnlyKeyPurchase = Arr::only($purchaseData, 'purchase');
 
-        DB::transaction(function () use ($purchaseDataWithoutKeyPurchase, $purchaseDataWithOnlyKeyPurchase) {
-            $purchase = $this->purchase->create($purchaseDataWithoutKeyPurchase);
-
-            foreach ($purchaseDataWithOnlyKeyPurchase['purchase'] as $key => $value) {
-                for ($i = 0; $i < count($value); $i++) {
-                    $purchaseDetailData[$i][$key] = $value[$i];
-                }
+        foreach ($purchaseDataWithOnlyKeyPurchase['purchase'] as $key => $value) {
+            for ($i = 0; $i < count($value); $i++) {
+                $purchaseDetailData[$i][$key] = $value[$i];
             }
+        }
+
+        DB::transaction(function () use ($purchaseDataWithoutKeyPurchase, $purchaseDetailData) {
+            $purchase = $this->purchase->create($purchaseDataWithoutKeyPurchase);
 
             for ($j = 0; $j < count($purchaseDetailData); $j++) {
                 $purchase->purchaseDetails()->create($purchaseDetailData[$j]);
