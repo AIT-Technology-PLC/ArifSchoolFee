@@ -39,14 +39,16 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'product_id' => 'required|integer',
-            'supplier_id' => 'nullable|integer',
-            'total_quantity' => 'required|numeric',
-            'total_price' => 'nullable|numeric',
+            'purchase' => 'required|array',
+            'purchase.product_id' => 'required|integer',
+            'purchase.supplier_id' => 'nullable|integer',
+            'purchase.quantity' => 'required|numeric',
+            'purchase.price' => 'required|numeric',
             'shipping_line' => 'required|string|max:255',
-            'payment_status' => 'required|string|max:255',
+            'status' => 'required|string|max:255',
             'shipped_at' => 'nullable|date',
             'delivered_at' => 'nullable|date',
+            'description' => 'nullable|string',
         ]);
 
         $data['company_id'] = auth()->user()->employee->company_id;

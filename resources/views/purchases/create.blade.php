@@ -80,7 +80,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="unit_price" class="label text-green has-text-weight-normal">Price <sup class="has-text-danger"></sup> </label>
+                            <label for="unit_price" class="label text-green has-text-weight-normal">Price <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <input id="unit_price" name="purchase[unit_price]" type="number" class="input" placeholder="Purchase Price" value="{{ old('unit_price') ?? '' }}">
                                 <span class="icon is-small is-left">
