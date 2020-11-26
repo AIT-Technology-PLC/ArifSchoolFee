@@ -201,12 +201,12 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->decimal('total_quantity');
-            $table->decimal('total_price')->nullable(); // totalPrice = totalQuantity * (product.unitPurchasePrice || Other Price)
-            $table->string('status')->nullable(); // ordered -> shipped -> delivered -> added to inventory
+            $table->decimal('total_price')->nullable();
+            $table->string('status')->nullable();
             $table->string('shipping_line')->nullable();
-            $table->string('payment_status')->nullable(); // can be percentage of the purchasePrice or descriptive like full/partial
-            $table->dateTime('shipped_at')->nullable(); // the time at which the order started the shipping process
-            $table->dateTime('delivered_at')->nullable(); // the time at which the order reached the receipent's territory but not yet added to the warehouse
+            $table->dateTime('shipped_at')->nullable();
+            $table->dateTime('delivered_at')->nullable();
+            $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
