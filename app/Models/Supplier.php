@@ -29,11 +29,6 @@ class Supplier extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function purchases()
-    {
-        return $this->hasMany(Purchase::class);
-    }
-
     public function getAll()
     {
         return $this->with(['createdBy', 'updatedBy'])->where('company_id', auth()->user()->employee->company_id)->get();

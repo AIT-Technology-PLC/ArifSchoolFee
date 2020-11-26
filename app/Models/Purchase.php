@@ -29,19 +29,9 @@ class Purchase extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function supplier()
-    {
-        return $this->belongsTo(Supplier::class);
-    }
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
-
     public function getAll()
     {
-        return $this->with(['createdBy', 'updatedBy', 'supplier', 'product', 'company'])
+        return $this->with(['createdBy', 'updatedBy', 'company'])
             ->where('company_id', auth()->user()->employee->company_id)->get();
     }
 
