@@ -196,12 +196,8 @@ class CoreV1 extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('supplier_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->decimal('total_quantity');
-            $table->decimal('total_price')->nullable();
             $table->string('status')->nullable();
             $table->string('shipping_line')->nullable();
             $table->dateTime('shipped_at')->nullable();
@@ -211,14 +207,30 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('company_id');
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        });
+
+        // Purchase Details
+        Schema::create('purchase_details', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('purchase_id')->nullable()->unsigned();
+            $table->bigInteger('supplier_id')->nullable()->unsigned();
+            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->decimal('quantity');
+            $table->decimal('unit_price')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('purchase_id');
             $table->index('supplier_id');
             $table->index('product_id');
 
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('purchase_id')->references('id')->on('purchases')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
 
         // Merchandise Products
@@ -385,6 +397,7 @@ class CoreV1 extends Migration
         Schema::drop('products');
         Schema::drop('product_images');
         Schema::drop('purchases');
+        Schema::drop('purchase_details');
         Schema::drop('merchandises');
         Schema::drop('manufacturings');
         Schema::drop('raw_materials');
