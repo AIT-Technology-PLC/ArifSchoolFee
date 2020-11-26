@@ -20,17 +20,18 @@
                             <label for="product_id" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select id="product_id" name="purchase[product_id]">
+                                    <select id="product_id" name="purchase[product_id][]">
                                         <option selected disabled>Select Product</option>
                                         @foreach ($products as $product)
-                                            <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
+                                            <option value="{{ $product->id }}" {{ old('purchase.product_id.*') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
                                         @endforeach
+                                        <option value="" {{ old('purchase.product_id.*') == '' ? 'selected' : '' }}>None</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-th"></i>
                                 </div>
-                                @error('product_id')
+                                @error('purchase.product_id.*')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>
@@ -43,18 +44,18 @@
                             <label for="supplier_id" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select id="supplier_id" name="purchase[supplier_id]">
+                                    <select id="supplier_id" name="purchase[supplier_id][]">
                                         <option selected disabled>Select Supplier</option>
                                         @foreach ($suppliers as $supplier)
-                                            <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
+                                            <option value="{{ $supplier->id }}" {{ old('purchase.supplier_id.*') == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
                                         @endforeach
-                                        <option value="" {{ old('supplier_id') == '' ? 'selected' : '' }}>None</option>
+                                        <option value="" {{ old('purchase.supplier_id.*') == '' ? 'selected' : '' }}>None</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-address-card"></i>
                                 </div>
-                                @error('supplier_id')
+                                @error('purchase.supplier_id.*')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>
@@ -64,13 +65,13 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="unit_quantity" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                            <label for="quantity" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input id="unit_quantity" name="purchase[quantity]" type="number" class="input" placeholder="Purchase Quantity" value="{{ old('unit_quantity') ?? '' }}">
+                                <input id="quantity" name="purchase[quantity][]" type="number" class="input" placeholder="Purchase Quantity" value="{{ old('purchase.quantity.*') ?? '' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-balance-scale"></i>
                                 </span>
-                                @error('unit_quantity')
+                                @error('purchase.quantity.*')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>
@@ -82,11 +83,11 @@
                         <div class="field">
                             <label for="unit_price" class="label text-green has-text-weight-normal">Price <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input id="unit_price" name="purchase[unit_price]" type="number" class="input" placeholder="Purchase Price" value="{{ old('unit_price') ?? '' }}">
+                                <input id="unit_price" name="purchase[unit_price][]" type="number" class="input" placeholder="Purchase Price" value="{{ old('purchase.unit_price.*') ?? '' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-money-bill"></i>
                                 </span>
-                                @error('unit_price')
+                                @error('purchase.unit_price.*')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>
@@ -122,7 +123,7 @@
                             <label for="status" class="label text-green has-text-weight-normal"> Purchase Status <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select id="status" name="status[]">
+                                    <select id="status" name="status">
                                         <option selected disabled>Select Status</option>
                                         <option value="Quotation" {{ old('status') == 'Quotation' ? 'selected' : '' }}>Quotation</option>
                                         <option value="Confirmed Order" {{ old('status') == 'Confirmed Order' ? 'selected' : '' }}>Confirmed Order</option>

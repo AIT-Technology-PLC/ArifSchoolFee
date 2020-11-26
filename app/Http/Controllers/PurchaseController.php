@@ -42,10 +42,10 @@ class PurchaseController extends Controller
     {
         $purchaseData = $request->validate([
             'purchase' => 'required|array',
-            'purchase.product_id' => 'required|integer',
-            'purchase.supplier_id' => 'nullable|integer',
-            'purchase.quantity' => 'required|numeric',
-            'purchase.price' => 'required|numeric',
+            'purchase.product_id.*' => 'required|integer',
+            'purchase.supplier_id.*' => 'nullable|integer',
+            'purchase.quantity.*' => 'required|numeric',
+            'purchase.unit_price.*' => 'required|numeric',
             'shipping_line' => 'required|string|max:255',
             'status' => 'required|string|max:255',
             'shipped_at' => 'nullable|date',
@@ -65,7 +65,7 @@ class PurchaseController extends Controller
 
             foreach ($purchaseDataWithOnlyKeyPurchase['purchase'] as $key => $value) {
                 for ($i = 0; $i < count($value); $i++) {
-                    $purchaseDetailData[$i][$key] = $value;
+                    $purchaseDetailData[$i][$key] = $value[$i];
                     $purchaseDetailData[$i]['purchase_id'] = $purchase->id;
                 }
             }
