@@ -44,6 +44,11 @@ class Product extends Model
         return $this->hasMany(MroItem::class);
     }
 
+    public function purchaseDetails()
+    {
+        return $this->hasMany(PurchaseDetail::class);
+    }
+
     public function productCategory()
     {
         return $this->belongsTo(ProductCategory::class);

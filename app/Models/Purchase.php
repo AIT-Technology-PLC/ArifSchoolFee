@@ -29,6 +29,11 @@ class Purchase extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function purchaseDetails()
+    {
+        return $this->hasMany(PurchaseDetail::class);
+    }
+
     public function getAll()
     {
         return $this->with(['createdBy', 'updatedBy', 'company'])
