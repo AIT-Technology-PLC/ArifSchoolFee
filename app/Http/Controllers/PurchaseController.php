@@ -6,6 +6,8 @@ use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
@@ -38,7 +40,7 @@ class PurchaseController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $purchaseData = $request->validate([
             'purchase' => 'required|array',
             'purchase.product_id' => 'required|integer',
             'purchase.supplier_id' => 'nullable|integer',
@@ -51,11 +53,23 @@ class PurchaseController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $data['company_id'] = auth()->user()->employee->company_id;
-        $data['created_by'] = auth()->user()->id;
-        $data['updated_by'] = auth()->user()->id;
+        $purchaseData['company_id'] = auth()->user()->employee->company_id;
+        $purchaseData['created_by'] = auth()->user()->id;
+        $purchaseData['updated_by'] = auth()->user()->id;
 
-        $this->purchase->create($data);
+        $purchaseDataWithoutKeyPurchase = Arr::except($purchaseData, 'purchase');
+        $purchaseDataWithOnlyKeyPurchase = Arr::only($purchaseData, 'purchase');
+
+        DB::transaction(function () use ($purchaseDataWithoutKeyPurchase, $purchaseDataWithOnlyKeyPurchase) {
+            $purchase = $this->purchase->create($purchaseDataWithoutKeyPurchase);
+
+            foreach ($purchaseDataWithOnlyKeyPurchase['purchase'] as $key => $value) {
+                for ($i = 0; $i < count($value); $i++) {
+                    $purchaseDetailData[$i][$key] = $value;
+                    $purchaseDetailData[$i]['purchase_id'] = $purchase->id;
+                }
+            }
+        });
 
         return redirect()->route('purchases.index');
     }
