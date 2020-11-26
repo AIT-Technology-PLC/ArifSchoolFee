@@ -20,7 +20,7 @@
                             <label for="product_id" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select id="product_id" name="product_id">
+                                    <select id="product_id" name="product_id[]">
                                         <option selected disabled>Select Product</option>
                                         @foreach ($products as $product)
                                             <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
@@ -43,7 +43,7 @@
                             <label for="supplier_id" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select id="supplier_id" name="supplier_id">
+                                    <select id="supplier_id" name="supplier_id[]">
                                         <option selected disabled>Select Supplier</option>
                                         @foreach ($suppliers as $supplier)
                                             <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
@@ -64,13 +64,13 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="total_quantity" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                            <label for="unit_quantity" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input id="total_quantity" name="total_quantity" type="number" class="input" placeholder="Purchase Quantity" value="{{ old('total_quantity') ?? '' }}">
+                                <input id="unit_quantity" name="quantity[]" type="number" class="input" placeholder="Purchase Quantity" value="{{ old('unit_quantity') ?? '' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-balance-scale"></i>
                                 </span>
-                                @error('total_quantity')
+                                @error('unit_quantity')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>
@@ -80,13 +80,13 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="total_price" class="label text-green has-text-weight-normal">Price <sup class="has-text-danger"></sup> </label>
+                            <label for="unit_price" class="label text-green has-text-weight-normal">Price <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input id="total_price" name="total_price" type="number" class="input" placeholder="Purchase Price" value="{{ old('total_price') ?? '' }}">
+                                <input id="unit_price" name="unit_price[]" type="number" class="input" placeholder="Purchase Price" value="{{ old('unit_price') ?? '' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-money-bill"></i>
                                 </span>
-                                @error('total_price')
+                                @error('unit_price')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>
@@ -119,20 +119,22 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="payment_status" class="label text-green has-text-weight-normal"> Payment Status <sup class="has-text-danger">*</sup> </label>
+                            <label for="status" class="label text-green has-text-weight-normal"> Purchase Status <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select id="payment_status" name="payment_status">
+                                    <select id="status" name="status[]">
                                         <option selected disabled>Select Status</option>
-                                        <option value="Full" {{ old('payment_status') == 'Full' ? 'selected' : '' }}>Full</option>
-                                        <option value="Partial" {{ old('payment_status') == 'Partial' ? 'selected' : '' }}>Partial</option>
-                                        <option value="None" {{ old('payment_status') == 'None' ? 'selected' : '' }}>None</option>
+                                        <option value="Quotation" {{ old('status') == 'Quotation' ? 'selected' : '' }}>Quotation</option>
+                                        <option value="Confirmed Order" {{ old('status') == 'Confirmed Order' ? 'selected' : '' }}>Confirmed Order</option>
+                                        <option value="Shipped" {{ old('status') == 'Shipped' ? 'selected' : '' }}>Shipped</option>
+                                        <option value="Delivered" {{ old('status') == 'Delivered' ? 'selected' : '' }}>Delivered</option>
+                                        <option value="Added to Inventory" {{ old('status') == 'Added to Inventory' ? 'selected' : '' }}>Added to Inventory</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-credit-card"></i>
                                 </div>
-                                @error('payment_status')
+                                @error('status')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>
@@ -159,6 +161,22 @@
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-check"></i>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="description" class="label text-green has-text-weight-normal">Additional Notes</label>
+                            <div class="control has-icons-left">
+                                <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('description') ?? '' }}</textarea>
+                                <span class="icon is-large is-left">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                                @error('description')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
