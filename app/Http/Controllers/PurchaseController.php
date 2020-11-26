@@ -66,8 +66,11 @@ class PurchaseController extends Controller
             foreach ($purchaseDataWithOnlyKeyPurchase['purchase'] as $key => $value) {
                 for ($i = 0; $i < count($value); $i++) {
                     $purchaseDetailData[$i][$key] = $value[$i];
-                    $purchaseDetailData[$i]['purchase_id'] = $purchase->id;
                 }
+            }
+
+            for ($j = 0; $j < count($purchaseDetailData); $j++) {
+                $purchase->purchaseDetails()->create($purchaseDetailData[$j]);
             }
         });
 
