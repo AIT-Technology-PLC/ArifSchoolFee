@@ -102,4 +102,9 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function getProductUOM(Product $product)
+    {
+        return $product->getProductUOM();
+    }
 }

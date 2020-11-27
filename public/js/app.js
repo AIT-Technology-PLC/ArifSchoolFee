@@ -47,7 +47,14 @@ $("#createMenuButton").click(function () {
     $("#createMenu").toggleClass("is-hidden");
 });
 
-function getProductSelected(elementId) {
-    document.getElementById(elementId + "Quantity").innerText = "KG";
-    document.getElementById(elementId + "Price").innerText = "Per KG";
+async function getProductSelected(elementId, productId) {
+    const response = await axios.get("/product/uom/" + productId);
+    const unitOfMeasurement = response.data;
+
+    document.getElementById(
+        elementId + "Quantity"
+    ).innerText = unitOfMeasurement;
+    document.getElementById(
+        elementId + "Price"
+    ).innerText = `Per ${unitOfMeasurement}`;
 }

@@ -2,6 +2,8 @@
 
 Route::resource('products', 'ProductController');
 
+Route::get('/product/uom/{product}', 'ProductController@getProductUOM');
+
 Route::resource('categories', 'ProductCategoryController');
 
 Route::resource('employees', 'EmployeeController');
