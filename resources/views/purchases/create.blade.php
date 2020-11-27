@@ -64,9 +64,9 @@
                         </div>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label for="quantity" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
+                        <label for="quantity" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                        <div class="field has-addons">
+                            <div class="control has-icons-left is-expanded">
                                 <input id="quantity" name="purchase[0][quantity]" type="number" class="input" placeholder="Purchase Quantity" value="{{ old('purchase.0.quantity') ?? '' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-balance-scale"></i>
@@ -77,12 +77,17 @@
                                     </span>
                                 @enderror
                             </div>
+                            <div class="control">
+                                <button id="productUOM" class="button text-green" disabled>
+
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label for="unit_price" class="label text-green has-text-weight-normal">Price <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
+                        <label for="unit_price" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                        <div class="field has-addons">
+                            <div class="control has-icons-left is-expanded">
                                 <input id="unit_price" name="purchase[0][unit_price]" type="number" class="input" placeholder="Purchase Price" value="{{ old('purchase.0.unit_price') ?? '' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-money-bill"></i>
@@ -92,6 +97,11 @@
                                         {{ $message }}
                                     </span>
                                 @enderror
+                            </div>
+                            <div class="control">
+                                <button id="productUOM" class="button text-green" disabled>
+                                    Per
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -165,7 +175,7 @@
                             </div>
                             <div class="column is-6">
                                 <div class="field">
-                                    <label for="unit_price" class="label text-green has-text-weight-normal">Price <sup class="has-text-danger">*</sup> </label>
+                                    <label for="unit_price" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
                                         <input id="unit_price" name="purchase[{{ $i }}][unit_price]" type="number" class="input" placeholder="Purchase Price" value="{{ old('purchase.' . $i . '.unit_price') ?? '' }}">
                                         <span class="icon is-small is-left">
