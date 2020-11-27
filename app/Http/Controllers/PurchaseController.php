@@ -111,8 +111,8 @@ class PurchaseController extends Controller
         DB::transaction(function () use ($purchase, $basicPurchaseData, $purchaseDetailsData) {
             $purchase->update($basicPurchaseData);
 
-            foreach ($purchaseDetailsData as $singlePurchaseDetailsData) {
-                $purchase->purchaseDetails()->update($singlePurchaseDetailsData);
+            for ($i = 0; $i < count($purchaseDetailsData); $i++) {
+                $purchase->purchaseDetails[$i]->update($purchaseDetailsData[$i]);
             }
         });
 
