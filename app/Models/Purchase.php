@@ -36,7 +36,7 @@ class Purchase extends Model
 
     public function getAll()
     {
-        return $this->with(['createdBy', 'updatedBy', 'company'])
+        return $this->with(['createdBy', 'updatedBy', 'company', 'purchaseDetails'])
             ->where('company_id', auth()->user()->employee->company_id)->get();
     }
 
