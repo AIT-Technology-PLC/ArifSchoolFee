@@ -95,12 +95,14 @@
                                     <td> {{ $purchase->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
                                 <td>
-                                    <a href="{{ route('purchases.edit', $purchase->id) }}" title="Modify Purchase Data" class="text-green is-size-6-5">
+                                    <a href="{{ route('purchases.edit', $purchase->id) }}" title="Modify Purchase Data" class="text-green is-size-6">
                                         <span class="icon">
                                             <i class="fas fa-pen-square"></i>
                                         </span>
-                                        <span>
-                                            Edit
+                                    </a>
+                                    <a href="{{ route('purchases.edit', $purchase->id) }}" title="View Details" class="text-purple is-size-6">
+                                        <span class="icon">
+                                            <i class="fas fa-search-plus"></i>
                                         </span>
                                     </a>
                                 </td>
