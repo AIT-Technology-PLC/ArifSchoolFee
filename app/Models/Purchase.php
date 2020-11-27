@@ -36,12 +36,22 @@ class Purchase extends Model
 
     public function getAll()
     {
-        return $this->with(['createdBy', 'updatedBy', 'company'])->withCount('purchaseDetails')
+        return $this->with(['createdBy', 'updatedBy', 'company', 'purchaseDetails'])->withCount('purchaseDetails')
             ->where('company_id', auth()->user()->employee->company_id)->get();
     }
 
     public function countPurchasesOfCompany()
     {
         return $this->where('company_id', auth()->user()->employee->company_id)->count();
+    }
+
+    public function calculateTotalPurchasePrice()
+    {
+        $totalPrice = $this->purchaseDetails
+            ->reduce(function ($carry, $item) {
+                return $carry + ($item->unit_price * $item->quantity);
+            }, 0);
+
+        return number_format($totalPrice, 2);
     }
 }

@@ -60,6 +60,7 @@
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th><abbr> Product </abbr></th>
+                            <th><abbr> Total Price </abbr></th>
                             <th><abbr> Shipping Line </abbr></th>
                             <th><abbr> Status </abbr></th>
                             <th><abbr> Shipped On </abbr></th>
@@ -77,6 +78,10 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
                                     {{ $purchase->purchase_details_count ?? 'N/A' }}
+                                </td>
+                                <td>
+                                    {{ $purchase->company->currency }}. 
+                                    {{ $purchase->calculateTotalPurchasePrice() }}
                                 </td>
                                 <td class="is-capitalized">
                                     {{ $purchase->shipping_line ?? 'N/A' }}
