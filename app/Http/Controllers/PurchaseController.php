@@ -74,7 +74,7 @@ class PurchaseController extends Controller
 
     public function show(Purchase $purchase)
     {
-        //
+        return view('purchases.show', compact('purchase'));
     }
 
     public function edit(Purchase $purchase, Product $product, Supplier $supplier)

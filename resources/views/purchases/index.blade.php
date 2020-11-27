@@ -100,7 +100,7 @@
                                             <i class="fas fa-pen-square"></i>
                                         </span>
                                     </a>
-                                    <a href="{{ route('purchases.edit', $purchase->id) }}" title="View Details" class="text-purple is-size-6">
+                                    <a href="{{ route('purchases.show', $purchase->id) }}" title="View Details" class="text-purple is-size-6">
                                         <span class="icon">
                                             <i class="fas fa-search-plus"></i>
                                         </span>
