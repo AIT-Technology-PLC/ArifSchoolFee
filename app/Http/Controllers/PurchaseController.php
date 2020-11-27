@@ -88,20 +88,33 @@ class PurchaseController extends Controller
 
     public function update(Request $request, Purchase $purchase)
     {
-        $data = $request->validate([
-            'product_id' => 'required|integer',
-            'supplier_id' => 'nullable|integer',
-            'total_quantity' => 'required|numeric',
-            'total_price' => 'nullable|numeric',
+        $basicPurchaseData = $request->validate([
             'shipping_line' => 'required|string|max:255',
-            'payment_status' => 'required|string|max:255',
+            'status' => 'required|string|max:255',
             'shipped_at' => 'nullable|date',
             'delivered_at' => 'nullable|date',
+            'description' => 'nullable|string',
         ]);
 
-        $data['updated_by'] = auth()->user()->id;
+        $basicPurchaseData['updated_by'] = auth()->user()->id;
 
-        $purchase->update($data);
+        $purchaseDetailsData = $request->validate([
+            'purchase' => 'required|array',
+            'purchase.*.product_id' => 'required|integer',
+            'purchase.*.supplier_id' => 'nullable|integer',
+            'purchase.*.quantity' => 'required|numeric',
+            'purchase.*.unit_price' => 'required|numeric',
+        ]);
+
+        $purchaseDetailsData = $purchaseDetailsData['purchase'];
+
+        DB::transaction(function () use ($purchase, $basicPurchaseData, $purchaseDetailsData) {
+            $purchase->update($basicPurchaseData);
+
+            foreach ($purchaseDetailsData as $singlePurchaseDetailsData) {
+                $purchase->purchaseDetails()->update($singlePurchaseDetailsData);
+            }
+        });
 
         return redirect()->route('purchases.index');
     }
