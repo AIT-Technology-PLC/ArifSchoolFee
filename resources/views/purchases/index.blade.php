@@ -60,11 +60,8 @@
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th><abbr> Product </abbr></th>
-                            <th><abbr> Supplier </abbr></th>
-                            <th><abbr> Quantity </abbr></th>
-                            <th><abbr> Price </abbr></th>
                             <th><abbr> Shipping Line </abbr></th>
-                            <th><abbr> Payment Status </abbr></th>
+                            <th><abbr> Status </abbr></th>
                             <th><abbr> Shipped On </abbr></th>
                             <th><abbr> Delivered On </abbr></th>
                             @can('delete', $purchases->first())
@@ -79,22 +76,13 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
-                                    {{ $purchase->product->name ?? 'N/A' }}
-                                </td>
-                                <td class="is-capitalized">
-                                    {{ $purchase->supplier->company_name ?? 'N/A' }}
-                                </td>
-                                <td>
-                                    {{ $purchase->total_quantity . ' ' . $purchase->product->unit_of_measurement ?? 'N/A' }}
-                                </td>
-                                <td>
-                                    {{ $purchase->company->currency . ' ' . $purchase->total_price ?? 'N/A' }}
+                                    {{ $purchase->purchase_details_count ?? 'N/A' }}
                                 </td>
                                 <td class="is-capitalized">
                                     {{ $purchase->shipping_line ?? 'N/A' }}
                                 </td>
                                 <td class="is-capitalized">
-                                    {{ $purchase->payment_status ?? 'N/A' }}
+                                    {{ $purchase->status ?? 'N/A' }}
                                 </td>
                                 <td>
                                     {{ $purchase->shipped_at ? $purchase->shipped_at->toFormattedDateString() : 'Not Shipped' }}
