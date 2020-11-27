@@ -24,10 +24,10 @@
                     <div class="columns is-marginless is-multiline has-background-white-ter mb-5">
                         <div class="column is-6">
                             <div class="field">
-                                <label for="product_id" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                                <label for="purchase[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
                                     <div class="select is-fullwidth">
-                                        <select id="product_id" name="purchase[{{ $loop->index }}][product_id]">
+                                        <select id="purchase[{{ $loop->index }}][product_id]" name="purchase[{{ $loop->index }}][product_id]">
                                             <option selected disabled>Select Product</option>
                                             @foreach ($products as $product)
                                                 <option value="{{ $product->id }}" {{ $purchaseDetail->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
@@ -48,10 +48,10 @@
                         </div>
                         <div class="column is-6">
                             <div class="field">
-                                <label for="supplier_id" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger">*</sup> </label>
+                                <label for="purchase[{{ $loop->index }}][supplier_id]" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
                                     <div class="select is-fullwidth">
-                                        <select id="supplier_id" name="purchase[0][supplier_id]">
+                                        <select id="purchase[{{ $loop->index }}][supplier_id]" name="purchase[{{ $loop->index }}][supplier_id]">
                                             <option selected disabled>Select Supplier</option>
                                             @foreach ($suppliers as $supplier)
                                                 <option value="{{ $supplier->id }}" {{ $purchaseDetail->supplier_id == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
@@ -72,9 +72,9 @@
                         </div>
                         <div class="column is-6">
                             <div class="field">
-                                <label for="quantity" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                                <label for="purchase[{{ $loop->index }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
-                                    <input id="quantity" name="purchase[{{ $loop->index }}][quantity]" type="number" class="input" placeholder="Purchase Quantity" value="{{ $purchaseDetail->quantity ?? '' }}">
+                                    <input id="purchase[{{ $loop->index }}][quantity]" name="purchase[{{ $loop->index }}][quantity]" type="number" class="input" placeholder="Purchase Quantity" value="{{ $purchaseDetail->quantity ?? '' }}">
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-balance-scale"></i>
                                     </span>
@@ -88,9 +88,9 @@
                         </div>
                         <div class="column is-6">
                             <div class="field">
-                                <label for="unit_price" class="label text-green has-text-weight-normal">Price <sup class="has-text-danger">*</sup> </label>
+                                <label for="purchase[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Price <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
-                                    <input id="unit_price" name="purchase[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Purchase Price" value="{{ $purchaseDetail->unit_price ?? '' }}">
+                                    <input id="purchase[{{ $loop->index }}][unit_price]" name="purchase[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Purchase Price" value="{{ $purchaseDetail->unit_price ?? '' }}">
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-money-bill"></i>
                                     </span>
