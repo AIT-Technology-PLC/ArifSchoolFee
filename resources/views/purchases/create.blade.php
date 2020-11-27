@@ -97,7 +97,7 @@
                     </div>
                 </div>
                 @for ($i = 1; $i < 10; $i++)
-                    @if (old('purchase.{{ $i }}.product_id') || old('purchase.{{ $i }}.supplier_id') || old('purchase.{{ $i }}.quantity') || old('purchase.{{ $i }}.unit_price'))
+                    @if (old('purchase.' . $i . '.product_id') || old('purchase.' . $i . '.supplier_id') || old('purchase.' . $i . '.quantity') || old('purchase.' . $i . '.unit_price'))
                         <div class="columns is-marginless is-multiline">
                             <div class="column is-6">
                                 <div class="field">
@@ -107,15 +107,15 @@
                                             <select id="product_id" name="purchase[{{ $i }}][product_id]">
                                                 <option selected disabled>Select Product</option>
                                                 @foreach ($products as $product)
-                                                    <option value="{{ $product->id }}" {{ old('purchase.{{ $i }}.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
+                                                    <option value="{{ $product->id }}" {{ old('purchase.' . $i . '.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
                                                 @endforeach
-                                                <option value="" {{ old('purchase.{{ $i }}.product_id') == '' ? 'selected' : '' }}>None</option>
+                                                <option value="" {{ old('purchase.' . $i . '.product_id') == '' ? 'selected' : '' }}>None</option>
                                             </select>
                                         </div>
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-th"></i>
                                         </div>
-                                        @error('purchase.{{ $i }}.product_id')
+                                        @error('purchase.' . $i . '.product_id')
                                             <span class="help has-text-danger" role="alert">
                                                 {{ $message }}
                                             </span>
@@ -131,15 +131,15 @@
                                             <select id="supplier_id" name="purchase[{{ $i }}][supplier_id]">
                                                 <option selected disabled>Select Supplier</option>
                                                 @foreach ($suppliers as $supplier)
-                                                    <option value="{{ $supplier->id }}" {{ old('purchase.{{ $i }}.supplier_id') == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
+                                                    <option value="{{ $supplier->id }}" {{ old('purchase.' . $i . '.supplier_id') == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
                                                 @endforeach
-                                                <option value="" {{ old('purchase.{{ $i }}.supplier_id') == '' ? 'selected' : '' }}>None</option>
+                                                <option value="" {{ old('purchase.' . $i . '.supplier_id') == '' ? 'selected' : '' }}>None</option>
                                             </select>
                                         </div>
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-address-card"></i>
                                         </div>
-                                        @error('purchase.{{ $i }}.supplier_id')
+                                        @error('purchase.' . $i . '.supplier_id')
                                             <span class="help has-text-danger" role="alert">
                                                 {{ $message }}
                                             </span>
@@ -151,11 +151,11 @@
                                 <div class="field">
                                     <label for="quantity" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
-                                        <input id="quantity" name="purchase[{{ $i }}][quantity]" type="number" class="input" placeholder="Purchase Quantity" value="{{ old('purchase.{{ $i }}.quantity') ?? '' }}">
+                                        <input id="quantity" name="purchase[{{ $i }}][quantity]" type="number" class="input" placeholder="Purchase Quantity" value="{{ old('purchase.' . $i . '.quantity') ?? '' }}">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-balance-scale"></i>
                                         </span>
-                                        @error('purchase.{{ $i }}.quantity')
+                                        @error('purchase.' . $i . '.quantity')
                                             <span class="help has-text-danger" role="alert">
                                                 {{ $message }}
                                             </span>
@@ -167,11 +167,11 @@
                                 <div class="field">
                                     <label for="unit_price" class="label text-green has-text-weight-normal">Price <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
-                                        <input id="unit_price" name="purchase[{{ $i }}][unit_price]" type="number" class="input" placeholder="Purchase Price" value="{{ old('purchase.{{ $i }}.unit_price') ?? '' }}">
+                                        <input id="unit_price" name="purchase[{{ $i }}][unit_price]" type="number" class="input" placeholder="Purchase Price" value="{{ old('purchase.' . $i . '.unit_price') ?? '' }}">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-money-bill"></i>
                                         </span>
-                                        @error('purchase.{{ $i }}.unit_price')
+                                        @error('purchase.' . $i . '.unit_price')
                                             <span class="help has-text-danger" role="alert">
                                                 {{ $message }}
                                             </span>
