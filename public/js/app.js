@@ -46,3 +46,8 @@ $("#addNewForm").click(function () {
 $("#createMenuButton").click(function () {
     $("#createMenu").toggleClass("is-hidden");
 });
+
+function getProductSelected(elementId) {
+    document.getElementById(elementId + "Quantity").innerText = "KG";
+    document.getElementById(elementId + "Price").innerText = "Per KG";
+}

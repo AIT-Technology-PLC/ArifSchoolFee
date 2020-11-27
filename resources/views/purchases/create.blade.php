@@ -20,7 +20,7 @@
                             <label for="purchase[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select id="purchase[0][product_id]" name="purchase[0][product_id]">
+                                    <select id="purchase[0][product_id]" name="purchase[0][product_id]" onchange="getProductSelected(this.id)">
                                         <option selected disabled>Select Product</option>
                                         @foreach ($products as $product)
                                             <option value="{{ $product->id }}" {{ old('purchase.0.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
@@ -78,9 +78,7 @@
                                 @enderror
                             </div>
                             <div class="control">
-                                <button id="productUOM" class="button text-green" disabled>
-
-                                </button>
+                                <button id="purchase[0][product_id]Quantity" class="button text-green"></button>
                             </div>
                         </div>
                     </div>
@@ -99,9 +97,7 @@
                                 @enderror
                             </div>
                             <div class="control">
-                                <button id="productUOM" class="button text-green" disabled>
-                                    Per
-                                </button>
+                                <button id="purchase[0][product_id]Price" class="button text-green"></button>
                             </div>
                         </div>
                     </div>
