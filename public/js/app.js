@@ -62,14 +62,16 @@ async function getProductSelected(elementId, productId) {
 }
 
 const addPurchaseForm = (function () {
-    let index = 1;
+    const purchaseFormGroup = d.getElementsByName("purchaseFormGroup");
     const purchaseFormWrapper = d.getElementById("purchaseFormWrapper");
     const productList = d.getElementById("purchase[0][product_id]");
     const supplierList = d.getElementById("purchase[0][supplier_id]");
-
+    
     if (!purchaseFormWrapper) {
         return false;
     }
+    
+    let index = purchaseFormGroup.length;
 
     return function () {
         const createPurchaseForm = `
@@ -78,7 +80,7 @@ const addPurchaseForm = (function () {
             Item ${index + 1}
         </span>
         </div>
-        <div class="columns is-marginless is-multiline has-background-white-ter mb-5">
+        <div name="purchaseFormGroup" class="columns is-marginless is-multiline has-background-white-ter mb-5">
         <div class="column is-6">
         <div class="field">
         <label for="purchase[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
