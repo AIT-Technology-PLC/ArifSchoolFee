@@ -22,6 +22,8 @@ d.getElementById("createMenuButton").addEventListener(
     toggleCreateMenu
 );
 
+d.getElementById("createMenu").addEventListener("mouseleave", toggleCreateMenu);
+
 if (d.getElementById("addNewPurchaseForm")) {
     d.getElementById("addNewPurchaseForm").addEventListener(
         "click",
