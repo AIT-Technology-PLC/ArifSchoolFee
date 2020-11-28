@@ -21,7 +21,7 @@ Access Permission Denied
             </h1>
             <h2 class="subtitle has-text-grey-light has-text-weight-light">
                 Sorry, but you don't have permission to access this page you can go back to
-                <a href="{{ URL::previous() }}" class="text-green has-text-weight-bold">previous page</a>.
+                <a href="{{ url()->previous() }}" class="text-green has-text-weight-bold">previous page</a>.
             </h2>
             <h2 class="subtitle has-text-grey-light has-text-weight-normal">
                 Please refer to your <span class="text-green has-text-weight-bold">System Administrator</span> for more.
