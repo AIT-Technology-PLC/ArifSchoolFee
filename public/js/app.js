@@ -5,11 +5,11 @@ function hideMainMenuScroller() {
 }
 
 function hideMainMenuScrollerOnMouseOut() {
-    d.getElementById("menuLeft").style.overflow = "hidden";
+    this.style.overflow = "hidden";
 }
 
 function showMainMenuScrollerOnMouseOver() {
-    d.getElementById("menuLeft").style.overflow = "auto";
+    this.style.overflow = "auto";
 }
 
 const addKeyValueInputFields = (function () {
