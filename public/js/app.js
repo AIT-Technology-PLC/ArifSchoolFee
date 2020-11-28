@@ -15,6 +15,11 @@ function showMainMenuScrollerOnMouseOver() {
 const addKeyValueInputFields = (function () {
     let index = 0;
     const newForm = d.getElementById("newForm");
+
+    if (!newForm) {
+        return false;
+    }
+
     newForm.classList.remove("is-hidden");
 
     return function () {

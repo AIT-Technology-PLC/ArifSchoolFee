@@ -10,10 +10,12 @@ d.getElementById("menuLeft").addEventListener(
     showMainMenuScrollerOnMouseOver
 );
 
-d.getElementById("addNewForm").addEventListener(
-    "click",
-    addKeyValueInputFields
-);
+if (d.getElementById("addNewForm")) {
+    d.getElementById("addNewForm").addEventListener(
+        "click",
+        addKeyValueInputFields
+    );
+}
 
 d.getElementById("createMenuButton").addEventListener(
     "click",
