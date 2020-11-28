@@ -64,6 +64,8 @@ async function getProductSelected(elementId, productId) {
 const addPurchaseForm = (function () {
     let index = 1;
     const purchaseFormWrapper = d.getElementById("purchaseFormWrapper");
+    const productList = d.getElementById("purchase[0][product_id]");
+    const supplierList = d.getElementById("purchase[0][supplier_id]");
 
     if (!purchaseFormWrapper) {
         return false;
@@ -78,6 +80,7 @@ const addPurchaseForm = (function () {
             <div class="control has-icons-left">
                 <div class="select is-fullwidth">
                     <select id="purchase[${index}][product_id]" name="purchase[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                    ${productList.innerHTML}
                     </select>
                 </div>
                 <div class="icon is-small is-left">
@@ -92,6 +95,7 @@ const addPurchaseForm = (function () {
             <div class="control has-icons-left">
                 <div class="select is-fullwidth">
                     <select id="purchase[${index}][supplier_id]" name="purchase[${index}][supplier_id]">
+                    ${supplierList.innerHTML}
                     </select>
                 </div>
                 <div class="icon is-small is-left">
