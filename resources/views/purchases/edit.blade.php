@@ -71,9 +71,9 @@
                             </div>
                         </div>
                         <div class="column is-6">
-                            <div class="field">
-                                <label for="purchase[{{ $loop->index }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                                <div class="control has-icons-left">
+                            <label for="purchase[{{ $loop->index }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                            <div class="field has-addons">
+                                <div class="control has-icons-left is-expanded">
                                     <input id="purchase[{{ $loop->index }}][quantity]" name="purchase[{{ $loop->index }}][quantity]" type="number" class="input" placeholder="Purchase Quantity" value="{{ $purchaseDetail->quantity ?? '' }}">
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-balance-scale"></i>
@@ -84,12 +84,17 @@
                                         </span>
                                     @enderror
                                 </div>
+                                <div class="control">
+                                    <button class="button text-green" type="button">
+                                        {{ $purchaseDetail->product->unit_of_measurement }}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div class="column is-6">
-                            <div class="field">
-                                <label for="purchase[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Price <sup class="has-text-danger">*</sup> </label>
-                                <div class="control has-icons-left">
+                            <label for="purchase[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                            <div class="field has-addons">
+                                <div class="control has-icons-left is-expanded">
                                     <input id="purchase[{{ $loop->index }}][unit_price]" name="purchase[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Purchase Price" value="{{ $purchaseDetail->unit_price ?? '' }}">
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-money-bill"></i>
@@ -99,6 +104,11 @@
                                             {{ $message }}
                                         </span>
                                     @enderror
+                                </div>
+                                <div class="control">
+                                    <button class="button text-green" type="button">
+                                        {{ $purchaseDetail->product->unit_of_measurement }}
+                                    </button>
                                 </div>
                             </div>
                         </div>
