@@ -94,13 +94,57 @@
             <div class="columns is-marginless">
                 <div class="column is-4 is-offset-8 px-0">
                     <div class="box bg-green">
-                        <h1 class="is-uppercase has-text-weight-light has-text-white">
-                            Total Price
-                        </h1>
-                        <h2 class="subtitle has-text-white has-text-weight-bold">
-                            {{ $purchase->company->currency }}.
-                            {{ $purchase->calculateTotalPurchasePrice() }}
-                        </h2>
+                        <div class="mb-5 has-text-centered">
+                            <h1 class="is-uppercase has-text-weight-bold has-text-white is-family-monospace">
+                                <span class="icon">
+                                    <i class="fas fa-money-bill"></i>
+                                </span>
+                                <span>
+                                    Purchase Summary
+                                </span>
+                            </h1>
+                        </div>
+                        <div class="mb-4">
+                            <h1 class="is-uppercase has-text-weight-light has-text-white">
+                                Shipping Company
+                            </h1>
+                            <h2 class="subtitle has-text-white has-text-weight-medium">
+                                {{ $purchase->shipping_line ?? '' }}
+                            </h2>
+                        </div>
+                        <div class="mb-4">
+                            <h1 class="is-uppercase has-text-weight-light has-text-white">
+                                Status
+                            </h1>
+                            <h2 class="subtitle has-text-white has-text-weight-medium">
+                                {{ $purchase->status }}
+                            </h2>
+                        </div>
+                        <div class="mb-4">
+                            <h1 class="is-uppercase has-text-weight-light has-text-white">
+                                Shipping Date
+                            </h1>
+                            <h2 class="subtitle has-text-white has-text-weight-medium">
+                                {{ $purchase->shipped_at ? $purchase->shipped_at->toFormattedDateString() : 'Not Shipped' }}
+                            </h2>
+                        </div>
+                        <div class="mb-4">
+                            <h1 class="is-uppercase has-text-weight-light has-text-white">
+                                Delivery Date
+                            </h1>
+                            <h2 class="subtitle has-text-white has-text-weight-medium">
+                                {{ $purchase->delivered_at ? $purchase->delivered_at->toFormattedDateString() : 'Not Delivered' }}
+                            </h2>
+                        </div>
+                        <div class="mb-4">
+                            <h1 class="is-uppercase has-text-weight-light has-text-white">
+                                Total Price
+                            </h1>
+                            <h2 class="subtitle has-text-white has-text-weight-medium">
+                                {{ $purchase->company->currency }}.
+                                {{ $purchase->calculateTotalPurchasePrice() }}
+                            </h2>
+                        </div>
                     </div>
                 </div>
             </div>
