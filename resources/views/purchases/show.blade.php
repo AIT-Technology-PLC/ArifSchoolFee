@@ -38,7 +38,7 @@
                             {{ $purchase->calculateTotalPurchasePrice() }}
                         </div>
                         <div class="is-uppercase is-size-7">
-                            Total Price
+                            Total Price ({{ $purchase->company->currency }})
                         </div>
                     </div>
                 </div>
@@ -52,50 +52,56 @@
             </h1>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            <div class="columns is-marginless">
-                <div class="column has-text-weight-bold text-green">
-                    #
-                </div>
-                <div class="column has-text-weight-bold text-green">
-                    Product
-                </div>
-                <div class="column has-text-weight-bold text-green">
-                    Quantity
-                </div>
-                <div class="column has-text-weight-bold text-green">
-                    Unit Price
-                </div>
-                <div class="column has-text-weight-bold text-green">
-                    Total
-                </div>
+            <div class="table-container">
+                <table class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
+                    <thead>
+                        <tr>
+                            <th><abbr> # </abbr></th>
+                            <th><abbr> Product </abbr></th>
+                            <th><abbr> Supplier </abbr></th>
+                            <th><abbr> Quantity </abbr></th>
+                            <th><abbr> Unit Price </abbr></th>
+                            <th><abbr> Total </abbr></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($purchase->purchaseDetails as $purchaseDetail)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td class="is-capitalized">
+                                    {{ $purchaseDetail->product->name }}
+                                </td>
+                                <td class="is-capitalized">
+                                    {{ $purchaseDetail->supplier->company_name ?? 'N/A' }}
+                                </td>
+                                <td>
+                                    {{ number_format($purchaseDetail->quantity, 2) }}
+                                    {{ $purchaseDetail->product->unit_of_measurement }}
+                                </td>
+                                <td>
+                                    {{ $purchase->company->currency }}.
+                                    {{ number_format($purchaseDetail->unit_price, 2) }}
+                                </td>
+                                <td>
+                                    {{ $purchase->company->currency }}.
+                                    {{ number_format($purchaseDetail->quantity * $purchaseDetail->unit_price, 2) }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-            @foreach ($purchase->purchaseDetails as $purchaseDetail)
-                <div class="columns is-marginless">
-                    <div class="column">
-                        {{ $loop->index + 1 }}
-                    </div>
-                    <div class="column">
-                        {{ $purchaseDetail->product->name }}
-                    </div>
-                    <div class="column">
-                        {{ $purchaseDetail->quantity }}
-                        {{ $purchaseDetail->product->unit_of_measurement }}
-                    </div>
-                    <div class="column">
-                        {{ $purchaseDetail->unit_price }}
-                    </div>
-                    <div class="column">
-                        {{ $purchase->company->currency }}.
-                        {{ $purchaseDetail->quantity * $purchaseDetail->unit_price }}
-                    </div>
-                </div>
-            @endforeach
             <div class="columns is-marginless">
-                <div class="column is-one-fifth is-offset-four-fifths">
-                    <p class="has-text-weight-bold">
-                        {{ $purchase->company->currency }}.
-                        {{ $purchase->calculateTotalPurchasePrice() }}
-                    </p>
+                <div class="column is-4 is-offset-8 px-0">
+                    <div class="box bg-green">
+                        <h1 class="is-uppercase has-text-weight-light has-text-white">
+                            Total Price
+                        </h1>
+                        <h2 class="subtitle has-text-white has-text-weight-bold">
+                            {{ $purchase->company->currency }}.
+                            {{ $purchase->calculateTotalPurchasePrice() }}
+                        </h2>
+                    </div>
                 </div>
             </div>
         </div>
