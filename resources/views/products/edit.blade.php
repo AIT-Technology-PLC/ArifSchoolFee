@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+    @include('components.previous_url')
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-green has-text-weight-medium is-size-5">
@@ -64,8 +65,8 @@
                                     <select id="product_category_id" name="product_category_id">
                                         <option selected disabled>Category</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}" {{ $product->productCategory->id == $category->id ? 'selected' : '' }}> 
-                                                {{ $category->name }} 
+                                            <option value="{{ $category->id }}" {{ $product->productCategory->id == $category->id ? 'selected' : '' }}>
+                                                {{ $category->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -83,8 +84,8 @@
                                 <div class="select is-fullwidth">
                                     <select id="unit_of_measurement" name="unit_of_measurement">
                                         <option selected disabled>Category</option>
-                                        <option value="Kilogram" {{ $product->unit_of_measurement == "Kilogram" ? 'selected' : '' }}> Kilogram </option>
-                                        <option class="Piece" {{ $product->unit_of_measurement == "Piece" ? 'selected' : '' }}> Piece </option>
+                                        <option value="Kilogram" {{ $product->unit_of_measurement == 'Kilogram' ? 'selected' : '' }}> Kilogram </option>
+                                        <option class="Piece" {{ $product->unit_of_measurement == 'Piece' ? 'selected' : '' }}> Piece </option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
@@ -176,7 +177,7 @@
                                     Yes
                                 </label>
                                 <label class="radio text-green has-text-weight-normal">
-                                    <input type="radio" name="is_expirable" value="0" {{ $product->is_expirable ? '' : 'checked'  }}>
+                                    <input type="radio" name="is_expirable" value="0" {{ $product->is_expirable ? '' : 'checked' }}>
                                     No
                                 </label>
                                 @error('is_expirable')

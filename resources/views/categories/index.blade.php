@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+    @include('components.previous_url')
     <div class="columns is-marginless">
         <div class="column is-6">
             <div class="box text-green">
