@@ -120,7 +120,7 @@
                                     <label for="purchase[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
                                         <div class="select is-fullwidth">
-                                            <select id="purchase[{{ $i }}][product_id]" name="purchase[{{ $i }}][product_id]">
+                                            <select id="purchase[{{ $i }}][product_id]" name="purchase[{{ $i }}][product_id]" onchange="getProductSelected(this.id, this.value)">
                                                 <option selected disabled>Select Product</option>
                                                 @foreach ($products as $product)
                                                     <option value="{{ $product->id }}" {{ old('purchase.' . $i . '.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
@@ -144,7 +144,7 @@
                                     <label for="purchase[{{ $i }}][supplier_id]" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
                                         <div class="select is-fullwidth">
-                                            <select id="purchase[{{ $i }}][supplier_id]" name="purchase[{{ $i }}][supplier_id]">
+                                            <select id="purchase[{{ $i }}][supplier_id]" name="purchase[{{ $i }}][supplier_id]" onchange="getProductSelected(this.id, this.value)">
                                                 <option selected disabled>Select Supplier</option>
                                                 @foreach ($suppliers as $supplier)
                                                     <option value="{{ $supplier->id }}" {{ old('purchase.' . $i . '.supplier_id') == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
@@ -164,9 +164,9 @@
                                 </div>
                             </div>
                             <div class="column is-6">
-                                <div class="field">
-                                    <label for="purchase[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                                    <div class="control has-icons-left">
+                                <label for="purchase[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                                <div class="field has-addons">
+                                    <div class="control has-icons-left is-expanded">
                                         <input id="purchase[{{ $i }}][quantity]" name="purchase[{{ $i }}][quantity]" type="number" class="input" placeholder="Purchase Quantity" value="{{ old('purchase.' . $i . '.quantity') ?? '' }}">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-balance-scale"></i>
@@ -177,12 +177,15 @@
                                             </span>
                                         @enderror
                                     </div>
+                                    <div class="control">
+                                        <button id="purchase[{{ $i }}][product_id]Quantity" class="button text-green" type="button"></button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="column is-6">
-                                <div class="field">
-                                    <label for="purchase[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
-                                    <div class="control has-icons-left">
+                                <label for="purchase[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                                <div class="field has-addons">
+                                    <div class="control has-icons-left is-expanded">
                                         <input id="purchase[{{ $i }}][unit_price]" name="purchase[{{ $i }}][unit_price]" type="number" class="input" placeholder="Purchase Price" value="{{ old('purchase.' . $i . '.unit_price') ?? '' }}">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-money-bill"></i>
@@ -192,6 +195,9 @@
                                                 {{ $message }}
                                             </span>
                                         @enderror
+                                    </div>
+                                    <div class="control">
+                                        <button id="purchase[{{ $i }}][product_id]Price" class="button text-green" type="button"></button>
                                     </div>
                                 </div>
                             </div>
