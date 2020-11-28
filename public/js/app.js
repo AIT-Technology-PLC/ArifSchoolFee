@@ -12,7 +12,7 @@ function showMainMenuScrollerOnMouseOver() {
     d.getElementById("menuLeft").style.overflow = "auto";
 }
 
-function keyValueInputFields() {
+const addKeyValueInputFields = (function () {
     let index = 0;
     const newForm = d.getElementById("newForm");
     newForm.classList.remove("is-hidden");
@@ -40,7 +40,7 @@ function keyValueInputFields() {
 
         index++;
     };
-}
+})();
 
 function toggleCreateMenu() {
     d.getElementById("createMenu").classList.toggle("is-hidden");
@@ -68,9 +68,10 @@ d.getElementById("menuLeft").addEventListener(
     showMainMenuScrollerOnMouseOver
 );
 
-const createFields = keyValueInputFields();
-
-d.getElementById("addNewForm").addEventListener("click", createFields);
+d.getElementById("addNewForm").addEventListener(
+    "click",
+    addKeyValueInputFields
+);
 
 d.getElementById("createMenuButton").addEventListener(
     "click",
