@@ -14,7 +14,12 @@
         <form action="{{ route('purchases.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
-                <div class="columns is-marginless is-multiline">
+                <div class="mt-4">
+                    <span class="py-4 px-2 has-background-white-ter text-purple has-text-weight-medium">
+                        Item 1
+                    </span>
+                </div>
+                <div class="columns is-marginless is-multiline has-background-white-ter mb-5">
                     <div class="column is-6">
                         <div class="field">
                             <label for="purchase[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
@@ -104,7 +109,12 @@
                 </div>
                 @for ($i = 1; $i < 10; $i++)
                     @if (old('purchase.' . $i . '.product_id') || old('purchase.' . $i . '.supplier_id') || old('purchase.' . $i . '.quantity') || old('purchase.' . $i . '.unit_price'))
-                        <div class="columns is-marginless is-multiline">
+                        <div class="mt-4">
+                            <span class="py-4 px-2 has-background-white-ter text-purple has-text-weight-medium">
+                                Item {{ $i + 1 }}
+                            </span>
+                        </div>
+                        <div class="columns is-marginless is-multiline has-background-white-ter mb-5">
                             <div class="column is-6">
                                 <div class="field">
                                     <label for="purchase[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
