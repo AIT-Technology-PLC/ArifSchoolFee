@@ -55,14 +55,14 @@
         </div>
         <div class="box radius-top-0">
             <div class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7">
+                <table class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
-                            <th><abbr> Product </abbr></th>
-                            <th><abbr> Total Price </abbr></th>
                             <th><abbr> Shipping Line </abbr></th>
                             <th><abbr> Status </abbr></th>
+                            <th><abbr> Total Products </abbr></th>
+                            <th><abbr> Total Price </abbr></th>
                             <th><abbr> Shipped On </abbr></th>
                             <th><abbr> Delivered On </abbr></th>
                             @can('delete', $purchases->first())
@@ -77,23 +77,23 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
-                                    {{ $purchase->purchase_details_count ?? 'N/A' }}
-                                </td>
-                                <td>
-                                    {{ $purchase->company->currency }}. 
-                                    {{ $purchase->calculateTotalPurchasePrice() }}
-                                </td>
-                                <td class="is-capitalized">
                                     {{ $purchase->shipping_line ?? 'N/A' }}
                                 </td>
                                 <td class="is-capitalized">
                                     {{ $purchase->status ?? 'N/A' }}
                                 </td>
                                 <td>
+                                    {{ $purchase->purchase_details_count ?? 'N/A' }}
+                                </td>
+                                <td>
+                                    {{ $purchase->company->currency }}.
+                                    {{ $purchase->calculateTotalPurchasePrice() }}
+                                </td>
+                                <td>
                                     {{ $purchase->shipped_at ? $purchase->shipped_at->toFormattedDateString() : 'Not Shipped' }}
                                 </td>
-                                <td> 
-                                    {{ $purchase->delivered_at ? $purchase->delivered_at->toFormattedDateString() : 'Not Delivered' }} 
+                                <td>
+                                    {{ $purchase->delivered_at ? $purchase->delivered_at->toFormattedDateString() : 'Not Delivered' }}
                                 </td>
                                 @can('delete', $purchase)
                                     <td> {{ $purchase->createdBy->name ?? 'N/A' }} </td>
