@@ -190,6 +190,10 @@
                         @break
                     @endif
                 @endfor
+                <div id="purchaseFormWrapper"></div>
+                <button id="addNewPurchaseForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
+                    Add More Purchase
+                </button>
                 <hr>
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">

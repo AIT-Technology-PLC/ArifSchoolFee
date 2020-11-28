@@ -21,3 +21,10 @@ d.getElementById("createMenuButton").addEventListener(
     "click",
     toggleCreateMenu
 );
+
+if (d.getElementById("addNewPurchaseForm")) {
+    d.getElementById("addNewPurchaseForm").addEventListener(
+        "click",
+        addPurchaseForm
+    );
+}

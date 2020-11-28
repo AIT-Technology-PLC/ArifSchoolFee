@@ -60,3 +60,78 @@ async function getProductSelected(elementId, productId) {
         elementId + "Price"
     ).innerText = `Per ${unitOfMeasurement}`;
 }
+
+const addPurchaseForm = (function () {
+    let index = 1;
+    const purchaseFormWrapper = d.getElementById("purchaseFormWrapper");
+
+    if (!purchaseFormWrapper) {
+        return false;
+    }
+
+    return function () {
+        const createPurchaseForm = `
+        <div class="columns is-marginless is-multiline">
+        <div class="column is-6">
+        <div class="field">
+            <label for="purchase[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+            <div class="control has-icons-left">
+                <div class="select is-fullwidth">
+                    <select id="purchase[${index}][product_id]" name="purchase[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                    </select>
+                </div>
+                <div class="icon is-small is-left">
+                    <i class="fas fa-th"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column is-6">
+        <div class="field">
+            <label for="purchase[${index}][supplier_id]" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger">*</sup> </label>
+            <div class="control has-icons-left">
+                <div class="select is-fullwidth">
+                    <select id="purchase[${index}][supplier_id]" name="purchase[${index}][supplier_id]">
+                    </select>
+                </div>
+                <div class="icon is-small is-left">
+                    <i class="fas fa-address-card"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column is-6">
+        <label for="purchase[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+        <div class="field has-addons">
+            <div class="control has-icons-left is-expanded">
+                <input id="purchase[${index}][quantity]" name="purchase[${index}][quantity]" type="number" class="input" placeholder="Purchase Quantity">
+                <span class="icon is-small is-left">
+                    <i class="fas fa-balance-scale"></i>
+                </span>
+            </div>
+            <div class="control">
+                <button id="purchase[${index}][product_id]Quantity" class="button text-green" type="button"></button>
+            </div>
+        </div>
+    </div>
+    <div class="column is-6">
+        <label for="purchase[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+        <div class="field has-addons">
+            <div class="control has-icons-left is-expanded">
+                <input id="purchase[${index}][unit_price]" name="purchase[${index}][unit_price]" type="number" class="input" placeholder="Purchase Price">
+                <span class="icon is-small is-left">
+                    <i class="fas fa-money-bill"></i>
+                </span>
+            </div>
+            <div class="control">
+                <button id="purchase[${index}][product_id]Price" class="button text-green" type="button"></button>
+            </div>
+        </div>
+    </div>
+    </div>`;
+
+        purchaseFormWrapper.innerHTML += createPurchaseForm;
+
+        index++;
+    };
+})();
