@@ -78,7 +78,7 @@
                                 @enderror
                             </div>
                             <div class="control">
-                                <button id="purchase[0][product_id]Quantity" class="button text-green"></button>
+                                <button id="purchase[0][product_id]Quantity" class="button text-green" type="button"></button>
                             </div>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                                 @enderror
                             </div>
                             <div class="control">
-                                <button id="purchase[0][product_id]Price" class="button text-green"></button>
+                                <button id="purchase[0][product_id]Price" class="button text-green" type="button"></button>
                             </div>
                         </div>
                     </div>
