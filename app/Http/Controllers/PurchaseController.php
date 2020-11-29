@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
+use App\Traits\HasOptions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
+    use HasOptions;
+
     private $purchase;
 
     public function __construct(Purchase $purchase)
@@ -34,7 +37,11 @@ class PurchaseController extends Controller
 
         $suppliers = $supplier->getSupplierNames();
 
-        return view('purchases.create', compact('products', 'suppliers'));
+        $purchaseStatuses = $this->getPurchaseStatuses();
+
+        $shippingLines = $this->getShippingLines();
+
+        return view('purchases.create', compact('products', 'suppliers', 'purchaseStatuses', 'shippingLines'));
     }
 
     public function store(Request $request)
