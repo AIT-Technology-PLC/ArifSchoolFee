@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Supplier;
+use App\Traits\HasOptions;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    use HasOptions;
+
     private $product;
 
     public function __construct(Product $product)
@@ -33,7 +36,11 @@ class ProductController extends Controller
 
         $suppliers = $supplier->getSupplierNames();
 
-        return view('products.create', compact('categories', 'suppliers'));
+        $inventoryTypes = $this->getInventoryTypes();
+
+        $unitTypes = $this->getMeasurementUnits();
+
+        return view('products.create', compact('categories', 'suppliers', 'inventoryTypes', 'unitTypes'));
     }
 
     public function store(Request $request)

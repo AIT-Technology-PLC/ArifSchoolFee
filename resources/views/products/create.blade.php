@@ -22,10 +22,9 @@
                                 <div class="select is-fullwidth">
                                     <select id="type" name="type">
                                         <option selected disabled>Type</option>
-                                        <option value="manufacturing" {{ old('type') == 'manufacturing' ? 'selected' : '' }}>Finished Product</option>
-                                        <option value="merchandise" {{ old('type') == 'merchandise' ? 'selected' : '' }}>Merchandise Product</option>
-                                        <option value="raw" {{ old('type') == 'raw' ? 'selected' : '' }}>Raw Material</option>
-                                        <option value="mro" {{ old('type') == 'mro' ? 'selected' : '' }}>MRO Item</option>
+                                        @foreach ($inventoryTypes as $inventoryType)
+                                            <option value="{{ $inventoryType }}" {{ old('type') == $inventoryType ? 'selected' : '' }}>{{ $inventoryType }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
@@ -82,8 +81,9 @@
                                 <div class="select is-fullwidth">
                                     <select id="unit_of_measurement" name="unit_of_measurement">
                                         <option selected disabled>Category</option>
-                                        <option value="Kilogram" {{ old('unit_of_measurement') == 'Kilogram' ? 'selected' : '' }}> Kilogram </option>
-                                        <option class="Piece" {{ old('unit_of_measurement') == 'Piece' ? 'selected' : '' }}> Piece </option>
+                                        @foreach ($unitTypes as $unitType)
+                                            <option value="{{ $unitType }}" {{ old('type') == $unitType ? 'selected' : '' }}>{{ $unitType }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">

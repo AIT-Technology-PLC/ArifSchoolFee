@@ -7,7 +7,13 @@ trait HasOptions
 
     public function getInventoryTypes()
     {
-        return ['Manufactured Product', 'Merchandise Product', 'Raw Material', 'MRO Item'];
+        $isCompanyPremiumMember = auth()->user()->employee->company->isCompanyPremiumMember();
+
+        if ($isCompanyPremiumMember) {
+            return ['Manufactured Product', 'Raw Material', 'MRO Item', 'Merchandise Product'];
+        }
+
+        return ['Merchandise Product'];
     }
 
     public function getMeasurementUnits()
