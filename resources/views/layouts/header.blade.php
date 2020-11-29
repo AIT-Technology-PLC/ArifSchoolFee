@@ -33,6 +33,11 @@
                 </a>
             </div>
             <div class="navbar-end">
+                <a href="{{ url()->previous() }}" class="navbar-item has-text-white link-text" title="Go Back">
+                    <span class="icon">
+                        <i class="fas fa-arrow-left"></i>
+                    </span>
+                </a>
                 <a id="createMenuButton" class="navbar-item has-text-white link-text">
                     <span class="icon">
                         <i class="fas fa-plus"></i>
