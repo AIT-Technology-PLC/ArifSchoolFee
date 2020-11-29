@@ -133,7 +133,7 @@
                         <div class="field">
                             <label for="min_on_hand" class="label text-green has-text-weight-normal"> Minimum Level <sup class="has-text-danger">*</sup> <sup class="has-text-grey is-size-7 is-uppercase"> per Kilogram </sup> </label>
                             <div class="control has-icons-left">
-                                <input id="min_on_hand" name="min_on_hand" type="number" class="input" placeholder="What is considered low stock for this product?" value="{{ old('min_on_hand') ?? '0' }}">
+                                <input id="min_on_hand" name="min_on_hand" type="number" class="input" placeholder="What is considered low stock for this product?" value="{{ old('min_on_hand') ?? '0.00' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-battery-quarter"></i>
                                 </span>

@@ -50,7 +50,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="position" class="label text-green has-text-weight-normal">Job Title/Position <sup class="has-text-danger">&nbsp;</sup> </label>
+                            <label for="position" class="label text-green has-text-weight-normal">Job Title/Position <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <input id="position" name="position" type="text" class="input" placeholder="Job Title" value="{{ $employee->position }}">
                                 <span class="icon is-small is-left">
