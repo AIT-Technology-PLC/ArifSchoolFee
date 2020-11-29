@@ -46,7 +46,7 @@ class CoreV1 extends Migration
         // Permissions
         Schema::create('permissions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('role')->nullable();
+            $table->string('role');
             $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -96,7 +96,7 @@ class CoreV1 extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
             $table->string('location');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -157,10 +157,10 @@ class CoreV1 extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
             $table->string('type');
-            $table->decimal('selling_price');
-            $table->decimal('purchase_price');
             $table->string('unit_of_measurement');
-            $table->bigInteger('min_on_hand');
+            $table->decimal('selling_price', 22);
+            $table->decimal('purchase_price', 22);
+            $table->decimal('min_on_hand', 22);
             $table->boolean('is_expirable');
             $table->json('properties')->nullable();
             $table->longText('description')->nullable();
@@ -198,8 +198,8 @@ class CoreV1 extends Migration
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('status')->nullable();
-            $table->string('shipping_line')->nullable();
+            $table->string('status');
+            $table->string('shipping_line');
             $table->dateTime('shipped_at')->nullable();
             $table->dateTime('delivered_at')->nullable();
             $table->longText('description')->nullable();
@@ -219,8 +219,8 @@ class CoreV1 extends Migration
             $table->bigInteger('purchase_id')->nullable()->unsigned();
             $table->bigInteger('supplier_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
-            $table->decimal('quantity');
-            $table->decimal('unit_price')->nullable();
+            $table->decimal('quantity', 22);
+            $table->decimal('unit_price', 22);
             $table->timestamps();
             $table->softDeletes();
 
@@ -241,14 +241,14 @@ class CoreV1 extends Migration
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->bigInteger('total_received');
-            $table->bigInteger('total_on_hand');
-            $table->bigInteger('total_sold');
-            $table->bigInteger('total_broken');
-            $table->bigInteger('total_returns');
+            $table->decimal('total_received', 22);
+            $table->decimal('total_on_hand', 22);
+            $table->decimal('total_sold', 22);
+            $table->decimal('total_broken', 22);
+            $table->decimal('total_returns', 22);
             $table->dateTime('expires_on')->nullable();
             $table->dateTime('received_on')->nullable();
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -271,17 +271,17 @@ class CoreV1 extends Migration
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->bigInteger('total_products');
-            $table->bigInteger('total_in_process');
-            $table->bigInteger('total_on_hand');
-            $table->bigInteger('total_sold');
-            $table->bigInteger('total_broken');
-            $table->bigInteger('total_returns');
-            $table->string('production_status');
+            $table->decimal('total_products', 22);
+            $table->decimal('total_in_process', 22);
+            $table->decimal('total_on_hand', 22);
+            $table->decimal('total_sold', 22);
+            $table->decimal('total_broken', 22);
+            $table->decimal('total_returns', 22);
+            $table->string('status');
             $table->dateTime('started_on')->nullable();
             $table->dateTime('finishes_on')->nullable();
             $table->dateTime('expires_on')->nullable();
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -304,13 +304,13 @@ class CoreV1 extends Migration
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->bigInteger('total_received');
-            $table->bigInteger('total_used');
-            $table->bigInteger('total_on_hand');
-            $table->bigInteger('total_broken');
+            $table->decimal('total_received', 22);
+            $table->decimal('total_used', 22);
+            $table->decimal('total_on_hand', 22);
+            $table->decimal('total_broken', 22);
             $table->dateTime('expires_on')->nullable();
             $table->dateTime('received_on')->nullable();
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -333,7 +333,7 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->json('materials');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -354,13 +354,13 @@ class CoreV1 extends Migration
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->bigInteger('total_received');
-            $table->bigInteger('total_used');
-            $table->bigInteger('total_on_hand');
-            $table->bigInteger('total_broken');
+            $table->decimal('total_received', 22);
+            $table->decimal('total_used', 22);
+            $table->decimal('total_on_hand', 22);
+            $table->decimal('total_broken', 22);
             $table->dateTime('expires_on')->nullable();
             $table->dateTime('received_on')->nullable();
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
