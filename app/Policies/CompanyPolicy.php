@@ -24,4 +24,14 @@ class CompanyPolicy
 
         return false;
     }
+
+    public function onlyPremiumOrProfessional(User $user)
+    {
+        return $user->employee->company->isCompanyPremiumOrProfessionalMember();
+    }
+
+    public function onlyPremium(User $user)
+    {
+        return $user->employee->company->isCompanyPremiumMember();
+    }
 }

@@ -79,4 +79,9 @@ class Company extends Model
     {
         return $this->membership_plan == "Professional";
     }
+
+    public function isCompanyPremiumOrProfessionalMember()
+    {
+        return $this->membership_plan == "Premium" || $this->membership_plan == "Professional";
+    }
 }

@@ -193,16 +193,18 @@
                 </span>
             </a>
         </li>
-        <li>
-            <a href="{{ route('suppliers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'is-active' : '' }}">
-                <span class="icon">
-                    <i class="fas fa-address-card"></i>
-                </span>
-                <span>
-                    Supplier Management
-                </span>
-            </a>
-        </li>
+        @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
+            <li>
+                <a href="{{ route('suppliers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'is-active' : '' }}">
+                    <span class="icon">
+                        <i class="fas fa-address-card"></i>
+                    </span>
+                    <span>
+                        Supplier Management
+                    </span>
+                </a>
+            </li>
+        @endcan
     </ul>
 
     @can('viewAny', auth()->user()->employee)
