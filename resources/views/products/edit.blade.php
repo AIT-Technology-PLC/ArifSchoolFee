@@ -23,10 +23,9 @@
                                 <div class="select is-fullwidth">
                                     <select id="type" name="type">
                                         <option selected disabled>Type</option>
-                                        <option value="manufacturing" {{ $product->type == 'manufacturing' ? 'selected' : '' }}>Finished Product</option>
-                                        <option value="merchandise" {{ $product->type == 'merchandise' ? 'selected' : '' }}>Merchandise Product</option>
-                                        <option value="raw" {{ $product->type == 'raw' ? 'selected' : '' }}>Raw Material</option>
-                                        <option value="mro" {{ $product->type == 'mro' ? 'selected' : '' }}>MRO Item</option>
+                                        @foreach ($inventoryTypes as $inventoryType)
+                                            <option value="{{ $inventoryType }}" {{ $product->type == $inventoryType ? 'selected' : '' }}>{{ $inventoryType }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
@@ -83,8 +82,9 @@
                                 <div class="select is-fullwidth">
                                     <select id="unit_of_measurement" name="unit_of_measurement">
                                         <option selected disabled>Category</option>
-                                        <option value="Kilogram" {{ $product->unit_of_measurement == 'Kilogram' ? 'selected' : '' }}> Kilogram </option>
-                                        <option class="Piece" {{ $product->unit_of_measurement == 'Piece' ? 'selected' : '' }}> Piece </option>
+                                        @foreach ($unitTypes as $unitType)
+                                            <option value="{{ $unitType }}" {{ $product->unit_of_measurement == $unitType ? 'selected' : '' }}>{{ $unitType }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">

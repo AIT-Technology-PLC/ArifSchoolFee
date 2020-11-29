@@ -79,7 +79,11 @@ class ProductController extends Controller
 
         $suppliers = $supplier->getSupplierNames();
 
-        return view('products.edit', compact('product', 'categories', 'suppliers'));
+        $inventoryTypes = $this->getInventoryTypes();
+
+        $unitTypes = $this->getMeasurementUnits();
+
+        return view('products.edit', compact('product', 'categories', 'suppliers', 'inventoryTypes', 'unitTypes'));
     }
 
     public function update(Request $request, Product $product)
