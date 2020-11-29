@@ -69,4 +69,14 @@ class Company extends Model
     {
         return $this->hasMany(MroItem::class);
     }
+
+    public function isCompanyPremiumMember()
+    {
+        return $this->membership_plan == "Premium";
+    }
+
+    public function isCompanyProfessionalMember()
+    {
+        return $this->membership_plan == "Professional";
+    }
 }
