@@ -123,9 +123,9 @@
                                 <div class="select is-fullwidth">
                                     <select id="shipping_line" name="shipping_line">
                                         <option selected disabled>Select Line</option>
-                                        <option value="DHL" {{ $purchase->shipping_line == 'DHL' ? 'selected' : '' }}>DHL</option>
-                                        <option value="CMG" {{ $purchase->shipping_line == 'CMG' ? 'selected' : '' }}>CMG</option>
-                                        <option value="Other" {{ $purchase->shipping_line == 'Other' ? 'selected' : '' }}>Other</option>
+                                        @foreach ($shippingLines as $shippingLine)
+                                            <option value="{{ $shippingLine }}" {{ $purchase->shipping_line == $shippingLine ? 'selected' : '' }}>{{ $shippingLine }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
@@ -146,11 +146,9 @@
                                 <div class="select is-fullwidth">
                                     <select id="status" name="status">
                                         <option selected disabled>Select Status</option>
-                                        <option value="Quotation" {{ $purchase->status == 'Quotation' ? 'selected' : '' }}>Quotation</option>
-                                        <option value="Confirmed Order" {{ $purchase->status == 'Confirmed Order' ? 'selected' : '' }}>Confirmed Order</option>
-                                        <option value="Shipped" {{ $purchase->status == 'Shipped' ? 'selected' : '' }}>Shipped</option>
-                                        <option value="Delivered" {{ $purchase->status == 'Delivered' ? 'selected' : '' }}>Delivered</option>
-                                        <option value="Added to Inventory" {{ $purchase->status == 'Added to Inventory' ? 'selected' : '' }}>Added to Inventory</option>
+                                        @foreach ($purchaseStatuses as $purchaseStatus)
+                                            <option value="{{ $purchaseStatus }}" {{ $purchase->status == $purchaseStatus ? 'selected' : '' }}>{{ $purchaseStatus }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">

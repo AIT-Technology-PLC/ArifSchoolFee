@@ -92,7 +92,11 @@ class PurchaseController extends Controller
 
         $suppliers = $supplier->getSupplierNames();
 
-        return view('purchases.edit', compact('purchase', 'products', 'suppliers'));
+        $purchaseStatuses = $this->getPurchaseStatuses();
+
+        $shippingLines = $this->getShippingLines();
+
+        return view('purchases.edit', compact('purchase', 'products', 'suppliers', 'purchaseStatuses', 'shippingLines'));
     }
 
     public function update(Request $request, Purchase $purchase)
