@@ -32,7 +32,33 @@
     </ul>
 
     <p class="menu-label has-text-weight-bold text-green">
-        Product Management
+        Warehouse
+    </p>
+    <ul class="menu-list mb-5">
+        <li>
+            <a href="{{ route('warehouses.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('warehouses') ? 'is-active' : '' }}">
+                <span class="icon">
+                    <i class="fas fa-warehouse"></i>
+                </span>
+                <span>
+                    Warehouse Management
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('warehouses.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('warehouses/create') ? 'is-active' : '' }}">
+                <span class="icon">
+                    <i class="fas fa-plus-circle"></i>
+                </span>
+                <span>
+                    Create New Warehouse
+                </span>
+            </a>
+        </li>
+    </ul>
+
+    <p class="menu-label has-text-weight-bold text-green">
+        Category & Products
     </p>
     <ul class="menu-list mb-5">
         <li>
