@@ -89,19 +89,24 @@ class Product extends Model
         $this->attributes['properties'] = json_encode($properties);
     }
 
+    public function scopeCompanyProducts($query)
+    {
+        return $query->where('company_id', auth()->user()->employee->company_id);
+    }
+
     public function getAll()
     {
-        return $this->with(['productCategory', 'createdBy', 'updatedBy'])->where('company_id', auth()->user()->employee->company_id)->get();
+        return $this->companyProducts()->with(['productCategory', 'createdBy', 'updatedBy'])->get();
     }
 
     public function getProductNames()
     {
-        return $this->where('company_id', auth()->user()->employee->company_id)->get(['id', 'name']);
+        return $this->companyProducts()->get(['id', 'name']);
     }
 
     public function countProductsOfCompany()
     {
-        return $this->where('company_id', auth()->user()->employee->company_id)->count();
+        return $this->companyProducts()->count();
     }
 
     public function getProductUOM()

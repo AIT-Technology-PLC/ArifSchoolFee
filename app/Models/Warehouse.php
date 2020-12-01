@@ -44,13 +44,18 @@ class Warehouse extends Model
         return $this->hasMany(MroItem::class);
     }
 
+    public function scopeCompanyWarehouses($query)
+    {
+        return $query->where('company_id', auth()->user()->employee->company_id);
+    }
+
     public function getAll()
     {
-        return $this->with(['createdBy', 'updatedBy'])->where('company_id', auth()->user()->employee->company_id)->get();
+        return $this->companyWarehouses()->with(['createdBy', 'updatedBy'])->get();
     }
 
     public function countWarehousesOfCompany()
     {
-        return $this->where('company_id', auth()->user()->employee->company_id)->count();
+        return $this->companyWarehouses()->count();
     }
 }

@@ -51,13 +51,18 @@ class ProductCategory extends Model
         $this->attributes['properties'] = json_encode($properties);
     }
 
+    public function scopeCompanyCategories($query)
+    {
+        return $query->where('company_id', auth()->user()->employee->company_id);
+    }
+
     public function getAll()
     {
-        return $this->with(['products', 'createdBy', 'updatedBy'])->where('company_id', auth()->user()->employee->company_id)->get();
+        return $this->companyCategories()->with(['products', 'createdBy', 'updatedBy'])->get();
     }
 
     public function countProductCategoriesOfCompany()
     {
-        return $this->where('company_id', auth()->user()->employee->company_id)->count();
+        return $this->companyCategories()->count();
     }
 }

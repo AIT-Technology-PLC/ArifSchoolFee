@@ -34,15 +34,22 @@ class Purchase extends Model
         return $this->hasMany(PurchaseDetail::class);
     }
 
+    public function scopeCompanyPurchases($query)
+    {
+        return $query->where('company_id', auth()->user()->employee->company_id);
+    }
+
     public function getAll()
     {
-        return $this->with(['createdBy', 'updatedBy', 'company', 'purchaseDetails'])->withCount('purchaseDetails')
-            ->where('company_id', auth()->user()->employee->company_id)->get();
+        return $this->companyPurchases()
+            ->with(['createdBy', 'updatedBy', 'company', 'purchaseDetails'])
+            ->withCount('purchaseDetails')
+            ->get();
     }
 
     public function countPurchasesOfCompany()
     {
-        return $this->where('company_id', auth()->user()->employee->company_id)->count();
+        return $this->companyPurchases()->count();
     }
 
     public function calculateTotalPurchasePrice()

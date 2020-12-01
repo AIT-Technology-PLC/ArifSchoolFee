@@ -42,29 +42,28 @@ class Employee extends Model
         return $this->belongsTo(Permission::class);
     }
 
+    public function scopeCompanyEmployees($query)
+    {
+        return $query->where('company_id', auth()->user()->employee->company_id);
+    }
+
     public function getAll()
     {
-        return $this->with(['user', 'permission', 'createdBy', 'updatedBy'])->where('company_id', auth()->user()->employee->company_id)->get();
+        return $this->companyEmployees()->with(['user', 'permission', 'createdBy', 'updatedBy'])->get();
     }
 
     public function countAllEmployees()
     {
-        return $this->where('company_id', auth()->user()->employee->company_id)->count();
+        return $this->companyEmployees()->count();
     }
 
     public function countEnabledEmployees()
     {
-        return $this->where([
-            ['company_id', auth()->user()->employee->company_id],
-            ['enabled', 1],
-        ])->count();
+        return $this->companyEmployees()->where('enabled', 1)->count();
     }
 
     public function countBlockedEmployees()
     {
-        return $this->where([
-            ['company_id', auth()->user()->employee->company_id],
-            ['enabled', 0],
-        ])->count();
+        return $this->companyEmployees()->where('enabled', 0)->count();
     }
 }

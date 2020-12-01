@@ -34,18 +34,23 @@ class Supplier extends Model
         return $this->hasMany(PurchaseDetail::class);
     }
 
+    public function scopeCompanySuppliers($query)
+    {
+        return $query->where('company_id', auth()->user()->employee->company_id);
+    }
+
     public function getAll()
     {
-        return $this->with(['createdBy', 'updatedBy'])->where('company_id', auth()->user()->employee->company_id)->get();
+        return $this->companySuppliers()->with(['createdBy', 'updatedBy'])->get();
     }
 
     public function getSupplierNames()
     {
-        return $this->where('company_id', auth()->user()->employee->company_id)->get(['id', 'company_name']);
+        return $this->companySuppliers()->get(['id', 'company_name']);
     }
 
     public function countSuppliersOfCompany()
     {
-        return $this->where('company_id', auth()->user()->employee->company_id)->count();
+        return $this->companySuppliers()->count();
     }
 }
