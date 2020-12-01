@@ -40,7 +40,7 @@ class WarehouseController extends Controller
         $data['updated_by'] = auth()->user()->id;
         $data['company_id'] = auth()->user()->employee->company_id;
 
-        $this->warehouse->create($data);
+        $this->warehouse->firstOrCreate($data);
 
         return redirect()->route('warehouses.index');
     }
