@@ -107,7 +107,7 @@
                                     </a>
                                     <a href="{{ route('purchases.show', $purchase->id) }}" title="View Details" class="text-purple is-size-6">
                                         <span class="icon">
-                                            <i class="fas fa-search-plus"></i>
+                                            <i class="fas fa-expand-alt"></i>
                                         </span>
                                     </a>
                                 </td>
