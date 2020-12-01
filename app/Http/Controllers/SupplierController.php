@@ -44,7 +44,7 @@ class SupplierController extends Controller
         $data['created_by'] = auth()->user()->id;
         $data['updated_by'] = auth()->user()->id;
 
-        $this->supplier->create($data);
+        $this->supplier->firstOrCreate($data);
 
         return redirect()->route('suppliers.index');
     }

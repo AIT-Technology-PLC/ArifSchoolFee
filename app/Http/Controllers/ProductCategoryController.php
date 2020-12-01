@@ -44,7 +44,7 @@ class ProductCategoryController extends Controller
 
         $data['company_id'] = auth()->user()->employee->company_id;
 
-        $this->category->create($data);
+        $this->category->firstOrCreate($data);
 
         return redirect()->route('categories.index');
     }
