@@ -42,7 +42,7 @@ class WarehouseController extends Controller
 
         $this->warehouse->create($data);
 
-        return view('warehouses.index');
+        return redirect()->route('warehouses.index');
     }
 
     public function show(Warehouse $warehouse)
@@ -67,7 +67,7 @@ class WarehouseController extends Controller
 
         $warehouse->update($data);
 
-        return view('warehouses.index');
+        return redirect()->route('warehouses.index');
     }
 
     public function destroy(Warehouse $warehouse)
