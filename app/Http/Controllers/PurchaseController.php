@@ -70,10 +70,7 @@ class PurchaseController extends Controller
 
         DB::transaction(function () use ($basicPurchaseData, $purchaseDetailsData) {
             $purchase = $this->purchase->create($basicPurchaseData);
-
-            foreach ($purchaseDetailsData as $singlePurchaseDetailsData) {
-                $purchase->purchaseDetails()->create($singlePurchaseDetailsData);
-            }
+            $purchase->purchaseDetails()->createMany($purchaseDetailsData);
         });
 
         return redirect()->route('purchases.index');
@@ -129,7 +126,7 @@ class PurchaseController extends Controller
             }
         });
 
-        return redirect()->route('purchases.index');
+        return redirect()->route('purchases.show', $purchase->id);
     }
 
     public function destroy(Purchase $purchase)
