@@ -17,9 +17,9 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
-                            <label for="name" class="label text-green has-text-weight-normal">Name <sup class="has-text-danger">*</sup> </label>
+                            <label for="name" class="label text-green has-text-weight-normal">Warehouse Name <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input id="name" name="name" type="text" class="input" placeholder="Category Name" value="{{ old('name') ?? '' }}">
+                                <input id="name" name="name" type="text" class="input" placeholder="Warehouse Name" value="{{ old('name') ?? '' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-warehouse"></i>
                                 </span>
@@ -51,7 +51,7 @@
                         <div class="field mt-5">
                             <label for="description" class="label text-green has-text-weight-normal">Description</label>
                             <div class="control has-icons-left">
-                                <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note about the new category">{{ old('description') ?? '' }}</textarea>
+                                <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note about the new warehouse">{{ old('description') ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-edit"></i>
                                 </span>
