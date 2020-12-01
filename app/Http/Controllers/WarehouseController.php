@@ -30,7 +30,19 @@ class WarehouseController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $data['created_by'] = auth()->user()->id;
+        $data['updated_by'] = auth()->user()->id;
+        $data['company_id'] = auth()->user()->employee->company_id;
+
+        $this->warehouse->create($data);
+
+        return view('warehouses.index');
     }
 
     public function show(Warehouse $warehouse)
@@ -45,7 +57,17 @@ class WarehouseController extends Controller
 
     public function update(Request $request, Warehouse $warehouse)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $data['updated_by'] = auth()->user()->id;
+
+        $warehouse->update($data);
+
+        return view('warehouses.index');
     }
 
     public function destroy(Warehouse $warehouse)
