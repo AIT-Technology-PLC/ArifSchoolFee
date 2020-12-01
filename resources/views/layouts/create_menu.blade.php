@@ -38,8 +38,8 @@
                 Category
             </span>
         </div>
-        <div class="column is-4 has-text-centered text-blue">
-            <a href="{{ route('purchases.create') }}" class="button is-rounded text-blue" title="Create New Purchase">
+        <div class="column is-4 has-text-centered text-purple">
+            <a href="{{ route('purchases.create') }}" class="button is-rounded text-purple" title="Create New Purchase">
                 <span class="icon">
                     <i class="fas fa-shopping-bag"></i>
                 </span>
@@ -48,14 +48,24 @@
                 Purchase
             </span>
         </div>
-        <div class="column is-4 has-text-centered text-purple">
-            <a href="{{ route('employees.create') }}" class="button is-rounded text-purple" title="Create New Employee">
+        <div class="column is-4 has-text-centered text-gold">
+            <a href="{{ route('employees.create') }}" class="button is-rounded text-gold" title="Create New Employee">
                 <span class="icon">
                     <i class="fas fa-user-tie"></i>
                 </span>
             </a>
             <span class="is-size-7">
                 Employee
+            </span>
+        </div>
+        <div class="column is-4 has-text-centered text-blue">
+            <a href="{{ route('warehouses.create') }}" class="button is-rounded text-blue" title="Create New Warehouse">
+                <span class="icon">
+                    <i class="fas fa-warehouse"></i>
+                </span>
+            </a>
+            <span class="is-size-7">
+                Warehouse
             </span>
         </div>
     </div>
