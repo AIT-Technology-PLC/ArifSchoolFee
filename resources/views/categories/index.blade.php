@@ -62,13 +62,13 @@
                             <th><abbr> Category </abbr></th>
                             <th><abbr> Properties </abbr></th>
                             <th><abbr> Products </abbr></th>
-                            <th><abbr> Created On </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            <th class="has-text-right"><abbr> Created On </abbr></th>
                             @can('delete', $categories->first())
                                 <th><abbr> Added By </abbr></th>
                                 <th><abbr> Edited By </abbr></th>
                             @endcan
-                            <th><abbr> Actions </abbr></th>
+                            <th class="has-text-centered"><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,19 +86,16 @@
                                     @endif
                                 </td>
                                 <td class="is-capitalized"> {{ $category->products->count() }} </td>
-                                <td class="is-capitalized"> {{ $category->created_at->toDayDateTimeString() }} </td>
                                 <td> {{ substr($category->description, 0, 40) ?? 'N/A' }} </td>
+                                <td class="has-text-right"> {{ $category->created_at->toFormattedDateString() }} </td>
                                 @can('delete', $category)
                                     <td> {{ $category->createdBy->name ?? 'N/A' }} </td>
                                     <td> {{ $category->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
-                                <td>
-                                    <a href="{{ route('categories.edit', $category->id) }}" title="Modify Category Data" class="text-green is-size-6-5">
+                                <td class="has-text-centered">
+                                    <a href="{{ route('categories.edit', $category->id) }}" title="Modify Category Data" class="text-green is-size-6">
                                         <span class="icon">
                                             <i class="fas fa-pen-square"></i>
-                                        </span>
-                                        <span>
-                                            Edit
                                         </span>
                                     </a>
                                 </td>

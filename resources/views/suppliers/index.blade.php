@@ -64,12 +64,12 @@
                             <th><abbr> Email </abbr></th>
                             <th><abbr> Phone </abbr></th>
                             <th><abbr> Country </abbr></th>
-                            <th><abbr> Added On </abbr></th>
+                            <th class="has-text-right"><abbr> Added On </abbr></th>
                             @can('delete', $suppliers->first())
                                 <th><abbr> Added By </abbr></th>
                                 <th><abbr> Edited By </abbr></th>
                             @endcan
-                            <th><abbr> Actions </abbr></th>
+                            <th class="has-text-centered"><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -81,18 +81,15 @@
                                 <td>{{ $supplier->email ?? 'N/A' }}</td>
                                 <td class="is-capitalized">{{ $supplier->phone ?? 'N/A' }}</td>
                                 <td class="is-capitalized">{{ $supplier->country ?? 'N/A' }}</td>
-                                <td> {{ $supplier->created_at->toFormattedDateString() }} </td>
+                                <td class="has-text-right"> {{ $supplier->created_at->toFormattedDateString() }} </td>
                                 @can('delete', $supplier)
                                     <td> {{ $supplier->createdBy->name ?? 'N/A' }} </td>
                                     <td> {{ $supplier->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
-                                <td>
-                                    <a href="{{ route('suppliers.edit', $supplier->id) }}" title="Modify supplier Data" class="text-green is-size-6-5">
+                                <td class="has-text-centered">
+                                    <a href="{{ route('suppliers.edit', $supplier->id) }}" title="Modify supplier Data" class="text-green is-size-6">
                                         <span class="icon">
                                             <i class="fas fa-pen-square"></i>
-                                        </span>
-                                        <span>
-                                            Edit
                                         </span>
                                     </a>
                                 </td>

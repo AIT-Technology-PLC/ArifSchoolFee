@@ -55,23 +55,23 @@
         </div>
         <div class="box radius-top-0">
             <div class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7 is-narrow">
+                <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th><abbr> Name </abbr></th>
                             <th><abbr> Category </abbr></th>
                             <th><abbr> Type </abbr></th>
-                            <th><abbr> Selling Price </abbr></th>
-                            <th><abbr> Purchase Price </abbr></th>
-                            <th><abbr> Reorder Level</abbr></th>
                             <th><abbr> Properties </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            <th><abbr> Reorder Level</abbr></th>
+                            <th class="has-text-right"><abbr> Selling Price </abbr></th>
+                            <th class="has-text-right"><abbr> Purchase Price </abbr></th>
                             @can('delete', $products->first())
-                                <th><abbr> Added By </abbr></th>
-                                <th><abbr> Edited By </abbr></th>
+                            <th><abbr> Added By </abbr></th>
+                            <th><abbr> Edited By </abbr></th>
                             @endcan
-                            <th><abbr> Actions </abbr></th>
+                            <th class="has-text-centered"><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -81,30 +81,28 @@
                                 <td class="is-capitalized"> {{ $product->name ?? 'N/A' }} </td>
                                 <td class="is-capitalized"> {{ $product->productCategory->name ?? 'N/A' }} </td>
                                 <td class="is-capitalized"> {{ $product->type ?? 'N/A' }} </td>
-                                <td class="is-capitalized"> {{ $product->selling_price ?? 'N/A' }} </td>
-                                <td class="is-capitalized"> {{ $product->purchase_price ?? 'N/A' }} </td>
-                                <td class="is-capitalized"> {{ $product->min_on_hand }} {{ $product->unit_of_measurement ?? 'N/A' }} </td>
+
                                 <td class="is-capitalized">
                                     @if (is_null($product->properties))
-                                        {{ 'N/A' }}
+                                    {{ 'N/A' }}
                                     @else
-                                        @foreach ($product->properties as $property)
-                                            <b>{{ $property['key'] }}</b>: {{ $property['value'] }}<br />
-                                        @endforeach
+                                    @foreach ($product->properties as $property)
+                                    <b>{{ $property['key'] }}</b>: {{ $property['value'] }}<br />
+                                    @endforeach
                                     @endif
                                 </td>
                                 <td> {{ substr($product->description, 0, 40) ?? 'N/A' }} </td>
                                 @can('delete', $product)
-                                    <td> {{ $product->createdBy->name ?? 'N/A' }} </td>
-                                    <td> {{ $product->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
-                                <td>
-                                    <a href="{{ route('products.edit', $product->id) }}" title="Modify Category Data" class="text-green is-size-6-5">
+                                <td class="is-capitalized"> {{ $product->min_on_hand }} {{ $product->unit_of_measurement ?? 'N/A' }} </td>
+                                <td class="has-text-right"> {{ $product->selling_price ?? 'N/A' }} </td>
+                                <td class="has-text-right"> {{ $product->purchase_price ?? 'N/A' }} </td>
+                                <td> {{ $product->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $product->updatedBy->name ?? 'N/A' }} </td>
+                                <td class="has-text-centered">
+                                    <a href="{{ route('products.edit', $product->id) }}" title="Modify Category Data" class="text-green is-size-6">
                                         <span class="icon">
                                             <i class="fas fa-pen-square"></i>
-                                        </span>
-                                        <span>
-                                            Edit
                                         </span>
                                     </a>
                                 </td>

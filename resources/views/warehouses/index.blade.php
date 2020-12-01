@@ -61,13 +61,13 @@
                             <th><abbr> # </abbr></th>
                             <th><abbr> Warehouse Name </abbr></th>
                             <th><abbr> Location </abbr></th>
-                            <th><abbr> Created On </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            <th class="has-text-right"><abbr> Created On </abbr></th>
                             @can('delete', $warehouses->first())
-                                <th><abbr> Added By </abbr></th>
-                                <th><abbr> Edited By </abbr></th>
+                            <th><abbr> Added By </abbr></th>
+                            <th><abbr> Edited By </abbr></th>
                             @endcan
-                            <th><abbr> Actions </abbr></th>
+                            <th class="has-text-centered"><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,13 +76,13 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized"> {{ $warehouse->name }} </td>
                                 <td class="is-capitalized"> {{ $warehouse->location ?? 'N/A' }} </td>
-                                <td class="is-capitalized"> {{ $warehouse->created_at->toDayDateTimeString() }} </td>
                                 <td> {{ substr($warehouse->description, 0, 40) ?? 'N/A' }} </td>
+                                <td class="has-text-right"> {{ $warehouse->created_at->toFormattedDateString() }} </td>
                                 @can('delete', $warehouse)
                                     <td> {{ $warehouse->createdBy->name ?? 'N/A' }} </td>
                                     <td> {{ $warehouse->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
-                                <td>
+                                <td class="has-text-centered">
                                     <a href="{{ route('warehouses.edit', $warehouse->id) }}" title="Modify Warehouse Data" class="text-green is-size-6">
                                         <span class="icon">
                                             <i class="fas fa-pen-square"></i>

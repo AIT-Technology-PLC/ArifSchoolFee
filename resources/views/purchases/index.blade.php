@@ -55,21 +55,21 @@
         </div>
         <div class="box radius-top-0">
             <div class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
+                <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th><abbr> Shipping Line </abbr></th>
                             <th><abbr> Status </abbr></th>
                             <th><abbr> Total Products </abbr></th>
-                            <th><abbr> Total Price </abbr></th>
-                            <th><abbr> Shipped On </abbr></th>
-                            <th><abbr> Delivered On </abbr></th>
+                            <th class="has-text-right"><abbr> Total Price </abbr></th>
+                            <th class="has-text-right"><abbr> Shipped On </abbr></th>
+                            <th class="has-text-right"><abbr> Delivered On </abbr></th>
                             @can('delete', $purchases->first())
                                 <th><abbr> Added By </abbr></th>
                                 <th><abbr> Edited By </abbr></th>
                             @endcan
-                            <th><abbr> Actions </abbr></th>
+                            <th class="has-text-centered"><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,21 +85,21 @@
                                 <td>
                                     {{ $purchase->purchase_details_count ?? 'N/A' }}
                                 </td>
-                                <td>
+                                <td class="has-text-right">
                                     {{ $purchase->company->currency }}.
                                     {{ $purchase->calculateTotalPurchasePrice() }}
                                 </td>
-                                <td>
+                                <td class="has-text-right">
                                     {{ $purchase->shipped_at ? $purchase->shipped_at->toFormattedDateString() : 'Not Shipped' }}
                                 </td>
-                                <td>
+                                <td class="has-text-right">
                                     {{ $purchase->delivered_at ? $purchase->delivered_at->toFormattedDateString() : 'Not Delivered' }}
                                 </td>
                                 @can('delete', $purchase)
                                     <td> {{ $purchase->createdBy->name ?? 'N/A' }} </td>
                                     <td> {{ $purchase->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
-                                <td>
+                                <td class="has-text-centered">
                                     <a href="{{ route('purchases.edit', $purchase->id) }}" title="Modify Purchase Data" class="text-green is-size-6">
                                         <span class="icon">
                                             <i class="fas fa-pen-square"></i>

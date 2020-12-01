@@ -81,13 +81,13 @@
                             <th><abbr> Job Title </abbr></th>
                             <th><abbr> Role </abbr></th>
                             <th><abbr> Enabled </abbr></th>
-                            <th><abbr> Last Login </abbr></th>
-                            <th><abbr> Added On </abbr></th>
+                            <th class="has-text-right"><abbr> Last Login </abbr></th>
+                            <th class="has-text-right"><abbr> Added On </abbr></th>
                             @can('delete', $employees->first())
                                 <th><abbr> Added By </abbr></th>
                                 <th><abbr> Edited By </abbr></th>
                             @endcan
-                            <th><abbr> Actions </abbr></th>
+                            <th class="has-text-centered"><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -127,21 +127,18 @@
                                         </span>
                                     @endif
                                 </td>
-                                <td>
+                                <td class="has-text-right">
                                     {{ $employee->user->last_online_at ? $employee->user->last_online_at->diffForHumans() : 'New User' }}
                                 </td>
-                                <td> {{ $employee->user->created_at->toFormattedDateString() }} </td>
+                                <td class="has-text-right"> {{ $employee->user->created_at->toFormattedDateString() }} </td>
                                 @can('delete', $employee)
                                     <td> {{ $employee->createdBy->name ?? 'N/A' }} </td>
                                     <td> {{ $employee->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
-                                <td>
-                                    <a href="{{ route('employees.edit', $employee->id) }}" title="Modify Employee Data" class="text-green is-size-6-5">
+                                <td class="has-text-centered">
+                                    <a href="{{ route('employees.edit', $employee->id) }}" title="Modify Employee Data" class="text-green is-size-6">
                                         <span class="icon">
                                             <i class="fas fa-pen-square"></i>
-                                        </span>
-                                        <span>
-                                            Edit
                                         </span>
                                     </a>
                                 </td>
