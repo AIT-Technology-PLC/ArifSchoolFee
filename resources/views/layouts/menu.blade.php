@@ -22,10 +22,10 @@
         <li>
             <a href="/home" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('home') ? 'is-active' : '' }}">
                 <span class="icon">
-                    <i class="fas fa-tachometer-alt"></i>
+                    <i class="fas fa-chart-line"></i>
                 </span>
                 <span>
-                    Home
+                    Analytics & Insights
                 </span>
             </a>
         </li>
@@ -46,14 +46,18 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('warehouses.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('warehouses/create') ? 'is-active' : '' }}">
-                <span class="icon">
-                    <i class="fas fa-plus-circle"></i>
-                </span>
-                <span>
-                    Create New Warehouse
-                </span>
-            </a>
+            <ul class="mt-0">
+                <li>
+                    <a href="{{ route('warehouses.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('warehouses/create') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </span>
+                        <span>
+                            New Warehouse
+                        </span>
+                    </a>
+                </li>
+            </ul>
         </li>
     </ul>
 
@@ -72,14 +76,18 @@
             </a>
         </li>
         <li>
-            <a href="/products/create" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('products/create') ? 'is-active' : '' }}">
-                <span class="icon">
-                    <i class="fas fa-plus-circle"></i>
-                </span>
-                <span>
-                    Create New Product
-                </span>
-            </a>
+            <ul class="mt-0">
+                <li>
+                    <a href="/products/create" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('products/create') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </span>
+                        <span>
+                            New Product
+                        </span>
+                    </a>
+                </li>
+            </ul>
         </li>
         <li>
             <a href="{{ route('categories.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories') ? 'is-active' : '' }}">
@@ -92,14 +100,18 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('categories.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories/create') ? 'is-active' : '' }}">
-                <span class="icon">
-                    <i class="fas fa-plus-circle"></i>
-                </span>
-                <span>
-                    Create New Category
-                </span>
-            </a>
+            <ul class="mt-0">
+                <li>
+                    <a href="{{ route('categories.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories/create') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </span>
+                        <span>
+                            New Category
+                        </span>
+                    </a>
+                </li>
+            </ul>
         </li>
     </ul>
 
@@ -190,16 +202,6 @@
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a href="{{ route('purchases.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases/create') ? 'is-active' : '' }}">
-                <span class="icon">
-                    <i class="fas fa-plus-circle"></i>
-                </span>
-                <span>
-                    Create Purchase Order
-                </span>
-            </a>
-        </li>
-        <li>
             <a href="{{ route('purchases.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases') ? 'is-active' : '' }}">
                 <span class="icon">
                     <i class="fas fa-shopping-bag"></i>
@@ -210,14 +212,18 @@
             </a>
         </li>
         <li>
-            <a class="has-text-grey has-text-weight-normal is-size-6-5">
-                <span class="icon">
-                    <i class="fas fa-credit-card"></i>
-                </span>
-                <span>
-                    Purchase Expenses
-                </span>
-            </a>
+            <ul class="mt-0">
+                <li>
+                    <a href="{{ route('purchases.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases/create') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </span>
+                        <span>
+                            New Purchase Order
+                        </span>
+                    </a>
+                </li>
+            </ul>
         </li>
         <li>
             <a href="{{ route('suppliers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'is-active' : '' }}">
@@ -229,6 +235,20 @@
                 </span>
             </a>
         </li>
+        <li>
+            <ul class="mt-0">
+                <li>
+                    <a href="{{ route('suppliers.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers/create') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </span>
+                        <span>
+                            New Supplier
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
     </ul>
 
     @can('viewAny', auth()->user()->employee)
@@ -236,16 +256,6 @@
             Settings
         </p>
         <ul class="menu-list mb-5">
-            <li>
-                <a href="{{ route('employees.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees/create') ? 'is-active' : '' }}">
-                    <span class="icon">
-                        <i class="fas fa-user-plus"></i>
-                    </span>
-                    <span>
-                        Add New Employee
-                    </span>
-                </a>
-            </li>
             <li>
                 <a href="{{ route('employees.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees') ? 'is-active' : '' }}">
                     <span class="icon">
@@ -255,6 +265,20 @@
                         Employee Management
                     </span>
                 </a>
+            </li>
+            <li>
+                <ul class="mt-0">
+                    <li>
+                        <a href="{{ route('employees.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees/create') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-plus-circle"></i>
+                            </span>
+                            <span>
+                                New Employee
+                            </span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             @can('delete', auth()->user()->employee)
                 <li>
