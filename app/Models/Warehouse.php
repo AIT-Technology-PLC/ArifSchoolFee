@@ -2,9 +2,55 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Warehouse extends Model
 {
-    //
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function merchandises()
+    {
+        return $this->hasMany(Merchandise::class);
+    }
+
+    public function manufacturings()
+    {
+        return $this->hasMany(Manufacturing::class);
+    }
+
+    public function rawMaterials()
+    {
+        return $this->hasMany(RawMaterial::class);
+    }
+
+    public function mroItems()
+    {
+        return $this->hasMany(MroItem::class);
+    }
+
+    public function getAll()
+    {
+        return $this->with(['createdBy', 'updatedBy'])->where('company_id', auth()->user()->employee->company_id)->get();
+    }
+
+    public function countWarehousesOfCompany()
+    {
+        return $this->where('company_id', auth()->user()->employee->company_id)->count();
+    }
 }
