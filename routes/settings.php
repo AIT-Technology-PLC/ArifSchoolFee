@@ -19,6 +19,8 @@ Route::resource('purchases', 'PurchaseController');
 Route::resource('warehouses', 'WarehouseController');
 
 Route::resource('merchandises', 'MerchandiseController');
+Route::post('merchandises/add-to-inventory/{purchase}', 'MerchandiseController@addToInventory')
+    ->name('merchandises.addToInventory');
 
 Route::get('/permission-denied', 'ErrorPageController@getPermissionDeniedPage');
 
