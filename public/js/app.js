@@ -66,11 +66,11 @@ const addPurchaseForm = (function () {
     const purchaseFormWrapper = d.getElementById("purchaseFormWrapper");
     const productList = d.getElementById("purchase[0][product_id]");
     const supplierList = d.getElementById("purchase[0][supplier_id]");
-    
+
     if (!purchaseFormWrapper) {
         return false;
     }
-    
+
     let index = purchaseFormGroup.length;
 
     return function () {
@@ -146,3 +146,21 @@ const addPurchaseForm = (function () {
         index++;
     };
 })();
+
+function jumpToCurrentPageMenuTitle() {
+    let menuTitles = d.getElementsByName("menuTitles");
+
+    let currentMenuTitle = Object.values(menuTitles).filter(
+        (menuTitle) => menuTitle.href == location.href
+    );
+
+    currentMenuTitle = currentMenuTitle.pop();
+
+    currentMenuTitle = currentMenuTitle.parentElement.parentElement;
+
+    if (currentMenuTitle.previousElementSibling) {
+        currentMenuTitle.previousElementSibling.scrollIntoView();
+    } else {
+        currentMenuTitle.parentElement.parentElement.previousElementSibling.scrollIntoView();
+    }
+}

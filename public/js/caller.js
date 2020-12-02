@@ -30,3 +30,5 @@ if (d.getElementById("addNewPurchaseForm")) {
         addPurchaseForm
     );
 }
+
+d.addEventListener("readystatechange", jumpToCurrentPageMenuTitle);
