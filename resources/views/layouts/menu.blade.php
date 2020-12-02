@@ -176,24 +176,28 @@
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a href="{{ route('merchandises.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('merchandises/create') ? 'is-active' : '' }}">
+            <a href="{{ route('merchandises.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5  {{ request()->is('merchandises/index') ? 'is-active' : '' }}">
                 <span class="icon">
-                    <i class="fas fa-plus-circle"></i>
+                    <i class="fas fa-dolly-flatbed"></i>
                 </span>
                 <span>
-                    Add New
+                    Inventory Management
                 </span>
             </a>
         </li>
         <li>
-            <a class="has-text-grey has-text-weight-normal is-size-6-5">
-                <span class="icon">
-                    <i class="fas fa-boxes"></i>
-                </span>
-                <span>
-                    Products
-                </span>
-            </a>
+            <ul class="mt-0">
+                <li>
+                    <a href="{{ route('merchandises.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('merchandises/create') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </span>
+                        <span>
+                            Add New
+                        </span>
+                    </a>
+                </li>
+            </ul>
         </li>
     </ul>
 
