@@ -11,6 +11,8 @@ class WarehouseController extends Controller
 
     public function __construct(Warehouse $warehouse)
     {
+        $this->authorizeResource(Warehouse::class, 'warehouse');
+
         $this->warehouse = $warehouse;
     }
 
