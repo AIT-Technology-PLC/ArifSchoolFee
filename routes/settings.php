@@ -18,6 +18,8 @@ Route::resource('purchases', 'PurchaseController');
 
 Route::resource('warehouses', 'WarehouseController');
 
+Route::resource('merchandises', 'MerchandiseController');
+
 Route::get('/permission-denied', 'ErrorPageController@getPermissionDeniedPage');
 
 Route::get('/home', 'HomeController@index')->name('home');
