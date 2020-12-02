@@ -71,6 +71,17 @@
                         </button>
                     </form>
                 </div>
+            @else
+            <div class="box has-background-white-ter has-text-left mb-6">
+                <p class="has-text-grey text-green">
+                    <span class="icon">
+                        <i class="fas fa-check-circle"></i>
+                    </span>
+                    <span>
+                        Product(s) listed below have been to your Inventory.
+                    </span>
+                </p>
+            </div>
             @endif
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
