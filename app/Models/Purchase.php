@@ -61,4 +61,9 @@ class Purchase extends Model
 
         return number_format($totalPrice, 2);
     }
+
+    public function isAddedToInventory()
+    {
+        return $this->status == 'Added To Inventory';
+    }
 }

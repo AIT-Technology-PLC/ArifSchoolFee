@@ -52,6 +52,26 @@
             </h1>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
+            @if (!$purchase->isAddedToInventory())
+                <div class="box has-background-white-ter has-text-left mb-6">
+                    <p class="has-text-grey text-purple is-size-7">
+                        Product(s) listed below are still not added to your Inventory.
+                        <br>
+                        Add product(s) automatically by clicking on the button.
+                    </p>
+                    <form action="{{ route('merchandises.addToInventory', $purchase->id) }}" method="POST">
+                        @csrf
+                        <button class="button bg-purple has-text-white mt-5">
+                            <span class="icon">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                            <span>
+                                Add to Inventory
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            @endif
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
                     <thead>
