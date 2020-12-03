@@ -56,8 +56,13 @@ class MerchandiseController extends Controller
         return redirect()->route('merchandises.index');
     }
 
-    public function addToInventory(Purchase $purchase)
+    public function addToInventory(Request $request, Purchase $purchase)
     {
+        $request->validate([
+            'product_id' => 'required|integer',
+            'warehouse_id' => 'required|integer',
+        ]);
+
         $data = $purchase->purchaseDetails
             ->map(function ($purchaseDetail) {
                 return [
@@ -76,6 +81,11 @@ class MerchandiseController extends Controller
             });
 
         $data = $data->toArray();
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['warehouse_id'] = $request->warehouse_id;
+            $data[$i]['expires_on'] = $request->expires_on;
+        }
 
         DB::transaction(function () use ($data, $purchase) {
             $this->merchandise->insert($data);
