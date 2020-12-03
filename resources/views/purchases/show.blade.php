@@ -69,7 +69,7 @@
                     </button>
                     @error('warehouse_id')
                         <span class="help has-text-danger" role="alert">
-                            Please assign a warehouse to add the products to.
+                            To add purchased products to Inventory, please select a warehouse.
                         </span>
                     @enderror
                 </div>

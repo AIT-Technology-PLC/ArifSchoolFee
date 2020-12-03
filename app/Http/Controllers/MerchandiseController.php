@@ -59,8 +59,8 @@ class MerchandiseController extends Controller
     public function addToInventory(Request $request, Purchase $purchase)
     {
         $request->validate([
-            'product_id' => 'required|integer',
             'warehouse_id' => 'required|integer',
+            'expires_on' => 'nullable|date',
         ]);
 
         $data = $purchase->purchaseDetails

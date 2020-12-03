@@ -10,15 +10,15 @@
                     Add Purchased Products to Inventory
                 </span>
             </p>
-            <button id="closeModal" class="delete" aria-label="close"></button>
+            <button id="closeModal" class="delete is-medium" aria-label="close"></button>
         </header>
         <form action="{{ route('merchandises.addToInventory', $purchase->id) }}" method="post">
             @csrf
             <section class="modal-card-body py-6">
-                <div class="columns is-marginless">
-                    <div class="column is-6">
+                <div class="columns is-marginless is-multiline">
+                    <div class="column is-12">
                         <div class="field">
-                            <label for="warehouse_id" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                            <label for="warehouse_id" class="label text-green has-text-weight-normal"> Where do you want to add your purchased products ? <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="warehouse_id" name="warehouse_id">
@@ -39,7 +39,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-12">
                         <div class="field">
                             <label for="expires_on" class="label text-green has-text-weight-normal"> Expiry Date <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
@@ -53,12 +53,9 @@
                 </div>
             </section>
             <footer class="modal-card-foot">
-                <button class="button is-white text-green" type="reset">
-                    <span class="icon">
-                        <i class="fas fa-times"></i>
-                    </span>
+                <button id="addToInventoryNotNow" class="button is-light text-green" type="button">
                     <span>
-                        Cancel
+                        Not now
                     </span>
                 </button>
                 <button class="button bg-green has-text-white">

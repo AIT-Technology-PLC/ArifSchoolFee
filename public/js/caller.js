@@ -44,3 +44,8 @@ d.getElementById("closeModal").addEventListener(
     "click",
     openAddToInventoryModal
 );
+
+d.getElementById("addToInventoryNotNow").addEventListener(
+    "click",
+    openAddToInventoryModal
+);
