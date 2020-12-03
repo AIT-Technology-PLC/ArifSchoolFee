@@ -158,6 +158,10 @@ function jumpToCurrentPageMenuTitle() {
 
     currentMenuTitle = currentMenuTitle.parentElement.parentElement;
 
+    if (location.pathname.includes("/home")) {
+        return;
+    }
+
     if (currentMenuTitle.previousElementSibling) {
         currentMenuTitle.previousElementSibling.scrollIntoView();
     } else {
