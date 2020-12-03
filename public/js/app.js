@@ -154,13 +154,12 @@ function jumpToCurrentPageMenuTitle() {
         (menuTitle) => menuTitle.href == location.href
     );
 
-    currentMenuTitle = currentMenuTitle.pop();
-
-    currentMenuTitle = currentMenuTitle.parentElement.parentElement;
-
-    if (location.pathname.includes("/home")) {
+    if (location.pathname.includes("/home") || !currentMenuTitle.length) {
         return;
     }
+
+    currentMenuTitle = currentMenuTitle.pop();
+    currentMenuTitle = currentMenuTitle.parentElement.parentElement;
 
     if (currentMenuTitle.previousElementSibling) {
         currentMenuTitle.previousElementSibling.scrollIntoView();
