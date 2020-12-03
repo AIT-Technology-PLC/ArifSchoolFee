@@ -18,11 +18,15 @@ class MerchandiseController extends Controller
         $this->merchandise = $merchandise;
     }
 
-    public function index()
+    public function index(Product $product)
     {
-        $merchandisesOnHand = $this->merchandise->getAllLimitedMerchandises();
+        $onHandMerchandises = $this->merchandise->getAllOnHandMerchandises();
 
-        return view('merchandises.index', compact('merchandisesOnHand'));
+        $limitedMerchandises = $this->merchandise->getAllLimitedMerchandises($onHandMerchandises);
+
+        $outOfStockMerchandises = $product->getAllOutOfStockMerchandises();
+
+        return view('merchandises.index', compact('onHandMerchandises', 'limitedMerchandises', 'outOfStockMerchandises'));
     }
 
     public function create(Product $product, Warehouse $warehouse)

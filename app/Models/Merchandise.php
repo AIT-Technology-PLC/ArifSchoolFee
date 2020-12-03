@@ -51,10 +51,10 @@ class Merchandise extends Model
             ->get();
     }
 
-    public function getAllLimitedMerchandises()
+    public function getAllLimitedMerchandises($onHandMerchandises)
     {
-        $limitedMerchandises = $this->getAllOnHandMerchandises()->filter(function ($merchandiseOnHand) {
-            return $merchandiseOnHand->total_on_hand <= $merchandiseOnHand->product->min_on_hand;
+        $limitedMerchandises = $onHandMerchandises->filter(function ($onHandMerchandise) {
+            return $onHandMerchandise->total_on_hand <= $onHandMerchandise->product->min_on_hand;
         });
 
         return $limitedMerchandises;

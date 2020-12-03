@@ -113,4 +113,20 @@ class Product extends Model
     {
         return $this->unit_of_measurement;
     }
+
+    public function getAllOutOfStockMerchandises()
+    {
+        $allMerchandiseProducts = $this->companyProducts()->with('merchandises')
+            ->where('type', 'Merchandise Product')->get();
+
+        $outOfStockMerchandises = $allMerchandiseProducts->filter(function ($merchandiseProduct) {
+            if ($merchandiseProduct->merchandises->isEmpty()) {
+                return true;
+            } else {
+                return $merchandiseProduct->merchandises->where('total_on_hand', '<=', 0.00)->isNotEmpty();
+            }
+        });
+
+        return $outOfStockMerchandises;
+    }
 }

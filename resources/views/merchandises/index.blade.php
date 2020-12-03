@@ -67,7 +67,7 @@
                             <th class="has-text-right text-purple"><abbr> Damaged </abbr></th>
                             <th class="has-text-right text-gold"><abbr> Returns </abbr></th>
                             <th class="has-text-right"><abbr> Expiry Date </abbr></th>
-                            @can('delete', $merchandisesOnHand->first())
+                            @can('delete', $onHandMerchandises->first())
                                 <th><abbr> Added By </abbr></th>
                                 <th><abbr> Edited By </abbr></th>
                             @endcan
@@ -75,7 +75,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($merchandisesOnHand as $merchandise)
+                        @foreach ($onHandMerchandises as $merchandise)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized"> {{ $merchandise->product->name ?? 'N/A' }} </td>
