@@ -20,7 +20,9 @@ class MerchandiseController extends Controller
 
     public function index()
     {
-        //
+        $merchandisesOnHand = $this->merchandise->getAllOnHandMerchandises();
+
+        return $merchandisesOnHand;
     }
 
     public function create(Product $product, Warehouse $warehouse)

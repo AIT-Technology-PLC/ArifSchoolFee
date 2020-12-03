@@ -43,8 +43,11 @@ class Merchandise extends Model
         return $query->where('company_id', auth()->user()->employee->company_id);
     }
 
-    public function getAll()
+    public function getAllOnHandMerchandises()
     {
-        return $this->companyMerchandises()->get();
+        return $this->companyMerchandises()
+            ->with(['product', 'warehouse'])
+            ->where('total_on_hand', '>', 0)
+            ->get();
     }
 }
