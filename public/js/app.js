@@ -1,17 +1,5 @@
 const d = document;
 
-function hideMainMenuScroller() {
-    d.getElementById("menuLeft").style.overflow = "hidden";
-}
-
-function hideMainMenuScrollerOnMouseOut() {
-    this.style.overflow = "hidden";
-}
-
-function showMainMenuScrollerOnMouseOver() {
-    this.style.overflow = "auto";
-}
-
 const addKeyValueInputFields = (function () {
     let index = 0;
     const newForm = d.getElementById("newForm");
