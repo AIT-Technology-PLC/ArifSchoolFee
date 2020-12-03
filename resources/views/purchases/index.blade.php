@@ -60,9 +60,9 @@
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th><abbr> Shipping Line </abbr></th>
-                            <th><abbr> Status </abbr></th>
-                            <th><abbr> Total Products </abbr></th>
-                            <th class="has-text-right"><abbr> Total Price </abbr></th>
+                            <th class="text-purple"><abbr> Status </abbr></th>
+                            <th class="has-text-centered text-gold"><abbr> Total Products </abbr></th>
+                            <th class="has-text-right text-green"><abbr> Total Price </abbr></th>
                             <th class="has-text-right"><abbr> Shipped On </abbr></th>
                             <th class="has-text-right"><abbr> Delivered On </abbr></th>
                             @can('delete', $purchases->first())
@@ -80,14 +80,18 @@
                                     {{ $purchase->shipping_line ?? 'N/A' }}
                                 </td>
                                 <td class="is-capitalized">
-                                    {{ $purchase->status ?? 'N/A' }}
+                                    <span class="tag is-small bg-purple has-text-white">
+                                        {{ $purchase->status ?? 'N/A' }}
+                                    </span>
                                 </td>
-                                <td>
+                                <td class="has-text-centered has-text-weight-bold text-gold">
                                     {{ $purchase->purchase_details_count ?? 'N/A' }}
                                 </td>
                                 <td class="has-text-right">
-                                    {{ $purchase->company->currency }}.
-                                    {{ $purchase->calculateTotalPurchasePrice() }}
+                                    <span class="tag is-small bg-green has-text-white">
+                                        {{ $purchase->company->currency }}.
+                                        {{ $purchase->calculateTotalPurchasePrice() }}
+                                    </span>
                                 </td>
                                 <td class="has-text-right">
                                     {{ $purchase->shipped_at ? $purchase->shipped_at->toFormattedDateString() : 'Not Shipped' }}

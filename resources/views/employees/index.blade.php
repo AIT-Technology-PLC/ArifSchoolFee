@@ -78,8 +78,8 @@
                             <th><abbr> # </abbr></th>
                             <th><abbr> Name </abbr></th>
                             <th><abbr> Email </abbr></th>
-                            <th><abbr> Job Title </abbr></th>
-                            <th><abbr> Role </abbr></th>
+                            <th class="text-green"><abbr> Job Title </abbr></th>
+                            <th class="text-gold"><abbr> Role </abbr></th>
                             <th><abbr> Enabled </abbr></th>
                             <th class="has-text-right"><abbr> Last Login </abbr></th>
                             <th class="has-text-right"><abbr> Added On </abbr></th>
@@ -97,15 +97,15 @@
                                 <td class="is-capitalized"> {{ $employee->user->name }} </td>
                                 <td> {{ $employee->user->email }} </td>
                                 <td class="is-capitalized">
-                                    @if ($employee->position)
+                                    <span class="tag is-small bg-green has-text-white">
                                         {{ $employee->position }}
-                                    @else
-                                        <span class="has-text-grey">
-                                            Not Assigned
-                                        </span>
-                                    @endif
+                                    </span>
                                 </td>
-                                <td class="is-capitalized">{{ $employee->permission->role }}</td>
+                                <td class="is-capitalized">
+                                    <span class="tag is-small bg-gold has-text-white">
+                                        {{ $employee->permission->role }}
+                                    </span>
+                                </td>
                                 <td>
                                     @if ($employee->enabled)
                                         <span class="tag bg-blue has-text-white">

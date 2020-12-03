@@ -64,7 +64,7 @@
                             <th><abbr> Type </abbr></th>
                             <th><abbr> Properties </abbr></th>
                             <th><abbr> Description </abbr></th>
-                            <th><abbr> Reorder Level</abbr></th>
+                            <th class="text-purple"><abbr> Reorder Level</abbr></th>
                             <th class="has-text-right"><abbr> Selling Price </abbr></th>
                             <th class="has-text-right"><abbr> Purchase Price </abbr></th>
                             @can('delete', $products->first())
@@ -94,7 +94,12 @@
                                 <td> {{ substr($product->description, 0, 40) ?? 'N/A' }} </td>
                                 @can('delete', $product)
                                 @endcan
-                                <td class="is-capitalized"> {{ $product->min_on_hand }} {{ $product->unit_of_measurement ?? 'N/A' }} </td>
+                                <td class="is-capitalized"> 
+                                    <span class="tag is-small bg-purple has-text-white">
+                                        {{ $product->min_on_hand }} 
+                                        {{ $product->unit_of_measurement ?? 'N/A' }} 
+                                    </span>
+                                </td>
                                 <td class="has-text-right"> {{ $product->selling_price ?? 'N/A' }} </td>
                                 <td class="has-text-right"> {{ $product->purchase_price ?? 'N/A' }} </td>
                                 <td> {{ $product->createdBy->name ?? 'N/A' }} </td>

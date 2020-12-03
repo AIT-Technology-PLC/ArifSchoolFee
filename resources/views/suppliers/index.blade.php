@@ -59,7 +59,7 @@
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
-                            <th><abbr> Company </abbr></th>
+                            <th class="text-purple"><abbr> Company </abbr></th>
                             <th><abbr> Contact </abbr></th>
                             <th><abbr> Email </abbr></th>
                             <th><abbr> Phone </abbr></th>
@@ -76,7 +76,11 @@
                         @foreach ($suppliers as $supplier)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">{{ $supplier->company_name ?? 'N/A' }}</td>
+                                <td class="is-capitalized">
+                                    <span class="tag is-small bg-purple has-text-white">
+                                        {{ $supplier->company_name ?? 'N/A' }}
+                                    </span>
+                                </td>
                                 <td class="is-capitalized">{{ $supplier->contact_name ?? 'N/A' }}</td>
                                 <td>{{ $supplier->email ?? 'N/A' }}</td>
                                 <td class="is-capitalized">{{ $supplier->phone ?? 'N/A' }}</td>

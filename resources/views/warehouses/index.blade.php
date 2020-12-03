@@ -60,7 +60,7 @@
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th><abbr> Warehouse Name </abbr></th>
-                            <th><abbr> Location </abbr></th>
+                            <th class="text-purple"><abbr> Location </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Created On </abbr></th>
                             @can('delete', $warehouses->first())
@@ -75,7 +75,11 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized"> {{ $warehouse->name }} </td>
-                                <td class="is-capitalized"> {{ $warehouse->location ?? 'N/A' }} </td>
+                                <td class="is-capitalized"> 
+                                    <span class="tag is-small bg-purple has-text-white">
+                                        {{ $warehouse->location ?? 'N/A' }} 
+                                    </span>
+                                </td>
                                 <td> {{ substr($warehouse->description, 0, 40) ?? 'N/A' }} </td>
                                 <td class="has-text-right"> {{ $warehouse->created_at->toFormattedDateString() }} </td>
                                 @can('delete', $warehouse)

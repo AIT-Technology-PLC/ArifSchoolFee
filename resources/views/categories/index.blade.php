@@ -61,7 +61,7 @@
                             <th><abbr> # </abbr></th>
                             <th><abbr> Category </abbr></th>
                             <th><abbr> Properties </abbr></th>
-                            <th><abbr> Products </abbr></th>
+                            <th class="has-text-centered text-purple"><abbr> Products </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Created On </abbr></th>
                             @can('delete', $categories->first())
@@ -85,7 +85,7 @@
                                         @endforeach
                                     @endif
                                 </td>
-                                <td class="is-capitalized"> {{ $category->products->count() }} </td>
+                                <td class="has-text-centered text-purple has-text-weight-bold"> {{ $category->products->count() }} </td>
                                 <td> {{ substr($category->description, 0, 40) ?? 'N/A' }} </td>
                                 <td class="has-text-right"> {{ $category->created_at->toFormattedDateString() }} </td>
                                 @can('delete', $category)
