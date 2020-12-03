@@ -22,7 +22,7 @@ class MerchandiseController extends Controller
     {
         $merchandisesOnHand = $this->merchandise->getAllOnHandMerchandises();
 
-        return $merchandisesOnHand;
+        return view('merchandises.index', compact('merchandisesOnHand'));
     }
 
     public function create(Product $product, Warehouse $warehouse)

@@ -176,7 +176,7 @@
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a name="menuTitles" href="{{ route('merchandises.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5  {{ request()->is('merchandises/index') ? 'is-active' : '' }}">
+            <a name="menuTitles" href="{{ route('merchandises.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5  {{ request()->is('merchandises') ? 'is-active' : '' }}">
                 <span class="icon">
                     <i class="fas fa-dolly-flatbed"></i>
                 </span>
