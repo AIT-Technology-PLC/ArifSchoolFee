@@ -50,4 +50,13 @@ class Merchandise extends Model
             ->where('total_on_hand', '>', 0)
             ->get();
     }
+
+    public function getAllLimitedMerchandises()
+    {
+        $limitedMerchandises = $this->getAllOnHandMerchandises()->filter(function ($merchandiseOnHand) {
+            return $merchandiseOnHand->total_on_hand <= $merchandiseOnHand->product->min_on_hand;
+        });
+
+        return $limitedMerchandises;
+    }
 }

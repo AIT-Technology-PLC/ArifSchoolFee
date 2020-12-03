@@ -20,7 +20,7 @@ class MerchandiseController extends Controller
 
     public function index()
     {
-        $merchandisesOnHand = $this->merchandise->getAllOnHandMerchandises();
+        $merchandisesOnHand = $this->merchandise->getAllLimitedMerchandises();
 
         return view('merchandises.index', compact('merchandisesOnHand'));
     }
