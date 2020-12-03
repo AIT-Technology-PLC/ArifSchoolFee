@@ -32,3 +32,5 @@ if (d.getElementById("addNewPurchaseForm")) {
 }
 
 d.addEventListener("readystatechange", jumpToCurrentPageMenuTitle);
+
+d.getElementById("backButton").addEventListener("click", goToPreviousPage);

@@ -167,3 +167,7 @@ function jumpToCurrentPageMenuTitle() {
         currentMenuTitle.parentElement.parentElement.previousElementSibling.scrollIntoView();
     }
 }
+
+function goToPreviousPage() {
+    return history.back();
+}
