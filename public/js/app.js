@@ -171,3 +171,7 @@ function jumpToCurrentPageMenuTitle() {
 function goToPreviousPage() {
     return history.back();
 }
+
+function openAddToInventoryModal() {
+    d.getElementById("addToInventoryModal").classList.toggle("is-active");
+}

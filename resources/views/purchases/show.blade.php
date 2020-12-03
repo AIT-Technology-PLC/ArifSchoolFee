@@ -67,6 +67,11 @@
                             Add to Inventory
                         </span>
                     </button>
+                    @error('warehouse_id')
+                        <span class="help has-text-danger" role="alert">
+                            Please assign a warehouse to add the products to.
+                        </span>
+                    @enderror
                 </div>
             @else
                 <div class="box has-background-white-ter has-text-left mb-6">

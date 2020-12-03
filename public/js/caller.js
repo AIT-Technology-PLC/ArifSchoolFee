@@ -34,3 +34,13 @@ if (d.getElementById("addNewPurchaseForm")) {
 d.addEventListener("readystatechange", jumpToCurrentPageMenuTitle);
 
 d.getElementById("backButton").addEventListener("click", goToPreviousPage);
+
+d.getElementById("openAddToInventoryModal").addEventListener(
+    "click",
+    openAddToInventoryModal
+);
+
+d.getElementById("closeModal").addEventListener(
+    "click",
+    openAddToInventoryModal
+);
