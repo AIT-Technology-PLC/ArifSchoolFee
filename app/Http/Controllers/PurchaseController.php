@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
+use App\Models\Warehouse;
 use App\Traits\HasOptions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -76,11 +77,13 @@ class PurchaseController extends Controller
         return redirect()->route('purchases.index');
     }
 
-    public function show(Purchase $purchase)
+    public function show(Purchase $purchase, Warehouse $warehouse)
     {
         $purchase->load(['purchaseDetails.product', 'purchaseDetails.supplier', 'company']);
 
-        return view('purchases.show', compact('purchase'));
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        return view('purchases.show', compact('purchase', 'warehouses'));
     }
 
     public function edit(Purchase $purchase, Product $product, Supplier $supplier)

@@ -59,29 +59,26 @@
                         <br>
                         Add product(s) automatically by clicking on the button.
                     </p>
-                    <form action="{{ route('merchandises.addToInventory', $purchase->id) }}" method="POST">
-                        @csrf
-                        <button class="button bg-purple has-text-white mt-5">
-                            <span class="icon">
-                                <i class="fas fa-plus"></i>
-                            </span>
-                            <span>
-                                Add to Inventory
-                            </span>
-                        </button>
-                    </form>
+                    <button id="openAddToInventoryModal" class="button bg-purple has-text-white mt-5">
+                        <span class="icon">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span>
+                            Add to Inventory
+                        </span>
+                    </button>
                 </div>
             @else
-            <div class="box has-background-white-ter has-text-left mb-6">
-                <p class="has-text-grey text-green">
-                    <span class="icon">
-                        <i class="fas fa-check-circle"></i>
-                    </span>
-                    <span>
-                        Product(s) listed below have been to your Inventory.
-                    </span>
-                </p>
-            </div>
+                <div class="box has-background-white-ter has-text-left mb-6">
+                    <p class="has-text-grey text-green">
+                        <span class="icon">
+                            <i class="fas fa-check-circle"></i>
+                        </span>
+                        <span>
+                            Product(s) listed below have been to your Inventory.
+                        </span>
+                    </p>
+                </div>
             @endif
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
@@ -181,4 +178,5 @@
             </div>
         </div>
     </section>
+    @include('purchases.add-to-inventory-modal')
 @endsection
