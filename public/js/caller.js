@@ -35,17 +35,19 @@ d.addEventListener("readystatechange", jumpToCurrentPageMenuTitle);
 
 d.getElementById("backButton").addEventListener("click", goToPreviousPage);
 
-d.getElementById("openAddToInventoryModal").addEventListener(
-    "click",
-    openAddToInventoryModal
-);
+if (d.getElementById("addToInventoryModal")) {
+    d.getElementById("openAddToInventoryModal").addEventListener(
+        "click",
+        openAddToInventoryModal
+    );
 
-d.getElementById("closeModal").addEventListener(
-    "click",
-    openAddToInventoryModal
-);
+    d.getElementById("closeModal").addEventListener(
+        "click",
+        openAddToInventoryModal
+    );
 
-d.getElementById("addToInventoryNotNow").addEventListener(
-    "click",
-    openAddToInventoryModal
-);
+    d.getElementById("addToInventoryNotNow").addEventListener(
+        "click",
+        openAddToInventoryModal
+    );
+}

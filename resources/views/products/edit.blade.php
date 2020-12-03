@@ -203,18 +203,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-12">
-                        <div class="field mt-5">
-                            <button id="addNewForm" class="button has-text-white bg-purple is-small" type="button">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    Add More Forms
-                                </span>
-                            </button>
-                        </div>
-                    </div>
                 </div>
                 <div class="columns is-marginless is-multiline">
                     @if (is_null($product->properties))
