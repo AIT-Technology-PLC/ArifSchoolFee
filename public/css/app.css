@@ -160,6 +160,32 @@ td {
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
 }
+[data-title] {
+    position: relative;
+}
+[data-title]:after {
+    opacity: 0;
+    visibility: hidden;
+    content: attr(data-title);
+    position: absolute;
+    bottom: 25px;
+    right: 0%;
+    z-index: 99999;
+    white-space: nowrap;
+    background-color: #edf7f2;
+    color: #3d8660;
+    font-size: small;
+    font-weight: 500;
+    padding: 7px;
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
+        0 0 0 1px rgba(10, 10, 10, 0.02);
+    border-radius: 6px;
+}
+[data-title]:hover:after {
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.6s ease;
+}
 @media screen and (max-width: 768px) {
     .m-lr-0 {
         margin-left: 0px !important;
