@@ -39,3 +39,18 @@ if (d.getElementById("addToInventoryModal")) {
         openAddToInventoryModal
     );
 }
+
+if (d.getElementById("onHandTab")) {
+    d.getElementById("onHandTab").addEventListener(
+        "click",
+        showOnHandMerchandise
+    );
+    d.getElementById("limitedTab").addEventListener(
+        "click",
+        showLimitedMerchandise
+    );
+    d.getElementById("outOfTab").addEventListener(
+        "click",
+        showOutofMerchandise
+    );
+}

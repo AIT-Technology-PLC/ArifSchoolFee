@@ -51,19 +51,19 @@
     <section class="mt-3 mx-3 m-lr-0">
         <div class="tabs is-toggle is-fullwidth has-background-white-bis">
             <ul>
-                <li class="on-hand is-active">
+                <li id="onHandTab" class="on-hand is-active">
                     <a class="">
                         <span class="icon is-small"><i class="fas fa-check-circle"></i></span>
                         <span>On Hand Merchandise</span>
                     </a>
                 </li>
-                <li class="limited">
+                <li id="limitedTab" class="limited">
                     <a>
                         <span class="icon is-small"><i class="fas fa-exclamation-circle"></i></span>
                         <span>Limited Merchandise</span>
                     </a>
                 </li>
-                <li class="out-of-stock">
+                <li id="outOfTab" class="out-of-stock">
                     <a>
                         <span class="icon is-small"><i class="fas fa-times-circle"></i></span>
                         <span>Out of Stock</span>
@@ -159,7 +159,7 @@
         </div>
     </section>
 
-    <section id="limited" class="mt-3 mx-3 m-lr-0 is-hidden">
+    <section id="limited" class="mx-3 m-lr-0 is-hidden">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-gold has-text-weight-medium is-size-5">
                 Limited Stock
@@ -245,7 +245,7 @@
         </div>
     </section>
 
-    <section id="outOf" class="mt-3 mx-3 m-lr-0 is-hidden">
+    <section id="outOf" class="mx-3 m-lr-0 is-hidden">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-purple has-text-weight-medium is-size-5">
                 Products Out of Stock

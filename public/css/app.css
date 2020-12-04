@@ -222,7 +222,7 @@ td {
     color: #863d63;
     z-index: 1;
 }
-.tabs.is-toggle li.out.is-active a {
+.tabs.is-toggle li.out-of-stock.is-active a {
     background-color: #863d63;
     border-color: #863d63;
     color: #fafafa;

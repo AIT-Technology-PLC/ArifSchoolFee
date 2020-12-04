@@ -163,3 +163,42 @@ function goToPreviousPage() {
 function openAddToInventoryModal() {
     d.getElementById("addToInventoryModal").classList.toggle("is-active");
 }
+
+function showOnHandMerchandise() {
+    this.classList.add("is-active");
+    d.getElementById("onHand").classList.remove("is-hidden");
+
+    hideLimitedMerchandise();
+    hideOutofMerchandise();
+}
+
+function showLimitedMerchandise() {
+    this.classList.add("is-active");
+    d.getElementById("limited").classList.remove("is-hidden");
+
+    hideOutofMerchandise();
+    hideOnHandMerchandise();
+}
+
+function showOutofMerchandise() {
+    this.classList.add("is-active");
+    d.getElementById("outOf").classList.remove("is-hidden");
+
+    hideLimitedMerchandise();
+    hideOnHandMerchandise();
+}
+
+function hideOnHandMerchandise() {
+    d.getElementById("onHandTab").classList.remove("is-active");
+    d.getElementById("onHand").classList.add("is-hidden");
+}
+
+function hideLimitedMerchandise() {
+    d.getElementById("limitedTab").classList.remove("is-active");
+    d.getElementById("limited").classList.add("is-hidden");
+}
+
+function hideOutofMerchandise() {
+    d.getElementById("outOfTab").classList.remove("is-active");
+    d.getElementById("outOf").classList.add("is-hidden");
+}
