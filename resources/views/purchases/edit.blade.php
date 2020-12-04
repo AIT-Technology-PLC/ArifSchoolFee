@@ -139,29 +139,31 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="status" class="label text-green has-text-weight-normal"> Purchase Status <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="status" name="status">
-                                        <option selected disabled>Select Status</option>
-                                        @foreach ($purchaseStatuses as $purchaseStatus)
-                                            <option value="{{ $purchaseStatus }}" {{ $purchase->status == $purchaseStatus ? 'selected' : '' }}>{{ $purchaseStatus }}</option>
-                                        @endforeach
-                                    </select>
+                    @if (!$purchase->isAddedToInventory())
+                        <div class="column is-6">
+                            <div class="field">
+                                <label for="status" class="label text-green has-text-weight-normal"> Purchase Status <sup class="has-text-danger">*</sup> </label>
+                                <div class="control has-icons-left">
+                                    <div class="select is-fullwidth">
+                                        <select id="status" name="status">
+                                            <option selected disabled>Select Status</option>
+                                            @foreach ($purchaseStatuses as $purchaseStatus)
+                                                <option value="{{ $purchaseStatus }}" {{ $purchase->status == $purchaseStatus ? 'selected' : '' }}>{{ $purchaseStatus }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="icon is-small is-left">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    @error('status')
+                                        <span class="help has-text-danger" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
                                 </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-credit-card"></i>
-                                </div>
-                                @error('status')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
                             </div>
                         </div>
-                    </div>
+                    @endif
                     <div class="column is-6">
                         <div class="field">
                             <label for="shipped_at" class="label text-green has-text-weight-normal"> Shipping Started On <sup class="has-text-danger"></sup> </label>
