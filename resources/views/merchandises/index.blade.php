@@ -49,18 +49,26 @@
     </div> --}}
 
     <section class="mt-3 mx-3 m-lr-0">
+        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
+            <h1 class="title text-green has-text-weight-medium is-size-5">
+                Stock Information by Availability
+            </h1>
+            <h2 class="subtitle has-text-grey is-size-7">
+                On hand, Limited, and Out of Stock
+            </h2>
+        </div>
         <div class="tabs is-toggle is-fullwidth has-background-white-bis">
             <ul>
                 <li id="onHandTab" class="on-hand is-active">
                     <a class="">
                         <span class="icon is-small"><i class="fas fa-check-circle"></i></span>
-                        <span>On Hand Merchandise</span>
+                        <span>On Hand</span>
                     </a>
                 </li>
                 <li id="limitedTab" class="limited">
                     <a>
                         <span class="icon is-small"><i class="fas fa-exclamation-circle"></i></span>
-                        <span>Limited Merchandise</span>
+                        <span>Limited</span>
                     </a>
                 </li>
                 <li id="outOfTab" class="out-of-stock">
@@ -74,11 +82,6 @@
     </section>
 
     <section id="onHand" class="mx-3 m-lr-0">
-        <div class="box radius-bottom-0 radius-top-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                Stock On Hand
-            </h1>
-        </div>
         <div class="box radius-top-0">
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
@@ -160,11 +163,6 @@
     </section>
 
     <section id="limited" class="mx-3 m-lr-0 is-hidden">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-gold has-text-weight-medium is-size-5">
-                Limited Stock
-            </h1>
-        </div>
         <div class="box radius-top-0">
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
@@ -246,11 +244,6 @@
     </section>
 
     <section id="outOf" class="mx-3 m-lr-0 is-hidden">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-purple has-text-weight-medium is-size-5">
-                Products Out of Stock
-            </h1>
-        </div>
         <div class="box radius-top-0">
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">

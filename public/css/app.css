@@ -228,6 +228,9 @@ td {
     color: #fafafa;
     z-index: 1;
 }
+.tabs::-webkit-scrollbar {
+    display: none;
+}
 @media screen and (max-width: 768px) {
     .m-lr-0 {
         margin-left: 0px !important;
