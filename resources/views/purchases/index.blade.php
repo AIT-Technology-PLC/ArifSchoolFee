@@ -69,7 +69,7 @@
                                 <th><abbr> Added By </abbr></th>
                                 <th><abbr> Edited By </abbr></th>
                             @endcan
-                            <th class="has-text-centered"><abbr> Actions </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -109,7 +109,7 @@
                                     <td> {{ $purchase->createdBy->name ?? 'N/A' }} </td>
                                     <td> {{ $purchase->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
-                                <td class="has-text-centered">
+                                <td>
                                     <a href="{{ route('purchases.show', $purchase->id) }}" data-title="View Details">
                                         <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
