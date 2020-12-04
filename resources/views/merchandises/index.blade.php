@@ -47,8 +47,34 @@
             </div>
         </div>
     </div> --}}
+
     <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
+        <div class="tabs is-toggle is-fullwidth has-background-white-bis">
+            <ul>
+                <li class="on-hand is-active">
+                    <a class="">
+                        <span class="icon is-small"><i class="fas fa-check-circle"></i></span>
+                        <span>On Hand Merchandise</span>
+                    </a>
+                </li>
+                <li class="limited">
+                    <a>
+                        <span class="icon is-small"><i class="fas fa-exclamation-circle"></i></span>
+                        <span>Limited Merchandise</span>
+                    </a>
+                </li>
+                <li class="out-of-stock">
+                    <a>
+                        <span class="icon is-small"><i class="fas fa-times-circle"></i></span>
+                        <span>Out of Stock</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="onHand" class="mx-3 m-lr-0">
+        <div class="box radius-bottom-0 radius-top-0 mb-0 has-background-white-bis">
             <h1 class="title text-green has-text-weight-medium is-size-5">
                 Stock On Hand
             </h1>
@@ -80,9 +106,9 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized"> {{ $merchandise->product->name ?? 'N/A' }} </td>
                                 <td class="is-capitalized"> {{ $merchandise->warehouse->name ?? 'N/A' }} </td>
-                                <td class="has-text-right"> 
-                                    {{ $merchandise->total_received }} 
-                                    {{ $merchandise->product->unit_of_measurement ?? 'N/A' }} 
+                                <td class="has-text-right">
+                                    {{ $merchandise->total_received }}
+                                    {{ $merchandise->product->unit_of_measurement ?? 'N/A' }}
                                 </td>
                                 <td class="has-text-right">
                                     <span class="tag is-small bg-green has-text-white">
@@ -133,11 +159,7 @@
         </div>
     </section>
 
-
-
-
-
-    <section class="mt-3 mx-3 m-lr-0">
+    <section id="limited" class="mt-3 mx-3 m-lr-0 is-hidden">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-gold has-text-weight-medium is-size-5">
                 Limited Stock
@@ -170,9 +192,9 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized"> {{ $merchandise->product->name ?? 'N/A' }} </td>
                                 <td class="is-capitalized"> {{ $merchandise->warehouse->name ?? 'N/A' }} </td>
-                                <td class="has-text-right"> 
-                                    {{ $merchandise->total_received }} 
-                                    {{ $merchandise->product->unit_of_measurement ?? 'N/A' }} 
+                                <td class="has-text-right">
+                                    {{ $merchandise->total_received }}
+                                    {{ $merchandise->product->unit_of_measurement ?? 'N/A' }}
                                 </td>
                                 <td class="has-text-right">
                                     <span class="tag is-small bg-green has-text-white">
@@ -223,10 +245,7 @@
         </div>
     </section>
 
-
-
-
-    <section class="mt-3 mx-3 m-lr-0">
+    <section id="outOf" class="mt-3 mx-3 m-lr-0 is-hidden">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-purple has-text-weight-medium is-size-5">
                 Products Out of Stock
