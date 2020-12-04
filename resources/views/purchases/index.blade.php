@@ -80,9 +80,15 @@
                                     {{ $purchase->shipping_line ?? 'N/A' }}
                                 </td>
                                 <td class="is-capitalized">
-                                    <span class="tag is-small bg-purple has-text-white">
-                                        {{ $purchase->status ?? 'N/A' }}
-                                    </span>
+                                    @if ($purchase->isAddedToInventory())
+                                        <span class="tag is-small bg-purple has-text-white">
+                                            {{ $purchase->status ?? 'N/A' }}
+                                        </span>
+                                    @else
+                                        <span class="tag is-small bg-blue has-text-white">
+                                            {{ $purchase->status ?? 'N/A' }}
+                                        </span>
+                                    @endif
                                 </td>
                                 <td class="has-text-centered has-text-weight-bold text-gold">
                                     {{ $purchase->purchase_details_count ?? 'N/A' }}
