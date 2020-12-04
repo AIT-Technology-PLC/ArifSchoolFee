@@ -110,14 +110,24 @@
                                     <td> {{ $purchase->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
                                 <td class="has-text-centered">
-                                    <a href="{{ route('purchases.edit', $purchase->id) }}" title="Modify Purchase Data" class="text-green is-size-6">
-                                        <span class="icon">
-                                            <i class="fas fa-pen-square"></i>
+                                    <a href="{{ route('purchases.show', $purchase->id) }}" data-title="View Details">
+                                        <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
+                                            <span class="icon">
+                                                <i class="fas fa-info-circle"></i>
+                                            </span>
+                                            <span>
+                                                Details
+                                            </span>
                                         </span>
                                     </a>
-                                    <a href="{{ route('purchases.show', $purchase->id) }}" title="View Details" class="text-purple is-size-6">
-                                        <span class="icon">
-                                            <i class="fas fa-expand-alt"></i>
+                                    <a href="{{ route('purchases.edit', $purchase->id) }}" data-title="Modify Purchase Data">
+                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                            <span class="icon">
+                                                <i class="fas fa-pen-square"></i>
+                                            </span>
+                                            <span>
+                                                Edit
+                                            </span>
                                         </span>
                                     </a>
                                 </td>
