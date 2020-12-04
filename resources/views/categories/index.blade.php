@@ -93,9 +93,14 @@
                                     <td> {{ $category->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
                                 <td class="has-text-centered">
-                                    <a href="{{ route('categories.edit', $category->id) }}" title="Modify Category Data" class="text-green is-size-6">
-                                        <span class="icon">
-                                            <i class="fas fa-pen-square"></i>
+                                    <a href="{{ route('categories.edit', $category->id) }}" data-title="Modify Category Data">
+                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                            <span class="icon">
+                                                <i class="fas fa-pen-square"></i>
+                                            </span>
+                                            <span>
+                                                Edit
+                                            </span>
                                         </span>
                                     </a>
                                 </td>
