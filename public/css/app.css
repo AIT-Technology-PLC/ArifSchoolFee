@@ -186,6 +186,11 @@ td {
     visibility: visible;
     transition: all 0.6s ease;
 }
+.navbar-item[data-title]:after {
+    bottom: -20px;
+    right: 0;
+    padding: 7px;
+}
 .tabs.is-toggle li:first-child a {
     border-radius: 0 !important;
 }
