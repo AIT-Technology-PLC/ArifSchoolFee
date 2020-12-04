@@ -33,12 +33,12 @@
                 </a>
             </div>
             <div class="navbar-end">
-                <a id="backButton" class="navbar-item has-text-white link-text" title="Go Back">
+                <a id="backButton" class="navbar-item has-text-white link-text" data-title="Go Back">
                     <span class="icon">
                         <i class="fas fa-arrow-left"></i>
                     </span>
                 </a>
-                <a id="createMenuButton" class="navbar-item has-text-white link-text">
+                <a id="createMenuButton" class="navbar-item has-text-white link-text" data-title="Add new product, supplier, purchase ...">
                     <span class="icon">
                         <i class="fas fa-plus"></i>
                     </span>
