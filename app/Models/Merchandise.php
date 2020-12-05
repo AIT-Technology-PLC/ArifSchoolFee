@@ -91,4 +91,17 @@ class Merchandise extends Model
 
         return $previousBrokenQuantity;
     }
+
+    public function decrementTotalOnHandQuantity()
+    {
+        $totalReceivedQuantity = $this->total_received;
+        $totalSoldQuantity = $this->total_sold;
+        $totalBrokenQuantity = $this->total_broken;
+
+        $totalOnHand = $totalReceivedQuantity - ($totalSoldQuantity + $totalBrokenQuantity);
+
+        $this->total_on_hand = $totalOnHand;
+
+        $this->save();
+    }
 }

@@ -124,10 +124,12 @@ class MerchandiseController extends Controller
         ]);
 
         $data["total_returns"] = $merchandise->isReturnedQuantityValueValid($data['total_returns']);
-
         $data["total_broken"] = $merchandise->isBrokenQuantityValueValid($data['total_broken']);
 
-        $merchandise->update($data);
+        DB::transaction(function () use ($merchandise, $data) {
+            $merchandise->update($data);
+            $merchandise->decrementTotalOnHandQuantity();
+        });
 
         return redirect()->route('merchandises.index');
     }
