@@ -111,4 +111,11 @@ class Merchandise extends Model
 
         return $distinctTotalOnHandMerchandises;
     }
+
+    public function getTotalDistinctLimitedMerchandises($limitedMerchandises)
+    {
+        $distinctTotalLimitedMerchandises = $limitedMerchandises->groupBy('product_id')->count();
+
+        return $distinctTotalLimitedMerchandises;
+    }
 }
