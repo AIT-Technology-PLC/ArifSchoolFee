@@ -22,11 +22,13 @@ class MerchandiseController extends Controller
     {
         $onHandMerchandises = $this->merchandise->getAllOnHandMerchandises();
 
+        $totalDistinctOnHandMerchandises = $this->merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
+
         $limitedMerchandises = $this->merchandise->getAllLimitedMerchandises($onHandMerchandises);
 
         $outOfStockMerchandises = $product->getAllOutOfStockMerchandises();
 
-        return view('merchandises.index', compact('onHandMerchandises', 'limitedMerchandises', 'outOfStockMerchandises'));
+        return view('merchandises.index', compact('onHandMerchandises', 'limitedMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises'));
     }
 
     public function create(Product $product, Warehouse $warehouse)

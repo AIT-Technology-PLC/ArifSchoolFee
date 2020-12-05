@@ -104,4 +104,11 @@ class Merchandise extends Model
 
         $this->save();
     }
+
+    public function getTotalDistinctOnHandMerchandises($onHandMerchandises)
+    {
+        $distinctTotalOnHandMerchandises = $onHandMerchandises->groupBy('product_id')->count();
+
+        return $distinctTotalOnHandMerchandises;
+    }
 }
