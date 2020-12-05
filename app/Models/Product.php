@@ -116,7 +116,7 @@ class Product extends Model
 
     public function getAllOutOfStockMerchandises()
     {
-        $allMerchandiseProducts = $this->companyProducts()->with('merchandises')
+        $allMerchandiseProducts = $this->companyProducts()->with(['merchandises', 'productCategory'])
             ->where('type', 'Merchandise Product')->get();
 
         $outOfStockMerchandises = $allMerchandiseProducts->filter(function ($merchandiseProduct) {
