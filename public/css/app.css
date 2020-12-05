@@ -194,6 +194,9 @@ td {
 .tabs.is-toggle li:first-child a {
     border-radius: 0 !important;
 }
+.tabs.is-toggle li:first-child a {
+    border-radius: 0 !important;
+}
 .tabs.is-toggle a {
     border: none !important;
 }
