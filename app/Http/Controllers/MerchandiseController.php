@@ -123,6 +123,8 @@ class MerchandiseController extends Controller
             'total_broken' => 'nullable|numeric',
         ]);
 
+        $data["total_returns"] = $merchandise->isReturnedQuantityValueValid($data['total_returns']);
+
         $merchandise->update($data);
 
         return redirect()->route('merchandises.index');

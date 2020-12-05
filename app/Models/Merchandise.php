@@ -59,4 +59,20 @@ class Merchandise extends Model
 
         return $limitedMerchandises;
     }
+
+    public function isReturnedQuantityValueValid($returnedQuantity)
+    {
+        $totalSoldQuantity = $this->total_sold;
+        $previousReturnedQuantity = $this->total_returns;
+
+        if ($returnedQuantity < 0 || !is_numeric($returnedQuantity)) {
+            return $previousReturnedQuantity;
+        }
+
+        if ($returnedQuantity <= $totalSoldQuantity) {
+            return $returnedQuantity;
+        }
+
+        return $previousReturnedQuantity;
+    }
 }
