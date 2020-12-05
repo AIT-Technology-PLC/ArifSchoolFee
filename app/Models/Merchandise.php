@@ -85,7 +85,7 @@ class Merchandise extends Model
             return $previousBrokenQuantity;
         }
 
-        if ($brokenQuantity <= $totalOnHandQuantity) {
+        if ($brokenQuantity <= $totalOnHandQuantity + $previousBrokenQuantity) {
             return $brokenQuantity;
         }
 
