@@ -75,4 +75,20 @@ class Merchandise extends Model
 
         return $previousReturnedQuantity;
     }
+
+    public function isBrokenQuantityValueValid($brokenQuantity)
+    {
+        $totalOnHandQuantity = $this->total_on_hand;
+        $previousBrokenQuantity = $this->total_broken;
+
+        if ($brokenQuantity < 0 || !is_numeric($brokenQuantity)) {
+            return $previousBrokenQuantity;
+        }
+
+        if ($brokenQuantity <= $totalOnHandQuantity) {
+            return $brokenQuantity;
+        }
+
+        return $previousBrokenQuantity;
+    }
 }

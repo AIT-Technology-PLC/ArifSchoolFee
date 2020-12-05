@@ -125,6 +125,8 @@ class MerchandiseController extends Controller
 
         $data["total_returns"] = $merchandise->isReturnedQuantityValueValid($data['total_returns']);
 
+        $data["total_broken"] = $merchandise->isBrokenQuantityValueValid($data['total_broken']);
+
         $merchandise->update($data);
 
         return redirect()->route('merchandises.index');
