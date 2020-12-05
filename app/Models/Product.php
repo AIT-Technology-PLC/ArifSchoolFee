@@ -123,7 +123,7 @@ class Product extends Model
             if ($merchandiseProduct->merchandises->isEmpty()) {
                 return true;
             } else {
-                return $merchandiseProduct->merchandises->where('total_on_hand', '<=', 0.00)->isNotEmpty();
+                return $merchandiseProduct->merchandises->where('total_on_hand', '>', 0.00)->isEmpty();
             }
         });
 
