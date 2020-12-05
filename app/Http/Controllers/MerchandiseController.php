@@ -108,12 +108,22 @@ class MerchandiseController extends Controller
 
     public function edit(Merchandise $merchandise)
     {
-        //
+        $merchandise->load(['warehouse', 'product']);
+
+        return view('merchandises.edit', compact('merchandise'));
     }
 
     public function update(Request $request, Merchandise $merchandise)
     {
-        //
+        $data = $request->validate([
+            'warehouse_id' => 'required|integer',
+            'total_returns' => 'nullable|numeric',
+            'total_broken' => 'nullable|numeric',
+        ]);
+
+        $merchandise->update($data);
+
+        return redirect()->route('merchandises.index');
     }
 
     public function destroy(Merchandise $merchandise)
