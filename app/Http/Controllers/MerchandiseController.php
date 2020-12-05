@@ -28,7 +28,9 @@ class MerchandiseController extends Controller
 
         $outOfStockMerchandises = $product->getAllOutOfStockMerchandises();
 
-        return view('merchandises.index', compact('onHandMerchandises', 'limitedMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises'));
+        $totalOutOfStockMerchandises = $product->getTotalOutOfStockMerchandises($outOfStockMerchandises);
+
+        return view('merchandises.index', compact('onHandMerchandises', 'limitedMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises'));
     }
 
     public function create(Product $product, Warehouse $warehouse)

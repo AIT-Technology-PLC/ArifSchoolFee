@@ -129,4 +129,11 @@ class Product extends Model
 
         return $outOfStockMerchandises;
     }
+
+    public function getTotalOutOfStockMerchandises($outOfStockMerchandises)
+    {
+        $totalOutOfStockMerchandises = $outOfStockMerchandises->count();
+
+        return $totalOutOfStockMerchandises;
+    }
 }
