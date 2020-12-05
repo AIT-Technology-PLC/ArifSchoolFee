@@ -18,7 +18,7 @@ class MerchandiseController extends Controller
         $this->merchandise = $merchandise;
     }
 
-    public function index(Product $product)
+    public function index(Product $product, Warehouse $warehouse)
     {
         $onHandMerchandises = $this->merchandise->getAllOnHandMerchandises();
 
@@ -32,7 +32,9 @@ class MerchandiseController extends Controller
 
         $totalOutOfStockMerchandises = $product->getTotalOutOfStockMerchandises($outOfStockMerchandises);
 
-        return view('merchandises.index', compact('onHandMerchandises', 'limitedMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises'));
+        $totalWarehousesUsed = $warehouse->getTotalWarehousesUsed($onHandMerchandises);
+
+        return view('merchandises.index', compact('onHandMerchandises', 'limitedMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'totalWarehousesUsed'));
     }
 
     public function create(Product $product, Warehouse $warehouse)

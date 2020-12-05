@@ -63,4 +63,11 @@ class Warehouse extends Model
     {
         return $this->companyWarehouses()->count();
     }
+
+    public function getTotalWarehousesUsed($onHandMerchandises)
+    {
+        $totalWarehousesUsed = $onHandMerchandises->groupBy('warehouse_id')->count();
+
+        return $totalWarehousesUsed;
+    }
 }
