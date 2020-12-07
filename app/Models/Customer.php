@@ -6,5 +6,40 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    //
+    protected $fillable = ['company_id', 'created_by', 'updated_by', 'company_name', 'contact_name', 'email', 'phone', 'country'];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function scopeCompanyCustomers($query)
+    {
+        return $query->where('company_id', auth()->user()->employee->company_id);
+    }
+
+    public function getAll()
+    {
+        return $this->companyCustomers()->with(['createdBy', 'updatedBy'])->get();
+    }
+
+    public function getCustomerNames()
+    {
+        return $this->companyCustomers()->get(['id', 'company_name']);
+    }
+
+    public function countCustomersOfCompany()
+    {
+        return $this->companyCustomers()->count();
+    }
 }
