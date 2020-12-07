@@ -284,7 +284,7 @@
             </ul>
         </li>
         <li>
-            <a name="menuTitles" href="{{ route('suppliers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'is-active' : '' }}">
+            <a name="menuTitles" href="{{ route('customers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('customers') ? 'is-active' : '' }}">
                 <span class="icon">
                     <i class="fas fa-user-alt"></i>
                 </span>
@@ -296,7 +296,7 @@
         <li>
             <ul class="mt-0">
                 <li>
-                    <a name="menuTitles" href="{{ route('suppliers.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers/create') ? 'is-active' : '' }}">
+                    <a name="menuTitles" href="{{ route('customers.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('customers/create') ? 'is-active' : '' }}">
                         <span class="icon">
                             <i class="fas fa-plus-circle"></i>
                         </span>
