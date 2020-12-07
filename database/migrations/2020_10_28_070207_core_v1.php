@@ -161,7 +161,6 @@ class CoreV1 extends Migration
             $table->decimal('selling_price', 22);
             $table->decimal('purchase_price', 22);
             $table->decimal('min_on_hand', 22);
-            $table->boolean('is_expirable');
             $table->json('properties')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
@@ -247,7 +246,6 @@ class CoreV1 extends Migration
             $table->decimal('total_broken', 22);
             $table->decimal('total_returns', 22);
             $table->dateTime('expires_on')->nullable();
-            $table->dateTime('received_on')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -309,7 +307,6 @@ class CoreV1 extends Migration
             $table->decimal('total_on_hand', 22);
             $table->decimal('total_broken', 22);
             $table->dateTime('expires_on')->nullable();
-            $table->dateTime('received_on')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -359,7 +356,6 @@ class CoreV1 extends Migration
             $table->decimal('total_on_hand', 22);
             $table->decimal('total_broken', 22);
             $table->dateTime('expires_on')->nullable();
-            $table->dateTime('received_on')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
