@@ -15,6 +15,8 @@ class MerchandiseController extends Controller
 
     public function __construct(Merchandise $merchandise)
     {
+        $this->authorizeResource(Merchandise::class, 'merchandise');
+
         $this->merchandise = $merchandise;
     }
 
