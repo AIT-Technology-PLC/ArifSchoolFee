@@ -232,6 +232,27 @@ class CoreV1 extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
+        // Customers
+        Schema::create('customers', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('company_name');
+            $table->string('contact_name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('country')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        });
+
         // Merchandise Products
         Schema::create('merchandises', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -394,6 +415,7 @@ class CoreV1 extends Migration
         Schema::drop('product_images');
         Schema::drop('purchases');
         Schema::drop('purchase_details');
+        Schema::drop('customers');
         Schema::drop('merchandises');
         Schema::drop('manufacturings');
         Schema::drop('raw_materials');
