@@ -23,6 +23,8 @@ d.addEventListener("readystatechange", jumpToCurrentPageMenuTitle);
 
 d.getElementById("backButton").addEventListener("click", goToPreviousPage);
 
+d.getElementById("refreshButton").addEventListener("click", refreshPage);
+
 if (d.getElementById("addToInventoryModal")) {
     d.getElementById("openAddToInventoryModal").addEventListener(
         "click",

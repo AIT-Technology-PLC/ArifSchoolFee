@@ -160,6 +160,10 @@ function goToPreviousPage() {
     return history.back();
 }
 
+function refreshPage() {
+    return location.reload();
+}
+
 function openAddToInventoryModal() {
     d.getElementById("addToInventoryModal").classList.toggle("is-active");
 }

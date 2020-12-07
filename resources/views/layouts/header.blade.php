@@ -38,6 +38,11 @@
                         <i class="fas fa-arrow-left"></i>
                     </span>
                 </a>
+                <a id="refreshButton" class="navbar-item has-text-white link-text" data-title="Refresh Page">
+                    <span class="icon">
+                        <i class="fas fa-redo-alt"></i>
+                    </span>
+                </a>
                 <a id="createMenuButton" class="navbar-item has-text-white link-text" data-title="Add new product, supplier, purchase ...">
                     <span class="icon">
                         <i class="fas fa-plus"></i>
