@@ -223,7 +223,7 @@
                             <i class="fas fa-plus-circle"></i>
                         </span>
                         <span>
-                            New Purchase Order
+                            New Purchase
                         </span>
                     </a>
                 </li>
@@ -248,6 +248,60 @@
                         </span>
                         <span>
                             New Supplier
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <p class="menu-label has-text-weight-bold text-green">
+        Sales & Customers
+    </p>
+    <ul class="menu-list mb-5">
+        <li>
+            <a name="menuTitles" href="{{ route('purchases.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases') ? 'is-active' : '' }}">
+                <span class="icon">
+                    <i class="fas fa-tags"></i>
+                </span>
+                <span>
+                    Sales Management
+                </span>
+            </a>
+        </li>
+        <li>
+            <ul class="mt-0">
+                <li>
+                    <a name="menuTitles" href="{{ route('purchases.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases/create') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </span>
+                        <span>
+                            New Sales
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a name="menuTitles" href="{{ route('suppliers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'is-active' : '' }}">
+                <span class="icon">
+                    <i class="fas fa-user-alt"></i>
+                </span>
+                <span>
+                    Customer Management
+                </span>
+            </a>
+        </li>
+        <li>
+            <ul class="mt-0">
+                <li>
+                    <a name="menuTitles" href="{{ route('suppliers.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers/create') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </span>
+                        <span>
+                            New Customer
                         </span>
                     </a>
                 </li>
