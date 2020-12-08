@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Product;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -137,5 +138,15 @@ class User extends Authenticatable
     public function mroItemsUpdated()
     {
         return $this->hasMany(MroItem::class, 'updated_by');
+    }
+
+    public function customersCreated()
+    {
+        return $this->hasMany(Customer::class, 'created_by');
+    }
+
+    public function customersUpdated()
+    {
+        return $this->hasMany(Customer::class, 'updated_by');
     }
 }
