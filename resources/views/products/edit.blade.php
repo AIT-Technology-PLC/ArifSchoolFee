@@ -167,27 +167,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="is_expirable" class="label text-green has-text-weight-normal"> Does this product has expiry date? <sup class="has-text-danger">*</sup> </label>
-                            <div class="control">
-                                <label class="radio text-green has-text-weight-normal">
-                                    <input type="radio" name="is_expirable" value="1" {{ $product->is_expirable ? 'checked' : '' }}>
-                                    Yes
-                                </label>
-                                <label class="radio text-green has-text-weight-normal">
-                                    <input type="radio" name="is_expirable" value="0" {{ $product->is_expirable ? '' : 'checked' }}>
-                                    No
-                                </label>
-                                @error('is_expirable')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
+                    <div class="column is-12">
                         <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Description</label>
                             <div class="control has-icons-left">

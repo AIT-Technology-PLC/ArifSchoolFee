@@ -7,10 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['product_category_id', 'company_id', 'supplier_id', 'created_by', 'updated_by', 'name', 'type', 'selling_price', 'purchase_price', 'unit_of_measurement', 'min_on_hand', 'is_expirable', 'properties', 'description'];
+    protected $fillable = ['product_category_id', 'company_id', 'supplier_id', 'created_by', 'updated_by', 'name', 'type', 'selling_price', 'purchase_price', 'unit_of_measurement', 'min_on_hand', 'properties', 'description'];
 
     protected $casts = [
-        'is_expirable' => 'boolean',
         'properties' => 'array',
     ];
 
