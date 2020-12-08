@@ -85,7 +85,7 @@
                                     @enderror
                                 </div>
                                 <div class="control">
-                                    <button class="button text-green" type="button">
+                                    <button class="button bg-green has-text-white" type="button">
                                         {{ $purchaseDetail->product->unit_of_measurement }}
                                     </button>
                                 </div>
@@ -106,7 +106,7 @@
                                     @enderror
                                 </div>
                                 <div class="control">
-                                    <button class="button text-green" type="button">
+                                    <button class="button bg-green has-text-white" type="button">
                                         {{ $purchaseDetail->product->unit_of_measurement }}
                                     </button>
                                 </div>

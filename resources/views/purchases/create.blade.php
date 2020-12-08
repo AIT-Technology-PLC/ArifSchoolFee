@@ -83,7 +83,7 @@
                                 @enderror
                             </div>
                             <div class="control">
-                                <button id="purchase[0][product_id]Quantity" class="button text-green" type="button"></button>
+                                <button id="purchase[0][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
                             </div>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
                                 @enderror
                             </div>
                             <div class="control">
-                                <button id="purchase[0][product_id]Price" class="button text-green" type="button"></button>
+                                <button id="purchase[0][product_id]Price" class="button bg-green has-text-white" type="button"></button>
                             </div>
                         </div>
                     </div>
@@ -178,7 +178,7 @@
                                         @enderror
                                     </div>
                                     <div class="control">
-                                        <button id="purchase[{{ $i }}][product_id]Quantity" class="button text-green" type="button"></button>
+                                        <button id="purchase[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
                                         @enderror
                                     </div>
                                     <div class="control">
-                                        <button id="purchase[{{ $i }}][product_id]Price" class="button text-green" type="button"></button>
+                                        <button id="purchase[{{ $i }}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
                                     </div>
                                 </div>
                             </div>
@@ -220,7 +220,7 @@
                                     <select id="shipping_line" name="shipping_line">
                                         <option selected disabled>Select Line</option>
                                         @foreach ($shippingLines as $shippingLine)
-                                            <option value="{{ $shippingLine }} {{ old('shippingLine') == $shippingLine ? 'selected' : '' }}">{{ $shippingLine }}</option>
+                                            <option value="{{ $shippingLine }}" {{ old('shipping_line') == $shippingLine ? 'selected' : '' }}>{{ $shippingLine }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -243,7 +243,7 @@
                                     <select id="status" name="status">
                                         <option selected disabled>Select Status</option>
                                         @foreach ($purchaseStatuses as $purchaseStatus)
-                                            <option value="{{ $purchaseStatus }} {{ old('status') == $purchaseStatus ? 'selected' : '' }}">{{ $purchaseStatus }}</option>
+                                            <option value="{{ $purchaseStatus }}" {{ old('status') == $purchaseStatus ? 'selected' : '' }}>{{ $purchaseStatus }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -262,7 +262,7 @@
                         <div class="field">
                             <label for="shipped_at" class="label text-green has-text-weight-normal"> Shipping Started On <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="shipped_at" id="shipped_at">
+                                <input class="input" type="date" name="shipped_at" id="shipped_at" value="{{ old('shipped_at') }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
@@ -273,7 +273,7 @@
                         <div class="field">
                             <label for="delivered_at" class="label text-green has-text-weight-normal"> Delivered To You On <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="delivered_at" id="delivered_at">
+                                <input class="input" type="date" name="delivered_at" id="delivered_at" value="{{ old('delivered_at') }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-check"></i>
                                 </div>

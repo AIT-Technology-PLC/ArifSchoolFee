@@ -109,7 +109,7 @@ const addPurchaseForm = (function () {
         </span>
         </div>
         <div class="control">
-        <button id="purchase[${index}][product_id]Quantity" class="button text-green" type="button"></button>
+        <button id="purchase[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
         </div>
         </div>
         </div>
@@ -123,7 +123,7 @@ const addPurchaseForm = (function () {
         </span>
         </div>
         <div class="control">
-        <button id="purchase[${index}][product_id]Price" class="button text-green" type="button"></button>
+        <button id="purchase[${index}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
         </div>
         </div>
         </div>
