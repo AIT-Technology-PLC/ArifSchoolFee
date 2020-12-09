@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Company;
+use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Merchandise;
 use App\Models\Permission;
@@ -12,6 +13,7 @@ use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Policies\CompanyPolicy;
+use App\Policies\CustomerPolicy;
 use App\Policies\EmployeePolicy;
 use App\Policies\MerchandisePolicy;
 use App\Policies\PermissionPolicy;
@@ -39,6 +41,7 @@ class AuthServiceProvider extends ServiceProvider
         Purchase::class => PurchasePolicy::class,
         Warehouse::class => WarehousePolicy::class,
         Merchandise::class => MerchandisePolicy::class,
+        Customer::class => CustomerPolicy::class,
     ];
 
     /**
