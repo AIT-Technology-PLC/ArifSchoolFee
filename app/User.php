@@ -4,7 +4,13 @@ namespace App;
 
 use App\Models\Customer;
 use App\Models\Employee;
+use App\Models\Merchandise;
 use App\Models\Product;
+use App\Models\ProductCategory;
+use App\Models\Purchase;
+use App\Models\Sale;
+use App\Models\Supplier;
+use App\Models\Warehouse;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -148,5 +154,15 @@ class User extends Authenticatable
     public function customersUpdated()
     {
         return $this->hasMany(Customer::class, 'updated_by');
+    }
+
+    public function salesCreated()
+    {
+        return $this->hasMany(Sale::class, 'created_by');
+    }
+
+    public function salesUpdated()
+    {
+        return $this->hasMany(Sale::class, 'updated_by');
     }
 }
