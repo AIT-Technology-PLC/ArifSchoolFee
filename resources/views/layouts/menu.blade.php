@@ -260,7 +260,7 @@
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a name="menuTitles" href="{{ route('purchases.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases') ? 'is-active' : '' }}">
+            <a name="menuTitles" href="{{ route('sales.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'is-active' : '' }}">
                 <span class="icon">
                     <i class="fas fa-tags"></i>
                 </span>
@@ -272,7 +272,7 @@
         <li>
             <ul class="mt-0">
                 <li>
-                    <a name="menuTitles" href="{{ route('purchases.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases/create') ? 'is-active' : '' }}">
+                    <a name="menuTitles" href="{{ route('sales.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales/create') ? 'is-active' : '' }}">
                         <span class="icon">
                             <i class="fas fa-plus-circle"></i>
                         </span>

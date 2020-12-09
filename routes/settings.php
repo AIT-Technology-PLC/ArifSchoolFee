@@ -16,6 +16,8 @@ Route::resource('suppliers', 'SupplierController');
 
 Route::resource('purchases', 'PurchaseController');
 
+Route::resource('sales', 'SaleController');
+
 Route::resource('warehouses', 'WarehouseController');
 
 Route::resource('merchandises', 'MerchandiseController');
