@@ -12,22 +12,22 @@ const addKeyValueInputFields = (function () {
 
     return function () {
         const keyValueFieldPair = `
-        <div class="column is-6">
-        <div class="field">
-        <label for="key${index}" class="label text-green has-text-weight-normal">Property</label>
-        <div class="control has-icons-left">
-        <input id="key${index}" name="properties[${index}][key]" type="text" class="input" placeholder="Color">
-        </div>
-        </div>
-        </div>
-        <div class="column is-6">
-        <div class="field">
-        <label for="value${index}" class="label text-green has-text-weight-normal">Data</label>
-        <div class="control has-icons-left">
-        <input id="value${index}" name="properties[${index}][value]" type="text" class="input" placeholder="Green">
-        </div>
-        </div>
-        </div>`;
+            <div class="column is-6">
+                <div class="field">
+                    <label for="key${index}" class="label text-green has-text-weight-normal">Property</label>
+                    <div class="control has-icons-left">
+                        <input id="key${index}" name="properties[${index}][key]" type="text" class="input" placeholder="Color">
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div class="field">
+                    <label for="value${index}" class="label text-green has-text-weight-normal">Data</label>
+                    <div class="control has-icons-left">
+                        <input id="value${index}" name="properties[${index}][value]" type="text" class="input" placeholder="Green">
+                    </div>
+                </div>
+            </div>`;
 
         newForm.innerHTML += keyValueFieldPair;
 
@@ -63,73 +63,143 @@ const addPurchaseForm = (function () {
 
     return function () {
         const createPurchaseForm = `
-        <div class="mt-4">
-        <span class="py-4 px-2 has-background-white-ter text-purple has-text-weight-medium">
-            Item ${index + 1}
-        </span>
-        </div>
-        <div name="purchaseFormGroup" class="columns is-marginless is-multiline has-background-white-ter mb-5">
-        <div class="column is-6">
-        <div class="field">
-        <label for="purchase[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-        <div class="control has-icons-left">
-        <div class="select is-fullwidth">
-        <select id="purchase[${index}][product_id]" name="purchase[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
-        ${productList.innerHTML}
-        </select>
-        </div>
-        <div class="icon is-small is-left">
-        <i class="fas fa-th"></i>
-        </div>
-        </div>
-        </div>
-        </div>
-        <div class="column is-6">
-        <div class="field">
-        <label for="purchase[${index}][supplier_id]" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger">*</sup> </label>
-        <div class="control has-icons-left">
-        <div class="select is-fullwidth">
-        <select id="purchase[${index}][supplier_id]" name="purchase[${index}][supplier_id]">
-        ${supplierList.innerHTML}
-        </select>
-        </div>
-        <div class="icon is-small is-left">
-        <i class="fas fa-address-card"></i>
-        </div>
-        </div>
-        </div>
-        </div>
-        <div class="column is-6">
-        <label for="purchase[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-        <div class="field has-addons">
-        <div class="control has-icons-left is-expanded">
-        <input id="purchase[${index}][quantity]" name="purchase[${index}][quantity]" type="number" class="input" placeholder="Purchase Quantity">
-        <span class="icon is-small is-left">
-        <i class="fas fa-balance-scale"></i>
-        </span>
-        </div>
-        <div class="control">
-        <button id="purchase[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
-        </div>
-        </div>
-        </div>
-        <div class="column is-6">
-        <label for="purchase[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
-        <div class="field has-addons">
-        <div class="control has-icons-left is-expanded">
-        <input id="purchase[${index}][unit_price]" name="purchase[${index}][unit_price]" type="number" class="input" placeholder="Purchase Price">
-        <span class="icon is-small is-left">
-        <i class="fas fa-money-bill"></i>
-        </span>
-        </div>
-        <div class="control">
-        <button id="purchase[${index}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
-        </div>
-        </div>
-        </div>
-        </div>`;
+            <div class="mt-4">
+                <span class="py-4 px-2 has-background-white-ter text-purple has-text-weight-medium">
+                    Item ${index + 1}
+                </span>
+            </div>
+            <div name="purchaseFormGroup" class="columns is-marginless is-multiline has-background-white-ter mb-5">
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="purchase[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="purchase[${index}][product_id]" name="purchase[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                    ${productList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-th"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="purchase[${index}][supplier_id]" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="purchase[${index}][supplier_id]" name="purchase[${index}][supplier_id]">
+                                    ${supplierList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-address-card"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label for="purchase[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left is-expanded">
+                            <input id="purchase[${index}][quantity]" name="purchase[${index}][quantity]" type="number" class="input" placeholder="Purchase Quantity">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-balance-scale"></i>
+                            </span>
+                        </div>
+                        <div class="control">
+                            <button id="purchase[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label for="purchase[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left is-expanded">
+                            <input id="purchase[${index}][unit_price]" name="purchase[${index}][unit_price]" type="number" class="input" placeholder="Purchase Price">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-money-bill"></i>
+                            </span>
+                        </div>
+                        <div class="control">
+                            <button id="purchase[${index}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
 
         purchaseFormWrapper.innerHTML += createPurchaseForm;
+
+        index++;
+    };
+})();
+
+const addSaleForm = (function () {
+    const saleFormGroup = d.getElementsByName("saleFormGroup");
+    const saleFormWrapper = d.getElementById("saleFormWrapper");
+    const productList = d.getElementById("sale[0][product_id]");
+
+    if (!saleFormWrapper) {
+        return false;
+    }
+
+    let index = saleFormGroup.length;
+
+    return function () {
+        const createSaleForm = `
+            <div class="mt-4">
+                <span class="py-4 px-2 has-background-white-ter text-purple has-text-weight-medium">
+                    Item ${index + 1}
+                </span>
+            </div>
+            <div name="saleFormGroup" class="columns is-marginless is-multiline has-background-white-ter mb-5">
+                <div class="column is-12">
+                    <div class="field">
+                        <label for="sale[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="sale[${index}][product_id]" name="sale[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                    ${productList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-th"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label for="sale[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left is-expanded">
+                            <input id="sale[${index}][quantity]" name="sale[${index}][quantity]" type="number" class="input" placeholder="Sale Quantity">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-balance-scale"></i>
+                            </span>
+                        </div>
+                        <div class="control">
+                            <button id="sale[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label for="sale[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left is-expanded">
+                            <input id="sale[${index}][unit_price]" name="sale[${index}][unit_price]" type="number" class="input" placeholder="Sale Price">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-money-bill"></i>
+                            </span>
+                        </div>
+                        <div class="control">
+                            <button id="sale[${index}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+        saleFormWrapper.innerHTML += createSaleForm;
 
         index++;
     };

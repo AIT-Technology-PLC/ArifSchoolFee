@@ -19,6 +19,13 @@ if (d.getElementById("addNewPurchaseForm")) {
     );
 }
 
+if (d.getElementById("addNewSaleForm")) {
+    d.getElementById("addNewSaleForm").addEventListener(
+        "click",
+        addSaleForm
+    );
+}
+
 d.addEventListener("readystatechange", jumpToCurrentPageMenuTitle);
 
 d.getElementById("backButton").addEventListener("click", goToPreviousPage);
