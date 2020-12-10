@@ -28,7 +28,7 @@ class SaleController extends Controller
 
     public function create(Product $product, Customer $customer)
     {
-        $products = $product->getProductNames();
+        $products = $product->getSaleableProducts();
 
         $customers = $customer->getCustomerNames();
 

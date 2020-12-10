@@ -98,6 +98,16 @@ class Product extends Model
         return $query->where('company_id', auth()->user()->employee->company_id);
     }
 
+    public function scopeSaleableProducts($query)
+    {
+        return $query->where('type', '<>', 'Raw Material')->orWhere('type', '<>', 'MRO Item');
+    }
+
+    public function scopeNonSaleableProducts($query)
+    {
+        return $query->where('type', 'Raw Material')->orWhere('type', 'MRO Item');
+    }
+
     public function getAll()
     {
         return $this->companyProducts()->with(['productCategory', 'createdBy', 'updatedBy'])->get();
@@ -106,6 +116,16 @@ class Product extends Model
     public function getProductNames()
     {
         return $this->companyProducts()->get(['id', 'name']);
+    }
+
+    public function getSaleableProducts()
+    {
+        return $this->companyProducts()->saleableProducts()->get();
+    }
+
+    public function getNonSaleableProducts()
+    {
+        return $this->companyProducts()->nonSaleableProducts()->get();
     }
 
     public function countProductsOfCompany()
