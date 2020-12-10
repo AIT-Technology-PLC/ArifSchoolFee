@@ -20,7 +20,7 @@
                     </span>
                 </div>
                 <div name="saleFormGroup" class="columns is-marginless is-multiline has-background-white-ter mb-5">
-                    <div class="column is-6">
+                    <div class="column is-12">
                         <div class="field">
                             <label for="sale[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
@@ -37,30 +37,6 @@
                                     <i class="fas fa-th"></i>
                                 </div>
                                 @error('sale.0.product_id')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="sale[0][customer_id]" class="label text-green has-text-weight-normal"> Customer <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="sale[0][customer_id]" name="sale[0][customer_id]">
-                                        <option selected disabled>Select Customer</option>
-                                        @foreach ($customers as $customer)
-                                            <option value="{{ $customer->id }}" {{ old('sale.0.customer_id') == $customer->id ? 'selected' : '' }}>{{ $customer->company_name }}</option>
-                                        @endforeach
-                                        <option value="" {{ old('sale.0.customer_id') == '' ? 'selected' : '' }}>None</option>
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-address-card"></i>
-                                </div>
-                                @error('sale.0.customer_id')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>
@@ -115,7 +91,7 @@
                             </span>
                         </div>
                         <div name="saleFormGroup" class="columns is-marginless is-multiline has-background-white-ter mb-5">
-                            <div class="column is-6">
+                            <div class="column is-12">
                                 <div class="field">
                                     <label for="sale[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
@@ -132,30 +108,6 @@
                                             <i class="fas fa-th"></i>
                                         </div>
                                         @error('sale.' . $i . '.product_id')
-                                            <span class="help has-text-danger" role="alert">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-6">
-                                <div class="field">
-                                    <label for="sale[{{ $i }}][customer_id]" class="label text-green has-text-weight-normal"> Customer <sup class="has-text-danger">*</sup> </label>
-                                    <div class="control has-icons-left">
-                                        <div class="select is-fullwidth">
-                                            <select id="sale[{{ $i }}][customer_id]" name="sale[{{ $i }}][customer_id]" onchange="getProductSelected(this.id, this.value)">
-                                                <option selected disabled>Select C\ustomer</option>
-                                                @foreach ($customers as $customer)
-                                                    <option value="{{ $customer->id }}" {{ old('sale.' . $i . '.customer_id') == $customer->id ? 'selected' : '' }}>{{ $customer->company_name }}</option>
-                                                @endforeach
-                                                <option value="" {{ old('sale.' . $i . '.customer_id') == '' ? 'selected' : '' }}>None</option>
-                                            </select>
-                                        </div>
-                                        <div class="icon is-small is-left">
-                                            <i class="fas fa-address-card"></i>
-                                        </div>
-                                        @error('sale.' . $i . '.customer_id')
                                             <span class="help has-text-danger" role="alert">
                                                 {{ $message }}
                                             </span>
@@ -212,6 +164,41 @@
                 </button>
                 <hr>
                 <div class="columns is-marginless is-multiline">
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="customer_id" class="label text-green has-text-weight-normal"> Customer <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="customer_id" name="customer_id">
+                                        <option selected disabled>Select Customer</option>
+                                        @foreach ($customers as $customer)
+                                            <option value="{{ $customer->id }}" {{ old('customer_id') == $customer->id ? 'selected' : '' }}>{{ $customer->company_name }}</option>
+                                        @endforeach
+                                        <option value="" {{ old('customer_id') == '' ? 'selected' : '' }}>None</option>
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-address-card"></i>
+                                </div>
+                                @error('customer_id')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="sold_on" class="label text-green has-text-weight-normal"> Sold On <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="date" name="sold_on" id="sold_on" value="{{ old('sold_on') }}">
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="column is-6">
                         <div class="field">
                             <label for="shipping_line" class="label text-green has-text-weight-normal"> Shipping Line <sup class="has-text-danger">*</sup> </label>
@@ -271,7 +258,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="delivered_at" class="label text-green has-text-weight-normal"> Delivered To You On <sup class="has-text-danger"></sup> </label>
+                            <label for="delivered_at" class="label text-green has-text-weight-normal"> Delivered To Customer On <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <input class="input" type="date" name="delivered_at" id="delivered_at" value="{{ old('delivered_at') }}">
                                 <div class="icon is-small is-left">
