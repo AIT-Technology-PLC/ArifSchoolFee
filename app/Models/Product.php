@@ -100,7 +100,7 @@ class Product extends Model
 
     public function scopeSaleableProducts($query)
     {
-        return $query->where('type', '<>', 'Raw Material')->orWhere('type', '<>', 'MRO Item');
+        return $query->where('type', '<>', 'Raw Material')->where('type', '<>', 'MRO Item');
     }
 
     public function scopeNonSaleableProducts($query)
