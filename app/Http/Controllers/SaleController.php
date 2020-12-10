@@ -2,19 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\Product;
 use App\Models\Sale;
+use App\Traits\HasOptions;
 use Illuminate\Http\Request;
 
 class SaleController extends Controller
 {
+    use HasOptions;
+
+    private $sale;
+
+    function __construct(Sale $sale)
+    {
+        $this->sale = $sale;
+    }
+    
     public function index()
     {
         //
     }
 
-    public function create()
+    public function create(Product $product, Customer $customer)
     {
-        //
+        $products = $product->getProductNames();
+
+        $customers = $customer->getCustomerNames();
+
+        $saleStatuses = $this->getSaleStatuses();
+
+        $shippingLines = $this->getShippingLines();
+
+        return view('sales.create', compact('products', 'customers', 'saleStatuses', 'shippingLines'));
     }
 
     public function store(Request $request)
