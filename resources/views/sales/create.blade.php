@@ -166,7 +166,7 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
-                            <label for="customer_id" class="label text-green has-text-weight-normal"> Customer <sup class="has-text-danger">*</sup> </label>
+                            <label for="customer_id" class="label text-green has-text-weight-normal"> Customer <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="customer_id" name="customer_id">
@@ -190,7 +190,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="sold_on" class="label text-green has-text-weight-normal"> Sold On <sup class="has-text-danger"></sup> </label>
+                            <label for="sold_on" class="label text-green has-text-weight-normal"> Sold On <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <input class="input" type="date" name="sold_on" id="sold_on" value="{{ old('sold_on') }}">
                                 <div class="icon is-small is-left">
@@ -201,7 +201,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="shipping_line" class="label text-green has-text-weight-normal"> Shipping Line <sup class="has-text-danger">*</sup> </label>
+                            <label for="shipping_line" class="label text-green has-text-weight-normal"> Shipping Line <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="shipping_line" name="shipping_line">

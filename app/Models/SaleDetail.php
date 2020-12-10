@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SaleDetail extends Model
 {
-    protected $fillable = ['id', 'created_at', 'updated_at', 'deleted_at'];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     public function sale()
     {
