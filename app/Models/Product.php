@@ -73,6 +73,11 @@ class Product extends Model
         return $this->belongsTo(Supplier::class);
     }
 
+    public function saleDetails()
+    {
+        return $this->hasMany(SaleDetail::class);
+    }
+
     public function setPropertiesAttribute($array)
     {
         $properties = [];
