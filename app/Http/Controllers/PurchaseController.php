@@ -48,8 +48,10 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $basicPurchaseData = $request->validate([
+            'supplier_id' => 'nullable|integer',
             'shipping_line' => 'required|string|max:255',
             'status' => 'required|string|max:255',
+            'purchased_on' => 'required|date',
             'shipped_at' => 'nullable|date',
             'delivered_at' => 'nullable|date',
             'description' => 'nullable|string',
@@ -62,7 +64,6 @@ class PurchaseController extends Controller
         $purchaseDetailsData = $request->validate([
             'purchase' => 'required|array',
             'purchase.*.product_id' => 'required|integer',
-            'purchase.*.supplier_id' => 'nullable|integer',
             'purchase.*.quantity' => 'required|numeric',
             'purchase.*.unit_price' => 'required|numeric',
         ]);
@@ -102,8 +103,10 @@ class PurchaseController extends Controller
     public function update(Request $request, Purchase $purchase)
     {
         $basicPurchaseData = $request->validate([
+            'supplier_id' => 'nullable|integer',
             'shipping_line' => 'required|string|max:255',
             'status' => 'required|string|max:255',
+            'purchased_on' => 'required|date',
             'shipped_at' => 'nullable|date',
             'delivered_at' => 'nullable|date',
             'description' => 'nullable|string',
@@ -114,7 +117,6 @@ class PurchaseController extends Controller
         $purchaseDetailsData = $request->validate([
             'purchase' => 'required|array',
             'purchase.*.product_id' => 'required|integer',
-            'purchase.*.supplier_id' => 'nullable|integer',
             'purchase.*.quantity' => 'required|numeric',
             'purchase.*.unit_price' => 'required|numeric',
         ]);
