@@ -79,7 +79,7 @@ class PurchaseController extends Controller
 
     public function show(Purchase $purchase, Warehouse $warehouse)
     {
-        $purchase->load(['purchaseDetails.product', 'purchaseDetails.supplier', 'company']);
+        $purchase->load(['purchaseDetails.product', 'supplier', 'company']);
 
         $warehouses = $warehouse->getAllWithoutRelations();
 

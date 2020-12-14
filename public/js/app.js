@@ -69,7 +69,7 @@ const addPurchaseForm = (function () {
                 </span>
             </div>
             <div name="purchaseFormGroup" class="columns is-marginless is-multiline has-background-white-ter mb-5">
-                <div class="column is-6">
+                <div class="column is-12">
                     <div class="field">
                         <label for="purchase[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
@@ -80,21 +80,6 @@ const addPurchaseForm = (function () {
                             </div>
                             <div class="icon is-small is-left">
                                 <i class="fas fa-th"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="column is-6">
-                    <div class="field">
-                        <label for="purchase[${index}][supplier_id]" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger">*</sup> </label>
-                        <div class="control has-icons-left">
-                            <div class="select is-fullwidth">
-                                <select id="purchase[${index}][supplier_id]" name="purchase[${index}][supplier_id]">
-                                    ${supplierList.innerHTML}
-                                </select>
-                            </div>
-                            <div class="icon is-small is-left">
-                                <i class="fas fa-address-card"></i>
                             </div>
                         </div>
                     </div>

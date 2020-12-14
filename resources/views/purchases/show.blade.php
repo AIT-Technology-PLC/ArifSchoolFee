@@ -91,7 +91,6 @@
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th><abbr> Product </abbr></th>
-                            <th><abbr> Supplier </abbr></th>
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Unit Price </abbr></th>
                             <th><abbr> Total </abbr></th>
@@ -103,9 +102,6 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
                                     {{ $purchaseDetail->product->name }}
-                                </td>
-                                <td class="is-capitalized">
-                                    {{ $purchaseDetail->supplier->company_name ?? 'N/A' }}
                                 </td>
                                 <td>
                                     {{ number_format($purchaseDetail->quantity, 2) }}
@@ -136,6 +132,14 @@
                                     Purchase Summary
                                 </span>
                             </h1>
+                        </div>
+                        <div class="mb-4">
+                            <h1 class="is-uppercase has-text-weight-light has-text-white">
+                                Supplier
+                            </h1>
+                            <h2 class="subtitle has-text-white has-text-weight-medium">
+                                {{ $purchase->supplier->company_name ?? 'N/A' }}
+                            </h2>
                         </div>
                         <div class="mb-4">
                             <h1 class="is-uppercase has-text-weight-light has-text-white">

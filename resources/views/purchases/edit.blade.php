@@ -22,7 +22,7 @@
                         </span>
                     </div>
                     <div class="columns is-marginless is-multiline has-background-white-ter mb-5">
-                        <div class="column is-6">
+                        <div class="column is-12">
                             <div class="field">
                                 <label for="purchase[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
@@ -39,30 +39,6 @@
                                         <i class="fas fa-th"></i>
                                     </div>
                                     @error('purchase.{{ $loop->index }}.product_id')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column is-6">
-                            <div class="field">
-                                <label for="purchase[{{ $loop->index }}][supplier_id]" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger">*</sup> </label>
-                                <div class="control has-icons-left">
-                                    <div class="select is-fullwidth">
-                                        <select id="purchase[{{ $loop->index }}][supplier_id]" name="purchase[{{ $loop->index }}][supplier_id]">
-                                            <option selected disabled>Select Supplier</option>
-                                            @foreach ($suppliers as $supplier)
-                                                <option value="{{ $supplier->id }}" {{ $purchaseDetail->supplier_id == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
-                                            @endforeach
-                                            <option value="" {{ $purchaseDetail->supplier_id == '' ? 'selected' : '' }}>None</option>
-                                        </select>
-                                    </div>
-                                    <div class="icon is-small is-left">
-                                        <i class="fas fa-address-card"></i>
-                                    </div>
-                                    @error('purchase.{{ $loop->index }}.supplier_id')
                                         <span class="help has-text-danger" role="alert">
                                             {{ $message }}
                                         </span>
@@ -116,6 +92,41 @@
                 @endforeach
                 <hr>
                 <div class="columns is-marginless is-multiline">
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="supplier_id" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="supplier_id" name="supplier_id">
+                                        <option selected disabled>Select Supplier</option>
+                                        @foreach ($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}" {{ $purchase->supplier_id == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
+                                        @endforeach
+                                        <option value="" {{ $purchase->supplier_id == '' ? 'selected' : '' }}>None</option>
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-address-card"></i>
+                                </div>
+                                @error('supplier_id')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="purchased_on" class="label text-green has-text-weight-normal"> Purchase Date <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="date" name="purchased_on" id="purchased_on" value="{{ $purchase->purchased_on ? $purchase->purchased_on->toDateString() : '' }}">
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-calendar-day"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="column is-6">
                         <div class="field">
                             <label for="shipping_line" class="label text-green has-text-weight-normal"> Shipping Line <sup class="has-text-danger">*</sup> </label>
