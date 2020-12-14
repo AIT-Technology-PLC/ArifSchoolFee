@@ -12,6 +12,7 @@ class Purchase extends Model
     protected $casts = [
         'shipped_at' => 'datetime',
         'delivered_at' => 'datetime',
+        'purchased_on' => 'datetime',
     ];
 
     public function createdBy()
@@ -27,6 +28,11 @@ class Purchase extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 
     public function purchaseDetails()

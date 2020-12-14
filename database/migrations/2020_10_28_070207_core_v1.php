@@ -195,19 +195,23 @@ class CoreV1 extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('supplier_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('status');
             $table->string('shipping_line');
             $table->dateTime('shipped_at')->nullable();
             $table->dateTime('delivered_at')->nullable();
+            $table->dateTime('purchased_on')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('company_id');
+            $table->index('supplier_id');
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
@@ -216,7 +220,6 @@ class CoreV1 extends Migration
         Schema::create('purchase_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('purchase_id')->nullable()->unsigned();
-            $table->bigInteger('supplier_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22);
@@ -224,11 +227,9 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('purchase_id');
-            $table->index('supplier_id');
             $table->index('product_id');
 
             $table->foreign('purchase_id')->references('id')->on('purchases')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
