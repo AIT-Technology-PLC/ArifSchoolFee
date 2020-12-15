@@ -99,7 +99,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="selling_price" class="label text-green has-text-weight-normal">Selling Price <sup class="has-text-danger">*</sup> <sup class="has-text-grey is-size-7 is-uppercase"> per Kilogram </sup> </label>
+                            <label for="selling_price" class="label text-green has-text-weight-normal">Selling - Unit Price <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <input id="selling_price" name="selling_price" type="number" class="input" placeholder="Selling Price" value="{{ old('selling_price') ?? '0.00' }}">
                                 <span class="icon is-small is-left">
@@ -115,7 +115,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="purchase_price" class="label text-green has-text-weight-normal"> Purchase Price <sup class="has-text-danger">*</sup> </label>
+                            <label for="purchase_price" class="label text-green has-text-weight-normal"> Purchase - Unit Price <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <input id="purchase_price" name="purchase_price" type="number" class="input" placeholder="Cost of Product" value="{{ old('purchase_price') ?? '0.00' }}">
                                 <span class="icon is-small is-left">
@@ -131,7 +131,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="min_on_hand" class="label text-green has-text-weight-normal"> Minimum Level <sup class="has-text-danger">*</sup> <sup class="has-text-grey is-size-7 is-uppercase"> per Kilogram </sup> </label>
+                            <label for="min_on_hand" class="label text-green has-text-weight-normal"> Minimum Level <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <input id="min_on_hand" name="min_on_hand" type="number" class="input" placeholder="What is considered low stock for this product?" value="{{ old('min_on_hand') ?? '0.00' }}">
                                 <span class="icon is-small is-left">
