@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Sale;
+use App\Services\SaleableProductChecker;
 use App\Traits\HasOptions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -61,6 +62,8 @@ class SaleController extends Controller
 
         $basicSaleData = Arr::except($saleData, 'sale');
         $saleDetailsData = $saleData['sale'];
+
+        $areProductsSaleable = SaleableProductChecker::areProductsSaleable($saleDetailsData);
 
         DB::transaction(function () use ($basicSaleData, $saleDetailsData) {
             $sale = $this->sale->create($basicSaleData);

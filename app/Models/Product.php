@@ -128,6 +128,11 @@ class Product extends Model
         return $this->companyProducts()->nonSaleableProducts()->get();
     }
 
+    public function isProductSaleable($productId)
+    {
+        return $this->where('id', $productId)->saleableProducts()->exists();
+    }
+
     public function countProductsOfCompany()
     {
         return $this->companyProducts()->count();
