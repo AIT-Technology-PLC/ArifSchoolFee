@@ -4,16 +4,24 @@ namespace App\Services;
 
 use App\Models\Merchandise;
 use App\Models\Product;
+use App\Traits\HasOptions;
 
 class SaleableProductChecker
 {
-    public static function canProductsBeSold($saleDetailsData)
+    use HasOptions;
+
+    public static function canProductsBeSold($saleDetailsData, $saleStatus)
     {
-        if (!self::areProductsSaleable($saleDetailsData)) {
-            return false;
+        if (self::hasProductsMovedOut($saleStatus)) {
+            return self::areProductsSaleable($saleDetailsData);
         }
 
-        return self::areProductsAvailableOnHand($saleDetailsData);
+        return true;
+    }
+
+    private static function hasProductsMovedOut($saleStatus)
+    {
+        return in_array($saleStatus, (new self)->getSaleStatusForMovedProducts());
     }
 
     private static function areProductsSaleable($saleDetailsData)
@@ -25,7 +33,11 @@ class SaleableProductChecker
                 return !$product->isProductSaleable($saleDetailData['product_id']);
             });
 
-        return count($nonSaleableProducts) == 0;
+        if (count($nonSaleableProducts)) {
+            return false;
+        }
+
+        return self::areProductsAvailableOnHand($saleDetailsData);
     }
 
     private static function areProductsAvailableOnHand($saleDetailsData)

@@ -39,7 +39,7 @@ trait HasOptions
             'Made Full Payment',
 
             # Status will change to "Added To Inventory" by button
-            // 'Added To Inventory',   
+            // 'Added To Inventory',
         ];
     }
 
@@ -51,13 +51,20 @@ trait HasOptions
             'Negotiating Quote',
             'Approved Quotation',
             'Received Partial Payment',
+            'Left Warehouse & Started Shipping',
+            'Delivered To Customer',
+            'Received Full Payment',
+            'Sales Completed',
+        ];
+    }
 
-            # Status will change to the following statuses if only product is available in stock otherwise 
-            # will be advised to create new Purchase Order
-
-            // 'Left Warehouse & Started Shipping',
-            // 'Delivered To Customer',
-            // 'Received Full Payment',
+    public function getSaleStatusForMovedProducts()
+    {
+        return [
+            'Left Warehouse & Started Shipping',
+            'Delivered To Customer',
+            'Received Full Payment',
+            'Sales Completed',
         ];
     }
 }
