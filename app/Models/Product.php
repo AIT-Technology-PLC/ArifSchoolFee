@@ -133,6 +133,11 @@ class Product extends Model
         return $this->where('id', $productId)->saleableProducts()->exists();
     }
 
+    public function isProductMerchandise($productId)
+    {
+        return $this->where('id', $productId)->where('type', 'Merchandise Product')->exists();
+    }
+
     public function countProductsOfCompany()
     {
         return $this->companyProducts()->count();

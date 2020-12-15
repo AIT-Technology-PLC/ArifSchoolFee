@@ -45,7 +45,7 @@ class SaleController extends Controller
         $saleData = $request->validate([
             'sale' => 'required|array',
             'sale.*.product_id' => 'required|integer',
-            'sale.*.quantity' => 'required|numeric',
+            'sale.*.quantity' => 'required|numeric|min:1',
             'sale.*.unit_price' => 'required|numeric',
             'customer_id' => 'nullable|integer',
             'sold_on' => 'required|date',
@@ -63,7 +63,11 @@ class SaleController extends Controller
         $basicSaleData = Arr::except($saleData, 'sale');
         $saleDetailsData = $saleData['sale'];
 
-        $areProductsSaleable = SaleableProductChecker::areProductsSaleable($saleDetailsData);
+        $canProductsBeSold = SaleableProductChecker::canProductsBeSold($saleDetailsData);
+
+        if (!$canProductsBeSold) {
+            return redirect()->back()->withInput($request->all());
+        }
 
         DB::transaction(function () use ($basicSaleData, $saleDetailsData) {
             $sale = $this->sale->create($basicSaleData);
