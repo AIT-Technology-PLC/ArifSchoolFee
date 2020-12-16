@@ -17,6 +17,10 @@ class StoreSaleableProducts
 
     public static function storeSoldProducts($saleDetailsData, $saleStatus)
     {
+        if (!self::hasProductsMovedOut($saleStatus)) {
+            return true;
+        }
+
         if (self::hasProductsMovedOut($saleStatus)) {
             foreach ($saleDetailsData as $saleDetailData) {
                 self::updateSoldQuantity($saleDetailData['product_id'], $saleDetailData);
@@ -29,28 +33,20 @@ class StoreSaleableProducts
         $product = new Product();
 
         if ($product->isProductMerchandise($productId)) {
-
             $merchandise = new Merchandise();
+            $saleDetailData['quantity'] = $merchandise->isSoldQuantityValueValid($saleDetailData['quantity']);
 
-            $isMerchandiseAvailable = $merchandise->isAvailableOnHand($saleDetailData['product_id'], $saleDetailData['quantity']);
+            $merchandise
+                ->where([
+                    ['company_id', auth()->user()->employee->company_id],
+                    ['product_id', $productId],
+                    ['total_on_hand', '>=', $saleDetailData['quantity']],
+                ])
+                ->update([
+                    'total_sold' => $saleDetailData['quantity'],
+                ]);
 
-            if ($isMerchandiseAvailable) {
-
-                $saleDetailData['quantity'] = $merchandise->isSoldQuantityValueValid($saleDetailData['quantity']);
-
-                $merchandise
-                    ->where([
-                        ['company_id', auth()->user()->employee->company_id],
-                        ['product_id', $productId],
-                        ['total_on_hand', '>=', $saleDetailData['quantity']],
-                    ])
-                    ->update([
-                        'total_sold' => $saleDetailData['quantity'],
-                    ]);
-
-                $merchandise->decrementTotalOnHandQuantity();
-            }
-
+            $merchandise->decrementTotalOnHandQuantity();
         }
     }
 }
