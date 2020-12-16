@@ -10,11 +10,13 @@ class SaleableProductChecker
     public static function canProductsBeSold($saleDetailsData)
     {
         if (!self::areProductsSaleable($saleDetailsData)) {
-            return "Some of the Products are not Saleable Products";
+            session()->flash('message', 'Some of the Products are not Saleable Products');
+            return false;
         }
 
         if (!self::areProductsAvailableOnHand($saleDetailsData)) {
-            return "Some of the Products are not available on hand";
+            session()->flash('message', 'Some of the Products are not available on hand');
+            return false;
         }
 
         return true;

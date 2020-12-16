@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Services\SaleableProductChecker;
+use App\Services\StoreSaleableProducts;
 use App\Traits\HasOptions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -70,8 +71,11 @@ class SaleController extends Controller
         }
 
         DB::transaction(function () use ($basicSaleData, $saleDetailsData) {
+
+            StoreSaleableProducts::storeSoldProducts($saleDetailsData, $basicSaleData['status']);
             $sale = $this->sale->create($basicSaleData);
             $sale->saleDetails()->createMany($saleDetailsData);
+
         });
 
         return redirect()->route('sales.index');
