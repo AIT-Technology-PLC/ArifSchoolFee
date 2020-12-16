@@ -92,6 +92,22 @@ class Merchandise extends Model
         return $previousBrokenQuantity;
     }
 
+    public function isSoldQuantityValueValid($soldQuantity)
+    {
+        $totalOnHandQuantity = $this->total_on_hand;
+        $previousSoldQuantity = $this->total_sold;
+
+        if ($soldQuantity < 0 || !is_numeric($soldQuantity)) {
+            return $previousSoldQuantity;
+        }
+
+        if ($soldQuantity <= $totalOnHandQuantity + $previousSoldQuantity) {
+            return $soldQuantity;
+        }
+
+        return $previousSoldQuantity;
+    }
+
     public function decrementTotalOnHandQuantity()
     {
         $totalReceivedQuantity = $this->total_received;
