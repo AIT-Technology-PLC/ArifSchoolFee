@@ -34,17 +34,19 @@ class StoreSaleableProducts
 
         if ($product->isProductMerchandise($productId)) {
             $merchandise = new Merchandise();
-            $saleDetailData['quantity'] = $merchandise->isSoldQuantityValueValid($saleDetailData['quantity']);
 
-            $merchandise
+            $merchandise = $merchandise
                 ->where([
                     ['company_id', auth()->user()->employee->company_id],
                     ['product_id', $productId],
                     ['total_on_hand', '>=', $saleDetailData['quantity']],
-                ])
-                ->update([
-                    'total_sold' => $saleDetailData['quantity'],
-                ]);
+                ])->first();
+
+            $saleDetailData['quantity'] = $merchandise->isSoldQuantityValueValid($saleDetailData['quantity']);
+
+            $merchandise->update([
+                'total_sold' => $saleDetailData['quantity'],
+            ]);
 
             $merchandise->decrementTotalOnHandQuantity();
         }
