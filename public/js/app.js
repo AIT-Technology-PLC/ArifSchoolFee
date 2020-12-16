@@ -29,7 +29,7 @@ const addKeyValueInputFields = (function () {
                 </div>
             </div>`;
 
-        newForm.innerHTML += keyValueFieldPair;
+        newForm.insertAdjacentHTML("beforeend", keyValueFieldPair);
 
         index++;
     };
@@ -114,7 +114,7 @@ const addPurchaseForm = (function () {
                 </div>
             </div>`;
 
-        purchaseFormWrapper.innerHTML += createPurchaseForm;
+        purchaseFormWrapper.insertAdjacentHTML("beforeend", createPurchaseForm);
 
         index++;
     };
@@ -184,8 +184,7 @@ const addSaleForm = (function () {
                 </div>
             </div>`;
 
-        saleFormWrapper.innerHTML += createSaleForm;
-
+        saleFormWrapper.insertAdjacentHTML("beforeend", createSaleForm);
         index++;
     };
 })();
