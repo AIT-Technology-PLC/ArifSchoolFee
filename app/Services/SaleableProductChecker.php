@@ -12,8 +12,12 @@ class SaleableProductChecker
 
     public static function canProductsBeSold($saleDetailsData, $saleStatus)
     {
-        if (self::hasProductsMovedOut($saleStatus)) {
-            return self::areProductsSaleable($saleDetailsData);
+        if (!self::areProductsSaleable($saleDetailsData)) {
+            return false;
+        }
+
+        if (!self::areProductsAvailableOnHand($saleDetailsData)) {
+            return false;
         }
 
         return true;
@@ -33,11 +37,7 @@ class SaleableProductChecker
                 return !$product->isProductSaleable($saleDetailData['product_id']);
             });
 
-        if (count($nonSaleableProducts)) {
-            return false;
-        }
-
-        return self::areProductsAvailableOnHand($saleDetailsData);
+        return count($nonSaleableProducts) == 0;
     }
 
     private static function areProductsAvailableOnHand($saleDetailsData)
