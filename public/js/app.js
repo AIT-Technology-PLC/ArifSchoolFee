@@ -123,7 +123,8 @@ const addPurchaseForm = (function () {
 const addSaleForm = (function () {
     const saleFormGroup = d.getElementsByName("saleFormGroup");
     const saleFormWrapper = d.getElementById("saleFormWrapper");
-    const productList = d.getElementById("sale[0][product_id]");
+    let productList = d.getElementById("sale[0][product_id]");
+    const formLimit = productList.length - 2;
 
     if (!saleFormWrapper) {
         return false;
@@ -185,7 +186,28 @@ const addSaleForm = (function () {
             </div>`;
 
         saleFormWrapper.insertAdjacentHTML("beforeend", createSaleForm);
+
+        let currentSelect = d.getElementById(`sale[${index}][product_id]`);
+        let previousSelect = d.getElementById(`sale[${index - 1}][product_id]`);
+
+        for (let j = 0; j < previousSelect.length; j++) {
+            if (!previousSelect.options[j].selected)
+                previousSelect.options[j].hidden = true;
+        }
+
+        for (let i = 0; i < currentSelect.length; i++) {
+            if (currentSelect.options[i].value == previousSelect.value)
+                currentSelect.remove(i);
+        }
+
+        productList = currentSelect;
+
         index++;
+
+        if (index == formLimit) {
+            d.getElementById("addNewSaleForm").remove();
+            return false;
+        }
     };
 })();
 
