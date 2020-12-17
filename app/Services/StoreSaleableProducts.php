@@ -21,10 +21,8 @@ class StoreSaleableProducts
             return true;
         }
 
-        if (self::hasProductsMovedOut($saleStatus)) {
-            foreach ($saleDetailsData as $saleDetailData) {
-                self::updateSoldQuantity($saleDetailData['product_id'], $saleDetailData);
-            }
+        foreach ($saleDetailsData as $saleDetailData) {
+            self::updateSoldQuantity($saleDetailData['product_id'], $saleDetailData);
         }
     }
 

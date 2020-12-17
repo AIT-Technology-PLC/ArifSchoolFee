@@ -64,7 +64,7 @@ class SaleController extends Controller
         $basicSaleData = Arr::except($saleData, 'sale');
         $saleDetailsData = $saleData['sale'];
 
-        $canProductsBeSold = SaleableProductChecker::canProductsBeSold($saleDetailsData);
+        $canProductsBeSold = SaleableProductChecker::canProductsBeSold($saleDetailsData, $basicSaleData['status']);
 
         if (!$canProductsBeSold) {
             return redirect()->back()->withInput($request->all());
