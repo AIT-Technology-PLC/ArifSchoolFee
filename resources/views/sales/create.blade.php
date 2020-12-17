@@ -38,7 +38,6 @@
                                         @foreach ($products as $product)
                                             <option value="{{ $product->id }}" {{ old('sale.0.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
                                         @endforeach
-                                        <option value="" {{ old('sale.0.product_id') == '' ? 'selected' : '' }}>None</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
@@ -109,7 +108,6 @@
                                                 @foreach ($products as $product)
                                                     <option value="{{ $product->id }}" {{ old('sale.' . $i . '.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
                                                 @endforeach
-                                                <option value="" {{ old('sale.' . $i . '.product_id') == '' ? 'selected' : '' }}>None</option>
                                             </select>
                                         </div>
                                         <div class="icon is-small is-left">
@@ -182,17 +180,11 @@
                                         @foreach ($customers as $customer)
                                             <option value="{{ $customer->id }}" {{ old('customer_id') == $customer->id ? 'selected' : '' }}>{{ $customer->company_name }}</option>
                                         @endforeach
-                                        <option value="" {{ old('customer_id') == '' ? 'selected' : '' }}>None</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-address-card"></i>
                                 </div>
-                                @error('customer_id')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
                             </div>
                         </div>
                     </div>
@@ -222,11 +214,6 @@
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-truck"></i>
                                 </div>
-                                @error('shipping_line')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
                             </div>
                         </div>
                     </div>

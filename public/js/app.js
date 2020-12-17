@@ -123,7 +123,7 @@ const addSaleForm = (function () {
     const saleFormGroup = d.getElementsByName("saleFormGroup");
     const saleFormWrapper = d.getElementById("saleFormWrapper");
     let productList = d.getElementById("sale[0][product_id]");
-    const formLimit = productList.length - 2;
+    const formLimit = productList.length - 1;
 
     if (!saleFormWrapper) {
         return false;
