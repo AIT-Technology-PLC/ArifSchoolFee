@@ -32,7 +32,6 @@
                                             @foreach ($products as $product)
                                                 <option value="{{ $product->id }}" {{ $purchaseDetail->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
                                             @endforeach
-                                            <option value="" {{ $purchaseDetail->product_id == '' ? 'selected' : '' }}>None</option>
                                         </select>
                                     </div>
                                     <div class="icon is-small is-left">
@@ -102,17 +101,11 @@
                                         @foreach ($suppliers as $supplier)
                                             <option value="{{ $supplier->id }}" {{ $purchase->supplier_id == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
                                         @endforeach
-                                        <option value="" {{ $purchase->supplier_id == '' ? 'selected' : '' }}>None</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-address-card"></i>
                                 </div>
-                                @error('supplier_id')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
                             </div>
                         </div>
                     </div>
@@ -129,7 +122,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="shipping_line" class="label text-green has-text-weight-normal"> Shipping Line <sup class="has-text-danger">*</sup> </label>
+                            <label for="shipping_line" class="label text-green has-text-weight-normal"> Shipping Line <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="shipping_line" name="shipping_line">
@@ -142,11 +135,6 @@
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-truck"></i>
                                 </div>
-                                @error('shipping_line')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
                             </div>
                         </div>
                     </div>

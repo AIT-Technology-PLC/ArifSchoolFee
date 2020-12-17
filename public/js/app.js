@@ -53,7 +53,6 @@ const addPurchaseForm = (function () {
     const purchaseFormGroup = d.getElementsByName("purchaseFormGroup");
     const purchaseFormWrapper = d.getElementById("purchaseFormWrapper");
     const productList = d.getElementById("purchase[0][product_id]");
-    const supplierList = d.getElementById("purchase[0][supplier_id]");
 
     if (!purchaseFormWrapper) {
         return false;

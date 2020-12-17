@@ -199,7 +199,7 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('status');
-            $table->string('shipping_line');
+            $table->string('shipping_line')->nullable();
             $table->dateTime('shipped_at')->nullable();
             $table->dateTime('delivered_at')->nullable();
             $table->dateTime('purchased_on')->nullable();
