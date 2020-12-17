@@ -2,6 +2,7 @@
 
 use App\Models\Company;
 use App\Models\Employee;
+use App\Models\Warehouse;
 use App\User;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
@@ -31,6 +32,14 @@ class NewCompanySeeder extends Seeder
                     'permission_id' => 1,
                     'enabled' => 1,
                     'position' => 'Admin',
+                ]);
+
+                Warehouse::create([
+                    'company_id' => $company->id,
+                    'name' => 'Primary',
+                    'location' => 'Unknown',
+                    'created_by' => $user->id,
+                    'updated_by' => $user->id,
                 ]);
             });
         }
