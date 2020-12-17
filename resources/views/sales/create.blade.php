@@ -14,12 +14,12 @@
         <form action="{{ route('sales.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
-                <div class="notification bg-gold has-text-white has-text-weight-medium">
+                <div class="notification bg-gold has-text-white has-text-weight-medium {{ session('message') ? '' : 'is-hidden' }}">
                     <span class="icon">
-                        <i class="fas fa-times"></i>
+                        <i class="fas fa-times-circle"></i>
                     </span>
                     <span>
-                        {{ session()->get('message') }}
+                        {{ session('message') }}
                     </span>
                 </div>
                 <div class="mt-4">
