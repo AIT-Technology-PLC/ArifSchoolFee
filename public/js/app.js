@@ -52,7 +52,8 @@ async function getProductSelected(elementId, productId) {
 const addPurchaseForm = (function () {
     const purchaseFormGroup = d.getElementsByName("purchaseFormGroup");
     const purchaseFormWrapper = d.getElementById("purchaseFormWrapper");
-    const productList = d.getElementById("purchase[0][product_id]");
+    let productList = d.getElementById("purchase[0][product_id]");
+    const formLimit = productList.length - 1;
 
     if (!purchaseFormWrapper) {
         return false;
@@ -115,7 +116,29 @@ const addPurchaseForm = (function () {
 
         purchaseFormWrapper.insertAdjacentHTML("beforeend", createPurchaseForm);
 
+        let currentSelect = d.getElementById(`purchase[${index}][product_id]`);
+        let previousSelect = d.getElementById(
+            `purchase[${index - 1}][product_id]`
+        );
+
+        for (let j = 0; j < previousSelect.length; j++) {
+            if (!previousSelect.options[j].selected)
+                previousSelect.options[j].hidden = true;
+        }
+
+        for (let i = 0; i < currentSelect.length; i++) {
+            if (currentSelect.options[i].value == previousSelect.value)
+                currentSelect.remove(i);
+        }
+
+        productList = currentSelect;
+
         index++;
+
+        if (index == formLimit) {
+            d.getElementById("addNewPurchaseForm").remove();
+            return false;
+        }
     };
 })();
 
