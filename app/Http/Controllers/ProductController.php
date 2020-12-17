@@ -91,13 +91,13 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'unit_of_measurement' => 'required|string|max:255',
-            'selling_price' => 'required|numeric',
-            'purchase_price' => 'required|numeric',
+            'selling_price' => 'nullable|numeric',
+            'purchase_price' => 'nullable|numeric',
             'min_on_hand' => 'required|numeric',
             'description' => 'nullable|string',
             'properties' => 'nullable|array',
-            'product_category_id' => 'nullable|integer',
-            'supplier_id' => 'nullable|string',
+            'product_category_id' => 'required|integer',
+            'supplier_id' => 'nullable|integer',
         ]);
 
         $data['updated_by'] = auth()->user()->id;
