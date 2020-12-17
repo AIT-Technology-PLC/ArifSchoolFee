@@ -1,4 +1,4 @@
-<div id="createMenu" class="box is-hidden" style="position: absolute;top:100%;left:70%;width:300px;">
+<div id="createMenu" class="box is-hidden" style="position: absolute;top:100%;left:60%;width:350px;">
     <h1 class="is-size-7 has-text-centered is-uppercase has-text-weight-medium mb-2">
         <span class="icon">
             <i class="fas fa-plus-circle"></i>
@@ -8,7 +8,7 @@
         </span>
     </h1>
     <div class="columns is-marginless is-multiline">
-        <div class="column is-4 has-text-centered text-green">
+        <div class="column is-3 has-text-centered text-green">
             <a href="{{ route('products.create') }}" class="button is-rounded text-green" title="Create New Product">
                 <span class="icon">
                     <i class="fas fa-boxes"></i>
@@ -18,7 +18,7 @@
                 Product
             </span>
         </div>
-        <div class="column is-4 has-text-centered text-purple">
+        <div class="column is-3 has-text-centered text-purple">
             <a href="{{ route('suppliers.create') }}" class="button is-rounded text-purple" title="Create New Supplier">
                 <span class="icon">
                     <i class="fas fa-address-card"></i>
@@ -28,7 +28,7 @@
                 Supplier
             </span>
         </div>
-        <div class="column is-4 has-text-centered text-gold">
+        <div class="column is-3 has-text-centered text-gold">
             <a href="{{ route('categories.create') }}" class="button is-rounded text-gold" title="Create New Category">
                 <span class="icon">
                     <i class="fas fa-layer-group"></i>
@@ -38,8 +38,8 @@
                 Category
             </span>
         </div>
-        <div class="column is-4 has-text-centered text-purple">
-            <a href="{{ route('purchases.create') }}" class="button is-rounded text-purple" title="Create New Purchase">
+        <div class="column is-3 has-text-centered text-blue">
+            <a href="{{ route('purchases.create') }}" class="button is-rounded text-blue" title="Create New Purchase">
                 <span class="icon">
                     <i class="fas fa-shopping-bag"></i>
                 </span>
@@ -48,8 +48,18 @@
                 Purchase
             </span>
         </div>
-        <div class="column is-4 has-text-centered text-gold">
-            <a href="{{ route('employees.create') }}" class="button is-rounded text-gold" title="Create New Employee">
+        <div class="column is-3 has-text-centered text-gold">
+            <a href="{{ route('sales.create') }}" class="button is-rounded text-gold" title="Create New Sale">
+                <span class="icon">
+                    <i class="fas fa-tags"></i>
+                </span>
+            </a>
+            <span class="is-size-7">
+                Sale
+            </span>
+        </div>
+        <div class="column is-3 has-text-centered text-blue">
+            <a href="{{ route('employees.create') }}" class="button is-rounded text-blue" title="Create New Employee">
                 <span class="icon">
                     <i class="fas fa-user-tie"></i>
                 </span>
@@ -58,8 +68,8 @@
                 Employee
             </span>
         </div>
-        <div class="column is-4 has-text-centered text-blue">
-            <a href="{{ route('warehouses.create') }}" class="button is-rounded text-blue" title="Create New Warehouse">
+        <div class="column is-3 has-text-centered text-purple">
+            <a href="{{ route('warehouses.create') }}" class="button is-rounded text-purple" title="Create New Warehouse">
                 <span class="icon">
                     <i class="fas fa-warehouse"></i>
                 </span>
