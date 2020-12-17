@@ -7,7 +7,7 @@
             Create New
         </span>
     </h1>
-    <div class="columns is-marginless is-multiline">
+    <div class="columns is-marginless is-multiline is-centered">
         <div class="column is-3 has-text-centered text-green">
             <a href="{{ route('products.create') }}" class="button is-rounded text-green" title="Create New Product">
                 <span class="icon">
@@ -76,6 +76,16 @@
             </a>
             <span class="is-size-7">
                 Warehouse
+            </span>
+        </div>
+        <div class="column is-3 has-text-centered text-green">
+            <a href="{{ route('customers.create') }}" class="button is-rounded text-green" title="Create New Customer">
+                <span class="icon">
+                    <i class="fas fa-user"></i>
+                </span>
+            </a>
+            <span class="is-size-7">
+                Customer
             </span>
         </div>
     </div>
