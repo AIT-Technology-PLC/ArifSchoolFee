@@ -96,13 +96,14 @@ class Merchandise extends Model
     {
         $totalOnHandQuantity = $this->total_on_hand;
         $previousSoldQuantity = $this->total_sold;
+        $totalSoldQuantity = $soldQuantity + $previousSoldQuantity;
 
         if ($soldQuantity < 0 || !is_numeric($soldQuantity)) {
             return $previousSoldQuantity;
         }
 
-        if ($soldQuantity <= $totalOnHandQuantity + $previousSoldQuantity) {
-            return $soldQuantity;
+        if ($totalSoldQuantity <= $totalOnHandQuantity + $previousSoldQuantity) {
+            return $totalSoldQuantity;
         }
 
         return $previousSoldQuantity;
