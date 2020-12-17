@@ -104,7 +104,7 @@ class PurchaseController extends Controller
     {
         $basicPurchaseData = $request->validate([
             'supplier_id' => 'nullable|integer',
-            'shipping_line' => 'required|string|max:255',
+            'shipping_line' => 'nullable|string|max:255',
             'status' => 'required|string|max:255',
             'purchased_on' => 'required|date',
             'shipped_at' => 'nullable|date',
