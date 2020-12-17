@@ -87,7 +87,7 @@
                                     <select id="unit_of_measurement" name="unit_of_measurement">
                                         <option selected disabled>Category</option>
                                         @foreach ($unitTypes as $unitType)
-                                            <option value="{{ $unitType }}" {{ old('type') == $unitType ? 'selected' : '' }}>{{ $unitType }}</option>
+                                            <option value="{{ $unitType }}" {{ old('unit_of_measurement') == $unitType ? 'selected' : '' }}>{{ $unitType }}</option>
                                         @endforeach
                                     </select>
                                 </div>
