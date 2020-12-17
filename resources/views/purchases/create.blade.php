@@ -100,7 +100,6 @@
                                                 @foreach ($products as $product)
                                                     <option value="{{ $product->id }}" {{ old('purchase.' . $i . '.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
                                                 @endforeach
-                                                <option value="" {{ old('purchase.' . $i . '.product_id') == '' ? 'selected' : '' }}>None</option>
                                             </select>
                                         </div>
                                         <div class="icon is-small is-left">
