@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Employee;
+use App\Models\Warehouse;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -87,6 +88,14 @@ class RegisterController extends Controller
                 'permission_id' => 1,
                 'enabled' => 1,
                 'position' => 'Admin',
+            ]);
+
+            Warehouse::create([
+                'company_id' => $company->id,
+                'name' => 'Primary',
+                'location' => 'Unknown',
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
             ]);
 
             return $user;
