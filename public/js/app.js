@@ -59,6 +59,11 @@ const addPurchaseForm = (function () {
     }
 
     const formLimit = productList.length - 1;
+
+    if (formLimit == 1) {
+        d.getElementById("addNewPurchaseForm").remove();
+    }
+
     let index = purchaseFormGroup.length;
 
     return function () {
@@ -152,6 +157,11 @@ const addSaleForm = (function () {
     }
 
     const formLimit = productList.length - 1;
+
+    if (formLimit == 1) {
+        d.getElementById("addNewSaleForm").remove();
+    }
+
     let index = saleFormGroup.length;
 
     return function () {
