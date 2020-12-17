@@ -72,6 +72,11 @@
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-layer-group"></i>
                                 </div>
+                                @error('product_category_id')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -100,33 +105,23 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="selling_price" class="label text-green has-text-weight-normal">Selling Price <sup class="has-text-danger">*</sup> <sup class="has-text-grey is-size-7 is-uppercase"> per Kilogram </sup> </label>
+                            <label for="selling_price" class="label text-green has-text-weight-normal">Selling - Unit Price <sup class="has-text-danger"></sup> <sup class="has-text-grey is-size-7 is-uppercase"> per Kilogram </sup> </label>
                             <div class="control has-icons-left">
-                                <input id="selling_price" name="selling_price" type="number" class="input" placeholder="Selling Price" value="{{ $product->selling_price ?? '0.00' }}">
+                                <input id="selling_price" name="selling_price" type="number" class="input" placeholder="0.00" value="{{ $product->selling_price ?? '' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-tags"></i>
                                 </span>
-                                @error('selling_price')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
                             </div>
                         </div>
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="purchase_price" class="label text-green has-text-weight-normal"> Purchase Price <sup class="has-text-danger">*</sup> </label>
+                            <label for="purchase_price" class="label text-green has-text-weight-normal"> Purchase - Unit Price <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input id="purchase_price" name="purchase_price" type="number" class="input" placeholder="Cost of Product" value="{{ $product->purchase_price ?? '0.00' }}">
+                                <input id="purchase_price" name="purchase_price" type="number" class="input" placeholder="0.00" value="{{ $product->purchase_price ?? '' }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-dollar-sign"></i>
                                 </span>
-                                @error('purchase_price')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
                             </div>
                         </div>
                     </div>
@@ -148,7 +143,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="supplier_id" class="label text-green has-text-weight-normal"> Product Supplier <sup class="has-text-danger">*</sup> </label>
+                            <label for="supplier_id" class="label text-green has-text-weight-normal"> Product Supplier <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="supplier_id" name="supplier_id">
@@ -158,7 +153,6 @@
                                                 {{ $supplier->company_name }}
                                             </option>
                                         @endforeach
-                                        <option value="" {{ is_null($product->supplier_id) ? 'selected' : '' }}>None</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
