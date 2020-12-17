@@ -53,12 +53,12 @@ const addPurchaseForm = (function () {
     const purchaseFormGroup = d.getElementsByName("purchaseFormGroup");
     const purchaseFormWrapper = d.getElementById("purchaseFormWrapper");
     let productList = d.getElementById("purchase[0][product_id]");
-    const formLimit = productList.length - 1;
 
     if (!purchaseFormWrapper) {
         return false;
     }
 
+    const formLimit = productList.length - 1;
     let index = purchaseFormGroup.length;
 
     return function () {
@@ -146,12 +146,12 @@ const addSaleForm = (function () {
     const saleFormGroup = d.getElementsByName("saleFormGroup");
     const saleFormWrapper = d.getElementById("saleFormWrapper");
     let productList = d.getElementById("sale[0][product_id]");
-    const formLimit = productList.length - 1;
 
     if (!saleFormWrapper) {
         return false;
     }
 
+    const formLimit = productList.length - 1;
     let index = saleFormGroup.length;
 
     return function () {
