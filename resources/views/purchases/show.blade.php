@@ -35,7 +35,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $purchase->calculateTotalPurchasePrice() }}
+                            {{ $purchase->totalPurchasePrice }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Total Price ({{ $purchase->company->currency }})
@@ -179,7 +179,7 @@
                             </h1>
                             <h2 class="subtitle has-text-white has-text-weight-medium">
                                 {{ $purchase->company->currency }}.
-                                {{ $purchase->calculateTotalPurchasePrice() }}
+                                {{ $purchase->totalPurchasePrice }}
                             </h2>
                         </div>
                     </div>

@@ -45,6 +45,16 @@ class Sale extends Model
         return $query->where('company_id', auth()->user()->employee->company_id);
     }
 
+    public function getTotalSalePriceAttribute()
+    {
+        $totalPrice = $this->saleDetails
+            ->reduce(function ($carry, $item) {
+                return $carry + ($item->unit_price * $item->quantity);
+            }, 0);
+
+        return number_format($totalPrice, 2);
+    }
+
     public function getAll()
     {
         return $this->companySales()
@@ -56,16 +66,6 @@ class Sale extends Model
     public function countSalesOfCompany()
     {
         return $this->companySales()->count();
-    }
-
-    public function calculateTotalSalePrice()
-    {
-        $totalPrice = $this->saleDetails
-            ->reduce(function ($carry, $item) {
-                return $carry + ($item->unit_price * $item->quantity);
-            }, 0);
-
-        return number_format($totalPrice, 2);
     }
 
     public function changeStatusToStartedShipping()

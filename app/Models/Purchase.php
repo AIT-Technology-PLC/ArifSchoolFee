@@ -45,6 +45,16 @@ class Purchase extends Model
         return $query->where('company_id', auth()->user()->employee->company_id);
     }
 
+    public function getTotalPurchasePriceAttribute()
+    {
+        $totalPrice = $this->purchaseDetails
+            ->reduce(function ($carry, $item) {
+                return $carry + ($item->unit_price * $item->quantity);
+            }, 0);
+
+        return number_format($totalPrice, 2);
+    }
+
     public function getAll()
     {
         return $this->companyPurchases()
@@ -56,16 +66,6 @@ class Purchase extends Model
     public function countPurchasesOfCompany()
     {
         return $this->companyPurchases()->count();
-    }
-
-    public function calculateTotalPurchasePrice()
-    {
-        $totalPrice = $this->purchaseDetails
-            ->reduce(function ($carry, $item) {
-                return $carry + ($item->unit_price * $item->quantity);
-            }, 0);
-
-        return number_format($totalPrice, 2);
     }
 
     public function changeStatusToAddedToInventory()

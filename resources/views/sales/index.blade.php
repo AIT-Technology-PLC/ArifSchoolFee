@@ -96,7 +96,7 @@
                                 <td class="has-text-right">
                                     <span class="tag is-small bg-green has-text-white">
                                         {{ $sale->company->currency }}.
-                                        {{ $sale->calculateTotalSalePrice() }}
+                                        {{ $sale->totalSalePrice }}
                                     </span>
                                 </td>
                                 <td class="has-text-right">
