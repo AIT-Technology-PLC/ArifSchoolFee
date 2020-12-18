@@ -107,7 +107,45 @@ class SaleController extends Controller
 
     public function update(Request $request, Sale $sale)
     {
-        //
+
+        $saleData = $request->validate([
+            'sale' => 'required|array',
+            'sale.*.product_id' => 'required|integer',
+            'sale.*.quantity' => 'required|numeric|min:1',
+            'sale.*.unit_price' => 'required|numeric',
+            'customer_id' => 'nullable|integer',
+            'sold_on' => 'required|date',
+            'shipping_line' => 'nullable|string|max:255',
+            'status' => 'sometimes|required|string|max:255',
+            'shipped_at' => 'nullable|date',
+            'delivered_at' => 'nullable|date',
+            'description' => 'nullable|string',
+        ]);
+
+        $saleData['status'] = $saleData['status'] ?? $sale->status;
+        $saleData['updated_by'] = auth()->user()->id;
+
+        $basicSaleData = Arr::except($saleData, 'sale');
+        $saleDetailsData = $saleData['sale'];
+
+        $canProductsBeSold = SaleableProductChecker::canProductsBeSold($saleDetailsData, $basicSaleData['status']);
+
+        if (!$canProductsBeSold) {
+            return redirect()->back()->withInput($request->all());
+        }
+
+        DB::transaction(function () use ($basicSaleData, $saleDetailsData, $sale) {
+
+            StoreSaleableProducts::storeSoldProducts($saleDetailsData, $basicSaleData['status']);
+
+            $sale->update($basicSaleData);
+
+            for ($i = 0; $i < count($saleDetailsData); $i++) {
+                $sale->saleDetails[$i]->update($saleDetailsData[$i]);
+            }
+        });
+
+        return redirect()->route('sales.show', $sale->id);
     }
 
     public function destroy(Sale $sale)

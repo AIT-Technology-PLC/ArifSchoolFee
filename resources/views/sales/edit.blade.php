@@ -15,6 +15,14 @@
             @csrf
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
+                <div class="notification bg-gold has-text-white has-text-weight-medium {{ session('message') ? '' : 'is-hidden' }}">
+                    <span class="icon">
+                        <i class="fas fa-times-circle"></i>
+                    </span>
+                    <span>
+                        {{ session('message') }}
+                    </span>
+                </div>
                 @foreach ($sale->saleDetails as $saleDetail)
                     <div class="mt-4">
                         <span class="py-4 px-2 has-background-white-ter text-purple has-text-weight-medium">
@@ -111,9 +119,9 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="saled_on" class="label text-green has-text-weight-normal"> Sale Date <sup class="has-text-danger">*</sup> </label>
+                            <label for="sold_on" class="label text-green has-text-weight-normal"> Sale Date <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="saled_on" id="saled_on" value="{{ $sale->sold_on ? $sale->sold_on->toDateString() : '' }}">
+                                <input class="input" type="date" name="sold_on" id="sold_on" value="{{ $sale->sold_on ? $sale->sold_on->toDateString() : '' }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-day"></i>
                                 </div>
