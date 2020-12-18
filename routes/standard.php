@@ -23,5 +23,3 @@ Route::post('merchandises/add-to-inventory/{purchase}', 'MerchandiseController@a
 Route::get('/permission-denied', 'ErrorPageController@getPermissionDeniedPage');
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
