@@ -25,7 +25,11 @@ class SaleController extends Controller
 
     public function index()
     {
-        //
+        $sales = $this->sale->getAll();
+
+        $totalSales = $this->sale->countSalesOfCompany();
+
+        return view('sales.index', compact('sales', 'totalSales'));
     }
 
     public function create(Product $product, Customer $customer)
