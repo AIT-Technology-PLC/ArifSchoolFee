@@ -52,6 +52,7 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
+        // Plans
         Schema::create('plans', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
@@ -170,7 +171,7 @@ class CoreV1 extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
             $table->string('type');
-            $table->string('code');
+            $table->string('code')->nullable();
             $table->string('unit_of_measurement');
             $table->decimal('selling_price', 22)->nullable();
             $table->decimal('purchase_price', 22)->nullable();

@@ -57,6 +57,22 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
+                            <label for="code" class="label text-green has-text-weight-normal">Product Code <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <input id="code" name="code" type="text" class="input" placeholder="Product Code" value="{{ $product->code ?? '' }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-hashtag"></i>
+                                </span>
+                                @error('code')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
                             <label for="product_category_id" class="label text-green has-text-weight-normal"> Product Category <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
