@@ -1,7 +1,7 @@
 <nav class="navbar is-fixed-top is-transparent bg-green">
     <div class="container is-fluid p-lr-0">
         <div class="navbar-brand">
-            <a class="navbar-item is-hidden-touch" href="/">
+            <a class="navbar-item is-hidden-touch" href="/home">
                 <img src="{{ asset('img/logo.png') }}" width="120" style="max-height: 70px">
                 <span class="has-text-white has-text-weight-light is-size-4 mb-1">
                     SmartWork
