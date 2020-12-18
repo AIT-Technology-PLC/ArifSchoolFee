@@ -105,13 +105,14 @@ class PurchaseController extends Controller
         $basicPurchaseData = $request->validate([
             'supplier_id' => 'nullable|integer',
             'shipping_line' => 'nullable|string|max:255',
-            'status' => 'required|string|max:255',
+            'status' => 'sometimes|required|string|max:255',
             'purchased_on' => 'required|date',
             'shipped_at' => 'nullable|date',
             'delivered_at' => 'nullable|date',
             'description' => 'nullable|string',
         ]);
 
+        $basicPurchaseData['status'] = $basicPurchaseData['status'] ?? $purchase->status;
         $basicPurchaseData['updated_by'] = auth()->user()->id;
 
         $purchaseDetailsData = $request->validate([
