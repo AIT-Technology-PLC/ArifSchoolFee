@@ -84,21 +84,21 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapStandardRoutes()
     {
-        Route::middleware(['web', 'isEmployeeEnabled', 'auth'])
+        Route::middleware(['web', 'isEmployeeEnabled', 'isCompanyStandard', 'auth'])
             ->namespace($this->namespace)
             ->group(base_path('routes/standard.php'));
     }
 
     protected function mapProfessionalRoutes()
     {
-        Route::middleware(['web', 'isEmployeeEnabled', 'auth'])
+        Route::middleware(['web', 'isEmployeeEnabled', 'isCompanyProfessional', 'auth'])
             ->namespace($this->namespace)
             ->group(base_path('routes/professional.php'));
     }
 
     protected function mapPremiumRoutes()
     {
-        Route::middleware(['web', 'isEmployeeEnabled', 'auth'])
+        Route::middleware(['web', 'isEmployeeEnabled', 'isCompanyPremium', 'auth'])
             ->namespace($this->namespace)
             ->group(base_path('routes/premium.php'));
     }

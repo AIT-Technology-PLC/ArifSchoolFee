@@ -41,6 +41,18 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\AllowOnlyEnabledUsers::class,
         ],
 
+        'isCompanyPremium' => [
+            \App\Http\Middleware\AllowOnlyPremiumMembers::class,
+        ],
+
+        'isCompanyProfessional' => [
+            \App\Http\Middleware\AllowOnlyProfessionalMembers::class,
+        ],
+
+        'isCompanyStandard' => [
+            \App\Http\Middleware\AllowOnlyStandardMembers::class,
+        ],
+
         'api' => [
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
