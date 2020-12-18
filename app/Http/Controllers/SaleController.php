@@ -92,9 +92,17 @@ class SaleController extends Controller
         return view('sales.show', compact('sale'));
     }
 
-    public function edit(Sale $sale)
+    public function edit(Sale $sale, Product $product, Customer $customer)
     {
-        //
+        $products = $product->getProductNames();
+
+        $customers = $customer->getCustomerNames();
+
+        $saleStatuses = $this->getSaleStatuses();
+
+        $shippingLines = $this->getShippingLines();
+
+        return view('sales.edit', compact('sale', 'products', 'customers', 'saleStatuses', 'shippingLines'));
     }
 
     public function update(Request $request, Sale $sale)
