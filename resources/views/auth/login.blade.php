@@ -1,7 +1,7 @@
 @extends('auth.layout.auth')
 
 @section('title')
-Login - Onrica Inventory
+Login - SmartWork by Onrica
 @endsection
 
 @section('content')
