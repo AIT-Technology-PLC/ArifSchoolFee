@@ -15,6 +15,11 @@ class Company extends Model
         'enabled' => 'boolean',
     ];
 
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class);
+    }
+
     public function employees()
     {
         return $this->hasMany(Employee::class);
