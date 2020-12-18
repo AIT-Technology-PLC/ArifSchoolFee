@@ -87,7 +87,9 @@ class SaleController extends Controller
 
     public function show(Sale $sale)
     {
-        //
+        $sale->load(['saleDetails.product', 'customer', 'company']);
+
+        return view('sales.show', compact('sale'));
     }
 
     public function edit(Sale $sale)

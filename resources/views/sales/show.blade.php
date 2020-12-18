@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Purchase Details
+    Sale Details
 @endsection
 
 @section('content')
@@ -16,7 +16,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $purchase->shipping_line ?? 'N/A' }}
+                            {{ $sale->shipping_line ?? 'N/A' }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Shipping Line
@@ -35,10 +35,10 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $purchase->totalPurchasePrice }}
+                            {{ $sale->totalSalePrice }}
                         </div>
                         <div class="is-uppercase is-size-7">
-                            Total Price ({{ $purchase->company->currency }})
+                            Total Price ({{ $sale->company->currency }})
                         </div>
                     </div>
                 </div>
@@ -48,11 +48,11 @@
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-green has-text-weight-medium is-size-5">
-                Purchase Details
+                Sale Details
             </h1>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            @if (!$purchase->isAddedToInventory())
+            {{-- @if (!$sale->isAddedToInventory())
                 <div class="box has-background-white-ter has-text-left mb-6">
                     <p class="has-text-grey text-purple is-size-7">
                         Product(s) listed below are still not added to your Inventory.
@@ -64,14 +64,9 @@
                             <i class="fas fa-plus"></i>
                         </span>
                         <span>
-                            Add to Inventory
+                            Assign as Completed Sales
                         </span>
                     </button>
-                    @error('warehouse_id')
-                        <span class="help has-text-danger" role="alert">
-                            To add purchased products to Inventory, please select a warehouse.
-                        </span>
-                    @enderror
                 </div>
             @else
                 <div class="box has-background-white-ter has-text-left mb-6">
@@ -84,7 +79,7 @@
                         </span>
                     </p>
                 </div>
-            @endif
+            @endif --}}
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
                     <thead>
@@ -97,23 +92,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($purchase->purchaseDetails as $purchaseDetail)
+                        @foreach ($sale->saleDetails as $saleDetail)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
-                                    {{ $purchaseDetail->product->name }}
+                                    {{ $saleDetail->product->name }}
                                 </td>
                                 <td>
-                                    {{ number_format($purchaseDetail->quantity, 2) }}
-                                    {{ $purchaseDetail->product->unit_of_measurement }}
+                                    {{ number_format($saleDetail->quantity, 2) }}
+                                    {{ $saleDetail->product->unit_of_measurement }}
                                 </td>
                                 <td>
-                                    {{ $purchase->company->currency }}.
-                                    {{ number_format($purchaseDetail->unit_price, 2) }}
+                                    {{ $sale->company->currency }}.
+                                    {{ number_format($saleDetail->unit_price, 2) }}
                                 </td>
                                 <td>
-                                    {{ $purchase->company->currency }}.
-                                    {{ number_format($purchaseDetail->quantity * $purchaseDetail->unit_price, 2) }}
+                                    {{ $sale->company->currency }}.
+                                    {{ number_format($saleDetail->quantity * $saleDetail->unit_price, 2) }}
                                 </td>
                             </tr>
                         @endforeach
@@ -126,19 +121,19 @@
                         <div class="mb-5 has-text-centered">
                             <h1 class="is-uppercase has-text-weight-bold has-text-white is-family-monospace">
                                 <span class="icon">
-                                    <i class="fas fa-money-bill"></i>
+                                    <i class="fas fa-tags"></i>
                                 </span>
                                 <span>
-                                    Purchase Summary
+                                    Sale Summary
                                 </span>
                             </h1>
                         </div>
                         <div class="mb-4">
                             <h1 class="is-uppercase has-text-weight-light has-text-white">
-                                Supplier
+                                Customer
                             </h1>
                             <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $purchase->supplier->company_name ?? 'N/A' }}
+                                {{ $sale->customer->company_name ?? 'N/A' }}
                             </h2>
                         </div>
                         <div class="mb-4">
@@ -146,7 +141,7 @@
                                 Shipping Company
                             </h1>
                             <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $purchase->shipping_line ?? 'N/A' }}
+                                {{ $sale->shipping_line ?? 'N/A' }}
                             </h2>
                         </div>
                         <div class="mb-4">
@@ -154,15 +149,15 @@
                                 Status
                             </h1>
                             <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $purchase->status }}
+                                {{ $sale->status }}
                             </h2>
                         </div>
                         <div class="mb-4">
                             <h1 class="is-uppercase has-text-weight-light has-text-white">
-                                Purchased On
+                                Sold On
                             </h1>
                             <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $purchase->purchased_on ? $purchase->purchased_on->toFormattedDateString() : 'N/A' }}
+                                {{ $sale->sold_on ? $sale->sold_on->toFormattedDateString() : 'N/A' }}
                             </h2>
                         </div>
                         <div class="mb-4">
@@ -170,7 +165,7 @@
                                 Shipping Date
                             </h1>
                             <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $purchase->shipped_at ? $purchase->shipped_at->toFormattedDateString() : 'N/A' }}
+                                {{ $sale->shipped_at ? $sale->shipped_at->toFormattedDateString() : 'N/A' }}
                             </h2>
                         </div>
                         <div class="mb-4">
@@ -178,7 +173,7 @@
                                 Delivery Date
                             </h1>
                             <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $purchase->delivered_at ? $purchase->delivered_at->toFormattedDateString() : 'N/A' }}
+                                {{ $sale->delivered_at ? $sale->delivered_at->toFormattedDateString() : 'N/A' }}
                             </h2>
                         </div>
                         <div class="mb-4">
@@ -186,8 +181,8 @@
                                 Total Price
                             </h1>
                             <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $purchase->company->currency }}.
-                                {{ $purchase->totalPurchasePrice }}
+                                {{ $sale->company->currency }}.
+                                {{ $sale->totalSalePrice }}
                             </h2>
                         </div>
                     </div>
@@ -195,5 +190,4 @@
             </div>
         </div>
     </section>
-    @include('purchases.add-to-inventory-modal')
 @endsection
