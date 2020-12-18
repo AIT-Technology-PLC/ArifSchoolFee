@@ -52,9 +52,18 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
+        Schema::create('plans', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
         // Companies
         Schema::create('companies', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('plan_id')->nullable()->unsigned();
             $table->string('name');
             $table->string('sector')->nullable();
             $table->string('membership_plan')->nullable();
@@ -62,6 +71,10 @@ class CoreV1 extends Migration
             $table->string('currency');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('plan_id');
+
+            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade')->onUpdate('cascade');
         });
 
         // Employees
@@ -157,6 +170,7 @@ class CoreV1 extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
             $table->string('type');
+            $table->string('code');
             $table->string('unit_of_measurement');
             $table->decimal('selling_price', 22)->nullable();
             $table->decimal('purchase_price', 22)->nullable();
