@@ -80,7 +80,7 @@
                                     {{ $sale->shipping_line ?? 'N/A' }}
                                 </td>
                                 <td class="is-capitalized">
-                                    @if (0)
+                                    @if ($sale->isSaleClosed())
                                         <span class="tag is-small bg-purple has-text-white">
                                             {{ $sale->status ?? 'N/A' }}
                                         </span>

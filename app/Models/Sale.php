@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasOptions;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Sale extends Model
 {
+    use HasOptions;
+
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
@@ -84,5 +87,12 @@ class Sale extends Model
     {
         $this->status = 'Received Full Payment';
         $this->save();
+    }
+
+    public function isSaleClosed()
+    {
+        $closedSaleStatus = $this->getSaleStatusForMovedProducts();
+
+        return in_array($this->status, $closedSaleStatus);
     }
 }

@@ -52,19 +52,19 @@
             </h1>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            {{-- @if (!$sale->isAddedToInventory())
+            @if (!$sale->isSaleClosed())
                 <div class="box has-background-white-ter has-text-left mb-6">
                     <p class="has-text-grey text-purple is-size-7">
-                        Product(s) listed below are still not added to your Inventory.
+                        Product(s) listed below are still not decreased from your Inventory.
                         <br>
-                        Add product(s) automatically by clicking on the button.
+                        Click on the button below to close sale and decrease products from the inventory.
                     </p>
-                    <button id="openAddToInventoryModal" class="button bg-purple has-text-white mt-5">
+                    <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5">
                         <span class="icon">
-                            <i class="fas fa-plus"></i>
+                            <i class="fas fa-handshake"></i>
                         </span>
                         <span>
-                            Assign as Completed Sales
+                            Complete & Close this Sale
                         </span>
                     </button>
                 </div>
@@ -75,11 +75,11 @@
                             <i class="fas fa-check-circle"></i>
                         </span>
                         <span>
-                            Product(s) listed below have been to your Inventory.
+                            Sale has been completed and closed successfully.
                         </span>
                     </p>
                 </div>
-            @endif --}}
+            @endif
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
                     <thead>
