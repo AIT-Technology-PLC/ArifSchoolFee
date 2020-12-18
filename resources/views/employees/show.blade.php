@@ -15,7 +15,7 @@
             <div class="columns is-marginless is-centered">
                 <div class="column is-3">
                     <figure class="image is-square">
-                        <img class="is-rounded" src="{{ asset('img/nabil.jpg') }}">
+                        <img class="is-rounded" src="{{ asset('img/user.jpg') }}">
                     </figure>
                 </div>
             </div>

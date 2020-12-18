@@ -56,7 +56,7 @@
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link is-arrowless">
                         <figure class="image is-24x24" style="margin: auto !important">
-                            <img class="is-rounded" src="{{ asset('img/nabil.jpg') }}">
+                            <img class="is-rounded" src="{{ asset('img/user.jpg') }}">
                         </figure>
                         <span class="ml-3 has-text-white is-size-7 has-text-weight-medium">
                             {{ auth()->user()->name }}

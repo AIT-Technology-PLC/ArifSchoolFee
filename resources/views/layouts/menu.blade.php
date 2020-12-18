@@ -2,7 +2,7 @@
     <ul class="menu-list has-text-centered">
         <li>
             <figure class="image is-64x64" style="margin: auto !important">
-                <img class="is-rounded" src="{{ asset('img/nabil.jpg') }}">
+                <img class="is-rounded" src="{{ asset('img/user.jpg') }}">
             </figure>
             <div class="has-text-weight-bold mt-3 is-capitalized">
                 {{ auth()->user()->name }}
