@@ -15,6 +15,15 @@ class AllowOnlyStandardMembers
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        $isCompanyStandard = auth()->user()->employee->company->isCompanyStandardMember();
+        $isCompanyPremiumOrProfessionalMember = auth()->user()->employee->company->isCompanyPremiumOrProfessionalMember();
+
+        $canAccess = $isCompanyStandard || $isCompanyPremiumOrProfessionalMember;
+
+        if ($canAccess) {
+            return $next($request);
+        }
+
+        return redirect('/permission-denied');
     }
 }

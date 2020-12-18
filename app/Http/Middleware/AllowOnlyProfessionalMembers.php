@@ -15,6 +15,12 @@ class AllowOnlyProfessionalMembers
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        $isCompanyPremiumOrProfessionalMember = auth()->user()->employee->company->isCompanyPremiumOrProfessionalMember();
+
+        if ($isCompanyPremiumOrProfessionalMember) {
+            return $next($request);
+        }
+
+        return redirect('/permission-denied');
     }
 }

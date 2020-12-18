@@ -85,6 +85,11 @@ class Company extends Model
         return $this->hasMany(Sale::class);
     }
 
+    public function isCompanyStandardMember()
+    {
+        return $this->membership_plan == "Standard";
+    }
+
     public function isCompanyPremiumMember()
     {
         return $this->membership_plan == "Premium";

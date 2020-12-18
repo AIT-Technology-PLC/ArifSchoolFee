@@ -15,6 +15,12 @@ class AllowOnlyPremiumMembers
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        $isCompanyPremiumMember = auth()->user()->employee->company->isCompanyPremiumMember();
+
+        if ($isCompanyPremiumMember) {
+            return $next($request);
+        }
+
+        return redirect('/permission-denied');
     }
 }
