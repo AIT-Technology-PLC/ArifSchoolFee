@@ -62,6 +62,7 @@
                             <th><abbr> Name </abbr></th>
                             <th><abbr> Category </abbr></th>
                             <th><abbr> Type </abbr></th>
+                            <th><abbr> Code </abbr></th>
                             <th><abbr> Properties </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="text-purple"><abbr> Reorder Level</abbr></th>
@@ -81,7 +82,7 @@
                                 <td class="is-capitalized"> {{ $product->name ?? 'N/A' }} </td>
                                 <td class="is-capitalized"> {{ $product->productCategory->name ?? 'N/A' }} </td>
                                 <td class="is-capitalized"> {{ $product->type ?? 'N/A' }} </td>
-
+                                <td class="is-capitalized"> {{ $product->code ?? 'N/A' }} </td>
                                 <td class="is-capitalized">
                                     @if (is_null($product->properties))
                                     {{ 'N/A' }}
