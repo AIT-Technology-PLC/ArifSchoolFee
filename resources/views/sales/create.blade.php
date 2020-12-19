@@ -192,7 +192,7 @@
                         <div class="field">
                             <label for="sold_on" class="label text-green has-text-weight-normal"> Sold On <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="sold_on" id="sold_on" value="{{ old('sold_on') }}">
+                                <input class="input" type="date" name="sold_on" id="sold_on" placeholder="mm/dd/yyyy" value="{{ old('sold_on') ?? '' }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
@@ -244,7 +244,7 @@
                         <div class="field">
                             <label for="shipped_at" class="label text-green has-text-weight-normal"> Shipping Started On <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="shipped_at" id="shipped_at" value="{{ old('shipped_at') }}">
+                                <input class="input" type="date" name="shipped_at" id="shipped_at" placeholder="mm/dd/yyyy" value="{{ old('shipped_at') ?? '' }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
@@ -255,7 +255,7 @@
                         <div class="field">
                             <label for="delivered_at" class="label text-green has-text-weight-normal"> Delivered To Customer On <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="delivered_at" id="delivered_at" value="{{ old('delivered_at') }}">
+                                <input class="input" type="date" name="delivered_at" id="delivered_at" placeholder="mm/dd/yyyy" value="{{ old('delivered_at') ?? '' }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-check"></i>
                                 </div>
