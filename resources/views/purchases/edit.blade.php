@@ -113,7 +113,7 @@
                         <div class="field">
                             <label for="purchased_on" class="label text-green has-text-weight-normal"> Purchase Date <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="purchased_on" id="purchased_on" value="{{ $purchase->purchased_on ? $purchase->purchased_on->toDateString() : '' }}">
+                                <input class="input" type="date" name="purchased_on" id="purchased_on" placeholder="mm/dd/yyyy" value="{{ $purchase->purchased_on ? $purchase->purchased_on->toDateString() : '' }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-day"></i>
                                 </div>
@@ -167,7 +167,7 @@
                         <div class="field">
                             <label for="shipped_at" class="label text-green has-text-weight-normal"> Shipping Started On <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="shipped_at" id="shipped_at" value="{{ $purchase->shipped_at ? $purchase->shipped_at->toDateString() : '' }}">
+                                <input class="input" type="date" name="shipped_at" id="shipped_at" placeholder="mm/dd/yyyy" value="{{ $purchase->shipped_at ? $purchase->shipped_at->toDateString() : '' }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
@@ -178,7 +178,7 @@
                         <div class="field">
                             <label for="delivered_at" class="label text-green has-text-weight-normal"> Delivered To You On <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="delivered_at" id="delivered_at" value="{{ $purchase->delivered_at ? $purchase->delivered_at->toDateString() : '' }}">
+                                <input class="input" type="date" name="delivered_at" id="delivered_at" placeholder="mm/dd/yyyy" value="{{ $purchase->delivered_at ? $purchase->delivered_at->toDateString() : '' }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-check"></i>
                                 </div>
