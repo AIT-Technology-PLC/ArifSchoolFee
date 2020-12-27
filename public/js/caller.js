@@ -61,6 +61,6 @@ if (d.getElementById("onHandTab")) {
     );
 }
 
-if (d.getElementById("saveButton")) {
-    d.getElementById("saveButton").addEventListener("click", disableSaveButton);
+if (d.getElementById("formOne")) {
+    d.getElementById("formOne").addEventListener("submit", disableSaveButton);
 }

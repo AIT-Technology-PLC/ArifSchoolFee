@@ -316,6 +316,7 @@ function hideOutofMerchandise() {
 }
 
 function disableSaveButton() {
-    this.classList.add("is-loading");
-    this.style.opacity = 0.5;
+    let saveButton = d.getElementById("saveButton");
+    saveButton.classList.add("is-loading");
+    saveButton.disabled = true;
 }
