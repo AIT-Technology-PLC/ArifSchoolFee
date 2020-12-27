@@ -12,7 +12,7 @@
             </p>
             <button id="closeModal" class="delete is-medium" aria-label="close"></button>
         </header>
-        <form action="{{ route('merchandises.addToInventory', $purchase->id) }}" method="post">
+        <form id="formOne" action="{{ route('merchandises.addToInventory', $purchase->id) }}" method="post">
             @csrf
             <section class="modal-card-body py-6">
                 <div class="columns is-marginless is-multiline">
@@ -58,7 +58,7 @@
                         Not now
                     </span>
                 </button>
-                <button class="button bg-green has-text-white">
+                <button id="saveButton" class="button bg-green has-text-white">
                     <span class="icon">
                         <i class="fas fa-plus"></i>
                     </span>

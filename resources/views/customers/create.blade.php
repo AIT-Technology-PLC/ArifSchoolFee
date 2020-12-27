@@ -11,7 +11,7 @@
                 New Customer
             </h1>
         </div>
-        <form action="{{ route('customers.store') }}" method="POST" enctype="multipart/form-data" novalidate>
+        <form id="formOne" action="{{ route('customers.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">

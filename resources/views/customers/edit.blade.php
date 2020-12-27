@@ -11,7 +11,7 @@
                 Edit Customer - {{ $customer->company_name }}
             </h1>
         </div>
-        <form action="{{ route('customers.update', $customer->id) }}" method="POST" enctype="multipart/form-data" novalidate>
+        <form id="formOne" action="{{ route('customers.update', $customer->id) }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             @method("PATCH")
             <div class="box radius-bottom-0 mb-0 radius-top-0">
