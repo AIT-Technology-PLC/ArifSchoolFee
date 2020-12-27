@@ -106,7 +106,7 @@
                                     Cancel
                                 </span>
                             </button>
-                            <button class="button bg-green has-text-white">
+                            <button id="saveButton" class="button bg-green has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-save"></i>
                                 </span>
