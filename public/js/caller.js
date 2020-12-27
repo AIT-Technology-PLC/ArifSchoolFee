@@ -20,10 +20,7 @@ if (d.getElementById("addNewPurchaseForm")) {
 }
 
 if (d.getElementById("addNewSaleForm")) {
-    d.getElementById("addNewSaleForm").addEventListener(
-        "click",
-        addSaleForm
-    );
+    d.getElementById("addNewSaleForm").addEventListener("click", addSaleForm);
 }
 
 d.addEventListener("readystatechange", jumpToCurrentPageMenuTitle);
@@ -62,4 +59,8 @@ if (d.getElementById("onHandTab")) {
         "click",
         showOutofMerchandise
     );
+}
+
+if (d.getElementById("saveButton")) {
+    d.getElementById("saveButton").addEventListener("click", disableSaveButton);
 }

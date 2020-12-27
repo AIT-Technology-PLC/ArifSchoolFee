@@ -314,3 +314,8 @@ function hideOutofMerchandise() {
     d.getElementById("outOfTab").classList.remove("is-active");
     d.getElementById("outOf").classList.add("is-hidden");
 }
+
+function disableSaveButton() {
+    this.classList.add("is-loading");
+    this.style.opacity = 0.5;
+}
