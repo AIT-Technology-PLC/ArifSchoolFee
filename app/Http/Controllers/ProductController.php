@@ -63,7 +63,7 @@ class ProductController extends Controller
         $data['updated_by'] = auth()->user()->id;
         $data['company_id'] = auth()->user()->employee->company_id;
 
-        $this->product->create($data);
+        $this->product->firstOrCreate($data);
 
         return redirect()->route('products.index');
     }
