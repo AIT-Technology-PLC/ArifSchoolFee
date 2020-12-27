@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
     {{-- Local Assets --}}
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css?' . env('CSS_VERSION')) }}" rel="stylesheet">
 </head>
 
 <body class="has-navbar-fixed-top">
@@ -36,8 +36,8 @@
     <script src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js" integrity="sha256-OPn1YfcEh9W2pwF1iSS+yDk099tYj+plSrCS6Esa9NA=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     {{-- Local Assets --}}
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/caller.js') }}" defer></script>
+    <script src="{{ asset('js/app.js?' . env('JS_VERSION')) }}" defer></script>
+    <script src="{{ asset('js/caller.js?' . env('JS_VERSION')) }}" defer></script>
 
 </body>
 
