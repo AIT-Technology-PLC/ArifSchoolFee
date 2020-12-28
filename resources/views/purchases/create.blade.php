@@ -191,12 +191,12 @@
                             <label for="status" class="label text-green has-text-weight-normal"> Add to Inventory? <sup class="has-text-danger">*</sup> </label>
                             <div class="control">
                                 <label class="radio has-text-grey has-text-weight-normal">
-                                    <input type="radio" name="status" id="status" value="Added To Inventory" {{ old('status') ? 'checked' : '' }}>
+                                    <input type="radio" name="status" id="status" value="Added To Inventory" {{ old('status') == 'Added To Inventory' ? 'checked' : '' }} checked>
                                     Yes, add now.
                                 </label>
                                 <br>
                                 <label class="radio has-text-grey has-text-weight-normal">
-                                    <input type="radio" name="status" id="status" value="Not Added To Inventory" {{ old('status') ? '' : 'checked' }}>
+                                    <input type="radio" name="status" id="status" value="Not Added To Inventory" {{ old('status') == 'Not Added To Inventory' ? 'checked' : '' }}>
                                     No, add later.
                                 </label>
                                 @error('status')
