@@ -26,23 +26,6 @@ trait HasOptions
         return ['DHL', 'MAERSEK'];
     }
 
-    public function getPurchaseStatuses()
-    {
-        return [
-            'New Order',
-            'Received Quotation/PI',
-            'Negotiating Quote',
-            'Approved Quotation',
-            'Made Partial Payment',
-            'Started Shipping',
-            'Delivered',
-            'Made Full Payment',
-
-            # Status will change to "Added To Inventory" by button
-            // 'Added To Inventory',
-        ];
-    }
-
     public function getSaleStatuses()
     {
         return [
