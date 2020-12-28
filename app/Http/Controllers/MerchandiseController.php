@@ -6,6 +6,7 @@ use App\Models\Merchandise;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Warehouse;
+use App\Services\AddPurchasedItemsToInventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -72,40 +73,11 @@ class MerchandiseController extends Controller
         return redirect()->route('merchandises.index');
     }
 
-    public function addToInventory(Request $request, Purchase $purchase)
+    public function addToInventory(Purchase $purchase)
     {
-        $request->validate([
-            'warehouse_id' => 'required|integer',
-            'expires_on' => 'nullable|date',
-        ]);
-
-        $data = $purchase->purchaseDetails
-            ->map(function ($purchaseDetail) {
-                return [
-                    'product_id' => $purchaseDetail->product_id,
-                    'total_received' => $purchaseDetail->quantity,
-                    'total_on_hand' => $purchaseDetail->quantity,
-                    'total_sold' => 0,
-                    'total_broken' => 0,
-                    'total_returns' => 0,
-                    'created_by' => auth()->user()->id,
-                    'updated_by' => auth()->user()->id,
-                    'company_id' => auth()->user()->employee->company_id,
-                    'created_at' => now()->toDateTimeString(),
-                    'updated_at' => now()->toDateTimeString(),
-                ];
-            });
-
-        $data = $data->toArray();
-
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['warehouse_id'] = $request->warehouse_id;
-            $data[$i]['expires_on'] = $request->expires_on;
-        }
-
-        DB::transaction(function () use ($data, $purchase) {
-            $this->merchandise->insert($data);
+        DB::transaction(function () use ($purchase) {
             $purchase->changeStatusToAddedToInventory();
+            AddPurchasedItemsToInventory::addToInventory($purchase);
         });
 
         return redirect()->back();
