@@ -188,19 +188,17 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
-                            <label for="status" class="label text-green has-text-weight-normal"> Purchase Status <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="status" name="status">
-                                        <option selected disabled>Select Status</option>
-                                        @foreach ($purchaseStatuses as $purchaseStatus)
-                                            <option value="{{ $purchaseStatus }}" {{ old('status') == $purchaseStatus ? 'selected' : '' }}>{{ $purchaseStatus }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-credit-card"></i>
-                                </div>
+                            <label for="status" class="label text-green has-text-weight-normal"> Add to Inventory? <sup class="has-text-danger">*</sup> </label>
+                            <div class="control">
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input type="radio" name="status" id="status" value="Added To Inventory" {{ old('status') ? 'checked' : '' }}>
+                                    Yes, add now.
+                                </label>
+                                <br>
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input type="radio" name="status" id="status" value="Not Added To Inventory" {{ old('status') ? '' : 'checked' }}>
+                                    No, add later.
+                                </label>
                                 @error('status')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
