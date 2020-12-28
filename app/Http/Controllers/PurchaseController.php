@@ -9,6 +9,7 @@ use App\Models\Warehouse;
 use App\Services\AddPurchasedItemsToInventory;
 use App\Traits\HasOptions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
@@ -48,7 +49,11 @@ class PurchaseController extends Controller
 
     public function store(Request $request)
     {
-        $basicPurchaseData = $request->validate([
+        $purchaseData = $request->validate([
+            'purchase' => 'required|array',
+            'purchase.*.product_id' => 'required|integer',
+            'purchase.*.quantity' => 'required|numeric',
+            'purchase.*.unit_price' => 'required|numeric',
             'supplier_id' => 'nullable|integer',
             'shipping_line' => 'nullable|string|max:255',
             'status' => 'required|string|max:255',
@@ -58,18 +63,12 @@ class PurchaseController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $basicPurchaseData['company_id'] = auth()->user()->employee->company_id;
-        $basicPurchaseData['created_by'] = auth()->user()->id;
-        $basicPurchaseData['updated_by'] = auth()->user()->id;
+        $purchaseData['company_id'] = auth()->user()->employee->company_id;
+        $purchaseData['created_by'] = auth()->user()->id;
+        $purchaseData['updated_by'] = auth()->user()->id;
 
-        $purchaseDetailsData = $request->validate([
-            'purchase' => 'required|array',
-            'purchase.*.product_id' => 'required|integer',
-            'purchase.*.quantity' => 'required|numeric',
-            'purchase.*.unit_price' => 'required|numeric',
-        ]);
-
-        $purchaseDetailsData = $purchaseDetailsData['purchase'];
+        $basicPurchaseData = Arr::except($purchaseData, 'purchase');
+        $purchaseDetailsData = $purchaseData['purchase'];
 
         DB::transaction(function () use ($basicPurchaseData, $purchaseDetailsData) {
             $purchase = $this->purchase->create($basicPurchaseData);

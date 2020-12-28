@@ -133,8 +133,12 @@ class Product extends Model
         return $this->where('id', $productId)->saleableProducts()->exists();
     }
 
-    public function isProductMerchandise($productId)
+    public function isProductMerchandise($productId = null)
     {
+        if (is_null($productId)) {
+            $productId = $this->id;
+        }
+
         return $this->where('id', $productId)->where('type', 'Merchandise Product')->exists();
     }
 

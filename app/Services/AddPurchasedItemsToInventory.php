@@ -30,7 +30,7 @@ class AddPurchasedItemsToInventory
         return $purchaseStatus == "Added To Inventory";
     }
 
-    protected static function preparePurchaseDetailForMerchandise($purchase, $purchaseDetail)
+    protected static function preparePurchaseDetailForMerchandise($purchaseDetail)
     {
         $purchaseDetail = [
             'product_id' => $purchaseDetail->product_id,
@@ -44,8 +44,8 @@ class AddPurchasedItemsToInventory
             'company_id' => auth()->user()->employee->company_id,
             'created_at' => now()->toDateTimeString(),
             'updated_at' => now()->toDateTimeString(),
-            'warehouse_id' => self::validateWarehouseAndExpiration()['warehouse_id'],
-            'expires_on' => self::validateWarehouseAndExpiration()['expires_on'],
+            'warehouse_id' => self::validateWarehouseAndExpirationFields()['warehouse_id'],
+            'expires_on' => self::validateWarehouseAndExpirationFields()['expires_on'],
         ];
 
         return $purchaseDetail;
@@ -56,7 +56,7 @@ class AddPurchasedItemsToInventory
         foreach ($purchase->purchaseDetails as $purchaseDetail) {
             if ($purchaseDetail->product->isProductMerchandise()) {
                 $merchandise = new Merchandise();
-                $merchandise->create(self::preparePurchaseDetailForMerchandise($purchase, $purchaseDetail));
+                $merchandise->create(self::preparePurchaseDetailForMerchandise($purchaseDetail));
             }
         }
     }
