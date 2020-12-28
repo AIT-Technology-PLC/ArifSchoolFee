@@ -101,27 +101,23 @@ class PurchaseController extends Controller
 
     public function update(Request $request, Purchase $purchase)
     {
-        $basicPurchaseData = $request->validate([
+        $purchaseData = $request->validate([
+            'purchase' => 'required|array',
+            'purchase.*.product_id' => 'required|integer',
+            'purchase.*.quantity' => 'required|numeric',
+            'purchase.*.unit_price' => 'required|numeric',
             'supplier_id' => 'nullable|integer',
             'shipping_line' => 'nullable|string|max:255',
-            'status' => 'sometimes|required|string|max:255',
             'purchased_on' => 'required|date',
             'shipped_at' => 'nullable|date',
             'delivered_at' => 'nullable|date',
             'description' => 'nullable|string',
         ]);
 
-        $basicPurchaseData['status'] = $basicPurchaseData['status'] ?? $purchase->status;
-        $basicPurchaseData['updated_by'] = auth()->user()->id;
+        $purchaseData['updated_by'] = auth()->user()->id;
 
-        $purchaseDetailsData = $request->validate([
-            'purchase' => 'required|array',
-            'purchase.*.product_id' => 'required|integer',
-            'purchase.*.quantity' => 'required|numeric',
-            'purchase.*.unit_price' => 'required|numeric',
-        ]);
-
-        $purchaseDetailsData = $purchaseDetailsData['purchase'];
+        $basicPurchaseData = Arr::except($purchaseData, 'purchase');
+        $purchaseDetailsData = $purchaseData['purchase'];
 
         DB::transaction(function () use ($purchase, $basicPurchaseData, $purchaseDetailsData) {
             $purchase->update($basicPurchaseData);
