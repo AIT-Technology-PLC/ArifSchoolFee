@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Warehouse;
+use App\Services\AddPurchasedItemsToInventory;
 use App\Traits\HasOptions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -73,6 +74,7 @@ class PurchaseController extends Controller
         DB::transaction(function () use ($basicPurchaseData, $purchaseDetailsData) {
             $purchase = $this->purchase->create($basicPurchaseData);
             $purchase->purchaseDetails()->createMany($purchaseDetailsData);
+            AddPurchasedItemsToInventory::addToInventory($purchase);
         });
 
         return redirect()->route('purchases.index');
