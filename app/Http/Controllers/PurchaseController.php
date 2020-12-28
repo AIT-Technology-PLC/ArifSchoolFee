@@ -32,7 +32,7 @@ class PurchaseController extends Controller
         return view('purchases.index', compact('purchases', 'totalPurchases'));
     }
 
-    public function create(Product $product, Supplier $supplier)
+    public function create(Product $product, Supplier $supplier, Warehouse $warehouse)
     {
         $products = $product->getProductNames();
 
@@ -40,7 +40,9 @@ class PurchaseController extends Controller
 
         $shippingLines = $this->getShippingLines();
 
-        return view('purchases.create', compact('products', 'suppliers', 'shippingLines'));
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        return view('purchases.create', compact('products', 'suppliers', 'shippingLines', 'warehouses'));
     }
 
     public function store(Request $request)
