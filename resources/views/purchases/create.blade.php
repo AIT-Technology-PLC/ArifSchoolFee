@@ -188,6 +188,40 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
+                            <label for="status" class="label text-green has-text-weight-normal"> Purchase Status <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="status" name="status">
+                                        <option selected disabled>Select Status</option>
+                                        @foreach ($purchaseStatuses as $purchaseStatus)
+                                            <option value="{{ $purchaseStatus }}" {{ old('status') == $purchaseStatus ? 'selected' : '' }}>{{ $purchaseStatus }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                @error('status')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="purchased_on" class="label text-green has-text-weight-normal"> Purchase Date <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="date" name="purchased_on" id="purchased_on" placeholder="mm/dd/yyyy" value="{{ old('purchased_on') ?? '' }}">
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-calendar-day"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
                             <label for="supplier_id" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
@@ -200,17 +234,6 @@
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-address-card"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="purchased_on" class="label text-green has-text-weight-normal"> Purchase Date <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="date" name="purchased_on" id="purchased_on" placeholder="mm/dd/yyyy" value="{{ old('purchased_on') ?? '' }}">
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-day"></i>
                                 </div>
                             </div>
                         </div>
@@ -230,29 +253,6 @@
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-truck"></i>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="status" class="label text-green has-text-weight-normal"> Purchase Status <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="status" name="status">
-                                        <option selected disabled>Select Status</option>
-                                        @foreach ($purchaseStatuses as $purchaseStatus)
-                                            <option value="{{ $purchaseStatus }}" {{ old('status') == $purchaseStatus ? 'selected' : '' }}>{{ $purchaseStatus }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-credit-card"></i>
-                                </div>
-                                @error('status')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
                             </div>
                         </div>
                     </div>

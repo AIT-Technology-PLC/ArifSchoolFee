@@ -91,53 +91,6 @@
                 @endforeach
                 <hr>
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="supplier_id" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="supplier_id" name="supplier_id">
-                                        <option selected disabled>Select Supplier</option>
-                                        @foreach ($suppliers as $supplier)
-                                            <option value="{{ $supplier->id }}" {{ $purchase->supplier_id == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-address-card"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="purchased_on" class="label text-green has-text-weight-normal"> Purchase Date <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="date" name="purchased_on" id="purchased_on" placeholder="mm/dd/yyyy" value="{{ $purchase->purchased_on ? $purchase->purchased_on->toDateString() : '' }}">
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-day"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="shipping_line" class="label text-green has-text-weight-normal"> Shipping Line <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="shipping_line" name="shipping_line">
-                                        <option selected disabled>Select Line</option>
-                                        @foreach ($shippingLines as $shippingLine)
-                                            <option value="{{ $shippingLine }}" {{ $purchase->shipping_line == $shippingLine ? 'selected' : '' }}>{{ $shippingLine }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-truck"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     @if (!$purchase->isAddedToInventory())
                         <div class="column is-6">
                             <div class="field">
@@ -163,6 +116,53 @@
                             </div>
                         </div>
                     @endif
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="purchased_on" class="label text-green has-text-weight-normal"> Purchase Date <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="date" name="purchased_on" id="purchased_on" placeholder="mm/dd/yyyy" value="{{ $purchase->purchased_on ? $purchase->purchased_on->toDateString() : '' }}">
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-calendar-day"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="supplier_id" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="supplier_id" name="supplier_id">
+                                        <option selected disabled>Select Supplier</option>
+                                        @foreach ($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}" {{ $purchase->supplier_id == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-address-card"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="shipping_line" class="label text-green has-text-weight-normal"> Shipping Line <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="shipping_line" name="shipping_line">
+                                        <option selected disabled>Select Line</option>
+                                        @foreach ($shippingLines as $shippingLine)
+                                            <option value="{{ $shippingLine }}" {{ $purchase->shipping_line == $shippingLine ? 'selected' : '' }}>{{ $shippingLine }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-truck"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="column is-6">
                         <div class="field">
                             <label for="shipped_at" class="label text-green has-text-weight-normal"> Shipping Started On <sup class="has-text-danger"></sup> </label>
