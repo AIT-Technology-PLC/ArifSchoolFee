@@ -116,13 +116,11 @@ class SaleController extends Controller
             'customer_id' => 'nullable|integer',
             'sold_on' => 'required|date',
             'shipping_line' => 'nullable|string|max:255',
-            'status' => 'sometimes|required|string|max:255',
             'shipped_at' => 'nullable|date',
             'delivered_at' => 'nullable|date',
             'description' => 'nullable|string',
         ]);
 
-        $saleData['status'] = $saleData['status'] ?? $sale->status;
         $saleData['updated_by'] = auth()->user()->id;
 
         $basicSaleData = Arr::except($saleData, 'sale');
