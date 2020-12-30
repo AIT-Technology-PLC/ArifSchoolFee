@@ -6,6 +6,7 @@
                     <tr>
                         <th><abbr> # </abbr></th>
                         <th><abbr> Product </abbr></th>
+                        <th><abbr> Code </abbr></th>
                         <th><abbr> Warehouse </abbr></th>
                         <th class="has-text-right"><abbr> Quantity Received </abbr></th>
                         <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
@@ -26,6 +27,7 @@
                         <tr>
                             <td> {{ $loop->index + 1 }} </td>
                             <td class="is-capitalized"> {{ $merchandise->product->name ?? 'N/A' }} </td>
+                            <td class="is-capitalized"> {{ $merchandise->product->code ?? 'N/A' }} </td>
                             <td class="is-capitalized"> {{ $merchandise->warehouse->name ?? 'N/A' }} </td>
                             <td class="has-text-right">
                                 {{ $merchandise->total_received }}

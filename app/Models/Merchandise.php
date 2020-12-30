@@ -46,7 +46,7 @@ class Merchandise extends Model
     public function getAllOnHandMerchandises()
     {
         return $this->companyMerchandises()
-            ->with(['product', 'warehouse'])
+            ->with(['product', 'warehouse', 'createdBy', 'updatedBy'])
             ->where('total_on_hand', '>', 0)
             ->get();
     }
