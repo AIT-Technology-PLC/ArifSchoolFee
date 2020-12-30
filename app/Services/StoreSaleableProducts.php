@@ -13,7 +13,7 @@ class StoreSaleableProducts
             return false;
         }
 
-        if (!self::isProductSubtractNowChecked($sale->status)) {
+        if (!self::isProductSubtractNowChecked($sale)) {
             return true;
         }
 
@@ -29,9 +29,9 @@ class StoreSaleableProducts
         return true;
     }
 
-    private static function isProductSubtractNowChecked($saleStatus)
+    private static function isProductSubtractNowChecked($sale)
     {
-        return $saleStatus == "Subtracted From Inventory";
+        return $sale->isSaleSubtracted();
     }
 
     private static function areProductsSaleable($saleDetails)

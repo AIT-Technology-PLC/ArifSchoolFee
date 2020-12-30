@@ -8,7 +8,7 @@ class AddPurchasedItemsToInventory
 {
     public static function addToInventory($purchase)
     {
-        if (!self::isAddToInventoryNowChecked($purchase->status)) {
+        if (!self::isAddToInventoryNowChecked($purchase)) {
             return true;
         }
 
@@ -25,9 +25,9 @@ class AddPurchasedItemsToInventory
         ]);
     }
 
-    protected static function isAddToInventoryNowChecked($purchaseStatus)
+    protected static function isAddToInventoryNowChecked($purchase)
     {
-        return $purchaseStatus == "Added To Inventory";
+        return $purchase->isAddedToInventory();
     }
 
     protected static function preparePurchaseDetailForMerchandise($purchaseDetail)
