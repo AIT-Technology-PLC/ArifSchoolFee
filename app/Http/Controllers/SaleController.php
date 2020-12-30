@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Sale;
-use App\Services\SaleableProductChecker;
 use App\Services\StoreSaleableProducts;
 use App\Traits\HasOptions;
 use Illuminate\Http\Request;
@@ -94,20 +93,17 @@ class SaleController extends Controller
 
     public function edit(Sale $sale, Product $product, Customer $customer)
     {
-        $products = $product->getProductNames();
+        $products = $product->getSaleableProducts();
 
         $customers = $customer->getCustomerNames();
 
-        $saleStatuses = $this->getSaleStatuses();
-
         $shippingLines = $this->getShippingLines();
 
-        return view('sales.edit', compact('sale', 'products', 'customers', 'saleStatuses', 'shippingLines'));
+        return view('sales.edit', compact('sale', 'products', 'customers', 'shippingLines'));
     }
 
     public function update(Request $request, Sale $sale)
     {
-
         $saleData = $request->validate([
             'sale' => 'required|array',
             'sale.*.product_id' => 'required|integer',
@@ -126,24 +122,26 @@ class SaleController extends Controller
         $basicSaleData = Arr::except($saleData, 'sale');
         $saleDetailsData = $saleData['sale'];
 
-        $canProductsBeSold = SaleableProductChecker::canProductsBeSold($saleDetailsData, $basicSaleData['status']);
-
-        if (!$canProductsBeSold) {
-            return redirect()->back()->withInput($request->all());
-        }
-
-        DB::transaction(function () use ($basicSaleData, $saleDetailsData, $sale) {
-
-            StoreSaleableProducts::storeSoldProducts($saleDetailsData, $basicSaleData['status']);
-
+        $isSaleValid = DB::transaction(function () use ($basicSaleData, $saleDetailsData, $sale) {
             $sale->update($basicSaleData);
 
             for ($i = 0; $i < count($saleDetailsData); $i++) {
                 $sale->saleDetails[$i]->update($saleDetailsData[$i]);
             }
+
+            $isSaleValid = StoreSaleableProducts::storeSoldProducts($sale);
+
+            if (!$isSaleValid) {
+                DB::rollback();
+            }
+
+            return $isSaleValid;
         });
 
-        return redirect()->route('sales.show', $sale->id);
+        return $isSaleValid ?
+        redirect()->route('sales.show', $sale->id) :
+        redirect()->back()->withInput($request->all());
+
     }
 
     public function destroy(Sale $sale)
