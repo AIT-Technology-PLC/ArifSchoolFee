@@ -174,17 +174,15 @@
                         <div class="field">
                             <label for="status" class="label text-green has-text-weight-normal"> Sale Status <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="status" name="status">
-                                        <option selected disabled>Select Status</option>
-                                        @foreach ($saleStatuses as $saleStatus)
-                                            <option value="{{ $saleStatus }}" {{ old('status') == $saleStatus ? 'selected' : '' }}>{{ $saleStatus }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-credit-card"></i>
-                                </div>
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input type="radio" name="status" id="status" value="Subtracted From Inventory" {{ old('status') == 'Subtracted From Inventory' ? 'checked' : '' }} checked>
+                                    Yes, subtract now.
+                                </label>
+                                <br>
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input type="radio" name="status" id="status" value="Not Subtracted From Inventory" {{ old('status') == 'Not Subtracted From Inventory' ? 'checked' : '' }}>
+                                    No, subtract later.
+                                </label>
                                 @error('status')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}

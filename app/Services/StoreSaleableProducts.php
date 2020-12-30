@@ -3,12 +3,9 @@
 namespace App\Services;
 
 use App\Models\Merchandise;
-use App\Traits\HasOptions;
 
 class StoreSaleableProducts
 {
-    use HasOptions;
-
     public static function storeSoldProducts($sale)
     {
         if (!self::areProductsSaleable($sale->saleDetails)) {
@@ -16,7 +13,7 @@ class StoreSaleableProducts
             return false;
         }
 
-        if (!self::hasProductsMovedOut($sale->status)) {
+        if (!self::isProductSubtractNowChecked($sale->status)) {
             return true;
         }
 
@@ -32,9 +29,9 @@ class StoreSaleableProducts
         return true;
     }
 
-    private static function hasProductsMovedOut($saleStatus)
+    private static function isProductSubtractNowChecked($saleStatus)
     {
-        return in_array($saleStatus, (new self)->getSaleStatusForMovedProducts());
+        return $saleStatus == "Subtracted From Inventory";
     }
 
     private static function areProductsSaleable($saleDetails)

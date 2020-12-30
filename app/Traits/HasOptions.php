@@ -25,29 +25,4 @@ trait HasOptions
     {
         return ['DHL', 'MAERSEK'];
     }
-
-    public function getSaleStatuses()
-    {
-        return [
-            'New Order',
-            'Sent Quotation/PI',
-            'Negotiating Quote',
-            'Approved Quotation',
-            'Received Partial Payment',
-            'Left Warehouse & Started Shipping',
-            'Delivered To Customer',
-            'Received Full Payment',
-            'Sales Completed',
-        ];
-    }
-
-    public function getSaleStatusForMovedProducts()
-    {
-        return [
-            'Left Warehouse & Started Shipping',
-            'Delivered To Customer',
-            'Received Full Payment',
-            'Sales Completed',
-        ];
-    }
 }

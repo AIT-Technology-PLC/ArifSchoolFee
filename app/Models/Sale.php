@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use App\Traits\HasOptions;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Sale extends Model
 {
-    use HasOptions;
-
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
@@ -89,10 +86,8 @@ class Sale extends Model
         $this->save();
     }
 
-    public function isSaleClosed()
+    public function isSaleSubtracted()
     {
-        $closedSaleStatus = $this->getSaleStatusForMovedProducts();
-
-        return in_array($this->status, $closedSaleStatus);
+        return $this->status == 'Subtracted From Inventory';
     }
 }

@@ -37,11 +37,9 @@ class SaleController extends Controller
 
         $customers = $customer->getCustomerNames();
 
-        $saleStatuses = $this->getSaleStatuses();
-
         $shippingLines = $this->getShippingLines();
 
-        return view('sales.create', compact('products', 'customers', 'saleStatuses', 'shippingLines'));
+        return view('sales.create', compact('products', 'customers', 'shippingLines'));
     }
 
     public function store(Request $request)

@@ -52,7 +52,7 @@
             </h1>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            @if (!$sale->isSaleClosed())
+            @if (!$sale->isSaleSubtracted())
                 <div class="box has-background-white-ter has-text-left mb-6">
                     <p class="has-text-grey text-purple is-size-7">
                         Product(s) listed below are still not decreased from your Inventory.
