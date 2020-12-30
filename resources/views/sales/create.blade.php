@@ -172,6 +172,40 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
+                            <label for="status" class="label text-green has-text-weight-normal"> Sale Status <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="status" name="status">
+                                        <option selected disabled>Select Status</option>
+                                        @foreach ($saleStatuses as $saleStatus)
+                                            <option value="{{ $saleStatus }}" {{ old('status') == $saleStatus ? 'selected' : '' }}>{{ $saleStatus }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                @error('status')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="sold_on" class="label text-green has-text-weight-normal"> Sold On <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="date" name="sold_on" id="sold_on" placeholder="mm/dd/yyyy" value="{{ old('sold_on') ?? '' }}">
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
                             <label for="customer_id" class="label text-green has-text-weight-normal"> Customer <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
@@ -184,17 +218,6 @@
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-address-card"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="sold_on" class="label text-green has-text-weight-normal"> Sold On <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="date" name="sold_on" id="sold_on" placeholder="mm/dd/yyyy" value="{{ old('sold_on') ?? '' }}">
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-alt"></i>
                                 </div>
                             </div>
                         </div>
@@ -214,29 +237,6 @@
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-truck"></i>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="status" class="label text-green has-text-weight-normal"> Sale Status <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="status" name="status">
-                                        <option selected disabled>Select Status</option>
-                                        @foreach ($saleStatuses as $saleStatus)
-                                            <option value="{{ $saleStatus }}" {{ old('status') == $saleStatus ? 'selected' : '' }}>{{ $saleStatus }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-credit-card"></i>
-                                </div>
-                                @error('status')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
                             </div>
                         </div>
                     </div>
