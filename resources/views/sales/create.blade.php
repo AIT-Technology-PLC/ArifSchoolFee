@@ -172,7 +172,7 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
-                            <label for="status" class="label text-green has-text-weight-normal"> Sale Status <sup class="has-text-danger">*</sup> </label>
+                            <label for="status" class="label text-green has-text-weight-normal"> Subtract from inventory now? <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <label class="radio has-text-grey has-text-weight-normal">
                                     <input type="radio" name="status" id="status" value="Subtracted From Inventory" {{ old('status') == 'Subtracted From Inventory' ? 'checked' : '' }} checked>

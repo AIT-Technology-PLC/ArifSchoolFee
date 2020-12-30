@@ -188,7 +188,7 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
-                            <label for="status" class="label text-green has-text-weight-normal"> Add to Inventory? <sup class="has-text-danger">*</sup> </label>
+                            <label for="status" class="label text-green has-text-weight-normal"> Add to inventory now? <sup class="has-text-danger">*</sup> </label>
                             <div class="control">
                                 <label class="radio has-text-grey has-text-weight-normal">
                                     <input type="radio" name="status" id="status" value="Added To Inventory" {{ old('status') == 'Added To Inventory' ? 'checked' : '' }} checked>
