@@ -68,21 +68,21 @@ class SaleController extends Controller
         $basicSaleData = Arr::except($saleData, 'sale');
         $saleDetailsData = $saleData['sale'];
 
-        $canProductsBeSold = SaleableProductChecker::canProductsBeSold($saleDetailsData, $basicSaleData['status']);
-
-        if (!$canProductsBeSold) {
-            return redirect()->back()->withInput($request->all());
-        }
-
-        DB::transaction(function () use ($basicSaleData, $saleDetailsData) {
-
-            StoreSaleableProducts::storeSoldProducts($saleDetailsData, $basicSaleData['status']);
+        $isSaleValid = DB::transaction(function () use ($basicSaleData, $saleDetailsData) {
             $sale = $this->sale->create($basicSaleData);
             $sale->saleDetails()->createMany($saleDetailsData);
+            $isSaleValid = StoreSaleableProducts::storeSoldProducts($sale);
 
+            if (!$isSaleValid) {
+                DB::rollback();
+            }
+
+            return $isSaleValid;
         });
 
-        return redirect()->route('sales.index');
+        return $isSaleValid ?
+        redirect()->route('sales.index') :
+        redirect()->back()->withInput($request->all());
     }
 
     public function show(Sale $sale)

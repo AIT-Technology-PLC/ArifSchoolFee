@@ -128,8 +128,12 @@ class Product extends Model
         return $this->companyProducts()->nonSaleableProducts()->get();
     }
 
-    public function isProductSaleable($productId)
+    public function isProductSaleable($productId = null)
     {
+        if (is_null($productId)) {
+            $productId = $this->id;
+        }
+
         return $this->where('id', $productId)->saleableProducts()->exists();
     }
 
