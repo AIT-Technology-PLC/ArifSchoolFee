@@ -239,6 +239,12 @@ td {
 .tabs::-webkit-scrollbar {
     display: none;
 }
+.swal-button--confirm {
+    background-color: #3d8660 !important;
+}
+.swal-title {
+    color: #3d8660 !important;
+}
 @media screen and (max-width: 768px) {
     .m-lr-0 {
         margin-left: 0px !important;
