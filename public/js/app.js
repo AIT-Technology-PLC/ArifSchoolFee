@@ -320,3 +320,17 @@ function disableSaveButton() {
     saveButton.classList.add("is-loading");
     saveButton.disabled = true;
 }
+
+function openCloseSaleModal(event) {
+    event.preventDefault();
+    swal({
+        title: "Do you want to close this sale?",
+        text:
+            "By clicking 'Yes, Close & Subtract', you are going to close this sale and subtract the products from inventory.",
+        buttons: ["Not now", "Yes, Close & Subtract"],
+    }).then((willCloseSale) => {
+        if (willCloseSale) {
+            d.getElementById("formOne").submit();
+        }
+    });
+}

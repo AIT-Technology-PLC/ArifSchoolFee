@@ -64,3 +64,10 @@ if (d.getElementById("onHandTab")) {
 if (d.getElementById("formOne")) {
     d.getElementById("formOne").addEventListener("submit", disableSaveButton);
 }
+
+if (d.getElementById("openCloseSaleModal")) {
+    d.getElementById("openCloseSaleModal").addEventListener(
+        "click",
+        openCloseSaleModal
+    );
+}

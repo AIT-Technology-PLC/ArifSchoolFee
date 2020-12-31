@@ -59,14 +59,16 @@
                         <br>
                         Click on the button below to close sale and subtract product(s) from the inventory.
                     </p>
-                    <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5">
-                        <span class="icon">
-                            <i class="fas fa-handshake"></i>
-                        </span>
-                        <span>
-                            Close sale & Subtract from inventory
-                        </span>
-                    </button>
+                    <form id="formOne" action="{{ route('merchandises.subtractFromInventory', $sale->id) }}" method="post" novalidate>
+                        <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5">
+                            <span class="icon">
+                                <i class="fas fa-handshake"></i>
+                            </span>
+                            <span>
+                                Close sale & Subtract from inventory
+                            </span>
+                        </button>
+                    </form>
                 </div>
             @else
                 <div class="box has-background-white-ter has-text-left mb-6">
