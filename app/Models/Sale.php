@@ -68,21 +68,9 @@ class Sale extends Model
         return $this->companySales()->count();
     }
 
-    public function changeStatusToStartedShipping()
+    public function changeStatusToSubtractedFromInventory()
     {
-        $this->status = 'Left Warehouse & Started Shipping';
-        $this->save();
-    }
-
-    public function changeStatusToDeliveredToCustomer()
-    {
-        $this->status = 'Delivered To Customer';
-        $this->save();
-    }
-
-    public function changeStatusToReceivedFullPayment()
-    {
-        $this->status = 'Received Full Payment';
+        $this->status = 'Subtracted From Inventory';
         $this->save();
     }
 

@@ -52,6 +52,14 @@
             </h1>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <div class="notification bg-gold has-text-white has-text-weight-medium {{ session('message') ? '' : 'is-hidden' }}">
+                <span class="icon">
+                    <i class="fas fa-times-circle"></i>
+                </span>
+                <span>
+                    {{ session('message') }}
+                </span>
+            </div>
             @if (!$sale->isSaleSubtracted())
                 <div class="box has-background-white-ter has-text-left mb-6">
                     <p class="has-text-grey text-purple is-size-7">
@@ -60,6 +68,7 @@
                         Click on the button below to close sale and subtract product(s) from the inventory.
                     </p>
                     <form id="formOne" action="{{ route('merchandises.subtractFromInventory', $sale->id) }}" method="post" novalidate>
+                        @csrf
                         <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5">
                             <span class="icon">
                                 <i class="fas fa-handshake"></i>

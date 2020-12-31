@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Merchandise;
 use App\Models\Product;
 use App\Models\Purchase;
+use App\Models\Sale;
 use App\Models\Warehouse;
 use App\Services\AddPurchasedItemsToInventory;
+use App\Services\StoreSaleableProducts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -78,6 +80,20 @@ class MerchandiseController extends Controller
         DB::transaction(function () use ($purchase) {
             $purchase->changeStatusToAddedToInventory();
             AddPurchasedItemsToInventory::addToInventory($purchase);
+        });
+
+        return redirect()->back();
+    }
+
+    public function subtractFromInventory(Sale $sale)
+    {
+        DB::transaction(function () use ($sale) {
+            $sale->changeStatusToSubtractedFromInventory();
+            $isSaleValid = StoreSaleableProducts::storeSoldProducts($sale);
+
+            if (!$isSaleValid) {
+                DB::rollback();
+            }
         });
 
         return redirect()->back();
