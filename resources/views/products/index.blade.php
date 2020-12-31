@@ -69,8 +69,8 @@
                             <th class="has-text-right"><abbr> Selling Price </abbr></th>
                             <th class="has-text-right"><abbr> Purchase Price </abbr></th>
                             @can('delete', $products->first())
-                            <th><abbr> Added By </abbr></th>
-                            <th><abbr> Edited By </abbr></th>
+                                <th><abbr> Added By </abbr></th>
+                                <th><abbr> Edited By </abbr></th>
                             @endcan
                             <th class="has-text-centered"><abbr> Actions </abbr></th>
                         </tr>
@@ -85,26 +85,26 @@
                                 <td class="is-capitalized"> {{ $product->code ?? 'N/A' }} </td>
                                 <td class="is-capitalized">
                                     @if (is_null($product->properties))
-                                    {{ 'N/A' }}
+                                        {{ 'N/A' }}
                                     @else
-                                    @foreach ($product->properties as $property)
-                                    <b>{{ $property['key'] }}</b>: {{ $property['value'] }}<br />
-                                    @endforeach
+                                        @foreach ($product->properties as $property)
+                                            <b>{{ $property['key'] }}</b>: {{ $property['value'] }}<br />
+                                        @endforeach
                                     @endif
                                 </td>
                                 <td> {{ substr($product->description, 0, 40) ?? 'N/A' }} </td>
-                                @can('delete', $product)
-                                @endcan
-                                <td class="is-capitalized"> 
+                                <td class="is-capitalized">
                                     <span class="tag is-small bg-purple has-text-white">
-                                        {{ $product->min_on_hand }} 
-                                        {{ $product->unit_of_measurement ?? 'N/A' }} 
+                                        {{ $product->min_on_hand }}
+                                        {{ $product->unit_of_measurement ?? 'N/A' }}
                                     </span>
                                 </td>
                                 <td class="has-text-right"> {{ $product->selling_price ?? 'N/A' }} </td>
                                 <td class="has-text-right"> {{ $product->purchase_price ?? 'N/A' }} </td>
-                                <td> {{ $product->createdBy->name ?? 'N/A' }} </td>
-                                <td> {{ $product->updatedBy->name ?? 'N/A' }} </td>
+                                @can('delete', $product)
+                                    <td> {{ $product->createdBy->name ?? 'N/A' }} </td>
+                                    <td> {{ $product->updatedBy->name ?? 'N/A' }} </td>
+                                @endcan
                                 <td class="has-text-centered">
                                     <a href="{{ route('products.edit', $product->id) }}" data-title="Modify Product Data">
                                         <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
