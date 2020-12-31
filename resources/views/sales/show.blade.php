@@ -55,16 +55,16 @@
             @if (!$sale->isSaleSubtracted())
                 <div class="box has-background-white-ter has-text-left mb-6">
                     <p class="has-text-grey text-purple is-size-7">
-                        Product(s) listed below are still not decreased from your Inventory.
+                        Product(s) listed below are still not subtracted from your inventory.
                         <br>
-                        Click on the button below to close sale and decrease products from the inventory.
+                        Click on the button below to close sale and subtract product(s) from the inventory.
                     </p>
                     <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5">
                         <span class="icon">
                             <i class="fas fa-handshake"></i>
                         </span>
                         <span>
-                            Complete & Close this Sale
+                            Close sale & Subtract from inventory
                         </span>
                     </button>
                 </div>
@@ -75,7 +75,7 @@
                             <i class="fas fa-check-circle"></i>
                         </span>
                         <span>
-                            Sale has been completed and closed successfully.
+                            Sale has been closed and products are subtracted from inventory.
                         </span>
                     </p>
                 </div>
