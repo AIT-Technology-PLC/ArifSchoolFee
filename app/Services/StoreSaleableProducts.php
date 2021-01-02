@@ -51,7 +51,7 @@ class StoreSaleableProducts
             function ($saleDetail) use ($merchandise) {
                 $isProductMerchandise = $saleDetail->product->isProductMerchandise();
                 if ($isProductMerchandise) {
-                    return !$merchandise->isAvailableOnHand($saleDetail->product->id, $saleDetail->quantity);
+                    return !$merchandise->isAvailableEnoughForSale($saleDetail->product->id, $saleDetail->quantity);
                 }
             });
 
@@ -61,23 +61,37 @@ class StoreSaleableProducts
     private static function updateSoldQuantity($saleDetail)
     {
         if ($saleDetail->product->isProductMerchandise()) {
-            $merchandise = new Merchandise();
+            $quantityToSell = $saleDetail->quantity;
+            $quantityLeft = $quantityToSell;
 
-            $merchandise = $merchandise
-                ->where([
-                    ['company_id', auth()->user()->employee->company_id],
-                    ['product_id', $saleDetail->product->id],
-                    ['total_on_hand', '>=', $saleDetail->quantity],
-                ])
-                ->first();
+            while ($quantityLeft) {
+                $merchandise = new Merchandise();
+                $merchandise = $merchandise
+                    ->where([
+                        ['company_id', auth()->user()->employee->company_id],
+                        ['product_id', $saleDetail->product->id],
+                        ['total_on_hand', '>', 0],
+                    ])
+                    ->oldest()
+                    ->first();
 
-            $saleDetail->quantity = $merchandise->isSoldQuantityValueValid($saleDetail->quantity);
+                if ($merchandise->total_on_hand >= $quantityToSell) {
+                    $quantityLeft = 0;
+                }
 
-            $merchandise->update([
-                'total_sold' => $saleDetail->quantity,
-            ]);
+                if ($quantityToSell > $merchandise->total_on_hand) {
+                    $quantityLeft = $quantityToSell - $merchandise->total_on_hand;
+                    $quantityToSell = $merchandise->total_on_hand;
+                }
 
-            $merchandise->decrementTotalOnHandQuantity();
+                $merchandise->update([
+                    'total_sold' => $merchandise->isSoldQuantityValueValid($quantityToSell),
+                ]);
+
+                $merchandise->decrementTotalOnHandQuantity();
+
+                $quantityToSell = $quantityLeft;
+            }
         }
     }
 }
