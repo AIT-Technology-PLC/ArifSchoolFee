@@ -178,4 +178,9 @@ class Product extends Model
 
         return $totalOutOfStockMerchandises;
     }
+
+    public function isProductLimited($onHandQuantity)
+    {
+        return $this->min_on_hand >= $onHandQuantity;
+    }
 }

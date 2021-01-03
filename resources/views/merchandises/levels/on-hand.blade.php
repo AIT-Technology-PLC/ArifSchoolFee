@@ -25,15 +25,26 @@
                                     {{ $merchandise->product->unit_of_measurement }}
                                 </span>
                             </td>
-                            <td class="is-capitalized"> 
-                                <span class="tag is-small bg-gold has-text-white">
-                                    <span class="icon">
-                                        <i class="fas fa-check-circle"></i>
+                            <td class="is-capitalized">
+                                @if ($merchandise->product->isProductLimited($merchandise->total_on_hand))
+                                    <span class="tag is-small bg-gold has-text-white">
+                                        <span class="icon">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                        </span>
+                                        <span>
+                                            Limited
+                                        </span>
                                     </span>
-                                    <span>
-                                        Sufficient
+                                @else
+                                    <span class="tag is-small bg-gold has-text-white">
+                                        <span class="icon">
+                                            <i class="fas fa-check-circle"></i>
+                                        </span>
+                                        <span>
+                                            Sufficient
+                                        </span>
                                     </span>
-                                </span>    
+                                @endif
                             </td>
                         </tr>
                     @endforeach
