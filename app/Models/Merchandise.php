@@ -52,6 +52,14 @@ class Merchandise extends Model
             ->get();
     }
 
+    public function getMerchandisesInventoryHistory()
+    {
+        return $this->companyMerchandises()
+            ->with(['product', 'warehouse', 'createdBy', 'updatedBy'])
+            ->where('total_on_hand', '<=', 0)
+            ->get();
+    }
+
     public function getCurrentMerchandiseLevelByProduct()
     {
         return $this->companyMerchandises()

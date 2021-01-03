@@ -130,4 +130,6 @@
 
     @include('merchandises.on-hand')
 
+    @include('merchandises.history')
+
 @endsection
