@@ -99,23 +99,6 @@ class MerchandiseController extends Controller
         return redirect()->route('merchandises.index');
     }
 
-    public function showCurrentInventoryLevelByProducts(Product $product, Warehouse $warehouse)
-    {
-        $onHandMerchandises = $this->merchandise->getCurrentMerchandiseLevelByProduct();
-
-        $totalDistinctOnHandMerchandises = $this->merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
-
-        $outOfStockMerchandises = $product->getAllOutOfStockMerchandises();
-
-        $totalOutOfStockMerchandises = $product->getTotalOutOfStockMerchandises($outOfStockMerchandises);
-
-        $totalDistinctLimitedMerchandises = $this->merchandise->getTotalDistinctLimitedMerchandises($onHandMerchandises);
-
-        $totalWarehouseInUse = $warehouse->getTotalWarehousesUsed($this->merchandise->getAllOnHandMerchandises());
-
-        return view('merchandises.levels.index', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'totalWarehouseInUse'));
-    }
-
     public function show(Merchandise $merchandise)
     {
         //

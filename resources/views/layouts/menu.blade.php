@@ -180,7 +180,7 @@
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a name="menuTitles" href="{{ route('merchandises.levels.level') }}" class="has-text-grey has-text-weight-normal is-size-6-5  {{ request()->is('merchandises/level') ? 'is-active' : '' }}">
+            <a name="menuTitles" href="{{ route('merchandises.level') }}" class="has-text-grey has-text-weight-normal is-size-6-5  {{ request()->is('merchandises/level') ? 'is-active' : '' }}">
                 <span class="icon">
                     <i class="fas fa-chart-bar"></i>
                 </span>
