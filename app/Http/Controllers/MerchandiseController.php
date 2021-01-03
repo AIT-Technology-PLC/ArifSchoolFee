@@ -75,35 +75,6 @@ class MerchandiseController extends Controller
         return redirect()->route('merchandises.index');
     }
 
-    public function addToInventory(Purchase $purchase)
-    {
-        DB::transaction(function () use ($purchase) {
-            $purchase->changeStatusToAddedToInventory();
-            AddPurchasedItemsToInventory::addToInventory($purchase);
-        });
-
-        return redirect()->back();
-    }
-
-    public function subtractFromInventory(Sale $sale)
-    {
-        DB::transaction(function () use ($sale) {
-            $sale->changeStatusToSubtractedFromInventory();
-            $isSaleValid = StoreSaleableProducts::storeSoldProducts($sale);
-
-            if (!$isSaleValid) {
-                DB::rollback();
-            }
-        });
-
-        return redirect()->back();
-    }
-
-    public function showCurrentInventoryLevelByProducts()
-    {
-        return view('merchandises.level');
-    }
-
     public function edit(Merchandise $merchandise, Warehouse $warehouse)
     {
         $merchandise->load(['warehouse', 'product']);
@@ -130,6 +101,44 @@ class MerchandiseController extends Controller
         });
 
         return redirect()->route('merchandises.index');
+    }
+
+    public function addToInventory(Purchase $purchase)
+    {
+        DB::transaction(function () use ($purchase) {
+            $purchase->changeStatusToAddedToInventory();
+            AddPurchasedItemsToInventory::addToInventory($purchase);
+        });
+
+        return redirect()->back();
+    }
+
+    public function subtractFromInventory(Sale $sale)
+    {
+        DB::transaction(function () use ($sale) {
+            $sale->changeStatusToSubtractedFromInventory();
+            $isSaleValid = StoreSaleableProducts::storeSoldProducts($sale);
+
+            if (!$isSaleValid) {
+                DB::rollback();
+            }
+        });
+
+        return redirect()->back();
+    }
+
+    public function showCurrentInventoryLevelByProducts(Product $product)
+    {
+        $onHandMerchandises = $this->merchandise->getCurrentMerchandiseLevelByProduct();
+
+        $outOfStockMerchandises = $product->getAllOutOfStockMerchandises();
+
+        return view('merchandises.level', compact('onHandMerchandises', 'outOfStockMerchandises'));
+    }
+
+    public function show(Merchandise $merchandise)
+    {
+        //
     }
 
     public function destroy(Merchandise $merchandise)

@@ -16,12 +16,12 @@ Route::resource('purchases', 'PurchaseController');
 
 Route::resource('sales', 'SaleController');
 
-Route::resource('merchandises', 'MerchandiseController');
 Route::get('merchandises/level', 'MerchandiseController@showCurrentInventoryLevelByProducts')->name('merchandises.level');
 Route::post('merchandises/add-to-inventory/{purchase}', 'MerchandiseController@addToInventory')
     ->name('merchandises.addToInventory');
 Route::post('merchandises/subtract-from-inventory/{sale}', 'MerchandiseController@subtractFromInventory')
     ->name('merchandises.subtractFromInventory');
+Route::resource('merchandises', 'MerchandiseController');
 
 Route::get('/permission-denied', 'ErrorPageController@getPermissionDeniedPage');
 
