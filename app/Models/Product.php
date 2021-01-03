@@ -128,29 +128,6 @@ class Product extends Model
         return $this->companyProducts()->nonSaleableProducts()->get();
     }
 
-    public function isProductSaleable($productId = null)
-    {
-        if (is_null($productId)) {
-            $productId = $this->id;
-        }
-
-        return $this->where('id', $productId)->saleableProducts()->exists();
-    }
-
-    public function isProductMerchandise($productId = null)
-    {
-        if (is_null($productId)) {
-            $productId = $this->id;
-        }
-
-        return $this->where('id', $productId)->where('type', 'Merchandise Product')->exists();
-    }
-
-    public function countProductsOfCompany()
-    {
-        return $this->companyProducts()->count();
-    }
-
     public function getProductUOM()
     {
         return $this->unit_of_measurement;
@@ -179,8 +156,31 @@ class Product extends Model
         return $totalOutOfStockMerchandises;
     }
 
+    public function isProductSaleable($productId = null)
+    {
+        if (is_null($productId)) {
+            $productId = $this->id;
+        }
+
+        return $this->where('id', $productId)->saleableProducts()->exists();
+    }
+
+    public function isProductMerchandise($productId = null)
+    {
+        if (is_null($productId)) {
+            $productId = $this->id;
+        }
+
+        return $this->where('id', $productId)->where('type', 'Merchandise Product')->exists();
+    }
+
     public function isProductLimited($onHandQuantity)
     {
         return $this->min_on_hand >= $onHandQuantity;
+    }
+
+    public function countProductsOfCompany()
+    {
+        return $this->companyProducts()->count();
     }
 }

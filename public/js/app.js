@@ -280,7 +280,6 @@ function showOnHandMerchandise() {
     this.classList.add("is-active");
     d.getElementById("onHand").classList.remove("is-hidden");
 
-    hideLimitedMerchandise();
     hideOutofMerchandise();
 }
 
@@ -288,7 +287,6 @@ function showOutofMerchandise() {
     this.classList.add("is-active");
     d.getElementById("outOf").classList.remove("is-hidden");
 
-    hideLimitedMerchandise();
     hideOnHandMerchandise();
 }
 

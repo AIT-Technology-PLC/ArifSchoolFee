@@ -52,6 +52,23 @@ class Merchandise extends Model
             ->get();
     }
 
+    public function getCurrentMerchandiseLevelByProduct()
+    {
+        return $this->companyMerchandises()
+            ->select('product_id', DB::raw('SUM(total_on_hand) AS total_on_hand'))
+            ->with('product.productCategory')
+            ->where('total_on_hand', '>', 0)
+            ->groupBy('product_id')
+            ->get();
+    }
+
+    public function getTotalDistinctOnHandMerchandises($onHandMerchandises)
+    {
+        $distinctTotalOnHandMerchandises = $onHandMerchandises->groupBy('product_id')->count();
+
+        return $distinctTotalOnHandMerchandises;
+    }
+
     public function isReturnedQuantityValueValid($returnedQuantity)
     {
         $totalSoldQuantity = $this->total_sold;
@@ -114,25 +131,8 @@ class Merchandise extends Model
         $this->save();
     }
 
-    public function getTotalDistinctOnHandMerchandises($onHandMerchandises)
-    {
-        $distinctTotalOnHandMerchandises = $onHandMerchandises->groupBy('product_id')->count();
-
-        return $distinctTotalOnHandMerchandises;
-    }
-
     public function isAvailableEnoughForSale($productId, $quantityToSell)
     {
         return $this->where('product_id', $productId)->sum('total_on_hand') >= $quantityToSell;
-    }
-
-    public function getCurrentMerchandiseLevelByProduct()
-    {
-        return $this->companyMerchandises()
-            ->select('product_id', DB::raw('SUM(total_on_hand) AS total_on_hand'))
-            ->with('product.productCategory')
-            ->where('total_on_hand', '>', 0)
-            ->groupBy('product_id')
-            ->get();
     }
 }

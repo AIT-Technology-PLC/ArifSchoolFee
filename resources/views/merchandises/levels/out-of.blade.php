@@ -5,7 +5,7 @@
                 <thead>
                     <tr>
                         <th><abbr> # </abbr></th>
-                        <th><abbr> Name </abbr></th>
+                        <th><abbr> Product </abbr></th>
                         <th><abbr> Code </abbr></th>
                         <th><abbr> Category </abbr></th>
                     </tr>
