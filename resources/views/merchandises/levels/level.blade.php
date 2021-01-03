@@ -87,13 +87,13 @@
         </div>
         <div class="tabs is-toggle is-fullwidth has-background-white-bis">
             <ul>
-                <li id="" class="on-hand is-active">
+                <li id="onHandTab" class="on-hand is-active">
                     <a class="">
                         <span class="icon is-small"><i class="fas fa-check-circle"></i></span>
                         <span>On Hand</span>
                     </a>
                 </li>
-                <li id="" class="out-of-stock">
+                <li id="outOfTab" class="out-of-stock">
                     <a>
                         <span class="icon is-small"><i class="fas fa-times-circle"></i></span>
                         <span>Out of Stock</span>

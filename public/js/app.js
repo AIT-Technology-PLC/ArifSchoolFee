@@ -301,18 +301,27 @@ function showOutofMerchandise() {
 }
 
 function hideOnHandMerchandise() {
-    d.getElementById("onHandTab").classList.remove("is-active");
-    d.getElementById("onHand").classList.add("is-hidden");
+    let onHandTab = d.getElementById("onHandTab");
+    if (onHandTab) {
+        onHandTab.classList.remove("is-active");
+        d.getElementById("onHand").classList.add("is-hidden");
+    }
 }
 
 function hideLimitedMerchandise() {
-    d.getElementById("limitedTab").classList.remove("is-active");
-    d.getElementById("limited").classList.add("is-hidden");
+    let limitedTab = d.getElementById("limitedTab");
+    if (limitedTab) {
+        limitedTab.classList.remove("is-active");
+        d.getElementById("limited").classList.add("is-hidden");
+    }
 }
 
 function hideOutofMerchandise() {
-    d.getElementById("outOfTab").classList.remove("is-active");
-    d.getElementById("outOf").classList.add("is-hidden");
+    let outOfTab = d.getElementById("outOfTab");
+    if (outOfTab) {
+        outOfTab.classList.remove("is-active");
+        d.getElementById("outOf").classList.add("is-hidden");
+    }
 }
 
 function disableSaveButton() {
