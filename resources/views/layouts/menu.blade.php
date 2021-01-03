@@ -180,6 +180,16 @@
     </p>
     <ul class="menu-list mb-5">
         <li>
+            <a name="menuTitles" href="{{ route('merchandises.level') }}" class="has-text-grey has-text-weight-normal is-size-6-5  {{ request()->is('merchandises/level') ? 'is-active' : '' }}">
+                <span class="icon">
+                    <i class="fas fa-chart-bar"></i>
+                </span>
+                <span>
+                    Current Inventory Level
+                </span>
+            </a>
+        </li>
+        <li>
             <a name="menuTitles" href="{{ route('merchandises.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5  {{ request()->is('merchandises') ? 'is-active' : '' }}">
                 <span class="icon">
                     <i class="fas fa-dolly-flatbed"></i>

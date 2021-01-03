@@ -99,9 +99,9 @@ class MerchandiseController extends Controller
         return redirect()->back();
     }
 
-    public function show(Merchandise $merchandise)
+    public function showCurrentInventoryLevelByProducts()
     {
-        //
+        return view('merchandises.level');
     }
 
     public function edit(Merchandise $merchandise, Warehouse $warehouse)
