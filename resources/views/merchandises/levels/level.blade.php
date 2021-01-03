@@ -39,7 +39,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ 0 }}
+                            {{ $totalDistinctLimitedMerchandises }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Product Types

@@ -69,6 +69,19 @@ class Merchandise extends Model
         return $distinctTotalOnHandMerchandises;
     }
 
+    public function getTotalDistinctLimitedMerchandises($onHandMerchandises)
+    {
+        $distinctTotalLimitedMerchandises = $onHandMerchandises
+            ->filter(
+                function ($onHandMerchandise) {
+                    return $onHandMerchandise->product->isProductLimited($onHandMerchandise->total_on_hand);
+                }
+            )
+            ->count();
+
+        return $distinctTotalLimitedMerchandises;
+    }
+
     public function isReturnedQuantityValueValid($returnedQuantity)
     {
         $totalSoldQuantity = $this->total_sold;

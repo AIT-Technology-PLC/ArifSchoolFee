@@ -27,15 +27,9 @@ class MerchandiseController extends Controller
     {
         $onHandMerchandises = $this->merchandise->getAllOnHandMerchandises();
 
-        $totalDistinctOnHandMerchandises = $this->merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
-
         $outOfStockMerchandises = $product->getAllOutOfStockMerchandises();
 
-        $totalOutOfStockMerchandises = $product->getTotalOutOfStockMerchandises($outOfStockMerchandises);
-
-        $totalWarehousesUsed = $warehouse->getTotalWarehousesUsed($onHandMerchandises);
-
-        return view('merchandises.index', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalWarehousesUsed'));
+        return view('merchandises.index', compact('onHandMerchandises', 'outOfStockMerchandises'));
     }
 
     public function create(Product $product, Warehouse $warehouse)
@@ -126,14 +120,16 @@ class MerchandiseController extends Controller
     public function showCurrentInventoryLevelByProducts(Product $product)
     {
         $onHandMerchandises = $this->merchandise->getCurrentMerchandiseLevelByProduct();
-        
+
         $totalDistinctOnHandMerchandises = $this->merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
-        
+
         $outOfStockMerchandises = $product->getAllOutOfStockMerchandises();
 
         $totalOutOfStockMerchandises = $product->getTotalOutOfStockMerchandises($outOfStockMerchandises);
 
-        return view('merchandises.levels.level', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises'));
+        $totalDistinctLimitedMerchandises = $this->merchandise->getTotalDistinctLimitedMerchandises($onHandMerchandises);
+
+        return view('merchandises.levels.level', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises'));
     }
 
     public function show(Merchandise $merchandise)
