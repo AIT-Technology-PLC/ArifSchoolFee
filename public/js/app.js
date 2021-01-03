@@ -280,7 +280,15 @@ function showOnHandMerchandise() {
     this.classList.add("is-active");
     d.getElementById("onHand").classList.remove("is-hidden");
 
+    hideHistoryMerchandise();
     hideOutofMerchandise();
+}
+
+function showHistoryMerchandise() {
+    this.classList.add("is-active");
+    d.getElementById("historyMerchandise").classList.remove("is-hidden");
+
+    hideOnHandMerchandise();
 }
 
 function showOutofMerchandise() {
@@ -295,6 +303,14 @@ function hideOnHandMerchandise() {
     if (onHandTab) {
         onHandTab.classList.remove("is-active");
         d.getElementById("onHand").classList.add("is-hidden");
+    }
+}
+
+function hideHistoryMerchandise() {
+    let historyTab = d.getElementById("historyTab");
+    if (historyTab) {
+        historyTab.classList.remove("is-active");
+        d.getElementById("historyMerchandise").classList.add("is-hidden");
     }
 }
 

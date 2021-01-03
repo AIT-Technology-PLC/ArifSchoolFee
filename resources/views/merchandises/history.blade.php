@@ -13,7 +13,6 @@
                         <th class="has-text-right text-blue"><abbr> Sold </abbr></th>
                         <th class="has-text-right text-gold"><abbr> Returns </abbr></th>
                         <th class="has-text-right"><abbr> Added On </abbr></th>
-                        <th class="has-text-right"><abbr> Expiry Date </abbr></th>
                         @can('delete', $historyMerchandises->first())
                             <th><abbr> Added By </abbr></th>
                             <th><abbr> Edited By </abbr></th>
@@ -51,7 +50,6 @@
                                 </span>
                             </td>
                             <td class="has-text-right"> {{ $merchandise->created_at->toFormattedDateString() }} </td>
-                            <td class="has-text-right"> {{ $merchandise->expires_on ? $merchandise->expires_on->toFormattedDateString() : 'N/A' }} </td>
                             @can('delete', $merchandise)
                                 <td> {{ $merchandise->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $merchandise->updatedBy->name ?? 'N/A' }} </td>
