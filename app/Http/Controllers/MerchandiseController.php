@@ -130,10 +130,14 @@ class MerchandiseController extends Controller
     public function showCurrentInventoryLevelByProducts(Product $product)
     {
         $onHandMerchandises = $this->merchandise->getCurrentMerchandiseLevelByProduct();
-
+        
+        $totalDistinctOnHandMerchandises = $this->merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
+        
         $outOfStockMerchandises = $product->getAllOutOfStockMerchandises();
 
-        return view('merchandises.level', compact('onHandMerchandises', 'outOfStockMerchandises'));
+        $totalOutOfStockMerchandises = $product->getTotalOutOfStockMerchandises($outOfStockMerchandises);
+
+        return view('merchandises.level', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises'));
     }
 
     public function show(Merchandise $merchandise)
