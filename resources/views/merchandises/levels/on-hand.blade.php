@@ -36,7 +36,7 @@
                                         </span>
                                     </span>
                                 @else
-                                    <span class="tag is-small bg-gold has-text-white">
+                                    <span class="tag is-small bg-blue has-text-white">
                                         <span class="icon">
                                             <i class="fas fa-check-circle"></i>
                                         </span>
