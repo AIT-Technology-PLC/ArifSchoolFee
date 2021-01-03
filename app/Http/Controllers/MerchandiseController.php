@@ -137,7 +137,7 @@ class MerchandiseController extends Controller
 
         $totalOutOfStockMerchandises = $product->getTotalOutOfStockMerchandises($outOfStockMerchandises);
 
-        return view('merchandises.level', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises'));
+        return view('merchandises.levels.level', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises'));
     }
 
     public function show(Merchandise $merchandise)
