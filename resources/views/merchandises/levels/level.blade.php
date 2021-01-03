@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="columns is-marginless">
-        <div class="column is-4">
+        <div class="column is-3">
             <div class="box text-green">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-        <div class="column is-4">
+        <div class="column is-3">
             <div class="box text-gold">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
@@ -52,7 +52,7 @@
                 </div>
             </div>
         </div>
-        <div class="column is-4">
+        <div class="column is-3">
             <div class="box text-purple">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
@@ -72,6 +72,29 @@
                 <hr class="my-4">
                 <div class="is-size-7 is-uppercase has-text-grey">
                     Out Of Stock
+                </div>
+            </div>
+        </div>
+        <div class="column is-3">
+            <div class="box text-blue">
+                <div class="columns is-marginless is-vcentered is-mobile">
+                    <div class="column has-text-centered is-paddingless">
+                        <span class="icon is-large is-size-1">
+                            <i class="fas fa-warehouse"></i>
+                        </span>
+                    </div>
+                    <div class="column is-paddingless">
+                        <div class="is-size-3 has-text-weight-bold">
+                            {{ $totalWarehouseInUse }}
+                        </div>
+                        <div class="is-uppercase is-size-7">
+                            Warehouses
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-4">
+                <div class="is-size-7 is-uppercase has-text-grey">
+                    Total Warehouses In Use
                 </div>
             </div>
         </div>

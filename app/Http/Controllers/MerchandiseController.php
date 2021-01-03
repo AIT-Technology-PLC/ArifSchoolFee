@@ -27,9 +27,17 @@ class MerchandiseController extends Controller
     {
         $onHandMerchandises = $this->merchandise->getAllOnHandMerchandises();
 
+        $totalDistinctOnHandMerchandises = $this->merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
+
         $outOfStockMerchandises = $product->getAllOutOfStockMerchandises();
 
-        return view('merchandises.index', compact('onHandMerchandises', 'outOfStockMerchandises'));
+        $totalOutOfStockMerchandises = $product->getTotalOutOfStockMerchandises($outOfStockMerchandises);
+
+        $totalDistinctLimitedMerchandises = $this->merchandise->getTotalDistinctLimitedMerchandises($this->merchandise->getCurrentMerchandiseLevelByProduct());
+
+        $totalWarehouseInUse = $warehouse->getTotalWarehousesUsed($onHandMerchandises);
+
+        return view('merchandises.index', compact('onHandMerchandises', 'totalDistinctOnHandMerchandises', 'outOfStockMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'totalWarehouseInUse'));
     }
 
     public function create(Product $product, Warehouse $warehouse)
@@ -117,7 +125,7 @@ class MerchandiseController extends Controller
         return redirect()->back();
     }
 
-    public function showCurrentInventoryLevelByProducts(Product $product)
+    public function showCurrentInventoryLevelByProducts(Product $product, Warehouse $warehouse)
     {
         $onHandMerchandises = $this->merchandise->getCurrentMerchandiseLevelByProduct();
 
@@ -129,7 +137,9 @@ class MerchandiseController extends Controller
 
         $totalDistinctLimitedMerchandises = $this->merchandise->getTotalDistinctLimitedMerchandises($onHandMerchandises);
 
-        return view('merchandises.levels.level', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises'));
+        $totalWarehouseInUse = $warehouse->getTotalWarehousesUsed($onHandMerchandises);
+
+        return view('merchandises.levels.level', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'totalWarehouseInUse'));
     }
 
     public function show(Merchandise $merchandise)
