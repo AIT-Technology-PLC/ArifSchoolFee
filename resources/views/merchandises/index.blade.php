@@ -39,7 +39,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalDistinctLimitedMerchandises }}
+                            {{ 0 }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Product Types
@@ -116,16 +116,10 @@
                         <span>On Hand</span>
                     </a>
                 </li>
-                <li id="limitedTab" class="limited">
+                <li id="historyTab" class="limited">
                     <a>
-                        <span class="icon is-small"><i class="fas fa-exclamation-circle"></i></span>
-                        <span>Limited</span>
-                    </a>
-                </li>
-                <li id="outOfTab" class="out-of-stock">
-                    <a>
-                        <span class="icon is-small"><i class="fas fa-times-circle"></i></span>
-                        <span>Out of Stock</span>
+                        <span class="icon is-small"><i class="fas fa-history"></i></span>
+                        <span>History</span>
                     </a>
                 </li>
             </ul>
@@ -133,9 +127,5 @@
     </section>
 
     @include('merchandises.on-hand')
-
-    @include('merchandises.limited')
-
-    @include('merchandises.out-of')
 
 @endsection

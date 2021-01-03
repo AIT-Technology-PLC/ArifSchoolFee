@@ -52,15 +52,6 @@ class Merchandise extends Model
             ->get();
     }
 
-    public function getAllLimitedMerchandises($onHandMerchandises)
-    {
-        $limitedMerchandises = $onHandMerchandises->filter(function ($onHandMerchandise) {
-            return $onHandMerchandise->total_on_hand <= $onHandMerchandise->product->min_on_hand;
-        });
-
-        return $limitedMerchandises;
-    }
-
     public function isReturnedQuantityValueValid($returnedQuantity)
     {
         $totalSoldQuantity = $this->total_sold;
@@ -128,13 +119,6 @@ class Merchandise extends Model
         $distinctTotalOnHandMerchandises = $onHandMerchandises->groupBy('product_id')->count();
 
         return $distinctTotalOnHandMerchandises;
-    }
-
-    public function getTotalDistinctLimitedMerchandises($limitedMerchandises)
-    {
-        $distinctTotalLimitedMerchandises = $limitedMerchandises->groupBy('product_id')->count();
-
-        return $distinctTotalLimitedMerchandises;
     }
 
     public function isAvailableEnoughForSale($productId, $quantityToSell)

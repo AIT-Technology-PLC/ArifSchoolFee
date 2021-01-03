@@ -284,14 +284,6 @@ function showOnHandMerchandise() {
     hideOutofMerchandise();
 }
 
-function showLimitedMerchandise() {
-    this.classList.add("is-active");
-    d.getElementById("limited").classList.remove("is-hidden");
-
-    hideOutofMerchandise();
-    hideOnHandMerchandise();
-}
-
 function showOutofMerchandise() {
     this.classList.add("is-active");
     d.getElementById("outOf").classList.remove("is-hidden");
@@ -305,14 +297,6 @@ function hideOnHandMerchandise() {
     if (onHandTab) {
         onHandTab.classList.remove("is-active");
         d.getElementById("onHand").classList.add("is-hidden");
-    }
-}
-
-function hideLimitedMerchandise() {
-    let limitedTab = d.getElementById("limitedTab");
-    if (limitedTab) {
-        limitedTab.classList.remove("is-active");
-        d.getElementById("limited").classList.add("is-hidden");
     }
 }
 

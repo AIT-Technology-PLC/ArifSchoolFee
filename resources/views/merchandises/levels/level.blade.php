@@ -105,6 +105,6 @@
 
     @include('merchandises.levels.on-hand')
 
-    @include('merchandises.out-of') 
+    @include('merchandises.levels.out-of') 
 
 @endsection

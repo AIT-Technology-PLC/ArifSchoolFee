@@ -53,13 +53,6 @@ if (d.getElementById("onHandTab")) {
     );
 }
 
-if (d.getElementById("limitedTab")) {
-    d.getElementById("limitedTab").addEventListener(
-        "click",
-        showLimitedMerchandise
-    );
-}
-
 if (d.getElementById("outOfTab")) {
     d.getElementById("outOfTab").addEventListener(
         "click",
