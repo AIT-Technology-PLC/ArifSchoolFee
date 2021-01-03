@@ -146,7 +146,7 @@ class Merchandise extends Model
     {
         return $this->companyMerchandises()
             ->select('product_id', DB::raw('SUM(total_on_hand) AS total_on_hand'))
-            ->with('product')
+            ->with('product.productCategory')
             ->where('total_on_hand', '>', 0)
             ->groupBy('product_id')
             ->get();

@@ -87,13 +87,13 @@
         </div>
         <div class="tabs is-toggle is-fullwidth has-background-white-bis">
             <ul>
-                <li id="onHandTab" class="on-hand is-active">
+                <li id="" class="on-hand is-active">
                     <a class="">
                         <span class="icon is-small"><i class="fas fa-check-circle"></i></span>
                         <span>On Hand</span>
                     </a>
                 </li>
-                <li id="outOfTab" class="out-of-stock">
+                <li id="" class="out-of-stock">
                     <a>
                         <span class="icon is-small"><i class="fas fa-times-circle"></i></span>
                         <span>Out of Stock</span>
@@ -103,8 +103,8 @@
         </div>
     </section>
 
-    {{-- @include('merchandises.level.on-hand') --}}
+    @include('merchandises.levels.on-hand')
 
-    @include('merchandises.out-of')
+    @include('merchandises.out-of') 
 
 @endsection
