@@ -47,7 +47,6 @@ class Merchandise extends Model
     public function getAllOnHandMerchandises()
     {
         return $this->companyMerchandises()
-            ->with(['product', 'warehouse', 'createdBy', 'updatedBy'])
             ->where('total_on_hand', '>', 0)
             ->get();
     }
@@ -55,7 +54,6 @@ class Merchandise extends Model
     public function getMerchandisesInventoryHistory()
     {
         return $this->companyMerchandises()
-            ->with(['product', 'warehouse', 'createdBy', 'updatedBy'])
             ->where('total_on_hand', '<=', 0)
             ->get();
     }
@@ -64,7 +62,6 @@ class Merchandise extends Model
     {
         return $this->companyMerchandises()
             ->select('product_id', DB::raw('SUM(total_on_hand) AS total_on_hand'))
-            ->with('product.productCategory')
             ->where('total_on_hand', '>', 0)
             ->groupBy('product_id')
             ->get();

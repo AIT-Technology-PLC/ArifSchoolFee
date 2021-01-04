@@ -17,11 +17,11 @@ class MerchandiseInventoryLevelController extends Controller
 
     public function index(Product $product, Warehouse $warehouse)
     {
-        $onHandMerchandises = $this->merchandise->getCurrentMerchandiseLevelByProduct();
+        $onHandMerchandises = $this->merchandise->getCurrentMerchandiseLevelByProduct()->load('product.productCategory');
 
         $totalDistinctOnHandMerchandises = $this->merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
 
-        $outOfStockMerchandises = $product->getAllOutOfStockMerchandises();
+        $outOfStockMerchandises = $product->getAllOutOfStockMerchandises()->load('productCategory');
 
         $totalOutOfStockMerchandises = $product->getTotalOutOfStockMerchandises($outOfStockMerchandises);
 
