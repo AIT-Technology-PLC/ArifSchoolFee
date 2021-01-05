@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="columns is-marginless">
-        <div class="column is-3">
+        <div class="column">
             <div class="box text-green">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-        <div class="column is-3">
+        <div class="column">
             <div class="box text-gold">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
@@ -52,7 +52,7 @@
                 </div>
             </div>
         </div>
-        <div class="column is-3">
+        <div class="column">
             <div class="box text-purple">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
@@ -75,34 +75,36 @@
                 </div>
             </div>
         </div>
-        <div class="column is-3">
-            <div class="box text-blue">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-warehouse"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalWarehouseInUse }}
+        @if(!isset($warehouse))
+            <div class="column">
+                <div class="box text-blue">
+                    <div class="columns is-marginless is-vcentered is-mobile">
+                        <div class="column has-text-centered is-paddingless">
+                            <span class="icon is-large is-size-1">
+                                <i class="fas fa-warehouse"></i>
+                            </span>
                         </div>
-                        <div class="is-uppercase is-size-7">
-                            Warehouses
+                        <div class="column is-paddingless">
+                            <div class="is-size-3 has-text-weight-bold">
+                                {{ $totalWarehouseInUse }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Warehouses
+                            </div>
                         </div>
                     </div>
-                </div>
-                <hr class="my-4">
-                <div class="is-size-7 is-uppercase has-text-grey">
-                    Total Warehouses In Use
+                    <hr class="my-4">
+                    <div class="is-size-7 is-uppercase has-text-grey">
+                        Total Warehouses In Use
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-green has-text-weight-medium is-size-5">
-                Current Inventory Level
+                Current Inventory Level in {{ isset($warehouse) ? $warehouse->name . ' Warehouse' : 'all Warehouses' }}
             </h1>
             <h2 class="subtitle has-text-grey is-size-7">
                 On hand, Limited, and Out of Stock
@@ -128,6 +130,6 @@
 
     @include('merchandises.levels.on-hand')
 
-    @include('merchandises.levels.out-of') 
+    @include('merchandises.levels.out-of')
 
 @endsection
