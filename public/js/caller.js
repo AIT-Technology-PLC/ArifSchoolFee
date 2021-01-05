@@ -77,3 +77,7 @@ if (d.getElementById("openCloseSaleModal")) {
         openCloseSaleModal
     );
 }
+
+if (d.getElementById("warehouseId")) {
+    d.getElementById("warehouseId").addEventListener("change", changeWarehouse);
+}

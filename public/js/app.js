@@ -341,3 +341,11 @@ function openCloseSaleModal(event) {
         }
     });
 }
+
+function changeWarehouse() {
+    if (this.value == 0) {
+        return (location.href = "/merchandises/level");
+    }
+
+    location.href = `/merchandises/level/warehouse/${this.value}`;
+}
