@@ -75,7 +75,7 @@
                 </div>
             </div>
         </div>
-        @if(!isset($warehouse))
+        @if (!isset($warehouse))
             <div class="column">
                 <div class="box text-blue">
                     <div class="columns is-marginless is-vcentered is-mobile">
@@ -103,12 +103,40 @@
     </div>
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                Current Inventory Level in {{ isset($warehouse) ? $warehouse->name . ' Warehouse' : 'all Warehouses' }}
-            </h1>
-            <h2 class="subtitle has-text-grey is-size-7">
-                On hand, Limited, and Out of Stock
-            </h2>
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <div>
+                            <h1 class="title text-green has-text-weight-medium is-size-5">
+                                Current Inventory Level in {{ isset($warehouse) ? $warehouse->name . ' Warehouse' : 'all Warehouses' }}
+                            </h1>
+                            <div></div>
+                            <h2 class="subtitle has-text-grey is-size-7">
+                                On hand, Limited, and Out of Stock
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <div class="field">
+                            <div class="control has-icons-left">
+                                <div class="select">
+                                    <select id="warehouseId">
+                                        <option value="0" selected>All Warehouses</option>
+                                        @foreach ($warehouses as $availableWarehouse)
+                                            <option value="{{ $availableWarehouse->id }}" {{ ($warehouse->id ?? '') == $availableWarehouse->id ? 'selected' : '' }}>{{ $availableWarehouse->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-warehouse"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="tabs is-toggle is-fullwidth has-background-white-bis">
             <ul>
