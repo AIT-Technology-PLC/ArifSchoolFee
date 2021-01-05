@@ -32,4 +32,21 @@ class MerchandiseInventoryLevelController extends Controller
         return view('merchandises.levels.index', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'totalWarehouseInUse'));
     }
 
+    public function getCurrentMerchandiseLevelByWarehouse(Product $product, Warehouse $warehouse)
+    {
+        $onHandMerchandises = $this->merchandise->getCurrentMerchandiseLevelByProductAndWarehouse($warehouse->id)->load('product.productCategory');
+
+        $totalDistinctOnHandMerchandises = $this->merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
+
+        $outOfStockMerchandises = $product->getAllOutOfStockMerchandisesByWarehouse($onHandMerchandises)->load('productCategory');
+
+        $totalOutOfStockMerchandises = $product->getTotalOutOfStockMerchandises($outOfStockMerchandises);
+
+        $totalDistinctLimitedMerchandises = $this->merchandise->getTotalDistinctLimitedMerchandises($onHandMerchandises);
+
+        $totalWarehouseInUse = 1;
+
+        return view('merchandises.levels.index', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'totalWarehouseInUse', 'warehouse'));
+    }
+
 }

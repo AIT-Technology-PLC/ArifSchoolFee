@@ -67,6 +67,16 @@ class Merchandise extends Model
             ->get();
     }
 
+    public function getCurrentMerchandiseLevelByProductAndWarehouse($warehouseId)
+    {
+        return $this->companyMerchandises()
+            ->select('product_id', DB::raw('SUM(total_on_hand) AS total_on_hand'))
+            ->where('total_on_hand', '>', 0)
+            ->where('warehouse_id', $warehouseId)
+            ->groupBy('product_id')
+            ->get();
+    }
+
     public function getTotalDistinctOnHandMerchandises($onHandMerchandises)
     {
         $distinctTotalOnHandMerchandises = $onHandMerchandises->groupBy('product_id')->count();
