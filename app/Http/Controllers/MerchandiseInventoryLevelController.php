@@ -36,6 +36,8 @@ class MerchandiseInventoryLevelController extends Controller
 
     public function getCurrentMerchandiseLevelByWarehouse(Product $product, Warehouse $warehouse)
     {
+        $this->authorize('view', $warehouse);
+        
         $onHandMerchandises = $this->merchandise->getCurrentMerchandiseLevelByProductAndWarehouse($warehouse->id)->load('product.productCategory');
 
         $totalDistinctOnHandMerchandises = $this->merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
