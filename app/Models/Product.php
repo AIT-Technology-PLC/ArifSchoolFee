@@ -151,7 +151,7 @@ class Product extends Model
 
     public function getAllOutOfStockMerchandisesByWarehouse($onHandMerchandises)
     {
-        return $this->where('type', 'Merchandise Product')->whereNotIn('id', $onHandMerchandises->pluck('product_id'))->get();
+        return $this->companyProducts()->where('type', 'Merchandise Product')->whereNotIn('id', $onHandMerchandises->pluck('product_id'))->get();
     }
 
     public function getTotalOutOfStockMerchandises($outOfStockMerchandises)
