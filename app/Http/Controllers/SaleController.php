@@ -128,6 +128,10 @@ class SaleController extends Controller
         $saleDetailsData = $saleData['sale'];
 
         $isSaleValid = DB::transaction(function () use ($basicSaleData, $saleDetailsData, $sale) {
+            if ($sale->isSaleSubtracted()) {
+                return true;
+            }
+
             $sale->update($basicSaleData);
 
             for ($i = 0; $i < count($saleDetailsData); $i++) {
