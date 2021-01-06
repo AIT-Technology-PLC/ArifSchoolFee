@@ -127,9 +127,9 @@ class SaleController extends Controller
         $basicSaleData = Arr::except($saleData, 'sale');
         $saleDetailsData = $saleData['sale'];
 
-        $isSaleValid = DB::transaction(function () use ($basicSaleData, $saleDetailsData, $sale) {
+        DB::transaction(function () use ($basicSaleData, $saleDetailsData, $sale) {
             if ($sale->isSaleSubtracted()) {
-                return true;
+                return;
             }
 
             $sale->update($basicSaleData);
@@ -137,19 +137,9 @@ class SaleController extends Controller
             for ($i = 0; $i < count($saleDetailsData); $i++) {
                 $sale->saleDetails[$i]->update($saleDetailsData[$i]);
             }
-
-            $isSaleValid = StoreSaleableProducts::storeSoldProducts($sale);
-
-            if (!$isSaleValid) {
-                DB::rollback();
-            }
-
-            return $isSaleValid;
         });
 
-        return $isSaleValid ?
-        redirect()->route('sales.show', $sale->id) :
-        redirect()->back()->withInput($request->all());
+        return redirect()->route('sales.show', $sale->id);
 
     }
 

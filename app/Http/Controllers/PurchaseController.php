@@ -120,6 +120,10 @@ class PurchaseController extends Controller
         $purchaseDetailsData = $purchaseData['purchase'];
 
         DB::transaction(function () use ($purchase, $basicPurchaseData, $purchaseDetailsData) {
+            if ($purchase->isAddedToInventory()) {
+                return;
+            }
+
             $purchase->update($basicPurchaseData);
 
             for ($i = 0; $i < count($purchaseDetailsData); $i++) {
