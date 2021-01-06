@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Sale;
+use App\Models\Warehouse;
 use App\Services\StoreSaleableProducts;
 use App\Traits\HasOptions;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ class SaleController extends Controller
         return view('sales.index', compact('sales', 'totalSales'));
     }
 
-    public function create(Product $product, Customer $customer)
+    public function create(Product $product, Customer $customer, Warehouse $warehouse)
     {
         $products = $product->getSaleableProducts();
 
@@ -39,7 +40,9 @@ class SaleController extends Controller
 
         $shippingLines = $this->getShippingLines();
 
-        return view('sales.create', compact('products', 'customers', 'shippingLines'));
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        return view('sales.create', compact('products', 'customers', 'shippingLines', 'warehouses'));
     }
 
     public function store(Request $request)

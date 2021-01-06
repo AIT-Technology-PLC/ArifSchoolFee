@@ -70,6 +70,7 @@ class StoreSaleableProducts
                     ->where([
                         ['company_id', auth()->user()->employee->company_id],
                         ['product_id', $saleDetail->product->id],
+                        ['warehouse_id', $saleDetail->warehouse->id],
                         ['total_on_hand', '>', 0],
                     ])
                     ->oldest()
