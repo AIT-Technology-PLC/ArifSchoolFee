@@ -93,7 +93,7 @@ class SaleController extends Controller
         return view('sales.show', compact('sale'));
     }
 
-    public function edit(Sale $sale, Product $product, Customer $customer)
+    public function edit(Sale $sale, Product $product, Customer $customer, Warehouse $warehouse)
     {
         $products = $product->getSaleableProducts();
 
@@ -101,7 +101,9 @@ class SaleController extends Controller
 
         $shippingLines = $this->getShippingLines();
 
-        return view('sales.edit', compact('sale', 'products', 'customers', 'shippingLines'));
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        return view('sales.edit', compact('sale', 'products', 'customers', 'shippingLines', 'warehouses'));
     }
 
     public function update(Request $request, Sale $sale)

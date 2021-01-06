@@ -30,7 +30,7 @@
                         </span>
                     </div>
                     <div class="columns is-marginless is-multiline has-background-white-ter mb-5">
-                        <div class="column is-12">
+                        <div class="column is-6">
                             <div class="field">
                                 <label for="sale[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
@@ -46,6 +46,28 @@
                                         <i class="fas fa-th"></i>
                                     </div>
                                     @error('sale.{{ $loop->index }}.product_id')
+                                        <span class="help has-text-danger" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-6">
+                            <div class="field">
+                                <label for="sale[{{ $loop->index }}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                                <div class="control has-icons-left">
+                                    <div class="select is-fullwidth">
+                                        <select id="sale[{{ $loop->index }}][warehouse_id]" name="sale[{{ $loop->index }}][warehouse_id]">
+                                            @foreach ($warehouses as $warehouse)
+                                                <option value="{{ $warehouse->id }}" {{ $saleDetail->warehouse_id == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="icon is-small is-left">
+                                        <i class="fas fa-warehouse"></i>
+                                    </div>
+                                    @error('sale.' . $loop->index . '.warehouse_id')
                                         <span class="help has-text-danger" role="alert">
                                             {{ $message }}
                                         </span>
