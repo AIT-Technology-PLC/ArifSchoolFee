@@ -108,6 +108,10 @@ class SaleController extends Controller
 
     public function update(Request $request, Sale $sale)
     {
+        if ($sale->isSaleSubtracted()) {
+            return redirect()->route('sales.show', $sale->id);
+        }
+
         $saleData = $request->validate([
             'sale' => 'required|array',
             'sale.*.product_id' => 'required|integer',
@@ -128,10 +132,6 @@ class SaleController extends Controller
         $saleDetailsData = $saleData['sale'];
 
         DB::transaction(function () use ($basicSaleData, $saleDetailsData, $sale) {
-            if ($sale->isSaleSubtracted()) {
-                return;
-            }
-
             $sale->update($basicSaleData);
 
             for ($i = 0; $i < count($saleDetailsData); $i++) {

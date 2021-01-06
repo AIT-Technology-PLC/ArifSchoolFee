@@ -101,6 +101,10 @@ class PurchaseController extends Controller
 
     public function update(Request $request, Purchase $purchase)
     {
+        if ($purchase->isAddedToInventory()) {
+            return redirect()->route('purchases.show', $purchase->id);
+        }
+
         $purchaseData = $request->validate([
             'purchase' => 'required|array',
             'purchase.*.product_id' => 'required|integer',
@@ -120,10 +124,6 @@ class PurchaseController extends Controller
         $purchaseDetailsData = $purchaseData['purchase'];
 
         DB::transaction(function () use ($purchase, $basicPurchaseData, $purchaseDetailsData) {
-            if ($purchase->isAddedToInventory()) {
-                return;
-            }
-
             $purchase->update($basicPurchaseData);
 
             for ($i = 0; $i < count($purchaseDetailsData); $i++) {
