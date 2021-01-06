@@ -47,6 +47,7 @@ class SaleController extends Controller
         $saleData = $request->validate([
             'sale' => 'required|array',
             'sale.*.product_id' => 'required|integer',
+            'sale.*.warehouse_id' => 'required|integer',
             'sale.*.quantity' => 'required|numeric|min:1',
             'sale.*.unit_price' => 'required|numeric',
             'customer_id' => 'nullable|integer',
@@ -105,6 +106,7 @@ class SaleController extends Controller
         $saleData = $request->validate([
             'sale' => 'required|array',
             'sale.*.product_id' => 'required|integer',
+            'sale.*.warehouse_id' => 'required|integer',
             'sale.*.quantity' => 'required|numeric|min:1',
             'sale.*.unit_price' => 'required|numeric',
             'customer_id' => 'nullable|integer',

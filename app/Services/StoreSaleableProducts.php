@@ -51,7 +51,7 @@ class StoreSaleableProducts
             function ($saleDetail) use ($merchandise) {
                 $isProductMerchandise = $saleDetail->product->isProductMerchandise();
                 if ($isProductMerchandise) {
-                    return !$merchandise->isAvailableEnoughForSale($saleDetail->product->id, $saleDetail->quantity);
+                    return !$merchandise->isAvailableEnoughForSale($saleDetail->product->id, $saleDetail->warehouse->id, $saleDetail->quantity);
                 }
             });
 

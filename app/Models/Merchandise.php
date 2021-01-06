@@ -159,8 +159,8 @@ class Merchandise extends Model
         $this->save();
     }
 
-    public function isAvailableEnoughForSale($productId, $quantityToSell)
+    public function isAvailableEnoughForSale($productId, $warehouseId, $quantityToSell)
     {
-        return $this->where('product_id', $productId)->sum('total_on_hand') >= $quantityToSell;
+        return $this->where('product_id', $productId)->where('warehouse_id', $warehouseId)->sum('total_on_hand') >= $quantityToSell;
     }
 }
