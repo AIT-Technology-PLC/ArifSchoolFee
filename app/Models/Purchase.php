@@ -60,6 +60,7 @@ class Purchase extends Model
         return $this->companyPurchases()
             ->with(['createdBy', 'updatedBy', 'company', 'purchaseDetails'])
             ->withCount('purchaseDetails')
+            ->latest()
             ->get();
     }
 

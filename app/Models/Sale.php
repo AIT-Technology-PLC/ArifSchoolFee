@@ -60,6 +60,7 @@ class Sale extends Model
         return $this->companySales()
             ->with(['createdBy', 'updatedBy', 'company', 'saleDetails'])
             ->withCount('saleDetails')
+            ->latest()
             ->get();
     }
 
