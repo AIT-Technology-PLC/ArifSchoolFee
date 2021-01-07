@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Siv;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class SivController extends Controller
 {
@@ -12,14 +14,24 @@ class SivController extends Controller
         //
     }
 
-    public function create()
+    public function create(Product $product)
     {
-        //
+        $products = $product->getProductNames();
+
+        return view('sivs.create', compact('products'));
     }
 
     public function store(Request $request)
     {
-        //
+        $sivData = $request->validate([
+            'code' => 'required|string',
+            'siv' => 'required|array',
+            'siv.*.product_id' => 'required|integer',
+            'siv.*.quantity' => 'required|numeric'
+        ]);
+
+        $basicSivData = Arr::except($sivData, 'siv');
+        $sivDetailsData = $sivData['siv'];
     }
 
     public function show(Siv $siv)
