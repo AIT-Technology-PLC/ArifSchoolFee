@@ -20,6 +20,8 @@ class SaleController extends Controller
 
     public function __construct(Sale $sale)
     {
+        $this->authorizeResource(Sale::class, 'sale');
+        
         $this->sale = $sale;
     }
 
