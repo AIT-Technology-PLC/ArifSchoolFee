@@ -9,7 +9,7 @@ class StoreSaleableProducts
     public static function storeSoldProducts($sale)
     {
         if (!self::areProductsSaleable($sale->saleDetails)) {
-            session()->flash('message', 'Some of the products are not Saleable Products');
+            session()->flash('message', 'Some of the products selected are not saleable products');
             return false;
         }
 
@@ -18,7 +18,7 @@ class StoreSaleableProducts
         }
 
         if (!self::areProductsAvailableOnHand($sale->saleDetails)) {
-            session()->flash('message', 'Some of the products are not available on hand');
+            session()->flash('message', 'Some of the products selected are not available in some or all warehouses');
             return false;
         }
 
