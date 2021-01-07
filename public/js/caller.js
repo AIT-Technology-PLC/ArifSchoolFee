@@ -81,3 +81,7 @@ if (d.getElementById("openCloseSaleModal")) {
 if (d.getElementById("warehouseId")) {
     d.getElementById("warehouseId").addEventListener("change", changeWarehouse);
 }
+
+if (d.getElementById("addNewSivForm")) {
+    d.getElementById("addNewSivForm").addEventListener("click", addSivForm);
+}

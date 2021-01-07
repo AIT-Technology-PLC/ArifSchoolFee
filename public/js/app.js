@@ -365,3 +365,65 @@ function changeWarehouse() {
 
     location.href = `/merchandises/level/warehouse/${this.value}`;
 }
+
+const addSivForm = (function () {
+    const sivFormGroup = d.getElementsByName("sivFormGroup");
+    const sivFormWrapper = d.getElementById("sivFormWrapper");
+    const productList = d.getElementById("siv[0][product_id]");
+    const formLimit = 10;
+    let index = sivFormGroup.length;
+
+    if (!sivFormWrapper) {
+        return false;
+    }
+
+    return function () {
+        const createSivForm = `
+        <div class="mt-4">
+            <span class="py-4 px-2 has-background-white-ter text-purple has-text-weight-medium">
+                Item ${index + 1}
+            </span>
+        </div>
+        <div name="sivFormGroup" class="columns is-marginless is-multiline has-background-white-ter mb-5">
+            <div class="column is-6">
+                <div class="field">
+                    <label for="siv[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                    <div class="control has-icons-left">
+                        <div class="select is-fullwidth">
+                            <select id="siv[${index}][product_id]" name="siv[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                <option selected disabled>Select Product</option>
+                                ${productList.innerHTML}
+                            </select>
+                        </div>
+                        <div class="icon is-small is-left">
+                            <i class="fas fa-th"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <label for="siv[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                <div class="field has-addons">
+                    <div class="control has-icons-left is-expanded">
+                        <input id="siv[${index}][quantity]" name="siv[${index}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('siv.0.quantity') ?? '' }}">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-balance-scale"></i>
+                        </span>
+                    </div>
+                    <div class="control">
+                        <button id="siv[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+        sivFormWrapper.insertAdjacentHTML("beforeend", createSivForm);
+
+        index++;
+
+        if (index == formLimit) {
+            d.getElementById("addNewSivForm").remove();
+            return false;
+        }
+    };
+})();

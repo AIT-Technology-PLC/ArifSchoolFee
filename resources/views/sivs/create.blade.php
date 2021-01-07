@@ -137,7 +137,7 @@
                     @endif
                 @endfor
                 <div id="sivFormWrapper"></div>
-                <button id="addNewSIVForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
+                <button id="addNewSivForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
                     Add More Item
                 </button>
             </div>
