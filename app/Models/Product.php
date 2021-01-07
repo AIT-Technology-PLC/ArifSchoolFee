@@ -78,6 +78,11 @@ class Product extends Model
         return $this->hasMany(SaleDetail::class);
     }
 
+    public function sivDetails()
+    {
+        return $this->hasMany(SivDetails::class);
+    }
+
     public function setPropertiesAttribute($array)
     {
         $properties = [];
