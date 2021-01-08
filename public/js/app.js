@@ -391,7 +391,6 @@ const addSivForm = (function () {
                     <div class="control has-icons-left">
                         <div class="select is-fullwidth">
                             <select id="siv[${index}][product_id]" name="siv[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
-                                <option selected disabled>Select Product</option>
                                 ${productList.innerHTML}
                             </select>
                         </div>

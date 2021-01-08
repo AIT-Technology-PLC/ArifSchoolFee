@@ -30,7 +30,9 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="field mt-5">
+                    </div>
+                    <div class="column is-12">
+                        <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Description</label>
                             <div class="control has-icons-left">
                                 <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note about the new category">{{ old('description') ?? '' }}</textarea>
