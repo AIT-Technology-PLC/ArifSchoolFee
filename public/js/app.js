@@ -171,7 +171,7 @@ const addSaleForm = (function () {
         const createSaleForm = `
             <div class="box has-background-white-bis mb-5">
                 <div class="has-text-weight-medium has-text-right">
-                    <span class="tag bg-green has-text-white is-medium">
+                    <span class="tag bg-purple has-text-white is-medium">
                         Item ${index + 1}
                     </span>
                 </div>
