@@ -190,7 +190,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-12">
                         <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Additional Notes</label>
                             <div class="control has-icons-left">

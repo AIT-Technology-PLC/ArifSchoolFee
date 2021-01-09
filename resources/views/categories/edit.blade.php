@@ -15,7 +15,7 @@
             @csrf
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
-                <div class="columns is-marginless">
+                <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
                             <label for="name" class="label text-green has-text-weight-normal">Name <sup class="has-text-danger">*</sup> </label>
@@ -31,7 +31,9 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="field mt-5">
+                    </div>
+                    <div class="column is-12">
+                        <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Description</label>
                             <div class="control has-icons-left">
                                 <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note about the new category"> {{ $category->description }} </textarea>
