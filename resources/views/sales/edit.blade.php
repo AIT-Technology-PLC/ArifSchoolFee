@@ -24,96 +24,98 @@
                     </span>
                 </div>
                 @foreach ($sale->saleDetails as $saleDetail)
-                    <div class="mt-4">
-                        <span class="py-4 px-2 has-background-white-ter text-purple has-text-weight-medium">
-                            Item {{ $loop->index + 1 }} - {{ $saleDetail->product->name }}
-                        </span>
-                    </div>
-                    <div class="columns is-marginless is-multiline has-background-white-ter mb-5">
-                        <div class="column is-6">
-                            <div class="field">
-                                <label for="sale[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-                                <div class="control has-icons-left">
-                                    <div class="select is-fullwidth">
-                                        <select id="sale[{{ $loop->index }}][product_id]" name="sale[{{ $loop->index }}][product_id]">
-                                            <option selected disabled>Select Product</option>
-                                            @foreach ($products as $product)
-                                                <option value="{{ $product->id }}" {{ $saleDetail->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
-                                            @endforeach
-                                        </select>
+                    <div class="box has-background-white-bis">
+                        <div class="has-text-weight-medium has-text-left">
+                            <span class="tag bg-green has-text-white is-medium">
+                                Item {{ $loop->index + 1 }} - {{ $saleDetail->product->name }}
+                            </span>
+                        </div>
+                        <div class="columns is-marginless is-multiline has-background-white-ter mb-5">
+                            <div class="column is-6">
+                                <div class="field">
+                                    <label for="sale[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                                    <div class="control has-icons-left">
+                                        <div class="select is-fullwidth">
+                                            <select id="sale[{{ $loop->index }}][product_id]" name="sale[{{ $loop->index }}][product_id]">
+                                                <option selected disabled>Select Product</option>
+                                                @foreach ($products as $product)
+                                                    <option value="{{ $product->id }}" {{ $saleDetail->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="icon is-small is-left">
+                                            <i class="fas fa-th"></i>
+                                        </div>
+                                        @error('sale.{{ $loop->index }}.product_id')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                     </div>
-                                    <div class="icon is-small is-left">
-                                        <i class="fas fa-th"></i>
-                                    </div>
-                                    @error('sale.{{ $loop->index }}.product_id')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
                                 </div>
                             </div>
-                        </div>
-                        <div class="column is-6">
-                            <div class="field">
-                                <label for="sale[{{ $loop->index }}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
-                                <div class="control has-icons-left">
-                                    <div class="select is-fullwidth">
-                                        <select id="sale[{{ $loop->index }}][warehouse_id]" name="sale[{{ $loop->index }}][warehouse_id]">
-                                            @foreach ($warehouses as $warehouse)
-                                                <option value="{{ $warehouse->id }}" {{ $saleDetail->warehouse_id == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
-                                            @endforeach
-                                        </select>
+                            <div class="column is-6">
+                                <div class="field">
+                                    <label for="sale[{{ $loop->index }}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                                    <div class="control has-icons-left">
+                                        <div class="select is-fullwidth">
+                                            <select id="sale[{{ $loop->index }}][warehouse_id]" name="sale[{{ $loop->index }}][warehouse_id]">
+                                                @foreach ($warehouses as $warehouse)
+                                                    <option value="{{ $warehouse->id }}" {{ $saleDetail->warehouse_id == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="icon is-small is-left">
+                                            <i class="fas fa-warehouse"></i>
+                                        </div>
+                                        @error('sale.' . $loop->index . '.warehouse_id')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                     </div>
-                                    <div class="icon is-small is-left">
-                                        <i class="fas fa-warehouse"></i>
-                                    </div>
-                                    @error('sale.' . $loop->index . '.warehouse_id')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
                                 </div>
                             </div>
-                        </div>
-                        <div class="column is-6">
-                            <label for="sale[{{ $loop->index }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                            <div class="field has-addons">
-                                <div class="control has-icons-left is-expanded">
-                                    <input id="sale[{{ $loop->index }}][quantity]" name="sale[{{ $loop->index }}][quantity]" type="number" class="input" placeholder="Sale Quantity" value="{{ $saleDetail->quantity ?? '' }}">
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-balance-scale"></i>
-                                    </span>
-                                    @error('sale.{{ $loop->index }}.quantity')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
+                            <div class="column is-6">
+                                <label for="sale[{{ $loop->index }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                                <div class="field has-addons">
+                                    <div class="control has-icons-left is-expanded">
+                                        <input id="sale[{{ $loop->index }}][quantity]" name="sale[{{ $loop->index }}][quantity]" type="number" class="input" placeholder="Sale Quantity" value="{{ $saleDetail->quantity ?? '' }}">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-balance-scale"></i>
                                         </span>
-                                    @enderror
-                                </div>
-                                <div class="control">
-                                    <button class="button bg-green has-text-white" type="button">
-                                        {{ $saleDetail->product->unit_of_measurement }}
-                                    </button>
+                                        @error('sale.{{ $loop->index }}.quantity')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="control">
+                                        <button class="button bg-green has-text-white" type="button">
+                                            {{ $saleDetail->product->unit_of_measurement }}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="column is-6">
-                            <label for="sale[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
-                            <div class="field has-addons">
-                                <div class="control has-icons-left is-expanded">
-                                    <input id="sale[{{ $loop->index }}][unit_price]" name="sale[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Sale Price" value="{{ $saleDetail->unit_price ?? '' }}">
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-money-bill"></i>
-                                    </span>
-                                    @error('sale.{{ $loop->index }}.unit_price')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
+                            <div class="column is-6">
+                                <label for="sale[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                                <div class="field has-addons">
+                                    <div class="control has-icons-left is-expanded">
+                                        <input id="sale[{{ $loop->index }}][unit_price]" name="sale[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Sale Price" value="{{ $saleDetail->unit_price ?? '' }}">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-money-bill"></i>
                                         </span>
-                                    @enderror
-                                </div>
-                                <div class="control">
-                                    <button class="button bg-green has-text-white" type="button">
-                                        {{ $saleDetail->product->unit_of_measurement }}
-                                    </button>
+                                        @error('sale.{{ $loop->index }}.unit_price')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="control">
+                                        <button class="button bg-green has-text-white" type="button">
+                                            {{ $saleDetail->product->unit_of_measurement }}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

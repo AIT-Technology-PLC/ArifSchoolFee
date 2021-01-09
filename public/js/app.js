@@ -167,67 +167,69 @@ const addSaleForm = (function () {
 
     return function () {
         const createSaleForm = `
-            <div class="mt-4">
-                <span class="py-4 px-2 has-background-white-ter text-purple has-text-weight-medium">
-                    Item ${index + 1}
-                </span>
-            </div>
-            <div name="saleFormGroup" class="columns is-marginless is-multiline has-background-white-ter mb-5">
-                <div class="column is-6">
-                    <div class="field">
-                        <label for="sale[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-                        <div class="control has-icons-left">
-                            <div class="select is-fullwidth">
-                                <select id="sale[${index}][product_id]" name="sale[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
-                                    ${productList.innerHTML}
-                                </select>
-                            </div>
-                            <div class="icon is-small is-left">
-                                <i class="fas fa-th"></i>
+            <div class="box has-background-white-bis mb-5">
+                <div class="has-text-weight-medium has-text-right">
+                    <span class="tag bg-green has-text-white is-medium">
+                        Item ${index + 1}
+                    </span>
+                </div>
+                <div name="saleFormGroup" class="columns is-marginless is-multiline">
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="sale[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="sale[${index}][product_id]" name="sale[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                        ${productList.innerHTML}
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-th"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="column is-6">
-                    <div class="field">
-                        <label for="sale[${index}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
-                        <div class="control has-icons-left">
-                            <div class="select is-fullwidth">
-                                <select id="sale[${index}][warehouse_id]" name="sale[${index}][warehouse_id]">
-                                    ${warehouseList.innerHTML}
-                                </select>
-                            </div>
-                            <div class="icon is-small is-left">
-                                <i class="fas fa-warehouse"></i>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="sale[${index}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="sale[${index}][warehouse_id]" name="sale[${index}][warehouse_id]">
+                                        ${warehouseList.innerHTML}
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-warehouse"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="column is-6">
-                    <label for="sale[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                    <div class="field has-addons">
-                        <div class="control has-icons-left is-expanded">
-                            <input id="sale[${index}][quantity]" name="sale[${index}][quantity]" type="number" class="input" placeholder="Sale Quantity">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-balance-scale"></i>
-                            </span>
-                        </div>
-                        <div class="control">
-                            <button id="sale[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                    <div class="column is-6">
+                        <label for="sale[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                        <div class="field has-addons">
+                            <div class="control has-icons-left is-expanded">
+                                <input id="sale[${index}][quantity]" name="sale[${index}][quantity]" type="number" class="input" placeholder="Sale Quantity">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-balance-scale"></i>
+                                </span>
+                            </div>
+                            <div class="control">
+                                <button id="sale[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="column is-6">
-                    <label for="sale[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
-                    <div class="field has-addons">
-                        <div class="control has-icons-left is-expanded">
-                            <input id="sale[${index}][unit_price]" name="sale[${index}][unit_price]" type="number" class="input" placeholder="Sale Price">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-money-bill"></i>
-                            </span>
-                        </div>
-                        <div class="control">
-                            <button id="sale[${index}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                    <div class="column is-6">
+                        <label for="sale[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                        <div class="field has-addons">
+                            <div class="control has-icons-left is-expanded">
+                                <input id="sale[${index}][unit_price]" name="sale[${index}][unit_price]" type="number" class="input" placeholder="Sale Price">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-money-bill"></i>
+                                </span>
+                            </div>
+                            <div class="control">
+                                <button id="sale[${index}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                            </div>
                         </div>
                     </div>
                 </div>

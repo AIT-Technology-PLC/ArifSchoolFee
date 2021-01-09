@@ -22,184 +22,188 @@
                         {{ session('message') }}
                     </span>
                 </div>
-                <div class="mt-4">
-                    <span class="py-4 px-2 has-background-white-ter text-purple has-text-weight-medium">
-                        Item 1
-                    </span>
-                </div>
-                <div name="saleFormGroup" class="columns is-marginless is-multiline has-background-white-ter mb-5">
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="sale[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="sale[0][product_id]" name="sale[0][product_id]" onchange="getProductSelected(this.id, this.value)">
-                                        <option selected disabled>Select Product</option>
-                                        @foreach ($products as $product)
-                                            <option value="{{ $product->id }}" {{ old('sale.0.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
-                                        @endforeach
-                                    </select>
+                <div class="box has-background-white-bis">
+                    <div class="has-text-weight-medium has-text-right">
+                        <span class="tag bg-green has-text-white is-medium">
+                            Item 1
+                        </span>
+                    </div>
+                    <div name="saleFormGroup" class="columns is-marginless is-multiline">
+                        <div class="column is-6">
+                            <div class="field">
+                                <label for="sale[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                                <div class="control has-icons-left">
+                                    <div class="select is-fullwidth">
+                                        <select id="sale[0][product_id]" name="sale[0][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                            <option selected disabled>Select Product</option>
+                                            @foreach ($products as $product)
+                                                <option value="{{ $product->id }}" {{ old('sale.0.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="icon is-small is-left">
+                                        <i class="fas fa-th"></i>
+                                    </div>
+                                    @error('sale.0.product_id')
+                                        <span class="help has-text-danger" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
                                 </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-th"></i>
-                                </div>
-                                @error('sale.0.product_id')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
                             </div>
                         </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="sale[0][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="sale[0][warehouse_id]" name="sale[0][warehouse_id]">
-                                        @foreach ($warehouses as $warehouse)
-                                            <option value="{{ $warehouse->id }}" {{ old('sale.0.warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
-                                        @endforeach
-                                    </select>
+                        <div class="column is-6">
+                            <div class="field">
+                                <label for="sale[0][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                                <div class="control has-icons-left">
+                                    <div class="select is-fullwidth">
+                                        <select id="sale[0][warehouse_id]" name="sale[0][warehouse_id]">
+                                            @foreach ($warehouses as $warehouse)
+                                                <option value="{{ $warehouse->id }}" {{ old('sale.0.warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="icon is-small is-left">
+                                        <i class="fas fa-warehouse"></i>
+                                    </div>
+                                    @error('sale.0.warehouse_id')
+                                        <span class="help has-text-danger" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
                                 </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-warehouse"></i>
-                                </div>
-                                @error('sale.0.warehouse_id')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
                             </div>
                         </div>
-                    </div>
-                    <div class="column is-6">
-                        <label for="sale[0][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                        <div class="field has-addons">
-                            <div class="control has-icons-left is-expanded">
-                                <input id="sale[0][quantity]" name="sale[0][quantity]" type="number" class="input" placeholder="Sale Quantity" value="{{ old('sale.0.quantity') ?? '' }}">
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-balance-scale"></i>
-                                </span>
-                                @error('sale.0.quantity')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
+                        <div class="column is-6">
+                            <label for="sale[0][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                            <div class="field has-addons">
+                                <div class="control has-icons-left is-expanded">
+                                    <input id="sale[0][quantity]" name="sale[0][quantity]" type="number" class="input" placeholder="Sale Quantity" value="{{ old('sale.0.quantity') ?? '' }}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-balance-scale"></i>
                                     </span>
-                                @enderror
-                            </div>
-                            <div class="control">
-                                <button id="sale[0][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                    @error('sale.0.quantity')
+                                        <span class="help has-text-danger" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="control">
+                                    <button id="sale[0][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="column is-6">
-                        <label for="sale[0][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
-                        <div class="field has-addons">
-                            <div class="control has-icons-left is-expanded">
-                                <input id="sale[0][unit_price]" name="sale[0][unit_price]" type="number" class="input" placeholder="Sale Price" value="{{ old('sale.0.unit_price') ?? '' }}">
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-money-bill"></i>
-                                </span>
-                                @error('sale.0.unit_price')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
+                        <div class="column is-6">
+                            <label for="sale[0][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                            <div class="field has-addons">
+                                <div class="control has-icons-left is-expanded">
+                                    <input id="sale[0][unit_price]" name="sale[0][unit_price]" type="number" class="input" placeholder="Sale Price" value="{{ old('sale.0.unit_price') ?? '' }}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-money-bill"></i>
                                     </span>
-                                @enderror
-                            </div>
-                            <div class="control">
-                                <button id="sale[0][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                                    @error('sale.0.unit_price')
+                                        <span class="help has-text-danger" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="control">
+                                    <button id="sale[0][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 @for ($i = 1; $i < 10; $i++)
                     @if (old('sale.' . $i . '.product_id') || old('sale.' . $i . '.customer_id') || old('sale.' . $i . '.quantity') || old('sale.' . $i . '.unit_price'))
-                        <div class="mt-4">
-                            <span class="py-4 px-2 has-background-white-ter text-purple has-text-weight-medium">
-                                Item {{ $i + 1 }}
-                            </span>
-                        </div>
-                        <div name="saleFormGroup" class="columns is-marginless is-multiline has-background-white-ter mb-5">
-                            <div class="column is-6">
-                                <div class="field">
-                                    <label for="sale[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-                                    <div class="control has-icons-left">
-                                        <div class="select is-fullwidth">
-                                            <select id="sale[{{ $i }}][product_id]" name="sale[{{ $i }}][product_id]" onchange="getProductSelected(this.id, this.value)">
-                                                <option selected disabled>Select Product</option>
-                                                @foreach ($products as $product)
-                                                    <option value="{{ $product->id }}" {{ old('sale.' . $i . '.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
-                                                @endforeach
-                                            </select>
+                        <div class="box has-background-white-bis">
+                            <div class="has-text-weight-medium has-text-right">
+                                <span class="tag bg-green has-text-white is-medium">
+                                    Item {{ $i + 1 }}
+                                </span>
+                            </div>
+                            <div name="saleFormGroup" class="columns is-marginless is-multiline">
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label for="sale[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                                        <div class="control has-icons-left">
+                                            <div class="select is-fullwidth">
+                                                <select id="sale[{{ $i }}][product_id]" name="sale[{{ $i }}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                                    <option selected disabled>Select Product</option>
+                                                    @foreach ($products as $product)
+                                                        <option value="{{ $product->id }}" {{ old('sale.' . $i . '.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="icon is-small is-left">
+                                                <i class="fas fa-th"></i>
+                                            </div>
+                                            @error('sale.' . $i . '.product_id')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
                                         </div>
-                                        <div class="icon is-small is-left">
-                                            <i class="fas fa-th"></i>
-                                        </div>
-                                        @error('sale.' . $i . '.product_id')
-                                            <span class="help has-text-danger" role="alert">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
                                     </div>
                                 </div>
-                            </div>
-                            <div class="column is-6">
-                                <div class="field">
-                                    <label for="sale[{{ $i }}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
-                                    <div class="control has-icons-left">
-                                        <div class="select is-fullwidth">
-                                            <select id="sale[{{ $i }}][warehouse_id]" name="sale[{{ $i }}][warehouse_id]">
-                                                @foreach ($warehouses as $warehouse)
-                                                    <option value="{{ $warehouse->id }}" {{ old('sale.' . $i . '.warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
-                                                @endforeach
-                                            </select>
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label for="sale[{{ $i }}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                                        <div class="control has-icons-left">
+                                            <div class="select is-fullwidth">
+                                                <select id="sale[{{ $i }}][warehouse_id]" name="sale[{{ $i }}][warehouse_id]">
+                                                    @foreach ($warehouses as $warehouse)
+                                                        <option value="{{ $warehouse->id }}" {{ old('sale.' . $i . '.warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="icon is-small is-left">
+                                                <i class="fas fa-warehouse"></i>
+                                            </div>
+                                            @error('sale.' . $i . '.warehouse_id')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
                                         </div>
-                                        <div class="icon is-small is-left">
-                                            <i class="fas fa-warehouse"></i>
-                                        </div>
-                                        @error('sale.' . $i . '.warehouse_id')
-                                            <span class="help has-text-danger" role="alert">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
                                     </div>
                                 </div>
-                            </div>
-                            <div class="column is-6">
-                                <label for="sale[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                                <div class="field has-addons">
-                                    <div class="control has-icons-left is-expanded">
-                                        <input id="sale[{{ $i }}][quantity]" name="sale[{{ $i }}][quantity]" type="number" class="input" placeholder="Sale Quantity" value="{{ old('sale.' . $i . '.quantity') ?? '' }}">
-                                        <span class="icon is-small is-left">
-                                            <i class="fas fa-balance-scale"></i>
-                                        </span>
-                                        @error('sale.' . $i . '.quantity')
-                                            <span class="help has-text-danger" role="alert">
-                                                {{ $message }}
+                                <div class="column is-6">
+                                    <label for="sale[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                                    <div class="field has-addons">
+                                        <div class="control has-icons-left is-expanded">
+                                            <input id="sale[{{ $i }}][quantity]" name="sale[{{ $i }}][quantity]" type="number" class="input" placeholder="Sale Quantity" value="{{ old('sale.' . $i . '.quantity') ?? '' }}">
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-balance-scale"></i>
                                             </span>
-                                        @enderror
-                                    </div>
-                                    <div class="control">
-                                        <button id="sale[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                            @error('sale.' . $i . '.quantity')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="control">
+                                            <button id="sale[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="column is-6">
-                                <label for="sale[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
-                                <div class="field has-addons">
-                                    <div class="control has-icons-left is-expanded">
-                                        <input id="sale[{{ $i }}][unit_price]" name="sale[{{ $i }}][unit_price]" type="number" class="input" placeholder="Sale Price" value="{{ old('sale.' . $i . '.unit_price') ?? '' }}">
-                                        <span class="icon is-small is-left">
-                                            <i class="fas fa-money-bill"></i>
-                                        </span>
-                                        @error('sale.' . $i . '.unit_price')
-                                            <span class="help has-text-danger" role="alert">
-                                                {{ $message }}
+                                <div class="column is-6">
+                                    <label for="sale[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                                    <div class="field has-addons">
+                                        <div class="control has-icons-left is-expanded">
+                                            <input id="sale[{{ $i }}][unit_price]" name="sale[{{ $i }}][unit_price]" type="number" class="input" placeholder="Sale Price" value="{{ old('sale.' . $i . '.unit_price') ?? '' }}">
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-money-bill"></i>
                                             </span>
-                                        @enderror
-                                    </div>
-                                    <div class="control">
-                                        <button id="sale[{{ $i }}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                                            @error('sale.' . $i . '.unit_price')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="control">
+                                            <button id="sale[{{ $i }}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
