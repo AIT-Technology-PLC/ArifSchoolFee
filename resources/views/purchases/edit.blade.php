@@ -18,7 +18,7 @@
                 @foreach ($purchase->purchaseDetails as $purchaseDetail)
                     <div class="box has-background-white-bis">
                         <div class="has-text-weight-medium has-text-right">
-                            <span class="tag bg-green has-text-white is-medium">
+                            <span class="tag bg-purple has-text-white is-medium">
                                 Item {{ $loop->index + 1 }} - {{ $purchaseDetail->product->name }}
                             </span>
                         </div>

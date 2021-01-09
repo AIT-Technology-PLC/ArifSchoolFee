@@ -16,7 +16,7 @@
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="box has-background-white-bis">
                     <div class="has-text-weight-medium has-text-right">
-                        <span class="tag bg-green has-text-white is-medium">
+                        <span class="tag bg-purple has-text-white is-medium">
                             Item 1
                         </span>
                     </div>
@@ -88,7 +88,7 @@
                     @if (old('purchase.' . $i . '.product_id') || old('purchase.' . $i . '.supplier_id') || old('purchase.' . $i . '.quantity') || old('purchase.' . $i . '.unit_price'))
                         <div class="box has-background-white-bis">
                             <div class="has-text-weight-medium has-text-right">
-                                <span class="tag bg-green has-text-white is-medium">
+                                <span class="tag bg-purple has-text-white is-medium">
                                     Item {{ $i + 1 }}
                                 </span>
                             </div>
