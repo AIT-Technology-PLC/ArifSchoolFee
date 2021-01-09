@@ -34,7 +34,7 @@ class SivController extends Controller
     public function store(Request $request)
     {
         $sivData = $request->validate([
-            'code' => 'required|string',
+            'code' => 'required|string|unique:sivs',
             'siv' => 'required|array',
             'siv.*.product_id' => 'required|integer',
             'siv.*.quantity' => 'required|numeric',

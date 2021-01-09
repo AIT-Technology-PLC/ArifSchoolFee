@@ -110,7 +110,7 @@
                                     <td> {{ $purchase->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
                                 <td>
-                                    <a href="{{ route('sivs.create', ['purchase' => $purchase->id]) }}" data-title="View Details">
+                                    <a class="is-block" href="{{ route('sivs.create', ['purchase' => $purchase->id]) }}" data-title="Attach SIV for this purchase">
                                         <span class="tag mb-3 is-white btn-blue is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-file"></i>
@@ -120,7 +120,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <a href="{{ route('purchases.show', $purchase->id) }}" data-title="View Details">
+                                    <a class="is-block" href="{{ route('purchases.show', $purchase->id) }}" data-title="View Details">
                                         <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-info-circle"></i>
@@ -130,7 +130,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <a href="{{ route('purchases.edit', $purchase->id) }}" data-title="Modify Purchase Data">
+                                    <a class="is-block" href="{{ route('purchases.edit', $purchase->id) }}" data-title="Modify Purchase Data">
                                         <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
