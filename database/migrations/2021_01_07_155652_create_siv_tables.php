@@ -20,7 +20,7 @@ class CreateSivTables extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('sivable_type');
             $table->bigInteger('sivable_id');
-            $table->string('code');
+            $table->string('code')->unique();
             $table->timestamps();
             $table->softDeletes();
 
