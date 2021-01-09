@@ -80,6 +80,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="column is-12">
+                        <div class="field">
+                            <label for="siv[0][description]" class="label text-green has-text-weight-normal">Additional Notes</label>
+                            <div class="control has-icons-left">
+                                <textarea name="siv[0][description]" id="siv[0][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('siv.0.description') ?? '' }}</textarea>
+                                <span class="icon is-large is-left">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                                @error('siv.0.description')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 @for ($i = 1; $i < 10; $i++)
                     @if (old('siv.' . $i . '.product_id') || old('siv.' . $i . '.quantity'))
@@ -128,6 +144,22 @@
                                     </div>
                                     <div class="control">
                                         <button id="siv[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-12">
+                                <div class="field">
+                                    <label for="siv[{{ $i }}][description]" class="label text-green has-text-weight-normal">Additional Notes</label>
+                                    <div class="control has-icons-left">
+                                        <textarea name="siv[{{ $i }}][description]" id="siv[{{ $i }}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('siv.' . $i . '.description') ?? '' }}</textarea>
+                                        <span class="icon is-large is-left">
+                                            <i class="fas fa-edit"></i>
+                                        </span>
+                                        @error('siv.' . $i . '.description')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>

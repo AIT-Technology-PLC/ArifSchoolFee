@@ -27,7 +27,8 @@ class SivController extends Controller
             'code' => 'required|string',
             'siv' => 'required|array',
             'siv.*.product_id' => 'required|integer',
-            'siv.*.quantity' => 'required|numeric'
+            'siv.*.quantity' => 'required|numeric',
+            'siv.*.description' => 'nullable|string'
         ]);
 
         $basicSivData = Arr::except($sivData, 'siv');

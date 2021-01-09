@@ -404,13 +404,24 @@ const addSivForm = (function () {
                 <label for="siv[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
                 <div class="field has-addons">
                     <div class="control has-icons-left is-expanded">
-                        <input id="siv[${index}][quantity]" name="siv[${index}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('siv.0.quantity') ?? '' }}">
+                        <input id="siv[${index}][quantity]" name="siv[${index}][quantity]" type="number" class="input" placeholder="Quantity">
                         <span class="icon is-small is-left">
                             <i class="fas fa-balance-scale"></i>
                         </span>
                     </div>
                     <div class="control">
                         <button id="siv[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-12">
+                <div class="field">
+                    <label for="siv[${index}][description]" class="label text-green has-text-weight-normal">Additional Notes</label>
+                    <div class="control has-icons-left">
+                        <textarea name="siv[${index}][description]" id="siv[${index}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken"></textarea>
+                        <span class="icon is-large is-left">
+                            <i class="fas fa-edit"></i>
+                        </span>
                     </div>
                 </div>
             </div>
