@@ -383,49 +383,51 @@ const addSivForm = (function () {
 
     return function () {
         const createSivForm = `
-        <div class="mt-4">
-            <span class="py-4 px-2 has-background-white-ter text-purple has-text-weight-medium">
-                Item ${index + 1}
-            </span>
-        </div>
-        <div name="sivFormGroup" class="columns is-marginless is-multiline has-background-white-ter mb-5">
-            <div class="column is-6">
-                <div class="field">
-                    <label for="siv[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-                    <div class="control has-icons-left">
-                        <div class="select is-fullwidth">
-                            <select id="siv[${index}][product_id]" name="siv[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
-                                ${productList.innerHTML}
-                            </select>
-                        </div>
-                        <div class="icon is-small is-left">
-                            <i class="fas fa-th"></i>
+        <div class="box has-background-white-bis mb-5">
+            <div class="has-text-weight-medium has-text-right">
+                <span class="tag bg-purple has-text-white is-medium">
+                    Item ${index + 1}
+                </span>
+            </div>
+            <div name="sivFormGroup" class="columns is-marginless is-multiline">
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="siv[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="siv[${index}][product_id]" name="siv[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                    ${productList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-th"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="column is-6">
-                <label for="siv[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                <div class="field has-addons">
-                    <div class="control has-icons-left is-expanded">
-                        <input id="siv[${index}][quantity]" name="siv[${index}][quantity]" type="number" class="input" placeholder="Quantity">
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-balance-scale"></i>
-                        </span>
-                    </div>
-                    <div class="control">
-                        <button id="siv[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                <div class="column is-6">
+                    <label for="siv[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left is-expanded">
+                            <input id="siv[${index}][quantity]" name="siv[${index}][quantity]" type="number" class="input" placeholder="Quantity">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-balance-scale"></i>
+                            </span>
+                        </div>
+                        <div class="control">
+                            <button id="siv[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="column is-12">
-                <div class="field">
-                    <label for="siv[${index}][description]" class="label text-green has-text-weight-normal">Additional Notes</label>
-                    <div class="control has-icons-left">
-                        <textarea name="siv[${index}][description]" id="siv[${index}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken"></textarea>
-                        <span class="icon is-large is-left">
-                            <i class="fas fa-edit"></i>
-                        </span>
+                <div class="column is-12">
+                    <div class="field">
+                        <label for="siv[${index}][description]" class="label text-green has-text-weight-normal">Additional Notes</label>
+                        <div class="control has-icons-left">
+                            <textarea name="siv[${index}][description]" id="siv[${index}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken"></textarea>
+                            <span class="icon is-large is-left">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
