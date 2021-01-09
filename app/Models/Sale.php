@@ -40,6 +40,11 @@ class Sale extends Model
         return $this->hasMany(SaleDetail::class);
     }
 
+    public function sivs()
+    {
+        return $this->morphMany(Siv::class, 'sivable');
+    }
+
     public function scopeCompanySales($query)
     {
         return $query->where('company_id', auth()->user()->employee->company_id);

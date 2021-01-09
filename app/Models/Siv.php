@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
 
 class Siv extends Model
 {
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
+
+    public function sivable()
+    {
+        return $this->morphTo();
+    }
 
     public function createdBy()
     {
