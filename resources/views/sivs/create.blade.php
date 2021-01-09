@@ -11,7 +11,7 @@
                 New SIV
             </h1>
         </div>
-        <form id="formOne" action="{{ route('sivs.store') }}" method="POST" enctype="multipart/form-data" novalidate>
+        <form id="formOne" action="{{ route('sivs.store', request()->input()) }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">

@@ -60,6 +60,14 @@
     background: #3d8660 !important;
     color: white !important;
 }
+.btn-blue {
+    border: 1px solid #3d8660 !important;
+    color: #3d6386 !important;
+}
+.btn-blue.is-outlined:hover {
+    background: #3d6386 !important;
+    color: white !important;
+}
 .is-pointer {
     cursor: pointer !important;
 }

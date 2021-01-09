@@ -110,6 +110,16 @@
                                     <td> {{ $sale->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
                                 <td>
+                                    <a href="{{ route('sivs.create', ['sale' => $sale->id]) }}" data-title="View Details">
+                                        <span class="tag mb-3 is-white btn-blue is-outlined is-small text-green has-text-weight-medium">
+                                            <span class="icon">
+                                                <i class="fas fa-file"></i>
+                                            </span>
+                                            <span>
+                                                Attach SIV
+                                            </span>
+                                        </span>
+                                    </a>
                                     <a href="{{ route('sales.show', $sale->id) }}" data-title="View Details">
                                         <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
