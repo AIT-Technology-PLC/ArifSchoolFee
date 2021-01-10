@@ -74,4 +74,22 @@ class SivController extends Controller
     {
         //
     }
+
+    public function getSivsOfPurchase(Purchase $purchase)
+    {
+        $this->authorize('view', $purchase);
+
+        $sivs = $purchase->sivs->load('sivDetails');
+
+        return view('sivs.show_sivs', compact('sivs'));
+    }
+
+    public function getSivsOfSale(Sale $sale)
+    {
+        $this->authorize('view', $sale);
+
+        $sivs = $sale->sivs->load('sivDetails');
+
+        return view('sivs.show_sivs', compact('sivs'));
+    }
 }

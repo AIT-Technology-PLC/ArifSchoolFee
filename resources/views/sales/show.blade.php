@@ -68,7 +68,7 @@
                                     Edit Sale
                                 </span>
                             </a>
-                            <a href="" class="button is-small bg-purple has-text-white">
+                            <a href="{{ route('sales.sivs', $sale->id) }}" class="button is-small bg-purple has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-file"></i>
                                 </span>

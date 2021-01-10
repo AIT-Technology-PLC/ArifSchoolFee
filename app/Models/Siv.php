@@ -33,4 +33,14 @@ class Siv extends Model
     {
         return $this->hasMany(SivDetails::class);
     }
+
+    public function scopeCompanySivs($query)
+    {
+        return $query->where('company_id', auth()->user()->employee->company_id);
+    }
+
+    public function getAll()
+    {
+        return $this->companySivs()->latest()->get();
+    }
 }
