@@ -443,3 +443,25 @@ const addSivForm = (function () {
         }
     };
 })();
+
+function showSingleSivModal(event) {
+    let target = event.target;
+    let sivId = target.dataset.id;
+
+    while (!sivId) {
+        sivId = target.dataset.id;
+        target = target.parentElement;
+    }
+
+    d.getElementById(`sivModal${sivId}`).classList.toggle("is-active");
+}
+
+function toggleSingleSivModal(event) {
+    let target = event.target;
+
+    if (target.dataset.id) {
+        d.getElementById("sivModal" + target.dataset.id).classList.remove(
+            "is-active"
+        );
+    }
+}

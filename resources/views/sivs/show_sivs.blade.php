@@ -34,7 +34,7 @@
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
             <div class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
+                <table id="sivTable" class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
@@ -56,7 +56,7 @@
                                 <td> {{ $siv->createdBy->name }} </td>
                                 <td> {{ $siv->updatedBy->name }} </td>
                                 <td>
-                                    <a data-title="See items of this SIV">
+                                    <a data-id="{{ $siv->id }}" data-title="See items of this SIV">
                                         <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-expand-alt"></i>
@@ -84,4 +84,7 @@
             </div>
         </div>
     </section>
+    @foreach ($sivs as $siv)
+        @include('sivs.show_siv', $siv)
+    @endforeach
 @endsection

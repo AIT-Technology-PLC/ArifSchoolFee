@@ -85,3 +85,8 @@ if (d.getElementById("warehouseId")) {
 if (d.getElementById("addNewSivForm")) {
     d.getElementById("addNewSivForm").addEventListener("click", addSivForm);
 }
+
+if (d.getElementById("sivTable")) {
+    d.getElementById("sivTable").addEventListener("click", showSingleSivModal);
+    d.addEventListener("click", toggleSingleSivModal);
+}
