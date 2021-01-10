@@ -383,12 +383,12 @@ const addSivForm = (function () {
 
     return function () {
         const createSivForm = `
-        <div class="box has-background-white-bis mb-5">
-            <div class="has-text-weight-medium has-text-right">
-                <span class="tag bg-purple has-text-white is-medium">
-                    Item ${index + 1}
-                </span>
-            </div>
+        <div class="has-text-weight-medium has-text-left">
+            <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                Item ${index + 1}
+            </span>
+        </div>
+        <div class="box has-background-white-bis radius-top-0 mb-5">
             <div name="sivFormGroup" class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <div class="field">
