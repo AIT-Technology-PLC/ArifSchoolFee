@@ -61,11 +61,19 @@
     color: white !important;
 }
 .btn-blue {
-    border: 1px solid #3d8660 !important;
+    border: 1px solid #3d6386 !important;
     color: #3d6386 !important;
 }
 .btn-blue.is-outlined:hover {
     background: #3d6386 !important;
+    color: white !important;
+}
+.btn-gold {
+    border: 1px solid #86843d !important;
+    color: #86843d !important;
+}
+.btn-gold.is-outlined:hover {
+    background: #86843d !important;
     color: white !important;
 }
 .is-pointer {

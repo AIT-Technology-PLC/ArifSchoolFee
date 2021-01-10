@@ -116,7 +116,17 @@
                                                 <i class="fas fa-file"></i>
                                             </span>
                                             <span>
-                                                Attach SIV
+                                                Create SIV
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <a class="is-block" href="{{ route('sales.sivs', $sale->id) }}" data-title="Show SIVs for this purchase">
+                                        <span class="tag mb-3 is-white btn-gold is-outlined is-small text-green has-text-weight-medium">
+                                            <span class="icon">
+                                                <i class="fas fa-file"></i>
+                                            </span>
+                                            <span>
+                                                Show SIVs
                                             </span>
                                         </span>
                                     </a>
