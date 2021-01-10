@@ -14,12 +14,12 @@
         <form id="formOne" action="{{ route('purchases.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
-                <div class="box has-background-white-bis">
-                    <div class="has-text-weight-medium has-text-right">
-                        <span class="tag bg-purple has-text-white is-medium">
-                            Item 1
-                        </span>
-                    </div>
+                <div class="has-text-weight-medium has-text-left">
+                    <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                        Item 1
+                    </span>
+                </div>
+                <div class="box has-background-white-bis radius-top-0">
                     <div name="purchaseFormGroup" class="columns is-marginless is-multiline">
                         <div class="column is-12">
                             <div class="field">
@@ -86,12 +86,12 @@
                 </div>
                 @for ($i = 1; $i < 10; $i++)
                     @if (old('purchase.' . $i . '.product_id') || old('purchase.' . $i . '.supplier_id') || old('purchase.' . $i . '.quantity') || old('purchase.' . $i . '.unit_price'))
-                        <div class="box has-background-white-bis">
-                            <div class="has-text-weight-medium has-text-right">
-                                <span class="tag bg-purple has-text-white is-medium">
-                                    Item {{ $i + 1 }}
-                                </span>
-                            </div>
+                        <div class="has-text-weight-medium has-text-left">
+                            <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                                Item {{ $i + 1 }}
+                            </span>
+                        </div>
+                        <div class="box has-background-white-bis radius-top-0">
                             <div name="purchaseFormGroup" class="columns is-marginless is-multiline">
                                 <div class="column is-6">
                                     <div class="field">
