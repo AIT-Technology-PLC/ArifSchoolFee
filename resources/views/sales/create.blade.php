@@ -22,12 +22,12 @@
                         {{ session('message') }}
                     </span>
                 </div>
-                <div class="box has-background-white-bis">
-                    <div class="has-text-weight-medium has-text-right">
-                        <span class="tag bg-purple has-text-white is-medium">
-                            Item 1
-                        </span>
-                    </div>
+                <div class="has-text-weight-medium has-text-left">
+                    <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                        Item 1
+                    </span>
+                </div>
+                <div class="box has-background-white-bis radius-top-0">
                     <div name="saleFormGroup" class="columns is-marginless is-multiline">
                         <div class="column is-6">
                             <div class="field">
@@ -116,12 +116,12 @@
                 </div>
                 @for ($i = 1; $i < 10; $i++)
                     @if (old('sale.' . $i . '.product_id') || old('sale.' . $i . '.customer_id') || old('sale.' . $i . '.quantity') || old('sale.' . $i . '.unit_price'))
-                        <div class="box has-background-white-bis">
-                            <div class="has-text-weight-medium has-text-right">
-                                <span class="tag bg-purple has-text-white is-medium">
-                                    Item {{ $i + 1 }}
-                                </span>
-                            </div>
+                        <div class="has-text-weight-medium has-text-left">
+                            <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                                Item {{ $i + 1 }}
+                            </span>
+                        </div>
+                        <div class="box has-background-white-bis radius-top-0">
                             <div name="saleFormGroup" class="columns is-marginless is-multiline">
                                 <div class="column is-6">
                                     <div class="field">

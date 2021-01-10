@@ -24,12 +24,12 @@
                     </span>
                 </div>
                 @foreach ($sale->saleDetails as $saleDetail)
-                    <div class="box has-background-white-bis">
-                        <div class="has-text-weight-medium has-text-right">
-                            <span class="tag bg-purple has-text-white is-medium">
-                                Item {{ $loop->index + 1 }} - {{ $saleDetail->product->name }}
-                            </span>
-                        </div>
+                    <div class="has-text-weight-medium has-text-left">
+                        <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                            Item {{ $loop->index + 1 }} - {{ $saleDetail->product->name }}
+                        </span>
+                    </div>
+                    <div class="box has-background-white-bis radius-top-0">
                         <div class="columns is-marginless is-multiline">
                             <div class="column is-6">
                                 <div class="field">
