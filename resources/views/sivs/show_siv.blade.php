@@ -11,24 +11,26 @@
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
-                            <th class="text-purple"><abbr> Product </abbr></th>
-                            <th class=""><abbr> Description </abbr></th>
-                            <th class="text-purple has-text-right"><abbr> Quantity </abbr></th>
+                            <th class="text-purple has-text-left"><abbr> Product </abbr></th>
+                            <th class="has-text-left"><abbr> Description </abbr></th>
+                            <th class="has-text-right"><abbr> Quantity </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($siv->sivDetails as $sivDetail)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-uppercase">
+                                <td class="is-uppercase has-text-left">
                                     <span class="tag bg-purple has-text-white">
                                         {{ $sivDetail->product->name }}
                                     </span>
                                 </td>
-                                <td> {!! nl2br(e($sivDetail->description)) !!} </td>
-                                <td class="has-text-right"> 
-                                    {{ $sivDetail->quantity }} 
-                                    {{ $sivDetail->product->unit_of_measurement }} 
+                                <td class="has-text-left">
+                                    {!! nl2br(e($sivDetail->description)) !!}
+                                </td>
+                                <td class="has-text-right">
+                                    {{ $sivDetail->quantity }}
+                                    {{ $sivDetail->product->unit_of_measurement }}
                                 </td>
                             </tr>
                         @endforeach

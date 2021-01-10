@@ -48,11 +48,17 @@ class SivController extends Controller
         $basicSivData = Arr::except($sivData, 'siv');
         $sivDetailsData = $sivData['siv'];
 
-        DB::transaction(function () use ($basicSivData, $sivDetailsData) {
+        $siv = DB::transaction(function () use ($basicSivData, $sivDetailsData) {
             $saleOrPurchase = Sale::find(request('sale')) ?? Purchase::find(request('purchase'));
             $siv = $saleOrPurchase->sivs()->create($basicSivData);
             $siv->sivDetails()->createMany($sivDetailsData);
+
+            return $siv;
         });
+
+        return request('sale') ?
+        redirect()->route('sales.sivs', $siv->sivable->id) :
+        redirect()->route('purchases.sivs', $siv->sivable->id);
     }
 
     public function show(Siv $siv)
