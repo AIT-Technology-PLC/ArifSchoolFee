@@ -47,9 +47,39 @@
     </div>
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                Sale Details
-            </h1>
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item is-justify-content-left">
+                        <div>
+                            <h1 class="title text-green has-text-weight-medium is-size-5">
+                                Sale Details
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item is-justify-content-left">
+                        <div>
+                            <a href="{{ route('sales.edit', $sale->id) }}" class="button is-small bg-green has-text-white">
+                                <span class="icon">
+                                    <i class="fas fa-pen"></i>
+                                </span>
+                                <span>
+                                    Edit Sale
+                                </span>
+                            </a>
+                            <a href="" class="button is-small bg-purple has-text-white">
+                                <span class="icon">
+                                    <i class="fas fa-file"></i>
+                                </span>
+                                <span>
+                                    Show SIVs
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
             <div class="notification bg-gold has-text-white has-text-weight-medium {{ session('message') ? '' : 'is-hidden' }}">
