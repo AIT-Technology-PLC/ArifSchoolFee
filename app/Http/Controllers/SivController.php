@@ -79,7 +79,7 @@ class SivController extends Controller
     {
         $this->authorize('view', $purchase);
 
-        $sivs = $purchase->sivs->load('sivDetails.product');
+        $sivs = $purchase->sivs->load(['sivDetails.product', 'createdBy', 'updatedBy']);
 
         return view('sivs.show_sivs', compact('sivs'));
     }
@@ -88,7 +88,7 @@ class SivController extends Controller
     {
         $this->authorize('view', $sale);
 
-        $sivs = $sale->sivs->load('sivDetails.product');
+        $sivs = $sale->sivs->load(['sivDetails.product', 'createdBy', 'updatedBy']);
 
         return view('sivs.show_sivs', compact('sivs'));
     }
