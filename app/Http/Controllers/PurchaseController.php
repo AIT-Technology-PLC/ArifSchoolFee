@@ -90,6 +90,8 @@ class PurchaseController extends Controller
 
     public function edit(Purchase $purchase, Product $product, Supplier $supplier)
     {
+        $purchase->load('purchaseDetails.product');
+        
         $products = $product->getProductNames();
 
         $suppliers = $supplier->getSupplierNames();

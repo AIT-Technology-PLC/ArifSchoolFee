@@ -97,6 +97,8 @@ class SaleController extends Controller
 
     public function edit(Sale $sale, Product $product, Customer $customer, Warehouse $warehouse)
     {
+        $sale->load('saleDetails.product');
+        
         $products = $product->getSaleableProducts();
 
         $customers = $customer->getCustomerNames();
