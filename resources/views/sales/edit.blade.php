@@ -36,7 +36,7 @@
                                     <label for="sale[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
                                         <div class="select is-fullwidth">
-                                            <select id="sale[{{ $loop->index }}][product_id]" name="sale[{{ $loop->index }}][product_id]">
+                                            <select id="sale[{{ $loop->index }}][product_id]" name="sale[{{ $loop->index }}][product_id]" onchange="getProductSelected(this.id, this.value)">
                                                 <option selected disabled>Select Product</option>
                                                 @foreach ($products as $product)
                                                     <option value="{{ $product->id }}" {{ $saleDetail->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
@@ -91,7 +91,7 @@
                                         @enderror
                                     </div>
                                     <div class="control">
-                                        <button class="button bg-green has-text-white" type="button">
+                                        <button id="sale[{{ $loop->index }}][product_id]Quantity" class="button bg-green has-text-white" type="button">
                                             {{ $saleDetail->product->unit_of_measurement }}
                                         </button>
                                     </div>
@@ -112,8 +112,8 @@
                                         @enderror
                                     </div>
                                     <div class="control">
-                                        <button class="button bg-green has-text-white" type="button">
-                                            {{ $saleDetail->product->unit_of_measurement }}
+                                        <button id="sale[{{ $loop->index }}][product_id]Price" class="button bg-green has-text-white" type="button">
+                                            Per {{ $saleDetail->product->unit_of_measurement }}
                                         </button>
                                     </div>
                                 </div>
