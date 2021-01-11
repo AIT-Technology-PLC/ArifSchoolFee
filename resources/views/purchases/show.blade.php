@@ -225,5 +225,7 @@
             </div>
         </div>
     </section>
-    @include('purchases.add-to-inventory-modal')
+    @if (!$purchase->isAddedToInventory())
+        @include('purchases.add-to-inventory-modal')
+    @endif
 @endsection

@@ -421,7 +421,7 @@ const addSivForm = (function () {
                 </div>
                 <div class="column is-12">
                     <div class="field">
-                        <label for="siv[${index}][description]" class="label text-green has-text-weight-normal">Additional Notes</label>
+                        <label for="siv[${index}][description]" class="label text-green has-text-weight-normal">Description</label>
                         <div class="control has-icons-left">
                             <textarea name="siv[${index}][description]" id="siv[${index}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken"></textarea>
                             <span class="icon is-large is-left">
@@ -449,6 +449,9 @@ function showSingleSivModal(event) {
     let sivId = target.dataset.id;
 
     while (!sivId) {
+        if (target.tagName == "TABLE") {
+            return;
+        }
         sivId = target.dataset.id;
         target = target.parentElement;
     }
@@ -459,9 +462,9 @@ function showSingleSivModal(event) {
 function toggleSingleSivModal(event) {
     let target = event.target;
 
-    if (target.dataset.id) {
-        d.getElementById("sivModal" + target.dataset.id).classList.remove(
-            "is-active"
-        );
+    if (target.dataset.closeSivModal) {
+        d.getElementById(
+            "sivModal" + target.dataset.closeSivModal
+        ).classList.remove("is-active");
     }
 }

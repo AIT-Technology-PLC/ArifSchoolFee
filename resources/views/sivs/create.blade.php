@@ -83,7 +83,7 @@
                         </div>
                         <div class="column is-12">
                             <div class="field">
-                                <label for="siv[0][description]" class="label text-green has-text-weight-normal">Additional Notes</label>
+                                <label for="siv[0][description]" class="label text-green has-text-weight-normal">Description</label>
                                 <div class="control has-icons-left">
                                     <textarea name="siv[0][description]" id="siv[0][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('siv.0.description') ?? '' }}</textarea>
                                     <span class="icon is-large is-left">

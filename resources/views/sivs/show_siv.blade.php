@@ -1,9 +1,9 @@
 <div id="sivModal{{ $siv->id }}" class="modal is-fullwidth">
-    <div class="modal-background"></div>
+    <div class="modal-background" data-close-siv-modal="{{ $siv->id }}"></div>
     <div class="modal-card">
         <header class="modal-card-head bg-green">
             <p class="modal-card-title has-text-white">SIV No: {{ $siv->code }}</p>
-            <button class="delete is-large" aria-label="close" data-id="{{ $siv->id }}"></button>
+            <button class="delete is-large" aria-label="close" data-close-siv-modal="{{ $siv->id }}"></button>
         </header>
         <section class="modal-card-body">
             <div class="table-container">
