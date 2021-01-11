@@ -60,20 +60,28 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('purchases.edit', $purchase->id) }}" class="button is-small bg-green has-text-white">
+                            <a href="{{ route('sivs.create', ['purchase' => $purchase->id]) }}" class="button is-small bg-blue has-text-white">
                                 <span class="icon">
-                                    <i class="fas fa-pen"></i>
+                                    <i class="fas fa-file"></i>
                                 </span>
                                 <span>
-                                    Edit Purchase
+                                    Create SIV
                                 </span>
                             </a>
-                            <a href="{{ route('purchases.sivs', $purchase->id) }}" class="button is-small bg-purple has-text-white">
+                            <a href="{{ route('purchases.sivs', $purchase->id) }}" class="button is-small bg-gold has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-file"></i>
                                 </span>
                                 <span>
                                     Show SIVs
+                                </span>
+                            </a>
+                            <a href="{{ route('purchases.edit', $purchase->id) }}" class="button is-small bg-green has-text-white">
+                                <span class="icon">
+                                    <i class="fas fa-pen"></i>
+                                </span>
+                                <span>
+                                    Edit
                                 </span>
                             </a>
                         </div>
