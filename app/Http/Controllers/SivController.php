@@ -12,18 +12,6 @@ use Illuminate\Support\Facades\DB;
 
 class SivController extends Controller
 {
-    private $siv;
-
-    public function __construct(Siv $siv)
-    {
-        $this->siv = $siv;
-    }
-
-    public function index()
-    {
-        //
-    }
-
     public function create(Product $product)
     {
         $products = $product->getProductNames();
@@ -61,11 +49,6 @@ class SivController extends Controller
         redirect()->route('purchases.sivs', $siv->sivable->id);
     }
 
-    public function show(Siv $siv)
-    {
-        //
-    }
-
     public function edit(Siv $siv, Product $product)
     {
         $siv->load(['sivDetails.product']);
@@ -77,7 +60,30 @@ class SivController extends Controller
 
     public function update(Request $request, Siv $siv)
     {
-        //
+        $sivData = $request->validate([
+            'code' => 'required|string|unique:sivs,code,' . $siv->id,
+            'siv' => 'required|array',
+            'siv.*.product_id' => 'required|integer',
+            'siv.*.quantity' => 'required|numeric',
+            'siv.*.description' => 'nullable|string',
+        ]);
+
+        $sivData['updated_by'] = auth()->user()->id;
+
+        $basicSivData = Arr::except($sivData, 'siv');
+        $sivDetailsData = $sivData['siv'];
+
+        DB::transaction(function () use ($siv, $basicSivData, $sivDetailsData) {
+            $siv->update($basicSivData);
+
+            for ($i = 0; $i < count($sivDetailsData); $i++) {
+                $siv->sivDetails[$i]->update($sivDetailsData[$i]);
+            }
+        });
+
+        return str_contains($siv->sivable_type, 'Sale') ?
+        redirect()->route('sales.sivs', $siv->sivable->id) :
+        redirect()->route('purchases.sivs', $siv->sivable->id);
     }
 
     public function destroy(Siv $siv)
