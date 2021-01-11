@@ -66,9 +66,13 @@ class SivController extends Controller
         //
     }
 
-    public function edit(Siv $siv)
+    public function edit(Siv $siv, Product $product)
     {
-        //
+        $siv->load(['sivDetails.product']);
+
+        $products = $product->getProductNames();
+
+        return view('sivs.edit', compact('siv', 'products'));
     }
 
     public function update(Request $request, Siv $siv)
