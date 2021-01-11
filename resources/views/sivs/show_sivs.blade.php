@@ -59,10 +59,10 @@
                                     <a data-id="{{ $siv->id }}" data-title="See items of this SIV">
                                         <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
-                                                <i class="fas fa-expand-alt"></i>
+                                                <i class="fas fa-expand"></i>
                                             </span>
                                             <span>
-                                                Expand
+                                                Open This SIV
                                             </span>
                                         </span>
                                     </a>
