@@ -3,6 +3,6 @@
         Product of Onrica Technologies
     </p>
     <p class="has-text-grey">
-        Copyright © 2020 Onrica Technologies, PLC. All rights reserved.
+        Copyright © {{ now()->year }} Onrica Technologies, PLC. All rights reserved.
     </p>
 </section>
