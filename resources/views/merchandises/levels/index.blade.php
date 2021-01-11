@@ -118,7 +118,7 @@
                     </div>
                 </div>
                 <div class="level-right">
-                    <div class="level-item">
+                    <div class="level-item is-justify-content-left">
                         <div class="field">
                             <div class="control has-icons-left">
                                 <div class="select">
