@@ -12,11 +12,14 @@ use Illuminate\Support\Facades\DB;
 
 class SivController extends Controller
 {
-    public function create(Product $product)
+    public function create()
     {
-        $products = $product->getProductNames();
+        $saleOrPurchases = Sale::with('saleDetails.product')->find(request('sale')) ??
+        Purchase::with('purchaseDetails.product')->find(request('purchase'));
 
-        return view('sivs.create', compact('products'));
+        $saleOrPurchases = $saleOrPurchases['saleDetails'] ?? $saleOrPurchases['purchaseDetails'];
+
+        return view('sivs.create', compact('saleOrPurchases'));
     }
 
     public function store(Request $request)

@@ -46,8 +46,8 @@
                                     <div class="select is-fullwidth">
                                         <select id="siv[0][product_id]" name="siv[0][product_id]" onchange="getProductSelected(this.id, this.value)">
                                             <option selected disabled>Select Product</option>
-                                            @foreach ($products as $product)
-                                                <option value="{{ $product->id }}" {{ old('siv.0.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
+                                            @foreach ($saleOrPurchases as $saleOrPurchase)
+                                                <option value="{{ $saleOrPurchase->product->id }}" {{ old('siv.0.product_id') == $saleOrPurchase->product->id ? 'selected' : '' }}>{{ $saleOrPurchase->product->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -115,8 +115,8 @@
                                             <div class="select is-fullwidth">
                                                 <select id="siv[{{ $i }}][product_id]" name="siv[{{ $i }}][product_id]" onchange="getProductSelected(this.id, this.value)">
                                                     <option selected disabled>Select Product</option>
-                                                    @foreach ($products as $product)
-                                                        <option value="{{ $product->id }}" {{ old('siv.' . $i . '.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
+                                                    @foreach ($saleOrPurchases as $saleOrPurchase)
+                                                        <option value="{{ $saleOrPurchase->product->id }}" {{ old('siv.' . $i . '.product_id') == $saleOrPurchase->product->id ? 'selected' : '' }}>{{ $saleOrPurchase->product->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
