@@ -197,6 +197,11 @@ td {
         0 0 0 1px rgba(10, 10, 10, 0.02);
     border-radius: 6px;
 }
+@media screen and (max-width: 768px) {
+    [data-title]:after {
+        display: none !important;
+    }
+}
 [data-title]:hover:after {
     opacity: 1;
     visibility: visible;
