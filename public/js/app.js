@@ -474,6 +474,8 @@ function toggleLeftMenuOnMobile() {
 
     menuLeft.classList.toggle("is-hidden-mobile");
 
+    d.getElementById("contentRight").classList.toggle("is-hidden-mobile");
+
     d.getElementById("burgerMenuBars").classList.toggle("fa-times");
 
     if (!menuLeft.classList.contains("is-hidden-mobile")) {
