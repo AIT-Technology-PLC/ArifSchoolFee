@@ -107,7 +107,7 @@
                     </p>
                     <form id="formOne" action="{{ route('merchandises.subtractFromInventory', $sale->id) }}" method="post" novalidate>
                         @csrf
-                        <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5">
+                        <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
                             <span class="icon">
                                 <i class="fas fa-handshake"></i>
                             </span>

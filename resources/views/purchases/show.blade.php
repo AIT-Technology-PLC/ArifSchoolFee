@@ -97,7 +97,7 @@
                         <br>
                         Add product(s) automatically by clicking on the button.
                     </p>
-                    <button id="openAddToInventoryModal" class="button bg-purple has-text-white mt-5">
+                    <button id="openAddToInventoryModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
                         <span class="icon">
                             <i class="fas fa-plus"></i>
                         </span>
