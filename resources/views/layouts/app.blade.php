@@ -22,7 +22,7 @@
 
     <main>
         <div class="columns is-marginless">
-            <div id="menuLeft" class="column is-one-fifth py-5 limit-to-100vh scroller">
+            <div id="menuLeft" class="column is-one-fifth py-5 limit-to-100vh scroller is-hidden-mobile">
                 @include('layouts.menu')
             </div>
             <div id="contentRight" class="column bg-lightgreen py-5 limit-to-100vh scroller">

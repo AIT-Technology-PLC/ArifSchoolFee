@@ -468,3 +468,16 @@ function toggleSingleSivModal(event) {
         ).classList.remove("is-active");
     }
 }
+
+function toggleLeftMenuOnMobile() {
+    let menuLeft = d.getElementById("menuLeft");
+
+    menuLeft.classList.toggle("is-hidden-mobile");
+
+    d.getElementById("burgerMenuBars").classList.toggle("fa-times");
+
+    if (!menuLeft.classList.contains("is-hidden-mobile")) {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+}

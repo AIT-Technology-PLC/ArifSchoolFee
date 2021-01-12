@@ -13,11 +13,11 @@
                     SmartWork
                 </span>
             </a>
-            <a id="burger-menu" class="navbar-item to-the-right has-text-white is-size-5 is-hidden-desktop">
+            <span id="burger-menu" class="navbar-item to-the-right has-text-white is-size-5 is-hidden-desktop">
                 <span class="icon">
-                    <i class="fas fa-bars"></i>
+                    <i id="burgerMenuBars" class="fas fa-bars"></i>
                 </span>
-            </a>
+            </span>
         </div>
         <div class="navbar-menu">
             <div class="navbar-end">

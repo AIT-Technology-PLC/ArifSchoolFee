@@ -90,3 +90,8 @@ if (d.getElementById("sivTable")) {
     d.getElementById("sivTable").addEventListener("click", showSingleSivModal);
     d.addEventListener("click", toggleSingleSivModal);
 }
+
+d.getElementById("burger-menu").addEventListener(
+    "click",
+    toggleLeftMenuOnMobile
+);
