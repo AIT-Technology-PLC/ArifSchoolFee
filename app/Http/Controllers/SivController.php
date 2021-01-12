@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Sale;
 use App\Models\Siv;
@@ -52,13 +51,15 @@ class SivController extends Controller
         redirect()->route('purchases.sivs', $siv->sivable->id);
     }
 
-    public function edit(Siv $siv, Product $product)
+    public function edit(Siv $siv)
     {
         $siv->load(['sivDetails.product']);
 
-        $products = $product->getProductNames();
+        $saleOrPurchases = $siv->sivable['saleDetails'] ?? $siv->sivable['purchaseDetails'];
 
-        return view('sivs.edit', compact('siv', 'products'));
+        $saleOrPurchases->load('product');
+
+        return view('sivs.edit', compact('siv', 'saleOrPurchases'));
     }
 
     public function update(Request $request, Siv $siv)
