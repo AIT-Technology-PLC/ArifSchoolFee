@@ -8,7 +8,7 @@
                 </span>
             </a>
             <a class="navbar-item is-hidden-desktop" href="#">
-                <img src="{{ asset('img/logo.png') }}" style="max-height: 40px">
+                <img src="{{ asset('img/logo.png') }}" style="width: 80px;max-height: 37px">
                 <span class="has-text-white is-size-6">
                     SmartWork
                 </span>
