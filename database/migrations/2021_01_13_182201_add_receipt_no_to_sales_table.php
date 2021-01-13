@@ -14,7 +14,7 @@ class AddReceiptNoToSalesTable extends Migration
     public function up()
     {
         Schema::table('sales', function (Blueprint $table) {
-            $table->string('receipt_no')->after('updated_by')->nullable();
+            $table->string('receipt_no')->after('updated_by')->unique();
         });
     }
 
