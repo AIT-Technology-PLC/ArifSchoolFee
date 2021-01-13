@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Siv extends Model
 {
@@ -32,6 +33,16 @@ class Siv extends Model
     public function sivDetails()
     {
         return $this->hasMany(SivDetails::class);
+    }
+
+    public function setCodeAttribute($value)
+    {
+        $this->attributes['code'] = auth()->user()->employee->company->id . '_' . $value;
+    }
+
+    public function getCodeAttribute($value)
+    {
+        return Str::after($value, auth()->user()->employee->company->id . '_');
     }
 
     public function scopeCompanySivs($query)
