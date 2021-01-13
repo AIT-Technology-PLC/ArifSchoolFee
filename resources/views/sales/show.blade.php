@@ -11,15 +11,15 @@
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
                         <span class="icon is-large is-size-1">
-                            <i class="fas fa-truck"></i>
+                            <i class="fas fa-hashtag"></i>
                         </span>
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $sale->shipping_line ?? 'N/A' }}
+                            {{ $sale->receipt_no ?? 'N/A' }}
                         </div>
                         <div class="is-uppercase is-size-7">
-                            Shipping Line
+                            Receipt No
                         </div>
                     </div>
                 </div>
@@ -183,18 +183,18 @@
                         </div>
                         <div class="mb-4">
                             <h1 class="is-uppercase has-text-weight-light has-text-white">
-                                Customer
+                                Receipt No
                             </h1>
                             <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $sale->customer->company_name ?? 'N/A' }}
+                                {{ $sale->receipt_no ?? 'N/A' }}
                             </h2>
                         </div>
                         <div class="mb-4">
                             <h1 class="is-uppercase has-text-weight-light has-text-white">
-                                Shipping Company
+                                Customer
                             </h1>
                             <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $sale->shipping_line ?? 'N/A' }}
+                                {{ $sale->customer->company_name ?? 'N/A' }}
                             </h2>
                         </div>
                         <div class="mb-4">
@@ -211,6 +211,14 @@
                             </h1>
                             <h2 class="subtitle has-text-white has-text-weight-medium">
                                 {{ $sale->sold_on ? $sale->sold_on->toFormattedDateString() : 'N/A' }}
+                            </h2>
+                        </div>
+                        <div class="mb-4">
+                            <h1 class="is-uppercase has-text-weight-light has-text-white">
+                                Shipping Company
+                            </h1>
+                            <h2 class="subtitle has-text-white has-text-weight-medium">
+                                {{ $sale->shipping_line ?? 'N/A' }}
                             </h2>
                         </div>
                         <div class="mb-4">

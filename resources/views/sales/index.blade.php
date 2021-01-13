@@ -59,7 +59,7 @@
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
-                            <th><abbr> Shipping Line </abbr></th>
+                            <th><abbr> Receipt No </abbr></th>
                             <th class="text-purple"><abbr> Status </abbr></th>
                             <th class="has-text-centered text-gold"><abbr> Total Products </abbr></th>
                             <th class="has-text-right text-green"><abbr> Total Price </abbr></th>
@@ -77,7 +77,7 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
-                                    {{ $sale->shipping_line ?? 'N/A' }}
+                                    {{ $sale->receipt_no ?? 'N/A' }}
                                 </td>
                                 <td class="is-capitalized">
                                     @if ($sale->isSaleSubtracted())

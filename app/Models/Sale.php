@@ -48,6 +48,10 @@ class Sale extends Model
 
     public function getReceiptNoAttribute($value)
     {
+        if (Str::endsWith($value, '_') || !$value) {
+            return null;
+        }
+
         return Str::after($value, auth()->user()->employee->company->id . '_');
     }
 
