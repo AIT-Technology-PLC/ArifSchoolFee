@@ -15,7 +15,7 @@
             @csrf
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
-                <div class="columns is-marginless is-multiline">
+                <div class="columns is-marginless is-multiline is-centered">
                     <div class="column is-6">
                         <div class="field">
                             <label for="code" class="label text-green has-text-weight-normal">SIV Number <sup class="has-text-danger">*</sup> </label>
