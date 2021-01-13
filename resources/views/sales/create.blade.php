@@ -22,6 +22,24 @@
                         {{ session('message') }}
                     </span>
                 </div>
+                <div class="columns is-marginless is-multiline is-centered">
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="receipt_no" class="label text-green has-text-weight-normal">Receipt No <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="text" name="receipt_no" id="receipt_no">
+                                <span class="icon is-large is-left">
+                                    <i class="fas fa-hashtag"></i>
+                                </span>
+                                @error('receipt_no')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="has-text-weight-medium has-text-left">
                     <span class="tag bg-green has-text-white is-medium radius-bottom-0">
                         Item 1

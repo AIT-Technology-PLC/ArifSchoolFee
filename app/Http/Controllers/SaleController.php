@@ -8,20 +8,21 @@ use App\Models\Sale;
 use App\Models\Warehouse;
 use App\Services\StoreSaleableProducts;
 use App\Traits\HasOptions;
+use App\Traits\PrependCompanyId;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
-    use HasOptions;
+    use HasOptions, PrependCompanyId;
 
     private $sale;
 
     public function __construct(Sale $sale)
     {
         $this->authorizeResource(Sale::class, 'sale');
-        
+
         $this->sale = $sale;
     }
 
@@ -49,7 +50,10 @@ class SaleController extends Controller
 
     public function store(Request $request)
     {
+        $request['receipt_no'] = $this->prependCompanyId($request->receipt_no);
+
         $saleData = $request->validate([
+            'receipt_no' => 'required|string|unique:sales',
             'sale' => 'required|array',
             'sale.*.product_id' => 'required|integer',
             'sale.*.warehouse_id' => 'required|integer',
@@ -98,7 +102,7 @@ class SaleController extends Controller
     public function edit(Sale $sale, Product $product, Customer $customer, Warehouse $warehouse)
     {
         $sale->load('saleDetails.product');
-        
+
         $products = $product->getSaleableProducts();
 
         $customers = $customer->getCustomerNames();
@@ -116,7 +120,10 @@ class SaleController extends Controller
             return redirect()->route('sales.show', $sale->id);
         }
 
+        $request['receipt_no'] = $this->prependCompanyId($request->receipt_no);
+
         $saleData = $request->validate([
+            'receipt_no' => 'required|string|unique:sales,receipt_no,' . $sale->id,
             'sale' => 'required|array',
             'sale.*.product_id' => 'required|integer',
             'sale.*.warehouse_id' => 'required|integer',
