@@ -23,6 +23,8 @@ class SivController extends Controller
 
     public function store(Request $request)
     {
+        $request['code'] = auth()->user()->employee->company->id . '_' . $request->code;
+
         $sivData = $request->validate([
             'code' => 'required|string|unique:sivs',
             'siv' => 'required|array',
@@ -64,6 +66,8 @@ class SivController extends Controller
 
     public function update(Request $request, Siv $siv)
     {
+        $request['code'] = auth()->user()->employee->company->id . '_' . $request->code;
+
         $sivData = $request->validate([
             'code' => 'required|string|unique:sivs,code,' . $siv->id,
             'siv' => 'required|array',
