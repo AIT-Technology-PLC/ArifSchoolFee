@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Purchase;
 use App\Models\Sale;
 use App\Models\Siv;
+use App\Traits\PrependCompanyId;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class SivController extends Controller
 {
+    use PrependCompanyId;
+
     public function create()
     {
         $saleOrPurchases = Sale::with('saleDetails.product')->find(request('sale')) ??
@@ -23,7 +26,7 @@ class SivController extends Controller
 
     public function store(Request $request)
     {
-        $request['code'] = auth()->user()->employee->company->id . '_' . $request->code;
+        $request['code'] = $this->prependCompanyId($request->code);
 
         $sivData = $request->validate([
             'code' => 'required|string|unique:sivs',
@@ -66,7 +69,7 @@ class SivController extends Controller
 
     public function update(Request $request, Siv $siv)
     {
-        $request['code'] = auth()->user()->employee->company->id . '_' . $request->code;
+        $request['code'] = $this->prependCompanyId($request->code);
 
         $sivData = $request->validate([
             'code' => 'required|string|unique:sivs,code,' . $siv->id,
