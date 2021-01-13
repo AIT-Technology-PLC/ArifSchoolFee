@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Sale extends Model
 {
@@ -43,6 +44,11 @@ class Sale extends Model
     public function sivs()
     {
         return $this->morphMany(Siv::class, 'sivable');
+    }
+
+    public function getReceiptNoAttribute($value)
+    {
+        return Str::after($value, auth()->user()->employee->company->id . '_');
     }
 
     public function scopeCompanySales($query)
