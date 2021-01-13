@@ -35,11 +35,6 @@ class Siv extends Model
         return $this->hasMany(SivDetails::class);
     }
 
-    public function setCodeAttribute($value)
-    {
-        $this->attributes['code'] = auth()->user()->employee->company->id . '_' . $value;
-    }
-
     public function getCodeAttribute($value)
     {
         return Str::after($value, auth()->user()->employee->company->id . '_');
