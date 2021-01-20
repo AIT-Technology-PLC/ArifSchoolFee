@@ -17,11 +17,10 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-12">
                         <div class="field">
-                            <label for="type" class="label text-green has-text-weight-normal"> Inventory Type <sup class="has-text-danger">*</sup> </label>
+                            <label for="type" class="label text-green has-text-weight-normal"> Product Type <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="type" name="type">
-                                        <option selected disabled>Type</option>
                                         @foreach ($inventoryTypes as $inventoryType)
                                             <option value="{{ $inventoryType }}" {{ old('type') == $inventoryType ? 'selected' : '' }}>{{ $inventoryType }}</option>
                                         @endforeach
