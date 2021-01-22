@@ -18,17 +18,12 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
-                            <label for="name" class="label text-green has-text-weight-normal">Name <sup class="has-text-danger">*</sup> </label>
+                            <label for="name" class="label text-green has-text-weight-normal">Name <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input id="name" name="name" type="text" class="input" placeholder="Company Name" value="{{ $company->name }}">
+                                <input id="name" type="text" class="input" placeholder="Company Name" value="{{ $company->name }}" disabled>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-building"></i>
                                 </span>
-                                @error('name')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
                             </div>
                         </div>
                     </div>

@@ -24,7 +24,6 @@ class CompanyController extends Controller
     public function update(Request $request, Company $company)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
             'sector' => 'nullable|string|max:255',
             'currency' => 'required|string|max:255',
         ]);
