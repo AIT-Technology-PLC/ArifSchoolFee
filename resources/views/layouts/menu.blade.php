@@ -61,7 +61,17 @@
                 </ul>
             </li>
             <li>
-                <a name="menuTitles" href="{{ route('warehouses.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('warehouses') ? 'is-active' : '' }}">
+                <a name="menuTitles" href="{{ route('warehouses.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('gdns') ? 'is-active' : '' }}">
+                    <span class="icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </span>
+                    <span>
+                        SIV/GDN Management
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a name="menuTitles" href="#" class="has-text-grey has-text-weight-normal is-size-6-5">
                     <span class="icon">
                         <i class="fas fa-cogs"></i>
                     </span>
