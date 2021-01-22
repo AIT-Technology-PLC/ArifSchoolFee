@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\Customer;
 use App\Models\Employee;
+use App\Models\Gdn;
 use App\Models\Merchandise;
 use App\Models\Product;
 use App\Models\ProductCategory;
@@ -164,5 +165,15 @@ class User extends Authenticatable
     public function salesUpdated()
     {
         return $this->hasMany(Sale::class, 'updated_by');
+    }
+
+    public function gdnsCreated()
+    {
+        return $this->hasMany(Gdn::class, 'created_by');
+    }
+
+    public function gdnsUpdated()
+    {
+        return $this->hasMany(Gdn::class, 'updated_by');
     }
 }

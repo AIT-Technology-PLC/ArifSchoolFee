@@ -29,6 +29,11 @@ class Customer extends Model
         return $this->hasMany(Sale::class);
     }
 
+    public function gdns()
+    {
+        return $this->hasMany(Gdn::class);
+    }
+
     public function scopeCompanyCustomers($query)
     {
         return $query->where('company_id', auth()->user()->employee->company_id);

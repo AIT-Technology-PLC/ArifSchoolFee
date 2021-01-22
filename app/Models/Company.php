@@ -85,6 +85,11 @@ class Company extends Model
         return $this->hasMany(Sale::class);
     }
 
+    public function gdns()
+    {
+        return $this->hasMany(Gdn::class);
+    }
+
     public function isCompanyStandardMember()
     {
         return $this->membership_plan == "Standard";
