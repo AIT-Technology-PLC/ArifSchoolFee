@@ -40,6 +40,7 @@ class CreateGdnsTable extends Migration
         Schema::create('gdn_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('gdn_id')->nullable()->unsigned();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->decimal('quantity', 22);
             $table->longText('description')->nullable();
@@ -49,6 +50,7 @@ class CreateGdnsTable extends Migration
             $table->index('gdn_id');
 
             $table->foreign('gdn_id')->references('id')->on('gdns')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
