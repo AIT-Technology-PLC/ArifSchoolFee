@@ -82,15 +82,6 @@ if (d.getElementById("warehouseId")) {
     d.getElementById("warehouseId").addEventListener("change", changeWarehouse);
 }
 
-if (d.getElementById("addNewSivForm")) {
-    d.getElementById("addNewSivForm").addEventListener("click", addSivForm);
-}
-
-if (d.getElementById("sivTable")) {
-    d.getElementById("sivTable").addEventListener("click", showSingleSivModal);
-    d.addEventListener("click", toggleSingleSivModal);
-}
-
 d.getElementById("burger-menu").addEventListener(
     "click",
     toggleLeftMenuOnMobile
