@@ -61,7 +61,7 @@
                 </ul>
             </li>
             <li>
-                <a name="menuTitles" href="{{ route('warehouses.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('gdns') ? 'is-active' : '' }}">
+                <a name="menuTitles" href="{{ route('gdns.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('gdns') ? 'is-active' : '' }}">
                     <span class="icon">
                         <i class="fas fa-file-invoice"></i>
                     </span>
