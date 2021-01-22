@@ -78,6 +78,27 @@
                             </div>
                         </div>
                     </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="status" class="label text-green has-text-weight-normal"> Subtract from inventory now? <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input type="radio" name="status" id="status" value="Subtracted From Inventory" {{ old('status') == 'Subtracted From Inventory' ? 'checked' : '' }} checked>
+                                    Yes, subtract now.
+                                </label>
+                                <br>
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input type="radio" name="status" id="status" value="Not Subtracted From Inventory" {{ old('status') == 'Not Subtracted From Inventory' ? 'checked' : '' }}>
+                                    No, subtract later.
+                                </label>
+                                @error('status')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                     <div class="column is-12">
                         <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Additional Notes</label>
