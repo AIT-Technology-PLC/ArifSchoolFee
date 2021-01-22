@@ -221,8 +221,8 @@
                                             <div class="select is-fullwidth">
                                                 <select id="gdn[{{ $i }}][product_id]" name="gdn[{{ $i }}][product_id]" onchange="getProductSelected(this.id, this.value)">
                                                     <option selected disabled>Select Product</option>
-                                                    @foreach ($saleOrPurchases as $saleOrPurchase)
-                                                        <option value="{{ $saleOrPurchase->product->id }}" {{ old('gdn.' . $i . '.product_id') == $saleOrPurchase->product->id ? 'selected' : '' }}>{{ $saleOrPurchase->product->name }}</option>
+                                                    @foreach ($products as $product)
+                                                        <option value="{{ $product->id }}" {{ old('gdn.' . $i . '.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -230,6 +230,28 @@
                                                 <i class="fas fa-th"></i>
                                             </div>
                                             @error('gdn.' . $i . '.product_id')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label for="gdn[{{ $i }}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                                        <div class="control has-icons-left">
+                                            <div class="select is-fullwidth">
+                                                <select id="gdn[{{ $i }}][warehouse_id]" name="gdn[{{ $i }}][warehouse_id]">
+                                                    @foreach ($warehouses as $warehouse)
+                                                        <option value="{{ $warehouse->id }}" {{ old('gdn.' . $i . '.warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="icon is-small is-left">
+                                                <i class="fas fa-warehouse"></i>
+                                            </div>
+                                            @error('gdn.' . $i . '.warehouse_id')
                                                 <span class="help has-text-danger" role="alert">
                                                     {{ $message }}
                                                 </span>
