@@ -85,11 +85,6 @@ class Company extends Model
         return $this->hasMany(Sale::class);
     }
 
-    public function sivs()
-    {
-        return $this->hasMany(Siv::class);
-    }
-
     public function isCompanyStandardMember()
     {
         return $this->membership_plan == "Standard";

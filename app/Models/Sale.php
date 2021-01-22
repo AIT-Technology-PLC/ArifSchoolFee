@@ -41,11 +41,6 @@ class Sale extends Model
         return $this->hasMany(SaleDetail::class);
     }
 
-    public function sivs()
-    {
-        return $this->morphMany(Siv::class, 'sivable');
-    }
-
     public function getReceiptNoAttribute($value)
     {
         if (Str::endsWith($value, '_') || !$value) {

@@ -165,14 +165,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Sale::class, 'updated_by');
     }
-
-    public function sivsCreated()
-    {
-        return $this->hasMany(Siv::class, 'created_by');
-    }
-
-    public function sivsUpdated()
-    {
-        return $this->hasMany(Siv::class, 'updated_by');
-    }
 }

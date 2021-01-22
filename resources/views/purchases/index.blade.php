@@ -110,26 +110,6 @@
                                     <td> {{ $purchase->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
                                 <td>
-                                    <a class="is-block" href="{{ route('sivs.create', ['purchase' => $purchase->id]) }}" data-title="Attach SIV for this purchase">
-                                        <span class="tag mb-3 is-white btn-blue is-outlined is-small text-green has-text-weight-medium">
-                                            <span class="icon">
-                                                <i class="fas fa-file"></i>
-                                            </span>
-                                            <span>
-                                                Create SIV
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <a class="is-block" href="{{ route('purchases.sivs', $purchase->id) }}" data-title="Show SIVs for this purchase">
-                                        <span class="tag mb-3 is-white btn-gold is-outlined is-small text-green has-text-weight-medium">
-                                            <span class="icon">
-                                                <i class="fas fa-file"></i>
-                                            </span>
-                                            <span>
-                                                Show SIVs
-                                            </span>
-                                        </span>
-                                    </a>
                                     <a class="is-block" href="{{ route('purchases.show', $purchase->id) }}" data-title="View Details">
                                         <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">

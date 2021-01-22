@@ -40,11 +40,6 @@ class Purchase extends Model
         return $this->hasMany(PurchaseDetail::class);
     }
 
-    public function sivs()
-    {
-        return $this->morphMany(Siv::class, 'sivable');
-    }
-
     public function scopeCompanyPurchases($query)
     {
         return $query->where('company_id', auth()->user()->employee->company_id);
