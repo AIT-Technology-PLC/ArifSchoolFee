@@ -41,7 +41,7 @@ class Gdn extends Model
 
     public function gdnDetails()
     {
-        return $this->hasMany(GdnDetails::class);
+        return $this->hasMany(GdnDetail::class);
     }
 
     public function scopeCompanyGdn($query)
