@@ -86,3 +86,7 @@ d.getElementById("burger-menu").addEventListener(
     "click",
     toggleLeftMenuOnMobile
 );
+
+if (d.getElementById("addNewGdnForm")) {
+    d.getElementById("addNewGdnForm").addEventListener("click", addGdnForm);
+}
