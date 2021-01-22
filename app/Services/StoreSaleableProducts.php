@@ -6,62 +6,68 @@ use App\Models\Merchandise;
 
 class StoreSaleableProducts
 {
-    public static function storeSoldProducts($sale)
+    public static function storeSoldProducts($saleOrGdn)
     {
-        if (!self::areProductsSaleable($sale->saleDetails)) {
+        $details = $saleOrGdn->saleDetails ?? $saleOrGdn->gdnDetails;
+
+        if (!self::areProductsSaleable($details)) {
             session()->flash('message', 'Some of the products selected are not saleable products');
             return false;
         }
 
-        if (!self::isProductSubtractNowChecked($sale)) {
+        if (!self::isProductSubtractNowChecked($saleOrGdn)) {
             return true;
         }
 
-        if (!self::areProductsAvailableOnHand($sale->saleDetails)) {
+        if (!self::areProductsAvailableOnHand($details)) {
             session()->flash('message', 'Some of the products selected are not available in some or all warehouses');
             return false;
         }
 
-        foreach ($sale->saleDetails as $saleDetail) {
-            self::updateSoldQuantity($saleDetail);
+        foreach ($details as $detail) {
+            self::updateSoldQuantity($detail);
         }
 
         return true;
     }
 
-    private static function isProductSubtractNowChecked($sale)
+    private static function isProductSubtractNowChecked($saleOrGdn)
     {
-        return $sale->isSaleSubtracted();
+        if ($saleOrGdn->getTable() == 'gdns') {
+            return $saleOrGdn->isGdnSubtracted();
+        }
+
+        return $saleOrGdn->isSaleSubtracted();
     }
 
-    private static function areProductsSaleable($saleDetails)
+    private static function areProductsSaleable($details)
     {
-        $nonSaleableProducts = $saleDetails->filter(function ($saleDetail) {
-            return !$saleDetail->product->isProductSaleable();
+        $nonSaleableProducts = $details->filter(function ($detail) {
+            return !$detail->product->isProductSaleable();
         });
 
         return count($nonSaleableProducts) == 0;
     }
 
-    private static function areProductsAvailableOnHand($saleDetails)
+    private static function areProductsAvailableOnHand($details)
     {
         $merchandise = new Merchandise();
 
-        $productNotOnHand = $saleDetails->filter(
-            function ($saleDetail) use ($merchandise) {
-                $isProductMerchandise = $saleDetail->product->isProductMerchandise();
+        $productNotOnHand = $details->filter(
+            function ($detail) use ($merchandise) {
+                $isProductMerchandise = $detail->product->isProductMerchandise();
                 if ($isProductMerchandise) {
-                    return !$merchandise->isAvailableEnoughForSale($saleDetail->product->id, $saleDetail->warehouse->id, $saleDetail->quantity);
+                    return !$merchandise->isAvailableEnoughForSale($detail->product->id, $detail->warehouse->id, $detail->quantity);
                 }
             });
 
         return count($productNotOnHand) == 0;
     }
 
-    private static function updateSoldQuantity($saleDetail)
+    private static function updateSoldQuantity($detail)
     {
-        if ($saleDetail->product->isProductMerchandise()) {
-            $quantityToSell = $saleDetail->quantity;
+        if ($detail->product->isProductMerchandise()) {
+            $quantityToSell = $detail->quantity;
             $quantityLeft = $quantityToSell;
 
             while ($quantityLeft) {
@@ -69,8 +75,8 @@ class StoreSaleableProducts
                 $merchandise = $merchandise
                     ->where([
                         ['company_id', auth()->user()->employee->company_id],
-                        ['product_id', $saleDetail->product->id],
-                        ['warehouse_id', $saleDetail->warehouse->id],
+                        ['product_id', $detail->product->id],
+                        ['warehouse_id', $detail->warehouse->id],
                         ['total_on_hand', '>', 0],
                     ])
                     ->oldest()
