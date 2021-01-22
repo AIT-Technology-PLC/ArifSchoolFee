@@ -78,6 +78,11 @@ class Product extends Model
         return $this->hasMany(SaleDetail::class);
     }
 
+    public function gdnDetails()
+    {
+        return $this->hasMany(GdnDetails::class);
+    }
+
     public function setPropertiesAttribute($array)
     {
         $properties = [];
