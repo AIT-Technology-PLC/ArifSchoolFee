@@ -464,6 +464,7 @@ class CoreV1 extends Migration
         Schema::drop('password_resets');
         Schema::drop('failed_jobs');
         Schema::drop('permissions');
+        Schema::drop('plans');
         Schema::drop('companies');
         Schema::drop('employees');
         Schema::drop('warehouses');
