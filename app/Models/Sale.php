@@ -72,11 +72,7 @@ class Sale extends Model
 
     public function getAll()
     {
-        return $this->companySales()
-            ->with(['createdBy', 'updatedBy', 'company', 'saleDetails'])
-            ->withCount('saleDetails')
-            ->latest()
-            ->get();
+        return $this->companySales()->withCount('saleDetails')->latest()->get();
     }
 
     public function countSalesOfCompany()

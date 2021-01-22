@@ -28,7 +28,7 @@ class SaleController extends Controller
 
     public function index()
     {
-        $sales = $this->sale->getAll();
+        $sales = $this->sale->getAll()->load(['createdBy', 'updatedBy', 'company', 'saleDetails']);
 
         $totalSales = $this->sale->countSalesOfCompany();
 
