@@ -21,6 +21,7 @@ class CreateGdnsTable extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('code')->unique();
+            $table->string('status');
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->timestamps();
