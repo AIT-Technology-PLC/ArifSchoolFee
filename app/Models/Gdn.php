@@ -56,7 +56,12 @@ class Gdn extends Model
 
     public function getAll()
     {
-        return $this->companyGdn()->latest()->get();
+        return $this->companyGdn()->withCount('gdnDetails')->latest()->get();
+    }
+
+    public function countGdnsOfCompany()
+    {
+        return $this->companyGdn()->count();
     }
 
     public function changeStatusToSubtractedFromInventory()

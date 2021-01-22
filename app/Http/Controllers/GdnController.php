@@ -24,9 +24,13 @@ class GdnController extends Controller
         $this->gdn = $gdn;
     }
 
-    public function index()
+    public function index(Gdn $gdn)
     {
-        //
+        $gdns = $gdn->getAll()->load(['createdBy', 'updatedBy', 'sale', 'customer']);
+
+        $totalGdns = $gdn->countGdnsOfCompany();
+
+        return view('gdns.index', compact('gdns', 'totalGdns'));
     }
 
     public function create(Product $product, Customer $customer, Sale $sale, Warehouse $warehouse)
