@@ -93,9 +93,19 @@ class GdnController extends Controller
         //
     }
 
-    public function edit(Gdn $gdn)
+    public function edit(Gdn $gdn, Product $product, Customer $customer, Sale $sale, Warehouse $warehouse)
     {
-        //
+        $products = $product->getProductNames();
+
+        $customers = $customer->getCustomerNames();
+
+        $sales = $sale->getAll();
+
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse']);
+
+        return view('gdns.edit', compact('gdn', 'products', 'customers', 'sales', 'warehouses'));
     }
 
     public function update(Request $request, Gdn $gdn)
