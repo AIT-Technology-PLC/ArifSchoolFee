@@ -17,6 +17,13 @@ class GdnController extends Controller
 {
     use PrependCompanyId;
 
+    private $gdn;
+
+    public function __construct(Gdn $gdn)
+    {
+        $this->gdn = $gdn;
+    }
+
     public function index()
     {
         //
