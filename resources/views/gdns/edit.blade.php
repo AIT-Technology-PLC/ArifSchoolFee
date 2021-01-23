@@ -171,7 +171,7 @@
                                         @enderror
                                     </div>
                                     <div class="control">
-                                        <button id="gdn[{{ $loop->index }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                        <button id="gdn[{{ $loop->index }}][product_id]Quantity" class="button bg-green has-text-white" type="button">{{ $gdnDetail->product->unit_of_measurement }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -194,6 +194,30 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+            <div class="box radius-top-0">
+                <div class="columns is-marginless">
+                    <div class="column is-paddingless">
+                        <div class="buttons is-right">
+                            <button class="button is-white text-green" type="reset">
+                                <span class="icon">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                                <span>
+                                    Cancel
+                                </span>
+                            </button>
+                            <button id="saveButton" class="button bg-green has-text-white">
+                                <span class="icon">
+                                    <i class="fas fa-save"></i>
+                                </span>
+                                <span>
+                                    Save
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     </section>
