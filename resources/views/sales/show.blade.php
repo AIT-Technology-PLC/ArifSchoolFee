@@ -102,8 +102,8 @@
                     </form>
                 </div>
             @else
-                <div class="box has-background-white-ter has-text-left mb-6">
-                    <p class="has-text-grey text-green">
+                <div class="message is-success">
+                    <p class="message-body">
                         <span class="icon">
                             <i class="fas fa-check-circle"></i>
                         </span>
