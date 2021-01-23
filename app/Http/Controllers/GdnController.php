@@ -90,7 +90,9 @@ class GdnController extends Controller
 
     public function show(Gdn $gdn)
     {
-        //
+        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'customer', 'sale']);
+
+        return view('gdns.show', compact('gdn'));
     }
 
     public function edit(Gdn $gdn, Product $product, Customer $customer, Sale $sale, Warehouse $warehouse)
