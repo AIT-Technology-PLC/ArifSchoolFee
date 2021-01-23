@@ -112,7 +112,39 @@ class GdnController extends Controller
 
     public function update(Request $request, Gdn $gdn)
     {
-        //
+        if ($gdn->isGdnSubtracted()) {
+            return redirect()->route('gdns.show', $gdn->id);
+        }
+
+        $request['code'] = $this->prependCompanyId($request->code);
+
+        $gdnData = $request->validate([
+            'code' => 'required|string|unique:gdns,code,' . $gdn->id,
+            'gdn' => 'required|array',
+            'gdn.*.product_id' => 'required|integer',
+            'gdn.*.warehouse_id' => 'required|integer',
+            'gdn.*.quantity' => 'required|numeric|min:1',
+            'gdn.*.desciption' => 'nullable|string',
+            'customer_id' => 'nullable|integer',
+            'sale_id' => 'nullable|integer',
+            'issued_on' => 'required|date',
+            'description' => 'nullable|string',
+        ]);
+
+        $gdnData['updated_by'] = auth()->user()->id;
+
+        $basicGdnData = Arr::except($gdnData, 'gdn');
+        $gdnDetailsData = $gdnData['gdn'];
+
+        DB::transaction(function () use ($basicGdnData, $gdnDetailsData, $gdn) {
+            $gdn->update($basicGdnData);
+
+            for ($i = 0; $i < count($gdnDetailsData); $i++) {
+                $gdn->gdnDetails[$i]->update($gdnDetailsData[$i]);
+            }
+        });
+
+        return redirect()->route('gdns.show', $gdn->id);
     }
 
     public function destroy(Gdn $gdn)
