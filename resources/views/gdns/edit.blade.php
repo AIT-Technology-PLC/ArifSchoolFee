@@ -87,9 +87,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-12">
+                    <div class="column is-6">
                         <div class="field">
-                            <label for="description" class="label text-green has-text-weight-normal">Additional Notes</label>
+                            <label for="description" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('description') ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
@@ -176,9 +176,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="column is-12">
+                            <div class="column is-6">
                                 <div class="field">
-                                    <label for="gdn[{{ $loop->index }}][description]" class="label text-green has-text-weight-normal">Description</label>
+                                    <label for="gdn[{{ $loop->index }}][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
                                     <div class="control has-icons-left">
                                         <textarea name="gdn[{{ $loop->index }}][description]" id="gdn[{{ $loop->index }}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ $gdnDetail->description ?? '' }}</textarea>
                                         <span class="icon is-large is-left">
