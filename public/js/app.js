@@ -335,10 +335,10 @@ function disableSaveButton() {
 function openCloseSaleModal(event) {
     event.preventDefault();
     swal({
-        title: "Do you want to close this sale?",
+        title: "Do you want to subtract?",
         text:
-            "By clicking 'Yes, Close & Subtract', you are going to close this sale and subtract the products from inventory.",
-        buttons: ["Not now", "Yes, Close & Subtract"],
+            "By clicking 'Yes, Subtract', you are going to subtract the products from inventory.",
+        buttons: ["Not now", "Yes, Subtract"],
     }).then((willCloseSale) => {
         if (willCloseSale) {
             d.getElementById("formOne").submit();
