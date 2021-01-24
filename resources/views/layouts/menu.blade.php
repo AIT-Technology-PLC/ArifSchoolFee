@@ -91,7 +91,7 @@
                 </ul>
             </li>
             <li>
-                <a name="menuTitles" href="" class="has-text-grey has-text-weight-normal is-size-6-5">
+                <a name="menuTitles" class="has-text-grey has-text-weight-normal is-size-6-5">
                     <span class="icon">
                         <i class="fas fa-file-contract"></i>
                     </span>
@@ -103,7 +103,7 @@
             <li>
                 <ul class="mt-0">
                     <li>
-                        <a name="menuTitles" href="" class="has-text-grey has-text-weight-normal is-size-6-5">
+                        <a name="menuTitles" class="has-text-grey has-text-weight-normal is-size-6-5">
                             <span class="icon">
                                 <i class="fas fa-plus-circle"></i>
                             </span>
@@ -115,7 +115,7 @@
                 </ul>
             </li>
             <li>
-                <a name="menuTitles" href="" class="has-text-grey has-text-weight-normal is-size-6-5">
+                <a name="menuTitles" class="has-text-grey has-text-weight-normal is-size-6-5">
                     <span class="icon">
                         <i class="fas fa-exchange-alt"></i>
                     </span>
@@ -127,7 +127,7 @@
             <li>
                 <ul class="mt-0">
                     <li>
-                        <a name="menuTitles" href="" class="has-text-grey has-text-weight-normal is-size-6-5">
+                        <a name="menuTitles" class="has-text-grey has-text-weight-normal is-size-6-5">
                             <span class="icon">
                                 <i class="fas fa-plus-circle"></i>
                             </span>
