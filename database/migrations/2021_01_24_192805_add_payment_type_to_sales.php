@@ -14,7 +14,7 @@ class AddPaymentTypeToSales extends Migration
     public function up()
     {
         Schema::table('sales', function (Blueprint $table) {
-            $table->string('payment_type')->after('receipt_no')->nullable();
+            $table->string('payment_type')->after('receipt_no');
         });
     }
 
