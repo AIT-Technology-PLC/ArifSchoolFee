@@ -111,4 +111,9 @@ class Sale extends Model
     {
         return $this->is_manual;
     }
+
+    public function isSalePaymentCash()
+    {
+        return $this->payment_type == "Cash";
+    }
 }

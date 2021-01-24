@@ -60,6 +60,7 @@
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th class="text-gold"><abbr> Receipt No </abbr></th>
+                            <th class="text-purple"><abbr> Payment Method </abbr></th>
                             <th class="has-text-centered"><abbr> Total Items </abbr></th>
                             <th class="has-text-right text-green"><abbr> Total Price </abbr></th>
                             <th class="has-text-right"><abbr> Sold on </abbr></th>
@@ -77,6 +78,11 @@
                                 <td class="is-capitalized">
                                     <span class="tag bg-gold has-text-white">
                                         {{ $sale->receipt_no ?? 'N/A' }}
+                                    </span>
+                                </td>
+                                <td class="is-capitalized">
+                                    <span class="tag bg-purple has-text-white">
+                                        {{ $sale->payment_type ?? 'N/A' }}
                                     </span>
                                 </td>
                                 <td class="has-text-centered has-text-weight-bold">

@@ -224,6 +224,14 @@
                         </div>
                         <div class="mb-4">
                             <h1 class="is-uppercase has-text-weight-light has-text-white">
+                                Payment Method
+                            </h1>
+                            <h2 class="subtitle has-text-white has-text-weight-medium">
+                                {{ $sale->payment_type }}
+                            </h2>
+                        </div>
+                        <div class="mb-4">
+                            <h1 class="is-uppercase has-text-weight-light has-text-white">
                                 Customer
                             </h1>
                             <h2 class="subtitle has-text-white has-text-weight-medium">

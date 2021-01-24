@@ -53,6 +53,28 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
+                            <label for="payment_type" class="label text-green has-text-weight-normal">Payment Method <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="payment_type" name="payment_type">
+                                        <option selected disabled>Select Payment</option>
+                                        <option value="Cash Payment" {{ $sale->payment_type == 'Cash Payment' ? 'selected' : '' }}>Cash Payment</option>
+                                        <option value="Credit Payment" {{ $sale->payment_type == 'Credit Payment' ? 'selected' : '' }}>Credit Payment</option>
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                            </div>
+                            @error('payment_type')
+                                <span class="help has-text-danger" role="alert">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
                             <label for="customer_id" class="label text-green has-text-weight-normal"> Customer <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
