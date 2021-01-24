@@ -120,7 +120,9 @@
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
-                            <th><abbr> Warehouse </abbr></th>
+                            @if (!$sale->isSaleManual())
+                                <th><abbr> Warehouse </abbr></th>
+                            @endif
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Unit Price </abbr></th>
@@ -131,9 +133,11 @@
                         @foreach ($sale->saleDetails as $saleDetail)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    {{ $saleDetail->warehouse->name ?? 'N/A' }}
-                                </td>
+                                @if (!$sale->isSaleManual())
+                                    <td class="is-capitalized">
+                                        {{ $saleDetail->warehouse->name ?? 'N/A' }}
+                                    </td>
+                                @endif
                                 <td class="is-capitalized">
                                     {{ $saleDetail->product->name }}
                                 </td>

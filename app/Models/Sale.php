@@ -14,6 +14,7 @@ class Sale extends Model
         'sold_on' => 'datetime',
         'shipped_at' => 'datetime',
         'delivered_at' => 'datetime',
+        'is_manual' => 'boolean',
     ];
 
     public function createdBy()
@@ -60,6 +61,11 @@ class Sale extends Model
         return $query->where('company_id', auth()->user()->employee->company_id);
     }
 
+    public function scopeWhereManual($query, $value)
+    {
+        return $query->where('is_manual', $value);
+    }
+
     public function getTotalSalePriceAttribute()
     {
         $totalPrice = $this->saleDetails
@@ -73,6 +79,16 @@ class Sale extends Model
     public function getAll()
     {
         return $this->companySales()->withCount('saleDetails')->latest()->get();
+    }
+
+    public function getManualSales()
+    {
+        return $this->companySales()->whereManual(1)->latest()->get();
+    }
+
+    public function getAutomatedSales()
+    {
+        return $this->companySales()->whereManual(0)->latest()->get();
     }
 
     public function countSalesOfCompany()

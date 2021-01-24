@@ -39,7 +39,7 @@ class GdnController extends Controller
 
         $customers = $customer->getCustomerNames();
 
-        $sales = $sale->getAll();
+        $sales = $sale->getManualSales();
 
         $warehouses = $warehouse->getAllWithoutRelations();
 
@@ -101,7 +101,7 @@ class GdnController extends Controller
 
         $customers = $customer->getCustomerNames();
 
-        $sales = $sale->getAll();
+        $sales = $sale->getManualSales();
 
         $warehouses = $warehouse->getAllWithoutRelations();
 
