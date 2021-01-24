@@ -60,14 +60,16 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('gdns.create')}}" class="button is-small bg-purple has-text-white">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    New SIV/GDN
-                                </span>
-                            </a>
+                            @if ($sale->isSaleManual())
+                                <a href="{{ route('gdns.create') }}" class="button is-small bg-purple has-text-white">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New SIV/GDN
+                                    </span>
+                                </a>
+                            @endif
                             <a href="{{ route('sales.edit', $sale->id) }}" class="button is-small bg-green has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
