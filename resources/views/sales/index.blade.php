@@ -59,10 +59,10 @@
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
-                            <th><abbr> Receipt No </abbr></th>
-                            <th class="text-purple"><abbr> Status </abbr></th>
-                            <th class="has-text-centered text-gold"><abbr> Total Products </abbr></th>
+                            <th class="text-gold"><abbr> Receipt No </abbr></th>
+                            <th class="has-text-centered"><abbr> Total Items </abbr></th>
                             <th class="has-text-right text-green"><abbr> Total Price </abbr></th>
+                            <th class="has-text-right"><abbr> Sold on </abbr></th>
                             @can('delete', $sales->first())
                                 <th><abbr> Added By </abbr></th>
                                 <th><abbr> Edited By </abbr></th>
@@ -75,20 +75,11 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
-                                    {{ $sale->receipt_no ?? 'N/A' }}
+                                    <span class="tag bg-gold has-text-white">
+                                        {{ $sale->receipt_no ?? 'N/A' }}
+                                    </span>
                                 </td>
-                                <td class="is-capitalized">
-                                    @if ($sale->isSaleSubtracted())
-                                        <span class="tag is-small bg-purple has-text-white">
-                                            {{ $sale->status ?? 'N/A' }}
-                                        </span>
-                                    @else
-                                        <span class="tag is-small bg-blue has-text-white">
-                                            {{ $sale->status ?? 'N/A' }}
-                                        </span>
-                                    @endif
-                                </td>
-                                <td class="has-text-centered has-text-weight-bold text-gold">
+                                <td class="has-text-centered has-text-weight-bold">
                                     {{ $sale->sale_details_count ?? 'N/A' }}
                                 </td>
                                 <td class="has-text-right">
@@ -96,6 +87,9 @@
                                         {{ $sale->company->currency }}.
                                         {{ $sale->totalSalePrice }}
                                     </span>
+                                </td>
+                                <td class="has-text-right">
+                                    {{ $sale->sold_on->toFormattedDateString() }}
                                 </td>
                                 @can('delete', $sale)
                                     <td> {{ $sale->createdBy->name ?? 'N/A' }} </td>
