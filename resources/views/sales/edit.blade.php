@@ -23,7 +23,7 @@
                         {{ session('message') }}
                     </span>
                 </div>
-                <div class="columns is-marginless is-multiline is-centered">
+                <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
                             <label for="receipt_no" class="label text-green has-text-weight-normal">Receipt No <sup class="has-text-danger">*</sup> </label>
@@ -40,9 +40,54 @@
                             </div>
                         </div>
                     </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="sold_on" class="label text-green has-text-weight-normal"> Sale Date <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="date" name="sold_on" id="sold_on" placeholder="mm/dd/yyyy" value="{{ $sale->sold_on ? $sale->sold_on->toDateString() : '' }}">
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-calendar-day"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="customer_id" class="label text-green has-text-weight-normal"> Customer <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="customer_id" name="customer_id">
+                                        <option selected disabled>Select Customer</option>
+                                        @foreach ($customers as $customer)
+                                            <option value="{{ $customer->id }}" {{ $sale->customer_id == $customer->id ? 'selected' : '' }}>{{ $customer->company_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-address-card"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="description" class="label text-green has-text-weight-normal">Additional Notes</label>
+                            <div class="control has-icons-left">
+                                <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ $sale->description ?? '' }}</textarea>
+                                <span class="icon is-large is-left">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                                @error('description')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 @foreach ($sale->saleDetails as $saleDetail)
-                    <div class="has-text-weight-medium has-text-left">
+                    <div class="has-text-weight-medium has-text-left mt-5">
                         <span class="tag bg-green has-text-white is-medium radius-bottom-0">
                             Item {{ $loop->index + 1 }} - {{ $saleDetail->product->name }}
                         </span>
@@ -65,28 +110,6 @@
                                             <i class="fas fa-th"></i>
                                         </div>
                                         @error('sale.{{ $loop->index }}.product_id')
-                                            <span class="help has-text-danger" role="alert">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-6">
-                                <div class="field">
-                                    <label for="sale[{{ $loop->index }}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
-                                    <div class="control has-icons-left">
-                                        <div class="select is-fullwidth">
-                                            <select id="sale[{{ $loop->index }}][warehouse_id]" name="sale[{{ $loop->index }}][warehouse_id]">
-                                                @foreach ($warehouses as $warehouse)
-                                                    <option value="{{ $warehouse->id }}" {{ $saleDetail->warehouse_id == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="icon is-small is-left">
-                                            <i class="fas fa-warehouse"></i>
-                                        </div>
-                                        @error('sale.' . $loop->index . '.warehouse_id')
                                             <span class="help has-text-danger" role="alert">
                                                 {{ $message }}
                                             </span>
@@ -139,94 +162,6 @@
                         </div>
                     </div>
                 @endforeach
-                <hr>
-                <div class="columns is-marginless is-multiline">
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="customer_id" class="label text-green has-text-weight-normal"> Customer <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="customer_id" name="customer_id">
-                                        <option selected disabled>Select Customer</option>
-                                        @foreach ($customers as $customer)
-                                            <option value="{{ $customer->id }}" {{ $sale->customer_id == $customer->id ? 'selected' : '' }}>{{ $customer->company_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-address-card"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="sold_on" class="label text-green has-text-weight-normal"> Sale Date <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="date" name="sold_on" id="sold_on" placeholder="mm/dd/yyyy" value="{{ $sale->sold_on ? $sale->sold_on->toDateString() : '' }}">
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-day"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="shipping_line" class="label text-green has-text-weight-normal"> Shipping Line <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="shipping_line" name="shipping_line">
-                                        <option selected disabled>Select Line</option>
-                                        @foreach ($shippingLines as $shippingLine)
-                                            <option value="{{ $shippingLine }}" {{ $sale->shipping_line == $shippingLine ? 'selected' : '' }}>{{ $shippingLine }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-truck"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="shipped_at" class="label text-green has-text-weight-normal"> Shipping Started On <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="date" name="shipped_at" id="shipped_at" placeholder="mm/dd/yyyy" value="{{ $sale->shipped_at ? $sale->shipped_at->toDateString() : '' }}">
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="delivered_at" class="label text-green has-text-weight-normal"> Delivered To You On <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="date" name="delivered_at" id="delivered_at" placeholder="mm/dd/yyyy" value="{{ $sale->delivered_at ? $sale->delivered_at->toDateString() : '' }}">
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-check"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-12">
-                        <div class="field">
-                            <label for="description" class="label text-green has-text-weight-normal">Additional Notes</label>
-                            <div class="control has-icons-left">
-                                <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note to be taken">{{ $sale->description ?? '' }}</textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                @error('description')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="box radius-top-0">
                 <div class="columns is-marginless">
