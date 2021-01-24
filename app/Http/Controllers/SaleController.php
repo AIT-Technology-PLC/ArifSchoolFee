@@ -95,7 +95,15 @@ class SaleController extends Controller
 
     public function show(Sale $sale)
     {
-        $sale->load(['saleDetails.product', 'saleDetails.warehouse', 'customer', 'company']);
+        $sale->load(['saleDetails.product', 'saleDetails.warehouse', 'gdns', 'customer', 'company']);
+
+        request()->merge([
+            'sale_id' => $sale->id,
+            'customer_id' => $sale->customer_id,
+            'gdn' => $sale->saleDetails->toArray()
+        ]);
+
+        request()->flash(request()->all());
 
         return view('sales.show', compact('sale'));
     }

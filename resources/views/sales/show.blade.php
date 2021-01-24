@@ -60,6 +60,14 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
+                            <a href="{{ route('gdns.create')}}" class="button is-small bg-purple has-text-white">
+                                <span class="icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </span>
+                                <span>
+                                    New SIV/GDN
+                                </span>
+                            </a>
                             <a href="{{ route('sales.edit', $sale->id) }}" class="button is-small bg-green has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
@@ -158,6 +166,39 @@
                     </tbody>
                 </table>
             </div>
+            @if ($sale->isSaleManual())
+                <div class="box has-background-white-bis">
+                    <h1 class="title is-size-5 text-green has-text-centered">
+                        SIV/GDN for this sale
+                    </h1>
+                    <div class="table-container has-background-white-bis">
+                        <table class="table is-hoverable is-fullwidth is-size-7 has-background-white-bis">
+                            <thead>
+                                <tr>
+                                    <th><abbr> # </abbr></th>
+                                    <th><abbr> SIV/GDN No </abbr></th>
+                                    <th><abbr> Issued on </abbr></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($sale->gdns as $gdn)
+                                    <tr>
+                                        <td> {{ $loop->index + 1 }} </td>
+                                        <td class="is-capitalized">
+                                            <a class="is-underlined" href="{{ route('gdns.show', $gdn->id) }}">
+                                                {{ $gdn->code }}
+                                            </a>
+                                        </td>
+                                        <td class="is-capitalized">
+                                            {{ $gdn->issued_on->toFormattedDateString() }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
             <div class="columns is-marginless">
                 <div class="column is-4 is-offset-8 px-0">
                     <div class="box bg-green">
