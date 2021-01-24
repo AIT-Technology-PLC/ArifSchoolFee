@@ -57,12 +57,12 @@ class SaleController extends Controller
             'receipt_no' => 'required|string|unique:sales',
             'sale' => 'required|array',
             'sale.*.product_id' => 'required|integer',
-            'sale.*.warehouse_id' => 'required|integer',
+            'sale.*.warehouse_id' => 'sometimes|required|integer',
             'sale.*.quantity' => 'required|numeric|min:1',
             'sale.*.unit_price' => 'required|numeric',
             'customer_id' => 'nullable|integer',
             'sold_on' => 'required|date',
-            'status' => 'required|string|max:255',
+            'status' => 'sometimes|required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
@@ -76,13 +76,16 @@ class SaleController extends Controller
         $isSaleValid = DB::transaction(function () use ($basicSaleData, $saleDetailsData) {
             $sale = $this->sale->create($basicSaleData);
             $sale->saleDetails()->createMany($saleDetailsData);
-            $isSaleValid = StoreSaleableProducts::storeSoldProducts($sale);
 
-            if (!$isSaleValid) {
-                DB::rollback();
+            if ($sale->isSaleManual()) {
+                $isSaleValid = StoreSaleableProducts::areProductsSaleable($sale->saleDetails);
             }
 
-            return $isSaleValid;
+            if (!$sale->isSaleManual()) {
+                $isSaleValid = StoreSaleableProducts::storeSoldProducts($sale);
+            }
+
+            return $isSaleValid ? true : DB::rollback();
         });
 
         return $isSaleValid ?
@@ -124,7 +127,7 @@ class SaleController extends Controller
             'receipt_no' => 'required|string|unique:sales,receipt_no,' . $sale->id,
             'sale' => 'required|array',
             'sale.*.product_id' => 'required|integer',
-            'sale.*.warehouse_id' => 'required|integer',
+            'sale.*.warehouse_id' => 'sometimes|required|integer',
             'sale.*.quantity' => 'required|numeric|min:1',
             'sale.*.unit_price' => 'required|numeric',
             'customer_id' => 'nullable|integer',

@@ -90,4 +90,9 @@ class Sale extends Model
     {
         return $this->status == 'Subtracted From Inventory';
     }
+
+    public function isSaleManual()
+    {
+        return $this->is_manual;
+    }
 }

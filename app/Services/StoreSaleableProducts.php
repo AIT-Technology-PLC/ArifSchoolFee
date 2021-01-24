@@ -31,7 +31,7 @@ class StoreSaleableProducts
         return true;
     }
 
-    private static function isProductSubtractNowChecked($saleOrGdn)
+    public static function isProductSubtractNowChecked($saleOrGdn)
     {
         if ($saleOrGdn->getTable() == 'gdns') {
             return $saleOrGdn->isGdnSubtracted();
@@ -40,7 +40,7 @@ class StoreSaleableProducts
         return $saleOrGdn->isSaleSubtracted();
     }
 
-    private static function areProductsSaleable($details)
+    public static function areProductsSaleable($details)
     {
         $nonSaleableProducts = $details->filter(function ($detail) {
             return !$detail->product->isProductSaleable();
@@ -49,7 +49,7 @@ class StoreSaleableProducts
         return count($nonSaleableProducts) == 0;
     }
 
-    private static function areProductsAvailableOnHand($details)
+    public static function areProductsAvailableOnHand($details)
     {
         $merchandise = new Merchandise();
 

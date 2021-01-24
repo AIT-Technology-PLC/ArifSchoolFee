@@ -82,36 +82,38 @@
                     {{ session('message') }}
                 </span>
             </div>
-            @if (!$sale->isSaleSubtracted())
-                <div class="box has-background-white-ter has-text-left mb-6">
-                    <p class="has-text-grey text-purple is-size-7">
-                        Product(s) listed below are still not subtracted from your inventory.
-                        <br>
-                        Click on the button below to close sale and subtract product(s) from the inventory.
-                    </p>
-                    <form id="formOne" action="{{ route('merchandises.subtractFromInventory', $sale->id) }}" method="post" novalidate>
-                        @csrf
-                        <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+            @if (!$sale->isSaleManual())
+                @if (!$sale->isSaleSubtracted())
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            Product(s) listed below are still not subtracted from your inventory.
+                            <br>
+                            Click on the button below to close sale and subtract product(s) from the inventory.
+                        </p>
+                        <form id="formOne" action="{{ route('merchandises.subtractFromInventory', $sale->id) }}" method="post" novalidate>
+                            @csrf
+                            <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                                <span class="icon">
+                                    <i class="fas fa-handshake"></i>
+                                </span>
+                                <span>
+                                    Close sale & Subtract from inventory
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <div class="message is-success">
+                        <p class="message-body">
                             <span class="icon">
-                                <i class="fas fa-handshake"></i>
+                                <i class="fas fa-check-circle"></i>
                             </span>
                             <span>
-                                Close sale & Subtract from inventory
+                                Sale has been closed and products are subtracted from inventory.
                             </span>
-                        </button>
-                    </form>
-                </div>
-            @else
-                <div class="message is-success">
-                    <p class="message-body">
-                        <span class="icon">
-                            <i class="fas fa-check-circle"></i>
-                        </span>
-                        <span>
-                            Sale has been closed and products are subtracted from inventory.
-                        </span>
-                    </p>
-                </div>
+                        </p>
+                    </div>
+                @endif
             @endif
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
@@ -181,44 +183,22 @@
                                 {{ $sale->customer->company_name ?? 'N/A' }}
                             </h2>
                         </div>
-                        <div class="mb-4">
-                            <h1 class="is-uppercase has-text-weight-light has-text-white">
-                                Status
-                            </h1>
-                            <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $sale->status }}
-                            </h2>
-                        </div>
+                        @if (!$sale->isSaleManual())
+                            <div class="mb-4">
+                                <h1 class="is-uppercase has-text-weight-light has-text-white">
+                                    Status
+                                </h1>
+                                <h2 class="subtitle has-text-white has-text-weight-medium">
+                                    {{ $sale->status }}
+                                </h2>
+                            </div>
+                        @endif
                         <div class="mb-4">
                             <h1 class="is-uppercase has-text-weight-light has-text-white">
                                 Sold On
                             </h1>
                             <h2 class="subtitle has-text-white has-text-weight-medium">
                                 {{ $sale->sold_on ? $sale->sold_on->toFormattedDateString() : 'N/A' }}
-                            </h2>
-                        </div>
-                        <div class="mb-4">
-                            <h1 class="is-uppercase has-text-weight-light has-text-white">
-                                Shipping Company
-                            </h1>
-                            <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $sale->shipping_line ?? 'N/A' }}
-                            </h2>
-                        </div>
-                        <div class="mb-4">
-                            <h1 class="is-uppercase has-text-weight-light has-text-white">
-                                Shipping Date
-                            </h1>
-                            <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $sale->shipped_at ? $sale->shipped_at->toFormattedDateString() : 'N/A' }}
-                            </h2>
-                        </div>
-                        <div class="mb-4">
-                            <h1 class="is-uppercase has-text-weight-light has-text-white">
-                                Delivery Date
-                            </h1>
-                            <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $sale->delivered_at ? $sale->delivered_at->toFormattedDateString() : 'N/A' }}
                             </h2>
                         </div>
                         <div class="mb-4">

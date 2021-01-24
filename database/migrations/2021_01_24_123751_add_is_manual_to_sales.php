@@ -14,7 +14,7 @@ class AddIsManualToSales extends Migration
     public function up()
     {
         Schema::table('sales', function (Blueprint $table) {
-            $table->boolean('is_manual')->after('status')->nullable();
+            $table->boolean('is_manual')->after('status');
         });
     }
 

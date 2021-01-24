@@ -63,8 +63,6 @@
                             <th class="text-purple"><abbr> Status </abbr></th>
                             <th class="has-text-centered text-gold"><abbr> Total Products </abbr></th>
                             <th class="has-text-right text-green"><abbr> Total Price </abbr></th>
-                            <th class="has-text-right"><abbr> Shipped On </abbr></th>
-                            <th class="has-text-right"><abbr> Delivered On </abbr></th>
                             @can('delete', $sales->first())
                                 <th><abbr> Added By </abbr></th>
                                 <th><abbr> Edited By </abbr></th>
@@ -98,12 +96,6 @@
                                         {{ $sale->company->currency }}.
                                         {{ $sale->totalSalePrice }}
                                     </span>
-                                </td>
-                                <td class="has-text-right">
-                                    {{ $sale->shipped_at ? $sale->shipped_at->toFormattedDateString() : 'Not Shipped' }}
-                                </td>
-                                <td class="has-text-right">
-                                    {{ $sale->delivered_at ? $sale->delivered_at->toFormattedDateString() : 'Not Delivered' }}
                                 </td>
                                 @can('delete', $sale)
                                     <td> {{ $sale->createdBy->name ?? 'N/A' }} </td>
