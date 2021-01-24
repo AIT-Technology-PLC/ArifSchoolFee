@@ -53,6 +53,7 @@ class SaleController extends Controller
         $request['receipt_no'] = $this->prependCompanyId($request->receipt_no);
 
         $saleData = $request->validate([
+            'is_manual' => 'required|integer',
             'receipt_no' => 'required|string|unique:sales',
             'sale' => 'required|array',
             'sale.*.product_id' => 'required|integer',
@@ -61,10 +62,7 @@ class SaleController extends Controller
             'sale.*.unit_price' => 'required|numeric',
             'customer_id' => 'nullable|integer',
             'sold_on' => 'required|date',
-            'shipping_line' => 'nullable|string|max:255',
             'status' => 'required|string|max:255',
-            'shipped_at' => 'nullable|date',
-            'delivered_at' => 'nullable|date',
             'description' => 'nullable|string',
         ]);
 
@@ -131,9 +129,6 @@ class SaleController extends Controller
             'sale.*.unit_price' => 'required|numeric',
             'customer_id' => 'nullable|integer',
             'sold_on' => 'required|date',
-            'shipping_line' => 'nullable|string|max:255',
-            'shipped_at' => 'nullable|date',
-            'delivered_at' => 'nullable|date',
             'description' => 'nullable|string',
         ]);
 

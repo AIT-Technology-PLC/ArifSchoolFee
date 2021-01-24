@@ -152,7 +152,6 @@ const addPurchaseForm = (function () {
 const addSaleForm = (function () {
     const saleFormGroup = d.getElementsByName("saleFormGroup");
     const saleFormWrapper = d.getElementById("saleFormWrapper");
-    const warehouseList = d.getElementById("sale[0][warehouse_id]");
     let productList = d.getElementById("sale[0][product_id]");
 
     if (!saleFormWrapper) {
@@ -187,21 +186,6 @@ const addSaleForm = (function () {
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-th"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="sale[${index}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="sale[${index}][warehouse_id]" name="sale[${index}][warehouse_id]">
-                                        ${warehouseList.innerHTML}
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-warehouse"></i>
                                 </div>
                             </div>
                         </div>

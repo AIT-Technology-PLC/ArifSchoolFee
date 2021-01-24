@@ -276,10 +276,9 @@ class CoreV1 extends Migration
             $table->bigInteger('customer_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('receipt_no')->unique();
             $table->string('status');
-            $table->string('shipping_line')->nullable();
-            $table->dateTime('shipped_at')->nullable();
-            $table->dateTime('delivered_at')->nullable();
+            $table->boolean('is_manual');
             $table->dateTime('sold_on')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
@@ -299,6 +298,7 @@ class CoreV1 extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('sale_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22);
             $table->timestamps();
@@ -309,6 +309,7 @@ class CoreV1 extends Migration
 
             $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
         });
 
         // Merchandise Products

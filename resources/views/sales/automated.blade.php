@@ -13,7 +13,7 @@
         </div>
         <form id="formOne" action="{{ route('sales.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
-            <input type="hidden" name="is_manual" value="1">
+            <input type="hidden" name="is_manual" value="0">
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="notification bg-gold has-text-white has-text-weight-medium {{ session('message') ? '' : 'is-hidden' }}">
                     <span class="icon">
@@ -48,6 +48,27 @@
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="status" class="label text-green has-text-weight-normal"> Subtract from inventory now? <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input type="radio" name="status" id="status" value="Subtracted From Inventory" {{ old('status') == 'Subtracted From Inventory' ? 'checked' : '' }} checked>
+                                    Yes, subtract now.
+                                </label>
+                                <br>
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input type="radio" name="status" id="status" value="Not Subtracted From Inventory" {{ old('status') == 'Not Subtracted From Inventory' ? 'checked' : '' }}>
+                                    No, subtract later.
+                                </label>
+                                @error('status')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -109,6 +130,28 @@
                                         <i class="fas fa-th"></i>
                                     </div>
                                     @error('sale.0.product_id')
+                                        <span class="help has-text-danger" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-6">
+                            <div class="field">
+                                <label for="sale[0][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                                <div class="control has-icons-left">
+                                    <div class="select is-fullwidth">
+                                        <select id="sale[0][warehouse_id]" name="sale[0][warehouse_id]">
+                                            @foreach ($warehouses as $warehouse)
+                                                <option value="{{ $warehouse->id }}" {{ old('sale.0.warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="icon is-small is-left">
+                                        <i class="fas fa-warehouse"></i>
+                                    </div>
+                                    @error('sale.0.warehouse_id')
                                         <span class="help has-text-danger" role="alert">
                                             {{ $message }}
                                         </span>
@@ -181,6 +224,28 @@
                                                 <i class="fas fa-th"></i>
                                             </div>
                                             @error('sale.' . $i . '.product_id')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label for="sale[{{ $i }}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                                        <div class="control has-icons-left">
+                                            <div class="select is-fullwidth">
+                                                <select id="sale[{{ $i }}][warehouse_id]" name="sale[{{ $i }}][warehouse_id]">
+                                                    @foreach ($warehouses as $warehouse)
+                                                        <option value="{{ $warehouse->id }}" {{ old('sale.' . $i . '.warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="icon is-small is-left">
+                                                <i class="fas fa-warehouse"></i>
+                                            </div>
+                                            @error('sale.' . $i . '.warehouse_id')
                                                 <span class="help has-text-danger" role="alert">
                                                     {{ $message }}
                                                 </span>
