@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Warehouse extends Model
 {
+    use SoftDeletes;
+
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     public function company()
