@@ -138,6 +138,8 @@ class PurchaseController extends Controller
 
     public function destroy(Purchase $purchase)
     {
-        //
+        $purchase->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }

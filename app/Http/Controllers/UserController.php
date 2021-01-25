@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function destory(User $user)
+    public function destroy(User $user)
     {
         $user->forceDelete();
 
-        return redirect()->back('deleted', 'Deleted Successfully');
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }

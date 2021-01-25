@@ -164,6 +164,8 @@ class SaleController extends Controller
 
     public function destroy(Sale $sale)
     {
-        //
+        $sale->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }

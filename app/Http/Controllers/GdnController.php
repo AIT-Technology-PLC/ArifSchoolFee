@@ -155,6 +155,8 @@ class GdnController extends Controller
 
     public function destroy(Gdn $gdn)
     {
-        //
+        $gdn->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }

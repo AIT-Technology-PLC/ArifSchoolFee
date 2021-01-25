@@ -111,7 +111,9 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        //
+        $product->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 
     public function getProductUOM(Product $product)

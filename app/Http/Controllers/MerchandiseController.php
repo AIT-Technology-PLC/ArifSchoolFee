@@ -106,6 +106,8 @@ class MerchandiseController extends Controller
 
     public function destroy(Merchandise $merchandise)
     {
-        //
+        $merchandise->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }

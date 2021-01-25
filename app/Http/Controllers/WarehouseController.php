@@ -74,6 +74,8 @@ class WarehouseController extends Controller
 
     public function destroy(Warehouse $warehouse)
     {
-        //
+        $warehouse->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }

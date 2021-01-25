@@ -78,6 +78,8 @@ class SupplierController extends Controller
 
     public function destroy(Supplier $supplier)
     {
-        //
+        $supplier->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }
