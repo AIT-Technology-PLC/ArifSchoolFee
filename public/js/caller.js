@@ -90,3 +90,10 @@ d.getElementById("burger-menu").addEventListener(
 if (d.getElementById("addNewGdnForm")) {
     d.getElementById("addNewGdnForm").addEventListener("click", addGdnForm);
 }
+
+if (d.getElementsByTagName("table")) {
+    d.getElementsByTagName("table")[0].addEventListener(
+        "click",
+        disableDeleteForm
+    );
+}
