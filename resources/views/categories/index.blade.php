@@ -103,6 +103,8 @@
                                             </span>
                                         </span>
                                     </a>
+                                    @include('components.delete_button', ['model' => 'categories',
+                                    'id' => $category->id])
                                 </td>
                             </tr>
                         @endforeach

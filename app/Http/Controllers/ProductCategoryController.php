@@ -76,6 +76,8 @@ class ProductCategoryController extends Controller
 
     public function destroy(ProductCategory $category)
     {
-        //
+        $category->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }
