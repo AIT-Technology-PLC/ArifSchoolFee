@@ -278,7 +278,7 @@ class CoreV1 extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('receipt_no')->unique();
             $table->string('payment_type');
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->boolean('is_manual');
             $table->dateTime('sold_on')->nullable();
             $table->longText('description')->nullable();

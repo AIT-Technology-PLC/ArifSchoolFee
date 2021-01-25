@@ -113,6 +113,12 @@ class GdnController extends Controller
     public function update(Request $request, Gdn $gdn)
     {
         if ($gdn->isGdnSubtracted()) {
+            $gdnSaleId = $request->validate([
+                'sale_id' => 'nullable|integer',
+            ]);
+
+            $gdn->update($gdnSaleId);
+
             return redirect()->route('gdns.show', $gdn->id);
         }
 

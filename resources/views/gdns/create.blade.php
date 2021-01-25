@@ -59,7 +59,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="sale_id" class="label text-green has-text-weight-normal"> Sale <sup class="has-text-danger"></sup> </label>
+                            <label for="sale_id" class="label text-green has-text-weight-normal"> Receipt No <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="sale_id" name="sale_id">
