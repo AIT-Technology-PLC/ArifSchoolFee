@@ -135,9 +135,9 @@
                                     <td> {{ $employee->createdBy->name ?? 'N/A' }} </td>
                                     <td> {{ $employee->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
-                                <td class="has-text-centered">
-                                    <a href="{{ route('employees.edit', $employee->id) }}" data-title="Modify Employee Data">
-                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                <td>
+                                    <a class="is-block" href="{{ route('employees.edit', $employee->id) }}" data-title="Modify Employee Data">
+                                        <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
                                             </span>
@@ -146,6 +146,10 @@
                                             </span>
                                         </span>
                                     </a>
+                                    <span class="is-block">
+                                        @include('components.delete_button', ['model' => 'users',
+                                        'id' => $employee->user_id])
+                                    </span>
                                 </td>
                             </tr>
                         @endforeach

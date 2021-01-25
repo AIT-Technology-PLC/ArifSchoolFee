@@ -68,7 +68,7 @@
                                 <th><abbr> Added By </abbr></th>
                                 <th><abbr> Edited By </abbr></th>
                             @endcan
-                            <th class="has-text-centered"><abbr> Actions </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -92,7 +92,7 @@
                                     <td> {{ $category->createdBy->name ?? 'N/A' }} </td>
                                     <td> {{ $category->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
-                                <td class="has-text-centered">
+                                <td>
                                     <a href="{{ route('categories.edit', $category->id) }}" data-title="Modify Category Data">
                                         <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">

@@ -126,7 +126,7 @@
                                         </span>
                                     </a>
                                     <a class="is-block" href="{{ route('gdns.edit', $gdn->id) }}" data-title="Modify SIV/GDN Data">
-                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                        <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
                                             </span>
@@ -135,6 +135,10 @@
                                             </span>
                                         </span>
                                     </a>
+                                    <span class="is-block">
+                                        @include('components.delete_button', ['model' => 'gdns',
+                                        'id' => $gdn->id])
+                                    </span>
                                 </td>
                             </tr>
                         @endforeach

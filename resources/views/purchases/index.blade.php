@@ -121,7 +121,7 @@
                                         </span>
                                     </a>
                                     <a class="is-block" href="{{ route('purchases.edit', $purchase->id) }}" data-title="Modify Purchase Data">
-                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                        <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
                                             </span>
@@ -130,6 +130,10 @@
                                             </span>
                                         </span>
                                     </a>
+                                    <span class="is-block">
+                                        @include('components.delete_button', ['model' => 'purchases',
+                                        'id' => $purchase->id])
+                                    </span>
                                 </td>
                             </tr>
                         @endforeach

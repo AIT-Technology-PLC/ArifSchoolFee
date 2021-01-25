@@ -72,7 +72,7 @@
                                 <th><abbr> Added By </abbr></th>
                                 <th><abbr> Edited By </abbr></th>
                             @endcan
-                            <th class="has-text-centered"><abbr> Actions </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -105,9 +105,9 @@
                                     <td> {{ $product->createdBy->name ?? 'N/A' }} </td>
                                     <td> {{ $product->updatedBy->name ?? 'N/A' }} </td>
                                 @endcan
-                                <td class="has-text-centered">
-                                    <a href="{{ route('products.edit', $product->id) }}" data-title="Modify Product Data">
-                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                <td>
+                                    <a class="is-block" href="{{ route('products.edit', $product->id) }}" data-title="Modify Product Data">
+                                        <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
                                             </span>
@@ -116,6 +116,10 @@
                                             </span>
                                         </span>
                                     </a>
+                                    <span class="is-block">
+                                        @include('components.delete_button', ['model' => 'products',
+                                        'id' => $product->id])
+                                    </span>
                                 </td>
                             </tr>
                         @endforeach

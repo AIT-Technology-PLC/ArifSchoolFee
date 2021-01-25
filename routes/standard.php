@@ -17,6 +17,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/product/uom/{product}', 'ProductController@getProductUOM');
 
+Route::resource('users', 'UserController')->only(['destroy']);
+
 Route::resource('products', 'ProductController');
 
 Route::resource('categories', 'ProductCategoryController');

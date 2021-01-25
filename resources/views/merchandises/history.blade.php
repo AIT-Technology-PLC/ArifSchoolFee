@@ -17,7 +17,7 @@
                             <th><abbr> Added By </abbr></th>
                             <th><abbr> Edited By </abbr></th>
                         @endcan
-                        <th class="has-text-centered"><abbr> Actions </abbr></th>
+                        <th><abbr> Actions </abbr></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,9 +54,9 @@
                                 <td> {{ $merchandise->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $merchandise->updatedBy->name ?? 'N/A' }} </td>
                             @endcan
-                            <td class="has-text-centered">
-                                <a href="{{ route('merchandises.edit', $merchandise->id) }}" data-title="Manage Returned or Damaged Product">
-                                    <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                            <td>
+                                <a class="is-block" href="{{ route('merchandises.edit', $merchandise->id) }}" data-title="Manage Returned or Damaged Product">
+                                    <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                         <span class="icon">
                                             <i class="fas fa-toolbox"></i>
                                         </span>
@@ -65,6 +65,10 @@
                                         </span>
                                     </span>
                                 </a>
+                                <span class="is-block">
+                                    @include('components.delete_button', ['model' => 'merchandises',
+                                    'id' => $merchandise->id])
+                                </span>
                             </td>
                         </tr>
                     @endforeach
