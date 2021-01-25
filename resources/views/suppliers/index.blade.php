@@ -54,6 +54,7 @@
             </h1>
         </div>
         <div class="box radius-top-0">
+            @include('components.deleted_message', ['model' => 'Supplier'])
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>

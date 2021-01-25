@@ -1,5 +1,6 @@
 <section id="onHand" class="mx-3 m-lr-0">
     <div class="box radius-top-0">
+        @include('components.deleted_message', ['model' => 'Merchandise'])
         <div class="table-container">
             <table class="table is-hoverable is-fullwidth is-size-7">
                 <thead>
