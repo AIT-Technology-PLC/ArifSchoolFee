@@ -105,7 +105,39 @@ class TransferController extends Controller
 
     public function update(Request $request, Transfer $transfer)
     {
-        //
+        if ($transfer->isTransferDone()) {
+            return redirect()->route('transfers.show', $transfer->id);
+        }
+
+        $request['code'] = $this->prependCompanyId($request->code);
+
+        $transferData = $request->validate([
+            'code' => 'required|string|unique:transfers,code,' . $transfer->id,
+            'transfer' => 'required|array',
+            'transfer.*.product_id' => 'required|integer',
+            'transfer.*.warehouse_id' => 'required|integer',
+            'transfer.*.to_warehouse_id' => 'required|integer',
+            'transfer.*.quantity' => 'required|numeric|min:1',
+            'transfer.*.description' => 'nullable|string',
+            'issued_on' => 'required|date',
+            'status' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $transferData['updated_by'] = auth()->user()->id;
+
+        $basicTransferData = Arr::except($transferData, 'transfer');
+        $transferDetailsData = $transferData['transfer'];
+
+        DB::transaction(function () use ($basicTransferData, $transferDetailsData, $transfer) {
+            $transfer->update($basicTransferData);
+
+            for ($i = 0; $i < count($transferDetailsData); $i++) {
+                $transfer->transferDetails[$i]->update($transferDetailsData[$i]);
+            }
+        });
+
+        return redirect()->route('transfers.show', $transfer->id);
     }
 
     public function destroy(Transfer $transfer)
