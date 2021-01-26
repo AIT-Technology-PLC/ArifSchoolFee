@@ -25,25 +25,6 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="column">
-            <div class="box text-green">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-hashtag"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 has-text-weight-bold">
-                            {{ $transfer->sale->receipt_no ?? 'N/A' }}
-                        </div>
-                        <div class="is-uppercase is-size-7">
-                            Receipt No
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
     </div>
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
@@ -89,9 +70,9 @@
                         <br>
                         Click on the button below to transfer.
                     </p>
-                    <form id="formOne" action="{{ route('merchandises.subtractFromInventory', $transfer->id) }}" method="post" novalidate>
+                    <form id="formOne" action="{{ route('transfers.transfer', $transfer->id) }}" method="post" novalidate>
                         @csrf
-                        <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                        <button id="transferButton" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
                             <span class="icon">
                                 <i class="fas fa-minus-circle"></i>
                             </span>

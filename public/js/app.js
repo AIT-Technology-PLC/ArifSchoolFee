@@ -595,3 +595,18 @@ const addTransferForm = (function () {
         }
     };
 })();
+
+function openTransferModal(event) {
+    event.preventDefault();
+    swal({
+        title: "Do you want to transfer?",
+        text:
+            "By clicking 'Yes, Transfer', you are going to transfer the products.",
+        buttons: ["Not now", "Yes, Transfer"],
+        dangerMode: true,
+    }).then((willTransfer) => {
+        if (willTransfer) {
+            d.getElementById("formOne").submit();
+        }
+    });
+}

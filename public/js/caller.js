@@ -101,3 +101,7 @@ if (d.getElementsByTagName("table")) {
 if (d.getElementById("addNewTransferForm")) {
     d.getElementById("addNewTransferForm").addEventListener("click", addTransferForm);
 }
+
+if (d.getElementById("transferButton")) {
+    d.getElementById("transferButton").addEventListener("click", openTransferModal);
+}

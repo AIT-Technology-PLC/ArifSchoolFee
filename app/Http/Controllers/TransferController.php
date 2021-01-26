@@ -81,6 +81,20 @@ class TransferController extends Controller
         redirect()->back()->withInput($request->all());
     }
 
+    public function transfer(Transfer $transfer)
+    {
+        DB::transaction(function () use ($transfer) {
+            $transfer->changeStatusToTransferred();
+            $isTransferValid = StoreSaleableProducts::storeTransferredProducts($transfer);
+
+            if (!$isTransferValid) {
+                DB::rollback();
+            }
+        });
+
+        return redirect()->back();
+    }
+
     public function show(Transfer $transfer)
     {
         $transfer->load(['transferDetails.product', 'transferDetails.warehouse', 'transferDetails.toWarehouse']);
