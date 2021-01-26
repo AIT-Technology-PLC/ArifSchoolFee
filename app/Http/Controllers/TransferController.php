@@ -22,9 +22,13 @@ class TransferController extends Controller
         $this->transfer = $transfer;
     }
 
-    public function index()
+    public function index(Transfer $transfer)
     {
-        //
+        $transfers = $transfer->getAll()->load(['createdBy', 'updatedBy']);
+
+        $totalTransfers = $transfer->countTransfersOfCompany();
+
+        return view('transfers.index', compact('transfers', 'totalTransfers'));
     }
 
     public function create(Product $product, Warehouse $warehouse)
@@ -98,6 +102,8 @@ class TransferController extends Controller
 
     public function destroy(Transfer $transfer)
     {
-        //
+        $transfer->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }

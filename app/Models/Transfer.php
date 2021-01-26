@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Transfer extends Model
 {
@@ -50,7 +51,7 @@ class Transfer extends Model
 
     public function countTransfersOfCompany()
     {
-        return $this->companyGdn()->count();
+        return $this->companyTransfer()->count();
     }
 
     public function changeStatusToTransfered()
