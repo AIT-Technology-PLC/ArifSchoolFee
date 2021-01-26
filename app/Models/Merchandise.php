@@ -149,6 +149,23 @@ class Merchandise extends Model
         return $previousSoldQuantity;
     }
 
+    public function isTransferQuantityValueValid($transferQuantity)
+    {
+        $totalOnHandQuantity = $this->total_on_hand;
+        $previousTransferQuantity = $this->total_transfer;
+        $totalTransferQuantity = $transferQuantity + $previousTransferQuantity;
+
+        if ($transferQuantity < 0 || !is_numeric($transferQuantity)) {
+            return $previousTransferQuantity;
+        }
+
+        if ($totalTransferQuantity <= $totalOnHandQuantity + $previousTransferQuantity) {
+            return $totalTransferQuantity;
+        }
+
+        return $previousTransferQuantity;
+    }
+
     public function decrementTotalOnHandQuantity()
     {
         $totalReceivedQuantity = $this->total_received;

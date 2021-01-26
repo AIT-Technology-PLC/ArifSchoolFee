@@ -108,7 +108,7 @@
                             <i class="fas fa-check-circle"></i>
                         </span>
                         <span>
-                            Products have been transferred from {{ $transfer->warehouse->name }} to {{ $transfer->toWarehouse->name }}.
+                            Products have been transferred successfully.
                         </span>
                     </p>
                 </div>

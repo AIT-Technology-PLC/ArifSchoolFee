@@ -67,11 +67,7 @@ class TransferController extends Controller
         $transfer = DB::transaction(function () use ($basicTransferData, $transferDetailsData) {
             $transfer = $this->transfer->create($basicTransferData);
             $transfer->transferDetails()->createMany($transferDetailsData);
-            $isTransferValid = true;
-
-            if ($transfer->isTransferDone()) {
-                $isTransferValid = StoreSaleableProducts::areProductsAvailableOnHand($transfer->transferDetails);
-            }
+            $isTransferValid = StoreSaleableProducts::storeTransferredProducts($transfer);
 
             if (!$isTransferValid) {
                 DB::rollback();
