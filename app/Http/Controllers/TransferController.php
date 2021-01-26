@@ -45,8 +45,9 @@ class TransferController extends Controller
             'transfer' => 'required|array',
             'transfer.*.product_id' => 'required|integer',
             'transfer.*.warehouse_id' => 'required|integer',
+            'transfer.*.to_warehouse_id' => 'required|integer',
             'transfer.*.quantity' => 'required|numeric|min:1',
-            'transfer.*.desciption' => 'nullable|string',
+            'transfer.*.description' => 'nullable|string',
             'issued_on' => 'required|date',
             'status' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -62,7 +63,7 @@ class TransferController extends Controller
         $transfer = DB::transaction(function () use ($basicTransferData, $transferDetailsData) {
             $transfer = $this->transfer->create($basicTransferData);
             $transfer->transferDetails()->createMany($transferDetailsData);
-            $isTransferValid = false;
+            $isTransferValid = true;
 
             if ($transfer->isTransferDone()) {
                 $isTransferValid = StoreSaleableProducts::areProductsAvailableOnHand($transfer->transferDetails);

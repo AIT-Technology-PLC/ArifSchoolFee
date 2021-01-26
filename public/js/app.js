@@ -528,8 +528,22 @@ const addTransferForm = (function () {
                     </div>
                 </div>
                 <div class="column is-6">
+                    <label for="transfer[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left is-expanded">
+                            <input id="transfer[${index}][quantity]" name="transfer[${index}][quantity]" type="number" class="input" placeholder="Quantity">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-balance-scale"></i>
+                            </span>
+                        </div>
+                        <div class="control">
+                            <button id="transfer[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
                     <div class="field">
-                        <label for="transfer[${index}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                        <label for="transfer[${index}][warehouse_id]" class="label text-green has-text-weight-normal"> From <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
                                 <select id="transfer[${index}][warehouse_id]" name="transfer[${index}][warehouse_id]">
@@ -543,16 +557,17 @@ const addTransferForm = (function () {
                     </div>
                 </div>
                 <div class="column is-6">
-                    <label for="transfer[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                    <div class="field has-addons">
-                        <div class="control has-icons-left is-expanded">
-                            <input id="transfer[${index}][quantity]" name="transfer[${index}][quantity]" type="number" class="input" placeholder="Quantity">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-balance-scale"></i>
-                            </span>
-                        </div>
-                        <div class="control">
-                            <button id="transfer[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                    <div class="field">
+                        <label for="transfer[${index}][to_warehouse_id]" class="label text-green has-text-weight-normal"> To <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="transfer[${index}][to_warehouse_id]" name="transfer[${index}][to_warehouse_id]">
+                                    ${warehouseList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-warehouse"></i>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -119,8 +119,27 @@
                             </div>
                         </div>
                         <div class="column is-6">
+                            <label for="transfer[0][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                            <div class="field has-addons">
+                                <div class="control has-icons-left is-expanded">
+                                    <input id="transfer[0][quantity]" name="transfer[0][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('transfer.0.quantity') ?? '' }}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-balance-scale"></i>
+                                    </span>
+                                    @error('transfer.0.quantity')
+                                        <span class="help has-text-danger" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="control">
+                                    <button id="transfer[0][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-6">
                             <div class="field">
-                                <label for="transfer[0][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                                <label for="transfer[0][warehouse_id]" class="label text-green has-text-weight-normal"> From <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
                                     <div class="select is-fullwidth">
                                         <select id="transfer[0][warehouse_id]" name="transfer[0][warehouse_id]">
@@ -141,21 +160,24 @@
                             </div>
                         </div>
                         <div class="column is-6">
-                            <label for="transfer[0][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                            <div class="field has-addons">
-                                <div class="control has-icons-left is-expanded">
-                                    <input id="transfer[0][quantity]" name="transfer[0][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('transfer.0.quantity') ?? '' }}">
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-balance-scale"></i>
-                                    </span>
-                                    @error('transfer.0.quantity')
+                            <div class="field">
+                                <label for="transfer[0][to_warehouse_id]" class="label text-green has-text-weight-normal"> To <sup class="has-text-danger">*</sup> </label>
+                                <div class="control has-icons-left">
+                                    <div class="select is-fullwidth">
+                                        <select id="transfer[0][to_warehouse_id]" name="transfer[0][to_warehouse_id]">
+                                            @foreach ($warehouses as $warehouse)
+                                                <option value="{{ $warehouse->id }}" {{ old('transfer.0.to_warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="icon is-small is-left">
+                                        <i class="fas fa-warehouse"></i>
+                                    </div>
+                                    @error('transfer.0.to_warehouse_id')
                                         <span class="help has-text-danger" role="alert">
                                             {{ $message }}
                                         </span>
                                     @enderror
-                                </div>
-                                <div class="control">
-                                    <button id="transfer[0][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
                                 </div>
                             </div>
                         </div>
@@ -210,8 +232,27 @@
                                     </div>
                                 </div>
                                 <div class="column is-6">
+                                    <label for="transfer[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                                    <div class="field has-addons">
+                                        <div class="control has-icons-left is-expanded">
+                                            <input id="transfer[{{ $i }}][quantity]" name="transfer[{{ $i }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('transfer.' . $i . '.quantity') ?? '' }}">
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-balance-scale"></i>
+                                            </span>
+                                            @error('transfer.' . $i . '.quantity')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="control">
+                                            <button id="transfer[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-6">
                                     <div class="field">
-                                        <label for="transfer[{{ $i }}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                                        <label for="transfer[{{ $i }}][warehouse_id]" class="label text-green has-text-weight-normal"> From <sup class="has-text-danger">*</sup> </label>
                                         <div class="control has-icons-left">
                                             <div class="select is-fullwidth">
                                                 <select id="transfer[{{ $i }}][warehouse_id]" name="transfer[{{ $i }}][warehouse_id]">
@@ -232,21 +273,24 @@
                                     </div>
                                 </div>
                                 <div class="column is-6">
-                                    <label for="transfer[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                                    <div class="field has-addons">
-                                        <div class="control has-icons-left is-expanded">
-                                            <input id="transfer[{{ $i }}][quantity]" name="transfer[{{ $i }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('transfer.' . $i . '.quantity') ?? '' }}">
-                                            <span class="icon is-small is-left">
-                                                <i class="fas fa-balance-scale"></i>
-                                            </span>
-                                            @error('transfer.' . $i . '.quantity')
+                                    <div class="field">
+                                        <label for="transfer[{{ $i }}][to_warehouse_id]" class="label text-green has-text-weight-normal"> To <sup class="has-text-danger">*</sup> </label>
+                                        <div class="control has-icons-left">
+                                            <div class="select is-fullwidth">
+                                                <select id="transfer[{{ $i }}][to_warehouse_id]" name="transfer[{{ $i }}][to_warehouse_id]">
+                                                    @foreach ($warehouses as $warehouse)
+                                                        <option value="{{ $warehouse->id }}" {{ old('transfer.' . $i . '.to_warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="icon is-small is-left">
+                                                <i class="fas fa-warehouse"></i>
+                                            </div>
+                                            @error('transfer.' . $i . '.to_warehouse_id')
                                                 <span class="help has-text-danger" role="alert">
                                                     {{ $message }}
                                                 </span>
                                             @enderror
-                                        </div>
-                                        <div class="control">
-                                            <button id="transfer[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
                                         </div>
                                     </div>
                                 </div>
