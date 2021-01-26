@@ -57,6 +57,16 @@ class Warehouse extends Model
         return $this->hasMany(GdnDetail::class);
     }
 
+    public function fromtransferDetails()
+    {
+        return $this->hasMany(TransferDetail::class, 'from_warehouse_id');
+    }
+
+    public function totransferDetails()
+    {
+        return $this->hasMany(TransferDetail::class, 'to_warehouse_id');
+    }
+
     public function scopeCompanyWarehouses($query)
     {
         return $query->where('company_id', auth()->user()->employee->company_id);

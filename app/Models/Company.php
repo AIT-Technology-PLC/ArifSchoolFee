@@ -90,6 +90,11 @@ class Company extends Model
         return $this->hasMany(Gdn::class);
     }
 
+    public function transfers()
+    {
+        return $this->hasMany(Transfer::class);
+    }
+
     public function isCompanyStandardMember()
     {
         return $this->membership_plan == "Standard";

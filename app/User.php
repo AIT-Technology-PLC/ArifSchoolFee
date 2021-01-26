@@ -11,6 +11,7 @@ use App\Models\ProductCategory;
 use App\Models\Purchase;
 use App\Models\Sale;
 use App\Models\Supplier;
+use App\Models\Transfer;
 use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -176,5 +177,15 @@ class User extends Authenticatable
     public function gdnsUpdated()
     {
         return $this->hasMany(Gdn::class, 'updated_by');
+    }
+
+    public function transfersCreated()
+    {
+        return $this->hasMany(Transfer::class, 'created_by');
+    }
+
+    public function transfersUpdated()
+    {
+        return $this->hasMany(Transfer::class, 'updated_by');
     }
 }
