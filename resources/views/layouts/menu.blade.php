@@ -171,7 +171,7 @@
                 </ul>
             </li>
             <li>
-                <a name="menuTitles" class="has-text-grey has-text-weight-normal is-size-6-5">
+                <a name="menuTitles" href="{{ route('transfers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('transfers') ? 'is-active' : '' }}">
                     <span class="icon">
                         <i class="fas fa-exchange-alt"></i>
                     </span>
@@ -183,7 +183,7 @@
             <li>
                 <ul class="mt-0">
                     <li>
-                        <a name="menuTitles" class="has-text-grey has-text-weight-normal is-size-6-5">
+                        <a name="menuTitles" href="{{ route('transfers.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('transfers/create') ? 'is-active' : '' }}">
                             <span class="icon">
                                 <i class="fas fa-plus-circle"></i>
                             </span>

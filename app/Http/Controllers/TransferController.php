@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Transfer;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
 class TransferController extends Controller
@@ -12,9 +14,13 @@ class TransferController extends Controller
         //
     }
     
-    public function create()
+    public function create(Product $product, Warehouse $warehouse)
     {
-        //
+        $products = $product->getProductNames();
+
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        return view('transfers.create', compact('products', 'warehouses'));
     }
     
     public function store(Request $request)
