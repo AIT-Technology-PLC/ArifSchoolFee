@@ -45,27 +45,6 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="status" class="label text-green has-text-weight-normal"> Transfer now? <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <label class="radio has-text-grey has-text-weight-normal">
-                                    <input type="radio" name="status" id="status" value="Transferred" {{ $transfer->status == 'Transferred' ? 'checked' : '' }} checked>
-                                    Yes, transfer now.
-                                </label>
-                                <br>
-                                <label class="radio has-text-grey has-text-weight-normal">
-                                    <input type="radio" name="status" id="status" value="Not Transferred" {{ $transfer->status == 'Not Transferred' ? 'checked' : '' }}>
-                                    No, transfer later.
-                                </label>
-                                @error('status')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
                             <div class="control has-icons-left">
                                 <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ $transfer->description ?? '' }}</textarea>

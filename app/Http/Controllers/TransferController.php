@@ -120,7 +120,6 @@ class TransferController extends Controller
             'transfer.*.quantity' => 'required|numeric|min:1',
             'transfer.*.description' => 'nullable|string',
             'issued_on' => 'required|date',
-            'status' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
