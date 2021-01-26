@@ -44,7 +44,7 @@ class StoreSaleableProducts
             return !$detail->product->isProductSaleable();
         });
 
-        if ($nonSaleableProducts) {
+        if (count($nonSaleableProducts)) {
             session()->flash('message', 'Some of the products selected are not saleable products');
         }
 
@@ -63,7 +63,7 @@ class StoreSaleableProducts
                 }
             });
 
-        if ($productNotOnHand) {
+        if (count($productNotOnHand)) {
             session()->flash('message', 'Some of the products selected are not available in some or all warehouses');
         }
 
