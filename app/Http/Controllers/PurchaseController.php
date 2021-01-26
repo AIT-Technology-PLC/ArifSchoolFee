@@ -70,13 +70,15 @@ class PurchaseController extends Controller
         $basicPurchaseData = Arr::except($purchaseData, 'purchase');
         $purchaseDetailsData = $purchaseData['purchase'];
 
-        DB::transaction(function () use ($basicPurchaseData, $purchaseDetailsData) {
+        $purchase = DB::transaction(function () use ($basicPurchaseData, $purchaseDetailsData) {
             $purchase = $this->purchase->create($basicPurchaseData);
             $purchase->purchaseDetails()->createMany($purchaseDetailsData);
             AddPurchasedItemsToInventory::addToInventory($purchase);
+
+            return $purchase;
         });
 
-        return redirect()->route('purchases.index');
+        return redirect()->route('purchases.show', $purchase->id);
     }
 
     public function show(Purchase $purchase, Warehouse $warehouse)

@@ -179,6 +179,7 @@
                                 <tr>
                                     <th><abbr> # </abbr></th>
                                     <th><abbr> SIV/GDN No </abbr></th>
+                                    <th><abbr> Status </abbr></th>
                                     <th><abbr> Issued on </abbr></th>
                                 </tr>
                             </thead>
@@ -190,6 +191,17 @@
                                             <a class="is-underlined" href="{{ route('gdns.show', $gdn->id) }}">
                                                 {{ $gdn->code }}
                                             </a>
+                                        </td>
+                                        <td>
+                                            @if ($gdn->isGdnSubtracted())
+                                                <span class="tag is-small bg-purple has-text-white">
+                                                    {{ $gdn->status ?? 'N/A' }}
+                                                </span>
+                                            @else
+                                                <span class="tag is-small bg-blue has-text-white">
+                                                    {{ $gdn->status ?? 'N/A' }}
+                                                </span>
+                                            @endif
                                         </td>
                                         <td class="is-capitalized">
                                             {{ $gdn->issued_on->toFormattedDateString() }}

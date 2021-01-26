@@ -74,7 +74,7 @@ class SaleController extends Controller
         $basicSaleData = Arr::except($saleData, 'sale');
         $saleDetailsData = $saleData['sale'];
 
-        $isSaleValid = DB::transaction(function () use ($basicSaleData, $saleDetailsData) {
+        $sale = DB::transaction(function () use ($basicSaleData, $saleDetailsData) {
             $sale = $this->sale->create($basicSaleData);
             $sale->saleDetails()->createMany($saleDetailsData);
 
@@ -86,11 +86,15 @@ class SaleController extends Controller
                 $isSaleValid = StoreSaleableProducts::storeSoldProducts($sale);
             }
 
-            return $isSaleValid ? true : DB::rollback();
+            if (!$isSaleValid) {
+                DB::rollback();
+            }
+
+            return $isSaleValid ? $sale : false;
         });
 
-        return $isSaleValid ?
-        redirect()->route('sales.index') :
+        return $sale ?
+        redirect()->route('sales.show', $sale->id) :
         redirect()->back()->withInput($request->all());
     }
 
@@ -101,7 +105,7 @@ class SaleController extends Controller
         request()->merge([
             'sale_id' => $sale->id,
             'customer_id' => $sale->customer_id,
-            'gdn' => $sale->saleDetails->toArray()
+            'gdn' => $sale->saleDetails->toArray(),
         ]);
 
         request()->flash(request()->all());

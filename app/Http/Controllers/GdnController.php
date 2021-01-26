@@ -71,7 +71,7 @@ class GdnController extends Controller
         $basicGdnData = Arr::except($gdnData, 'gdn');
         $gdnDetailsData = $gdnData['gdn'];
 
-        $isGdnValid = DB::transaction(function () use ($basicGdnData, $gdnDetailsData) {
+        $gdn = DB::transaction(function () use ($basicGdnData, $gdnDetailsData) {
             $gdn = $this->gdn->create($basicGdnData);
             $gdn->gdnDetails()->createMany($gdnDetailsData);
             $isGdnValid = StoreSaleableProducts::storeSoldProducts($gdn);
@@ -80,11 +80,11 @@ class GdnController extends Controller
                 DB::rollback();
             }
 
-            return $isGdnValid;
+            return $isGdnValid ? $gdn : false;
         });
 
-        return $isGdnValid ?
-        redirect()->route('gdns.index') :
+        return $gdn ?
+        redirect()->route('gdns.show', $gdn->id) :
         redirect()->back()->withInput($request->all());
     }
 
