@@ -55,12 +55,12 @@ class Transfer extends Model
 
     public function changeStatusToTransfered()
     {
-        $this->status = 'transferred';
+        $this->status = 'Transferred';
         $this->save();
     }
 
     public function isTransferDone()
     {
-        return $this->status == 'Still Not Transferred';
+        return $this->status == 'Transferred';
     }
 }

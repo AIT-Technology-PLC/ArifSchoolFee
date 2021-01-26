@@ -55,12 +55,12 @@
                             <label for="status" class="label text-green has-text-weight-normal"> Transfer now? <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <label class="radio has-text-grey has-text-weight-normal">
-                                    <input type="radio" name="status" id="status" value="Subtracted From Inventory" {{ old('status') == 'Subtracted From Inventory' ? 'checked' : '' }} checked>
+                                    <input type="radio" name="status" id="status" value="Transferred" {{ old('status') == 'Subtracted From Inventory' ? 'checked' : '' }} checked>
                                     Yes, transfer now.
                                 </label>
                                 <br>
                                 <label class="radio has-text-grey has-text-weight-normal">
-                                    <input type="radio" name="status" id="status" value="Not Subtracted From Inventory" {{ old('status') == 'Not Subtracted From Inventory' ? 'checked' : '' }}>
+                                    <input type="radio" name="status" id="status" value="Not Transferred" {{ old('status') == 'Not Subtracted From Inventory' ? 'checked' : '' }}>
                                     No, transfer later.
                                 </label>
                                 @error('status')
