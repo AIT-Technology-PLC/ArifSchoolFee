@@ -73,17 +73,14 @@ class MerchandiseController extends Controller
 
     public function edit(Merchandise $merchandise, Warehouse $warehouse)
     {
-        $merchandise->load(['warehouse', 'product']);
+        $merchandise->load(['product']);
 
-        $warehouses = $warehouse->getAllWithoutRelations();
-
-        return view('merchandises.edit', compact('merchandise', 'warehouses'));
+        return view('merchandises.edit', compact('merchandise'));
     }
 
     public function update(Request $request, Merchandise $merchandise)
     {
         $data = $request->validate([
-            'warehouse_id' => 'required|integer',
             'total_returns' => 'nullable|numeric',
             'total_broken' => 'nullable|numeric',
         ]);

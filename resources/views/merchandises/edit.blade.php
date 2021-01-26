@@ -8,7 +8,7 @@
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-green has-text-weight-medium is-size-5">
-                Manage Returns, Damage and Transfers
+                Manage Returns and Damage
             </h1>
         </div>
         <form id="formOne" action="{{ route('merchandises.update', $merchandise->id) }}" method="POST" enctype="multipart/form-data" novalidate>
@@ -16,40 +16,6 @@
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="current_warehouse" class="label text-green has-text-weight-normal">Current Warehouse <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input id="current_warehouse" type="text" class="input is-light has-background-white-ter is-clickable" value="{{ $merchandise->warehouse->name }}" readonly>
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-warehouse"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="warehouse_id" class="label text-green has-text-weight-normal"> New Warehouse <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="warehouse_id" name="warehouse_id">
-                                        <option selected disabled>Select New Warehouse</option>
-                                        @foreach ($warehouses as $warehouse)
-                                            <option value="{{ $warehouse->id }}" {{ $merchandise->warehouse_id == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-warehouse"></i>
-                                </div>
-                                @error('warehouse_id')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
                     <div class="column is-12">
                         <label for="total_broken" class="label text-green has-text-weight-normal">Add Products Damaged/Broken  <sup class="has-text-danger"></sup> </label>
                         <div class="field has-addons">
