@@ -14,28 +14,28 @@ class AddPurchasedItemsToInventory
 
         self::validateWarehouseAndExpirationFields();
 
-        self::addProductsPurchasedToInventory($purchase);
+        self::addProductsPurchasedToInventory($purchase->purchaseDetails);
     }
 
-    protected static function validateWarehouseAndExpirationFields()
+    public static function validateWarehouseAndExpirationFields()
     {
         return request()->validate([
-            'warehouse_id' => 'required|integer',
-            'expires_on' => 'nullable|date',
+            'warehouse_id' => 'sometimes|required|integer',
+            'expires_on' => 'sometimes|nullable|date',
         ]);
     }
 
-    protected static function isAddToInventoryNowChecked($purchase)
+    public static function isAddToInventoryNowChecked($purchase)
     {
         return $purchase->isAddedToInventory();
     }
 
-    protected static function preparePurchaseDetailForMerchandise($purchaseDetail)
+    public static function preparePurchaseDetailForMerchandise($detail)
     {
-        $purchaseDetail = [
-            'product_id' => $purchaseDetail->product_id,
-            'total_received' => $purchaseDetail->quantity,
-            'total_on_hand' => $purchaseDetail->quantity,
+        $detail = [
+            'product_id' => $detail->product_id,
+            'total_received' => $detail->quantity,
+            'total_on_hand' => $detail->quantity,
             'total_sold' => 0,
             'total_broken' => 0,
             'total_returns' => 0,
@@ -44,19 +44,19 @@ class AddPurchasedItemsToInventory
             'company_id' => auth()->user()->employee->company_id,
             'created_at' => now()->toDateTimeString(),
             'updated_at' => now()->toDateTimeString(),
-            'warehouse_id' => self::validateWarehouseAndExpirationFields()['warehouse_id'],
-            'expires_on' => self::validateWarehouseAndExpirationFields()['expires_on'],
+            'warehouse_id' => $detail->to_warehouse_id ?? self::validateWarehouseAndExpirationFields()['warehouse_id'],
+            'expires_on' => self::validateWarehouseAndExpirationFields()['expires_on'] ?? null,
         ];
 
-        return $purchaseDetail;
+        return $detail;
     }
 
-    protected static function addProductsPurchasedToInventory($purchase)
+    public static function addProductsPurchasedToInventory($details)
     {
-        foreach ($purchase->purchaseDetails as $purchaseDetail) {
-            if ($purchaseDetail->product->isProductMerchandise()) {
+        foreach ($details as $detail) {
+            if ($detail->product->isProductMerchandise()) {
                 $merchandise = new Merchandise();
-                $merchandise->create(self::preparePurchaseDetailForMerchandise($purchaseDetail));
+                $merchandise->create(self::preparePurchaseDetailForMerchandise($detail));
             }
         }
     }
