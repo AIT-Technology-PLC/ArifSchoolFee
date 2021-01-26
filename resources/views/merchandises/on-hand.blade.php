@@ -12,8 +12,9 @@
                         <th class="has-text-right"><abbr> Quantity Received </abbr></th>
                         <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
                         <th class="has-text-right text-purple"><abbr> Damaged </abbr></th>
+                        <th class="has-text-right text-gold"><abbr> Transfer </abbr></th>
                         <th class="has-text-right text-blue"><abbr> Sold </abbr></th>
-                        <th class="has-text-right text-gold"><abbr> Returns </abbr></th>
+                        <th class="has-text-right"><abbr> Returns </abbr></th>
                         <th class="has-text-right"><abbr> Added On </abbr></th>
                         <th class="has-text-right"><abbr> Expiry Date </abbr></th>
                         @can('delete', $onHandMerchandises->first())
@@ -47,16 +48,20 @@
                                 </span>
                             </td>
                             <td class="has-text-right">
+                                <span class="tag is-small bg-gold has-text-white">
+                                    {{ $merchandise->total_transfer }}
+                                    {{ $merchandise->product->unit_of_measurement }}
+                                </span>
+                            </td>
+                            <td class="has-text-right">
                                 <span class="tag is-small bg-blue has-text-white">
                                     {{ $merchandise->total_sold }}
                                     {{ $merchandise->product->unit_of_measurement }}
                                 </span>
                             </td>
                             <td class="has-text-right">
-                                <span class="tag is-small bg-gold has-text-white">
-                                    {{ $merchandise->total_returns }}/{{ $merchandise->total_sold }}
-                                    {{ $merchandise->product->unit_of_measurement }}
-                                </span>
+                                {{ $merchandise->total_returns }}/{{ $merchandise->total_sold }}
+                                {{ $merchandise->product->unit_of_measurement }}
                             </td>
                             <td class="has-text-right"> {{ $merchandise->created_at->toFormattedDateString() }} </td>
                             <td class="has-text-right"> {{ $merchandise->expires_on ? $merchandise->expires_on->toFormattedDateString() : 'N/A' }} </td>

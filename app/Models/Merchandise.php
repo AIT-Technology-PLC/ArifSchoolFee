@@ -154,8 +154,9 @@ class Merchandise extends Model
         $totalReceivedQuantity = $this->total_received;
         $totalSoldQuantity = $this->total_sold;
         $totalBrokenQuantity = $this->total_broken;
+        $totalTransferQuantity = $this->total_transfer;
 
-        $totalOnHand = $totalReceivedQuantity - ($totalSoldQuantity + $totalBrokenQuantity);
+        $totalOnHand = $totalReceivedQuantity - ($totalSoldQuantity + $totalBrokenQuantity + $totalTransferQuantity);
 
         $this->total_on_hand = $totalOnHand;
 
