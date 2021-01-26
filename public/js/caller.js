@@ -97,3 +97,7 @@ if (d.getElementsByTagName("table")) {
         disableDeleteForm
     );
 }
+
+if (d.getElementById("addNewTransferForm")) {
+    d.getElementById("addNewTransferForm").addEventListener("click", addTransferForm);
+}

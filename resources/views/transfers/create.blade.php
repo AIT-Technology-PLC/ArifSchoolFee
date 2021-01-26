@@ -94,23 +94,23 @@
                     </span>
                 </div>
                 <div class="box has-background-white-bis radius-top-0">
-                    <div name="gdnFormGroup" class="columns is-marginless is-multiline">
+                    <div name="transferFormGroup" class="columns is-marginless is-multiline">
                         <div class="column is-6">
                             <div class="field">
-                                <label for="gdn[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                                <label for="transfer[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
                                     <div class="select is-fullwidth">
-                                        <select id="gdn[0][product_id]" name="gdn[0][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                        <select id="transfer[0][product_id]" name="transfer[0][product_id]" onchange="getProductSelected(this.id, this.value)">
                                             <option selected disabled>Select Product</option>
                                             @foreach ($products as $product)
-                                                <option value="{{ $product->id }}" {{ old('gdn.0.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
+                                                <option value="{{ $product->id }}" {{ old('transfer.0.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-th"></i>
                                     </div>
-                                    @error('gdn.0.product_id')
+                                    @error('transfer.0.product_id')
                                         <span class="help has-text-danger" role="alert">
                                             {{ $message }}
                                         </span>
@@ -120,19 +120,19 @@
                         </div>
                         <div class="column is-6">
                             <div class="field">
-                                <label for="gdn[0][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                                <label for="transfer[0][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
                                     <div class="select is-fullwidth">
-                                        <select id="gdn[0][warehouse_id]" name="gdn[0][warehouse_id]">
+                                        <select id="transfer[0][warehouse_id]" name="transfer[0][warehouse_id]">
                                             @foreach ($warehouses as $warehouse)
-                                                <option value="{{ $warehouse->id }}" {{ old('gdn.0.warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                                <option value="{{ $warehouse->id }}" {{ old('transfer.0.warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-warehouse"></i>
                                     </div>
-                                    @error('gdn.0.warehouse_id')
+                                    @error('transfer.0.warehouse_id')
                                         <span class="help has-text-danger" role="alert">
                                             {{ $message }}
                                         </span>
@@ -141,33 +141,33 @@
                             </div>
                         </div>
                         <div class="column is-6">
-                            <label for="gdn[0][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                            <label for="transfer[0][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
                             <div class="field has-addons">
                                 <div class="control has-icons-left is-expanded">
-                                    <input id="gdn[0][quantity]" name="gdn[0][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('gdn.0.quantity') ?? '' }}">
+                                    <input id="transfer[0][quantity]" name="transfer[0][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('transfer.0.quantity') ?? '' }}">
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-balance-scale"></i>
                                     </span>
-                                    @error('gdn.0.quantity')
+                                    @error('transfer.0.quantity')
                                         <span class="help has-text-danger" role="alert">
                                             {{ $message }}
                                         </span>
                                     @enderror
                                 </div>
                                 <div class="control">
-                                    <button id="gdn[0][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                    <button id="transfer[0][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
                                 </div>
                             </div>
                         </div>
                         <div class="column is-6">
                             <div class="field">
-                                <label for="gdn[0][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
+                                <label for="transfer[0][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
                                 <div class="control has-icons-left">
-                                    <textarea name="gdn[0][description]" id="gdn[0][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('gdn.0.description') ?? '' }}</textarea>
+                                    <textarea name="transfer[0][description]" id="transfer[0][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('transfer.0.description') ?? '' }}</textarea>
                                     <span class="icon is-large is-left">
                                         <i class="fas fa-edit"></i>
                                     </span>
-                                    @error('gdn.0.description')
+                                    @error('transfer.0.description')
                                         <span class="help has-text-danger" role="alert">
                                             {{ $message }}
                                         </span>
@@ -178,30 +178,30 @@
                     </div>
                 </div>
                 @for ($i = 1; $i < 10; $i++)
-                    @if (old('gdn.' . $i . '.product_id') || old('gdn.' . $i . '.quantity'))
+                    @if (old('transfer.' . $i . '.product_id') || old('transfer.' . $i . '.quantity'))
                         <div class="has-text-weight-medium has-text-left">
                             <span class="tag bg-green has-text-white is-medium radius-bottom-0">
                                 Item {{ $i + 1 }}
                             </span>
                         </div>
                         <div class="box has-background-white-bis radius-top-0">
-                            <div name="gdnFormGroup" class="columns is-marginless is-multiline">
+                            <div name="transferFormGroup" class="columns is-marginless is-multiline">
                                 <div class="column is-6">
                                     <div class="field">
-                                        <label for="gdn[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                                        <label for="transfer[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                         <div class="control has-icons-left">
                                             <div class="select is-fullwidth">
-                                                <select id="gdn[{{ $i }}][product_id]" name="gdn[{{ $i }}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                                <select id="transfer[{{ $i }}][product_id]" name="transfer[{{ $i }}][product_id]" onchange="getProductSelected(this.id, this.value)">
                                                     <option selected disabled>Select Product</option>
                                                     @foreach ($products as $product)
-                                                        <option value="{{ $product->id }}" {{ old('gdn.' . $i . '.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
+                                                        <option value="{{ $product->id }}" {{ old('transfer.' . $i . '.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="icon is-small is-left">
                                                 <i class="fas fa-th"></i>
                                             </div>
-                                            @error('gdn.' . $i . '.product_id')
+                                            @error('transfer.' . $i . '.product_id')
                                                 <span class="help has-text-danger" role="alert">
                                                     {{ $message }}
                                                 </span>
@@ -211,19 +211,19 @@
                                 </div>
                                 <div class="column is-6">
                                     <div class="field">
-                                        <label for="gdn[{{ $i }}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                                        <label for="transfer[{{ $i }}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
                                         <div class="control has-icons-left">
                                             <div class="select is-fullwidth">
-                                                <select id="gdn[{{ $i }}][warehouse_id]" name="gdn[{{ $i }}][warehouse_id]">
+                                                <select id="transfer[{{ $i }}][warehouse_id]" name="transfer[{{ $i }}][warehouse_id]">
                                                     @foreach ($warehouses as $warehouse)
-                                                        <option value="{{ $warehouse->id }}" {{ old('gdn.' . $i . '.warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                                        <option value="{{ $warehouse->id }}" {{ old('transfer.' . $i . '.warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="icon is-small is-left">
                                                 <i class="fas fa-warehouse"></i>
                                             </div>
-                                            @error('gdn.' . $i . '.warehouse_id')
+                                            @error('transfer.' . $i . '.warehouse_id')
                                                 <span class="help has-text-danger" role="alert">
                                                     {{ $message }}
                                                 </span>
@@ -232,33 +232,33 @@
                                     </div>
                                 </div>
                                 <div class="column is-6">
-                                    <label for="gdn[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                                    <label for="transfer[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
                                     <div class="field has-addons">
                                         <div class="control has-icons-left is-expanded">
-                                            <input id="gdn[{{ $i }}][quantity]" name="gdn[{{ $i }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('gdn.' . $i . '.quantity') ?? '' }}">
+                                            <input id="transfer[{{ $i }}][quantity]" name="transfer[{{ $i }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('transfer.' . $i . '.quantity') ?? '' }}">
                                             <span class="icon is-small is-left">
                                                 <i class="fas fa-balance-scale"></i>
                                             </span>
-                                            @error('gdn.' . $i . '.quantity')
+                                            @error('transfer.' . $i . '.quantity')
                                                 <span class="help has-text-danger" role="alert">
                                                     {{ $message }}
                                                 </span>
                                             @enderror
                                         </div>
                                         <div class="control">
-                                            <button id="gdn[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                            <button id="transfer[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="column is-6">
                                     <div class="field">
-                                        <label for="gdn[{{ $i }}][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
+                                        <label for="transfer[{{ $i }}][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
                                         <div class="control has-icons-left">
-                                            <textarea name="gdn[{{ $i }}][description]" id="gdn[{{ $i }}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('gdn.' . $i . '.description') ?? '' }}</textarea>
+                                            <textarea name="transfer[{{ $i }}][description]" id="transfer[{{ $i }}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('transfer.' . $i . '.description') ?? '' }}</textarea>
                                             <span class="icon is-large is-left">
                                                 <i class="fas fa-edit"></i>
                                             </span>
-                                            @error('gdn.' . $i . '.description')
+                                            @error('transfer.' . $i . '.description')
                                                 <span class="help has-text-danger" role="alert">
                                                     {{ $message }}
                                                 </span>
@@ -272,8 +272,8 @@
                         @break
                     @endif
                 @endfor
-                <div id="gdnFormWrapper"></div>
-                <button id="addNewGdnForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
+                <div id="transferFormWrapper"></div>
+                <button id="addNewTransferForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
                     Add More Item
                 </button>
             </div>
