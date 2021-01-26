@@ -38,24 +38,16 @@ Login - SmartWork by Onrica
                                     @enderror
                                 </div>
                             </div>
-                            <div class="field mt-5">
+                            <div class="field mt-6">
                                 <div class="control">
-                                    <label class="radio has-text-white">
-                                        <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                        Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="control">
-                                    <button type="submit" class="button has-text-white bg-blue is-fullwidth is-uppercase is-size-7 has-text-weight-semibold py-5 px-5">
-                                        Login
+                                    <button type="submit" class="button has-text-white bg-blue is-fullwidth is-uppercase is-size-6 has-text-weight-semibold py-5 px-5">
+                                        <span class="icon">
+                                            <i class="fas fa-sign-in-alt"></i>
+                                        </span>
+                                        <span>
+                                            Login 
+                                        </span>
                                     </button>
-                                    @if (Route::has('password.request'))
-                                    <a class="help has-text-white mt-5" href="{{ route('password.request') }}">
-                                        Forgot Your Password?
-                                    </a>
-                                    @endif
                                 </div>
                             </div>
                         </form>
