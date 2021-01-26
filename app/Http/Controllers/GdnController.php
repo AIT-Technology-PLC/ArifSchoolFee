@@ -21,6 +21,8 @@ class GdnController extends Controller
 
     public function __construct(Gdn $gdn)
     {
+        $this->authorizeResource(Gdn::class, 'gdn');
+        
         $this->gdn = $gdn;
     }
 
