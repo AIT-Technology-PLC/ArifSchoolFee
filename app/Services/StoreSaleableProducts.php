@@ -11,7 +11,6 @@ class StoreSaleableProducts
         $details = $saleOrGdn->saleDetails ?? $saleOrGdn->gdnDetails;
 
         if (!self::areProductsSaleable($details)) {
-            session()->flash('message', 'Some of the products selected are not saleable products');
             return false;
         }
 
@@ -20,7 +19,6 @@ class StoreSaleableProducts
         }
 
         if (!self::areProductsAvailableOnHand($details)) {
-            session()->flash('message', 'Some of the products selected are not available in some or all warehouses');
             return false;
         }
 
@@ -46,6 +44,10 @@ class StoreSaleableProducts
             return !$detail->product->isProductSaleable();
         });
 
+        if ($nonSaleableProducts) {
+            session()->flash('message', 'Some of the products selected are not saleable products');
+        }
+
         return count($nonSaleableProducts) == 0;
     }
 
@@ -60,6 +62,10 @@ class StoreSaleableProducts
                     return !$merchandise->isAvailableEnoughForSale($detail->product->id, $detail->warehouse->id, $detail->quantity);
                 }
             });
+
+        if ($productNotOnHand) {
+            session()->flash('message', 'Some of the products selected are not available in some or all warehouses');
+        }
 
         return count($productNotOnHand) == 0;
     }

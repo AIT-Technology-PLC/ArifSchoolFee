@@ -57,12 +57,12 @@ class Warehouse extends Model
         return $this->hasMany(GdnDetail::class);
     }
 
-    public function fromtransferDetails()
+    public function transferDetails()
     {
-        return $this->hasMany(TransferDetail::class, 'from_warehouse_id');
+        return $this->hasMany(TransferDetail::class, 'warehouse_id');
     }
 
-    public function totransferDetails()
+    public function toTransferDetails()
     {
         return $this->hasMany(TransferDetail::class, 'to_warehouse_id');
     }

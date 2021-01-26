@@ -35,7 +35,7 @@ class CreateTransfersTable extends Migration
         Schema::create('transfer_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('transfer_id')->nullable()->unsigned();
-            $table->bigInteger('from_warehouse_id')->nullable()->unsigned();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('to_warehouse_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->decimal('quantity', 22);
@@ -46,7 +46,7 @@ class CreateTransfersTable extends Migration
             $table->index('transfer_id');
 
             $table->foreign('transfer_id')->references('id')->on('transfers')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('from_warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('to_warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
