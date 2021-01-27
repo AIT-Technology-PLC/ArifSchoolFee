@@ -6,9 +6,12 @@ use App\Models\Company;
 use App\Models\Permission;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Employee extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'user_id', 'company_id', 'permission_id', 'created_by', 'updated_by', 'enabled', 'position',
     ];
