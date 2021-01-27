@@ -228,6 +228,25 @@
                                     </div>
                                 </div>
                                 <div class="column is-6">
+                                    <label for="purchaseOrder[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                                    <div class="field has-addons">
+                                        <div class="control has-icons-left is-expanded">
+                                            <input id="purchaseOrder[{{ $i }}][unit_price]" name="purchaseOrder[{{ $i }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ old('purchaseOrder.' . $i . '.unit_price') ?? '' }}">
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-balance-scale"></i>
+                                            </span>
+                                            @error('purchaseOrder.' . $i . '.unit_price')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="control">
+                                            <button id="purchaseOrder[{{ $i }}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-6">
                                     <div class="field">
                                         <label for="purchaseOrder[{{ $i }}][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
                                         <div class="control has-icons-left">
