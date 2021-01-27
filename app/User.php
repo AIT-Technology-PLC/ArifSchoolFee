@@ -9,6 +9,7 @@ use App\Models\Merchandise;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Purchase;
+use App\Models\PurchaseOrder;
 use App\Models\Sale;
 use App\Models\Supplier;
 use App\Models\Transfer;
@@ -187,5 +188,15 @@ class User extends Authenticatable
     public function transfersUpdated()
     {
         return $this->hasMany(Transfer::class, 'updated_by');
+    }
+
+    public function purchaseOrdersCreated()
+    {
+        return $this->hasMany(PurchaseOrder::class, 'created_by');
+    }
+
+    public function purchaseOrdersUpdated()
+    {
+        return $this->hasMany(PurchaseOrder::class, 'updated_by');
     }
 }

@@ -95,6 +95,11 @@ class Company extends Model
         return $this->hasMany(Transfer::class);
     }
 
+    public function purchaseOrders()
+    {
+        return $this->hasMany(PurchaseOrder::class);
+    }
+
     public function isCompanyStandardMember()
     {
         return $this->membership_plan == "Standard";
