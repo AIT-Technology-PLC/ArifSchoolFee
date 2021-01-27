@@ -11,6 +11,7 @@ use App\Models\Permission;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Purchase;
+use App\Models\PurchaseOrder;
 use App\Models\Sale;
 use App\Models\Supplier;
 use App\Models\Transfer;
@@ -23,6 +24,7 @@ use App\Policies\MerchandisePolicy;
 use App\Policies\PermissionPolicy;
 use App\Policies\ProductCategoryPolicy;
 use App\Policies\ProductPolicy;
+use App\Policies\PurchaseOrderPolicy;
 use App\Policies\PurchasePolicy;
 use App\Policies\SalePolicy;
 use App\Policies\SupplierPolicy;
@@ -51,6 +53,7 @@ class AuthServiceProvider extends ServiceProvider
         Sale::class => SalePolicy::class,
         Gdn::class => GdnPolicy::class,
         Transfer::class => TransferPolicy::class,
+        PurchaseOrder::class => PurchaseOrderPolicy::class,
     ];
 
     /**

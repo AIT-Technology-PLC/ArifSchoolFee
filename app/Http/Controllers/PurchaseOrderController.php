@@ -18,12 +18,14 @@ class PurchaseOrderController extends Controller
 
     public function __construct(PurchaseOrder $purchaseOrder)
     {
+        $this->authorizeResource(PurchaseOrder::class);
+
         $this->purchaseOrder = $purchaseOrder;
     }
 
     public function index(PurchaseOrder $purchaseOrder)
     {
-        $purchaseOrders = $purchaseOrder->getAll()->load(['customer']);
+        $purchaseOrders = $purchaseOrder->getAll()->load(['customer', 'createdBy', 'updatedBy']);
 
         $totalPurchaseOrders = $purchaseOrder->countPurchaseOrdersOfCompany();
 
@@ -79,6 +81,8 @@ class PurchaseOrderController extends Controller
 
     public function close(PurchaseOrder $purchaseOrder)
     {
+        $this->authorize('create', $purchaseOrder);
+
         $purchaseOrder->changeStatusToClose();
 
         return redirect()->back();
