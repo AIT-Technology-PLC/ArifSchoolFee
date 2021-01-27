@@ -34,22 +34,6 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="received_on" class="label text-green has-text-weight-normal"> Received On <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="date" name="received_on" id="received_on" placeholder="mm/dd/yyyy" value="{{ $purchaseOrder->received_on->toDateString() }}">
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                @error('received_on')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
                             <label for="customer_id" class="label text-green has-text-weight-normal"> Customer <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
@@ -84,7 +68,7 @@
                     </div>
                 </div>
                 @foreach ($purchaseOrder->purchaseOrderDetails as $purchaseOrderDetail)
-                    <div class="has-text-weight-medium has-text-left">
+                    <div class="has-text-weight-medium has-text-left mt-5">
                         <span class="tag bg-green has-text-white is-medium radius-bottom-0">
                             Item {{ $loop->index + 1 }}
                         </span>

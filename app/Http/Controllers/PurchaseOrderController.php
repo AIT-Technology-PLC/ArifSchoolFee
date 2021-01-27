@@ -104,7 +104,39 @@ class PurchaseOrderController extends Controller
 
     public function update(Request $request, PurchaseOrder $purchaseOrder)
     {
-        //
+        if ($purchaseOrder->isPurchaseOrderClosed()) {
+            return redirect()->route('purchase-orders.show', $purchaseOrder->id);
+        }
+
+        $request['code'] = $this->prependCompanyId($request->code);
+
+        $purchaseOrderData = $request->validate([
+            'code' => 'required|string|unique:purchase_orders,code,' . $purchaseOrder->id,
+            'purchaseOrder' => 'required|array',
+            'purchaseOrder.*.product_id' => 'required|integer',
+            'purchaseOrder.*.quantity' => 'required|numeric|min:1',
+            'purchaseOrder.*.quantity_left' => 'required|numeric|lte:purchaseOrder.*.quantity',
+            'purchaseOrder.*.unit_price' => 'required|numeric',
+            'purchaseOrder.*.description' => 'nullable|string',
+            'customer_id' => 'nullable|integer',
+            'description' => 'nullable|string',
+        ]);
+
+        $purchaseOrderData['updated_by'] = auth()->user()->id;
+
+        $basicPurchaseOrderData = Arr::except($purchaseOrderData, 'purchaseOrder');
+        $purchaseOrderDetailsData = $purchaseOrderData['purchaseOrder'];
+
+        DB::transaction(function () use ($basicPurchaseOrderData, $purchaseOrderDetailsData, $purchaseOrder) {
+            $purchaseOrder->update($basicPurchaseOrderData);
+
+            for ($i = 0; $i < count($purchaseOrderDetailsData); $i++) {
+                $purchaseOrder->purchaseOrderDetails[$i]->update($purchaseOrderDetailsData[$i]);
+            }
+        });
+
+        return redirect()->route('purchase-orders.show', $purchaseOrder->id);
+
     }
 
     public function destroy(PurchaseOrder $purchaseOrder)
