@@ -21,9 +21,13 @@ class PurchaseOrderController extends Controller
         $this->purchaseOrder = $purchaseOrder;
     }
 
-    public function index()
+    public function index(PurchaseOrder $purchaseOrder)
     {
+        $purchaseOrders = $purchaseOrder->getAll()->load(['customer']);
 
+        $totalPurchaseOrders = $purchaseOrder->countPurchaseOrdersOfCompany();
+
+        return view('purchase_orders.index', compact('purchaseOrders', 'totalPurchaseOrders'));
     }
 
     public function create(Product $product, Customer $customer)
