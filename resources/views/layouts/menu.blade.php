@@ -296,7 +296,7 @@
     </ul>
 
     <p class="menu-label has-text-weight-bold text-green">
-        Purchases
+        Purchases & Suppliers
     </p>
     <ul class="menu-list mb-5">
         <li>

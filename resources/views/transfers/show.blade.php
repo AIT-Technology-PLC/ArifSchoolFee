@@ -25,6 +25,25 @@
                 </div>
             </div>
         </div>
+        <div class="column">
+            <div class="box text-green">
+                <div class="columns is-marginless is-vcentered is-mobile">
+                    <div class="column has-text-centered is-paddingless">
+                        <span class="icon is-large is-size-1">
+                            <i class="fas fa-calendar-day"></i>
+                        </span>
+                    </div>
+                    <div class="column is-paddingless">
+                        <div class="is-size-3 is-size-5-mobile has-text-weight-bold">
+                            {{ $transfer->issued_on->toFormattedDateString() }}
+                        </div>
+                        <div class="is-uppercase is-size-7">
+                            Issued On
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
