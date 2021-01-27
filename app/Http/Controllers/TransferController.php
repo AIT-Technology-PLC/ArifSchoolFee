@@ -19,6 +19,8 @@ class TransferController extends Controller
 
     public function __construct(transfer $transfer)
     {
+        $this->authorizeResource(Transfer::class, 'transfer');
+
         $this->transfer = $transfer;
     }
 
@@ -83,6 +85,8 @@ class TransferController extends Controller
 
     public function transfer(Transfer $transfer)
     {
+        $this->authorize('create', $transfer);
+
         DB::transaction(function () use ($transfer) {
             $transfer->changeStatusToTransferred();
             $isTransferValid = StoreSaleableProducts::storeTransferredProducts($transfer);

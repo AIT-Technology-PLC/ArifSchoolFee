@@ -13,6 +13,7 @@ use App\Models\ProductCategory;
 use App\Models\Purchase;
 use App\Models\Sale;
 use App\Models\Supplier;
+use App\Models\Transfer;
 use App\Models\Warehouse;
 use App\Policies\CompanyPolicy;
 use App\Policies\CustomerPolicy;
@@ -25,6 +26,7 @@ use App\Policies\ProductPolicy;
 use App\Policies\PurchasePolicy;
 use App\Policies\SalePolicy;
 use App\Policies\SupplierPolicy;
+use App\Policies\TransferPolicy;
 use App\Policies\WarehousePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -48,6 +50,7 @@ class AuthServiceProvider extends ServiceProvider
         Customer::class => CustomerPolicy::class,
         Sale::class => SalePolicy::class,
         Gdn::class => GdnPolicy::class,
+        Transfer::class => TransferPolicy::class,
     ];
 
     /**
