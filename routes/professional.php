@@ -14,4 +14,4 @@ Route::resource('gdns', 'GdnController');
 
 Route::resource('transfers', 'TransferController');
 
-Route::resource('purchase-orders', 'PurchaseOrderConrtoller');
+Route::resource('purchase-orders', 'PurchaseOrderController');
