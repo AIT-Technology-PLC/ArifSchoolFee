@@ -116,7 +116,7 @@
             </ul>
         </li>
     </ul>
-    
+
     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
         <p class="menu-label has-text-weight-bold text-green">
             Warehouse Operations
@@ -294,6 +294,38 @@
             </ul>
         </li>
     </ul>
+
+    @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
+        <p class="menu-label has-text-weight-bold text-green">
+            Purchase Orders
+        </p>
+        <ul class="menu-list mb-5">
+            <li>
+                <a name="menuTitles" href="{{ route('purchase-orders.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchase-orders') ? 'is-active' : '' }}">
+                    <span class="icon">
+                        <i class="fas fa-file-alt"></i>
+                    </span>
+                    <span>
+                        PO Management
+                    </span>
+                </a>
+            </li>
+            <li>
+                <ul class="mt-0">
+                    <li>
+                        <a name="menuTitles" href="{{ route('purchase-orders.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchase-orders/create') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-plus-circle"></i>
+                            </span>
+                            <span>
+                                New PO
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    @endcan
 
     <p class="menu-label has-text-weight-bold text-green">
         Purchases & Suppliers
