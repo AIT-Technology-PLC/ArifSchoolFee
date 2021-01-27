@@ -10,6 +10,9 @@
 .text-blue {
     color: #3d6386 !important;
 }
+.text-brown {
+    color: #863d3e !important;
+}
 .bg-gold {
     background-color: #86843d !important;
     border: 1px solid #86843d !important;
@@ -29,6 +32,10 @@
 .bg-blue {
     background-color: #3d6386 !important;
     border: 1px solid #3d6386 !important;
+}
+.bg-brown {
+    background-color: #863d3e !important;
+    border: 1px solid #863d3e !important;
 }
 .link-text:hover {
     color: white !important;
