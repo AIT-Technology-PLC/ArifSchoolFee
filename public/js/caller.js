@@ -99,9 +99,22 @@ if (d.getElementsByTagName("table")) {
 }
 
 if (d.getElementById("addNewTransferForm")) {
-    d.getElementById("addNewTransferForm").addEventListener("click", addTransferForm);
+    d.getElementById("addNewTransferForm").addEventListener(
+        "click",
+        addTransferForm
+    );
 }
 
 if (d.getElementById("transferButton")) {
-    d.getElementById("transferButton").addEventListener("click", openTransferModal);
+    d.getElementById("transferButton").addEventListener(
+        "click",
+        openTransferModal
+    );
+}
+
+if (d.getElementById("addNewPurchaseOrderForm")) {
+    d.getElementById("addNewPurchaseOrderForm").addEventListener(
+        "click",
+        addPurchaseOrderForm
+    );
 }
