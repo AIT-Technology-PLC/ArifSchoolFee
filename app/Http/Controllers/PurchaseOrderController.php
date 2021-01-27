@@ -91,9 +91,15 @@ class PurchaseOrderController extends Controller
         return view('purchase_orders.show', compact('purchaseOrder'));
     }
 
-    public function edit(PurchaseOrder $purchaseOrder)
+    public function edit(PurchaseOrder $purchaseOrder, Product $product, Customer $customer)
     {
-        //
+        $purchaseOrder->load(['purchaseOrderDetails.product', 'customer']);
+
+        $products = $product->getSaleableProducts();
+
+        $customers = $customer->getCustomerNames();
+
+        return view('purchase_orders.edit', compact('purchaseOrder', 'products', 'customers'));
     }
 
     public function update(Request $request, PurchaseOrder $purchaseOrder)
