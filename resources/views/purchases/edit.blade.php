@@ -101,6 +101,11 @@
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-day"></i>
                                 </div>
+                                @error('purchased_on')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
