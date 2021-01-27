@@ -118,3 +118,10 @@ if (d.getElementById("addNewPurchaseOrderForm")) {
         addPurchaseOrderForm
     );
 }
+
+if (d.getElementById("closePurchaseOrderButton")) {
+    d.getElementById("closePurchaseOrderButton").addEventListener(
+        "click",
+        closePurchaseOrderModal
+    );
+}

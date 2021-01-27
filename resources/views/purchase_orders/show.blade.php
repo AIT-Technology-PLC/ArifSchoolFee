@@ -100,7 +100,7 @@
                     </p>
                     <form id="formOne" action="{{ route('purchase-orders.close', $purchaseOrder->id) }}" method="post" novalidate>
                         @csrf
-                        <button id="openClosePurchaseOrderModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                        <button id="closePurchaseOrderButton" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
                             <span class="icon">
                                 <i class="fas fa-file-alt"></i>
                             </span>

@@ -612,8 +612,12 @@ function openTransferModal(event) {
 }
 
 const addPurchaseOrderForm = (function () {
-    const purchaseOrderFormGroup = d.getElementsByName("purchaseOrderFormGroup");
-    const purchaseOrderFormWrapper = d.getElementById("purchaseOrderFormWrapper");
+    const purchaseOrderFormGroup = d.getElementsByName(
+        "purchaseOrderFormGroup"
+    );
+    const purchaseOrderFormWrapper = d.getElementById(
+        "purchaseOrderFormWrapper"
+    );
     const productList = d.getElementById("purchaseOrder[0][product_id]");
     const formLimit = 10;
     let index = purchaseOrderFormGroup.length;
@@ -688,7 +692,10 @@ const addPurchaseOrderForm = (function () {
             </div>
         </div>`;
 
-        purchaseOrderFormWrapper.insertAdjacentHTML("beforeend", createPurchaseOrderForm);
+        purchaseOrderFormWrapper.insertAdjacentHTML(
+            "beforeend",
+            createPurchaseOrderForm
+        );
 
         index++;
 
@@ -698,3 +705,18 @@ const addPurchaseOrderForm = (function () {
         }
     };
 })();
+
+function closePurchaseOrderModal(event) {
+    event.preventDefault();
+    swal({
+        title: "Do you want to close this PO?",
+        text:
+            "By clicking 'Yes, Close', you are going to close this PO.",
+        buttons: ["Not now", "Yes, Close"],
+        dangerMode: true,
+    }).then((willClose) => {
+        if (willClose) {
+            d.getElementById("formOne").submit();
+        }
+    });
+}
