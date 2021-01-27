@@ -49,7 +49,7 @@ class PurchaseOrderController extends Controller
             'purchaseOrder.*.product_id' => 'required|integer',
             'purchaseOrder.*.quantity' => 'required|numeric|min:1',
             'purchaseOrder.*.unit_price' => 'required|numeric',
-            'purchaseOrder.*.desciption' => 'nullable|string',
+            'purchaseOrder.*.description' => 'nullable|string',
             'customer_id' => 'nullable|integer',
             'received_on' => 'required|date',
             'description' => 'nullable|string',
@@ -77,9 +77,18 @@ class PurchaseOrderController extends Controller
         return redirect()->route('purchase-orders.show', $purchaseOrder->id);
     }
 
+    public function close(PurchaseOrder $purchaseOrder)
+    {
+        $purchaseOrder->changeStatusToClose();
+
+        return redirect()->back();
+    }
+
     public function show(PurchaseOrder $purchaseOrder)
     {
-        //
+        $purchaseOrder->load(['purchaseOrderDetails.product', 'customer', 'company']);
+
+        return view('purchase_orders.show', compact('purchaseOrder'));
     }
 
     public function edit(PurchaseOrder $purchaseOrder)

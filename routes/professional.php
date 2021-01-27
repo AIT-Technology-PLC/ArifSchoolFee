@@ -4,6 +4,8 @@ Route::get('/merchandises/level/warehouse/{warehouse}', 'MerchandiseInventoryLev
 
 Route::post('/transfers/{transfer}/transfer', 'TransferController@transfer')->name('transfers.transfer');
 
+Route::post('purchase-orders/{purchaseOrder}/close', 'PurchaseOrderController@close')->name('purchase-orders.close');
+
 Route::resource('suppliers', 'SupplierController');
 
 Route::resource('warehouses', 'WarehouseController');

@@ -48,6 +48,16 @@ class PurchaseOrder extends Model
         return $query->where('company_id', auth()->user()->employee->company_id);
     }
 
+    public function getTotalPurchaseOrderPriceAttribute()
+    {
+        $totalPrice = $this->purchaseOrderDetails
+            ->reduce(function ($carry, $item) {
+                return $carry + ($item->unit_price * $item->quantity);
+            }, 0);
+
+        return number_format($totalPrice, 2);
+    }
+
     public function getCodeAttribute($value)
     {
         return Str::after($value, auth()->user()->employee->company->id . '_');
@@ -65,7 +75,7 @@ class PurchaseOrder extends Model
 
     public function changeStatusToClose()
     {
-        $this->status = 1;
+        $this->is_closed = 1;
         $this->save();
     }
 
