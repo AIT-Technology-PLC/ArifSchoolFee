@@ -143,7 +143,7 @@
                                     {{ $purchaseOrderDetail->product->name }}
                                 </td>
                                 <td class="is-capitalized">
-                                    {{ $purchaseOrderDetail->quantity }}
+                                    {{ number_format($purchaseOrderDetail->quantity, 2) }}
                                     {{ $purchaseOrderDetail->product->unit_of_measurement }}
                                 </td>
                                 <td class="is-capitalized">

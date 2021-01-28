@@ -91,7 +91,7 @@ if (d.getElementById("addNewGdnForm")) {
     d.getElementById("addNewGdnForm").addEventListener("click", addGdnForm);
 }
 
-if (d.getElementsByTagName("table")) {
+if (d.getElementsByTagName("table").length) {
     d.getElementsByTagName("table")[0].addEventListener(
         "click",
         disableDeleteForm
