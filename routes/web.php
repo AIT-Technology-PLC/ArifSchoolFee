@@ -11,4 +11,6 @@
 |
  */
 
+Route::get('offline', 'OfflineController@offline');
+
 Auth::routes();
