@@ -711,7 +711,7 @@ function closePurchaseOrderModal(event) {
     swal({
         title: "Do you want to close this PO?",
         text:
-            "By clicking 'Yes, Close', you are going to close this PO.",
+            "By clicking 'Yes, Close', you are going to close this PO and the remaining quantities will be set to '0'.",
         buttons: ["Not now", "Yes, Close"],
         dangerMode: true,
     }).then((willClose) => {

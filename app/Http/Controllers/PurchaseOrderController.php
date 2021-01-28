@@ -83,6 +83,11 @@ class PurchaseOrderController extends Controller
     {
         $this->authorize('create', $purchaseOrder);
 
+        foreach ($purchaseOrder->purchaseOrderDetails as $purchaseOrderDetail) {
+            $purchaseOrderDetail->quantity_left = 0;
+            $purchaseOrderDetail->save();
+        }
+
         $purchaseOrder->changeStatusToClose();
 
         return redirect()->back();
