@@ -36,6 +36,10 @@ precacheAndRoute([
         url: "https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js",
         revision: null,
     },
+    {
+        url: "https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js",
+        revision: null,
+    },
 ]);
 
 self.addEventListener("activate", (event) => {
