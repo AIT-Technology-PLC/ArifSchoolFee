@@ -1,7 +1,7 @@
 <section id="onHand" class="mx-3 m-lr-0">
     <div class="box radius-top-0">
         @include('components.deleted_message', ['model' => 'Merchandise'])
-        <div class="table-container">
+        <div id="searchList" class="table-container">
             <table class="table is-hoverable is-fullwidth is-size-7">
                 <thead>
                     <tr>
@@ -24,19 +24,19 @@
                         <th><abbr> Actions </abbr></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="list">
                     @foreach ($onHandMerchandises as $merchandise)
                         <tr>
                             <td> {{ $loop->index + 1 }} </td>
-                            <td class="is-capitalized"> {{ $merchandise->product->name ?? 'N/A' }} </td>
-                            <td class="is-capitalized"> {{ $merchandise->product->code ?? 'N/A' }} </td>
+                            <td class="is-capitalized name"> {{ $merchandise->product->name ?? 'N/A' }} </td>
+                            <td class="is-capitalized code"> {{ $merchandise->product->code ?? 'N/A' }} </td>
                             <td class="is-capitalized"> {{ $merchandise->warehouse->name ?? 'N/A' }} </td>
                             <td class="has-text-right">
                                 {{ $merchandise->total_received }}
                                 {{ $merchandise->product->unit_of_measurement }}
                             </td>
                             <td class="has-text-right">
-                                <span class="tag is-small bg-green has-text-white">
+                                <span class="tag is-small bg-green has-text-white onHand">
                                     {{ $merchandise->total_on_hand }}
                                     {{ $merchandise->product->unit_of_measurement }}
                                 </span>
