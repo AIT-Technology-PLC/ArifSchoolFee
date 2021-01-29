@@ -13,4 +13,6 @@
 
 Route::get('offline', 'OfflineController@offline');
 
+Route::redirect('/', '/home', 301);
+
 Auth::routes();

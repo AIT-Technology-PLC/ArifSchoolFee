@@ -1,0 +1,23 @@
+{
+    "name": "Onrica SmartWork",
+    "short_name" : "SmartWork",
+    "start_url" : "/login",
+    "background_color" : "#ffffff",
+    "description": "Onrica SmartWork",
+    "theme_color" : "#edf7f2",
+    "display" : "standalone",
+    "orientation" : "any",
+    "status_bar" : "#edf7f2",
+    "icons" : [
+        {
+            "src" : "/pwa/pwa-192x192.png",
+            "purpose" : "any",
+            "sizes": "192x192"
+        },
+        {
+            "src" : "/pwa/pwa-512x512.png",
+            "purpose" : "any",
+            "sizes": "512x512"
+        }
+    ]
+}

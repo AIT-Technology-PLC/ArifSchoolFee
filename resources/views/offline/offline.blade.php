@@ -25,7 +25,7 @@
                     Please check your internet connection and try again.
                 </h2>
                 <div class="buttons is-centered mt-6">
-                    <button id="tryAgainButton" class="button bg-green has-text-white is-uppercase has-text-weight-medium px-5 py-5">
+                    <button id="tryAgainButton" class="button bg-green has-text-white is-uppercase has-text-weight-medium px-5 py-5" onclick="history.go(0)">
                         Try Again
                     </button>
                 </div>
