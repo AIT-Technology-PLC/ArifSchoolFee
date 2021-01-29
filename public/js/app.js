@@ -720,3 +720,12 @@ function closePurchaseOrderModal(event) {
         }
     });
 }
+
+let searchList = new List("searchList", {
+    valueNames: ["name", "category", "code"],
+});
+
+function searchDataTables() {
+    let searchString = this.value;
+    searchList.search(searchString);
+}

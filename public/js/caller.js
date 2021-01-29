@@ -125,3 +125,10 @@ if (d.getElementById("closePurchaseOrderButton")) {
         closePurchaseOrderModal
     );
 }
+
+if (d.getElementById("searchField")) {
+    d.getElementById("searchField").addEventListener(
+        "keyup",
+        searchDataTables
+    );
+}

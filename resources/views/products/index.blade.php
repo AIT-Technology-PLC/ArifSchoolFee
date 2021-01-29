@@ -49,13 +49,33 @@
     </div>
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                Products List
-            </h1>
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <div>
+                            <h1 class="title text-green has-text-weight-medium is-size-5">
+                                Products List
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item is-justify-content-left">
+                        <div class="field">
+                            <div class="control has-icons-left">
+                                <input id="searchField" class="input search" placeholder="Search">
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Product'])
-            <div class="table-container">
+            <div id="searchList" class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
                         <tr>
@@ -76,14 +96,14 @@
                             <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="list">
                         @foreach ($products as $product)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized"> {{ $product->name ?? 'N/A' }} </td>
-                                <td class="is-capitalized"> {{ $product->productCategory->name ?? 'N/A' }} </td>
+                                <td class="is-capitalized name"> {{ $product->name ?? 'N/A' }} </td>
+                                <td class="is-capitalized category"> {{ $product->productCategory->name ?? 'N/A' }} </td>
                                 <td class="is-capitalized"> {{ $product->type ?? 'N/A' }} </td>
-                                <td class="is-capitalized"> {{ $product->code ?? 'N/A' }} </td>
+                                <td class="is-capitalized code"> {{ $product->code ?? 'N/A' }} </td>
                                 <td class="is-capitalized">
                                     @if (is_null($product->properties))
                                         {{ 'N/A' }}
