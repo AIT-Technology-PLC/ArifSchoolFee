@@ -722,10 +722,19 @@ function closePurchaseOrderModal(event) {
 }
 
 let searchList = new List("searchList", {
-    valueNames: ["name", "category", "code"],
+    valueNames: ["name", "category", "code", "onHand"],
 });
 
 function searchDataTables() {
     let searchString = this.value;
     searchList.search(searchString);
 }
+
+const sortDataTablesByOnHand = (function () {
+    let sortOrder = "desc";
+
+    return () => {
+        searchList.sort("onHand", { order: sortOrder });
+        sortOrder = sortOrder === "desc" ? "asc" : "desc";
+    };
+})();

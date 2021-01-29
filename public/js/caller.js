@@ -127,8 +127,12 @@ if (d.getElementById("closePurchaseOrderButton")) {
 }
 
 if (d.getElementById("searchField")) {
-    d.getElementById("searchField").addEventListener(
-        "keyup",
-        searchDataTables
+    d.getElementById("searchField").addEventListener("keyup", searchDataTables);
+}
+
+if (d.getElementById("sortButton")) {
+    d.getElementById("sortButton").addEventListener(
+        "click",
+        sortDataTablesByOnHand
     );
 }

@@ -1,6 +1,6 @@
 <section id="onHand" class="mx-3 m-lr-0">
     <div class="box radius-top-0">
-        <div class="table-container">
+        <div id="searchList" class="table-container">
             <table class="table is-hoverable is-fullwidth is-size-7">
                 <thead>
                     <tr>
@@ -12,15 +12,15 @@
                         <th class="text-gold"><abbr> Level </abbr></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="list">
                     @foreach ($onHandMerchandises as $merchandise)
                         <tr>
                             <td> {{ $loop->index + 1 }} </td>
-                            <td class="is-capitalized"> {{ $merchandise->product->name ?? 'N/A' }} </td>
-                            <td class="is-capitalized"> {{ $merchandise->product->code ?? 'N/A' }} </td>
+                            <td class="is-capitalized name"> {{ $merchandise->product->name ?? 'N/A' }} </td>
+                            <td class="is-capitalized code"> {{ $merchandise->product->code ?? 'N/A' }} </td>
                             <td class="is-capitalized"> {{ $merchandise->product->productCategory->name ?? 'N/A' }} </td>
                             <td class="has-text-right">
-                                <span class="tag is-small bg-green has-text-white">
+                                <span class="tag is-small bg-green has-text-white onHand">
                                     {{ $merchandise->total_on_hand }}
                                     {{ $merchandise->product->unit_of_measurement }}
                                 </span>
