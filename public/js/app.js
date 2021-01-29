@@ -722,7 +722,7 @@ function closePurchaseOrderModal(event) {
 }
 
 let searchList = new List("searchList", {
-    valueNames: ["name", "category", "code", "onHand"],
+    valueNames: ["name", "category", "code", "onHand", "receipt"],
 });
 
 function searchDataTables() {

@@ -52,10 +52,28 @@
             <h1 class="title text-green has-text-weight-medium is-size-5">
                 Sale Management
             </h1>
+            <div class="level">
+                <div class="level-right">
+                    <div class="level-item is-justify-content-flex-start">
+                        <div class="field is-horizontal">
+                            <div class="field-body">
+                                <div class="field">                                
+                                    <div class="control has-icons-left">
+                                        <input id="searchField" type="search" class="input is-small search" placeholder="Search by Receipt No">
+                                        <div class="icon is-small is-left">
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Sale'])
-            <div class="table-container">
+            <div id="searchList" class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
                         <tr>
@@ -72,12 +90,12 @@
                             <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="list">
                         @foreach ($sales as $sale)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
-                                    <span class="tag bg-gold has-text-white">
+                                    <span class="tag bg-gold has-text-white receipt">
                                         {{ $sale->receipt_no ?? 'N/A' }}
                                     </span>
                                 </td>
