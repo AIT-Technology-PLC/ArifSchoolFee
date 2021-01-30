@@ -1,3 +1,7 @@
+window.addEventListener("beforeinstallprompt", function (e) {
+    e.preventDefault();
+});
+
 if (d.getElementById("addNewForm")) {
     d.getElementById("addNewForm").addEventListener(
         "click",
