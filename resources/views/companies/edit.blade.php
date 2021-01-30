@@ -38,6 +38,7 @@
                                         <option value="Wholesaler" {{ $company->sector == 'Wholesaler' ? 'selected' : '' }}>Wholesaler</option>
                                         <option value="Processor" {{ $company->sector == 'Processor' ? 'selected' : '' }}>Processor</option>
                                         <option value="Retailer" {{ $company->sector == 'Retailer' ? 'selected' : '' }}>Retailer</option>
+                                        <option value="">None</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
