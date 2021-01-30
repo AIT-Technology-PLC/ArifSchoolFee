@@ -67,6 +67,11 @@ class Warehouse extends Model
         return $this->hasMany(TransferDetail::class, 'to_warehouse_id');
     }
 
+    public function purchaseDetails()
+    {
+        return $this->hasMany(PurchaseDetail::class);
+    }
+
     public function scopeCompanyWarehouses($query)
     {
         return $query->where('company_id', auth()->user()->employee->company_id);
