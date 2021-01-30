@@ -10,6 +10,27 @@
             <div class="has-text-grey has-text-weight-bold is-size-6-5 is-capitalized">
                 {{ auth()->user()->employee->position ?? 'Job: Not Assigned' }}
             </div>
+            <div class="buttons is-centered mt-4 is-hidden-tablet">
+                <a class="button bg-green has-text-white is-small" href="{{ route('employees.show', auth()->user()->employee->id) }}">
+                    <span class="icon">
+                        <i class="fas fa-address-card"></i>
+                    </span>
+                    <span>
+                        My Profile
+                    </span>
+                </a>
+                <a class="button btn-purple is-outlined is-small" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    <span class="icon">
+                        <i class="fas fa-power-off"></i>
+                    </span>
+                    <span>
+                        Logout
+                    </span>
+                </a>
+                <form action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </div>
         </li>
     </ul>
 
