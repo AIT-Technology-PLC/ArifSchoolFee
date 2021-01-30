@@ -16,6 +16,7 @@ class Purchase extends Model
         'shipped_at' => 'datetime',
         'delivered_at' => 'datetime',
         'purchased_on' => 'datetime',
+        'is_manual' => 'boolean',
     ];
 
     public function createdBy()
@@ -83,4 +84,8 @@ class Purchase extends Model
         return $this->status == 'Added To Inventory';
     }
 
+    public function isPurchaseManual()
+    {
+        return $this->is_manual;
+    }
 }
