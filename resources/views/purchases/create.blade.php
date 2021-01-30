@@ -209,30 +209,6 @@
                                     </div>
                                 </div>
                                 <div class="column is-6">
-                                    <div class="field">
-                                        <label for="purchase[{{ $i }}][supplier_id]" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger">*</sup> </label>
-                                        <div class="control has-icons-left">
-                                            <div class="select is-fullwidth">
-                                                <select id="purchase[{{ $i }}][supplier_id]" name="purchase[{{ $i }}][supplier_id]" onchange="getProductSelected(this.id, this.value)">
-                                                    <option selected disabled>Select Supplier</option>
-                                                    @foreach ($suppliers as $supplier)
-                                                        <option value="{{ $supplier->id }}" {{ old('purchase.' . $i . '.supplier_id') == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
-                                                    @endforeach
-                                                    <option value="" {{ old('purchase.' . $i . '.supplier_id') == '' ? 'selected' : '' }}>None</option>
-                                                </select>
-                                            </div>
-                                            <div class="icon is-small is-left">
-                                                <i class="fas fa-address-card"></i>
-                                            </div>
-                                            @error('purchase.' . $i . '.supplier_id')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="column is-6">
                                     <label for="purchase[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
                                     <div class="field has-addons">
                                         <div class="control has-icons-left is-expanded">
