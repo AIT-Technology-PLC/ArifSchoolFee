@@ -12,9 +12,9 @@ class AddPurchasedItemsToInventory
             return true;
         }
 
-        self::validateWarehouseAndExpirationFields();
+        $details = $purchase->purchaseDetails ?? $purchase->grnDetails;
 
-        self::addProductsPurchasedToInventory($purchase->purchaseDetails);
+        self::addProductsPurchasedToInventory($details);
     }
 
     public static function validateWarehouseAndExpirationFields()
@@ -45,7 +45,7 @@ class AddPurchasedItemsToInventory
             'company_id' => auth()->user()->employee->company_id,
             'created_at' => now()->toDateTimeString(),
             'updated_at' => now()->toDateTimeString(),
-            'warehouse_id' => $detail->to_warehouse_id ?? self::validateWarehouseAndExpirationFields()['warehouse_id'],
+            'warehouse_id' => $detail->to_warehouse_id ?? $detail->warehouse_id,
             'expires_on' => self::validateWarehouseAndExpirationFields()['expires_on'] ?? null,
         ];
 
