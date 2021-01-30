@@ -14,7 +14,7 @@ Login - SmartWork by Onrica
                         <img src="{{ asset('img/logo.png') }}" width="200">
                     </div>
                     <div class="box" style="background: #509270;">
-                        <form method="POST" action="{{ route('login') }}" novalidate>
+                        <form id="formOne" method="POST" action="{{ route('login') }}" novalidate>
                             @csrf
                             <div class="field">
                                 <label for="email" class="label has-text-white is-uppercase is-size-7">E-Mail Address</label>
@@ -40,7 +40,7 @@ Login - SmartWork by Onrica
                             </div>
                             <div class="field mt-6">
                                 <div class="control">
-                                    <button type="submit" class="button has-text-white bg-blue is-fullwidth is-uppercase is-size-6 has-text-weight-semibold py-5 px-5">
+                                    <button id="saveButton" type="submit" class="button has-text-white bg-blue is-fullwidth is-uppercase is-size-6 has-text-weight-semibold py-5 px-5">
                                         <span class="icon">
                                             <i class="fas fa-sign-in-alt"></i>
                                         </span>
