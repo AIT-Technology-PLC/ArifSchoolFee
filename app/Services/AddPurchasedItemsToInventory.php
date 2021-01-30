@@ -37,6 +37,7 @@ class AddPurchasedItemsToInventory
             'total_received' => $detail->quantity,
             'total_on_hand' => $detail->quantity,
             'total_sold' => 0,
+            'total_transfer' => 0,
             'total_broken' => 0,
             'total_returns' => 0,
             'created_by' => auth()->user()->id,

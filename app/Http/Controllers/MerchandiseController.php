@@ -59,6 +59,7 @@ class MerchandiseController extends Controller
 
         $data['total_on_hand'] = $data['total_received'];
         $data['total_sold'] = 0;
+        $data['total_transfer'] = 0;
         $data['total_broken'] = 0;
         $data['total_returns'] = 0;
 
