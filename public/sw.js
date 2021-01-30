@@ -8,7 +8,7 @@ const { skipWaiting, clientsClaim, setCacheNameDetails } = workbox.core;
 skipWaiting();
 clientsClaim();
 
-const PRECACHE = "precache-v4";
+const PRECACHE = "precache-v1";
 
 setCacheNameDetails({
     prefix: "",

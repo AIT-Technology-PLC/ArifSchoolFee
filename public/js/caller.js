@@ -32,9 +32,13 @@ if (d.getElementById("addNewSaleForm")) {
 
 d.addEventListener("readystatechange", jumpToCurrentPageMenuTitle);
 
-d.getElementById("backButton").addEventListener("click", goToPreviousPage);
+if (d.getElementById("backButton")) {
+    d.getElementById("backButton").addEventListener("click", goToPreviousPage);
+}
 
-d.getElementById("refreshButton").addEventListener("click", refreshPage);
+if (d.getElementById("refreshButton")) {
+    d.getElementById("refreshButton").addEventListener("click", refreshPage);
+}
 
 if (d.getElementById("addToInventoryModal")) {
     d.getElementById("openAddToInventoryModal").addEventListener(
