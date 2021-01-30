@@ -168,7 +168,7 @@
                 </ul>
             </li>
             <li>
-                <a name="menuTitles" class="has-text-grey has-text-weight-normal is-size-6-5">
+                <a name="menuTitles" href="{{ route('grns.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('grns') ? 'is-active' : '' }}">
                     <span class="icon">
                         <i class="fas fa-file-contract"></i>
                     </span>
@@ -180,7 +180,7 @@
             <li>
                 <ul class="mt-0">
                     <li>
-                        <a name="menuTitles" class="has-text-grey has-text-weight-normal is-size-6-5">
+                        <a name="menuTitles" href="{{ route('grns.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5{{ request()->is('grns/create') ? 'is-active' : '' }}">
                             <span class="icon">
                                 <i class="fas fa-plus-circle"></i>
                             </span>
