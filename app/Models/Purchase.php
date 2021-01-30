@@ -67,11 +67,7 @@ class Purchase extends Model
 
     public function getAll()
     {
-        return $this->companyPurchases()
-            ->with(['createdBy', 'updatedBy', 'company', 'purchaseDetails'])
-            ->withCount('purchaseDetails')
-            ->latest()
-            ->get();
+        return $this->companyPurchases()->withCount('purchaseDetails')->latest()->get();
     }
 
     public function countPurchasesOfCompany()

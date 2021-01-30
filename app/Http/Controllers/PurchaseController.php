@@ -27,7 +27,7 @@ class PurchaseController extends Controller
 
     public function index()
     {
-        $purchases = $this->purchase->getAll();
+        $purchases = $this->purchase->getAll()->load(['createdBy', 'updatedBy', 'company', 'purchaseDetails']);
 
         $totalPurchases = $this->purchase->countPurchasesOfCompany();
 
