@@ -7,12 +7,15 @@ use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Services\AddPurchasedItemsToInventory;
+use App\Traits\PrependCompanyId;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
+    use PrependCompanyId;
+
     private $purchase;
 
     public function __construct(Purchase $purchase)
@@ -44,14 +47,19 @@ class PurchaseController extends Controller
 
     public function store(Request $request)
     {
+        $request['purchase_no'] = $this->prependCompanyId($request->purchase_no);
+
         $purchaseData = $request->validate([
+            'is_manual' => 'required|integer',
+            'purchase_no' => 'required|string|unique:purchases',
             'purchase' => 'required|array',
             'purchase.*.product_id' => 'required|integer',
             'purchase.*.quantity' => 'required|numeric',
             'purchase.*.unit_price' => 'required|numeric',
             'supplier_id' => 'nullable|integer',
-            'status' => 'required|string|max:255',
+            'status' => 'sometimes|required|string|max:255',
             'purchased_on' => 'required|date',
+            'payment_type' => 'required|string',
             'description' => 'nullable|string',
         ]);
 
@@ -99,13 +107,17 @@ class PurchaseController extends Controller
             return redirect()->route('purchases.show', $purchase->id);
         }
 
+        $request['purchase_no'] = $this->prependCompanyId($request->purchase_no);
+
         $purchaseData = $request->validate([
+            'purchase_no' => 'required|string|unique:sales,purchase_no,' . $purchase->id,
             'purchase' => 'required|array',
             'purchase.*.product_id' => 'required|integer',
             'purchase.*.quantity' => 'required|numeric',
             'purchase.*.unit_price' => 'required|numeric',
             'supplier_id' => 'nullable|integer',
             'purchased_on' => 'required|date',
+            'payment_type' => 'required|string',
             'description' => 'nullable|string',
         ]);
 
