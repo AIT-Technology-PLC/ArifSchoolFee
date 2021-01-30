@@ -5,12 +5,19 @@ if (d.getElementById("addNewForm")) {
     );
 }
 
-d.getElementById("createMenuButton").addEventListener(
-    "click",
-    toggleCreateMenu
-);
+if (d.getElementById("createMenuButton")) {
+    d.getElementById("createMenuButton").addEventListener(
+        "click",
+        toggleCreateMenu
+    );
+}
 
-d.getElementById("createMenu").addEventListener("mouseleave", toggleCreateMenu);
+if (d.getElementById("createMenu")) {
+    d.getElementById("createMenu").addEventListener(
+        "mouseleave",
+        toggleCreateMenu
+    );
+}
 
 if (d.getElementById("addNewPurchaseForm")) {
     d.getElementById("addNewPurchaseForm").addEventListener(
@@ -82,10 +89,12 @@ if (d.getElementById("warehouseId")) {
     d.getElementById("warehouseId").addEventListener("change", changeWarehouse);
 }
 
-d.getElementById("burger-menu").addEventListener(
-    "click",
-    toggleLeftMenuOnMobile
-);
+if (d.getElementById("burger-menu")) {
+    d.getElementById("burger-menu").addEventListener(
+        "click",
+        toggleLeftMenuOnMobile
+    );
+}
 
 if (d.getElementById("addNewGdnForm")) {
     d.getElementById("addNewGdnForm").addEventListener("click", addGdnForm);
