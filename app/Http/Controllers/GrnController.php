@@ -99,6 +99,8 @@ class GrnController extends Controller
 
     public function destroy(Grn $grn)
     {
-        //
+        $grn->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }
