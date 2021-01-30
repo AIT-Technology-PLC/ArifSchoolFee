@@ -55,6 +55,11 @@ class Purchase extends Model
         return $query->where('company_id', auth()->user()->employee->company_id);
     }
 
+    public function scopeWhereManual($query, $value)
+    {
+        return $query->where('is_manual', $value);
+    }
+
     public function getPurchaseNoAttribute($value)
     {
         return Str::after($value, auth()->user()->employee->company->id . '_');
@@ -73,6 +78,16 @@ class Purchase extends Model
     public function getAll()
     {
         return $this->companyPurchases()->withCount('purchaseDetails')->latest()->get();
+    }
+
+    public function getManualPurchases()
+    {
+        return $this->companyPurchases()->whereManual(1)->latest()->get();
+    }
+
+    public function getAutomatedPurchases()
+    {
+        return $this->companyPurchases()->whereManual(0)->latest()->get();
     }
 
     public function countPurchasesOfCompany()

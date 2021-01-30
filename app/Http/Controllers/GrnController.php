@@ -37,7 +37,7 @@ class GrnController extends Controller
 
         $suppliers = $supplier->getSupplierNames();
 
-        $purchases = $purchase->getAll();
+        $purchases = $purchase->getManualPurchases();
 
         return view('grns.create', compact('products', 'warehouses', 'suppliers', 'purchases'));
     }
