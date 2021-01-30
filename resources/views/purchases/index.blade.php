@@ -60,12 +60,11 @@
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
-                            <th><abbr> Shipping Line </abbr></th>
-                            <th class="text-purple"><abbr> Status </abbr></th>
-                            <th class="has-text-centered text-gold"><abbr> Total Products </abbr></th>
+                            <th class="text-gold"><abbr> Purchase No </abbr></th>
+                            <th class="text-purple"><abbr> Payment Method </abbr></th>
+                            <th class="has-text-centered"><abbr> Total Items </abbr></th>
                             <th class="has-text-right text-green"><abbr> Total Price </abbr></th>
-                            <th class="has-text-right"><abbr> Shipped On </abbr></th>
-                            <th class="has-text-right"><abbr> Delivered On </abbr></th>
+                            <th class="has-text-right"><abbr> Purchased On </abbr></th>
                             @can('delete', $purchases->first())
                                 <th><abbr> Added By </abbr></th>
                                 <th><abbr> Edited By </abbr></th>
@@ -78,20 +77,16 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
-                                    {{ $purchase->shipping_line ?? 'N/A' }}
+                                    <span class="tag bg-gold has-text-white is-small">
+                                        {{ $purchase->purchase_no ?? 'N/A' }}
+                                    </span>
                                 </td>
                                 <td class="is-capitalized">
-                                    @if ($purchase->isAddedToInventory())
-                                        <span class="tag is-small bg-purple has-text-white">
-                                            {{ $purchase->status ?? 'N/A' }}
-                                        </span>
-                                    @else
-                                        <span class="tag is-small bg-blue has-text-white">
-                                            {{ $purchase->status ?? 'N/A' }}
-                                        </span>
-                                    @endif
+                                    <span class="tag bg-purple has-text-white is-small">
+                                        {{ $purchase->payment_method ?? 'N/A' }}
+                                    </span>
                                 </td>
-                                <td class="has-text-centered has-text-weight-bold text-gold">
+                                <td class="has-text-centered has-text-weight-bold">
                                     {{ $purchase->purchase_details_count ?? 'N/A' }}
                                 </td>
                                 <td class="has-text-right">
@@ -101,10 +96,7 @@
                                     </span>
                                 </td>
                                 <td class="has-text-right">
-                                    {{ $purchase->shipped_at ? $purchase->shipped_at->toFormattedDateString() : 'Not Shipped' }}
-                                </td>
-                                <td class="has-text-right">
-                                    {{ $purchase->delivered_at ? $purchase->delivered_at->toFormattedDateString() : 'Not Delivered' }}
+                                    {{ $purchase->purchased_on->toFormattedDateString() }}
                                 </td>
                                 @can('delete', $purchase)
                                     <td> {{ $purchase->createdBy->name ?? 'N/A' }} </td>

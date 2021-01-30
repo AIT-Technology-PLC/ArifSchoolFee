@@ -7,15 +7,12 @@ use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Services\AddPurchasedItemsToInventory;
-use App\Traits\HasOptions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
-    use HasOptions;
-
     private $purchase;
 
     public function __construct(Purchase $purchase)
@@ -55,11 +52,8 @@ class PurchaseController extends Controller
             'purchase.*.quantity' => 'required|numeric',
             'purchase.*.unit_price' => 'required|numeric',
             'supplier_id' => 'nullable|integer',
-            'shipping_line' => 'nullable|string|max:255',
             'status' => 'required|string|max:255',
             'purchased_on' => 'required|date',
-            'shipped_at' => 'nullable|date',
-            'delivered_at' => 'nullable|date',
             'description' => 'nullable|string',
         ]);
 
@@ -93,7 +87,7 @@ class PurchaseController extends Controller
     public function edit(Purchase $purchase, Product $product, Supplier $supplier)
     {
         $purchase->load('purchaseDetails.product');
-        
+
         $products = $product->getProductNames();
 
         $suppliers = $supplier->getSupplierNames();
@@ -115,10 +109,7 @@ class PurchaseController extends Controller
             'purchase.*.quantity' => 'required|numeric',
             'purchase.*.unit_price' => 'required|numeric',
             'supplier_id' => 'nullable|integer',
-            'shipping_line' => 'nullable|string|max:255',
             'purchased_on' => 'required|date',
-            'shipped_at' => 'nullable|date',
-            'delivered_at' => 'nullable|date',
             'description' => 'nullable|string',
         ]);
 

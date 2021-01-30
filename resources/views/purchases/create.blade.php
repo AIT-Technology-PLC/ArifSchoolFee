@@ -279,46 +279,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="shipping_line" class="label text-green has-text-weight-normal"> Shipping Line <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="shipping_line" name="shipping_line">
-                                        <option selected disabled>Select Line</option>
-                                        @foreach ($shippingLines as $shippingLine)
-                                            <option value="{{ $shippingLine }}" {{ old('shipping_line') == $shippingLine ? 'selected' : '' }}>{{ $shippingLine }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-truck"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="shipped_at" class="label text-green has-text-weight-normal"> Shipping Started On <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="date" name="shipped_at" id="shipped_at" placeholder="mm/dd/yyyy" value="{{ old('shipped_at') ?? '' }}">
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="delivered_at" class="label text-green has-text-weight-normal"> Delivered To You On <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="date" name="delivered_at" id="delivered_at" placeholder="mm/dd/yyyy" value="{{ old('delivered_at') ?? '' }}">
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-check"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="column is-12">
                         <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Additional Notes</label>
