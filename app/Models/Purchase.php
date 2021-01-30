@@ -5,6 +5,7 @@ namespace App\Models;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Purchase extends Model
 {
@@ -47,6 +48,11 @@ class Purchase extends Model
     public function scopeCompanyPurchases($query)
     {
         return $query->where('company_id', auth()->user()->employee->company_id);
+    }
+
+    public function getPurchaseNoAttribute($value)
+    {
+        return Str::after($value, auth()->user()->employee->company->id . '_');
     }
 
     public function getTotalPurchasePriceAttribute()

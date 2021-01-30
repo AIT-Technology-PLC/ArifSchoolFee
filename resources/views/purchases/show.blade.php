@@ -74,38 +74,40 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            @if (!$purchase->isAddedToInventory())
-                <div class="box has-background-white-ter has-text-left mb-6">
-                    <p class="has-text-grey text-purple is-size-7">
-                        Product(s) listed below are still not added to your Inventory.
-                        <br>
-                        Add product(s) automatically by clicking on the button.
-                    </p>
-                    <button id="openAddToInventoryModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
-                        <span class="icon">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                        <span>
-                            Add to Inventory
-                        </span>
-                    </button>
-                    @error('warehouse_id')
-                        <span class="help has-text-danger" role="alert">
-                            To add purchased products to Inventory, please select a warehouse.
-                        </span>
-                    @enderror
-                </div>
-            @else
-                <div class="message is-success">
-                    <p class="message-body">
-                        <span class="icon">
-                            <i class="fas fa-check-circle"></i>
-                        </span>
-                        <span>
-                            Product(s) listed below have been to your Inventory.
-                        </span>
-                    </p>
-                </div>
+            @if (!$purchase->isPurchaseManual())
+                @if (!$purchase->isAddedToInventory())
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            Product(s) listed below are still not added to your Inventory.
+                            <br>
+                            Add product(s) automatically by clicking on the button.
+                        </p>
+                        <button id="openAddToInventoryModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <span class="icon">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                            <span>
+                                Add to Inventory
+                            </span>
+                        </button>
+                        @error('warehouse_id')
+                            <span class="help has-text-danger" role="alert">
+                                To add purchased products to Inventory, please select a warehouse.
+                            </span>
+                        @enderror
+                    </div>
+                @else
+                    <div class="message is-success">
+                        <p class="message-body">
+                            <span class="icon">
+                                <i class="fas fa-check-circle"></i>
+                            </span>
+                            <span>
+                                Product(s) listed below have been to your Inventory.
+                            </span>
+                        </p>
+                    </div>
+                @endif
             @endif
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
@@ -157,20 +159,38 @@
                         </div>
                         <div class="mb-4">
                             <h1 class="is-uppercase has-text-weight-light has-text-white">
+                                Purchase No
+                            </h1>
+                            <h2 class="subtitle has-text-white has-text-weight-medium">
+                                {{ $purchase->purchase_no ?? 'N/A' }}
+                            </h2>
+                        </div>
+                        <div class="mb-4">
+                            <h1 class="is-uppercase has-text-weight-light has-text-white">
+                                Payment Method
+                            </h1>
+                            <h2 class="subtitle has-text-white has-text-weight-medium">
+                                {{ $purchase->payment_type ?? 'N/A' }}
+                            </h2>
+                        </div>
+                        <div class="mb-4">
+                            <h1 class="is-uppercase has-text-weight-light has-text-white">
                                 Supplier
                             </h1>
                             <h2 class="subtitle has-text-white has-text-weight-medium">
                                 {{ $purchase->supplier->company_name ?? 'N/A' }}
                             </h2>
                         </div>
-                        <div class="mb-4">
-                            <h1 class="is-uppercase has-text-weight-light has-text-white">
-                                Status
-                            </h1>
-                            <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $purchase->status }}
-                            </h2>
-                        </div>
+                        @if (!$purchase->isPurchaseManual())
+                            <div class="mb-4">
+                                <h1 class="is-uppercase has-text-weight-light has-text-white">
+                                    Status
+                                </h1>
+                                <h2 class="subtitle has-text-white has-text-weight-medium">
+                                    {{ $purchase->status }}
+                                </h2>
+                            </div>
+                        @endif
                         <div class="mb-4">
                             <h1 class="is-uppercase has-text-weight-light has-text-white">
                                 Purchased On

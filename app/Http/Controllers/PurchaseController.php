@@ -73,7 +73,10 @@ class PurchaseController extends Controller
         $purchase = DB::transaction(function () use ($basicPurchaseData, $purchaseDetailsData) {
             $purchase = $this->purchase->create($basicPurchaseData);
             $purchase->purchaseDetails()->createMany($purchaseDetailsData);
-            AddPurchasedItemsToInventory::addToInventory($purchase);
+
+            if (!$purchase->isPurchaseManual()) {
+                AddPurchasedItemsToInventory::addToInventory($purchase);
+            }
 
             return $purchase;
         });
@@ -110,7 +113,7 @@ class PurchaseController extends Controller
         $request['purchase_no'] = $this->prependCompanyId($request->purchase_no);
 
         $purchaseData = $request->validate([
-            'purchase_no' => 'required|string|unique:sales,purchase_no,' . $purchase->id,
+            'purchase_no' => 'required|string|unique:purchases,purchase_no,' . $purchase->id,
             'purchase' => 'required|array',
             'purchase.*.product_id' => 'required|integer',
             'purchase.*.quantity' => 'required|numeric',
