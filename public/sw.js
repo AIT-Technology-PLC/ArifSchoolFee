@@ -42,6 +42,10 @@ precacheAndRoute([
         url: "https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js",
         revision: null,
     },
+    {
+        url: "https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.3/pace.min.js",
+        revision: null,
+    },
 ]);
 
 self.addEventListener("activate", (event) => {

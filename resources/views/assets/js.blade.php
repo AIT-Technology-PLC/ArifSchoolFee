@@ -6,3 +6,4 @@
 {{-- Local Assets --}}
 <script src="{{ asset('js/app.js?' . filemtime('js/app.js')) }}" defer></script>
 <script src="{{ asset('js/caller.js?' . filemtime('js/caller.js')) }}" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.3/pace.min.js"></script>
