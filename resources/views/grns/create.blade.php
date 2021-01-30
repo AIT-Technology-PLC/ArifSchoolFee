@@ -33,13 +33,13 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="customer_id" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger"></sup> </label>
+                            <label for="supplier_id" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select id="customer_id" name="customer_id">
+                                    <select id="supplier_id" name="supplier_id">
                                         <option selected disabled>Select Supplier</option>
                                         @foreach ($suppliers as $supplier)
-                                            <option value="{{ $supplier->id }}" {{ old('customer_id') == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
+                                            <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
                                         @endforeach
                                         <option value="">None</option>
                                     </select>

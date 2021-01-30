@@ -24,9 +24,13 @@ class GrnController extends Controller
         $this->grn = $grn;
     }
 
-    public function index()
+    public function index(Grn $grn)
     {
-        //
+        $grns = $grn->getAll()->load(['createdBy', 'updatedBy', 'supplier', 'purchase']);
+
+        $totalGrns = $grn->countGrnsOfCompany();
+
+        return view('grns.index', compact('grns', 'totalGrns'));
     }
 
     public function create(Product $product, Warehouse $warehouse, Supplier $supplier, Purchase $purchase)
