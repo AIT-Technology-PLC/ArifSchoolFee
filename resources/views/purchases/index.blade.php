@@ -83,7 +83,7 @@
                                 </td>
                                 <td class="is-capitalized">
                                     <span class="tag bg-purple has-text-white is-small">
-                                        {{ $purchase->payment_method ?? 'N/A' }}
+                                        {{ $purchase->payment_type ?? 'N/A' }}
                                     </span>
                                 </td>
                                 <td class="has-text-centered has-text-weight-bold">
