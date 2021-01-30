@@ -84,7 +84,9 @@ class GrnController extends Controller
 
     public function show(Grn $grn)
     {
-        //
+        $grn->load(['grnDetails.product', 'grnDetails.warehouse', 'supplier', 'purchase']);
+
+        return view('grns.show', compact('grn'));
     }
 
     public function edit(Grn $grn)
