@@ -53,7 +53,7 @@
                 SIV/GDN Management
             </h1>
             <div class="level">
-                <div class="level-right">
+                <div class="level-left">
                     <div class="level-item is-justify-content-flex-start">
                         <div class="field is-horizontal">
                             <div class="field-body">

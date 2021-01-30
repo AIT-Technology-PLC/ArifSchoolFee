@@ -152,7 +152,14 @@
                                 </div>
                                 <div class="field">
                                     <div class="control">
-                                        <button id="sortButton" class="button bg-purple has-text-white is-small sort" data-sort="onHand">Sort by on hand</button>
+                                        <button id="sortButton" class="button bg-gold has-text-white is-small sort" data-sort="onHand">
+                                            <span class="icon">
+                                                <i class="fas fa-sort"></i>
+                                            </span>
+                                            <span>
+                                                Sort by on hand
+                                            </span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
