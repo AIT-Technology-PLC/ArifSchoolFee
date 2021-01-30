@@ -103,6 +103,11 @@ class Company extends Model
         return $this->hasMany(PurchaseOrder::class);
     }
 
+    public function grns()
+    {
+        return $this->hasMany(Grn::class);
+    }
+
     public function isCompanyStandardMember()
     {
         return $this->membership_plan == "Standard";

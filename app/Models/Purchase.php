@@ -45,6 +45,11 @@ class Purchase extends Model
         return $this->hasMany(PurchaseDetail::class);
     }
 
+    public function grns()
+    {
+        return $this->hasMany(Grn::class);
+    }
+
     public function scopeCompanyPurchases($query)
     {
         return $query->where('company_id', auth()->user()->employee->company_id);

@@ -5,6 +5,7 @@ namespace App;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Gdn;
+use App\Models\Grn;
 use App\Models\Merchandise;
 use App\Models\Product;
 use App\Models\ProductCategory;
@@ -198,5 +199,15 @@ class User extends Authenticatable
     public function purchaseOrdersUpdated()
     {
         return $this->hasMany(PurchaseOrder::class, 'updated_by');
+    }
+
+    public function grnsCreated()
+    {
+        return $this->hasMany(Grn::class, 'created_by');
+    }
+
+    public function grnsUpdated()
+    {
+        return $this->hasMany(Grn::class, 'updated_by');
     }
 }

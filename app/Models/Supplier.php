@@ -37,6 +37,11 @@ class Supplier extends Model
         return $this->hasMany(PurchaseDetail::class);
     }
 
+    public function grns()
+    {
+        return $this->hasMany(Grn::class);
+    }
+
     public function scopeCompanySuppliers($query)
     {
         return $query->where('company_id', auth()->user()->employee->company_id);
