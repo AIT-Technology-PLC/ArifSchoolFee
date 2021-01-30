@@ -88,6 +88,7 @@
                                         @foreach ($customers as $customer)
                                             <option value="{{ $customer->id }}" {{ $sale->customer_id == $customer->id ? 'selected' : '' }}>{{ $customer->company_name }}</option>
                                         @endforeach
+                                        <option value="">None</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">

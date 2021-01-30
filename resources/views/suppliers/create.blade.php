@@ -90,6 +90,7 @@
                                         <option value="India" {{ old('country') == 'India' ? 'selected' : '' }}>India</option>
                                         <option value="UAE" {{ old('country') == 'UAE' ? 'selected' : '' }}>UAE</option>
                                         <option value="KSA" {{ old('country') == 'KSA' ? 'selected' : '' }}>KSA</option>
+                                        <option value="">None</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">

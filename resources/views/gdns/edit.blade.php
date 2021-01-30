@@ -50,6 +50,7 @@
                                         @foreach ($customers as $customer)
                                             <option value="{{ $customer->id }}" {{ $gdn->customer_id == $customer->id ? 'selected' : '' }}>{{ $customer->company_name }}</option>
                                         @endforeach
+                                        <option value="">None</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
@@ -68,6 +69,7 @@
                                         @foreach ($sales as $sale)
                                             <option value="{{ $sale->id }}" {{ $gdn->sale_id == $sale->id ? 'selected' : '' }}>{{ $sale->receipt_no ?? '' }}</option>
                                         @endforeach
+                                        <option value="">None</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">

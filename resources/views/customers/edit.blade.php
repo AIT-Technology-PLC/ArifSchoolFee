@@ -91,6 +91,7 @@
                                         <option value="India" {{ $customer->country == 'India' ? 'selected' : '' }}>India</option>
                                         <option value="UAE" {{ $customer->country == 'UAE' ? 'selected' : '' }}>UAE</option>
                                         <option value="KSA" {{ $customer->country == 'KSA' ? 'selected' : '' }}>KSA</option>
+                                        <option value="">None</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">

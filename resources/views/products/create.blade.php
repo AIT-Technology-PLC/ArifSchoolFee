@@ -167,6 +167,7 @@
                                                 {{ $supplier->company_name }}
                                             </option>
                                         @endforeach
+                                        <option value="">None</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
