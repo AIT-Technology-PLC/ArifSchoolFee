@@ -15,15 +15,106 @@
             @csrf
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
+                <div class="columns is-marginless is-multiline">
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="purchase_no" class="label text-green has-text-weight-normal">Purchase No <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="text" name="purchase_no" id="purchase_no" value="{{ $purchase->purchase_no }}">
+                                <span class="icon is-large is-left">
+                                    <i class="fas fa-hashtag"></i>
+                                </span>
+                                @error('purchase_no')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="purchased_on" class="label text-green has-text-weight-normal"> Purchase Date <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="date" name="purchased_on" id="purchased_on" placeholder="mm/dd/yyyy" value="{{ $purchase->purchased_on ? $purchase->purchased_on->toDateString() : '' }}">
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-calendar-day"></i>
+                                </div>
+                                @error('purchased_on')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="payment_type" class="label text-green has-text-weight-normal">Payment Method <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="payment_type" name="payment_type">
+                                        <option selected disabled>Select Payment</option>
+                                        <option value="Cash Payment" {{ $purchase->payment_type == 'Cash Payment' ? 'selected' : '' }}>Cash Payment</option>
+                                        <option value="Credit Payment" {{ $purchase->payment_type == 'Credit Payment' ? 'selected' : '' }}>Credit Payment</option>
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                            </div>
+                            @error('payment_type')
+                                <span class="help has-text-danger" role="alert">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="supplier_id" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="supplier_id" name="supplier_id">
+                                        <option selected disabled>Select Supplier</option>
+                                        @foreach ($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}" {{ $purchase->supplier_id == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
+                                        @endforeach
+                                        <option value="">None</option>
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-address-card"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="description" class="label text-green has-text-weight-normal">Additional Notes</label>
+                            <div class="control has-icons-left">
+                                <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ $purchase->description ?? '' }}</textarea>
+                                <span class="icon is-large is-left">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                                @error('description')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @foreach ($purchase->purchaseDetails as $purchaseDetail)
-                    <div class="has-text-weight-medium has-text-left">
+                    <div class="has-text-weight-medium has-text-left mt-5">
                         <span class="tag bg-green has-text-white is-medium radius-bottom-0">
                             Item {{ $loop->index + 1 }} - {{ $purchaseDetail->product->name }}
                         </span>
                     </div>
                     <div class="box has-background-white-bis radius-top-0">
                         <div class="columns is-marginless is-multiline">
-                            <div class="column is-12">
+                            <div class="column is-6">
                                 <div class="field">
                                     <label for="purchase[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
@@ -91,59 +182,6 @@
                         </div>
                     </div>
                 @endforeach
-                <hr>
-                <div class="columns is-marginless is-multiline">
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="purchased_on" class="label text-green has-text-weight-normal"> Purchase Date <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="date" name="purchased_on" id="purchased_on" placeholder="mm/dd/yyyy" value="{{ $purchase->purchased_on ? $purchase->purchased_on->toDateString() : '' }}">
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-day"></i>
-                                </div>
-                                @error('purchased_on')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="supplier_id" class="label text-green has-text-weight-normal"> Supplier <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="supplier_id" name="supplier_id">
-                                        <option selected disabled>Select Supplier</option>
-                                        @foreach ($suppliers as $supplier)
-                                            <option value="{{ $supplier->id }}" {{ $purchase->supplier_id == $supplier->id ? 'selected' : '' }}>{{ $supplier->company_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-address-card"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-12">
-                        <div class="field">
-                            <label for="description" class="label text-green has-text-weight-normal">Additional Notes</label>
-                            <div class="control has-icons-left">
-                                <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note to be taken">{{ $purchase->description ?? '' }}</textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                @error('description')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="box radius-top-0">
                 <div class="columns is-marginless">

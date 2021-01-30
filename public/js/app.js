@@ -75,7 +75,7 @@ const addPurchaseForm = (function () {
             </div>
             <div class="box has-background-white-bis radius-top-0 mb-5">
                 <div name="purchaseFormGroup" class="columns is-marginless is-multiline">
-                    <div class="column is-12">
+                    <div class="column is-6">
                         <div class="field">
                             <label for="purchase[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">

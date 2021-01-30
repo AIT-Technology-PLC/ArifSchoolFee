@@ -37,11 +37,9 @@ class PurchaseController extends Controller
 
         $suppliers = $supplier->getSupplierNames();
 
-        $shippingLines = $this->getShippingLines();
-
         $warehouses = $warehouse->getAllWithoutRelations();
 
-        return view('purchases.create', compact('products', 'suppliers', 'shippingLines', 'warehouses'));
+        return view('purchases.create', compact('products', 'suppliers', 'warehouses'));
     }
 
     public function store(Request $request)
@@ -92,9 +90,7 @@ class PurchaseController extends Controller
 
         $suppliers = $supplier->getSupplierNames();
 
-        $shippingLines = $this->getShippingLines();
-
-        return view('purchases.edit', compact('purchase', 'products', 'suppliers', 'shippingLines'));
+        return view('purchases.edit', compact('purchase', 'products', 'suppliers'));
     }
 
     public function update(Request $request, Purchase $purchase)
