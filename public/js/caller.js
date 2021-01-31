@@ -160,3 +160,7 @@ if (d.getElementById("openAddGrnModal")) {
         openAddGrnModal
     );
 }
+
+if (d.getElementById("addNewGrnForm")) {
+    d.getElementById("addNewGrnForm").addEventListener("click", addGrnForm);
+}
