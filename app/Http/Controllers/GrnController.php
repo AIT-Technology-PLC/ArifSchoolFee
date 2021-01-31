@@ -21,6 +21,8 @@ class GrnController extends Controller
 
     public function __construct(Grn $grn)
     {
+        $this->authorizeResource(Grn::class, 'grn');
+
         $this->grn = $grn;
     }
 
@@ -110,6 +112,8 @@ class GrnController extends Controller
             $grnPurchaseId = $request->validate([
                 'purchase_id' => 'nullable|integer',
             ]);
+
+            $grnPurchaseId['updated_by'] = auth()->user()->id;
 
             $grn->update($grnPurchaseId);
 

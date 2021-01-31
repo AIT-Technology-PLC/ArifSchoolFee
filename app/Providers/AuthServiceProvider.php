@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Gdn;
+use App\Models\Grn;
 use App\Models\Merchandise;
 use App\Models\Permission;
 use App\Models\Product;
@@ -20,6 +21,7 @@ use App\Policies\CompanyPolicy;
 use App\Policies\CustomerPolicy;
 use App\Policies\EmployeePolicy;
 use App\Policies\GdnPolicy;
+use App\Policies\GrnPolicy;
 use App\Policies\MerchandisePolicy;
 use App\Policies\PermissionPolicy;
 use App\Policies\ProductCategoryPolicy;
@@ -54,6 +56,7 @@ class AuthServiceProvider extends ServiceProvider
         Gdn::class => GdnPolicy::class,
         Transfer::class => TransferPolicy::class,
         PurchaseOrder::class => PurchaseOrderPolicy::class,
+        Grn::class => GrnPolicy::class,
     ];
 
     /**
