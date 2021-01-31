@@ -65,6 +65,12 @@ precacheAndRoute([
     },
 ]);
 
+registerRoute(
+    ({ request }) => request.method === "POST",
+    new NetworkOnly(),
+    "POST"
+);
+
 registerRoute(({ request, url }) => {
     if (
         request.mode == "navigate" &&
