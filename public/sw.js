@@ -26,9 +26,9 @@ precacheAndRoute([
     { url: "/img/logo.png", revision: null },
     { url: "/pwa/pwa-192x192.png", revision: null },
     { url: "/pwa/pwa-512x512.png", revision: null },
-    { url: "/js/caller.js", revision: null },
-    { url: "/js/app.js", revision: null },
-    { url: "/css/app.css", revision: null },
+    { url: "/js/caller.v1.js", revision: null },
+    { url: "/js/app.v1.js", revision: null },
+    { url: "/css/app.v1.css", revision: null },
     {
         url: "https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css",
         revision: null,
@@ -43,7 +43,20 @@ precacheAndRoute([
         revision: null,
     },
     {
+        url: "https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js",
+        revision: null,
+    },
+    {
+        url: "https://cdn.jsdelivr.net/npm/chart.js@2.8.0",
+        revision: null,
+    },
+    {
         url: "https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js",
+        revision: null,
+    },
+    {
+        url:
+            "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js",
         revision: null,
     },
     {

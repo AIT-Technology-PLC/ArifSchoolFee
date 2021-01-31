@@ -3,7 +3,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" defer></script>
-{{-- Local Assets --}}
-<script src="{{ asset('js/app.js?' . filemtime('js/app.js')) }}" defer></script>
-<script src="{{ asset('js/caller.js?' . filemtime('js/caller.js')) }}" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.3/pace.min.js"></script>
+{{-- Local Assets --}}
+<script src="{{ asset('js/app.v1.js') }}" defer></script>
+<script src="{{ asset('js/caller.v1.js') }}" defer></script>
