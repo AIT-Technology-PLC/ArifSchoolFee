@@ -17,14 +17,6 @@ class AddPurchasedItemsToInventory
         self::addProductsPurchasedToInventory($details);
     }
 
-    public static function validateWarehouseAndExpirationFields()
-    {
-        return request()->validate([
-            'warehouse_id' => 'sometimes|required|integer',
-            'expires_on' => 'sometimes|nullable|date',
-        ]);
-    }
-
     public static function isAddToInventoryNowChecked($purchase)
     {
         return $purchase->isAddedToInventory();
@@ -46,7 +38,6 @@ class AddPurchasedItemsToInventory
             'created_at' => now()->toDateTimeString(),
             'updated_at' => now()->toDateTimeString(),
             'warehouse_id' => $detail->to_warehouse_id ?? $detail->warehouse_id,
-            'expires_on' => self::validateWarehouseAndExpirationFields()['expires_on'] ?? null,
         ];
 
         return $detail;
