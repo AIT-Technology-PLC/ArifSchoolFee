@@ -153,3 +153,10 @@ if (d.getElementById("sortButton")) {
         sortDataTablesByOnHand
     );
 }
+
+if (d.getElementById("openAddGrnModal")) {
+    d.getElementById("openAddGrnModal").addEventListener(
+        "click",
+        openAddGrnModal
+    );
+}

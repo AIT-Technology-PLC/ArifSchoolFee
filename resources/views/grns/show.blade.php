@@ -93,14 +93,6 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            <div class="notification bg-gold has-text-white has-text-weight-medium {{ session('message') ? '' : 'is-hidden' }}">
-                <span class="icon">
-                    <i class="fas fa-times-circle"></i>
-                </span>
-                <span>
-                    {{ session('message') }}
-                </span>
-            </div>
             @if (!$grn->isAddedToInventory())
                 <div class="box has-background-white-ter has-text-left mb-6">
                     <p class="has-text-grey text-purple is-size-7">
@@ -108,14 +100,17 @@
                         <br>
                         Add product(s) automatically by clicking on the button.
                     </p>
-                    <button id="openAddToInventoryModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
-                        <span class="icon">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                        <span>
-                            Add to Inventory
-                        </span>
-                    </button>
+                    <form id="formOne" action="{{ route('merchandises.addToInventory', $grn->id) }}" method="post" novalidate>
+                        @csrf
+                        <button id="openAddGrnModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <span class="icon">
+                                <i class="fas fa-plus-circle"></i>
+                            </span>
+                            <span>
+                                Add to Inventory
+                            </span>
+                        </button>
+                    </form>
                 </div>
             @else
                 <div class="message is-success">

@@ -738,3 +738,18 @@ const sortDataTablesByOnHand = (function () {
         sortOrder = sortOrder === "desc" ? "asc" : "desc";
     };
 })();
+
+function openAddGrnModal(event) {
+    event.preventDefault();
+    swal({
+        title: "Do you want to add to inventory?",
+        text:
+            "By clicking 'Yes, Add', you are going to add the products.",
+        buttons: ["Not now", "Yes, Add"],
+        dangerMode: true,
+    }).then((willTransfer) => {
+        if (willTransfer) {
+            d.getElementById("formOne").submit();
+        }
+    });
+}
