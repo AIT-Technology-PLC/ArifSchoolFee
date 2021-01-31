@@ -38,7 +38,7 @@
                             {{ $grn->purchase->purchase_no ?? 'N/A' }}
                         </div>
                         <div class="is-uppercase is-size-7">
-                            Receipt No
+                            Purchase No
                         </div>
                     </div>
                 </div>

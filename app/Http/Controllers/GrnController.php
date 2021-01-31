@@ -106,7 +106,45 @@ class GrnController extends Controller
 
     public function update(Request $request, Grn $grn)
     {
-        //
+        if ($grn->isAddedToInventory()) {
+            $grnPurchaseId = $request->validate([
+                'purchase_id' => 'nullable|integer',
+            ]);
+
+            $grn->update($grnPurchaseId);
+
+            return redirect()->route('grns.show', $grn->id);
+        }
+
+        $request['code'] = $this->prependCompanyId($request->code);
+
+        $grnData = $request->validate([
+            'code' => 'required|string|unique:grns,code,' . $grn->id,
+            'grn' => 'required|array',
+            'grn.*.product_id' => 'required|integer',
+            'grn.*.warehouse_id' => 'required|integer',
+            'grn.*.quantity' => 'required|numeric|min:1',
+            'grn.*.desciption' => 'nullable|string',
+            'supplier_id' => 'nullable|integer',
+            'purchase_id' => 'nullable|integer',
+            'issued_on' => 'required|date',
+            'description' => 'nullable|string',
+        ]);
+
+        $grnData['updated_by'] = auth()->user()->id;
+
+        $basicGrnData = Arr::except($grnData, 'grn');
+        $grnDetailsData = $grnData['grn'];
+
+        DB::transaction(function () use ($basicGrnData, $grnDetailsData, $grn) {
+            $grn->update($basicGrnData);
+
+            for ($i = 0; $i < count($grnDetailsData); $i++) {
+                $grn->grnDetails[$i]->update($grnDetailsData[$i]);
+            }
+        });
+
+        return redirect()->route('grns.show', $grn->id);
     }
 
     public function destroy(Grn $grn)
