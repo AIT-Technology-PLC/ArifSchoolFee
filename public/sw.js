@@ -2,18 +2,22 @@ importScripts(
     "https://storage.googleapis.com/workbox-cdn/releases/6.0.2/workbox-sw.js"
 );
 
-const { precacheAndRoute } = workbox.precaching;
+const { precacheAndRoute, matchPrecache } = workbox.precaching;
 const { skipWaiting, clientsClaim, setCacheNameDetails } = workbox.core;
+const { NetworkFirst, NetworkOnly } = workbox.strategies;
+const { registerRoute, setCatchHandler } = workbox.routing;
 
 skipWaiting();
 clientsClaim();
 
-const PRECACHE = "precache-v1";
+const PRECACHE = "precache-v2";
+const RUNTIME = "runtime-v2";
 
 setCacheNameDetails({
     prefix: "",
     suffix: "",
     precache: PRECACHE,
+    runtime: RUNTIME,
 });
 
 precacheAndRoute([
@@ -48,20 +52,48 @@ precacheAndRoute([
     },
 ]);
 
+registerRoute(({ request, url }) => {
+    if (
+        request.mode == "navigate" &&
+        !url.pathname.includes("create") &&
+        !url.pathname.includes("edit") &&
+        !url.pathname.includes("login")
+    ) {
+        return true;
+    }
+}, new NetworkFirst());
+
+registerRoute(({ request, url }) => {
+    if (
+        (request.mode == "navigate" && url.pathname.includes("create")) ||
+        url.pathname.includes("edit") ||
+        url.pathname.includes("login")
+    ) {
+        return true;
+    }
+}, new NetworkOnly());
+
+const handler = async (options) => {
+    const dest = options.request.destination;
+
+    if (dest === "document") {
+        return (await matchPrecache("offline")) || Response.error();
+    }
+
+    return Response.error();
+};
+
+setCatchHandler(handler);
+
 self.addEventListener("activate", (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(
                 cacheNames
                     .filter((cacheName) => cacheName !== PRECACHE)
+                    .filter((cacheName) => cacheName !== RUNTIME)
                     .map((cacheName) => caches.delete(cacheName))
             );
         })
     );
-});
-
-self.addEventListener("fetch", (event) => {
-    if (event.request.mode === "navigate" && !navigator.onLine) {
-        event.respondWith(caches.match("offline"));
-    }
 });
