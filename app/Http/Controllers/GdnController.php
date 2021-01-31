@@ -119,6 +119,8 @@ class GdnController extends Controller
                 'sale_id' => 'nullable|integer',
             ]);
 
+            $gdnSaleId['updated_by'] = auth()->user()->id;
+
             $gdn->update($gdnSaleId);
 
             return redirect()->route('gdns.show', $gdn->id);
