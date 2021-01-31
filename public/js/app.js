@@ -721,9 +721,21 @@ function closePurchaseOrderModal(event) {
     });
 }
 
-let searchList = new List("searchList", {
-    valueNames: ["name", "category", "code", "onHand", "receipt", "gdn"],
-});
+const searchList = (function () {
+    let searchList = new List("searchList", {
+        valueNames: [
+            "name",
+            "category",
+            "code",
+            "onHand",
+            "receipt",
+            "gdn",
+            "grn",
+        ],
+    });
+
+    return searchList;
+})();
 
 function searchDataTables() {
     let searchString = this.value;

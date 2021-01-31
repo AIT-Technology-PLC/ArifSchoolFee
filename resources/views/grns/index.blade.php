@@ -59,7 +59,7 @@
                             <div class="field-body">
                                 <div class="field">                                
                                     <div class="control has-icons-left">
-                                        <input id="searchField" type="search" class="input is-small search" placeholder="Search by Receipt/GRN No">
+                                        <input id="searchField" type="search" class="input is-small search" placeholder="Search by Purchase/GRN No">
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-search"></i>
                                         </div>
