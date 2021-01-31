@@ -84,13 +84,19 @@ class PurchaseController extends Controller
         return redirect()->route('purchases.show', $purchase->id);
     }
 
-    public function show(Purchase $purchase, Warehouse $warehouse)
+    public function show(Purchase $purchase)
     {
-        $purchase->load(['purchaseDetails.product', 'supplier', 'company']);
+        $purchase->load(['purchaseDetails.product', 'supplier', 'company', 'grns']);
 
-        $warehouses = $warehouse->getAllWithoutRelations();
+        request()->merge([
+            'purchase_id' => $purchase->id,
+            'supplier_id' => $purchase->supplier_id,
+            'grn' => $purchase->purchaseDetails->toArray(),
+        ]);
 
-        return view('purchases.show', compact('purchase', 'warehouses'));
+        request()->flash(request()->all());
+
+        return view('purchases.show', compact('purchase'));
     }
 
     public function edit(Purchase $purchase, Product $product, Supplier $supplier)

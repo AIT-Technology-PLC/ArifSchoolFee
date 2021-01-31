@@ -60,6 +60,16 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
+                            @if ($purchase->isPurchaseManual())
+                                <a href="{{ route('grns.create') }}" class="button is-small bg-purple has-text-white">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New GRN
+                                    </span>
+                                </a>
+                            @endif
                             <a href="{{ route('purchases.edit', $purchase->id) }}" class="button is-small bg-green has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
@@ -144,6 +154,51 @@
                     </tbody>
                 </table>
             </div>
+            @if ($purchase->isPurchaseManual())
+                <div class="box has-background-white-bis">
+                    <h1 class="title is-size-5 text-green has-text-centered">
+                        GRNs for this purchase
+                    </h1>
+                    <div class="table-container has-background-white-bis">
+                        <table class="table is-hoverable is-fullwidth is-size-7 has-background-white-bis">
+                            <thead>
+                                <tr>
+                                    <th><abbr> # </abbr></th>
+                                    <th><abbr> GRN No </abbr></th>
+                                    <th><abbr> Status </abbr></th>
+                                    <th><abbr> Issued on </abbr></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($purchase->grns as $grn)
+                                    <tr>
+                                        <td> {{ $loop->index + 1 }} </td>
+                                        <td class="is-capitalized">
+                                            <a class="is-underlined" href="{{ route('grns.show', $grn->id) }}">
+                                                {{ $grn->code }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @if ($grn->isAddedToInventory())
+                                                <span class="tag is-small bg-purple has-text-white">
+                                                    {{ $grn->status ?? 'N/A' }}
+                                                </span>
+                                            @else
+                                                <span class="tag is-small bg-blue has-text-white">
+                                                    {{ $grn->status ?? 'N/A' }}
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td class="is-capitalized">
+                                            {{ $grn->issued_on->toFormattedDateString() }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
             <div class="columns is-marginless">
                 <div class="column is-4 is-offset-8 px-0">
                     <div class="box bg-green">
