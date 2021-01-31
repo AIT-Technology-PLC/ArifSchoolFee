@@ -89,9 +89,19 @@ class GrnController extends Controller
         return view('grns.show', compact('grn'));
     }
 
-    public function edit(Grn $grn)
+    public function edit(Grn $grn, Product $product, Warehouse $warehouse, Supplier $supplier, Purchase $purchase)
     {
-        //
+        $grn->load(['grnDetails.product', 'grnDetails.warehouse', 'supplier', 'purchase']);
+
+        $products = $product->getProductNames();
+
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        $suppliers = $supplier->getSupplierNames();
+
+        $purchases = $purchase->getManualPurchases();
+
+        return view('grns.edit', compact('grn', 'products', 'warehouses', 'suppliers', 'purchases'));
     }
 
     public function update(Request $request, Grn $grn)
