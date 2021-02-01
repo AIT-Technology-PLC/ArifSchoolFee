@@ -41,7 +41,7 @@
     </p>
     <ul class="menu-list mb-5">
         <li>
-            <a name="menuTitles" href="/home" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('home') ? 'is-active' : '' }}">
+            <a name="menuTitles" href="/" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('home') ? 'is-active' : '' }}">
                 <span class="icon">
                     <i class="fas fa-chart-line"></i>
                 </span>

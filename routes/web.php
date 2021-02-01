@@ -13,6 +13,6 @@
 
 Route::get('offline', 'OfflineController@offline');
 
-Route::redirect('/', '/home', 301);
-
 Auth::routes();
+
+Route::post('/auth/login', 'Auth\LoginController@login')->name('post.login');

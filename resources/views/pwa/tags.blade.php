@@ -1,4 +1,4 @@
-<link rel="manifest" href="{{ asset('manifest.json?' . filemtime('manifest.json')) }}">
+<link rel="manifest" href="{{ asset('manifest.json') }}">
 <!-- Chrome for Android theme color -->
 <meta name="theme-color" content="#edf7f2">
 

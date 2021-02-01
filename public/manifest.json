@@ -1,7 +1,7 @@
 {
     "name": "Onrica SmartWork",
     "short_name" : "SmartWork",
-    "start_url" : "/home",
+    "start_url" : "/",
     "background_color" : "#ffffff",
     "description": "Onrica SmartWork",
     "theme_color" : "#edf7f2",

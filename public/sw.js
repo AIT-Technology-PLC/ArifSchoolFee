@@ -4,7 +4,7 @@ importScripts(
 
 const { precacheAndRoute, matchPrecache } = workbox.precaching;
 const { skipWaiting, clientsClaim, setCacheNameDetails } = workbox.core;
-const { NetworkFirst, NetworkOnly } = workbox.strategies;
+const { NetworkFirst, NetworkOnly, CacheFirst } = workbox.strategies;
 const { registerRoute, setCatchHandler } = workbox.routing;
 
 skipWaiting();
@@ -22,6 +22,7 @@ setCacheNameDetails({
 
 precacheAndRoute([
     { url: "/offline", revision: null },
+    { url: "/manifest.json", revision: null },
     { url: "/img/favicon.png", revision: null },
     { url: "/img/logo.png", revision: null },
     { url: "/pwa/pwa-192x192.png", revision: null },
@@ -66,6 +67,13 @@ precacheAndRoute([
 ]);
 
 registerRoute(
+    ({ request }) => request.destination === "font",
+    new CacheFirst({
+        cacheName: PRECACHE,
+    })
+);
+
+registerRoute(
     ({ request }) => request.method === "POST",
     new NetworkOnly(),
     "POST"
@@ -84,9 +92,10 @@ registerRoute(({ request, url }) => {
 
 registerRoute(({ request, url }) => {
     if (
-        (request.mode == "navigate" && url.pathname.includes("create")) ||
-        url.pathname.includes("edit") ||
-        url.pathname.includes("login")
+        request.mode == "navigate" &&
+        (url.pathname.includes("create") ||
+            url.pathname.includes("edit") ||
+            url.pathname.includes("login"))
     ) {
         return true;
     }
