@@ -254,7 +254,7 @@ function jumpToCurrentPageMenuTitle() {
         (menuTitle) => menuTitle.href == location.href
     );
 
-    if (location.pathname.includes("/") || !currentMenuTitle.length) {
+    if (location.pathname.endsWith("/") || !currentMenuTitle.length) {
         return;
     }
 
