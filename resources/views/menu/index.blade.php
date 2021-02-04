@@ -1,18 +1,20 @@
 @extends('layouts.app')
 
 @section('title')
-    Menu
+    General Menu
 @endsection
 
 @section('content')
     <div class="columns is-marginless is-centered">
         <div class="column is-10">
-            <div class="box">
+            <div class="box radius-bottom-0 mb-0 has-background-white-bis">
                 <h1 class="title text-green has-text-weight-medium is-size-5">
-                    Menu
+                    General Menu
                 </h1>
+            </div>
+            <div class="box radius-top-0">
                 <div class="columns is-marginless is-multiline is-mobile">
-                    <div class="column is-4-tablet has-text-centered text-green">
+                    <div class="column is-4 has-text-centered text-green">
                         <a href="{{ route('merchandises.level') }}" class="button is-rounded text-green is-size-4">
                             <span class="icon">
                                 <i class="fas fa-chart-bar"></i>
@@ -23,7 +25,7 @@
                             Merchandise Inventory
                         </span>
                     </div>
-                    <div class="column is-4-tablet has-text-centered text-purple">
+                    <div class="column is-4 has-text-centered text-purple">
                         <a href="{{ route('gdns.index') }}" class="button is-rounded text-purple is-size-4">
                             <span class="icon">
                                 <i class="fas fa-file-invoice"></i>
@@ -34,7 +36,7 @@
                             SIV/GDN
                         </span>
                     </div>
-                    <div class="column is-4-tablet has-text-centered text-gold">
+                    <div class="column is-4 has-text-centered text-gold">
                         <a href="{{ route('grns.index') }}" class="button is-rounded text-gold is-size-4">
                             <span class="icon">
                                 <i class="fas fa-file-signature"></i>
@@ -45,7 +47,7 @@
                             GRN
                         </span>
                     </div>
-                    <div class="column is-4-tablet has-text-centered text-blue">
+                    <div class="column is-4 has-text-centered text-blue">
                         <a href="{{ route('transfers.index') }}" class="button is-rounded text-blue is-size-4">
                             <span class="icon">
                                 <i class="fas fa-exchange-alt   "></i>
@@ -56,7 +58,7 @@
                             Transfers
                         </span>
                     </div>
-                    <div class="column is-4-tablet has-text-centered text-green">
+                    <div class="column is-4 has-text-centered text-green">
                         <a href="{{ route('sales.index') }}" class="button is-rounded text-green is-size-4">
                             <span class="icon">
                                 <i class="fas fa-tags"></i>
@@ -67,7 +69,7 @@
                             Sales
                         </span>
                     </div>
-                    <div class="column is-4-tablet has-text-centered text-purple">
+                    <div class="column is-4 has-text-centered text-purple">
                         <a href="{{ route('purchase-orders.index') }}" class="button is-rounded text-purple is-size-4">
                             <span class="icon">
                                 <i class="fas fa-file-alt"></i>
@@ -78,7 +80,7 @@
                             Purchase Orders
                         </span>
                     </div>
-                    <div class="column is-4-tablet has-text-centered text-gold">
+                    <div class="column is-4 has-text-centered text-gold">
                         <a href="{{ route('purchases.index') }}" class="button is-rounded text-gold is-size-4">
                             <span class="icon">
                                 <i class="fas fa-shopping-bag"></i>
@@ -89,7 +91,7 @@
                             Purchases
                         </span>
                     </div>
-                    <div class="column is-4-tablet has-text-centered text-blue">
+                    <div class="column is-4 has-text-centered text-blue">
                         <a href="{{ route('suppliers.index') }}" class="button is-rounded text-blue is-size-4">
                             <span class="icon">
                                 <i class="fas fa-boxes"></i>
@@ -100,7 +102,7 @@
                             Suppliers
                         </span>
                     </div>
-                    <div class="column is-4-tablet has-text-centered text-green">
+                    <div class="column is-4 has-text-centered text-green">
                         <a href="{{ route('categories.index') }}" class="button is-rounded text-green is-size-4">
                             <span class="icon">
                                 <i class="fas fa-boxes"></i>
@@ -111,7 +113,7 @@
                             Categories
                         </span>
                     </div>
-                    <div class="column is-4-tablet has-text-centered text-purple">
+                    <div class="column is-4 has-text-centered text-purple">
                         <a href="{{ route('products.index') }}" class="button is-rounded text-purple is-size-4">
                             <span class="icon">
                                 <i class="fas fa-boxes"></i>
@@ -122,7 +124,7 @@
                             Products
                         </span>
                     </div>
-                    <div class="column is-4-tablet has-text-centered text-gold">
+                    <div class="column is-4 has-text-centered text-gold">
                         <a href="{{ route('warehouses.index') }}" class="button is-rounded text-gold is-size-4">
                             <span class="icon">
                                 <i class="fas fa-boxes"></i>
