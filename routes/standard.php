@@ -13,7 +13,9 @@ Route::get('merchandises/level', 'MerchandiseInventoryLevelController@index')
 
 Route::get('/permission-denied', 'ErrorPageController@getPermissionDeniedPage');
 
-Route::get('/', 'HomeController@index')->name('home');
+// Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('/', 'MenuController@index')->name('home');
 
 Route::get('/product/uom/{product}', 'ProductController@getProductUOM');
 

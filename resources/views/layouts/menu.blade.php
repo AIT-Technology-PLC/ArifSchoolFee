@@ -37,16 +37,16 @@
     <hr>
 
     <p class="menu-label has-text-weight-bold text-green">
-        Dashboard
+        Menu
     </p>
     <ul class="menu-list mb-5">
         <li>
             <a name="menuTitles" href="/" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('/') ? 'is-active' : '' }}">
                 <span class="icon">
-                    <i class="fas fa-chart-line"></i>
+                    <i class="fas fa-bars"></i>
                 </span>
                 <span>
-                    Analytics & Insights
+                    General Menu
                 </span>
             </a>
         </li>
