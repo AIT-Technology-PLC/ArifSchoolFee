@@ -33,12 +33,22 @@
                 </a>
             </div>
             <div class="navbar-end">
-                <a id="backButton" class="navbar-item has-text-white link-text" data-title="Go Back">
+                <a href="/" id="mainMenuButton" class="navbar-item has-text-white link-text" data-title="Main Menu">
+                    <span class="icon">
+                        <i class="fas fa-bars"></i>
+                    </span>
+                </a>
+                <a id="backButton" class="navbar-item has-text-white link-text" data-title="Back">
                     <span class="icon">
                         <i class="fas fa-arrow-left"></i>
                     </span>
                 </a>
-                <a id="refreshButton" class="navbar-item has-text-white link-text" data-title="Refresh Page">
+                <a id="forwareButton" class="navbar-item has-text-white link-text" data-title="Forward">
+                    <span class="icon">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+                <a id="refreshButton" class="navbar-item has-text-white link-text" data-title="Refresh">
                     <span class="icon">
                         <i class="fas fa-redo-alt"></i>
                     </span>
@@ -46,11 +56,6 @@
                 <a id="createMenuButton" class="navbar-item has-text-white link-text" data-title="Add new product, supplier, purchase ...">
                     <span class="icon">
                         <i class="fas fa-plus"></i>
-                    </span>
-                </a>
-                <a href="#" class="navbar-item has-text-white link-text">
-                    <span class="icon">
-                        <i class="fas fa-question-circle"></i>
                     </span>
                 </a>
                 <div class="navbar-item has-dropdown is-hoverable">
