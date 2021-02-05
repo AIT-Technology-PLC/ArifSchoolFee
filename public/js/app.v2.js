@@ -272,6 +272,10 @@ function goToPreviousPage() {
     return history.back();
 }
 
+function goToNextPage() {
+    return history.forward();
+}
+
 function refreshPage() {
     return location.reload();
 }

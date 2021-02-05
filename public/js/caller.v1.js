@@ -40,6 +40,10 @@ if (d.getElementById("backButton")) {
     d.getElementById("backButton").addEventListener("click", goToPreviousPage);
 }
 
+if (d.getElementById("forwardButton")) {
+    d.getElementById("forwardButton").addEventListener("click", goToNextPage);
+}
+
 if (d.getElementById("refreshButton")) {
     d.getElementById("refreshButton").addEventListener("click", refreshPage);
 }

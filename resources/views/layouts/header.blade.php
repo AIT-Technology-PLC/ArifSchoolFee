@@ -43,7 +43,7 @@
                         <i class="fas fa-arrow-left"></i>
                     </span>
                 </a>
-                <a id="forwareButton" class="navbar-item has-text-white link-text" data-title="Forward">
+                <a id="forwardButton" class="navbar-item has-text-white link-text" data-title="Forward">
                     <span class="icon">
                         <i class="fas fa-arrow-right"></i>
                     </span>
