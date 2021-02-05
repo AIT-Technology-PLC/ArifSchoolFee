@@ -13,6 +13,11 @@ class ModifyCascadeAndDelete extends Migration
      */
     public function up()
     {
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropForeign(['supplier_id']);
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null')->onUpdate('cascade');
+        });
+
         Schema::table('purchases', function (Blueprint $table) {
             $table->dropForeign(['supplier_id']);
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null')->onUpdate('cascade');
@@ -50,6 +55,11 @@ class ModifyCascadeAndDelete extends Migration
      */
     public function down()
     {
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropForeign(['supplier_id']);
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
+        });
+
         Schema::table('purchases', function (Blueprint $table) {
             $table->dropForeign(['supplier_id']);
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');

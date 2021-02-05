@@ -187,7 +187,7 @@ class CoreV1 extends Migration
 
             $table->foreign('product_category_id')->references('id')->on('product_categories')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
@@ -226,7 +226,7 @@ class CoreV1 extends Migration
             $table->index('supplier_id');
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
@@ -291,8 +291,8 @@ class CoreV1 extends Migration
             $table->index('customer_id');
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set ')->onUpdate('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
