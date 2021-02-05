@@ -9,43 +9,33 @@
     </h1>
     <div class="columns is-marginless is-multiline is-centered">
         <div class="column is-3 has-text-centered text-green">
-            <a href="{{ route('products.create') }}" class="button is-rounded text-green" data-title="Create New Product">
+            <a href="{{ route('gdns.create') }}" class="button is-rounded text-green" data-title="Create New Product">
                 <span class="icon">
-                    <i class="fas fa-boxes"></i>
+                    <i class="fas fa-file-invoice"></i>
                 </span>
             </a>
             <span class="is-size-7">
-                Product
+                SIV/GDN
             </span>
         </div>
         <div class="column is-3 has-text-centered text-purple">
-            <a href="{{ route('suppliers.create') }}" class="button is-rounded text-purple" data-title="Create New Supplier">
+            <a href="{{ route('grns.create') }}" class="button is-rounded text-purple" data-title="Create New Supplier">
                 <span class="icon">
-                    <i class="fas fa-address-card"></i>
+                    <i class="fas fa-file-signature"></i>
                 </span>
             </a>
             <span class="is-size-7">
-                Supplier
-            </span>
-        </div>
-        <div class="column is-3 has-text-centered text-gold">
-            <a href="{{ route('categories.create') }}" class="button is-rounded text-gold" data-title="Create New Category">
-                <span class="icon">
-                    <i class="fas fa-layer-group"></i>
-                </span>
-            </a>
-            <span class="is-size-7">
-                Category
+                GRN
             </span>
         </div>
         <div class="column is-3 has-text-centered text-blue">
-            <a href="{{ route('purchases.create') }}" class="button is-rounded text-blue" data-title="Create New Purchase">
+            <a href="{{ route('transfers.create') }}" class="button is-rounded text-blue" data-title="Create New Category">
                 <span class="icon">
-                    <i class="fas fa-shopping-bag"></i>
+                    <i class="fas fa-exchange-alt"></i>
                 </span>
             </a>
             <span class="is-size-7">
-                Purchase
+                Transfer
             </span>
         </div>
         <div class="column is-3 has-text-centered text-gold">
@@ -58,24 +48,34 @@
                 Sale
             </span>
         </div>
-        <div class="column is-3 has-text-centered text-blue">
-            <a href="{{ route('employees.create') }}" class="button is-rounded text-blue" data-title="Create New Employee">
+        <div class="column is-3 has-text-centered text-gold">
+            <a href="{{ route('purchase-orders.create') }}" class="button is-rounded text-gold" data-title="Create New Purchase">
                 <span class="icon">
-                    <i class="fas fa-user-tie"></i>
+                    <i class="fas fa-file-alt"></i>
                 </span>
             </a>
             <span class="is-size-7">
-                Employee
+                PO
+            </span>
+        </div>
+        <div class="column is-3 has-text-centered text-blue">
+            <a href="{{ route('purchases.create') }}" class="button is-rounded text-blue" data-title="Create New Employee">
+                <span class="icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </span>
+            </a>
+            <span class="is-size-7">
+                Purchase
             </span>
         </div>
         <div class="column is-3 has-text-centered text-purple">
-            <a href="{{ route('warehouses.create') }}" class="button is-rounded text-purple" data-title="Create New Warehouse">
+            <a href="{{ route('suppliers.create') }}" class="button is-rounded text-purple" data-title="Create New Warehouse">
                 <span class="icon">
-                    <i class="fas fa-warehouse"></i>
+                    <i class="fas fa-address-card"></i>
                 </span>
             </a>
             <span class="is-size-7">
-                Warehouse
+                Supplier
             </span>
         </div>
         <div class="column is-3 has-text-centered text-green">
