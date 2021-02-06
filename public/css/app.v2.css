@@ -293,6 +293,9 @@ td {
     width: 100%;
     height: 5px;
 }
+.table-container {
+    display: none;
+}
 @media screen and (max-width: 768px) {
     .m-lr-0 {
         margin-left: 0px !important;

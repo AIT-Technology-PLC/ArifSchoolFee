@@ -858,3 +858,11 @@ const addGrnForm = (function () {
         }
     };
 })();
+
+function showTablesAfterCompleteLoad() {
+    let tables = d.getElementsByClassName("table-container");
+
+    for (let index = 0; index < tables.length; index++) {
+        tables[index].style.display = "block";
+    }
+}

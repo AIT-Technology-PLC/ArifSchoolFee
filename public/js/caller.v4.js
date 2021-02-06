@@ -2,6 +2,8 @@ window.addEventListener("beforeinstallprompt", function (e) {
     e.preventDefault();
 });
 
+window.addEventListener("load", showTablesAfterCompleteLoad);
+
 if (d.getElementById("addNewForm")) {
     d.getElementById("addNewForm").addEventListener(
         "click",
