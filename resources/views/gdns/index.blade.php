@@ -123,7 +123,7 @@
                                 <td>
                                     {{ $gdn->customer->company_name ?? 'N/A' }}
                                 </td>
-                                <td>
+                                <td class="description">
                                     {{ substr($gdn->description, 0, 40) ?? 'N/A' }}
                                 </td>
                                 <td class="has-text-right">

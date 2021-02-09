@@ -735,6 +735,7 @@ const searchList = (function () {
             "receipt",
             "gdn",
             "grn",
+            "description",
         ],
     });
 
