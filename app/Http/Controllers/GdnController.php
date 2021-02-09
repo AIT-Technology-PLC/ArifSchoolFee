@@ -22,7 +22,7 @@ class GdnController extends Controller
     public function __construct(Gdn $gdn)
     {
         $this->authorizeResource(Gdn::class, 'gdn');
-        
+
         $this->gdn = $gdn;
     }
 
@@ -45,7 +45,9 @@ class GdnController extends Controller
 
         $warehouses = $warehouse->getAllWithoutRelations();
 
-        return view('gdns.create', compact('products', 'customers', 'sales', 'warehouses'));
+        $currentGdnCode = (Gdn::select('code')->companyGdn()->latest()->first()->code) ?? 0;
+
+        return view('gdns.create', compact('products', 'customers', 'sales', 'warehouses', 'currentGdnCode'));
     }
 
     public function store(Request $request)

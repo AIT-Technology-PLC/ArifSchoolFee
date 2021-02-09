@@ -45,7 +45,9 @@ class GrnController extends Controller
 
         $purchases = $purchase->getManualPurchases();
 
-        return view('grns.create', compact('products', 'warehouses', 'suppliers', 'purchases'));
+        $currentGrnCode = (Grn::select('code')->companyGrn()->latest()->first()->code) ?? 0;
+
+        return view('grns.create', compact('products', 'warehouses', 'suppliers', 'purchases', 'currentGrnCode'));
     }
 
     public function store(Request $request)

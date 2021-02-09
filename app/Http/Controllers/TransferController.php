@@ -39,7 +39,9 @@ class TransferController extends Controller
 
         $warehouses = $warehouse->getAllWithoutRelations();
 
-        return view('transfers.create', compact('products', 'warehouses'));
+        $currentTransferCode = (Transfer::select('code')->companyTransfer()->latest()->first()->code) ?? 0;
+
+        return view('transfers.create', compact('products', 'warehouses', 'currentTransferCode'));
     }
 
     public function store(Request $request)
