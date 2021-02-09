@@ -41,10 +41,11 @@ class CustomerController extends Controller
         ]);
 
         $data['company_id'] = auth()->user()->employee->company_id;
-        $data['created_by'] = auth()->user()->id;
-        $data['updated_by'] = auth()->user()->id;
 
-        $this->customer->firstOrCreate($data);
+        $this->customer->firstOrCreate($data, [
+            'created_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->id,
+        ]);
 
         return redirect()->route('customers.index');
     }
