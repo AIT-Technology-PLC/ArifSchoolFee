@@ -49,12 +49,12 @@ class Supplier extends Model
 
     public function getAll()
     {
-        return $this->companySuppliers()->with(['createdBy', 'updatedBy'])->get();
+        return $this->companySuppliers()->with(['createdBy', 'updatedBy'])->orderBy('company_name')->get();
     }
 
     public function getSupplierNames()
     {
-        return $this->companySuppliers()->get(['id', 'company_name']);
+        return $this->companySuppliers()->orderBy('company_name')->get(['id', 'company_name']);
     }
 
     public function countSuppliersOfCompany()

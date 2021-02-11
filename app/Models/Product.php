@@ -133,22 +133,22 @@ class Product extends Model
 
     public function getAll()
     {
-        return $this->companyProducts()->with(['productCategory', 'createdBy', 'updatedBy'])->get();
+        return $this->companyProducts()->with(['productCategory', 'createdBy', 'updatedBy'])->orderBy('name')->get();
     }
 
     public function getProductNames()
     {
-        return $this->companyProducts()->get(['id', 'name']);
+        return $this->companyProducts()->orderBy('name')->get(['id', 'name']);
     }
 
     public function getSaleableProducts()
     {
-        return $this->companyProducts()->saleableProducts()->get();
+        return $this->companyProducts()->saleableProducts()->orderBy('name')->get();
     }
 
     public function getNonSaleableProducts()
     {
-        return $this->companyProducts()->nonSaleableProducts()->get();
+        return $this->companyProducts()->nonSaleableProducts()->orderBy('name')->get();
     }
 
     public function getProductUOM()

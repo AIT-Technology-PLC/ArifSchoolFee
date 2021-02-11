@@ -49,12 +49,12 @@ class Customer extends Model
 
     public function getAll()
     {
-        return $this->companyCustomers()->with(['createdBy', 'updatedBy'])->get();
+        return $this->companyCustomers()->with(['createdBy', 'updatedBy'])->orderBy('company_name')->get();
     }
 
     public function getCustomerNames()
     {
-        return $this->companyCustomers()->get(['id', 'company_name']);
+        return $this->companyCustomers()->orderBy('company_name')->get(['id', 'company_name']);
     }
 
     public function countCustomersOfCompany()

@@ -61,7 +61,7 @@ class ProductCategory extends Model
 
     public function getAll()
     {
-        return $this->companyCategories()->with(['products', 'createdBy', 'updatedBy'])->get();
+        return $this->companyCategories()->with(['products', 'createdBy', 'updatedBy'])->orderBy('name')->get();
     }
 
     public function countProductCategoriesOfCompany()
