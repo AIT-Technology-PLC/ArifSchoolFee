@@ -295,6 +295,8 @@ td {
 }
 .table-container {
     display: none;
+    overflow-y: auto !important;
+    max-height: 500px !important;
 }
 @media screen and (max-width: 768px) {
     .m-lr-0 {

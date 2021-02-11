@@ -29,7 +29,7 @@ precacheAndRoute([
     { url: "/pwa/pwa-512x512.png", revision: null },
     { url: "/js/caller.v4.js", revision: null },
     { url: "/js/app.v5.js", revision: null },
-    { url: "/css/app.v2.css", revision: null },
+    { url: "/css/app.v3.css", revision: null },
     {
         url: "https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css",
         revision: null,
