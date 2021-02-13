@@ -21,7 +21,7 @@ setCacheNameDetails({
 });
 
 precacheAndRoute([
-    { url: "/offline", revision: null },
+    { url: "/offline", revision: 1 },
     { url: "/manifest.json", revision: null },
     { url: "/img/favicon.png", revision: null },
     { url: "/img/logo.png", revision: null },
