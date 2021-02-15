@@ -174,5 +174,7 @@ if (d.getElementById("addNewGrnForm")) {
 window.addEventListener("load", () => {
     $("#table_id").DataTable({
         responsive: true,
+        scrollCollapse: true,
+        scrollY: "500px",
     });
 });
