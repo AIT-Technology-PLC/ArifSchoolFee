@@ -176,5 +176,6 @@ window.addEventListener("load", () => {
         responsive: true,
         scrollCollapse: true,
         scrollY: "500px",
+        scrollX: true,
     });
 });

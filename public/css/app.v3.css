@@ -354,6 +354,13 @@ table.dataTable.no-footer {
 .dataTables_wrapper.no-footer .dataTables_scrollBody {
     border-bottom: none !important;
 }
+div.dataTables_wrapper {
+    width: 100%;
+    margin: 0 auto;
+}
+#table_id {
+    width: 960px !important;
+}
 @media screen and (max-width: 640px) {
     .dataTables_wrapper .dataTables_length,
     .dataTables_wrapper .dataTables_filter {
