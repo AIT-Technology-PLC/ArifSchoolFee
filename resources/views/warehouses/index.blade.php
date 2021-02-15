@@ -55,57 +55,55 @@
         </div>
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Warehouse'])
-            <div class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7">
-                    <thead>
-                        <tr>
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> Warehouse Name </abbr></th>
-                            <th class="text-purple"><abbr> Location </abbr></th>
-                            <th><abbr> Description </abbr></th>
-                            <th class="has-text-right"><abbr> Created On </abbr></th>
-                            @can('delete', $warehouses->first())
+            <table id="table_id" class="table-container table is-hoverable is-fullwidth is-size-7">
+                <thead>
+                    <tr>
+                        <th><abbr> # </abbr></th>
+                        <th><abbr> Warehouse Name </abbr></th>
+                        <th class="text-purple"><abbr> Location </abbr></th>
+                        <th><abbr> Description </abbr></th>
+                        <th class="has-text-right"><abbr> Created On </abbr></th>
+                        @can('delete', $warehouses->first())
                             <th><abbr> Added By </abbr></th>
                             <th><abbr> Edited By </abbr></th>
+                        @endcan
+                        <th><abbr> Actions </abbr></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($warehouses as $warehouse)
+                        <tr>
+                            <td> {{ $loop->index + 1 }} </td>
+                            <td class="is-capitalized"> {{ $warehouse->name }} </td>
+                            <td class="is-capitalized">
+                                <span class="tag is-small bg-purple has-text-white">
+                                    {{ $warehouse->location ?? 'N/A' }}
+                                </span>
+                            </td>
+                            <td> {{ substr($warehouse->description, 0, 40) ?? 'N/A' }} </td>
+                            <td class="has-text-right"> {{ $warehouse->created_at->toFormattedDateString() }} </td>
+                            @can('delete', $warehouse)
+                                <td> {{ $warehouse->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $warehouse->updatedBy->name ?? 'N/A' }} </td>
                             @endcan
-                            <th><abbr> Actions </abbr></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($warehouses as $warehouse)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized"> {{ $warehouse->name }} </td>
-                                <td class="is-capitalized"> 
-                                    <span class="tag is-small bg-purple has-text-white">
-                                        {{ $warehouse->location ?? 'N/A' }} 
-                                    </span>
-                                </td>
-                                <td> {{ substr($warehouse->description, 0, 40) ?? 'N/A' }} </td>
-                                <td class="has-text-right"> {{ $warehouse->created_at->toFormattedDateString() }} </td>
-                                @can('delete', $warehouse)
-                                    <td> {{ $warehouse->createdBy->name ?? 'N/A' }} </td>
-                                    <td> {{ $warehouse->updatedBy->name ?? 'N/A' }} </td>
-                                @endcan
-                                <td>
-                                    <a href="{{ route('warehouses.edit', $warehouse->id) }}" data-title="Modify Warehouse Data">
-                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
-                                            <span class="icon">
-                                                <i class="fas fa-pen-square"></i>
-                                            </span>
-                                            <span>
-                                                Edit
-                                            </span>
+                            <td>
+                                <a href="{{ route('warehouses.edit', $warehouse->id) }}" data-title="Modify Warehouse Data">
+                                    <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                        <span class="icon">
+                                            <i class="fas fa-pen-square"></i>
                                         </span>
-                                    </a>
-                                    @include('components.delete_button', ['model' => 'warehouses',
-                                    'id' => $warehouse->id])
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                                        <span>
+                                            Edit
+                                        </span>
+                                    </span>
+                                </a>
+                                @include('components.delete_button', ['model' => 'warehouses',
+                                'id' => $warehouse->id])
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </section>
 @endsection

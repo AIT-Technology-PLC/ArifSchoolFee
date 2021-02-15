@@ -52,105 +52,85 @@
             <h1 class="title text-green has-text-weight-medium is-size-5">
                 Sale Management
             </h1>
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item is-justify-content-flex-start">
-                        <div class="field is-horizontal">
-                            <div class="field-body">
-                                <div class="field">                                
-                                    <div class="control has-icons-left">
-                                        <input id="searchField" type="search" class="input is-small search" placeholder="Search by Receipt No">
-                                        <div class="icon is-small is-left">
-                                            <i class="fas fa-search"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Sale'])
-            <div id="searchList" class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7">
-                    <thead>
+            <table id="table_id" class="table-container table is-hoverable is-fullwidth is-size-7">
+                <thead>
+                    <tr>
+                        <th><abbr> # </abbr></th>
+                        <th class="text-gold"><abbr> Receipt No </abbr></th>
+                        <th class="text-purple"><abbr> Payment Method </abbr></th>
+                        <th class="has-text-centered"><abbr> Total Items </abbr></th>
+                        <th class="has-text-right text-green"><abbr> Total Price </abbr></th>
+                        <th class="has-text-right"><abbr> Sold on </abbr></th>
+                        @can('delete', $sales->first())
+                            <th><abbr> Added By </abbr></th>
+                            <th><abbr> Edited By </abbr></th>
+                        @endcan
+                        <th><abbr> Actions </abbr></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($sales as $sale)
                         <tr>
-                            <th><abbr> # </abbr></th>
-                            <th class="text-gold"><abbr> Receipt No </abbr></th>
-                            <th class="text-purple"><abbr> Payment Method </abbr></th>
-                            <th class="has-text-centered"><abbr> Total Items </abbr></th>
-                            <th class="has-text-right text-green"><abbr> Total Price </abbr></th>
-                            <th class="has-text-right"><abbr> Sold on </abbr></th>
-                            @can('delete', $sales->first())
-                                <th><abbr> Added By </abbr></th>
-                                <th><abbr> Edited By </abbr></th>
+                            <td> {{ $loop->index + 1 }} </td>
+                            <td class="is-capitalized">
+                                <span class="tag bg-gold has-text-white">
+                                    {{ $sale->receipt_no ?? 'N/A' }}
+                                </span>
+                            </td>
+                            <td class="is-capitalized">
+                                <span class="tag bg-purple has-text-white">
+                                    {{ $sale->payment_type ?? 'N/A' }}
+                                </span>
+                            </td>
+                            <td class="has-text-centered has-text-weight-bold">
+                                {{ $sale->sale_details_count ?? 'N/A' }}
+                            </td>
+                            <td class="has-text-right">
+                                <span class="tag is-small bg-green has-text-white">
+                                    {{ $sale->company->currency }}.
+                                    {{ $sale->totalSalePrice }}
+                                </span>
+                            </td>
+                            <td class="has-text-right">
+                                {{ $sale->sold_on->toFormattedDateString() }}
+                            </td>
+                            @can('delete', $sale)
+                                <td> {{ $sale->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $sale->updatedBy->name ?? 'N/A' }} </td>
                             @endcan
-                            <th><abbr> Actions </abbr></th>
+                            <td>
+                                <a class="is-block" href="{{ route('sales.show', $sale->id) }}" data-title="View Details">
+                                    <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
+                                        <span class="icon">
+                                            <i class="fas fa-info-circle"></i>
+                                        </span>
+                                        <span>
+                                            Details
+                                        </span>
+                                    </span>
+                                </a>
+                                <a class="is-block" href="{{ route('sales.edit', $sale->id) }}" data-title="Modify Sales Data">
+                                    <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                        <span class="icon">
+                                            <i class="fas fa-pen-square"></i>
+                                        </span>
+                                        <span>
+                                            Edit
+                                        </span>
+                                    </span>
+                                </a>
+                                <span class="is-block">
+                                    @include('components.delete_button', ['model' => 'sales',
+                                    'id' => $sale->id])
+                                </span>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody class="list">
-                        @foreach ($sales as $sale)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    <span class="tag bg-gold has-text-white receipt">
-                                        {{ $sale->receipt_no ?? 'N/A' }}
-                                    </span>
-                                </td>
-                                <td class="is-capitalized">
-                                    <span class="tag bg-purple has-text-white">
-                                        {{ $sale->payment_type ?? 'N/A' }}
-                                    </span>
-                                </td>
-                                <td class="has-text-centered has-text-weight-bold">
-                                    {{ $sale->sale_details_count ?? 'N/A' }}
-                                </td>
-                                <td class="has-text-right">
-                                    <span class="tag is-small bg-green has-text-white">
-                                        {{ $sale->company->currency }}.
-                                        {{ $sale->totalSalePrice }}
-                                    </span>
-                                </td>
-                                <td class="has-text-right">
-                                    {{ $sale->sold_on->toFormattedDateString() }}
-                                </td>
-                                @can('delete', $sale)
-                                    <td> {{ $sale->createdBy->name ?? 'N/A' }} </td>
-                                    <td> {{ $sale->updatedBy->name ?? 'N/A' }} </td>
-                                @endcan
-                                <td>
-                                    <a class="is-block" href="{{ route('sales.show', $sale->id) }}" data-title="View Details">
-                                        <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
-                                            <span class="icon">
-                                                <i class="fas fa-info-circle"></i>
-                                            </span>
-                                            <span>
-                                                Details
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <a class="is-block" href="{{ route('sales.edit', $sale->id) }}" data-title="Modify Sales Data">
-                                        <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
-                                            <span class="icon">
-                                                <i class="fas fa-pen-square"></i>
-                                            </span>
-                                            <span>
-                                                Edit
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <span class="is-block">
-                                        @include('components.delete_button', ['model' => 'sales',
-                                        'id' => $sale->id])
-                                    </span>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </section>
 @endsection
