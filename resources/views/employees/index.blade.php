@@ -73,7 +73,7 @@
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Employee'])
             <div class="table-container">
-                <table id="table_id" class="is-hoverable is-size-7">
+                <table id="table_id" class="is-hoverable is-size-7 display">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>

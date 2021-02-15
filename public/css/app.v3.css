@@ -359,7 +359,7 @@ div.dataTables_wrapper {
     margin: 0 auto;
 }
 #table_id {
-    width: 960px !important;
+    width: 100% !important;
 }
 @media screen and (max-width: 640px) {
     .dataTables_wrapper .dataTables_length,
