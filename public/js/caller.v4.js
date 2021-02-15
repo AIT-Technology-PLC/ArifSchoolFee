@@ -170,3 +170,9 @@ if (d.getElementById("openAddGrnModal")) {
 if (d.getElementById("addNewGrnForm")) {
     d.getElementById("addNewGrnForm").addEventListener("click", addGrnForm);
 }
+
+window.addEventListener("load", () => {
+    $("#table_id").DataTable({
+        responsive: true,
+    });
+});

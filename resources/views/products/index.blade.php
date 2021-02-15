@@ -52,99 +52,79 @@
             <h1 class="title text-green has-text-weight-medium is-size-5">
                 Products List
             </h1>
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item is-justify-content-flex-start">
-                        <div class="field is-horizontal">
-                            <div class="field-body">
-                                <div class="field">                                
-                                    <div class="control has-icons-left">
-                                        <input id="searchField" class="input is-small search" placeholder="Search">
-                                        <div class="icon is-small is-left">
-                                            <i class="fas fa-search"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Product'])
-            <div id="searchList" class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7">
-                    <thead>
+            <table id="table_id" class="table-container table is-hoverable is-fullwidth is-size-7">
+                <thead>
+                    <tr>
+                        <th><abbr> # </abbr></th>
+                        <th><abbr> Name </abbr></th>
+                        <th><abbr> Category </abbr></th>
+                        <th><abbr> Type </abbr></th>
+                        <th><abbr> Code </abbr></th>
+                        <th><abbr> Properties </abbr></th>
+                        <th><abbr> Description </abbr></th>
+                        <th class="text-purple"><abbr> Reorder Level</abbr></th>
+                        <th class="has-text-right"><abbr> Selling Price </abbr></th>
+                        <th class="has-text-right"><abbr> Purchase Price </abbr></th>
+                        @can('delete', $products->first())
+                            <th><abbr> Added By </abbr></th>
+                            <th><abbr> Edited By </abbr></th>
+                        @endcan
+                        <th><abbr> Actions </abbr></th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+                    @foreach ($products as $product)
                         <tr>
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> Name </abbr></th>
-                            <th><abbr> Category </abbr></th>
-                            <th><abbr> Type </abbr></th>
-                            <th><abbr> Code </abbr></th>
-                            <th><abbr> Properties </abbr></th>
-                            <th><abbr> Description </abbr></th>
-                            <th class="text-purple"><abbr> Reorder Level</abbr></th>
-                            <th class="has-text-right"><abbr> Selling Price </abbr></th>
-                            <th class="has-text-right"><abbr> Purchase Price </abbr></th>
-                            @can('delete', $products->first())
-                                <th><abbr> Added By </abbr></th>
-                                <th><abbr> Edited By </abbr></th>
+                            <td> {{ $loop->index + 1 }} </td>
+                            <td class="is-capitalized"> {{ $product->name ?? 'N/A' }} </td>
+                            <td class="is-capitalized"> {{ $product->productCategory->name ?? 'N/A' }} </td>
+                            <td class="is-capitalized"> {{ $product->type ?? 'N/A' }} </td>
+                            <td class="is-capitalized"> {{ $product->code ?? 'N/A' }} </td>
+                            <td class="is-capitalized">
+                                @if (is_null($product->properties))
+                                    {{ 'N/A' }}
+                                @else
+                                    @foreach ($product->properties as $property)
+                                        <b>{{ $property['key'] }}</b>: {{ $property['value'] }}<br />
+                                    @endforeach
+                                @endif
+                            </td>
+                            <td> {{ substr($product->description, 0, 40) ?? 'N/A' }} </td>
+                            <td class="is-capitalized">
+                                <span class="tag is-small bg-purple has-text-white">
+                                    {{ $product->min_on_hand }}
+                                    {{ $product->unit_of_measurement ?? 'N/A' }}
+                                </span>
+                            </td>
+                            <td class="has-text-right"> {{ $product->selling_price ?? 'N/A' }} </td>
+                            <td class="has-text-right"> {{ $product->purchase_price ?? 'N/A' }} </td>
+                            @can('delete', $product)
+                                <td> {{ $product->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $product->updatedBy->name ?? 'N/A' }} </td>
                             @endcan
-                            <th><abbr> Actions </abbr></th>
-                        </tr>
-                    </thead>
-                    <tbody class="list">
-                        @foreach ($products as $product)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized name"> {{ $product->name ?? 'N/A' }} </td>
-                                <td class="is-capitalized category"> {{ $product->productCategory->name ?? 'N/A' }} </td>
-                                <td class="is-capitalized"> {{ $product->type ?? 'N/A' }} </td>
-                                <td class="is-capitalized code"> {{ $product->code ?? 'N/A' }} </td>
-                                <td class="is-capitalized">
-                                    @if (is_null($product->properties))
-                                        {{ 'N/A' }}
-                                    @else
-                                        @foreach ($product->properties as $property)
-                                            <b>{{ $property['key'] }}</b>: {{ $property['value'] }}<br />
-                                        @endforeach
-                                    @endif
-                                </td>
-                                <td> {{ substr($product->description, 0, 40) ?? 'N/A' }} </td>
-                                <td class="is-capitalized">
-                                    <span class="tag is-small bg-purple has-text-white">
-                                        {{ $product->min_on_hand }}
-                                        {{ $product->unit_of_measurement ?? 'N/A' }}
-                                    </span>
-                                </td>
-                                <td class="has-text-right"> {{ $product->selling_price ?? 'N/A' }} </td>
-                                <td class="has-text-right"> {{ $product->purchase_price ?? 'N/A' }} </td>
-                                @can('delete', $product)
-                                    <td> {{ $product->createdBy->name ?? 'N/A' }} </td>
-                                    <td> {{ $product->updatedBy->name ?? 'N/A' }} </td>
-                                @endcan
-                                <td>
-                                    <a class="is-block" href="{{ route('products.edit', $product->id) }}" data-title="Modify Product Data">
-                                        <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
-                                            <span class="icon">
-                                                <i class="fas fa-pen-square"></i>
-                                            </span>
-                                            <span>
-                                                Edit
-                                            </span>
+                            <td>
+                                <a class="is-block" href="{{ route('products.edit', $product->id) }}" data-title="Modify Product Data">
+                                    <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                        <span class="icon">
+                                            <i class="fas fa-pen-square"></i>
                                         </span>
-                                    </a>
-                                    <span class="is-block">
-                                        @include('components.delete_button', ['model' => 'products',
-                                        'id' => $product->id])
+                                        <span>
+                                            Edit
+                                        </span>
                                     </span>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                                </a>
+                                <span class="is-block">
+                                    @include('components.delete_button', ['model' => 'products',
+                                    'id' => $product->id])
+                                </span>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </section>
 @endsection
