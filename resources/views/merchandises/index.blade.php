@@ -109,36 +109,6 @@
                 <br>
                 Manage current inventory returns & damages and transfer products from warehouse to warehouse
             </h2>
-            <div class="level">
-                <div class="level-right">
-                    <div class="level-item is-justify-content-flex-start">
-                        <div class="field is-horizontal">
-                            <div class="field-body">
-                                <div class="field">                                
-                                    <div class="control has-icons-left">
-                                        <input id="searchField" type="search" class="input is-small search" placeholder="Search">
-                                        <div class="icon is-small is-left">
-                                            <i class="fas fa-search"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <div class="control">
-                                        <button id="sortButton" class="button bg-gold has-text-white is-small sort" data-sort="onHand">
-                                            <span class="icon">
-                                                <i class="fas fa-sort"></i>
-                                            </span>
-                                            <span>
-                                                Sort by on hand
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="tabs is-toggle is-fullwidth has-background-white-bis">
             <ul>

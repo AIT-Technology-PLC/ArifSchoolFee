@@ -55,95 +55,97 @@
         </div>
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'GRN'])
-            <table id="table_id" class="table-container table is-hoverable is-fullwidth is-size-7">
-                <thead>
-                    <tr>
-                        <th><abbr> # </abbr></th>
-                        <th class="text-green"><abbr> Purchase No </abbr></th>
-                        <th class="text-gold"><abbr> GRN No </abbr></th>
-                        <th class="text-purple"><abbr> Status </abbr></th>
-                        <th class="has-text-centered"><abbr> Products </abbr></th>
-                        <th><abbr> Supplier </abbr></th>
-                        <th><abbr> Description </abbr></th>
-                        <th class="has-text-right"><abbr> Issued On </abbr></th>
-                        @can('delete', $grns->first())
-                            <th><abbr> Added By </abbr></th>
-                            <th><abbr> Edited By </abbr></th>
-                        @endcan
-                        <th><abbr> Actions </abbr></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($grns as $grn)
+            <div class="table-container">
+                <table id="table_id" class="is-hoverable is-size-7">
+                    <thead>
                         <tr>
-                            <td> {{ $loop->index + 1 }} </td>
-                            <td class="is-capitalized">
-                                <span class="tag is-small bg-green has-text-white">
-                                    {{ is_null($grn->purchase) ? 'N/A' : $grn->purchase->purchase_no }}
-                                </span>
-                            </td>
-                            <td class="is-capitalized">
-                                <span class="tag is-small bg-gold has-text-white">
-                                    {{ $grn->code }}
-                                </span>
-                            </td>
-                            <td class="is-capitalized">
-                                @if ($grn->isAddedToInventory())
-                                    <span class="tag is-small bg-purple has-text-white">
-                                        {{ $grn->status ?? 'N/A' }}
-                                    </span>
-                                @else
-                                    <span class="tag is-small bg-blue has-text-white">
-                                        {{ $grn->status ?? 'N/A' }}
-                                    </span>
-                                @endif
-                            </td>
-                            <td class="has-text-centered">
-                                {{ $grn->grn_details_count ?? 'N/A' }}
-                            </td>
-                            <td>
-                                {{ $grn->supplier->company_name ?? 'N/A' }}
-                            </td>
-                            <td class="description">
-                                {{ substr($grn->description, 0, 40) ?? 'N/A' }}
-                            </td>
-                            <td class="has-text-right">
-                                {{ $grn->issued_on->toFormattedDateString() }}
-                            </td>
-                            @can('delete', $grn)
-                                <td> {{ $grn->createdBy->name ?? 'N/A' }} </td>
-                                <td> {{ $grn->updatedBy->name ?? 'N/A' }} </td>
+                            <th><abbr> # </abbr></th>
+                            <th class="text-green"><abbr> Purchase No </abbr></th>
+                            <th class="text-gold"><abbr> GRN No </abbr></th>
+                            <th class="text-purple"><abbr> Status </abbr></th>
+                            <th class="has-text-centered"><abbr> Products </abbr></th>
+                            <th><abbr> Supplier </abbr></th>
+                            <th><abbr> Description </abbr></th>
+                            <th class="has-text-right"><abbr> Issued On </abbr></th>
+                            @can('delete', $grns->first())
+                                <th><abbr> Added By </abbr></th>
+                                <th><abbr> Edited By </abbr></th>
                             @endcan
-                            <td>
-                                <a class="is-block" href="{{ route('grns.show', $grn->id) }}" data-title="View Details">
-                                    <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
-                                        <span class="icon">
-                                            <i class="fas fa-info-circle"></i>
-                                        </span>
-                                        <span>
-                                            Details
-                                        </span>
-                                    </span>
-                                </a>
-                                <a class="is-block" href="{{ route('grns.edit', $grn->id) }}" data-title="Modify GRN Data">
-                                    <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
-                                        <span class="icon">
-                                            <i class="fas fa-pen-square"></i>
-                                        </span>
-                                        <span>
-                                            Edit
-                                        </span>
-                                    </span>
-                                </a>
-                                <span class="is-block">
-                                    @include('components.delete_button', ['model' => 'grns',
-                                    'id' => $grn->id])
-                                </span>
-                            </td>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="list">
+                        @foreach ($grns as $grn)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td class="is-capitalized">
+                                    <span class="tag is-small bg-green has-text-white receipt">
+                                        {{ is_null($grn->purchase) ? 'N/A' : $grn->purchase->purchase_no }}
+                                    </span>
+                                </td>
+                                <td class="is-capitalized">
+                                    <span class="tag is-small bg-gold has-text-white grn">
+                                        {{ $grn->code }}
+                                    </span>
+                                </td>
+                                <td class="is-capitalized">
+                                    @if ($grn->isAddedToInventory())
+                                        <span class="tag is-small bg-purple has-text-white">
+                                            {{ $grn->status ?? 'N/A' }}
+                                        </span>
+                                    @else
+                                        <span class="tag is-small bg-blue has-text-white">
+                                            {{ $grn->status ?? 'N/A' }}
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="has-text-centered">
+                                    {{ $grn->grn_details_count ?? 'N/A' }}
+                                </td>
+                                <td>
+                                    {{ $grn->supplier->company_name ?? 'N/A' }}
+                                </td>
+                                <td class="description">
+                                    {{ substr($grn->description, 0, 40) ?? 'N/A' }}
+                                </td>
+                                <td class="has-text-right">
+                                    {{ $grn->issued_on->toFormattedDateString() }}
+                                </td>
+                                @can('delete', $grn)
+                                    <td> {{ $grn->createdBy->name ?? 'N/A' }} </td>
+                                    <td> {{ $grn->updatedBy->name ?? 'N/A' }} </td>
+                                @endcan
+                                <td>
+                                    <a class="is-block" href="{{ route('grns.show', $grn->id) }}" data-title="View Details">
+                                        <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
+                                            <span class="icon">
+                                                <i class="fas fa-info-circle"></i>
+                                            </span>
+                                            <span>
+                                                Details
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <a class="is-block" href="{{ route('grns.edit', $grn->id) }}" data-title="Modify GRN Data">
+                                        <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                            <span class="icon">
+                                                <i class="fas fa-pen-square"></i>
+                                            </span>
+                                            <span>
+                                                Edit
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <span class="is-block">
+                                        @include('components.delete_button', ['model' => 'grns',
+                                        'id' => $grn->id])
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 @endsection

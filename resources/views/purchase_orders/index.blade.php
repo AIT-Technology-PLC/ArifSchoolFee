@@ -55,89 +55,91 @@
         </div>
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Purchase Order'])
-            <table id="table_id" class="table-container table is-hoverable is-fullwidth is-size-7">
-                <thead>
-                    <tr>
-                        <th><abbr> # </abbr></th>
-                        <th class="text-gold"><abbr> Purchase Order No </abbr></th>
-                        <th class="text-purple"><abbr> Status </abbr></th>
-                        <th class="has-text-centered"><abbr> Items </abbr></th>
-                        <th><abbr> Customer </abbr></th>
-                        <th><abbr> Description </abbr></th>
-                        <th class="has-text-right"><abbr> Received On </abbr></th>
-                        @can('delete', $purchaseOrders->first())
-                            <th><abbr> Added By </abbr></th>
-                            <th><abbr> Edited By </abbr></th>
-                        @endcan
-                        <th><abbr> Actions </abbr></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($purchaseOrders as $purchaseOrder)
+            <div class="table-container">
+                <table id="table_id" class="is-hoverable is-size-7">
+                    <thead>
                         <tr>
-                            <td> {{ $loop->index + 1 }} </td>
-                            <td class="is-capitalized">
-                                <span class="tag is-small bg-gold has-text-white">
-                                    {{ $purchaseOrder->code }}
-                                </span>
-                            </td>
-                            <td class="is-capitalized">
-                                @if ($purchaseOrder->isPurchaseOrderClosed())
-                                    <span class="tag is-small bg-purple has-text-white">
-                                        Closed PO
-                                    </span>
-                                @else
-                                    <span class="tag is-small bg-blue has-text-white">
-                                        Open PO
-                                    </span>
-                                @endif
-                            </td>
-                            <td class="has-text-centered">
-                                {{ $purchaseOrder->purchase_order_details_count ?? 'N/A' }}
-                            </td>
-                            <td>
-                                {{ $purchaseOrder->customer->company_name ?? 'N/A' }}
-                            </td>
-                            <td>
-                                {{ substr($purchaseOrder->description, 0, 40) ?? 'N/A' }}
-                            </td>
-                            <td class="has-text-right">
-                                {{ $purchaseOrder->received_on->toFormattedDateString() }}
-                            </td>
-                            @can('delete', $purchaseOrder)
-                                <td> {{ $purchaseOrder->createdBy->name ?? 'N/A' }} </td>
-                                <td> {{ $purchaseOrder->updatedBy->name ?? 'N/A' }} </td>
+                            <th><abbr> # </abbr></th>
+                            <th class="text-gold"><abbr> Purchase Order No </abbr></th>
+                            <th class="text-purple"><abbr> Status </abbr></th>
+                            <th class="has-text-centered"><abbr> Items </abbr></th>
+                            <th><abbr> Customer </abbr></th>
+                            <th><abbr> Description </abbr></th>
+                            <th class="has-text-right"><abbr> Received On </abbr></th>
+                            @can('delete', $purchaseOrders->first())
+                                <th><abbr> Added By </abbr></th>
+                                <th><abbr> Edited By </abbr></th>
                             @endcan
-                            <td>
-                                <a class="is-block" href="{{ route('purchase-orders.show', $purchaseOrder->id) }}" data-title="View Details">
-                                    <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
-                                        <span class="icon">
-                                            <i class="fas fa-info-circle"></i>
-                                        </span>
-                                        <span>
-                                            Details
-                                        </span>
-                                    </span>
-                                </a>
-                                <a class="is-block" href="{{ route('purchase-orders.edit', $purchaseOrder->id) }}" data-title="Modify Purchase Order Data">
-                                    <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
-                                        <span class="icon">
-                                            <i class="fas fa-pen-square"></i>
-                                        </span>
-                                        <span>
-                                            Edit
-                                        </span>
-                                    </span>
-                                </a>
-                                <span class="is-block">
-                                    @include('components.delete_button', ['model' => 'purchase-orders',
-                                    'id' => $purchaseOrder->id])
-                                </span>
-                            </td>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($purchaseOrders as $purchaseOrder)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td class="is-capitalized">
+                                    <span class="tag is-small bg-gold has-text-white">
+                                        {{ $purchaseOrder->code }}
+                                    </span>
+                                </td>
+                                <td class="is-capitalized">
+                                    @if ($purchaseOrder->isPurchaseOrderClosed())
+                                        <span class="tag is-small bg-purple has-text-white">
+                                            Closed PO
+                                        </span>
+                                    @else
+                                        <span class="tag is-small bg-blue has-text-white">
+                                            Open PO
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="has-text-centered">
+                                    {{ $purchaseOrder->purchase_order_details_count ?? 'N/A' }}
+                                </td>
+                                <td>
+                                    {{ $purchaseOrder->customer->company_name ?? 'N/A' }}
+                                </td>
+                                <td>
+                                    {{ substr($purchaseOrder->description, 0, 40) ?? 'N/A' }}
+                                </td>
+                                <td class="has-text-right">
+                                    {{ $purchaseOrder->received_on->toFormattedDateString() }}
+                                </td>
+                                @can('delete', $purchaseOrder)
+                                    <td> {{ $purchaseOrder->createdBy->name ?? 'N/A' }} </td>
+                                    <td> {{ $purchaseOrder->updatedBy->name ?? 'N/A' }} </td>
+                                @endcan
+                                <td>
+                                    <a class="is-block" href="{{ route('purchase-orders.show', $purchaseOrder->id) }}" data-title="View Details">
+                                        <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
+                                            <span class="icon">
+                                                <i class="fas fa-info-circle"></i>
+                                            </span>
+                                            <span>
+                                                Details
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <a class="is-block" href="{{ route('purchase-orders.edit', $purchaseOrder->id) }}" data-title="Modify Purchase Order Data">
+                                        <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                            <span class="icon">
+                                                <i class="fas fa-pen-square"></i>
+                                            </span>
+                                            <span>
+                                                Edit
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <span class="is-block">
+                                        @include('components.delete_button', ['model' => 'purchase-orders',
+                                        'id' => $purchaseOrder->id])
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 @endsection

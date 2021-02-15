@@ -295,8 +295,9 @@ td {
 }
 .table-container {
     display: none;
-    overflow-y: auto !important;
-    max-height: 500px !important;
+    overflow: none !important;
+    overflow-y: none !important;
+    max-width: 100%;
 }
 /* DataTable Styles */
 table.dataTable.no-footer {

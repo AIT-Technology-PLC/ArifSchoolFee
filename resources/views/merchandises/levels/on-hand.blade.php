@@ -1,7 +1,7 @@
 <section id="onHand" class="mx-3 m-lr-0">
     <div class="box radius-top-0">
-        <div id="searchList" class="table-container">
-            <table class="table is-hoverable is-fullwidth is-size-7">
+        <div class="table-container">
+            <table id="table_id" class="is-hoverable is-size-7">
                 <thead>
                     <tr>
                         <th><abbr> # </abbr></th>
