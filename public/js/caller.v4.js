@@ -160,11 +160,4 @@ if (d.getElementById("addNewGrnForm")) {
     d.getElementById("addNewGrnForm").addEventListener("click", addGrnForm);
 }
 
-window.addEventListener("load", () => {
-    $("#table_id").DataTable({
-        responsive: true,
-        scrollCollapse: true,
-        scrollY: "500px",
-        scrollX: true,
-    });
-});
+window.addEventListener("load", initiateDataTables);

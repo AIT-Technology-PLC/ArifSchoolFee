@@ -832,7 +832,36 @@ const addGrnForm = (function () {
 function showTablesAfterCompleteLoad() {
     let tables = d.getElementsByClassName("table-container");
 
-    for (let index = 0; index < tables.length; index++) {
-        tables[index].style.display = "block";
+    setTimeout(() => {
+        for (let index = 0; index < tables.length; index++) {
+            tables[index].style.display = "block";
+        }
+    }, 400);
+}
+
+function initiateDataTables() {
+    if (d.querySelector("#table_id thead tr").children.length >= 10) {
+        $("#table_id").DataTable({
+            responsive: true,
+            scrollCollapse: true,
+            scrollY: "500px",
+            scrollX: true,
+            columnDefs: [
+                { type: "natural", targets: 4 },
+                { type: "natural", targets: 5 },
+                { type: "natural", targets: 6 },
+                { type: "natural", targets: 7 },
+                { type: "natural", targets: 8 },
+                { type: "natural", targets: 9 },
+            ],
+        });
+    } else {
+        $("#table_id").DataTable({
+            responsive: true,
+            scrollCollapse: true,
+            scrollY: "500px",
+            scrollX: true,
+            columnDefs: [{ type: "natural", targets: 4 }],
+        });
     }
 }

@@ -56,7 +56,11 @@ precacheAndRoute([
         revision: null,
     },
     {
-        url: "https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js",
+        url: "https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js",
+        revision: null,
+    },
+    {
+        url: "https://cdn.datatables.net/plug-ins/1.10.22/sorting/natural.js",
         revision: null,
     },
     {
