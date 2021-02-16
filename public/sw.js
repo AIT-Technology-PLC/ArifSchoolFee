@@ -21,7 +21,7 @@ setCacheNameDetails({
 });
 
 precacheAndRoute([
-    { url: "/offline", revision: 1 },
+    { url: "/offline", revision: null },
     { url: "/manifest.json", revision: null },
     { url: "/img/favicon.png", revision: null },
     { url: "/img/logo.png", revision: null },
@@ -40,6 +40,10 @@ precacheAndRoute([
         revision: null,
     },
     {
+        url: "https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css",
+        revision: null,
+    },
+    {
         url: "https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js",
         revision: null,
     },
@@ -52,7 +56,7 @@ precacheAndRoute([
         revision: null,
     },
     {
-        url: "https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js",
+        url: "https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js",
         revision: null,
     },
     {

@@ -725,37 +725,6 @@ function closePurchaseOrderModal(event) {
     });
 }
 
-const searchList = (function () {
-    let searchList = new List("searchList", {
-        valueNames: [
-            "name",
-            "category",
-            "code",
-            "onHand",
-            "receipt",
-            "gdn",
-            "grn",
-            "description",
-        ],
-    });
-
-    return searchList;
-})();
-
-function searchDataTables() {
-    let searchString = this.value;
-    searchList.search(searchString);
-}
-
-const sortDataTablesByOnHand = (function () {
-    let sortOrder = "desc";
-
-    return () => {
-        searchList.sort("onHand", { order: sortOrder });
-        sortOrder = sortOrder === "desc" ? "asc" : "desc";
-    };
-})();
-
 function openAddGrnModal(event) {
     event.preventDefault();
     swal({
