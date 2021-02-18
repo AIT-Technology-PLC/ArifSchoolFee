@@ -835,7 +835,7 @@ function showTablesAfterCompleteLoad() {
     setTimeout(() => {
         table.style.display = "table";
         d.getElementById("firstTarget").click();
-    }, 400);
+    }, 500);
 }
 
 function initiateDataTables() {
