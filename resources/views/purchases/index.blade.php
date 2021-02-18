@@ -55,11 +55,11 @@
         </div>
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Purchase'])
-            <div class="table-container">
+            <div>
                 <table id="table_id" class="is-hoverable is-size-7 display">
                     <thead>
                         <tr>
-                            <th><abbr> # </abbr></th>
+                            <th id="firstTarget"><abbr> # </abbr></th>
                             <th class="text-gold"><abbr> Purchase No </abbr></th>
                             <th class="text-purple"><abbr> Payment Method </abbr></th>
                             <th class="has-text-centered"><abbr> Total Items </abbr></th>

@@ -1,10 +1,10 @@
 <section id="onHand" class="mx-3 m-lr-0">
     <div class="box radius-top-0">
-        <div class="table-container">
+        <div>
             <table id="table_id" class="is-hoverable is-size-7 display">
                 <thead>
                     <tr>
-                        <th><abbr> # </abbr></th>
+                        <th id="firstTarget"><abbr> # </abbr></th>
                         <th><abbr> Product </abbr></th>
                         <th><abbr> Code </abbr></th>
                         <th><abbr> Category </abbr></th>

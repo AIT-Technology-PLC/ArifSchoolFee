@@ -830,18 +830,18 @@ const addGrnForm = (function () {
 })();
 
 function showTablesAfterCompleteLoad() {
-    let tables = d.getElementsByClassName("table-container");
+    let table = d.getElementById("table_id");
 
     setTimeout(() => {
-        for (let index = 0; index < tables.length; index++) {
-            tables[index].style.display = "block";
-        }
+        table.style.display = "table";
+        d.getElementById("firstTarget").click();
     }, 400);
 }
 
 function initiateDataTables() {
     if (d.querySelector("#table_id thead tr").children.length >= 10) {
         $("#table_id").DataTable({
+            order: [[0, "desc"]],
             responsive: true,
             scrollCollapse: true,
             scrollY: "500px",
@@ -857,6 +857,7 @@ function initiateDataTables() {
         });
     } else {
         $("#table_id").DataTable({
+            order: [[0, "desc"]],
             responsive: true,
             scrollCollapse: true,
             scrollY: "500px",

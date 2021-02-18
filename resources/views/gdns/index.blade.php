@@ -55,11 +55,11 @@
         </div>
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'SIV/GDN'])
-            <div class="table-container">
+            <div>
                 <table id="table_id" class="is-hoverable is-size-7 display">
                     <thead>
                         <tr>
-                            <th><abbr> # </abbr></th>
+                            <th id="firstTarget"><abbr> # </abbr></th>
                             <th class="text-green"><abbr> Receipt No </abbr></th>
                             <th class="text-gold"><abbr> SIV/GDN No </abbr></th>
                             <th class="text-purple"><abbr> Status </abbr></th>

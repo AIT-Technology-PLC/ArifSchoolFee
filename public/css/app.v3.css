@@ -294,7 +294,6 @@ td {
     height: 5px;
 }
 .table-container {
-    display: none;
     overflow: none !important;
     overflow-y: none !important;
     max-width: 100%;
@@ -361,6 +360,7 @@ div.dataTables_wrapper {
 }
 #table_id {
     width: 100% !important;
+    display: none;
 }
 .dataTables_wrapper .dataTables_paginate {
     margin-top: 20px !important;

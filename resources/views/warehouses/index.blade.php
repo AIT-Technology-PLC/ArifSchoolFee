@@ -55,11 +55,11 @@
         </div>
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Warehouse'])
-            <div class="table-container">
+            <div>
                 <table id="table_id" class="is-hoverable is-size-7 display">
                     <thead>
                         <tr>
-                            <th><abbr> # </abbr></th>
+                            <th id="firstTarget"><abbr> # </abbr></th>
                             <th><abbr> Warehouse Name </abbr></th>
                             <th class="text-purple"><abbr> Location </abbr></th>
                             <th><abbr> Description </abbr></th>
