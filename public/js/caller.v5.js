@@ -2,8 +2,6 @@ window.addEventListener("beforeinstallprompt", function (e) {
     e.preventDefault();
 });
 
-window.addEventListener("load", showTablesAfterCompleteLoad);
-
 if (d.getElementById("addNewForm")) {
     d.getElementById("addNewForm").addEventListener(
         "click",
@@ -160,4 +158,6 @@ if (d.getElementById("addNewGrnForm")) {
     d.getElementById("addNewGrnForm").addEventListener("click", addGrnForm);
 }
 
-window.addEventListener("load", initiateDataTables);
+if (d.getElementById("table_id")) {
+    window.addEventListener("load", initiateDataTables);
+}

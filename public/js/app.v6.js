@@ -831,11 +831,8 @@ const addGrnForm = (function () {
 
 function showTablesAfterCompleteLoad() {
     let table = d.getElementById("table_id");
-
-    setTimeout(() => {
-        table.style.display = "table";
-        d.getElementById("firstTarget").click();
-    }, 500);
+    table.style.display = "table";
+    d.getElementById("firstTarget").click();
 }
 
 function initiateDataTables() {
@@ -865,4 +862,6 @@ function initiateDataTables() {
             columnDefs: [{ type: "natural", targets: 4 }],
         });
     }
+
+    showTablesAfterCompleteLoad();
 }
