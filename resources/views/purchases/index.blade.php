@@ -66,7 +66,7 @@
                             <th class="has-text-right text-green"><abbr> Total Price </abbr></th>
                             <th class="has-text-right"><abbr> Purchased On </abbr></th>
                             @can('delete', $purchases->first())
-                                <th><abbr> Added By </abbr></th>
+                                <th><abbr> Prepared By </abbr></th>
                                 <th><abbr> Edited By </abbr></th>
                             @endcan
                             <th><abbr> Actions </abbr></th>

@@ -67,7 +67,7 @@
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Received On </abbr></th>
                             @can('delete', $purchaseOrders->first())
-                                <th><abbr> Added By </abbr></th>
+                                <th><abbr> Prepared By </abbr></th>
                                 <th><abbr> Edited By </abbr></th>
                             @endcan
                             <th><abbr> Actions </abbr></th>

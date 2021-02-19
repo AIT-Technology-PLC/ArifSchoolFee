@@ -68,7 +68,7 @@
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Issued On </abbr></th>
                             @can('delete', $gdns->first())
-                                <th><abbr> Added By </abbr></th>
+                                <th><abbr> Prepared By </abbr></th>
                                 <th><abbr> Edited By </abbr></th>
                             @endcan
                             <th><abbr> Actions </abbr></th>
