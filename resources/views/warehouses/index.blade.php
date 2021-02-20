@@ -81,7 +81,7 @@
                                         {{ $warehouse->location ?? 'N/A' }}
                                     </span>
                                 </td>
-                                <td> {{ substr($warehouse->description, 0, 40) ?? 'N/A' }} </td>
+                                <td> {!! nl2br(e(substr($warehouse->description, 0, 40))) ?? 'N/A' !!} </td>
                                 <td class="has-text-right"> {{ $warehouse->created_at->toFormattedDateString() }} </td>
                                 @can('delete', $warehouse)
                                     <td> {{ $warehouse->createdBy->name ?? 'N/A' }} </td>

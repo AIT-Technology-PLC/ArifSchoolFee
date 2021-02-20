@@ -106,7 +106,7 @@
                                     {{ $grn->supplier->company_name ?? 'N/A' }}
                                 </td>
                                 <td class="description">
-                                    {{ substr($grn->description, 0, 40) ?? 'N/A' }}
+                                    {!! nl2br(e(substr($grn->description, 0, 40))) ?? 'N/A' !!}
                                 </td>
                                 <td class="has-text-right">
                                     {{ $grn->issued_on->toFormattedDateString() }}

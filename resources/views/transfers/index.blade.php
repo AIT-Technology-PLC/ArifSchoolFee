@@ -96,7 +96,7 @@
                                     {{ $transfer->transfer_details_count ?? 'N/A' }}
                                 </td>
                                 <td>
-                                    {{ substr($transfer->description, 0, 40) ?? 'N/A' }}
+                                    {!! nl2br(e(substr($transfer->description, 0, 40))) ?? 'N/A' !!}
                                 </td>
                                 <td class="has-text-right">
                                     {{ $transfer->issued_on->toFormattedDateString() }}

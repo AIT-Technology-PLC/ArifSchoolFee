@@ -93,7 +93,7 @@
                                         @endforeach
                                     @endif
                                 </td>
-                                <td> {{ substr($product->description, 0, 40) ?? 'N/A' }} </td>
+                                <td> {!! nl2br(e(substr($product->description, 0, 40))) ?? 'N/A' !!} </td>
                                 <td class="is-capitalized">
                                     <span class="tag is-small bg-purple has-text-white">
                                         {{ $product->min_on_hand }}

@@ -87,7 +87,7 @@
                                     @endif
                                 </td>
                                 <td class="has-text-centered text-purple has-text-weight-bold"> {{ $category->products->count() }} </td>
-                                <td> {{ substr($category->description, 0, 40) ?? 'N/A' }} </td>
+                                <td> {!! nl2br(e(substr($category->description, 0, 40))) ?? 'N/A' !!} </td>
                                 <td class="has-text-right"> {{ $category->created_at->toFormattedDateString() }} </td>
                                 @can('delete', $category)
                                     <td> {{ $category->createdBy->name ?? 'N/A' }} </td>

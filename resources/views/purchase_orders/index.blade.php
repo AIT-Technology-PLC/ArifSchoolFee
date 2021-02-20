@@ -100,7 +100,7 @@
                                     {{ $purchaseOrder->customer->company_name ?? 'N/A' }}
                                 </td>
                                 <td>
-                                    {{ substr($purchaseOrder->description, 0, 40) ?? 'N/A' }}
+                                    {!! nl2br(e(substr($purchaseOrder->description, 0, 40))) ?? 'N/A' !!}
                                 </td>
                                 <td class="has-text-right">
                                     {{ $purchaseOrder->received_on->toFormattedDateString() }}
