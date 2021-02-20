@@ -63,7 +63,7 @@
                                 {{ $merchandise->total_returns }}/{{ $merchandise->total_sold }}
                                 {{ $merchandise->product->unit_of_measurement }}
                             </td>
-                            <td class="has-text-right"> {{ $merchandise->created_at->toFormattedDateString() }} </td>
+                            <td class="has-text-right"> {{ $merchandise->received_on ? $merchandise->received_on->toFormattedDateString() : 'N/A' }} </td>
                             <td class="has-text-right"> {{ $merchandise->expires_on ? $merchandise->expires_on->toFormattedDateString() : 'N/A' }} </td>
                             @can('delete', $merchandise)
                                 <td> {{ $merchandise->createdBy->name ?? 'N/A' }} </td>

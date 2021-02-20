@@ -15,6 +15,7 @@ class Merchandise extends Model
 
     protected $casts = [
         'expires_on' => 'datetime',
+        'received_on' => 'datetime',
     ];
 
     public function createdBy()
