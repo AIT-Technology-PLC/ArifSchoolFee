@@ -98,7 +98,7 @@
                         <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('description') ?? '' }}</textarea>
+                                <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ $gdn->description ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-edit"></i>
                                 </span>
