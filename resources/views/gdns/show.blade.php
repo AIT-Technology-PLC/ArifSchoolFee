@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    SIV/GDN Details
+    DO/GDN Details
 @endsection
 
 @section('content')
@@ -19,7 +19,7 @@
                             {{ $gdn->code ?? 'N/A' }}
                         </div>
                         <div class="is-uppercase is-size-7">
-                            SIV/GDN No
+                            DO/GDN No
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             <h1 class="title text-green has-text-weight-medium is-size-5">
-                                SIV/GDN Details
+                                DO/GDN Details
                             </h1>
                         </div>
                     </div>

@@ -15,7 +15,7 @@
                 </span>
             </a>
             <span class="is-size-7">
-                SIV/GDN
+                DO/GDN
             </span>
         </div>
         <div class="column is-3 has-text-centered text-purple">

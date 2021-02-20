@@ -147,7 +147,7 @@
                         <i class="fas fa-file-invoice"></i>
                     </span>
                     <span>
-                        SIV/GDN Management
+                        DO/GDN Management
                     </span>
                 </a>
             </li>

@@ -66,7 +66,7 @@
                                         <i class="fas fa-plus-circle"></i>
                                     </span>
                                     <span>
-                                        New SIV/GDN
+                                        New DO/GDN
                                     </span>
                                 </a>
                             @endif
@@ -171,14 +171,14 @@
             @if ($sale->isSaleManual())
                 <div class="box has-background-white-bis">
                     <h1 class="title is-size-5 text-green has-text-centered">
-                        SIV/GDN for this sale
+                        DO/GDN for this sale
                     </h1>
                     <div class="table-container has-background-white-bis">
                         <table class="table is-hoverable is-fullwidth is-size-7 has-background-white-bis">
                             <thead>
                                 <tr>
                                     <th><abbr> # </abbr></th>
-                                    <th><abbr> SIV/GDN No </abbr></th>
+                                    <th><abbr> DO/GDN No </abbr></th>
                                     <th><abbr> Status </abbr></th>
                                     <th><abbr> Issued on </abbr></th>
                                 </tr>

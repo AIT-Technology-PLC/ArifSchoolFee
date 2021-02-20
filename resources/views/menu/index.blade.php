@@ -34,7 +34,7 @@
                             </a>
                             <br>
                             <span class="is-size-6 is-size-7-mobile">
-                                SIV/GDN
+                                DO/GDN
                             </span>
                         </div>
                         <div class="column is-4 has-text-centered has-text-grey">

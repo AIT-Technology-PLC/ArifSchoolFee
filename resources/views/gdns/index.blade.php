@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    SIV/GDN Management
+    DO/GDN Management
 @endsection
 
 @section('content')
@@ -30,7 +30,7 @@
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column is-paddingless has-text-centered">
                         <div class="is-uppercase is-size-7">
-                            Create new SIV/GDN for delivery and moving products out
+                            Create new DO/GDN for delivery and moving products out
                         </div>
                         <div class="is-size-3">
                             <a href="{{ route('gdns.create') }}" class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3">
@@ -38,7 +38,7 @@
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
                                 <span>
-                                    Create New SIV/GDN
+                                    Create New DO/GDN
                                 </span>
                             </a>
                         </div>
@@ -50,18 +50,18 @@
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-green has-text-weight-medium is-size-5">
-                SIV/GDN Management
+                DO/GDN Management
             </h1>
         </div>
         <div class="box radius-top-0">
-            @include('components.deleted_message', ['model' => 'SIV/GDN'])
+            @include('components.deleted_message', ['model' => 'DO/GDN'])
             <div>
                 <table id="table_id" class="is-hoverable is-size-7 display">
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
                             <th class="text-green"><abbr> Receipt No </abbr></th>
-                            <th class="text-gold"><abbr> SIV/GDN No </abbr></th>
+                            <th class="text-gold"><abbr> DO/GDN No </abbr></th>
                             <th class="text-purple"><abbr> Status </abbr></th>
                             <th class="has-text-centered"><abbr> Products </abbr></th>
                             <th><abbr> Customer </abbr></th>
@@ -126,7 +126,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <a class="is-block" href="{{ route('gdns.edit', $gdn->id) }}" data-title="Modify SIV/GDN Data">
+                                    <a class="is-block" href="{{ route('gdns.edit', $gdn->id) }}" data-title="Modify DO/GDN Data">
                                         <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
