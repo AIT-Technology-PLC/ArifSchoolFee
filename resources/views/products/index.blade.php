@@ -60,10 +60,11 @@
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
-                            <th><abbr> Name </abbr></th>
+                            <th class="text-green"><abbr> Name </abbr></th>
                             <th><abbr> Category </abbr></th>
                             <th><abbr> Type </abbr></th>
                             <th><abbr> Code </abbr></th>
+                            <th><abbr> Supplier </abbr></th>
                             <th><abbr> Properties </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="text-purple"><abbr> Reorder Level</abbr></th>
@@ -80,10 +81,15 @@
                         @foreach ($products as $product)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized"> {{ $product->name ?? 'N/A' }} </td>
+                                <td class="is-capitalized">
+                                    <span class="tag is-small bg-green has-text-white">
+                                        {{ $product->name ?? 'N/A' }}
+                                    </span>
+                                </td>
                                 <td class="is-capitalized"> {{ $product->productCategory->name ?? 'N/A' }} </td>
                                 <td class="is-capitalized"> {{ $product->type ?? 'N/A' }} </td>
                                 <td class="is-capitalized"> {{ $product->code ?? 'N/A' }} </td>
+                                <td class="is-capitalized"> {{ $product->supplier->company_name ?? 'N/A' }} </td>
                                 <td class="is-capitalized">
                                     @if (is_null($product->properties))
                                         {{ 'N/A' }}

@@ -133,7 +133,7 @@ class Product extends Model
 
     public function getAll()
     {
-        return $this->companyProducts()->with(['productCategory', 'createdBy', 'updatedBy'])->orderBy('name')->get();
+        return $this->companyProducts()->with(['productCategory', 'createdBy', 'updatedBy', 'supplier'])->orderBy('name')->get();
     }
 
     public function getProductNames()
