@@ -108,7 +108,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="description" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
+                            <label for="description" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
                             <div class="control has-icons-left">
                                 <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('description') ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
@@ -196,7 +196,7 @@
                         </div>
                         <div class="column is-6">
                             <div class="field">
-                                <label for="grn[0][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
+                                <label for="grn[0][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
                                 <div class="control has-icons-left">
                                     <textarea name="grn[0][description]" id="grn[0][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('grn.0.description') ?? '' }}</textarea>
                                     <span class="icon is-large is-left">
@@ -287,7 +287,7 @@
                                 </div>
                                 <div class="column is-6">
                                     <div class="field">
-                                        <label for="grn[{{ $i }}][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
+                                        <label for="grn[{{ $i }}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
                                         <div class="control has-icons-left">
                                             <textarea name="grn[{{ $i }}][description]" id="grn[{{ $i }}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('grn.' . $i . '.description') ?? '' }}</textarea>
                                             <span class="icon is-large is-left">

@@ -76,7 +76,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="description" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
+                            <label for="description" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
                             <div class="control has-icons-left">
                                 <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('description') ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
@@ -161,7 +161,7 @@
                         </div>
                         <div class="column is-6">
                             <div class="field">
-                                <label for="purchaseOrder[0][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
+                                <label for="purchaseOrder[0][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
                                 <div class="control has-icons-left">
                                     <textarea name="purchaseOrder[0][description]" id="purchaseOrder[0][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('purchaseOrder.0.description') ?? '' }}</textarea>
                                     <span class="icon is-large is-left">
@@ -249,7 +249,7 @@
                                 </div>
                                 <div class="column is-6">
                                     <div class="field">
-                                        <label for="purchaseOrder[{{ $i }}][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
+                                        <label for="purchaseOrder[{{ $i }}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
                                         <div class="control has-icons-left">
                                             <textarea name="purchaseOrder[{{ $i }}][description]" id="purchaseOrder[{{ $i }}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('purchaseOrder.' . $i . '.description') ?? '' }}</textarea>
                                             <span class="icon is-large is-left">

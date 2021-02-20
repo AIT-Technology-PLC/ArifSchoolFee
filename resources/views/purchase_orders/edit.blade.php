@@ -53,7 +53,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="description" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
+                            <label for="description" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
                             <div class="control has-icons-left">
                                 <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ $purchaseOrder->description ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
@@ -158,7 +158,7 @@
                             </div>
                             <div class="column is-6">
                                 <div class="field">
-                                    <label for="purchaseOrder[{{ $loop->index }}][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
+                                    <label for="purchaseOrder[{{ $loop->index }}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
                                     <div class="control has-icons-left">
                                         <textarea name="purchaseOrder[{{ $loop->index }}][description]" id="purchaseOrder[{{ $loop->index }}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ $purchaseOrderDetail->description ?? '' }}</textarea>
                                         <span class="icon is-large is-left">

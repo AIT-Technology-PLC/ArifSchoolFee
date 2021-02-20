@@ -91,7 +91,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="description" class="label text-green has-text-weight-normal">Additional Notes</label>
+                            <label for="description" class="label text-green has-text-weight-normal">Description</label>
                             <div class="control has-icons-left">
                                 <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('description') ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
