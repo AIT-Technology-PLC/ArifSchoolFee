@@ -440,7 +440,7 @@ const addGdnForm = (function () {
                 </div>
                 <div class="column is-6">
                     <div class="field">
-                        <label for="gdn[${index}][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
+                        <label for="gdn[${index}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
                         <div class="control has-icons-left">
                             <textarea name="gdn[${index}][description]" id="gdn[${index}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken"></textarea>
                             <span class="icon is-large is-left">
@@ -577,7 +577,7 @@ const addTransferForm = (function () {
                 </div>
                 <div class="column is-6">
                     <div class="field">
-                        <label for="transfer[${index}][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
+                        <label for="transfer[${index}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
                         <div class="control has-icons-left">
                             <textarea name="transfer[${index}][description]" id="transfer[${index}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken"></textarea>
                             <span class="icon is-large is-left">
@@ -684,7 +684,7 @@ const addPurchaseOrderForm = (function () {
                 </div>
                 <div class="column is-6">
                     <div class="field">
-                        <label for="purchaseOrder[${index}][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
+                        <label for="purchaseOrder[${index}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
                         <div class="control has-icons-left">
                             <textarea name="purchaseOrder[${index}][description]" id="purchaseOrder[${index}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken"></textarea>
                             <span class="icon is-large is-left">
@@ -806,7 +806,7 @@ const addGrnForm = (function () {
                 </div>
                 <div class="column is-6">
                     <div class="field">
-                        <label for="grn[${index}][description]" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
+                        <label for="grn[${index}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
                         <div class="control has-icons-left">
                             <textarea name="grn[${index}][description]" id="grn[${index}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken"></textarea>
                             <span class="icon is-large is-left">
