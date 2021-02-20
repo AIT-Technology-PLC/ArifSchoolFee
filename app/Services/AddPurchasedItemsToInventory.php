@@ -13,8 +13,9 @@ class AddPurchasedItemsToInventory
         }
 
         $details = $purchase->purchaseDetails ?? $purchase->grnDetails;
+        $date = $purchase->purchased_on ?? $purchase->issued_on;
 
-        self::addProductsPurchasedToInventory($details);
+        self::addProductsPurchasedToInventory($details, $date);
     }
 
     public static function isAddToInventoryNowChecked($purchase)
@@ -22,7 +23,7 @@ class AddPurchasedItemsToInventory
         return $purchase->isAddedToInventory();
     }
 
-    public static function preparePurchaseDetailForMerchandise($detail)
+    public static function preparePurchaseDetailForMerchandise($detail, $date)
     {
         $detail = [
             'product_id' => $detail->product_id,
@@ -34,6 +35,7 @@ class AddPurchasedItemsToInventory
             'total_returns' => 0,
             'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id,
+            'received_on' => $date->toDateTimeString(),
             'company_id' => auth()->user()->employee->company_id,
             'created_at' => now()->toDateTimeString(),
             'updated_at' => now()->toDateTimeString(),
@@ -43,12 +45,12 @@ class AddPurchasedItemsToInventory
         return $detail;
     }
 
-    public static function addProductsPurchasedToInventory($details)
+    public static function addProductsPurchasedToInventory($details, $date)
     {
         foreach ($details as $detail) {
             if ($detail->product->isProductMerchandise()) {
                 $merchandise = new Merchandise();
-                $merchandise->create(self::preparePurchaseDetailForMerchandise($detail));
+                $merchandise->create(self::preparePurchaseDetailForMerchandise($detail, $date));
             }
         }
     }

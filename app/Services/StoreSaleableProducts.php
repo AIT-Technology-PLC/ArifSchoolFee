@@ -41,7 +41,7 @@ class StoreSaleableProducts
             return false;
         }
 
-        AddPurchasedItemsToInventory::addProductsPurchasedToInventory($details);
+        AddPurchasedItemsToInventory::addProductsPurchasedToInventory($details, $transfer->issued_on);
 
         foreach ($details as $detail) {
             self::updateTransferredQuantity($detail);
