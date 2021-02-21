@@ -329,6 +329,7 @@ class CoreV1 extends Migration
             $table->decimal('total_transfer', 22);
             $table->decimal('total_broken', 22);
             $table->decimal('total_returns', 22);
+            $table->dateTime('received_on')->nullable();
             $table->dateTime('expires_on')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();

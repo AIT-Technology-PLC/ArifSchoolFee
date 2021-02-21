@@ -15,7 +15,7 @@
                         <th class="has-text-right text-gold"><abbr> Transfer </abbr></th>
                         <th class="has-text-right text-blue"><abbr> Sold </abbr></th>
                         <th class="has-text-right"><abbr> Returns </abbr></th>
-                        <th class="has-text-right"><abbr> Added On </abbr></th>
+                        <th class="has-text-right"><abbr> Received On </abbr></th>
                         <th class="has-text-right"><abbr> Expiry Date </abbr></th>
                         @can('delete', $onHandMerchandises->first())
                             <th><abbr> Added By </abbr></th>
