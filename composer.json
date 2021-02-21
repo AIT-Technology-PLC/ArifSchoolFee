@@ -14,7 +14,8 @@
         "fx3costa/laravelchartjs": "^2.8",
         "intervention/image": "^2.5",
         "laravel/framework": "^6.18.35",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "spatie/laravel-permission": "^4.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
