@@ -89,6 +89,18 @@ class PermissionSeeder extends Seeder
             $makeTransfer = Permission::create(['name' => 'Make Transfer']);
             $makeTransfer->assignRole($storeKeeper);
 
+            // Merchandise
+            $createMerchandise = Permission::create(['name' => 'Create Merchandise']);
+            $createMerchandise->assignRole($storeKeeper);
+
+            $readMerchandise = Permission::create(['name' => 'Read Merchandise']);
+            $readMerchandise->assignRole($storeKeeper);
+
+            $updateMerchandise = Permission::create(['name' => 'Update Merchandise']);
+            $updateMerchandise->assignRole($storeKeeper);
+
+            $deleteMerchandise = Permission::create(['name' => 'Delete Merchandise']);
+
             // Sale
             $createSale = Permission::create(['name' => 'Create Sale']);
             $createSale->assignRole($salesOfficer);
