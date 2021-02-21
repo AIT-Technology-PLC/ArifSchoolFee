@@ -43,15 +43,6 @@ class CoreV1 extends Migration
             $table->timestamp('failed_at')->useCurrent();
         });
 
-        // Permissions
-        Schema::create('permissions', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('role');
-            $table->string('description')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
         // Plans
         Schema::create('plans', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -83,7 +74,6 @@ class CoreV1 extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('permission_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('position');
@@ -92,12 +82,10 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('company_id');
-            $table->index('permission_id');
             $table->index('user_id');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
@@ -469,7 +457,6 @@ class CoreV1 extends Migration
         Schema::drop('users');
         Schema::drop('password_resets');
         Schema::drop('failed_jobs');
-        Schema::drop('permissions');
         Schema::drop('plans');
         Schema::drop('companies');
         Schema::drop('employees');
