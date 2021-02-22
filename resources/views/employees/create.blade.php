@@ -118,23 +118,16 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="permission" class="label text-green has-text-weight-normal"> Choose Role <sup class="has-text-danger">*</sup> </label>
+                            <label for="role" class="label text-green has-text-weight-normal"> Choose Role <sup class="has-text-danger">*</sup> </label>
                             <div class="control">
-                                <label class="radio has-text-grey has-text-weight-normal">
-                                    <input type="radio" name="permission" value="2" class="mt-3" {{ old('permission') == 2 ? 'checked' : '' }}>
-                                    Admin
-                                </label>
-                                <br>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
-                                    <input type="radio" name="permission" value="3" {{ old('permission') == 3 ? 'checked' : '' }}>
-                                    Operative
-                                </label>
-                                <br>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
-                                    <input type="radio" name="permission" value="4" {{ old('permission') == 4 ? 'checked' : '' }}>
-                                    Analyst
-                                </label>
-                                @error('permission')
+                                @foreach ($roles as $role)
+                                    <label class="radio has-text-grey has-text-weight-normal">
+                                        <input type="radio" name="role" value="{{ $role->id }}" class="mt-3" {{ old('role') == $role->id ? 'checked' : '' }}>
+                                        {{ $role->name }}
+                                    </label>
+                                    <br>
+                                @endforeach
+                                @error('role')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>

@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
 {
@@ -32,9 +33,11 @@ class EmployeeController extends Controller
         return view('employees.index', compact('employees', 'totalEmployees', 'totalEnabledEmployees', 'totalBlockedEmployees'));
     }
 
-    public function create()
+    public function create(Role $role)
     {
-        return view('employees.create');
+        $roles = Role::all();
+
+        return view('employees.create', compact('roles'));
     }
 
     public function store(Request $request)
@@ -74,9 +77,13 @@ class EmployeeController extends Controller
         return view('employees.show', compact('employee'));
     }
 
-    public function edit(Employee $employee)
+    public function edit(Employee $employee, Role $role)
     {
-        return view('employees.edit', compact('employee'));
+        $employee->load(['user.roles']);
+
+        $roles = Role::all();
+
+        return view('employees.edit', compact('employee', 'roles'));
     }
 
     public function update(Request $request, Employee $employee)

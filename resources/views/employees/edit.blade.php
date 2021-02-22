@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="columns is-marginless is-multiline">
-                    @if ($employee->permission_id != 1)
+                    @unlessrole ('System Manager')
                         <div class="column is-6">
                             <div class="field">
                                 <label for="enabled" class="label text-green has-text-weight-normal"> Can this employee access the system? <sup class="has-text-danger">*</sup> </label>
@@ -88,28 +88,21 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
-                    @can('delete', $employee)
-                        @if ($employee->permission_id != 1)
+                    @endunlessrole
+                    @can('Update Employee')
+                        @unlessrole ("System Manager")
                             <div class="column is-6">
                                 <div class="field">
-                                    <label for="permission" class="label text-green has-text-weight-normal"> Choose Role <sup class="has-text-danger">*</sup> </label>
+                                    <label for="role" class="label text-green has-text-weight-normal"> Choose Role <sup class="has-text-danger">*</sup> </label>
                                     <div class="control">
-                                        <label class="radio has-text-grey has-text-weight-normal">
-                                            <input type="radio" name="permission" value="2" class="mt-3" {{ $employee->permission->id == 2 ? 'checked' : '' }}>
-                                            Admin
-                                        </label>
-                                        <br>
-                                        <label class="radio has-text-grey has-text-weight-normal mt-2">
-                                            <input type="radio" name="permission" value="3" {{ $employee->permission->id == 3 ? 'checked' : '' }}>
-                                            Operative
-                                        </label>
-                                        <br>
-                                        <label class="radio has-text-grey has-text-weight-normal mt-2">
-                                            <input type="radio" name="permission" value="4" {{ $employee->permission->id == 4 ? 'checked' : '' }}>
-                                            Analyst
-                                        </label>
-                                        @error('permission')
+                                        @foreach ($roles as $role)
+                                            <label class="radio has-text-grey has-text-weight-normal">
+                                                <input type="radio" name="role" value="{{ $role->id }}" class="mt-3" {{ $employee->user->roles[0]->id == $role->id ? 'checked' : '' }}>
+                                                {{ $role->name }}
+                                            </label>
+                                            <br>
+                                        @endforeach
+                                        @error('role')
                                             <span class="help has-text-danger" role="alert">
                                                 {{ $message }}
                                             </span>
@@ -117,7 +110,7 @@
                                     </div>
                                 </div>
                             </div>
-                        @endif
+                        @endunlessrole
                     @endcan
                 </div>
             </div>
