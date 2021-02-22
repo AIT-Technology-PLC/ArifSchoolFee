@@ -37,7 +37,7 @@ class AddNewEmployeeSeeder extends Seeder
                 ]);
 
                 $user->assignRole($faker->randomElement([
-                    'Sales Officer', 'Purchase Officer', 'Sales Manager', 'Purchase Manager', 'Store Keeper', 'Analyst',
+                    'Sales Officer', 'Sales Manager', 'Purchase Manager', 'Store Keeper', 'Analyst',
                 ]));
             });
         }
