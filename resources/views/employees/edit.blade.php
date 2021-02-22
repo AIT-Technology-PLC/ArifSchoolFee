@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="columns is-marginless is-multiline">
-                    @unlessrole ('System Manager')
+                    @if (!$employee->user->hasRole('System Manager'))
                         <div class="column is-6">
                             <div class="field">
                                 <label for="enabled" class="label text-green has-text-weight-normal"> Can this employee access the system? <sup class="has-text-danger">*</sup> </label>
@@ -88,30 +88,28 @@
                                 </div>
                             </div>
                         </div>
-                    @endunlessrole
-                    @can('Update Employee')
-                        @if ($employee->user->roles[0]->name != "System Manager")
-                            <div class="column is-6">
-                                <div class="field">
-                                    <label for="role" class="label text-green has-text-weight-normal"> Choose Role <sup class="has-text-danger">*</sup> </label>
-                                    <div class="control">
-                                        @foreach ($roles as $role)
-                                            <label class="radio has-text-grey has-text-weight-normal">
-                                                <input type="radio" name="role" value="{{ $role->name }}" class="mt-3" {{ $employee->user->roles[0]->name == $role->name ? 'checked' : '' }}>
-                                                {{ $role->name }}
-                                            </label>
-                                            <br>
-                                        @endforeach
-                                        @error('role')
-                                            <span class="help has-text-danger" role="alert">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
+                    @endif
+                    @if (!$employee->user->hasRole('System Manager'))
+                        <div class="column is-6">
+                            <div class="field">
+                                <label for="role" class="label text-green has-text-weight-normal"> Choose Role <sup class="has-text-danger">*</sup> </label>
+                                <div class="control">
+                                    @foreach ($roles as $role)
+                                        <label class="radio has-text-grey has-text-weight-normal">
+                                            <input type="radio" name="role" value="{{ $role->name }}" class="mt-3" {{ $employee->user->roles[0]->name == $role->name ? 'checked' : '' }}>
+                                            {{ $role->name }}
+                                        </label>
+                                        <br>
+                                    @endforeach
+                                    @error('role')
+                                        <span class="help has-text-danger" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
-                        @endif
-                    @endcan
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="box radius-top-0">
