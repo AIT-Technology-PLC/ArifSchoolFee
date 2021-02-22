@@ -12,60 +12,32 @@ class TransferPolicy
 
     public function viewAny(User $user)
     {
-        return true;
+        return $user->can('Read Transfer');
     }
 
     public function view(User $user, Transfer $transfer)
     {
         $doesTransferBelongToMyCompany = $user->employee->company_id == $transfer->company_id;
 
-        $canSeeTransfer = $doesTransferBelongToMyCompany;
-
-        if ($canSeeTransfer) {
-            return true;
-        }
-
-        return false;
+        return $doesTransferBelongToMyCompany && $user->can('Read Transfer');
     }
 
     public function create(User $user)
     {
-        $isUserOperative = $user->employee->permission_id == 1 ||
-        $user->employee->permission_id == 2 ||
-        $user->employee->permission_id == 3;
-
-        return $isUserOperative;
+        return $user->can('Create Transfer');
     }
 
     public function update(User $user, Transfer $transfer)
     {
-        $isUserOperative = $user->employee->permission_id == 1 ||
-        $user->employee->permission_id == 2 ||
-        $user->employee->permission_id == 3;
-
         $doesTransferBelongToMyCompany = $user->employee->company_id == $transfer->company_id;
 
-        $canUpdateTransfer = $isUserOperative && $doesTransferBelongToMyCompany;
-
-        if ($canUpdateTransfer) {
-            return true;
-        }
-
-        return false;
+        return $doesTransferBelongToMyCompany && $user->can('Update Transfer');
     }
 
     public function delete(User $user, Transfer $transfer)
     {
-        $isUserAdmin = $user->employee->permission_id == 1 || $user->employee->permission_id == 2;
-
         $doesTransferBelongToMyCompany = $user->employee->company_id == $transfer->company_id;
 
-        $canDeleteTransfer = $isUserAdmin && $doesTransferBelongToMyCompany;
-
-        if ($canDeleteTransfer) {
-            return true;
-        }
-
-        return false;
+        return $doesTransferBelongToMyCompany && $user->can('Delete Transfer');
     }
 }
