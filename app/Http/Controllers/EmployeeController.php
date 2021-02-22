@@ -35,7 +35,7 @@ class EmployeeController extends Controller
 
     public function create(Role $role)
     {
-        $roles = Role::all();
+        $roles = Role::all()->where('name', '<>', 'System Manager');
 
         return view('employees.create', compact('roles'));
     }
@@ -82,7 +82,7 @@ class EmployeeController extends Controller
     {
         $employee->load(['user.roles']);
 
-        $roles = Role::all();
+        $roles = Role::all()->where('name', '<>', 'System Manager');
 
         return view('employees.edit', compact('employee', 'roles'));
     }

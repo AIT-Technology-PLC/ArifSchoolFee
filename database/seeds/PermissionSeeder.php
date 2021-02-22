@@ -126,7 +126,7 @@ class PermissionSeeder extends Seeder
 
             $readPurchase = Permission::create(['name' => 'Read Purchase']);
             $readPurchase->assignRole($purchaseManager);
-            $createPurchase->assignRole($analyst);
+            $readPurchase->assignRole($analyst);
 
             $updatePurchase = Permission::create(['name' => 'Update Purchase']);
             $updatePurchase->assignRole($purchaseManager);
