@@ -12,60 +12,35 @@ class CustomerPolicy
 
     public function viewAny(User $user)
     {
-        return true;
+        return $user->can('Read Sale') ? true : false;
     }
 
     public function view(User $user, Customer $customer)
     {
         $doesCustomerBelongToMyCompany = $user->employee->company_id == $customer->company_id;
 
-        $canSeeCustomer = $doesCustomerBelongToMyCompany;
-
-        if ($canSeeCustomer) {
-            return true;
-        }
-
-        return false;
+        return $doesCustomerBelongToMyCompany && $user->can('Read Sale') ?
+        true : false;
     }
 
     public function create(User $user)
     {
-        $isUserOperative = $user->employee->permission_id == 1 ||
-        $user->employee->permission_id == 2 ||
-        $user->employee->permission_id == 3;
-
-        return $isUserOperative;
+        return $user->can('Create Sale');
     }
 
     public function update(User $user, Customer $customer)
     {
-        $isUserOperative = $user->employee->permission_id == 1 ||
-        $user->employee->permission_id == 2 ||
-        $user->employee->permission_id == 3;
-
         $doesCustomerBelongToMyCompany = $user->employee->company_id == $customer->company_id;
 
-        $canUpdateCustomer = $isUserOperative && $doesCustomerBelongToMyCompany;
+        return $user->can('Update Sale') && $doesCustomerBelongToMyCompany
+        ? true : false;
 
-        if ($canUpdateCustomer) {
-            return true;
-        }
-
-        return false;
     }
 
     public function delete(User $user, Customer $customer)
     {
-        $isUserAdmin = $user->employee->permission_id == 1 || $user->employee->permission_id == 2;
-
         $doesCustomerBelongToMyCompany = $user->employee->company_id == $customer->company_id;
 
-        $canDeleteCustomer = $isUserAdmin && $doesCustomerBelongToMyCompany;
-
-        if ($canDeleteCustomer) {
-            return true;
-        }
-
-        return false;
+        return $user->can('Delete Sale') && $doesCustomerBelongToMyCompany;
     }
 }
