@@ -14,15 +14,7 @@ class CompanyPolicy
     {
         $doesAdminBelongsToCompany = $user->employee->company_id == $company->id;
 
-        $isUserSuperAdmin = $user->employee->permission_id == 1;
-
-        $canEditCompanyData = $isUserSuperAdmin && $doesAdminBelongsToCompany;
-
-        if ($canEditCompanyData) {
-            return true;
-        }
-
-        return false;
+        return $doesAdminBelongsToCompany && $user->can('Update Employee');
     }
 
     public function onlyPremiumOrProfessional(User $user)
