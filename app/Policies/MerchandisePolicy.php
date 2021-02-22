@@ -12,62 +12,32 @@ class MerchandisePolicy
 
     public function viewAny(User $user)
     {
-        return true;
+        return $user->can('Read Merchandise');
     }
 
     public function view(User $user, Merchandise $merchandise)
     {
-        $isUserOperative = true;
-
         $doesMerchandiseBelongToMyCompany = $user->employee->company_id == $merchandise->company_id;
 
-        $canSeeMerchandise = $isUserOperative && $doesMerchandiseBelongToMyCompany;
-
-        if ($canSeeMerchandise) {
-            return true;
-        }
-
-        return false;
+        return $doesMerchandiseBelongToMyCompany && $user->can('Read Merchandise');
     }
 
     public function create(User $user)
     {
-        $isUserOperative = $user->employee->permission_id == 1 ||
-        $user->employee->permission_id == 2 ||
-        $user->employee->permission_id == 3;
-
-        return $isUserOperative;
+        return $user->can('Create Merchandise');
     }
 
     public function update(User $user, Merchandise $merchandise)
     {
-        $isUserOperative = $user->employee->permission_id == 1 ||
-        $user->employee->permission_id == 2 ||
-        $user->employee->permission_id == 3;
-
         $doesMerchandiseBelongToMyCompany = $user->employee->company_id == $merchandise->company_id;
 
-        $canUpdateMerchandise = $isUserOperative && $doesMerchandiseBelongToMyCompany;
-
-        if ($canUpdateMerchandise) {
-            return true;
-        }
-
-        return false;
+        return $doesMerchandiseBelongToMyCompany && $user->can('Update Merchandise');
     }
 
     public function delete(User $user, Merchandise $merchandise)
     {
-        $isUserAdmin = $user->employee->permission_id == 1 || $user->employee->permission_id == 2;
-
         $doesMerchandiseBelongToMyCompany = $user->employee->company_id == $merchandise->company_id;
 
-        $canDeleteMerchandise = $isUserAdmin && $doesMerchandiseBelongToMyCompany;
-
-        if ($canDeleteMerchandise) {
-            return true;
-        }
-
-        return false;
+        return $doesMerchandiseBelongToMyCompany && $user->can('Delete Merchandise');
     }
 }
