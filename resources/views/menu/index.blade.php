@@ -26,100 +26,116 @@
                         </span>
                     </div>
                     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
-                        <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('gdns.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
-                                <span class="icon">
-                                    <i class="fas fa-file-invoice"></i>
+                        @can('Read GDN')
+                            <div class="column is-4 has-text-centered has-text-grey">
+                                <a href="{{ route('gdns.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
+                                    <span class="icon">
+                                        <i class="fas fa-file-invoice"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile">
+                                    DO/GDN
                                 </span>
-                            </a>
-                            <br>
-                            <span class="is-size-6 is-size-7-mobile">
-                                DO/GDN
-                            </span>
-                        </div>
-                        <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('grns.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
-                                <span class="icon">
-                                    <i class="fas fa-file-signature"></i>
+                            </div>
+                        @endcan
+                        @can('Read GRN')
+                            <div class="column is-4 has-text-centered has-text-grey">
+                                <a href="{{ route('grns.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
+                                    <span class="icon">
+                                        <i class="fas fa-file-signature"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile">
+                                    GRN
                                 </span>
-                            </a>
-                            <br>
-                            <span class="is-size-6 is-size-7-mobile">
-                                GRN
-                            </span>
-                        </div>
-                        <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('transfers.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
-                                <span class="icon">
-                                    <i class="fas fa-exchange-alt   "></i>
+                            </div>
+                        @endcan
+                        @can('Read Transfer')
+                            <div class="column is-4 has-text-centered has-text-grey">
+                                <a href="{{ route('transfers.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
+                                    <span class="icon">
+                                        <i class="fas fa-exchange-alt   "></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile">
+                                    Transfers
                                 </span>
-                            </a>
-                            <br>
-                            <span class="is-size-6 is-size-7-mobile">
-                                Transfers
-                            </span>
-                        </div>
+                            </div>
+                        @endcan
                     @endcan
-                    <div class="column is-4 has-text-centered has-text-grey">
-                        <a href="{{ route('sales.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
-                            <span class="icon">
-                                <i class="fas fa-tags"></i>
-                            </span>
-                        </a>
-                        <br>
-                        <span class="is-size-6 is-size-7-mobile">
-                            Sales
-                        </span>
-                    </div>
-                    @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
+                    @can('Read Sale')
                         <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('customers.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
+                            <a href="{{ route('sales.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
                                 <span class="icon">
-                                    <i class="fas fa-user"></i>
+                                    <i class="fas fa-tags"></i>
                                 </span>
                             </a>
                             <br>
                             <span class="is-size-6 is-size-7-mobile">
-                                Customers
+                                Sales
                             </span>
                         </div>
                     @endcan
                     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
+                        @can('Read Sale')
+                            <div class="column is-4 has-text-centered has-text-grey">
+                                <a href="{{ route('customers.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
+                                    <span class="icon">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile">
+                                    Customers
+                                </span>
+                            </div>
+                        @endcan
+                    @endcan
+                    @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
+                        @can('Read Sale')
+                            <div class="column is-4 has-text-centered has-text-grey">
+                                <a href="{{ route('purchase-orders.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
+                                    <span class="icon">
+                                        <i class="fas fa-file-alt"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile">
+                                    Purchase Orders
+                                </span>
+                            </div>
+                        @endcan
+                    @endcan
+                    @can('Read Purchase')
                         <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('purchase-orders.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
+                            <a href="{{ route('purchases.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
                                 <span class="icon">
-                                    <i class="fas fa-file-alt"></i>
+                                    <i class="fas fa-shopping-bag"></i>
                                 </span>
                             </a>
                             <br>
                             <span class="is-size-6 is-size-7-mobile">
-                                Purchase Orders
+                                Purchases
                             </span>
                         </div>
                     @endcan
-                    <div class="column is-4 has-text-centered has-text-grey">
-                        <a href="{{ route('purchases.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
-                            <span class="icon">
-                                <i class="fas fa-shopping-bag"></i>
-                            </span>
-                        </a>
-                        <br>
-                        <span class="is-size-6 is-size-7-mobile">
-                            Purchases
-                        </span>
-                    </div>
                     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
-                        <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('suppliers.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
-                                <span class="icon">
-                                    <i class="fas fa-address-card"></i>
+                        @can('Read Purchase')
+                            <div class="column is-4 has-text-centered has-text-grey">
+                                <a href="{{ route('suppliers.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
+                                    <span class="icon">
+                                        <i class="fas fa-address-card"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile">
+                                    Suppliers
                                 </span>
-                            </a>
-                            <br>
-                            <span class="is-size-6 is-size-7-mobile">
-                                Suppliers
-                            </span>
-                        </div>
+                            </div>
+                        @endcan
                     @endcan
                     <div class="column is-4 has-text-centered has-text-grey">
                         <a href="{{ route('categories.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
@@ -144,19 +160,21 @@
                         </span>
                     </div>
                     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
-                        <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('warehouses.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
-                                <span class="icon">
-                                    <i class="fas fa-warehouse"></i>
+                        @can('Read Warehouse')
+                            <div class="column is-4 has-text-centered has-text-grey">
+                                <a href="{{ route('warehouses.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
+                                    <span class="icon">
+                                        <i class="fas fa-warehouse"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile">
+                                    Warehouses
                                 </span>
-                            </a>
-                            <br>
-                            <span class="is-size-6 is-size-7-mobile">
-                                Warehouses
-                            </span>
-                        </div>
+                            </div>
+                        @endcan
                     @endcan
-                    @can('delete', auth()->user()->employee)
+                    @can('Read Employee')
                         <div class="column is-4 has-text-centered has-text-grey">
                             <a href="{{ route('employees.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
                                 <span class="icon">
