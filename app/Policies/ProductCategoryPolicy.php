@@ -12,14 +12,14 @@ class ProductCategoryPolicy
 
     public function viewAny(User $user)
     {
-        return $user->can('Read Product');
+        return true;
     }
 
     public function view(User $user, ProductCategory $category)
     {
         $doesCategoryBelongToMyCompany = $user->employee->company_id == $category->company_id;
 
-        return $doesCategoryBelongToMyCompany && $user->can('Read Product');
+        return $doesCategoryBelongToMyCompany;
     }
 
     public function create(User $user)

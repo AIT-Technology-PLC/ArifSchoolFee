@@ -12,14 +12,14 @@ class ProductPolicy
 
     public function viewAny(User $user)
     {
-        return $user->can('Read Product');
+        return true;
     }
 
     public function view(User $user, Product $product)
     {
         $doesProductBelongToMyCompany = $user->employee->company_id == $product->company_id;
 
-        return $doesProductBelongToMyCompany && $user->can('Read Product');
+        return $doesProductBelongToMyCompany;
     }
 
     public function create(User $user)
