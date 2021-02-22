@@ -12,62 +12,32 @@ class ProductCategoryPolicy
 
     public function viewAny(User $user)
     {
-        return true;
+        return $user->can('Read Product');
     }
 
     public function view(User $user, ProductCategory $category)
     {
-        $isUserOperative = true;
-
         $doesCategoryBelongToMyCompany = $user->employee->company_id == $category->company_id;
 
-        $canSeeCategory = $isUserOperative && $doesCategoryBelongToMyCompany;
-
-        if ($canSeeCategory) {
-            return true;
-        }
-
-        return false;
+        return $doesCategoryBelongToMyCompany && $user->can('Read Product');
     }
 
     public function create(User $user)
     {
-        $isUserOperative = $user->employee->permission_id == 1 ||
-        $user->employee->permission_id == 2 ||
-        $user->employee->permission_id == 3;
-
-        return $isUserOperative;
+        return $user->can('Create Product');
     }
 
     public function update(User $user, ProductCategory $category)
     {
-        $isUserOperative = $user->employee->permission_id == 1 ||
-        $user->employee->permission_id == 2 ||
-        $user->employee->permission_id == 3;
-
         $doesCategoryBelongToMyCompany = $user->employee->company_id == $category->company_id;
 
-        $canUpdateCategory = $isUserOperative && $doesCategoryBelongToMyCompany;
-
-        if ($canUpdateCategory) {
-            return true;
-        }
-
-        return false;
+        return $doesCategoryBelongToMyCompany && $user->can('Update Product');
     }
 
     public function delete(User $user, ProductCategory $category)
     {
-        $isUserAdmin = $user->employee->permission_id == 1 || $user->employee->permission_id == 2;
-
         $doesCategoryBelongToMyCompany = $user->employee->company_id == $category->company_id;
 
-        $canDeleteCategory = $isUserAdmin && $doesCategoryBelongToMyCompany;
-
-        if ($canDeleteCategory) {
-            return true;
-        }
-
-        return false;
+        return $doesCategoryBelongToMyCompany && $user->can('Read Product');
     }
 }
