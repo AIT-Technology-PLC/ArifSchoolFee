@@ -122,7 +122,7 @@
                             <div class="control">
                                 @foreach ($roles as $role)
                                     <label class="radio has-text-grey has-text-weight-normal">
-                                        <input type="radio" name="role" value="{{ $role->id }}" class="mt-3" {{ old('role') == $role->id ? 'checked' : '' }}>
+                                        <input type="radio" name="role" value="{{ $role->name }}" class="mt-3" {{ old('role') == $role->name ? 'checked' : '' }}>
                                         {{ $role->name }}
                                     </label>
                                     <br>

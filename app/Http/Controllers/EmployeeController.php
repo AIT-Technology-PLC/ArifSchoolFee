@@ -48,7 +48,7 @@ class EmployeeController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'position' => 'required|string',
             'enabled' => 'required|integer|max:1',
-            'permission' => 'required|integer',
+            'role' => 'required|string',
         ]);
 
         DB::transaction(function () use ($data) {
@@ -61,12 +61,13 @@ class EmployeeController extends Controller
             $this->employee->create([
                 'user_id' => $user->id,
                 'company_id' => auth()->user()->employee->company_id,
-                'permission_id' => $data['permission'],
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
                 'position' => $data['position'],
                 'enabled' => $data['enabled'],
             ]);
+
+            $user->assignRole($data['role']);
         });
 
         return redirect()->route('employees.index');
@@ -93,7 +94,7 @@ class EmployeeController extends Controller
             'email' => 'required|string|email|max:255',
             'position' => 'required|string',
             'enabled' => 'sometimes|required|integer|max:1',
-            'permission' => 'sometimes|required|integer',
+            'role' => 'sometimes|required|string',
         ]);
 
         DB::transaction(function () use ($data, $employee) {
@@ -106,8 +107,9 @@ class EmployeeController extends Controller
                 'updated_by' => auth()->user()->id,
                 'position' => $data['position'],
                 'enabled' => $data['enabled'] ?? $employee->enabled,
-                'permission_id' => $data['permission'] ?? $employee->permission_id,
             ]);
+
+            $employee->user->syncRoles([$data['role']]);
         });
 
         return redirect()->route('employees.index');

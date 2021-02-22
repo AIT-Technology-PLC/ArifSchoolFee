@@ -90,14 +90,14 @@
                         </div>
                     @endunlessrole
                     @can('Update Employee')
-                        @unlessrole ("System Manager")
+                        @if ($employee->user->roles[0]->name != "System Manager")
                             <div class="column is-6">
                                 <div class="field">
                                     <label for="role" class="label text-green has-text-weight-normal"> Choose Role <sup class="has-text-danger">*</sup> </label>
                                     <div class="control">
                                         @foreach ($roles as $role)
                                             <label class="radio has-text-grey has-text-weight-normal">
-                                                <input type="radio" name="role" value="{{ $role->id }}" class="mt-3" {{ $employee->user->roles[0]->id == $role->id ? 'checked' : '' }}>
+                                                <input type="radio" name="role" value="{{ $role->name }}" class="mt-3" {{ $employee->user->roles[0]->name == $role->name ? 'checked' : '' }}>
                                                 {{ $role->name }}
                                             </label>
                                             <br>
@@ -110,7 +110,7 @@
                                     </div>
                                 </div>
                             </div>
-                        @endunlessrole
+                        @endif
                     @endcan
                 </div>
             </div>
