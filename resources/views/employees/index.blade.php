@@ -104,7 +104,7 @@
                                 </td>
                                 <td class="is-capitalized">
                                     <span class="tag is-small bg-gold has-text-white">
-                                        {{ $employee->permission->role }}
+                                        {{ $employee->user->roles[0]->name }}
                                     </span>
                                 </td>
                                 <td>

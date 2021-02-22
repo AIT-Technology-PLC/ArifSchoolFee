@@ -46,7 +46,7 @@ class Employee extends Model
 
     public function getAll()
     {
-        return $this->companyEmployees()->with(['user', 'createdBy', 'updatedBy'])->get();
+        return $this->companyEmployees()->with(['user.roles', 'createdBy', 'updatedBy'])->get();
     }
 
     public function countAllEmployees()

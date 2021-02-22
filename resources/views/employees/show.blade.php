@@ -71,7 +71,7 @@
                                 </span>
                             </h1>
                             <h2 class="subtitle text-green has-text-weight-medium">
-                                {{ $employee->permission->role }}
+                                {{ $employee->user->roles[0]->name }}
                             </h2>
                         </div>
                         <div class="mt-5">
