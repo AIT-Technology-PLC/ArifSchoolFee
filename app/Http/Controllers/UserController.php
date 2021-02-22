@@ -8,7 +8,7 @@ class UserController extends Controller
 {
     public function destroy(User $user)
     {
-        if ($user->employee->permission_id == 1) {
+        if ($user->hasRole('System Manager')) {
             return redirect('/permission-denied');
         }
 

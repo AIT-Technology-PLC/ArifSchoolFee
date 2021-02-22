@@ -30,12 +30,15 @@ class AddNewEmployeeSeeder extends Seeder
                 Employee::create([
                     'user_id' => $user->id,
                     'company_id' => $companyId,
-                    'permission_id' => $faker->randomElement([2, 3, 4]),
                     'created_by' => $companyId,
                     'updated_by' => $companyId,
                     'position' => $faker->jobTitle,
                     'enabled' => $faker->randomElement([0, 1]),
                 ]);
+
+                $user->assignRole($faker->randomElement([
+                    'Sales Officer', 'Purchase Officer', 'Sales Manager', 'Purchase Manager', 'Store Keeper', 'Analyst',
+                ]));
             });
         }
     }

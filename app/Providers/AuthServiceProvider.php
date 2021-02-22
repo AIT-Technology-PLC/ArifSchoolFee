@@ -8,7 +8,6 @@ use App\Models\Employee;
 use App\Models\Gdn;
 use App\Models\Grn;
 use App\Models\Merchandise;
-use App\Models\Permission;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Purchase;
@@ -23,7 +22,6 @@ use App\Policies\EmployeePolicy;
 use App\Policies\GdnPolicy;
 use App\Policies\GrnPolicy;
 use App\Policies\MerchandisePolicy;
-use App\Policies\PermissionPolicy;
 use App\Policies\ProductCategoryPolicy;
 use App\Policies\ProductPolicy;
 use App\Policies\PurchaseOrderPolicy;
@@ -43,7 +41,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Employee::class => EmployeePolicy::class,
-        Permission::class => PermissionPolicy::class,
         Company::class => CompanyPolicy::class,
         Product::class => ProductPolicy::class,
         ProductCategory::class => ProductCategoryPolicy::class,

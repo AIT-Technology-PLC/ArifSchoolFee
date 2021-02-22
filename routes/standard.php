@@ -27,8 +27,6 @@ Route::resource('categories', 'ProductCategoryController');
 
 Route::resource('employees', 'EmployeeController');
 
-Route::resource('permissions', 'PermissionController');
-
 Route::resource('companies', 'CompanyController');
 
 Route::resource('purchases', 'PurchaseController');

@@ -29,9 +29,8 @@ class NewCompanySeeder extends Seeder
                 Employee::create([
                     'user_id' => $user->id,
                     'company_id' => $company->id,
-                    'permission_id' => 1,
                     'enabled' => 1,
-                    'position' => 'Admin',
+                    'position' => 'Manager',
                 ]);
 
                 Warehouse::create([
@@ -41,6 +40,8 @@ class NewCompanySeeder extends Seeder
                     'created_by' => $user->id,
                     'updated_by' => $user->id,
                 ]);
+
+                $user->assignRole('System Manager');
             });
         }
     }

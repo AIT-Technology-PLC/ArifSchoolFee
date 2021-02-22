@@ -85,9 +85,8 @@ class RegisterController extends Controller
             Employee::create([
                 'user_id' => $user->id,
                 'company_id' => $company->id,
-                'permission_id' => 1,
                 'enabled' => 1,
-                'position' => 'Admin',
+                'position' => 'Manager',
             ]);
 
             Warehouse::create([
@@ -97,6 +96,8 @@ class RegisterController extends Controller
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
             ]);
+
+            $user->assignRole("System Manager");
 
             return $user;
         });
