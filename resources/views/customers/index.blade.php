@@ -66,10 +66,8 @@
                             <th><abbr> Phone </abbr></th>
                             <th><abbr> Country </abbr></th>
                             <th class="has-text-right"><abbr> Added On </abbr></th>
-                            @can('delete', $customers->first())
-                                <th><abbr> Added By </abbr></th>
-                                <th><abbr> Edited By </abbr></th>
-                            @endcan
+                            <th><abbr> Added By </abbr></th>
+                            <th><abbr> Edited By </abbr></th>
                             <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
@@ -87,10 +85,8 @@
                                 <td class="is-capitalized">{{ $customer->phone ?? 'N/A' }}</td>
                                 <td class="is-capitalized">{{ $customer->country ?? 'N/A' }}</td>
                                 <td class="has-text-right"> {{ $customer->created_at->toFormattedDateString() }} </td>
-                                @can('delete', $customer)
-                                    <td> {{ $customer->createdBy->name ?? 'N/A' }} </td>
-                                    <td> {{ $customer->updatedBy->name ?? 'N/A' }} </td>
-                                @endcan
+                                <td> {{ $customer->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $customer->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
                                     <a href="{{ route('customers.edit', $customer->id) }}" data-title="Modify Customer Data">
                                         <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">

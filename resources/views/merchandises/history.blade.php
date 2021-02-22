@@ -15,10 +15,8 @@
                         <th class="has-text-right text-blue"><abbr> Sold </abbr></th>
                         <th class="has-text-right"><abbr> Returns </abbr></th>
                         <th class="has-text-right"><abbr> Received On </abbr></th>
-                        @can('delete', $historyMerchandises->first())
-                            <th><abbr> Added By </abbr></th>
-                            <th><abbr> Edited By </abbr></th>
-                        @endcan
+                        <th><abbr> Added By </abbr></th>
+                        <th><abbr> Edited By </abbr></th>
                         <th><abbr> Actions </abbr></th>
                     </tr>
                 </thead>
@@ -56,10 +54,8 @@
                                 {{ $merchandise->product->unit_of_measurement }}
                             </td>
                             <td class="has-text-right"> {{ $merchandise->received_on ? $merchandise->received_on->toFormattedDateString() : 'N/A' }} </td>
-                            @can('delete', $merchandise)
-                                <td> {{ $merchandise->createdBy->name ?? 'N/A' }} </td>
-                                <td> {{ $merchandise->updatedBy->name ?? 'N/A' }} </td>
-                            @endcan
+                            <td> {{ $merchandise->createdBy->name ?? 'N/A' }} </td>
+                            <td> {{ $merchandise->updatedBy->name ?? 'N/A' }} </td>
                             <td>
                                 <a class="is-block" href="{{ route('merchandises.edit', $merchandise->id) }}" data-title="Manage Returned or Damaged Product">
                                     <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">

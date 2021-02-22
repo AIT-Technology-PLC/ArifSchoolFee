@@ -65,10 +65,8 @@
                             <th class="has-text-centered text-purple"><abbr> Products </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Created On </abbr></th>
-                            @can('delete', $categories->first())
-                                <th><abbr> Added By </abbr></th>
-                                <th><abbr> Edited By </abbr></th>
-                            @endcan
+                            <th><abbr> Added By </abbr></th>
+                            <th><abbr> Edited By </abbr></th>
                             <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
@@ -89,10 +87,8 @@
                                 <td class="has-text-centered text-purple has-text-weight-bold"> {{ $category->products->count() }} </td>
                                 <td> {!! nl2br(e(substr($category->description, 0, 40))) ?? 'N/A' !!} </td>
                                 <td class="has-text-right"> {{ $category->created_at->toFormattedDateString() }} </td>
-                                @can('delete', $category)
-                                    <td> {{ $category->createdBy->name ?? 'N/A' }} </td>
-                                    <td> {{ $category->updatedBy->name ?? 'N/A' }} </td>
-                                @endcan
+                                <td> {{ $category->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $category->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
                                     <a href="{{ route('categories.edit', $category->id) }}" data-title="Modify Category Data">
                                         <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">

@@ -64,10 +64,8 @@
                             <th class="text-purple"><abbr> Location </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Created On </abbr></th>
-                            @can('delete', $warehouses->first())
-                                <th><abbr> Added By </abbr></th>
-                                <th><abbr> Edited By </abbr></th>
-                            @endcan
+                            <th><abbr> Added By </abbr></th>
+                            <th><abbr> Edited By </abbr></th>
                             <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
@@ -83,10 +81,8 @@
                                 </td>
                                 <td> {!! nl2br(e(substr($warehouse->description, 0, 40))) ?? 'N/A' !!} </td>
                                 <td class="has-text-right"> {{ $warehouse->created_at->toFormattedDateString() }} </td>
-                                @can('delete', $warehouse)
-                                    <td> {{ $warehouse->createdBy->name ?? 'N/A' }} </td>
-                                    <td> {{ $warehouse->updatedBy->name ?? 'N/A' }} </td>
-                                @endcan
+                                <td> {{ $warehouse->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $warehouse->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
                                     <a href="{{ route('warehouses.edit', $warehouse->id) }}" data-title="Modify Warehouse Data">
                                         <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">

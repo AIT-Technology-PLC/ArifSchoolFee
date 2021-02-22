@@ -67,10 +67,8 @@
                             <th><abbr> Customer </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Issued On </abbr></th>
-                            @can('delete', $gdns->first())
-                                <th><abbr> Prepared By </abbr></th>
-                                <th><abbr> Edited By </abbr></th>
-                            @endcan
+                            <th><abbr> Prepared By </abbr></th>
+                            <th><abbr> Edited By </abbr></th>
                             <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
@@ -111,10 +109,8 @@
                                 <td class="has-text-right">
                                     {{ $gdn->issued_on->toFormattedDateString() }}
                                 </td>
-                                @can('delete', $gdn)
-                                    <td> {{ $gdn->createdBy->name ?? 'N/A' }} </td>
-                                    <td> {{ $gdn->updatedBy->name ?? 'N/A' }} </td>
-                                @endcan
+                                <td> {{ $gdn->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $gdn->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
                                     <a class="is-block" href="{{ route('gdns.show', $gdn->id) }}" data-title="View Details">
                                         <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">

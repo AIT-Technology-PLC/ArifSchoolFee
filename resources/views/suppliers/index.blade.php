@@ -66,10 +66,8 @@
                             <th><abbr> Phone </abbr></th>
                             <th><abbr> Country </abbr></th>
                             <th class="has-text-right"><abbr> Added On </abbr></th>
-                            @can('delete', $suppliers->first())
-                                <th><abbr> Added By </abbr></th>
-                                <th><abbr> Edited By </abbr></th>
-                            @endcan
+                            <th><abbr> Added By </abbr></th>
+                            <th><abbr> Edited By </abbr></th>
                             <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
@@ -87,10 +85,8 @@
                                 <td class="is-capitalized">{{ $supplier->phone ?? 'N/A' }}</td>
                                 <td class="is-capitalized">{{ $supplier->country ?? 'N/A' }}</td>
                                 <td class="has-text-right"> {{ $supplier->created_at->toFormattedDateString() }} </td>
-                                @can('delete', $supplier)
-                                    <td> {{ $supplier->createdBy->name ?? 'N/A' }} </td>
-                                    <td> {{ $supplier->updatedBy->name ?? 'N/A' }} </td>
-                                @endcan
+                                <td> {{ $supplier->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $supplier->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
                                     <a href="{{ route('suppliers.edit', $supplier->id) }}" data-title="Modify Supplier Data">
                                         <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">

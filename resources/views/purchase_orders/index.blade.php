@@ -66,10 +66,8 @@
                             <th><abbr> Customer </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Received On </abbr></th>
-                            @can('delete', $purchaseOrders->first())
-                                <th><abbr> Prepared By </abbr></th>
-                                <th><abbr> Edited By </abbr></th>
-                            @endcan
+                            <th><abbr> Prepared By </abbr></th>
+                            <th><abbr> Edited By </abbr></th>
                             <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
@@ -105,10 +103,8 @@
                                 <td class="has-text-right">
                                     {{ $purchaseOrder->received_on->toFormattedDateString() }}
                                 </td>
-                                @can('delete', $purchaseOrder)
-                                    <td> {{ $purchaseOrder->createdBy->name ?? 'N/A' }} </td>
-                                    <td> {{ $purchaseOrder->updatedBy->name ?? 'N/A' }} </td>
-                                @endcan
+                                <td> {{ $purchaseOrder->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $purchaseOrder->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
                                     <a class="is-block" href="{{ route('purchase-orders.show', $purchaseOrder->id) }}" data-title="View Details">
                                         <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">

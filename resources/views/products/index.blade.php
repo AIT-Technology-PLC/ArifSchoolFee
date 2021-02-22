@@ -70,10 +70,8 @@
                             <th class="text-purple"><abbr> Reorder Level</abbr></th>
                             <th class="has-text-right"><abbr> Selling Price </abbr></th>
                             <th class="has-text-right"><abbr> Purchase Price </abbr></th>
-                            @can('delete', $products->first())
-                                <th><abbr> Added By </abbr></th>
-                                <th><abbr> Edited By </abbr></th>
-                            @endcan
+                            <th><abbr> Added By </abbr></th>
+                            <th><abbr> Edited By </abbr></th>
                             <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
@@ -108,10 +106,8 @@
                                 </td>
                                 <td class="has-text-right"> {{ $product->selling_price ?? 'N/A' }} </td>
                                 <td class="has-text-right"> {{ $product->purchase_price ?? 'N/A' }} </td>
-                                @can('delete', $product)
-                                    <td> {{ $product->createdBy->name ?? 'N/A' }} </td>
-                                    <td> {{ $product->updatedBy->name ?? 'N/A' }} </td>
-                                @endcan
+                                <td> {{ $product->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $product->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
                                     <a class="is-block" href="{{ route('products.edit', $product->id) }}" data-title="Modify Product Data">
                                         <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">

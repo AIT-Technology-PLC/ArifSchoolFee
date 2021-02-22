@@ -84,10 +84,8 @@
                             <th><abbr> Enabled </abbr></th>
                             <th class="has-text-right"><abbr> Last Login </abbr></th>
                             <th class="has-text-right"><abbr> Added On </abbr></th>
-                            @can('delete', $employees->first())
-                                <th><abbr> Added By </abbr></th>
-                                <th><abbr> Edited By </abbr></th>
-                            @endcan
+                            <th><abbr> Added By </abbr></th>
+                            <th><abbr> Edited By </abbr></th>
                             <th class="has-text-centered"><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
@@ -132,10 +130,8 @@
                                     {{ $employee->user->last_online_at ? $employee->user->last_online_at->diffForHumans() : 'New User' }}
                                 </td>
                                 <td class="has-text-right"> {{ $employee->user->created_at->toFormattedDateString() }} </td>
-                                @can('delete', $employee)
-                                    <td> {{ $employee->createdBy->name ?? 'N/A' }} </td>
-                                    <td> {{ $employee->updatedBy->name ?? 'N/A' }} </td>
-                                @endcan
+                                <td> {{ $employee->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $employee->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
                                     <a class="is-block" href="{{ route('employees.edit', $employee->id) }}" data-title="Modify Employee Data">
                                         <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
