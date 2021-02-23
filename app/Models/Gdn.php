@@ -15,6 +15,7 @@ class Gdn extends Model
 
     protected $casts = [
         'issued_on' => 'datetime',
+        'is_approved' => 'boolean',
     ];
 
     public function createdBy()

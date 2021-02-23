@@ -10,11 +10,12 @@ use Illuminate\Support\Str;
 class Transfer extends Model
 {
     use SoftDeletes;
-    
+
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
         'issued_on' => 'datetime',
+        'is_approved' => 'boolean',
     ];
 
     public function createdBy()
