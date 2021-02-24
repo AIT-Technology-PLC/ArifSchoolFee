@@ -79,6 +79,13 @@ class Gdn extends Model
         return $this->status == 'Subtracted From Inventory';
     }
 
+    public function approveGdn()
+    {
+        $this->is_approved = 1;
+
+        $this->save();
+    }
+
     public function isGdnApproved()
     {
         return $this->is_approved;

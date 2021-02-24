@@ -29,7 +29,7 @@ class MerchandiseInventoryTransactionController extends Controller
         $sale = Sale::find($sale) ?? Gdn::find($sale);
 
         if ($sale->getTable() == 'gdns' && !$sale->isGdnApproved()) {
-            return redirect()->back()->with('message', 'Not Approved');
+            return redirect()->back()->with('message', 'This DO/GDN is not approved');
         }
 
         DB::transaction(function () use ($sale) {

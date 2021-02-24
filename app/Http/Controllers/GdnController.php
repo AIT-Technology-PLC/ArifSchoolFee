@@ -166,4 +166,16 @@ class GdnController extends Controller
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
+
+    public function approve(Gdn $gdn)
+    {
+        $message = 'This DO/GDN is already approved';
+
+        if (!$gdn->isGdnApproved()) {
+            $gdn->approveGdn();
+            $message = 'You have approved this DO/GDN successfully';
+        }
+
+        return redirect()->back()->with('successMessage', $message);
+    }
 }

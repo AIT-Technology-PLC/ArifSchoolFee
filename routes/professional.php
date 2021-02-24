@@ -12,6 +12,8 @@ Route::resource('warehouses', 'WarehouseController');
 
 Route::resource('customers', 'CustomerController');
 
+Route::post('/gdns/{gdn}/approve', 'GdnController@approve')->name('gdns.approve');
+
 Route::resource('gdns', 'GdnController');
 
 Route::resource('transfers', 'TransferController');

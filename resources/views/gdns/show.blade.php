@@ -101,6 +101,14 @@
                     {{ session('message') }}
                 </span>
             </div>
+            <div class="notification bg-green has-text-white has-text-weight-medium {{ session('successMessage') ? '' : 'is-hidden' }}">
+                <span class="icon">
+                    <i class="fas fa-check-circle"></i>
+                </span>
+                <span>
+                    {{ session('successMessage') }}
+                </span>
+            </div>
             @if ($gdn->isGdnApproved() && $gdn->isGdnSubtracted())
                 <div class="message is-success">
                     <p class="message-body">
@@ -149,7 +157,7 @@
                             <br>
                             Click on the button below to approve this DO/GDN.
                         </p>
-                        <form id="formOne" action="{{ route('merchandises.subtractFromInventory', $gdn->id) }}" method="post" novalidate>
+                        <form id="formOne" action="{{ route('gdns.approve', $gdn->id) }}" method="post" novalidate>
                             @csrf
                             <button id="openApproveGdnModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
