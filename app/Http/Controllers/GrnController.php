@@ -8,6 +8,7 @@ use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Services\AddPurchasedItemsToInventory;
+use App\Traits\Approvable;
 use App\Traits\PrependCompanyId;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class GrnController extends Controller
 {
-    use PrependCompanyId;
+    use PrependCompanyId, Approvable;
 
     private $grn;
 
@@ -64,13 +65,14 @@ class GrnController extends Controller
             'supplier_id' => 'nullable|integer',
             'purchase_id' => 'nullable|integer',
             'issued_on' => 'required|date',
-            'status' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
+        $grnData['status'] = 'Not Added To Inventory';
         $grnData['company_id'] = auth()->user()->employee->company_id;
         $grnData['created_by'] = auth()->user()->id;
         $grnData['updated_by'] = auth()->user()->id;
+        $grnData['approved_by'] = $this->approvedBy();
 
         $basicGrnData = Arr::except($grnData, 'grn');
         $grnDetailsData = $grnData['grn'];

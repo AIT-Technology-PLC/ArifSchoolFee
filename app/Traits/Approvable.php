@@ -10,6 +10,6 @@ trait Approvable
             'is_approved' => 'sometimes|required|integer',
         ]);
 
-        return $isApproved['is_approved'] ? auth()->user()->id : '';
+        return $isApproved['is_approved'] ? auth()->user()->id : null;
     }
 }
