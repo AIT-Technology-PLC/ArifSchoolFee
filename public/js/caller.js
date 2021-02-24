@@ -168,3 +168,10 @@ if (d.getElementById("openApproveGdnModal")) {
         openApproveGdnModal
     );
 }
+
+if (d.getElementById("openApproveGrnModal")) {
+    d.getElementById("openApproveGrnModal").addEventListener(
+        "click",
+        openApproveGrnModal
+    );
+}

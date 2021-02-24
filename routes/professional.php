@@ -20,4 +20,6 @@ Route::resource('transfers', 'TransferController');
 
 Route::resource('purchase-orders', 'PurchaseOrderController');
 
+Route::post('/grns/{grn}/approve', 'GrnController@approve')->name('grns.approve');
+
 Route::resource('grns', 'GrnController');

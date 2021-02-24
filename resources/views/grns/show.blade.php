@@ -93,26 +93,15 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            @if (!$grn->isAddedToInventory())
-                <div class="box has-background-white-ter has-text-left mb-6">
-                    <p class="has-text-grey text-purple is-size-7">
-                        Product(s) listed below are still not added to your Inventory.
-                        <br>
-                        Add product(s) automatically by clicking on the button.
-                    </p>
-                    <form id="formOne" action="{{ route('merchandises.addToInventory', $grn->id) }}" method="post" novalidate>
-                        @csrf
-                        <button id="openAddGrnModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
-                            <span class="icon">
-                                <i class="fas fa-plus-circle"></i>
-                            </span>
-                            <span>
-                                Add to Inventory
-                            </span>
-                        </button>
-                    </form>
-                </div>
-            @else
+            <div class="notification bg-green has-text-white has-text-weight-medium {{ session('successMessage') ? '' : 'is-hidden' }}">
+                <span class="icon">
+                    <i class="fas fa-check-circle"></i>
+                </span>
+                <span>
+                    {{ session('successMessage') }}
+                </span>
+            </div>
+            @if ($grn->isGrnApproved() && $grn->isAddedToInventory())
                 <div class="message is-success">
                     <p class="message-body">
                         <span class="icon">
@@ -123,6 +112,60 @@
                         </span>
                     </p>
                 </div>
+            @endif
+            @if ($grn->isGrnApproved() && !$grn->isAddedToInventory())
+                @can('Add GRN')
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            Product(s) listed below are still not added to your Inventory.
+                            <br>
+                            Add product(s) automatically by clicking on the button.
+                        </p>
+                        <form id="formOne" action="{{ route('merchandises.addToInventory', $grn->id) }}" method="post" novalidate>
+                            @csrf
+                            <button id="openAddGrnModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                                <span class="icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </span>
+                                <span>
+                                    Add to Inventory
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            Product(s) listed below are still not added to your Inventory.
+                        </p>
+                    </div>
+                @endcan
+            @endif
+            @if (!$grn->isGrnApproved())
+                @can('Approve GRN')
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            This GRN has not been approved.
+                            <br>
+                            Click on the button below to approve this GRN.
+                        </p>
+                        <form id="formOne" action="{{ route('grns.approve', $grn->id) }}" method="post" novalidate>
+                            @csrf
+                            <button id="openApproveGrnModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                                <span class="icon">
+                                    <i class="fas fa-signature"></i>
+                                </span>
+                                <span>
+                                    Approve GRN
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <p class="has-text-grey text-purple is-size-7">
+                        This GRN has not been approved.
+                    </p>
+                @endcan
             @endif
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">

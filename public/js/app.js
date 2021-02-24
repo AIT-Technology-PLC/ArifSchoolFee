@@ -880,3 +880,18 @@ function openApproveGdnModal(event) {
         }
     });
 }
+
+function openApproveGrnModal(event) {
+    event.preventDefault();
+    swal({
+        title: "Do you want to approve this GRN?",
+        text:
+            "By clicking 'Yes, Approve', you are going to approve this GRN.",
+        buttons: ["Not now", "Yes, Approve"],
+        dangerMode: true,
+    }).then((willTransfer) => {
+        if (willTransfer) {
+            d.getElementById("formOne").submit();
+        }
+    });
+}

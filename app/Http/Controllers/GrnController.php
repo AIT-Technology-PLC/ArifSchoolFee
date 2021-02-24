@@ -161,4 +161,18 @@ class GrnController extends Controller
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
+
+    public function approve(Grn $grn)
+    {
+        $this->authorize('approve', $grn);
+
+        $message = 'This GRN is already approved';
+
+        if (!$grn->isGrnApproved()) {
+            $grn->approveGrn();
+            $message = 'You have approved this GRN successfully';
+        }
+
+        return redirect()->back()->with('successMessage', $message);
+    }
 }
