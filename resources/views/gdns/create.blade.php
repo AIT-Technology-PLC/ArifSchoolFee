@@ -93,27 +93,29 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="status" class="label text-green has-text-weight-normal"> Subtract from inventory now? <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <label class="radio has-text-grey has-text-weight-normal">
-                                    <input type="radio" name="status" id="status" value="Subtracted From Inventory" {{ old('status') == 'Subtracted From Inventory' ? 'checked' : '' }} checked>
-                                    Yes, subtract now.
-                                </label>
-                                <br>
-                                <label class="radio has-text-grey has-text-weight-normal">
-                                    <input type="radio" name="status" id="status" value="Not Subtracted From Inventory" {{ old('status') == 'Not Subtracted From Inventory' ? 'checked' : '' }}>
-                                    No, subtract later.
-                                </label>
-                                @error('status')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
+                    @can('Approve GDN')    
+                        <div class="column is-6">
+                            <div class="field">
+                                <label for="is_approved" class="label text-green has-text-weight-normal"> Approve DO/GDN <sup class="has-text-danger">*</sup> </label>
+                                <div class="control has-icons-left">
+                                    <label class="radio has-text-grey has-text-weight-normal">
+                                        <input type="radio" name="is_approved" id="is_approved" value="1" {{ old('is_approved') ? 'checked' : '' }} checked>
+                                        Yes, Approve Now.
+                                    </label>
+                                    <br>
+                                    <label class="radio has-text-grey has-text-weight-normal">
+                                        <input type="radio" name="is_approved" id="is_approved" value="0" {{ old('is_approved') ? '' : 'checked' }}>
+                                        No, Approve Later.
+                                    </label>
+                                    @error('is_approved')
+                                        <span class="help has-text-danger" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endcan
                     <div class="column is-6">
                         <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal"> Description <sup class="has-text-danger"></sup></label>

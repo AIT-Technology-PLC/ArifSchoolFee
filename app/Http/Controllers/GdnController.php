@@ -64,10 +64,11 @@ class GdnController extends Controller
             'customer_id' => 'nullable|integer',
             'sale_id' => 'nullable|integer',
             'issued_on' => 'required|date',
-            'status' => 'required|string|max:255',
+            'is_approved' => 'sometimes|required|integer',
             'description' => 'nullable|string',
         ]);
 
+        $gdnData['status'] = 'Not Subtracted From Inventory';
         $gdnData['company_id'] = auth()->user()->employee->company_id;
         $gdnData['created_by'] = auth()->user()->id;
         $gdnData['updated_by'] = auth()->user()->id;

@@ -87,7 +87,11 @@
                                     </span>
                                 </td>
                                 <td class="is-capitalized">
-                                    @if ($gdn->isGdnSubtracted())
+                                    @if (!$gdn->isGdnApproved())
+                                        <span class="tag is-small has-background-grey-dark has-text-white">
+                                            Waiting for Approval
+                                        </span>
+                                    @elseif ($gdn->isGdnSubtracted())
                                         <span class="tag is-small bg-purple has-text-white">
                                             {{ $gdn->status ?? 'N/A' }}
                                         </span>

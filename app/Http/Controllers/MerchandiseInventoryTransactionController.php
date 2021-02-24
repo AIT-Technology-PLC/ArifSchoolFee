@@ -28,6 +28,10 @@ class MerchandiseInventoryTransactionController extends Controller
     {
         $sale = Sale::find($sale) ?? Gdn::find($sale);
 
+        if ($sale->getTable() == 'gdns' && !$sale->isGdnApproved()) {
+            return redirect()->back()->with('message', 'Not Approved');
+        }
+
         DB::transaction(function () use ($sale) {
             $sale->changeStatusToSubtractedFromInventory();
             $isSaleValid = StoreSaleableProducts::storeSoldProducts($sale);

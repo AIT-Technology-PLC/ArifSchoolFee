@@ -101,26 +101,7 @@
                     {{ session('message') }}
                 </span>
             </div>
-            @if (!$gdn->isGdnSubtracted())
-                <div class="box has-background-white-ter has-text-left mb-6">
-                    <p class="has-text-grey text-purple is-size-7">
-                        Product(s) listed below are still not subtracted from your inventory.
-                        <br>
-                        Click on the button below to subtract product(s) from the inventory.
-                    </p>
-                    <form id="formOne" action="{{ route('merchandises.subtractFromInventory', $gdn->id) }}" method="post" novalidate>
-                        @csrf
-                        <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
-                            <span class="icon">
-                                <i class="fas fa-minus-circle"></i>
-                            </span>
-                            <span>
-                                Subtract from inventory
-                            </span>
-                        </button>
-                    </form>
-                </div>
-            @else
+            @if ($gdn->isGdnApproved() && $gdn->isGdnSubtracted())
                 <div class="message is-success">
                     <p class="message-body">
                         <span class="icon">
@@ -131,6 +112,60 @@
                         </span>
                     </p>
                 </div>
+            @endif
+            @if ($gdn->isGdnApproved() && !$gdn->isGdnSubtracted())
+                @can('Subtract GDN')
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            Product(s) listed below are still not subtracted from your inventory.
+                            <br>
+                            Click on the button below to subtract product(s) from the inventory.
+                        </p>
+                        <form id="formOne" action="{{ route('merchandises.subtractFromInventory', $gdn->id) }}" method="post" novalidate>
+                            @csrf
+                            <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                                <span class="icon">
+                                    <i class="fas fa-minus-circle"></i>
+                                </span>
+                                <span>
+                                    Subtract from inventory
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            Product(s) listed below are still not subtracted from your inventory.
+                        </p>
+                    </div>
+                @endcan
+            @endif
+            @if (!$gdn->isGdnApproved())
+                @can('Approve GDN')
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            This DO/GDN has not been approved.
+                            <br>
+                            Click on the button below to approve this DO/GDN.
+                        </p>
+                        <form id="formOne" action="{{ route('merchandises.subtractFromInventory', $gdn->id) }}" method="post" novalidate>
+                            @csrf
+                            <button id="openApproveGdnModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                                <span class="icon">
+                                    <i class="fas fa-signature"></i>
+                                </span>
+                                <span>
+                                    Approve DO/GDN
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <p class="has-text-grey text-purple is-size-7">
+                        This DO/GDN has not been approved.
+                    </p>
+                @endcan
             @endif
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
