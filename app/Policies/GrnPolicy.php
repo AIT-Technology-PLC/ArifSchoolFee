@@ -47,4 +47,11 @@ class GrnPolicy
 
         return $doesGrnBelongToMyCompany && $user->can('Approve GRN');
     }
+
+    public function add(User $user, Grn $grn)
+    {
+        $doesGrnBelongToMyCompany = $user->employee->company_id == $grn->company_id;
+
+        return $doesGrnBelongToMyCompany && $user->can('Add GRN');
+    }
 }

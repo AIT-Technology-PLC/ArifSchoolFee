@@ -8,12 +8,17 @@ use App\Models\Purchase;
 use App\Models\Sale;
 use App\Services\AddPurchasedItemsToInventory;
 use App\Services\StoreSaleableProducts;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\DB;
 
 class MerchandiseInventoryTransactionController extends Controller
 {
     public function addToInventory($purchase)
     {
+        if (!auth()->user()->hasPermissionTo('Add GRN')) {
+            return new AuthorizationException();
+        }
+
         $purchase = Purchase::find($purchase) ?? Grn::find($purchase);
 
         if ($purchase->getTable() == 'grns' && !$purchase->isGrnApproved()) {
@@ -30,6 +35,10 @@ class MerchandiseInventoryTransactionController extends Controller
 
     public function subtractFromInventory($sale)
     {
+        if (!auth()->user()->hasPermissionTo('Subtract GDN')) {
+            return new AuthorizationException();
+        }
+
         $sale = Sale::find($sale) ?? Gdn::find($sale);
 
         if ($sale->getTable() == 'gdns' && !$sale->isGdnApproved()) {
