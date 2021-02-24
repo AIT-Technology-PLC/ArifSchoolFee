@@ -82,26 +82,15 @@
                     {{ session('message') }}
                 </span>
             </div>
-            @if (!$transfer->isTransferDone())
-                <div class="box has-background-white-ter has-text-left mb-6">
-                    <p class="has-text-grey text-purple is-size-7">
-                        Product(s) listed below are still not transferred
-                        <br>
-                        Click on the button below to transfer.
-                    </p>
-                    <form id="formOne" action="{{ route('transfers.transfer', $transfer->id) }}" method="post" novalidate>
-                        @csrf
-                        <button id="transferButton" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
-                            <span class="icon">
-                                <i class="fas fa-minus-circle"></i>
-                            </span>
-                            <span>
-                                Transfer products
-                            </span>
-                        </button>
-                    </form>
-                </div>
-            @else
+            <div class="notification bg-green has-text-white has-text-weight-medium {{ session('successMessage') ? '' : 'is-hidden' }}">
+                <span class="icon">
+                    <i class="fas fa-check-circle"></i>
+                </span>
+                <span>
+                    {{ session('successMessage') }}
+                </span>
+            </div>
+            @if ($transfer->isTransferApproved() && $transfer->isTransferDone())
                 <div class="message is-success">
                     <p class="message-body">
                         <span class="icon">
@@ -112,6 +101,58 @@
                         </span>
                     </p>
                 </div>
+            @endif
+            @if ($transfer->isTransferApproved() && !$transfer->isTransferDone())
+                @can('Make Transfer')
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            Product(s) listed below are still not transferred
+                            <br>
+                            Click on the button below to transfer.
+                        </p>
+                        <form id="formOne" action="{{ route('transfers.transfer', $transfer->id) }}" method="post" novalidate>
+                            @csrf
+                            <button id="transferButton" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                                <span class="icon">
+                                    <i class="fas fa-minus-circle"></i>
+                                </span>
+                                <span>
+                                    Transfer products
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <p class="has-text-grey text-purple is-size-7">
+                        Product(s) listed below are still not transferred.
+                    </p>
+                @endcan
+            @endif
+            @if (!$transfer->isTransferApproved())
+                @can('Approve Transfer')
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            This Transfer has not been approved.
+                            <br>
+                            Click on the button below to approve this Transfer.
+                        </p>
+                        <form id="formOne" action="{{ route('transfers.approve', $transfer->id) }}" method="post" novalidate>
+                            @csrf
+                            <button id="openApproveTransferModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                                <span class="icon">
+                                    <i class="fas fa-signature"></i>
+                                </span>
+                                <span>
+                                    Approve Transfer
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <p class="has-text-grey text-purple is-size-7">
+                        This Transfer has not been approved.
+                    </p>
+                @endcan
             @endif
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">

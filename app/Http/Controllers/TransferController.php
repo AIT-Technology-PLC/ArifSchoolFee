@@ -163,4 +163,18 @@ class TransferController extends Controller
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
+
+    public function approve(Transfer $transfer)
+    {
+        $this->authorize('approve', $transfer);
+
+        $message = 'This Transfer is already approved';
+
+        if (!$transfer->isTransferApproved()) {
+            $transfer->approveTransfer();
+            $message = 'You have approved this Transfer successfully';
+        }
+
+        return redirect()->back()->with('successMessage', $message);
+    }
 }

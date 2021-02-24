@@ -16,6 +16,8 @@ Route::post('/gdns/{gdn}/approve', 'GdnController@approve')->name('gdns.approve'
 
 Route::resource('gdns', 'GdnController');
 
+Route::post('/transfers/{transfer}/approve', 'TransferController@approve')->name('transfers.approve');
+
 Route::resource('transfers', 'TransferController');
 
 Route::resource('purchase-orders', 'PurchaseOrderController');
