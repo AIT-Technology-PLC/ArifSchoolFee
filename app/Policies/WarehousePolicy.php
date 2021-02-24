@@ -19,7 +19,7 @@ class WarehousePolicy
     {
         $doesWarehouseBelongToMyCompany = $user->employee->company_id == $warehouse->company_id;
 
-        return $doesWarehouseBelongToMyCompany && $user->can('Read Warehouse');
+        return $doesWarehouseBelongToMyCompany;
     }
 
     public function create(User $user)
