@@ -87,6 +87,7 @@ class Gdn extends Model
     public function approveGdn()
     {
         $this->is_approved = 1;
+        $this->approved_by = auth()->user()->id;
 
         $this->save();
     }

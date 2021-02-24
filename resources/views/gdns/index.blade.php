@@ -68,6 +68,7 @@
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Issued On </abbr></th>
                             <th><abbr> Prepared By </abbr></th>
+                            <th><abbr> Approved By </abbr></th>
                             <th><abbr> Edited By </abbr></th>
                             <th><abbr> Actions </abbr></th>
                         </tr>
@@ -114,6 +115,7 @@
                                     {{ $gdn->issued_on->toFormattedDateString() }}
                                 </td>
                                 <td> {{ $gdn->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $gdn->approvedBy->name ?? 'N/A' }} </td>
                                 <td> {{ $gdn->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
                                     <a class="is-block" href="{{ route('gdns.show', $gdn->id) }}" data-title="View Details">

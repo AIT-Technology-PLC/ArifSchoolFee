@@ -28,7 +28,7 @@ class GdnController extends Controller
 
     public function index(Gdn $gdn)
     {
-        $gdns = $gdn->getAll()->load(['createdBy', 'updatedBy', 'sale', 'customer']);
+        $gdns = $gdn->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'sale', 'customer']);
 
         $totalGdns = $gdn->countGdnsOfCompany();
 
