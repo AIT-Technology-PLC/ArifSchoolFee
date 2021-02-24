@@ -16,6 +16,10 @@ class MerchandiseInventoryTransactionController extends Controller
     {
         $purchase = Purchase::find($purchase) ?? Grn::find($purchase);
 
+        if ($purchase->getTable() == 'grns' && !$purchase->isGrnApproved()) {
+            return redirect()->back()->with('message', 'This GRN is not approved');
+        }
+
         DB::transaction(function () use ($purchase) {
             $purchase->changeStatusToAddedToInventory();
             AddPurchasedItemsToInventory::addToInventory($purchase);
