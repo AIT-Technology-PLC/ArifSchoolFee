@@ -865,3 +865,18 @@ function initiateDataTables() {
 
     showTablesAfterCompleteLoad();
 }
+
+function openApproveGdnModal(event) {
+    event.preventDefault();
+    swal({
+        title: "Do you want to approve this DO/GDN?",
+        text:
+            "By clicking 'Yes, Approve', you are going to approve this DO/GDN.",
+        buttons: ["Not now", "Yes, Approve"],
+        dangerMode: true,
+    }).then((willTransfer) => {
+        if (willTransfer) {
+            d.getElementById("formOne").submit();
+        }
+    });
+}

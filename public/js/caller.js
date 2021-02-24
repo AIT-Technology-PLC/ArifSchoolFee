@@ -161,3 +161,10 @@ if (d.getElementById("addNewGrnForm")) {
 if (d.getElementById("table_id")) {
     window.addEventListener("load", initiateDataTables);
 }
+
+if (d.getElementById("openApproveGdnModal")) {
+    d.getElementById("openApproveGdnModal").addEventListener(
+        "click",
+        openApproveGdnModal
+    );
+}
