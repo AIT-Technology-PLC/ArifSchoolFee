@@ -89,7 +89,7 @@ class TransferController extends Controller
 
     public function transfer(Transfer $transfer)
     {
-        $this->authorize('create', $transfer);
+        $this->authorize('transfer', $transfer);
 
         DB::transaction(function () use ($transfer) {
             $transfer->changeStatusToTransferred();

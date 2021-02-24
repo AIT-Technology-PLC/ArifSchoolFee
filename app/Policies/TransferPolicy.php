@@ -47,4 +47,11 @@ class TransferPolicy
 
         return $doesTransferBelongToMyCompany && $user->can('Approve Transfer');
     }
+
+    public function transfer(User $user, Transfer $transfer)
+    {
+        $doesTransferBelongToMyCompany = $user->employee->company_id == $transfer->company_id;
+
+        return $doesTransferBelongToMyCompany && $user->can('Make Transfer');
+    }
 }
