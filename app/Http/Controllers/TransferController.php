@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Transfer;
 use App\Models\Warehouse;
 use App\Services\StoreSaleableProducts;
+use App\Traits\Approvable;
 use App\Traits\PrependCompanyId;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class TransferController extends Controller
 {
-    use PrependCompanyId;
+    use PrependCompanyId, Approvable;
 
     private $transfer;
 
@@ -26,7 +27,7 @@ class TransferController extends Controller
 
     public function index(Transfer $transfer)
     {
-        $transfers = $transfer->getAll()->load(['createdBy', 'updatedBy']);
+        $transfers = $transfer->getAll()->load(['createdBy', 'updatedBy', 'approvedBy']);
 
         $totalTransfers = $transfer->countTransfersOfCompany();
 
@@ -57,13 +58,14 @@ class TransferController extends Controller
             'transfer.*.quantity' => 'required|numeric|min:1',
             'transfer.*.description' => 'nullable|string',
             'issued_on' => 'required|date',
-            'status' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
+        $transferData['status'] = 'Not Transferred';
         $transferData['company_id'] = auth()->user()->employee->company_id;
         $transferData['created_by'] = auth()->user()->id;
         $transferData['updated_by'] = auth()->user()->id;
+        $transferData['approved_by'] = $this->approvedBy();
 
         $basicTransferData = Arr::except($transferData, 'transfer');
         $transferDetailsData = $transferData['transfer'];

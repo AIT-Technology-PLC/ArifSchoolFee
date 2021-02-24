@@ -66,6 +66,7 @@
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Issued On </abbr></th>
                             <th><abbr> Prepared By </abbr></th>
+                            <th><abbr> Approved By </abbr></th>
                             <th><abbr> Edited By </abbr></th>
                             <th><abbr> Actions </abbr></th>
                         </tr>
@@ -100,6 +101,7 @@
                                     {{ $transfer->issued_on->toFormattedDateString() }}
                                 </td>
                                 <td> {{ $transfer->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $transfer->approvedBy->name ?? 'N/A' }} </td>
                                 <td> {{ $transfer->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
                                     <a class="is-block" href="{{ route('transfers.show', $transfer->id) }}" data-title="View Details">
