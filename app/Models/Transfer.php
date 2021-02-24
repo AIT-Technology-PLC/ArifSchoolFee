@@ -72,4 +72,20 @@ class Transfer extends Model
     {
         return $this->status == 'Transferred';
     }
+
+    public function approveTransfer()
+    {
+        $this->approved_by = auth()->user()->id;
+
+        $this->save();
+    }
+
+    public function isTransferApproved()
+    {
+        if ($this->approved_by) {
+            return true;
+        }
+
+        return false;
+    }
 }
