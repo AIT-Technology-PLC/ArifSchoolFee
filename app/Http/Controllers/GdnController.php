@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Warehouse;
 use App\Services\StoreSaleableProducts;
+use App\Traits\Approvable;
 use App\Traits\PrependCompanyId;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class GdnController extends Controller
 {
-    use PrependCompanyId;
+    use PrependCompanyId, Approvable;
 
     private $gdn;
 
@@ -64,7 +65,6 @@ class GdnController extends Controller
             'customer_id' => 'nullable|integer',
             'sale_id' => 'nullable|integer',
             'issued_on' => 'required|date',
-            'is_approved' => 'sometimes|required|integer',
             'description' => 'nullable|string',
         ]);
 
@@ -72,6 +72,7 @@ class GdnController extends Controller
         $gdnData['company_id'] = auth()->user()->employee->company_id;
         $gdnData['created_by'] = auth()->user()->id;
         $gdnData['updated_by'] = auth()->user()->id;
+        $gdnData['approved_by'] = $this->approvedBy();
 
         $basicGdnData = Arr::except($gdnData, 'gdn');
         $gdnDetailsData = $gdnData['gdn'];

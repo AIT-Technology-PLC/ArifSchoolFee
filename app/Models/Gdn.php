@@ -15,7 +15,6 @@ class Gdn extends Model
 
     protected $casts = [
         'issued_on' => 'datetime',
-        'is_approved' => 'boolean',
     ];
 
     public function createdBy()
@@ -86,7 +85,6 @@ class Gdn extends Model
 
     public function approveGdn()
     {
-        $this->is_approved = 1;
         $this->approved_by = auth()->user()->id;
 
         $this->save();
@@ -94,6 +92,10 @@ class Gdn extends Model
 
     public function isGdnApproved()
     {
-        return $this->is_approved;
+        if ($this->approved_by) {
+            return true;
+        }
+
+        return false;
     }
 }
