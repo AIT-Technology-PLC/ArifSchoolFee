@@ -40,4 +40,11 @@ class GdnPolicy
 
         return $doesGdnBelongToMyCompany && $user->can('Delete GDN');
     }
+
+    public function approve(User $user, Gdn $gdn)
+    {
+        $doesGdnBelongToMyCompany = $user->employee->company_id == $gdn->company_id;
+
+        return $doesGdnBelongToMyCompany && $user->can('Approve GDN');
+    }
 }

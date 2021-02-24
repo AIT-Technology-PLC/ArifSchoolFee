@@ -169,6 +169,8 @@ class GdnController extends Controller
 
     public function approve(Gdn $gdn)
     {
+        $this->authorize('approve', $gdn);
+
         $message = 'This DO/GDN is already approved';
 
         if (!$gdn->isGdnApproved()) {
