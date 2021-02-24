@@ -2,8 +2,6 @@
 
 Route::get('/merchandises/level/warehouse/{warehouse}', 'MerchandiseInventoryLevelController@getCurrentMerchandiseLevelByWarehouse');
 
-Route::post('/transfers/{transfer}/transfer', 'TransferController@transfer')->name('transfers.transfer');
-
 Route::post('purchase-orders/{purchaseOrder}/close', 'PurchaseOrderController@close')->name('purchase-orders.close');
 
 Route::resource('suppliers', 'SupplierController');
@@ -16,7 +14,9 @@ Route::post('/gdns/{gdn}/approve', 'GdnController@approve')->name('gdns.approve'
 
 Route::resource('gdns', 'GdnController');
 
-Route::post('/transfers/{transfer}/approve', 'TransferController@approve')->name('transfers.approve');
+Route::post('/transfers/transfer/{transfer}', 'TransferController@transfer')->name('transfers.transfer');
+
+Route::post('/transfers/approve/{transfer}', 'TransferController@approve')->name('transfers.approve');
 
 Route::resource('transfers', 'TransferController');
 
