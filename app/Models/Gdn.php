@@ -28,6 +28,11 @@ class Gdn extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
     public function company()
     {
         return $this->belongsTo(Company::class);

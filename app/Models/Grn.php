@@ -28,6 +28,11 @@ class Grn extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
     public function purchase()
     {
         return $this->belongsTo(Purchase::class);

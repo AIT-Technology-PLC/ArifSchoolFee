@@ -182,6 +182,11 @@ class User extends Authenticatable
         return $this->hasMany(Gdn::class, 'updated_by');
     }
 
+    public function gdnsApproved()
+    {
+        return $this->hasMany(Gdn::class, 'approved_by');
+    }
+
     public function transfersCreated()
     {
         return $this->hasMany(Transfer::class, 'created_by');
@@ -190,6 +195,11 @@ class User extends Authenticatable
     public function transfersUpdated()
     {
         return $this->hasMany(Transfer::class, 'updated_by');
+    }
+
+    public function transferApproved()
+    {
+        return $this->hasMany(Transfer::class, 'approved_by');
     }
 
     public function purchaseOrdersCreated()
@@ -210,5 +220,10 @@ class User extends Authenticatable
     public function grnsUpdated()
     {
         return $this->hasMany(Grn::class, 'updated_by');
+    }
+
+    public function grnsApproved()
+    {
+        return $this->hasMany(Grn::class, 'approved_by');
     }
 }
