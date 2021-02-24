@@ -29,7 +29,7 @@ class GrnController extends Controller
 
     public function index(Grn $grn)
     {
-        $grns = $grn->getAll()->load(['createdBy', 'updatedBy', 'supplier', 'purchase']);
+        $grns = $grn->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'supplier', 'purchase']);
 
         $totalGrns = $grn->countGrnsOfCompany();
 

@@ -68,6 +68,7 @@
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Issued On </abbr></th>
                             <th><abbr> Prepared By </abbr></th>
+                            <th><abbr> Approved By </abbr></th>
                             <th><abbr> Edited By </abbr></th>
                             <th><abbr> Actions </abbr></th>
                         </tr>
@@ -87,7 +88,11 @@
                                     </span>
                                 </td>
                                 <td class="is-capitalized">
-                                    @if ($grn->isAddedToInventory())
+                                    @if (!$grn->isGrnApproved())
+                                        <span class="tag is-small has-background-grey-dark has-text-white">
+                                            Waiting for Approval
+                                        </span>
+                                    @elseif ($grn->isAddedToInventory())
                                         <span class="tag is-small bg-purple has-text-white">
                                             {{ $grn->status ?? 'N/A' }}
                                         </span>
@@ -110,6 +115,7 @@
                                     {{ $grn->issued_on->toFormattedDateString() }}
                                 </td>
                                 <td> {{ $grn->createdBy->name ?? 'N/A' }} </td>
+                                <td> {{ $grn->approvedBy->name ?? 'N/A' }} </td>
                                 <td> {{ $grn->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
                                     <a class="is-block" href="{{ route('grns.show', $grn->id) }}" data-title="View Details">

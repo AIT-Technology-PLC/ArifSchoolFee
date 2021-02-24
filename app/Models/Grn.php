@@ -82,4 +82,13 @@ class Grn extends Model
     {
         return $this->status == 'Added To Inventory';
     }
+
+    public function isGrnApproved()
+    {
+        if ($this->approved_by) {
+            return true;
+        }
+
+        return false;
+    }
 }
