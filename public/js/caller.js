@@ -175,3 +175,10 @@ if (d.getElementById("openApproveGrnModal")) {
         openApproveGrnModal
     );
 }
+
+if (d.getElementById("openApproveTransferModal")) {
+    d.getElementById("openApproveTransferModal").addEventListener(
+        "click",
+        openApproveTransferModal
+    );
+}

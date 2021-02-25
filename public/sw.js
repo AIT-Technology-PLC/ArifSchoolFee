@@ -21,15 +21,15 @@ setCacheNameDetails({
 });
 
 precacheAndRoute([
-    { url: "/offline", revision: 4 },
+    { url: "/offline", revision: 5 },
     { url: "/manifest.json", revision: null },
     { url: "/img/favicon.png", revision: null },
     { url: "/img/logo.png", revision: null },
     { url: "/pwa/pwa-192x192.png", revision: null },
     { url: "/pwa/pwa-512x512.png", revision: null },
-    { url: "/js/caller.js", revision: 4 },
-    { url: "/js/app.js", revision: 4 },
-    { url: "/css/app.css", revision: 4 },
+    { url: "/js/caller.js", revision: 5 },
+    { url: "/js/app.js", revision: 5 },
+    { url: "/css/app.css", revision: 5 },
     {
         url: "https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css",
         revision: null,
