@@ -63,7 +63,8 @@
                             <th class="text-green"><abbr> Receipt No </abbr></th>
                             <th class="text-gold"><abbr> DO/GDN No </abbr></th>
                             <th class="text-purple"><abbr> Status </abbr></th>
-                            <th class="has-text-centered"><abbr> Products </abbr></th>
+                            <th class="has-text-centered"><abbr> Items </abbr></th>
+                            <th class="has-text-right"><abbr> Total Price </abbr></th>
                             <th><abbr> Customer </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Issued On </abbr></th>
@@ -104,6 +105,10 @@
                                 </td>
                                 <td class="has-text-centered">
                                     {{ $gdn->gdn_details_count ?? 'N/A' }}
+                                </td>
+                                <td class="has-text-right">
+                                    {{ $gdn->company->currency }}.
+                                    {{ $gdn->totalGdnPrice }}
                                 </td>
                                 <td>
                                     {{ $gdn->customer->company_name ?? 'N/A' }}

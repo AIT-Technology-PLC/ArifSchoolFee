@@ -62,6 +62,16 @@ class Gdn extends Model
         return Str::after($value, auth()->user()->employee->company->id . '_');
     }
 
+    public function getTotalGdnPriceAttribute()
+    {
+        $totalPrice = $this->gdnDetails
+            ->reduce(function ($carry, $item) {
+                return $carry + ($item->unit_price * $item->quantity);
+            }, 0);
+
+        return number_format($totalPrice, 2);
+    }
+
     public function getAll()
     {
         return $this->companyGdn()->withCount('gdnDetails')->latest()->get();

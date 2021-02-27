@@ -183,6 +183,7 @@
                             <th><abbr> Warehouse </abbr></th>
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
+                            <th><abbr> Unit Price </abbr></th>
                             <th><abbr> Description </abbr></th>
                         </tr>
                     </thead>
@@ -199,6 +200,10 @@
                                 <td>
                                     {{ number_format($gdnDetail->quantity, 2) }}
                                     {{ $gdnDetail->product->unit_of_measurement }}
+                                </td>
+                                <td>
+                                    {{ $gdn->company->currency }}.
+                                    {{ number_format($gdnDetail->unit_price, 2) }}
                                 </td>
                                 <td>
                                     {!! nl2br(e($gdnDetail->description)) !!}
