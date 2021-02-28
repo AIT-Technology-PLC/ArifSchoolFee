@@ -14,6 +14,10 @@ class StoreSaleableProducts
             return false;
         }
 
+        if (!self::areProductsPricesValid($details)) {
+            return false;
+        }
+
         if (!self::isProductSubtractNowChecked($saleOrGdn)) {
             return true;
         }
@@ -89,6 +93,21 @@ class StoreSaleableProducts
         }
 
         return count($productNotOnHand) == 0;
+    }
+
+    public static function areProductsPricesValid($details)
+    {
+        $invalidPrices = $details->filter(
+            function ($detail) {
+                return ($detail->product->price->price ?? 0) > $detail->unit_price;
+            }
+        );
+
+        if (count($invalidPrices)) {
+            session()->flash('message', 'Some of the products prices are below the sale price');
+        }
+
+        return count($invalidPrices) == 0;
     }
 
     private static function updateSoldQuantity($detail)

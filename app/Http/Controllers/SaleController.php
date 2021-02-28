@@ -79,7 +79,8 @@ class SaleController extends Controller
             $sale->saleDetails()->createMany($saleDetailsData);
 
             if ($sale->isSaleManual()) {
-                $isSaleValid = StoreSaleableProducts::areProductsSaleable($sale->saleDetails);
+                $isSaleValid = StoreSaleableProducts::areProductsSaleable($sale->saleDetails) &&
+                StoreSaleableProducts::areProductsPricesValid($sale->saleDetails);
             }
 
             if (!$sale->isSaleManual()) {
