@@ -108,7 +108,7 @@
                                 </td>
                                 <td class="has-text-right">
                                     {{ $gdn->company->currency }}.
-                                    {{ $gdn->totalGdnPrice }}
+                                    {{ $gdn->totalGdnPriceWithVAT }}
                                 </td>
                                 <td>
                                     {{ $gdn->customer->company_name ?? 'N/A' }}
