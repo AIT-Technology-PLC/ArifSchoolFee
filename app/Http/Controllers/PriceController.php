@@ -18,7 +18,7 @@ class PriceController extends Controller
 
     public function index(Price $price)
     {
-        $prices = $price->getAll()->load(['product', 'updatedBy']);
+        $prices = $price->getAll()->load(['product', 'createdBy', 'updatedBy']);
 
         return view('prices.index', compact('prices'));
     }
@@ -60,7 +60,7 @@ class PriceController extends Controller
             'product_id' => 'required|integer',
             'price' => 'required|numeric|min:1',
         ]);
-        
+
         $priceData['updated_by'] = auth()->user()->id;
 
         $price->update($priceData);
