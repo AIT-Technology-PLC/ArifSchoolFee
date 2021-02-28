@@ -13,6 +13,8 @@ class PriceController extends Controller
 
     public function __construct(Price $price)
     {
+        $this->authorizeResource(Price::class, 'price');
+
         $this->price = $price;
     }
 
