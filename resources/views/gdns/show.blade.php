@@ -28,7 +28,7 @@
             </div>
             <div class="column is-6">
                 <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-green m-top-20">
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
                         <div class="column is-1">
                             <span class="icon is-size-3">
                                 <i class="fas fa-hashtag"></i>
@@ -47,7 +47,7 @@
             </div>
             <div class="column is-6">
                 <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-green m-top-20">
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
                         <div class="column is-1">
                             <span class="icon is-size-3">
                                 <i class="fas fa-user"></i>
@@ -66,7 +66,7 @@
             </div>
             <div class="column is-6">
                 <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-green m-top-20">
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
                         <div class="column is-1">
                             <span class="icon is-size-3">
                                 <i class="fas fa-calendar-day"></i>
@@ -85,7 +85,7 @@
             </div>
             <div class="column is-6">
                 <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-green m-top-20">
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
                         <div class="column is-1">
                             <span class="icon is-size-3">
                                 <i class="fas fa-dollar-sign"></i>
@@ -104,7 +104,7 @@
             </div>
             <div class="column is-6">
                 <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-purple m-top-20">
+                    <div class="columns is-marginless is-vcentered is-mobile text-purple">
                         <div class="column is-1">
                             <span class="icon is-size-3">
                                 <i class="fas fa-dollar-sign"></i>

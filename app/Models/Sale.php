@@ -79,6 +79,16 @@ class Sale extends Model
         return number_format($totalPrice, 2);
     }
 
+    public function getTotalSalePriceWithVATAttribute()
+    {
+        $totalPrice = $this->saleDetails
+            ->reduce(function ($carry, $item) {
+                return $carry + ($item->unit_price * $item->quantity);
+            }, 0);
+
+        return number_format($totalPrice * 1.15, 2);
+    }
+
     public function getAll()
     {
         return $this->companySales()->withCount('saleDetails')->latest()->get();
