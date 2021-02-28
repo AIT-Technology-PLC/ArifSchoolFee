@@ -439,10 +439,10 @@ const addGdnForm = (function () {
                     </div>
                 </div>
                 <div class="column is-6">
-                        <label for="gdn[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                        <label for="gdn[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger"></sup> </label>
                         <div class="field has-addons">
                             <div class="control has-icons-left is-expanded">
-                                <input id="gdn[${index}][unit_price]" name="gdn[${index}][unit_price]" type="number" class="input" placeholder="Sale Price">
+                                <input id="gdn[${index}][unit_price]" name="gdn[${index}][unit_price]" type="number" class="input" placeholder="Sale Price" value="0.00">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-money-bill"></i>
                                 </span>
