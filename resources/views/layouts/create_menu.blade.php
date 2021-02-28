@@ -21,7 +21,7 @@
         <div class="column is-3 has-text-centered text-purple">
             <a href="{{ route('grns.create') }}" class="button is-rounded text-purple" data-title="Create New Supplier">
                 <span class="icon">
-                    <i class="fas fa-file-signature"></i>
+                    <i class="fas fa-file-contract"></i>
                 </span>
             </a>
             <span class="is-size-7">

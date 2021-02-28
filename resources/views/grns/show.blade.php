@@ -12,7 +12,7 @@
                     <div class="columns is-marginless is-vcentered is-mobile text-green">
                         <div class="column is-1">
                             <span class="icon is-size-3">
-                                <i class="fas fa-file-invoice"></i>
+                                <i class="fas fa-file-contract"></i>
                             </span>
                         </div>
                         <div class="column m-lr-20">
@@ -50,7 +50,7 @@
                     <div class="columns is-marginless is-vcentered is-mobile text-green">
                         <div class="column is-1">
                             <span class="icon is-size-3">
-                                <i class="fas fa-address-book"></i>
+                                <i class="fas fa-address-card"></i>
                             </span>
                         </div>
                         <div class="column m-lr-20">
