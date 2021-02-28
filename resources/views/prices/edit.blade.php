@@ -11,7 +11,7 @@
                 Edit Price
             </h1>
         </div>
-        <form id="formOne" action="{{ route('prices.update' $price->id) }}" method="POST" enctype="multipart/form-data" novalidate>
+        <form id="formOne" action="{{ route('prices.update', $price->id) }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
@@ -23,7 +23,7 @@
                                 <div class="select is-fullwidth">
                                     <select id="product_id" name="product_id">
                                         <option selected disabled>Select Product</option>
-                                        <option value="{{ $price->product->id }}"> {{ $price->product->name }} </option>
+                                        <option value="{{ $price->product->id }}" selected> {{ $price->product->name }} </option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
