@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PriceController;
+
 Route::post('merchandises/add-to-inventory/{purchase}',
     'MerchandiseInventoryTransactionController@addToInventory')
     ->name('merchandises.addToInventory');
@@ -34,3 +36,5 @@ Route::resource('purchases', 'PurchaseController');
 Route::resource('sales', 'SaleController');
 
 Route::resource('merchandises', 'MerchandiseController');
+
+Route::resource('prices', 'PriceController');

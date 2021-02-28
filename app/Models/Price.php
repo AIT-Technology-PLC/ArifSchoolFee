@@ -26,4 +26,14 @@ class Price extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+
+    public function scopeCompanyPrices($query)
+    {
+        return $query->where('company_id', auth()->user()->employee->company_id);
+    }
+
+    public function getAll()
+    {
+        return $this->companyPrices()->get();
+    }
 }
