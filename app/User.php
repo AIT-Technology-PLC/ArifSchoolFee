@@ -15,6 +15,7 @@ use App\Models\Sale;
 use App\Models\Supplier;
 use App\Models\Transfer;
 use App\Models\Warehouse;
+use App\Models\Price;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -225,5 +226,10 @@ class User extends Authenticatable
     public function grnsApproved()
     {
         return $this->hasMany(Grn::class, 'approved_by');
+    }
+
+    public function pricesUpdated()
+    {
+        return $this->hasMany(Price::class, 'updated_by');
     }
 }

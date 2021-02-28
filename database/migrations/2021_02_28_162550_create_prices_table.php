@@ -20,6 +20,7 @@ class CreatePricesTable extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->decimal('price', 22);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index('company_id');
 

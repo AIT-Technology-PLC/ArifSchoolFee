@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Employee;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends Model
 {
     use SoftDeletes;
-    
+
     protected $fillable = [
         'name', 'sector', 'membership_plan', 'currency', 'enabled',
     ];
@@ -106,6 +105,11 @@ class Company extends Model
     public function grns()
     {
         return $this->hasMany(Grn::class);
+    }
+
+    public function prices()
+    {
+        return $this->hasMany(Price::class);
     }
 
     public function isCompanyStandardMember()
