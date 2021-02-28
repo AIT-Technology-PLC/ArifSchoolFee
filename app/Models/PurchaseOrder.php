@@ -58,6 +58,16 @@ class PurchaseOrder extends Model
         return number_format($totalPrice, 2);
     }
 
+    public function getTotalPurchaseOrderPriceWithVATAttribute()
+    {
+        $totalPrice = $this->purchaseOrderDetails
+            ->reduce(function ($carry, $item) {
+                return $carry + ($item->unit_price * $item->quantity);
+            }, 0);
+
+        return number_format($totalPrice * 1.15, 2);
+    }
+
     public function getCodeAttribute($value)
     {
         return Str::after($value, auth()->user()->employee->company->id . '_');

@@ -5,59 +5,118 @@
 @endsection
 
 @section('content')
-    <div class="columns is-marginless is-multiline">
-        <div class="column">
-            <div class="box text-green">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-file-alt"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 has-text-weight-bold">
-                            {{ $purchaseOrder->code ?? 'N/A' }}
+    <div class="box mt-3 mx-3 m-lr-0">
+        <div class="columns is-marginless is-multiline">
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-file-alt"></i>
+                            </span>
                         </div>
-                        <div class="is-uppercase is-size-7">
-                            Purchase Order No
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="box text-green">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-calendar-day"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 is-size-5-mobile has-text-weight-bold">
-                            {{ $purchaseOrder->received_on->toFormattedDateString() }}
-                        </div>
-                        <div class="is-uppercase is-size-7">
-                            Received On
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $purchaseOrder->code ?? 'N/A' }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Purchase Order No
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="column is-12">
-            <div class="box text-green">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-user"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-4 is-size-7-mobile has-text-weight-bold">
-                            {{ $purchaseOrder->customer->company_name ?? 'N/A' }}
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-spinner"></i>
+                            </span>
                         </div>
-                        <div class="is-uppercase is-size-7">
-                            Customer
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $purchaseOrder->isPurchaseOrderClosed() ? 'PO Closed' : 'Still Opened' }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Status
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $purchaseOrder->customer->company_name ?? 'N/A' }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Customer
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-calendar-day"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $purchaseOrder->received_on->toFormattedDateString() ?? 'N/A' }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Received On
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-dollar-sign"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $purchaseOrder->totalPurchaseOrderPrice }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Total Price ({{ $purchaseOrder->company->currency }})
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-purple">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-dollar-sign"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $purchaseOrder->totalPurchaseOrderPriceWithVAT }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Total Price with VAT ({{ $purchaseOrder->company->currency }})
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -129,7 +188,7 @@
                             <th><abbr> # </abbr></th>
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Total Quantity </abbr></th>
-                            <th><abbr> Quantity Remaining  </abbr></th>
+                            <th><abbr> Quantity Remaining </abbr></th>
                             <th><abbr> Unit Price </abbr></th>
                             <th><abbr> Total </abbr></th>
                             <th><abbr> Description </abbr></th>
@@ -165,65 +224,6 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
-            <div class="columns is-marginless">
-                <div class="column is-4 is-offset-8 px-0">
-                    <div class="box bg-green">
-                        <div class="mb-5 has-text-centered">
-                            <h1 class="is-uppercase has-text-weight-bold has-text-white is-family-monospace">
-                                <span class="icon">
-                                    <i class="fas fa-file-alt"></i>
-                                </span>
-                                <span>
-                                    PO Summary
-                                </span>
-                            </h1>
-                        </div>
-                        <div class="mb-4">
-                            <h1 class="is-uppercase has-text-weight-light has-text-white">
-                                PO No
-                            </h1>
-                            <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $purchaseOrder->code ?? 'N/A' }}
-                            </h2>
-                        </div>
-                        <div class="mb-4">
-                            <h1 class="is-uppercase has-text-weight-light has-text-white">
-                                Customer
-                            </h1>
-                            <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $purchaseOrder->customer->company_name ?? 'N/A' }}
-                            </h2>
-                        </div>
-                        @if (!$purchaseOrder->isPurchaseOrderClosed())
-                            <div class="mb-4">
-                                <h1 class="is-uppercase has-text-weight-light has-text-white">
-                                    Status
-                                </h1>
-                                <h2 class="subtitle has-text-white has-text-weight-medium">
-                                    Still Open
-                                </h2>
-                            </div>
-                        @endif
-                        <div class="mb-4">
-                            <h1 class="is-uppercase has-text-weight-light has-text-white">
-                                Received On
-                            </h1>
-                            <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $purchaseOrder->received_on ? $purchaseOrder->received_on->toFormattedDateString() : 'N/A' }}
-                            </h2>
-                        </div>
-                        <div class="mb-4">
-                            <h1 class="is-uppercase has-text-weight-light has-text-white">
-                                Total Price
-                            </h1>
-                            <h2 class="subtitle has-text-white has-text-weight-medium">
-                                {{ $purchaseOrder->company->currency }}.
-                                {{ $purchaseOrder->totalPurchaseOrderPrice }}
-                            </h2>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
