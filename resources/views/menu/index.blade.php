@@ -78,6 +78,17 @@
                                 Sales
                             </span>
                         </div>
+                        <div class="column is-4 has-text-centered has-text-grey">
+                            <a href="{{ route('prices.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
+                                <span class="icon">
+                                    <i class="fas fa-money-bill"></i>
+                                </span>
+                            </a>
+                            <br>
+                            <span class="is-size-6 is-size-7-mobile">
+                                Prices
+                            </span>
+                        </div>
                     @endcan
                     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
                         @can('Read Sale')
