@@ -5,59 +5,80 @@
 @endsection
 
 @section('content')
-    <div class="columns is-marginless is-multiline">
-        <div class="column">
-            <div class="box text-green">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-file-invoice"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 has-text-weight-bold">
-                            {{ $grn->code ?? 'N/A' }}
+    <div class="box mt-3 mx-3 m-lr-0">
+        <div class="columns is-marginless is-multiline">
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-file-invoice"></i>
+                            </span>
                         </div>
-                        <div class="is-uppercase is-size-7">
-                            GRN No
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="box text-green">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-hashtag"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 has-text-weight-bold">
-                            {{ $grn->purchase->purchase_no ?? 'N/A' }}
-                        </div>
-                        <div class="is-uppercase is-size-7">
-                            Purchase No
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $grn->code ?? 'N/A' }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                GRN No
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="column is-12">
-            <div class="box text-green">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-address-card"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-4 is-size-7-mobile has-text-weight-bold">
-                            {{ $grn->supplier->company_name ?? 'N/A' }}
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-hashtag"></i>
+                            </span>
                         </div>
-                        <div class="is-uppercase is-size-7">
-                            Supplier
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $gdn->purchase->purchase_no ?? 'N/A' }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Purchase No
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-address-book"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $gdn->supplier->company_name ?? 'N/A' }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Supplier
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-calendar-day"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $grn->issued_on->toFormattedDateString() ?? 'N/A' }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Issued On
+                            </div>
                         </div>
                     </div>
                 </div>

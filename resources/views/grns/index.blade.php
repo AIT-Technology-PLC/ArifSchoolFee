@@ -63,7 +63,7 @@
                             <th class="text-green"><abbr> Purchase No </abbr></th>
                             <th class="text-gold"><abbr> GRN No </abbr></th>
                             <th class="text-purple"><abbr> Status </abbr></th>
-                            <th class="has-text-centered"><abbr> Products </abbr></th>
+                            <th class="has-text-centered"><abbr> Items </abbr></th>
                             <th><abbr> Supplier </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Issued On </abbr></th>
