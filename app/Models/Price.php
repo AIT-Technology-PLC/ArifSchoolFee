@@ -22,6 +22,11 @@ class Price extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');

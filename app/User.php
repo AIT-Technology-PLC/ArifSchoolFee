@@ -228,6 +228,11 @@ class User extends Authenticatable
         return $this->hasMany(Grn::class, 'approved_by');
     }
 
+    public function pricesCreated()
+    {
+        return $this->hasMany(Price::class, 'created_by');
+    }
+
     public function pricesUpdated()
     {
         return $this->hasMany(Price::class, 'updated_by');

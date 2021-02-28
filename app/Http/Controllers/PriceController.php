@@ -38,6 +38,7 @@ class PriceController extends Controller
         ]);
 
         $priceData['company_id'] = auth()->user()->employee->company_id;
+        $priceData['created_by'] = auth()->user()->id;
         $priceData['updated_by'] = auth()->user()->id;
 
         $this->price->firstOrCreate(
