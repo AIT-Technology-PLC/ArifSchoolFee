@@ -12,6 +12,8 @@ class GeneralTenderChecklistController extends Controller
 
     public function __construct(GeneralTenderChecklist $generalTenderChecklist)
     {
+        $this->authorizeResource(GeneralTenderChecklist::class);
+
         $this->generalTenderChecklist = $generalTenderChecklist;
     }
 
