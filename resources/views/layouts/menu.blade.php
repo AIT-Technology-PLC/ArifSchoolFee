@@ -319,6 +319,42 @@
     @endcan
 
     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
+        @can('Read Sale')
+            <p class="menu-label has-text-weight-bold text-green">
+                Tenders
+            </p>
+            <ul class="menu-list mb-5">
+                <li>
+                    <a name="menuTitles" href="{{ route('general-tender-checklists.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('general-tender-checklists') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-tasks"></i>
+                        </span>
+                        <span>
+                            General Tender Checklist
+                        </span>
+                    </a>
+                </li>
+                @can('Create Sale')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('general-tender-checklists.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('general-tender-checklists/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Checklist
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+            </ul>
+        @endcan
+    @endcan
+
+    @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
         @can('Read PO')
             <p class="menu-label has-text-weight-bold text-green">
                 Purchase Orders
