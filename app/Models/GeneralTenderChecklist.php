@@ -26,4 +26,14 @@ class GeneralTenderChecklist extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function scopeCompanyGeneralTenderChecklist($query)
+    {
+        return $query->where('company_id', auth()->user()->employee->company_id);
+    }
+
+    public function getAll()
+    {
+        return $this->companyGeneralTenderChecklist()->get();
+    }
 }
