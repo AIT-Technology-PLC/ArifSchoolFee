@@ -4,82 +4,71 @@ namespace App\Http\Controllers;
 
 use App\Models\GeneralTenderChecklist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class GeneralTenderChecklistController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $generalTenderChecklist;
+
+    public function __construct(GeneralTenderChecklist $generalTenderChecklist)
+    {
+        $this->generalTenderChecklist = $generalTenderChecklist;
+    }
+
     public function index()
     {
-        //
+        $generalTenderChecklists = $this->generalTenderChecklist->getAll()->load(['createdBy', 'updatedBy']);
+
+        return view('general_tender_checklists.index', compact('generalTenderChecklists'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('general_tender_checklists.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $generalTenderChecklistData = $request->validate([
+            'item' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
+
+        $generalTenderChecklistData['company_id'] = auth()->user()->employee->company_id;
+        $generalTenderChecklistData['created_by'] = auth()->user()->id;
+        $generalTenderChecklistData['updated_by'] = auth()->user()->id;
+
+        $this->generalTenderChecklist->firstOrCreate(
+            Arr::only($generalTenderChecklistData, 'item'),
+            Arr::except($generalTenderChecklistData, 'item'),
+        );
+
+        return redirect()->route('general-tender-checklists.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\GeneralTenderChecklist  $generalTenderChecklist
-     * @return \Illuminate\Http\Response
-     */
-    public function show(GeneralTenderChecklist $generalTenderChecklist)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\GeneralTenderChecklist  $generalTenderChecklist
-     * @return \Illuminate\Http\Response
-     */
     public function edit(GeneralTenderChecklist $generalTenderChecklist)
     {
-        //
+        return view('general_tender_checklists.edit', compact('generalTenderChecklist'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\GeneralTenderChecklist  $generalTenderChecklist
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, GeneralTenderChecklist $generalTenderChecklist)
     {
-        //
+        $generalTenderChecklistData = $request->validate([
+            'item' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
+
+        $generalTenderChecklistData['updated_by'] = auth()->user()->id;
+
+        $generalTenderChecklist->update($generalTenderChecklistData);
+
+        return redirect()->route('general-tender-checklists.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\GeneralTenderChecklist  $generalTenderChecklist
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(GeneralTenderChecklist $generalTenderChecklist)
     {
-        //
+        $generalTenderChecklist->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }

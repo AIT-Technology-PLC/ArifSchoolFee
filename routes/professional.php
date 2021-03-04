@@ -25,3 +25,5 @@ Route::resource('purchase-orders', 'PurchaseOrderController');
 Route::post('/grns/{grn}/approve', 'GrnController@approve')->name('grns.approve');
 
 Route::resource('grns', 'GrnController');
+
+Route::resource('general-tender-checklists', 'GeneralTenderChecklistController');
