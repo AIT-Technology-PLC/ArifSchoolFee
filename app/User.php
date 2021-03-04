@@ -5,6 +5,7 @@ namespace App;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Gdn;
+use App\Models\GeneralTenderChecklist;
 use App\Models\Grn;
 use App\Models\Merchandise;
 use App\Models\Product;
@@ -236,5 +237,15 @@ class User extends Authenticatable
     public function pricesUpdated()
     {
         return $this->hasMany(Price::class, 'updated_by');
+    }
+
+    public function generalTenderChecklistsCreated()
+    {
+        return $this->hasMany(GeneralTenderChecklist::class, 'created_by');
+    }
+
+    public function generalTenderChecklistsUpdated()
+    {
+        return $this->hasMany(GeneralTenderChecklist::class, 'updated_by');
     }
 }
