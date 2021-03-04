@@ -117,6 +117,11 @@ class Company extends Model
         return $this->hasMany(GeneralTenderChecklist::class);
     }
 
+    public function tenders()
+    {
+        return $this->hasMany(Tender::class);
+    }
+
     public function isCompanyStandardMember()
     {
         return $this->membership_plan == "Standard";

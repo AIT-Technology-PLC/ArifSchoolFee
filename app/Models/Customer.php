@@ -42,6 +42,11 @@ class Customer extends Model
         return $this->hasMany(PurchaseOrder::class);
     }
 
+    public function tenders()
+    {
+        return $this->hasMany(Tender::class);
+    }
+
     public function scopeCompanyCustomers($query)
     {
         return $query->where('company_id', auth()->user()->employee->company_id);

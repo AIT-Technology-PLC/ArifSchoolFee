@@ -17,6 +17,7 @@ use App\Models\Supplier;
 use App\Models\Transfer;
 use App\Models\Warehouse;
 use App\Models\Price;
+use App\Models\Tender;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -247,5 +248,15 @@ class User extends Authenticatable
     public function generalTenderChecklistsUpdated()
     {
         return $this->hasMany(GeneralTenderChecklist::class, 'updated_by');
+    }
+
+    public function tendersCreated()
+    {
+        return $this->hasMany(Tender::class, 'created_by');
+    }
+
+    public function tendersUpdated()
+    {
+        return $this->hasMany(Tender::class, 'updated_by');
     }
 }
