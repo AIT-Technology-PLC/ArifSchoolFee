@@ -68,11 +68,11 @@
                                 <div class="select is-fullwidth">
                                     <select id="status" name="status">
                                         <option selected disabled>Select Status</option>
-                                        <option value="Registered" {{ old('type') == 'Registered' ? 'selected' : '' }}>Registered</option>
-                                        <option value="Lost" {{ old('type') == 'Lost' ? 'selected' : '' }}>Lost</option>
-                                        <option value="Withdrawn" {{ old('type') == 'Withdrawn' ? 'selected' : '' }}>Withdrawn</option>
-                                        <option value="Won" {{ old('type') == 'Won' ? 'selected' : '' }}>Won</option>
-                                        <option value="Submitted" {{ old('type') == 'Submitted' ? 'selected' : '' }}>Submitted</option>
+                                        <option value="Registered" {{ old('status') == 'Registered' ? 'selected' : '' }}>Registered</option>
+                                        <option value="Lost" {{ old('status') == 'Lost' ? 'selected' : '' }}>Lost</option>
+                                        <option value="Withdrawn" {{ old('status') == 'Withdrawn' ? 'selected' : '' }}>Withdrawn</option>
+                                        <option value="Won" {{ old('status') == 'Won' ? 'selected' : '' }}>Won</option>
+                                        <option value="Submitted" {{ old('status') == 'Submitted' ? 'selected' : '' }}>Submitted</option>
                                     </select>
                                 </div>
                                 <span class="icon is-small is-left">
@@ -196,7 +196,7 @@
                                 <div class="field">
                                     <div class="control">
                                         <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                            <input type="checkbox" name="checklists[][item]" value="{{ $generalTenderChecklist->id }}">
+                                            <input type="checkbox" name="checklists[{{ $loop->index }}][item]" value="{{ $generalTenderChecklist->id }}" {{ old('checklists.' . $loop->index . '.item') == $generalTenderChecklist->id ? 'checked' : '' }}>
                                             {{ $generalTenderChecklist->item }}
                                         </label>
                                     </div>
@@ -204,6 +204,11 @@
                             </div>
                         @endforeach
                     </div>
+                    @error('checklists')
+                        <span class="help has-text-danger" role="alert">
+                            {{ $message }}
+                        </span>
+                    @enderror
                 </div>
                 <div class="has-text-weight-medium has-text-left mt-5">
                     <span class="tag bg-green has-text-white is-medium radius-bottom-0">
