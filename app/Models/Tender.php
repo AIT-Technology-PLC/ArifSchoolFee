@@ -47,4 +47,19 @@ class Tender extends Model
     {
         return $this->hasMany(TenderChecklist::class);
     }
+
+    public function scopeCompanyTender($query)
+    {
+        return $query->where('company_id', auth()->user()->employee->company_id);
+    }
+
+    public function getAll()
+    {
+        return $this->companyTender()->get();
+    }
+
+    public function countTendersOfCompany()
+    {
+        return $this->companyTender()->count();
+    }
 }

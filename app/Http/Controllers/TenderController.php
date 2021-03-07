@@ -2,84 +2,119 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\GeneralTenderChecklist;
+use App\Models\Product;
 use App\Models\Tender;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class TenderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $tender;
+
+    public function __construct(Tender $tender)
+    {
+        $this->tender = $tender;
+    }
+
     public function index()
     {
-        //
+        $tenders = $this->tender->getAll()->load(['customer', 'tenderDetails', 'tenderChecklists', 'company', 'createdBy', 'updatedBy']);
+
+        $totalTenders = $this->tender->countTendersOfCompany();
+
+        return view('tenders.index', compact('tenders', 'totalTenders'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(Customer $customer, GeneralTenderChecklist $generalTenderChecklist, Product $product, Warehouse $warehouse)
     {
-        //
+        $customers = $customer->getAll();
+
+        $generalTenderChecklists = $generalTenderChecklist->getAll();
+
+        $products = $product->getProductNames();
+
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        return view('tenders.create', compact('customers', 'generalTenderChecklists', 'products', 'warehouses'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $tenderData = $request->validate([
+
+        ]);
+
+        $tenderData['created_by'] = auth()->user()->id;
+        $tenderData['updated_by'] = auth()->user()->id;
+
+        $basicTenderData = Arr::except($tenderData, ['tender', 'checklist']);
+        $tenderDetailsData = Arr::only($tenderData, 'tender');
+        $tenderChecklistsData = Arr::only($tenderData, 'checklist');
+
+        DB::transaction(function () use ($basicTenderData, $tenderDetailsData, $tenderChecklistsData) {
+            $tender = $this->tender->create($basicTenderData);
+            $tender->tenderDetails()->createMany($tenderDetailsData);
+            $tender->tenderChecklists()->createMany($tenderChecklistsData);
+        });
+
+        return redirect()->route('tenders.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Tender  $tender
-     * @return \Illuminate\Http\Response
-     */
     public function show(Tender $tender)
     {
-        //
+        $tender->load(['customer', 'tenderDetails.product', 'tenderDetails.warehouse', 'tenderChecklists', 'company', 'createdBy', 'updatedBy']);
+
+        return view('tenders.show', compact('tender'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Tender  $tender
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Tender $tender)
+    public function edit(Tender $tender, Customer $customer, GeneralTenderChecklist $generalTenderChecklist, Product $product, Warehouse $warehouse)
     {
-        //
+        $customers = $customer->getAll();
+
+        $generalTenderChecklists = $generalTenderChecklist->getAll();
+
+        $products = $product->getProductNames();
+
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        return view('tenders.create', compact('tender', 'customers', 'generalTenderChecklists', 'products', 'warehouses'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tender  $tender
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Tender $tender)
     {
-        //
+        $tenderData = $request->validate([
+
+        ]);
+
+        $tenderData['updated_by'] = auth()->user()->id;
+
+        $basicTenderData = Arr::except($tenderData, ['tender', 'checklist']);
+        $tenderDetailsData = Arr::only($tenderData, 'tender');
+        $tenderChecklistsData = Arr::only($tenderData, 'checklist');
+
+        DB::transaction(function () use ($tender, $basicTenderData, $tenderDetailsData, $tenderChecklistsData) {
+            $tender = $tender->create($basicTenderData);
+
+            for ($i = 0; $i < count($tenderDetailsData); $i++) {
+                $tender->tenderDetails[$i]->update($tenderDetailsData[$i]);
+            }
+
+            for ($i = 0; $i < count($tenderChecklistsData); $i++) {
+                $tender->tenderChecklists[$i]->update($tenderChecklistsData[$i]);
+            }
+        });
+
+        return redirect()->route('tenders.show', $tender->id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Tender  $tender
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Tender $tender)
     {
-        //
+        $tender->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }
