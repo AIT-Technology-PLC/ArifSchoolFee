@@ -259,12 +259,12 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('tenders.edit', $tender->id) }}" class="button is-small bg-green has-text-white">
+                            <a href="{{ route('tender-checklists.edit', $tender->id) }}" class="button is-small bg-green has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
                                 </span>
                                 <span>
-                                    Edit
+                                    Update Checklists
                                 </span>
                             </a>
                         </div>
@@ -279,6 +279,7 @@
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th><abbr> Item </abbr></th>
+                            <th><abbr> Status </abbr></th>
                             <th><abbr> Comment </abbr></th>
                         </tr>
                     </thead>
@@ -288,6 +289,9 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
                                     {{ $tenderChecklist->item }}
+                                </td>
+                                <td class="is-capitalized">
+                                    {{ $tenderChecklist->status ?? 'N/A' }}
                                 </td>
                                 <td>
                                     {{ $tenderChecklist->comment ?? 'N/A' }}

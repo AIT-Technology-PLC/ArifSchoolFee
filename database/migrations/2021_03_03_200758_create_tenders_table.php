@@ -78,6 +78,7 @@ class CreateTendersTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('tender_id')->nullable()->unsigned();
             $table->string('item');
+            $table->string('status')->nullable();
             $table->string('comment')->nullable();
             $table->timestamps();
             $table->softDeletes();

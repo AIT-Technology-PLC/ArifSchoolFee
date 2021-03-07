@@ -330,7 +330,7 @@
                             <i class="fas fa-tasks"></i>
                         </span>
                         <span>
-                            General Tender Checklist
+                            Tender Checklist
                         </span>
                     </a>
                 </li>
