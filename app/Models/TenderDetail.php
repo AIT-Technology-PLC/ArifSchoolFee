@@ -11,10 +11,6 @@ class TenderDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
-    protected $casts = [
-        'is_from_stock' => 'boolean',
-    ];
-
     public function tender()
     {
         return $this->belongsTo(Tender::class);
@@ -23,10 +19,5 @@ class TenderDetail extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
-    }
-
-    public function warehouse()
-    {
-        return $this->belongsTo(Warehouse::class);
     }
 }

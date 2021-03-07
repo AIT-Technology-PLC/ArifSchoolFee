@@ -196,7 +196,7 @@
                                 <div class="field">
                                     <div class="control">
                                         <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                            <input type="checkbox" name="checklists[][]" value="{{ $generalTenderChecklist->id }}">
+                                            <input type="checkbox" name="checklists[][item]" value="{{ $generalTenderChecklist->id }}">
                                             {{ $generalTenderChecklist->item }}
                                         </label>
                                     </div>

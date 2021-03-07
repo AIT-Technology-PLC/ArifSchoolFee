@@ -39,7 +39,6 @@ class CreateTendersTable extends Migration
             $table->string('name');
             $table->string('type');
             $table->string('status');
-            $table->string('progress');
             $table->bigInteger('participants');
             $table->dateTime('published_on')->nullable();
             $table->dateTime('closing_date')->nullable();
@@ -61,10 +60,7 @@ class CreateTendersTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('tender_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->boolean('is_from_stock');
-            $table->decimal('total_quantity', 22);
-            $table->decimal('supplied_quantity', 22);
+            $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22)->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
@@ -72,11 +68,9 @@ class CreateTendersTable extends Migration
 
             $table->index('tender_id');
             $table->index('product_id');
-            $table->index('warehouse_id');
 
             $table->foreign('tender_id')->references('id')->on('tenders')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
 
         });
 
