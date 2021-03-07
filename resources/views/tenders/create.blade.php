@@ -186,6 +186,25 @@
                         </div>
                     </div>
                 </div>
+                <p class="text-green has-text-weight-normal mx-3 mb-3 mt-4">
+                    Select Checklists
+                </p>
+                <div class="box has-background-white-bis radius-top-0 mx-3 mb-6">
+                    <div class="columns is-marginless is-multiline">
+                        @foreach ($generalTenderChecklists as $generalTenderChecklist)
+                            <div class="column is-one-fifth">
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="checkbox text-green has-text-weight-normal is-size-7">
+                                            <input type="checkbox" name="checklists[][]" value="{{ $generalTenderChecklist->id }}">
+                                            {{ $generalTenderChecklist->item }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
                 <div class="has-text-weight-medium has-text-left mt-5">
                     <span class="tag bg-green has-text-white is-medium radius-bottom-0">
                         Item 1

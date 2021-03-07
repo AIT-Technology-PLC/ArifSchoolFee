@@ -34,6 +34,6 @@ class GeneralTenderChecklist extends Model
 
     public function getAll()
     {
-        return $this->companyGeneralTenderChecklist()->get();
+        return $this->companyGeneralTenderChecklist()->orderBy('item', 'asc')->get();
     }
 }

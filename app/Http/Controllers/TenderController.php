@@ -59,14 +59,15 @@ class TenderController extends Controller
             'tender.*.quantity' => 'required|numeric',
             'tender.*.unit_price' => 'required|numeric',
             'tender.*.description' => 'nullable|string',
+            'checklists' => 'required|array',
         ]);
 
         $tenderData['created_by'] = auth()->user()->id;
         $tenderData['updated_by'] = auth()->user()->id;
 
-        $basicTenderData = Arr::except($tenderData, ['tender', 'checklist']);
+        $basicTenderData = Arr::except($tenderData, ['tender', 'checklists']);
         $tenderDetailsData = Arr::only($tenderData, 'tender');
-        $tenderChecklistsData = Arr::only($tenderData, 'checklist');
+        $tenderChecklistsData = Arr::only($tenderData, 'checklists');
 
         DB::transaction(function () use ($basicTenderData, $tenderDetailsData, $tenderChecklistsData) {
             $tender = $this->tender->create($basicTenderData);
@@ -105,9 +106,9 @@ class TenderController extends Controller
 
         $tenderData['updated_by'] = auth()->user()->id;
 
-        $basicTenderData = Arr::except($tenderData, ['tender', 'checklist']);
+        $basicTenderData = Arr::except($tenderData, ['tender', 'checklists']);
         $tenderDetailsData = Arr::only($tenderData, 'tender');
-        $tenderChecklistsData = Arr::only($tenderData, 'checklist');
+        $tenderChecklistsData = Arr::only($tenderData, 'checklists');
 
         DB::transaction(function () use ($tender, $basicTenderData, $tenderDetailsData, $tenderChecklistsData) {
             $tender = $tender->create($basicTenderData);
