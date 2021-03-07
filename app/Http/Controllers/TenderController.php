@@ -78,7 +78,7 @@ class TenderController extends Controller
 
     public function show(Tender $tender)
     {
-        $tender->load(['customer', 'tenderDetails.product', 'tenderChecklists', 'company', 'createdBy', 'updatedBy']);
+        $tender->load(['customer', 'tenderDetails.product', 'tenderChecklists', 'company']);
 
         return view('tenders.show', compact('tender'));
     }

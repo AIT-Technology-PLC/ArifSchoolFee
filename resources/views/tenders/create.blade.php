@@ -196,7 +196,7 @@
                                 <div class="field">
                                     <div class="control">
                                         <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                            <input type="checkbox" name="checklists[{{ $loop->index }}][item]" value="{{ $generalTenderChecklist->id }}" {{ old('checklists.' . $loop->index . '.item') == $generalTenderChecklist->id ? 'checked' : '' }}>
+                                            <input type="checkbox" name="checklists[{{ $loop->index }}][item]" value="{{ $generalTenderChecklist->item }}" {{ old('checklists.' . $loop->index . '.item') == $generalTenderChecklist->item ? 'checked' : '' }}>
                                             {{ $generalTenderChecklist->item }}
                                         </label>
                                     </div>
