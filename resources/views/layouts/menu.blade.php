@@ -325,6 +325,32 @@
             </p>
             <ul class="menu-list mb-5">
                 <li>
+                    <a name="menuTitles" href="{{ route('tenders.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tenders') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </span>
+                        <span>
+                            Tender Management
+                        </span>
+                    </a>
+                </li>
+                @can('Create Sale')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('tenders.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tenders/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Tender
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+                <li>
                     <a name="menuTitles" href="{{ route('general-tender-checklists.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('general-tender-checklists') ? 'is-active' : '' }}">
                         <span class="icon">
                             <i class="fas fa-tasks"></i>

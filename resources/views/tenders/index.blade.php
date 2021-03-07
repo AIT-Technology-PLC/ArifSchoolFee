@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Tenders Management
+    Tender Management
 @endsection
 
 @section('content')
@@ -30,7 +30,7 @@
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column is-paddingless has-text-centered">
                         <div class="is-uppercase is-size-7">
-                            Create new Tenders for delivery and moving products out
+                            Create new tender, track statuses and checklist items
                         </div>
                         <div class="is-size-3">
                             <a href="{{ route('tenders.create') }}" class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3">
@@ -38,7 +38,7 @@
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
                                 <span>
-                                    Create New Tenders
+                                    Create New Tender
                                 </span>
                             </a>
                         </div>
@@ -50,7 +50,7 @@
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-green has-text-weight-medium is-size-5">
-                Tenders Management
+                Tender Management
             </h1>
         </div>
         <div class="box radius-top-0">

@@ -12,7 +12,7 @@
             </h1>
         </div>
         <div class="box radius-top-0">
-            @include('components.deleted_message', ['model' => 'General tender checklist item'])
+            @include('components.deleted_message', ['model' => 'Tender checklist item'])
             <div>
                 <table id="table_id" class="is-hoverable is-size-7 display">
                     <thead>
