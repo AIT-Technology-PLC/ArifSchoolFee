@@ -182,3 +182,10 @@ if (d.getElementById("openApproveTransferModal")) {
         openApproveTransferModal
     );
 }
+
+if (d.getElementById("addNewTenderForm")) {
+    d.getElementById("addNewTenderForm").addEventListener(
+        "click",
+        addTenderForm
+    );
+}

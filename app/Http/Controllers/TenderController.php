@@ -45,7 +45,20 @@ class TenderController extends Controller
     public function store(Request $request)
     {
         $tenderData = $request->validate([
-
+            'name' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+            'status' => 'required|string|max:255',
+            'participants' => 'required|integer',
+            'published_on' => 'required|date',
+            'closing_date' => 'required|date',
+            'opening_date' => 'required|date',
+            'customer' => 'nullable|integer',
+            'description' => 'nullable|string',
+            'tender' => 'required|array',
+            'tender.*.product_id' => 'required|integer',
+            'tender.*.quantity' => 'required|numeric',
+            'tender.*.unit_price' => 'required|numeric',
+            'tender.*.description' => 'nullable|string',
         ]);
 
         $tenderData['created_by'] = auth()->user()->id;

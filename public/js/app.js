@@ -923,3 +923,98 @@ function openApproveTransferModal(event) {
         }
     });
 }
+
+const addTenderForm = (function () {
+    const tenderFormGroup = d.getElementsByName(
+        "tenderFormGroup"
+    );
+    const tenderFormWrapper = d.getElementById(
+        "tenderFormWrapper"
+    );
+    const productList = d.getElementById("tender[0][product_id]");
+    const formLimit = 10;
+    let index = tenderFormGroup.length;
+
+    if (!tenderFormWrapper) {
+        return false;
+    }
+
+    return function () {
+        const createTenderForm = `
+        <div class="has-text-weight-medium has-text-left">
+            <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                Item ${index + 1}
+            </span>
+        </div>
+        <div class="box has-background-white-bis radius-top-0 mb-5">
+            <div name="tenderFormGroup" class="columns is-marginless is-multiline">
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="tender[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="tender[${index}][product_id]" name="tender[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                    ${productList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-th"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label for="tender[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left is-expanded">
+                            <input id="tender[${index}][quantity]" name="tender[${index}][quantity]" type="number" class="input" placeholder="Quantity" value="0.00">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-balance-scale"></i>
+                            </span>
+                        </div>
+                        <div class="control">
+                            <button id="tender[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label for="tender[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left is-expanded">
+                            <input id="tender[${index}][unit_price]" name="tender[${index}][unit_price]" type="number" class="input" placeholder="Unit Price" value="0.00">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-balance-scale"></i>
+                            </span>
+                        </div>
+                        <div class="control">
+                            <button id="tender[${index}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="tender[${index}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
+                        <div class="control has-icons-left">
+                            <textarea name="tender[${index}][description]" id="tender[${index}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken"></textarea>
+                            <span class="icon is-large is-left">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+        tenderFormWrapper.insertAdjacentHTML(
+            "beforeend",
+            createTenderForm
+        );
+
+        index++;
+
+        if (index == formLimit) {
+            d.getElementById("addNewTenderForm").remove();
+            return false;
+        }
+    };
+})();

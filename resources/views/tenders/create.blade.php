@@ -50,9 +50,14 @@
                                         <option value="ICB" {{ old('type') == 'ICB' ? 'selected' : '' }}>ICB</option>
                                     </select>
                                 </div>
-                                <div class="icon is-small is-left">
+                                <span class="icon is-small is-left">
                                     <i class="fas fa-columns"></i>
-                                </div>
+                                </span>
+                                @error('type')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -70,9 +75,14 @@
                                         <option value="Submitted" {{ old('type') == 'Submitted' ? 'selected' : '' }}>Submitted</option>
                                     </select>
                                 </div>
-                                <div class="icon is-small is-left">
+                                <span class="icon is-small is-left">
                                     <i class="fas fa-info"></i>
-                                </div>
+                                </span>
+                                @error('status')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -210,7 +220,7 @@
                             <label for="tender[0][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
                             <div class="field has-addons">
                                 <div class="control has-icons-left is-expanded">
-                                    <input id="tender[0][quantity]" name="tender[0][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('tender.0.quantity') ?? '' }}">
+                                    <input id="tender[0][quantity]" name="tender[0][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('tender.0.quantity') ?? '0.00' }}">
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-balance-scale"></i>
                                     </span>
@@ -226,10 +236,10 @@
                             </div>
                         </div>
                         <div class="column is-6">
-                            <label for="tender[0][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger"></sup> </label>
+                            <label for="tender[0][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
                             <div class="field has-addons">
                                 <div class="control has-icons-left is-expanded">
-                                    <input id="tender[0][unit_price]" name="tender[0][unit_price]" type="number" class="input" placeholder="Sale Price" value="{{ old('tender.0.unit_price') ?? '0.00' }}">
+                                    <input id="tender[0][unit_price]" name="tender[0][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ old('tender.0.unit_price') ?? '0.00' }}">
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-money-bill"></i>
                                     </span>
@@ -298,7 +308,7 @@
                                     <label for="tender[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
                                     <div class="field has-addons">
                                         <div class="control has-icons-left is-expanded">
-                                            <input id="tender[{{ $i }}][quantity]" name="tender[{{ $i }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('tender.' . $i . '.quantity') ?? '' }}">
+                                            <input id="tender[{{ $i }}][quantity]" name="tender[{{ $i }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('tender.' . $i . '.quantity') ?? '0.00' }}">
                                             <span class="icon is-small is-left">
                                                 <i class="fas fa-balance-scale"></i>
                                             </span>
@@ -317,7 +327,7 @@
                                     <label for="tender[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
                                     <div class="field has-addons">
                                         <div class="control has-icons-left is-expanded">
-                                            <input id="tender[{{ $i }}][unit_price]" name="tender[{{ $i }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ old('tender.' . $i . '.unit_price') ?? '' }}">
+                                            <input id="tender[{{ $i }}][unit_price]" name="tender[{{ $i }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ old('tender.' . $i . '.unit_price') ?? '0.00' }}">
                                             <span class="icon is-small is-left">
                                                 <i class="fas fa-money-bill"></i>
                                             </span>
