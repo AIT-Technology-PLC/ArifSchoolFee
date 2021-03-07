@@ -106,6 +106,11 @@ class Product extends Model
         return $this->hasOne(Price::class);
     }
 
+    public function tenderDetails()
+    {
+        return $this->hasMany(TenderDetail::class);
+    }
+
     public function setPropertiesAttribute($array)
     {
         $properties = [];
