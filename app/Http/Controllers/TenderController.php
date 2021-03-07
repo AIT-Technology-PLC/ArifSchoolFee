@@ -6,7 +6,6 @@ use App\Models\Customer;
 use App\Models\GeneralTenderChecklist;
 use App\Models\Product;
 use App\Models\Tender;
-use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -29,7 +28,7 @@ class TenderController extends Controller
         return view('tenders.index', compact('tenders', 'totalTenders'));
     }
 
-    public function create(Customer $customer, GeneralTenderChecklist $generalTenderChecklist, Product $product, Warehouse $warehouse)
+    public function create(Customer $customer, GeneralTenderChecklist $generalTenderChecklist, Product $product)
     {
         $customers = $customer->getAll();
 
@@ -37,9 +36,7 @@ class TenderController extends Controller
 
         $products = $product->getProductNames();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
-
-        return view('tenders.create', compact('customers', 'generalTenderChecklists', 'products', 'warehouses'));
+        return view('tenders.create', compact('customers', 'generalTenderChecklists', 'products'));
     }
 
     public function store(Request $request)
@@ -52,7 +49,7 @@ class TenderController extends Controller
             'published_on' => 'required|date',
             'closing_date' => 'required|date',
             'opening_date' => 'required|date',
-            'customer' => 'nullable|integer',
+            'customer_id' => 'nullable|integer',
             'description' => 'nullable|string',
             'tender' => 'required|array',
             'tender.*.product_id' => 'required|integer',
@@ -81,12 +78,12 @@ class TenderController extends Controller
 
     public function show(Tender $tender)
     {
-        $tender->load(['customer', 'tenderDetails.product', 'tenderDetails.warehouse', 'tenderChecklists', 'company', 'createdBy', 'updatedBy']);
+        $tender->load(['customer', 'tenderDetails.product', 'tenderChecklists', 'company', 'createdBy', 'updatedBy']);
 
         return view('tenders.show', compact('tender'));
     }
 
-    public function edit(Tender $tender, Customer $customer, GeneralTenderChecklist $generalTenderChecklist, Product $product, Warehouse $warehouse)
+    public function edit(Tender $tender, Customer $customer, GeneralTenderChecklist $generalTenderChecklist, Product $product)
     {
         $customers = $customer->getAll();
 
@@ -94,9 +91,7 @@ class TenderController extends Controller
 
         $products = $product->getProductNames();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
-
-        return view('tenders.create', compact('tender', 'customers', 'generalTenderChecklists', 'products', 'warehouses'));
+        return view('tenders.edit', compact('tender', 'customers', 'generalTenderChecklists', 'products'));
     }
 
     public function update(Request $request, Tender $tender)
@@ -109,31 +104,25 @@ class TenderController extends Controller
             'published_on' => 'required|date',
             'closing_date' => 'required|date',
             'opening_date' => 'required|date',
-            'customer' => 'nullable|integer',
+            'customer_id' => 'nullable|integer',
             'description' => 'nullable|string',
             'tender' => 'required|array',
             'tender.*.product_id' => 'required|integer',
             'tender.*.quantity' => 'required|numeric',
             'tender.*.unit_price' => 'required|numeric',
             'tender.*.description' => 'nullable|string',
-            'checklists' => 'required|array',
         ]);
 
         $tenderData['updated_by'] = auth()->user()->id;
 
         $basicTenderData = Arr::except($tenderData, ['tender', 'checklists']);
         $tenderDetailsData = $tenderData['tender'];
-        $tenderChecklistsData = $tenderData['checklists'];
 
-        DB::transaction(function () use ($tender, $basicTenderData, $tenderDetailsData, $tenderChecklistsData) {
-            $tender = $tender->create($basicTenderData);
+        DB::transaction(function () use ($tender, $basicTenderData, $tenderDetailsData) {
+            $tender->update($basicTenderData);
 
             for ($i = 0; $i < count($tenderDetailsData); $i++) {
                 $tender->tenderDetails[$i]->update($tenderDetailsData[$i]);
-            }
-
-            for ($i = 0; $i < count($tenderChecklistsData); $i++) {
-                $tender->tenderChecklists[$i]->update($tenderChecklistsData[$i]);
             }
         });
 
