@@ -47,7 +47,7 @@ class TenderController extends Controller
             'name' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'status' => 'required|string|max:255',
-            'participants' => 'required|integer',
+            'participants' => 'required|integer|min:1',
             'published_on' => 'required|date',
             'closing_date' => 'required|date',
             'opening_date' => 'required|date',
