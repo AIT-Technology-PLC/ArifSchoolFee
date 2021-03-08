@@ -259,12 +259,12 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('tender-checklists.edit', $tender->id) }}" class="button is-small bg-green has-text-white">
+                            <a href="{{ route('tender-checklists.create', $tender->id) }}" class="button is-small bg-purple has-text-white">
                                 <span class="icon">
-                                    <i class="fas fa-pen"></i>
+                                    <i class="fas fa-plus-circle"></i>
                                 </span>
                                 <span>
-                                    Update Checklists
+                                    Add New Checklist
                                 </span>
                             </a>
                         </div>
@@ -281,6 +281,7 @@
                             <th><abbr> Item </abbr></th>
                             <th><abbr> Status </abbr></th>
                             <th><abbr> Comment </abbr></th>
+                            <th><abbr> Action </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -295,6 +296,22 @@
                                 </td>
                                 <td>
                                     {{ $tenderChecklist->comment ?? 'N/A' }}
+                                </td>
+                                <td>
+                                    <a href="{{ route('tender-checklists.edit', $tenderChecklist->id) }}" data-title="Update Checklist">
+                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                            <span class="icon">
+                                                <i class="fas fa-pen-square"></i>
+                                            </span>
+                                            <span>
+                                                Update
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <span>
+                                        @include('components.delete_button', ['model' => 'tender-checklists',
+                                        'id' => $tenderChecklist->id])
+                                    </span>
                                 </td>
                             </tr>
                         @endforeach
