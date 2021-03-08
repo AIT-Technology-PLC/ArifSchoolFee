@@ -259,7 +259,7 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('tender-checklists.create', $tender->id) }}" class="button is-small bg-purple has-text-white">
+                            <a href="{{ route('tender-checklists.create', 'tender=' . $tender->id) }}" class="button is-small bg-purple has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>

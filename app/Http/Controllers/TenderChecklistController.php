@@ -2,24 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GeneralTenderChecklist;
+use App\Models\Tender;
 use App\Models\TenderChecklist;
 use Illuminate\Http\Request;
 
 class TenderChecklistController extends Controller
 {
-    public function __construct()
+    public function create(Tender $tender, GeneralTenderChecklist $generalTenderChecklist)
     {
+        $generalTenderChecklists = $generalTenderChecklist->getAll();
 
+        $tender = $tender->with('tenderChecklists')->find(request('tender'));
+
+        return view('tender_checklists.create', compact('generalTenderChecklists', 'tender'));
     }
 
-    public function create()
+    public function store(Request $request, Tender $tender)
     {
+        $tenderChecklistData = $request->validate([
+            'checklists' => 'required|array',
+        ]);
 
-    }
+        $tenderChecklistData = $tenderChecklistData['checklists'];
 
-    public function store(Request $request)
-    {
+        $tender = $tender->find(request('tender'));
 
+        $tender->tenderChecklists()->createMany($tenderChecklistData);
+
+        return redirect()->route('tenders.show', $tender->id);
     }
 
     public function edit(TenderChecklist $tenderChecklist)
@@ -27,7 +38,7 @@ class TenderChecklistController extends Controller
         return view('tender_checklists.edit', compact('tenderChecklist'));
     }
 
-    public function update(Request $request,TenderChecklist $tenderChecklist)
+    public function update(Request $request, TenderChecklist $tenderChecklist)
     {
         $tenderChecklistData = $request->validate([
             'status' => 'required|string',
