@@ -11,22 +11,26 @@ class TenderChecklistController extends Controller
 {
     public function create(Tender $tender, GeneralTenderChecklist $generalTenderChecklist)
     {
-        $generalTenderChecklists = $generalTenderChecklist->getAll();
-
         $tender = $tender->with('tenderChecklists')->find(request('tender'));
+
+        $this->authorize('create', $tender);
+
+        $generalTenderChecklists = $generalTenderChecklist->getAll();
 
         return view('tender_checklists.create', compact('generalTenderChecklists', 'tender'));
     }
 
     public function store(Request $request, Tender $tender)
     {
+        $tender = $tender->find(request('tender'));
+
+        $this->authorize('create', $tender);
+
         $tenderChecklistData = $request->validate([
             'checklists' => 'required|array',
         ]);
 
         $tenderChecklistData = $tenderChecklistData['checklists'];
-
-        $tender = $tender->find(request('tender'));
 
         $tender->tenderChecklists()->createMany($tenderChecklistData);
 
@@ -35,11 +39,15 @@ class TenderChecklistController extends Controller
 
     public function edit(TenderChecklist $tenderChecklist)
     {
+        $this->authorize('update', $tenderChecklist->tender);
+
         return view('tender_checklists.edit', compact('tenderChecklist'));
     }
 
     public function update(Request $request, TenderChecklist $tenderChecklist)
     {
+        $this->authorize('update', $tenderChecklist->tender);
+
         $tenderChecklistData = $request->validate([
             'status' => 'required|string',
             'comment' => 'nullable|string',
@@ -52,6 +60,8 @@ class TenderChecklistController extends Controller
 
     public function destroy(TenderChecklist $tenderChecklist)
     {
+        $this->authorize('delete', $tenderChecklist->tender);
+
         $tenderChecklist->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
