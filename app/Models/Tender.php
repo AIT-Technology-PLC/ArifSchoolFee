@@ -65,7 +65,7 @@ class Tender extends Model
 
     public function getAll()
     {
-        return $this->companyTender()->withCount('tenderDetails')->get();
+        return $this->companyTender()->withCount('tenderDetails')->latest()->get();
     }
 
     public function countTendersOfCompany()
