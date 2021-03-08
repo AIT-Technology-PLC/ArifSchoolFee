@@ -16,6 +16,7 @@ use App\Models\Purchase;
 use App\Models\PurchaseOrder;
 use App\Models\Sale;
 use App\Models\Supplier;
+use App\Models\Tender;
 use App\Models\Transfer;
 use App\Models\Warehouse;
 use App\Policies\CompanyPolicy;
@@ -32,6 +33,7 @@ use App\Policies\PurchaseOrderPolicy;
 use App\Policies\PurchasePolicy;
 use App\Policies\SalePolicy;
 use App\Policies\SupplierPolicy;
+use App\Policies\TenderPolicy;
 use App\Policies\TransferPolicy;
 use App\Policies\WarehousePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -60,6 +62,7 @@ class AuthServiceProvider extends ServiceProvider
         Grn::class => GrnPolicy::class,
         Price::class => PricePolicy::class,
         GeneralTenderChecklist::class => GeneralTenderChecklistPolicy::class,
+        Tender::class => TenderPolicy::class,
     ];
 
     /**

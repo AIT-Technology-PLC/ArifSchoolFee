@@ -16,6 +16,8 @@ class TenderController extends Controller
 
     public function __construct(Tender $tender)
     {
+        $this->authorizeResource(Tender::class, 'tender');
+
         $this->tender = $tender;
     }
 
