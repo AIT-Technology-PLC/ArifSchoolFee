@@ -170,10 +170,10 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ $tender->totalTenderPrice ?? '0'}}
+                                {{ $tender->totalTenderPrice ?? '0.00'}}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Total Price ({{ $tender->company->currency }})
+                                Total Price Without VAT ({{ $tender->company->currency }})
                             </div>
                         </div>
                     </div>

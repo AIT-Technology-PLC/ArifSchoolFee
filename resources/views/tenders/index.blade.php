@@ -62,7 +62,7 @@
                             <th id="firstTarget"><abbr> # </abbr></th>
                             <th class="text-green"><abbr> Project </abbr></th>
                             <th><abbr> Type </abbr></th>
-                            <th class="text-gold"><abbr> Status </abbr></th>
+                            <th class="text-purple"><abbr> Status </abbr></th>
                             <th><abbr> Customer </abbr></th>
                             <th class="has-text-centered"><abbr> Participants </abbr></th>
                             <th class="has-text-centered"><abbr> Items </abbr></th>
@@ -86,12 +86,10 @@
                                     </span>
                                 </td>
                                 <td class="is-capitalized">
-                                    <span class="tag is-small bg-gold has-text-white">
-                                        {{ $tender->type }}
-                                    </span>
+                                    {{ $tender->type }}
                                 </td>
                                 <td class="is-capitalized">
-                                    <span class="tag is-small bg-gold has-text-white">
+                                    <span class="tag is-small bg-purple has-text-white">
                                         {{ $tender->status }}
                                     </span>
                                 </td>
