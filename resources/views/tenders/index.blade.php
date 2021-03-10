@@ -60,13 +60,12 @@
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
-                            <th><abbr> Project </abbr></th>
+                            <th><abbr> Tender No </abbr></th>
                             <th><abbr> Type </abbr></th>
                             <th><abbr> Status </abbr></th>
                             <th><abbr> Customer </abbr></th>
                             <th class="has-text-centered"><abbr> Participants </abbr></th>
                             <th class="has-text-centered"><abbr> Items </abbr></th>
-                            <th class="has-text-right"><abbr> Total Price </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Published On </abbr></th>
                             <th class="has-text-right"><abbr> Closing Date </abbr></th>
@@ -117,10 +116,6 @@
                                 </td>
                                 <td class="has-text-centered">
                                     {{ $tender->tender_details_count }}
-                                </td>
-                                <td class="has-text-right">
-                                    {{ $tender->company->currency }}.
-                                    {{ $tender->totalTenderPrice }}
                                 </td>
                                 <td class="description">
                                     {!! nl2br(e(substr($tender->description, 0, 40))) ?? 'N/A' !!}

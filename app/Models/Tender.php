@@ -53,16 +53,6 @@ class Tender extends Model
         return $query->where('company_id', auth()->user()->employee->company_id);
     }
 
-    public function getTotalTenderPriceAttribute()
-    {
-        $totalPrice = $this->tenderDetails
-            ->reduce(function ($carry, $item) {
-                return $carry + ($item->unit_price * $item->quantity);
-            }, 0);
-
-        return number_format($totalPrice, 2);
-    }
-
     public function getAll()
     {
         return $this->companyTender()->withCount('tenderDetails')->latest()->get();

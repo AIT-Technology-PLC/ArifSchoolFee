@@ -160,20 +160,16 @@
                     </div>
                 </div>
             </div>
-            <div class="column is-6">
+            <div class="column is-12">
                 <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-green">
-                        <div class="column is-1">
-                            <span class="icon is-size-3">
-                                <i class="fas fa-dollar-sign"></i>
-                            </span>
-                        </div>
-                        <div class="column m-lr-20">
-                            <div class="is-size- has-text-weight-bold">
-                                {{ $tender->totalTenderPrice ?? '0.00'}}
+                    <div class="columns is-marginless is-vcentered text-green">
+                        <div class="column">
+                            <div class="has-text-weight-bold">
+                                Details
                             </div>
-                            <div class="is-uppercase is-size-7">
-                                Total Price Without VAT ({{ $tender->company->currency }})
+                            <div class="is-size-7 mt-3">
+                                {{ $tender->description }}
+                                {!! nl2br(e($tender->description)) ?? 'N/A' !!}
                             </div>
                         </div>
                     </div>
@@ -217,7 +213,6 @@
                             <th><abbr> # </abbr></th>
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
-                            <th><abbr> Unit Price </abbr></th>
                             <th><abbr> Description </abbr></th>
                         </tr>
                     </thead>
@@ -231,10 +226,6 @@
                                 <td>
                                     {{ number_format($tenderDetail->quantity, 2) }}
                                     {{ $tenderDetail->product->unit_of_measurement }}
-                                </td>
-                                <td>
-                                    {{ $tender->company->currency }}.
-                                    {{ number_format($tenderDetail->unit_price, 2) }}
                                 </td>
                                 <td>
                                     {!! nl2br(e($tenderDetail->description)) !!}
