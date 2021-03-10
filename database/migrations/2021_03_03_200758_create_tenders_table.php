@@ -30,6 +30,23 @@ class CreateTendersTable extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
+        Schema::create('tender_statuses', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('status');
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+        });
+
         Schema::create('tenders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('customer_id')->nullable()->unsigned();
@@ -100,6 +117,7 @@ class CreateTendersTable extends Migration
     public function down()
     {
         Schema::drop('general_tender_checklists');
+        Schema::drop('tender_statuses');
         Schema::drop('tender_checklists');
         Schema::drop('tender_details');
         Schema::drop('tenders');
