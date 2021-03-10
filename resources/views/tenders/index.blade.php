@@ -71,7 +71,7 @@
                             <th class="has-text-centered"><abbr> Items </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Published On </abbr></th>
-                            <th class="has-text-right"><abbr> Closing Date </abbr></th>
+                            <th class="has-text-right text-purple"><abbr> Closing Date </abbr></th>
                             <th class="has-text-right"><abbr> Opening Date </abbr></th>
                             <th><abbr> Prepared By </abbr></th>
                             <th><abbr> Edited By </abbr></th>
@@ -123,7 +123,7 @@
                                     </span>
                                 </td>
                                 <td class="has-text-right">
-                                    <span class="tag is-small">
+                                    <span class="tag is-small" style="background-color: inherit !important">
                                         {{ $tender->opening_date->toDayDateTimeString() }}
                                     </span>
                                 </td>

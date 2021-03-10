@@ -121,7 +121,7 @@
                         <div class="field">
                             <label for="closing_date" class="label text-green has-text-weight-normal"> Closing Date <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="closing_date" id="closing_date" placeholder="mm/dd/yyyy" value="{{ $tender->closing_date->toDateString() ?? '' }}">
+                                <input class="input" type="datetime-local" name="closing_date" id="closing_date" placeholder="mm/dd/yyyy" value="{{ $tender->closing_date->toDateTimeLocalString() ?? '' }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
@@ -137,7 +137,7 @@
                         <div class="field">
                             <label for="opening_date" class="label text-green has-text-weight-normal"> Opening Date <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="opening_date" id="opening_date" placeholder="mm/dd/yyyy" value="{{ $tender->opening_date->toDateString() ?? '' }}">
+                                <input class="input" type="datetime-local" name="opening_date" id="opening_date" placeholder="mm/dd/yyyy" value="{{ $tender->opening_date->toDateTimeLocalString() ?? '' }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>

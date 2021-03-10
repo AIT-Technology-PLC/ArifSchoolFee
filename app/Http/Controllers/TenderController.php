@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
-use App\Models\GeneralTenderChecklist;
 use App\Models\Product;
 use App\Models\Tender;
 use App\Models\TenderStatus;
@@ -25,24 +24,22 @@ class TenderController extends Controller
 
     public function index()
     {
-        $tenders = $this->tender->getAll()->load(['customer', 'tenderDetails', 'tenderChecklists', 'company', 'createdBy', 'updatedBy']);
+        $tenders = $this->tender->getAll()->load(['customer', 'tenderDetails', 'createdBy', 'updatedBy']);
 
         $totalTenders = $this->tender->countTendersOfCompany();
 
         return view('tenders.index', compact('tenders', 'totalTenders'));
     }
 
-    public function create(Customer $customer, GeneralTenderChecklist $generalTenderChecklist, TenderStatus $tenderStatus, Product $product)
+    public function create(Customer $customer, TenderStatus $tenderStatus, Product $product)
     {
         $customers = $customer->getAll();
-
-        $generalTenderChecklists = $generalTenderChecklist->getAll();
 
         $tenderStatuses = $tenderStatus->getAll();
 
         $products = $product->getProductNames();
 
-        return view('tenders.create', compact('customers', 'generalTenderChecklists', 'tenderStatuses', 'products'));
+        return view('tenders.create', compact('customers', 'tenderStatuses', 'products'));
     }
 
     public function store(Request $request)
@@ -52,7 +49,7 @@ class TenderController extends Controller
             'type' => 'required|string|max:255',
             'status' => 'required|string|max:255',
             'participants' => 'required|integer|min:1',
-            'bid_bond_amount' => 'nullable|numeric',
+            'bid_bond_amount' => 'nullable|string',
             'bid_bond_type' => 'nullable|string',
             'bid_bond_validity' => 'nullable|integer',
             'published_on' => 'required|date',
@@ -86,22 +83,20 @@ class TenderController extends Controller
 
     public function show(Tender $tender)
     {
-        $tender->load(['customer', 'tenderDetails.product', 'tenderChecklists', 'company']);
+        $tender->load(['customer', 'tenderDetails.product', 'tenderChecklists']);
 
         return view('tenders.show', compact('tender'));
     }
 
-    public function edit(Tender $tender, Customer $customer, GeneralTenderChecklist $generalTenderChecklist, TenderStatus $tenderStatus, Product $product)
+    public function edit(Tender $tender, Customer $customer, TenderStatus $tenderStatus, Product $product)
     {
         $customers = $customer->getAll();
-
-        $generalTenderChecklists = $generalTenderChecklist->getAll();
 
         $tenderStatuses = $tenderStatus->getAll();
 
         $products = $product->getProductNames();
 
-        return view('tenders.edit', compact('tender', 'customers', 'generalTenderChecklists', 'tenderStatuses', 'products'));
+        return view('tenders.edit', compact('tender', 'customers', 'tenderStatuses', 'products'));
     }
 
     public function update(Request $request, Tender $tender)
@@ -111,7 +106,7 @@ class TenderController extends Controller
             'type' => 'required|string|max:255',
             'status' => 'required|string|max:255',
             'participants' => 'required|integer',
-            'bid_bond_amount' => 'nullable|numeric',
+            'bid_bond_amount' => 'nullable|string',
             'bid_bond_type' => 'nullable|string',
             'bid_bond_validity' => 'nullable|integer',
             'published_on' => 'required|date',
