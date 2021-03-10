@@ -376,6 +376,32 @@
                         </ul>
                     </li>
                 @endcan
+                <li>
+                    <a name="menuTitles" href="{{ route('tender-statuses.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tender-statuses') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-tasks"></i>
+                        </span>
+                        <span>
+                            Tender Status
+                        </span>
+                    </a>
+                </li>
+                @can('Create Sale')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('tender-statuses.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tender-statuses/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Status
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
             </ul>
         @endcan
     @endcan

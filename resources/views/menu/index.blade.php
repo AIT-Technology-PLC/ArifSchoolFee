@@ -56,7 +56,7 @@
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('transfers.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
                                     <span class="icon">
-                                        <i class="fas fa-exchange-alt   "></i>
+                                        <i class="fas fa-exchange-alt"></i>
                                     </span>
                                 </a>
                                 <br>

@@ -18,6 +18,7 @@ use App\Models\Transfer;
 use App\Models\Warehouse;
 use App\Models\Price;
 use App\Models\Tender;
+use App\Models\TenderStatus;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -258,5 +259,15 @@ class User extends Authenticatable
     public function tendersUpdated()
     {
         return $this->hasMany(Tender::class, 'updated_by');
+    }
+
+    public function tenderStatusesCreated()
+    {
+        return $this->hasMany(TenderStatus::class, 'created_by');
+    }
+
+    public function tenderStatusesUpdated()
+    {
+        return $this->hasMany(TenderStatus::class, 'updated_by');
     }
 }

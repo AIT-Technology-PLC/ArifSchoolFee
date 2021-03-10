@@ -122,6 +122,11 @@ class Company extends Model
         return $this->hasMany(Tender::class);
     }
 
+    public function tenderStatuses()
+    {
+        return $this->hasMany(TenderStatus::class);
+    }
+
     public function isCompanyStandardMember()
     {
         return $this->membership_plan == "Standard";

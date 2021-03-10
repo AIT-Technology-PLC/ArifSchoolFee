@@ -28,6 +28,8 @@ Route::resource('grns', 'GrnController');
 
 Route::resource('general-tender-checklists', 'GeneralTenderChecklistController');
 
+Route::resource('tender-statuses', 'TenderStatusController');
+
 Route::resource('tenders', 'TenderController');
 
 Route::resource('tender-checklists', 'TenderChecklistController');
