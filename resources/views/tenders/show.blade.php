@@ -188,7 +188,6 @@
                                 Details
                             </div>
                             <div class="is-size-7 mt-3">
-                                {{ $tender->description }}
                                 {!! nl2br(e($tender->description)) ?? 'N/A' !!}
                             </div>
                         </div>

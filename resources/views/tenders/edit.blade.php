@@ -150,7 +150,7 @@
                         </div>
                     </div>
                     <div class="column is-6">
-                        <label for="bid_bond_type" class="label text-green has-text-weight-normal"> Bid Bond <sup class="has-text-danger"></sup> </label>
+                        <label for="bid_bond_type" class="label text-green has-text-weight-normal"> Bid Bond <span class="has-text-weight-light is-size-7">(Type, Amount, Validity)</span> <sup class="has-text-danger"></sup> </label>
                         <div class="field has-addons">
                             <p class="control">
                                 <input name="bid_bond_type" class="input" type="text" placeholder="Type" value="{{ $tender->bid_bond_type ?? '' }}">
