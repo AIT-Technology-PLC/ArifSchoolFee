@@ -978,20 +978,6 @@ const addTenderForm = (function () {
                     </div>
                 </div>
                 <div class="column is-6">
-                    <label for="tender[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
-                    <div class="field has-addons">
-                        <div class="control has-icons-left is-expanded">
-                            <input id="tender[${index}][unit_price]" name="tender[${index}][unit_price]" type="number" class="input" placeholder="Unit Price" value="0.00">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-balance-scale"></i>
-                            </span>
-                        </div>
-                        <div class="control">
-                            <button id="tender[${index}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="column is-6">
                     <div class="field">
                         <label for="tender[${index}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
                         <div class="control has-icons-left">

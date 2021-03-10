@@ -79,34 +79,16 @@
                         @foreach ($tenders as $tender)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    {{ $tender->name }}
+                                <td>
+                                    {{ $tender->code }}
                                 </td>
                                 <td class="is-capitalized">
                                     {{ $tender->type }}
                                 </td>
                                 <td class="is-capitalized">
-                                    @if ($tender->status == 'Bought Bid Document')
-                                        <span class="tag is-small has-background-grey has-text-white">
-                                            {{ $tender->status }}
-                                        </span>
-                                    @elseif ($tender->status == 'Lost')
-                                        <span class="tag is-small bg-purple has-text-white">
-                                            {{ $tender->status }}
-                                        </span>
-                                    @elseif ($tender->status == 'Withdrawn')
-                                        <span class="tag is-small bg-gold has-text-white">
-                                            {{ $tender->status }}
-                                        </span>
-                                    @elseif ($tender->status == 'Won')
-                                        <span class="tag is-small bg-green has-text-white">
-                                            {{ $tender->status }}
-                                        </span>
-                                    @elseif ($tender->status == 'Submitted')
-                                        <span class="tag is-small bg-blue has-text-white">
-                                            {{ $tender->status }}
-                                        </span>
-                                    @endif
+                                    <span class="tag is-small bg-blue has-text-white">
+                                        {{ $tender->status }}
+                                    </span>
                                 </td>
                                 <td>
                                     {{ $tender->customer->company_name ?? 'N/A' }}
@@ -124,7 +106,9 @@
                                     {{ $tender->published_on->toFormattedDateString() }}
                                 </td>
                                 <td class="has-text-right">
-                                    {{ $tender->closing_date->toFormattedDateString() }}
+                                    <span class="tag is-small bg-purple has-text-white">
+                                        {{ $tender->closing_date->toFormattedDateString() }}
+                                    </span>
                                 </td>
                                 <td class="has-text-right">
                                     {{ $tender->opening_date->toFormattedDateString() }}

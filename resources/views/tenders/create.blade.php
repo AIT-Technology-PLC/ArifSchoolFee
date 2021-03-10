@@ -25,13 +25,13 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
-                            <label for="name" class="label text-green has-text-weight-normal">Project Name <sup class="has-text-danger">*</sup> </label>
+                            <label for="code" class="label text-green has-text-weight-normal">Tender No <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="text" name="name" id="name" placeholder="Project Name" value="{{ old('name') ?? '' }}">
+                                <input class="input" type="text" name="code" id="code" placeholder="Tender No" value="{{ old('code') ?? '' }}">
                                 <span class="icon is-large is-left">
-                                    <i class="fas fa-business-time"></i>
+                                    <i class="fas fa-hashtag"></i>
                                 </span>
-                                @error('name')
+                                @error('code')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>
@@ -68,11 +68,9 @@
                                 <div class="select is-fullwidth">
                                     <select id="status" name="status">
                                         <option selected disabled>Select Status</option>
-                                        <option value="Registered" {{ old('status') == 'Registered' ? 'selected' : '' }}>Registered</option>
-                                        <option value="Lost" {{ old('status') == 'Lost' ? 'selected' : '' }}>Lost</option>
-                                        <option value="Withdrawn" {{ old('status') == 'Withdrawn' ? 'selected' : '' }}>Withdrawn</option>
-                                        <option value="Won" {{ old('status') == 'Won' ? 'selected' : '' }}>Won</option>
-                                        <option value="Submitted" {{ old('status') == 'Submitted' ? 'selected' : '' }}>Submitted</option>
+                                        @foreach ($tenderStatuses as $tenderStatus)
+                                            <option value="{{ $tenderStatus->status }}" {{ old('status') == $tenderStatus->status ? 'selected' : '' }}>{{ $tenderStatus->status }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <span class="icon is-small is-left">
@@ -260,25 +258,6 @@
                             </div>
                         </div>
                         <div class="column is-6">
-                            <label for="tender[0][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
-                            <div class="field has-addons">
-                                <div class="control has-icons-left is-expanded">
-                                    <input id="tender[0][unit_price]" name="tender[0][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ old('tender.0.unit_price') ?? '0.00' }}">
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-money-bill"></i>
-                                    </span>
-                                    @error('tender.0.unit_price')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="control">
-                                    <button id="tender[0][product_id]Price" class="button bg-green has-text-white" type="button"></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column is-6">
                             <div class="field">
                                 <label for="tender[0][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
                                 <div class="control has-icons-left">
@@ -344,25 +323,6 @@
                                         </div>
                                         <div class="control">
                                             <button id="tender[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="column is-6">
-                                    <label for="tender[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
-                                    <div class="field has-addons">
-                                        <div class="control has-icons-left is-expanded">
-                                            <input id="tender[{{ $i }}][unit_price]" name="tender[{{ $i }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ old('tender.' . $i . '.unit_price') ?? '0.00' }}">
-                                            <span class="icon is-small is-left">
-                                                <i class="fas fa-money-bill"></i>
-                                            </span>
-                                            @error('tender.' . $i . '.unit_price')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
-                                        </div>
-                                        <div class="control">
-                                            <button id="tender[{{ $i }}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
                                         </div>
                                     </div>
                                 </div>

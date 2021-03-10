@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\GeneralTenderChecklist;
 use App\Models\Product;
 use App\Models\Tender;
+use App\Models\TenderStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -30,21 +31,23 @@ class TenderController extends Controller
         return view('tenders.index', compact('tenders', 'totalTenders'));
     }
 
-    public function create(Customer $customer, GeneralTenderChecklist $generalTenderChecklist, Product $product)
+    public function create(Customer $customer, GeneralTenderChecklist $generalTenderChecklist, TenderStatus $tenderStatus, Product $product)
     {
         $customers = $customer->getAll();
 
         $generalTenderChecklists = $generalTenderChecklist->getAll();
 
+        $tenderStatuses = $tenderStatus->getAll();
+
         $products = $product->getProductNames();
 
-        return view('tenders.create', compact('customers', 'generalTenderChecklists', 'products'));
+        return view('tenders.create', compact('customers', 'generalTenderChecklists', 'tenderStatuses', 'products'));
     }
 
     public function store(Request $request)
     {
         $tenderData = $request->validate([
-            'name' => 'required|string|max:255',
+            'code' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'status' => 'required|string|max:255',
             'participants' => 'required|integer|min:1',
@@ -56,23 +59,19 @@ class TenderController extends Controller
             'tender' => 'required|array',
             'tender.*.product_id' => 'required|integer',
             'tender.*.quantity' => 'required|numeric',
-            'tender.*.unit_price' => 'required|numeric',
             'tender.*.description' => 'nullable|string',
-            'checklists' => 'required|array',
         ]);
 
         $tenderData['company_id'] = auth()->user()->employee->company_id;
         $tenderData['created_by'] = auth()->user()->id;
         $tenderData['updated_by'] = auth()->user()->id;
 
-        $basicTenderData = Arr::except($tenderData, ['tender', 'checklists']);
+        $basicTenderData = Arr::except($tenderData, 'tender');
         $tenderDetailsData = $tenderData['tender'];
-        $tenderChecklistsData = $tenderData['checklists'];
 
-        DB::transaction(function () use ($basicTenderData, $tenderDetailsData, $tenderChecklistsData) {
+        DB::transaction(function () use ($basicTenderData, $tenderDetailsData) {
             $tender = $this->tender->create($basicTenderData);
             $tender->tenderDetails()->createMany($tenderDetailsData);
-            $tender->tenderChecklists()->createMany($tenderChecklistsData);
         });
 
         return redirect()->route('tenders.index');
@@ -99,7 +98,7 @@ class TenderController extends Controller
     public function update(Request $request, Tender $tender)
     {
         $tenderData = $request->validate([
-            'name' => 'required|string|max:255',
+            'code' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'status' => 'required|string|max:255',
             'participants' => 'required|integer',
@@ -111,7 +110,6 @@ class TenderController extends Controller
             'tender' => 'required|array',
             'tender.*.product_id' => 'required|integer',
             'tender.*.quantity' => 'required|numeric',
-            'tender.*.unit_price' => 'required|numeric',
             'tender.*.description' => 'nullable|string',
         ]);
 
