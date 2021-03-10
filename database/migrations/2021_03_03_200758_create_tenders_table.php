@@ -97,7 +97,6 @@ class CreateTendersTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('tender_id')->nullable()->unsigned();
             $table->string('item');
-            $table->boolean('is_mandatory');
             $table->string('status')->nullable();
             $table->string('comment')->nullable();
             $table->timestamps();
