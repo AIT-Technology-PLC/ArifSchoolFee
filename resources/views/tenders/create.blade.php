@@ -25,7 +25,7 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
-                            <label for="code" class="label text-green has-text-weight-normal">Tender No <sup class="has-text-danger">*</sup> </label>
+                            <label for="code" class="label text-green has-text-weight-normal">Tender No <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <input class="input" type="text" name="code" id="code" placeholder="Tender No" value="{{ old('code') ?? '' }}">
                                 <span class="icon is-large is-left">
@@ -120,7 +120,7 @@
                         <div class="field">
                             <label for="closing_date" class="label text-green has-text-weight-normal"> Closing Date <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="closing_date" id="closing_date" placeholder="mm/dd/yyyy" value="{{ old('closing_date') ?? '' }}">
+                                <input class="input" type="datetime-local" name="closing_date" id="closing_date" placeholder="mm/dd/yyyy" value="{{ old('closing_date') ?? '' }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
@@ -136,7 +136,7 @@
                         <div class="field">
                             <label for="opening_date" class="label text-green has-text-weight-normal"> Opening Date <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="opening_date" id="opening_date" placeholder="mm/dd/yyyy" value="{{ old('opening_date') ?? '' }}">
+                                <input class="input" type="datetime-local" name="opening_date" id="opening_date" placeholder="mm/dd/yyyy" value="{{ old('opening_date') ?? '' }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
@@ -146,6 +146,20 @@
                                     </span>
                                 @enderror
                             </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <label for="bid_bond_type" class="label text-green has-text-weight-normal"> Bid Bond <sup class="has-text-danger"></sup> </label>
+                        <div class="field has-addons">
+                            <p class="control">
+                                <input name="bid_bond_type" class="input" type="text" placeholder="Type" value="{{ old('bid_bond_type') ?? '' }}">
+                            </p>
+                            <p class="control">
+                                <input name="bid_bond_amount" class="input has-background-white-ter" type="text" placeholder="Amount" value="{{ old('bid_bond_amount') ?? '' }}">
+                            </p>
+                            <p class="control">
+                                <input name="bid_bond_validity" class="input" type="text" placeholder="Validity" value="{{ old('bid_bond_validity') ?? '' }}">
+                            </p>
                         </div>
                     </div>
                     <div class="column is-6">
@@ -183,30 +197,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <p class="text-green has-text-weight-normal mx-3 mb-3 mt-4">
-                    Select Checklists
-                </p>
-                <div class="box has-background-white-bis radius-top-0 mx-3 mb-6">
-                    <div class="columns is-marginless is-multiline">
-                        @foreach ($generalTenderChecklists as $generalTenderChecklist)
-                            <div class="column is-one-fifth">
-                                <div class="field">
-                                    <div class="control">
-                                        <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                            <input type="checkbox" name="checklists[{{ $loop->index }}][item]" value="{{ $generalTenderChecklist->item }}" {{ old('checklists.' . $loop->index . '.item') == $generalTenderChecklist->item ? 'checked' : '' }}>
-                                            {{ $generalTenderChecklist->item }}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    @error('checklists')
-                        <span class="help has-text-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                    @enderror
                 </div>
                 <div class="has-text-weight-medium has-text-left mt-5">
                     <span class="tag bg-green has-text-white is-medium radius-bottom-0">

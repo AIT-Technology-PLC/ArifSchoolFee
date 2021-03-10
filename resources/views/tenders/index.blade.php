@@ -65,6 +65,9 @@
                             <th><abbr> Status </abbr></th>
                             <th><abbr> Customer </abbr></th>
                             <th class="has-text-centered"><abbr> Participants </abbr></th>
+                            <th><abbr> Bid Bond Type</abbr></th>
+                            <th><abbr> Bid Bond Amount</abbr></th>
+                            <th><abbr> Bid Bond Validity</abbr></th>
                             <th class="has-text-centered"><abbr> Items </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Published On </abbr></th>
@@ -80,7 +83,7 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td>
-                                    {{ $tender->code }}
+                                    {{ $tender->code ?? 'N/A' }}
                                 </td>
                                 <td class="is-capitalized">
                                     {{ $tender->type }}
@@ -96,6 +99,15 @@
                                 <td class="has-text-centered">
                                     {{ $tender->participants }}
                                 </td>
+                                <td>
+                                    {{ $tender->bid_bond_type ?? 'N/A' }}
+                                </td>
+                                <td>
+                                    {{ $tender->bid_bond_amount ?? 'N/A' }}
+                                </td>
+                                <td>
+                                    {{ $tender->bid_bond_validity ?? 'N/A' }}
+                                </td>
                                 <td class="has-text-centered">
                                     {{ $tender->tender_details_count }}
                                 </td>
@@ -107,11 +119,13 @@
                                 </td>
                                 <td class="has-text-right">
                                     <span class="tag is-small bg-purple has-text-white">
-                                        {{ $tender->closing_date->toFormattedDateString() }}
+                                        {{ $tender->closing_date->toDayDateTimeString() }}
                                     </span>
                                 </td>
                                 <td class="has-text-right">
-                                    {{ $tender->opening_date->toFormattedDateString() }}
+                                    <span class="tag is-small">
+                                        {{ $tender->opening_date->toDayDateTimeString() }}
+                                    </span>
                                 </td>
                                 <td> {{ $tender->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $tender->updatedBy->name ?? 'N/A' }} </td>

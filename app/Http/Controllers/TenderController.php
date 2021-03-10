@@ -7,6 +7,7 @@ use App\Models\GeneralTenderChecklist;
 use App\Models\Product;
 use App\Models\Tender;
 use App\Models\TenderStatus;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -51,6 +52,9 @@ class TenderController extends Controller
             'type' => 'required|string|max:255',
             'status' => 'required|string|max:255',
             'participants' => 'required|integer|min:1',
+            'bid_bond_amount' => 'nullable|numeric',
+            'bid_bond_type' => 'nullable|string',
+            'bid_bond_validity' => 'nullable|integer',
             'published_on' => 'required|date',
             'closing_date' => 'required|date',
             'opening_date' => 'required|date',
@@ -61,6 +65,9 @@ class TenderController extends Controller
             'tender.*.quantity' => 'required|numeric',
             'tender.*.description' => 'nullable|string',
         ]);
+
+        $tenderData['closing_date'] = (new Carbon($tenderData['closing_date']))->toDateTimeString();
+        $tenderData['opening_date'] = (new Carbon($tenderData['opening_date']))->toDateTimeString();
 
         $tenderData['company_id'] = auth()->user()->employee->company_id;
         $tenderData['created_by'] = auth()->user()->id;
@@ -84,15 +91,17 @@ class TenderController extends Controller
         return view('tenders.show', compact('tender'));
     }
 
-    public function edit(Tender $tender, Customer $customer, GeneralTenderChecklist $generalTenderChecklist, Product $product)
+    public function edit(Tender $tender, Customer $customer, GeneralTenderChecklist $generalTenderChecklist, TenderStatus $tenderStatus, Product $product)
     {
         $customers = $customer->getAll();
 
         $generalTenderChecklists = $generalTenderChecklist->getAll();
 
+        $tenderStatuses = $tenderStatus->getAll();
+
         $products = $product->getProductNames();
 
-        return view('tenders.edit', compact('tender', 'customers', 'generalTenderChecklists', 'products'));
+        return view('tenders.edit', compact('tender', 'customers', 'generalTenderChecklists', 'tenderStatuses', 'products'));
     }
 
     public function update(Request $request, Tender $tender)
@@ -102,6 +111,9 @@ class TenderController extends Controller
             'type' => 'required|string|max:255',
             'status' => 'required|string|max:255',
             'participants' => 'required|integer',
+            'bid_bond_amount' => 'nullable|numeric',
+            'bid_bond_type' => 'nullable|string',
+            'bid_bond_validity' => 'nullable|integer',
             'published_on' => 'required|date',
             'closing_date' => 'required|date',
             'opening_date' => 'required|date',
@@ -112,6 +124,9 @@ class TenderController extends Controller
             'tender.*.quantity' => 'required|numeric',
             'tender.*.description' => 'nullable|string',
         ]);
+
+        $tenderData['closing_date'] = (new Carbon($tenderData['closing_date']))->toDateTimeString();
+        $tenderData['opening_date'] = (new Carbon($tenderData['opening_date']))->toDateTimeString();
 
         $tenderData['updated_by'] = auth()->user()->id;
 

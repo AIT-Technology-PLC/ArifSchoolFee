@@ -17,10 +17,10 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ $tender->name ?? 'N/A' }}
+                                {{ $tender->code ?? 'N/A' }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Project Title
+                                Tender No
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="column is-6">
                 <div>
                     <div class="columns is-marginless is-vcentered is-mobile text-green">
@@ -79,6 +78,27 @@
                             </div>
                             <div class="is-uppercase is-size-7">
                                 Participants
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-file-alt"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $tender->bid_bond_type ?? 'N/A' }} |
+                                {{ $tender->bid_bond_amount ?? 'N/A' }} |
+                                {{ $tender->bid_bond_validity ?? 'N/A' }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Bid Bond Info
                             </div>
                         </div>
                     </div>
@@ -124,7 +144,7 @@
             </div>
             <div class="column is-6">
                 <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                    <div class="columns is-marginless is-vcentered is-mobile text-purple">
                         <div class="column is-1">
                             <span class="icon is-size-3">
                                 <i class="fas fa-calendar-day"></i>
@@ -132,7 +152,7 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ $tender->closing_date->toFormattedDateString() ?? 'N/A' }}
+                                {{ $tender->closing_date->toDayDateTimeString() ?? 'N/A' }}
                             </div>
                             <div class="is-uppercase is-size-7">
                                 Closing Date
@@ -151,7 +171,7 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ $tender->opening_date->toFormattedDateString() ?? 'N/A' }}
+                                {{ $tender->opening_date->toDayDateTimeString() ?? 'N/A' }}
                             </div>
                             <div class="is-uppercase is-size-7">
                                 Opening Date

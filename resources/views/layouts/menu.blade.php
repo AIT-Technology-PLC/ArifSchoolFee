@@ -379,7 +379,7 @@
                 <li>
                     <a name="menuTitles" href="{{ route('tender-statuses.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tender-statuses') ? 'is-active' : '' }}">
                         <span class="icon">
-                            <i class="fas fa-tasks"></i>
+                            <i class="fas fa-info"></i>
                         </span>
                         <span>
                             Tender Status

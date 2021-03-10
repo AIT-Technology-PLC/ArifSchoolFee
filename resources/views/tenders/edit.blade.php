@@ -26,13 +26,13 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
-                            <label for="name" class="label text-green has-text-weight-normal">Project Name <sup class="has-text-danger">*</sup> </label>
+                            <label for="code" class="label text-green has-text-weight-normal">Tender No <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="text" name="name" id="name" placeholder="Project Name" value="{{ $tender->name ?? '' }}">
+                                <input class="input" type="text" name="code" id="code" placeholder="Tender No" value="{{ $tender->code ?? '' }}">
                                 <span class="icon is-large is-left">
-                                    <i class="fas fa-business-time"></i>
+                                    <i class="fas fa-hashtag"></i>
                                 </span>
-                                @error('name')
+                                @error('code')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>
@@ -69,11 +69,9 @@
                                 <div class="select is-fullwidth">
                                     <select id="status" name="status">
                                         <option selected disabled>Select Status</option>
-                                        <option value="Registered" {{ $tender->status == 'Registered' ? 'selected' : '' }}>Registered</option>
-                                        <option value="Lost" {{ $tender->status == 'Lost' ? 'selected' : '' }}>Lost</option>
-                                        <option value="Withdrawn" {{ $tender->status == 'Withdrawn' ? 'selected' : '' }}>Withdrawn</option>
-                                        <option value="Won" {{ $tender->status == 'Won' ? 'selected' : '' }}>Won</option>
-                                        <option value="Submitted" {{ $tender->status == 'Submitted' ? 'selected' : '' }}>Submitted</option>
+                                        @foreach ($tenderStatuses as $tenderStatus)
+                                            <option value="{{ $tenderStatus->status }}" {{ $tender->status == $tenderStatus->status ? 'selected' : '' }}>{{ $tenderStatus->status }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <span class="icon is-small is-left">
@@ -149,6 +147,20 @@
                                     </span>
                                 @enderror
                             </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <label for="bid_bond_type" class="label text-green has-text-weight-normal"> Bid Bond <sup class="has-text-danger"></sup> </label>
+                        <div class="field has-addons">
+                            <p class="control">
+                                <input name="bid_bond_type" class="input" type="text" placeholder="Type" value="{{ $tender->bid_bond_type ?? '' }}">
+                            </p>
+                            <p class="control">
+                                <input name="bid_bond_amount" class="input has-background-white-ter" type="text" placeholder="Amount" value="{{ $tender->bid_bond_amount ?? '' }}">
+                            </p>
+                            <p class="control">
+                                <input name="bid_bond_validity" class="input" type="text" placeholder="Validity" value="{{ $tender->bid_bond_validity ?? '' }}">
+                            </p>
                         </div>
                     </div>
                     <div class="column is-6">
@@ -234,25 +246,6 @@
                                     </div>
                                     <div class="control">
                                         <button id="tender[{{ $loop->index }}][product_id]Quantity" class="button bg-green has-text-white" type="button">{{ $tenderDetail->product->unit_of_measurement }}</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-6">
-                                <label for="tender[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
-                                <div class="field has-addons">
-                                    <div class="control has-icons-left is-expanded">
-                                        <input id="tender[{{ $loop->index }}][unit_price]" name="tender[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ $tenderDetail->unit_price ?? '0.00' }}">
-                                        <span class="icon is-small is-left">
-                                            <i class="fas fa-money-bill"></i>
-                                        </span>
-                                        @error('tender.' . $loop->index . '.unit_price')
-                                            <span class="help has-text-danger" role="alert">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    <div class="control">
-                                        <button id="tender[{{ $loop->index }}][product_id]Price" class="button bg-green has-text-white" type="button">{{ $tenderDetail->product->unit_of_measurement }}</button>
                                     </div>
                                 </div>
                             </div>

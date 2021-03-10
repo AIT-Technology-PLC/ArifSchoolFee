@@ -53,12 +53,12 @@ class CreateTendersTable extends Migration
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('code')->nullable(); //edit
+            $table->string('code')->nullable();
             $table->string('type');
             $table->string('status');
-            $table->decimal('bid_bond_amount', 22)->nullable(); //new
-            $table->bigInteger('bid_bond_validity')->nullable(); //new
-            $table->string('bid_bond_type')->nullable(); //new
+            $table->string('bid_bond_amount', 22)->nullable();
+            $table->bigInteger('bid_bond_validity')->nullable();
+            $table->string('bid_bond_type')->nullable();
             $table->bigInteger('participants');
             $table->dateTime('published_on')->nullable();
             $table->dateTime('closing_date')->nullable();
@@ -97,7 +97,7 @@ class CreateTendersTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('tender_id')->nullable()->unsigned();
             $table->string('item');
-            $table->boolean('is_mandatory'); //new
+            $table->boolean('is_mandatory');
             $table->string('status')->nullable();
             $table->string('comment')->nullable();
             $table->timestamps();
