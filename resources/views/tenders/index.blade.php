@@ -60,9 +60,9 @@
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
-                            <th class="text-green"><abbr> Project </abbr></th>
+                            <th><abbr> Project </abbr></th>
                             <th><abbr> Type </abbr></th>
-                            <th class="text-purple"><abbr> Status </abbr></th>
+                            <th><abbr> Status </abbr></th>
                             <th><abbr> Customer </abbr></th>
                             <th class="has-text-centered"><abbr> Participants </abbr></th>
                             <th class="has-text-centered"><abbr> Items </abbr></th>
@@ -81,17 +81,33 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
-                                    <span class="tag is-small bg-green has-text-white">
-                                        {{ $tender->name }}
-                                    </span>
+                                    {{ $tender->name }}
                                 </td>
                                 <td class="is-capitalized">
                                     {{ $tender->type }}
                                 </td>
                                 <td class="is-capitalized">
-                                    <span class="tag is-small bg-purple has-text-white">
-                                        {{ $tender->status }}
-                                    </span>
+                                    @if ($tender->status == 'Bought Bid Document')
+                                        <span class="tag is-small has-background-grey has-text-white">
+                                            {{ $tender->status }}
+                                        </span>
+                                    @elseif ($tender->status == 'Lost')
+                                        <span class="tag is-small bg-purple has-text-white">
+                                            {{ $tender->status }}
+                                        </span>
+                                    @elseif ($tender->status == 'Withdrawn')
+                                        <span class="tag is-small bg-gold has-text-white">
+                                            {{ $tender->status }}
+                                        </span>
+                                    @elseif ($tender->status == 'Won')
+                                        <span class="tag is-small bg-green has-text-white">
+                                            {{ $tender->status }}
+                                        </span>
+                                    @elseif ($tender->status == 'Submitted')
+                                        <span class="tag is-small bg-blue has-text-white">
+                                            {{ $tender->status }}
+                                        </span>
+                                    @endif
                                 </td>
                                 <td>
                                     {{ $tender->customer->company_name ?? 'N/A' }}
