@@ -40,7 +40,7 @@
                                 <td> {{ $tenderStatus->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $tenderStatus->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
-                                    <a class="is-block" href="{{ route('tender-statuses.edit', $tenderStatus->id) }}" data-title="Modify General Tender Checklist Data">
+                                    <a class="is-block" href="{{ route('tender-statuses.edit', $tenderStatus->id) }}" data-title="Modify Tender Status Data">
                                         <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
