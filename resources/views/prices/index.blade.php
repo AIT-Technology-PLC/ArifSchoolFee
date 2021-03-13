@@ -18,7 +18,7 @@
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
                             <th class="text-green"><abbr> Product </abbr></th>
-                            <th class="has-text-right text-purple"><abbr> Price </abbr></th>
+                            <th class="has-text-right text-purple"><abbr> Min Price </abbr></th>
                             <th class="has-text-right"><abbr> Last Modified</abbr></th>
                             <th><abbr> Added By </abbr></th>
                             <th><abbr> Edited By </abbr></th>

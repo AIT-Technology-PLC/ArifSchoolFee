@@ -89,6 +89,17 @@
                                 Prices
                             </span>
                         </div>
+                        <div class="column is-4 has-text-centered has-text-grey">
+                            <a href="{{ route('tenders.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
+                                <span class="icon">
+                                    <i class="fas fa-project-diagram"></i>
+                                </span>
+                            </a>
+                            <br>
+                            <span class="is-size-6 is-size-7-mobile">
+                                Tenders
+                            </span>
+                        </div>
                     @endcan
                     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
                         @can('Read Sale')
