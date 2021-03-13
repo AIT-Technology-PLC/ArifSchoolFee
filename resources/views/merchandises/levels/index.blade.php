@@ -108,7 +108,7 @@
                     <div class="level-item">
                         <div>
                             <h1 class="title text-green has-text-weight-medium is-size-5">
-                                Current Inventory Level in {{ isset($warehouse) ? $warehouse->name . ' Warehouse' : 'all Warehouses' }}
+                                Current Inventory Level in {{ isset($warehouse) ? $warehouse->name : 'all Warehouses' }}
                             </h1>
                             <div></div>
                             <h2 class="subtitle has-text-grey is-size-7">

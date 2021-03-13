@@ -411,7 +411,7 @@ const addGdnForm = (function () {
                 </div>
                 <div class="column is-6">
                     <div class="field">
-                        <label for="gdn[${index}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                        <label for="gdn[${index}][warehouse_id]" class="label text-green has-text-weight-normal"> From <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
                                 <select id="gdn[${index}][warehouse_id]" name="gdn[${index}][warehouse_id]">
@@ -791,7 +791,7 @@ const addGrnForm = (function () {
                 </div>
                 <div class="column is-6">
                     <div class="field">
-                        <label for="grn[${index}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                        <label for="grn[${index}][warehouse_id]" class="label text-green has-text-weight-normal"> To <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
                                 <select id="grn[${index}][warehouse_id]" name="grn[${index}][warehouse_id]">

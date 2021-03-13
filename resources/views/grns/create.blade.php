@@ -157,7 +157,7 @@
                         </div>
                         <div class="column is-6">
                             <div class="field">
-                                <label for="grn[0][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                                <label for="grn[0][warehouse_id]" class="label text-green has-text-weight-normal"> To <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
                                     <div class="select is-fullwidth">
                                         <select id="grn[0][warehouse_id]" name="grn[0][warehouse_id]">
@@ -248,7 +248,7 @@
                                 </div>
                                 <div class="column is-6">
                                     <div class="field">
-                                        <label for="grn[{{ $i }}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                                        <label for="grn[{{ $i }}][warehouse_id]" class="label text-green has-text-weight-normal"> To <sup class="has-text-danger">*</sup> </label>
                                         <div class="control has-icons-left">
                                             <div class="select is-fullwidth">
                                                 <select id="grn[{{ $i }}][warehouse_id]" name="grn[{{ $i }}][warehouse_id]">
