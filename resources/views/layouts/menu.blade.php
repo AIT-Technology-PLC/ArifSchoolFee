@@ -598,45 +598,45 @@
         @endcan
     @endcan
 
-    @role('System Manager')
-    <p class="menu-label has-text-weight-bold text-green">
-        Settings
-    </p>
-    <ul class="menu-list mb-5">
-        <li>
-            <a name="menuTitles" href="{{ route('employees.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees') ? 'is-active' : '' }}">
-                <span class="icon">
-                    <i class="fas fa-users"></i>
-                </span>
-                <span>
-                    Employee Management
-                </span>
-            </a>
-        </li>
-        <li>
-            <ul class="mt-0">
-                <li>
-                    <a name="menuTitles" href="{{ route('employees.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees/create') ? 'is-active' : '' }}">
-                        <span class="icon">
-                            <i class="fas fa-plus-circle"></i>
-                        </span>
-                        <span>
-                            New Employee
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a name="menuTitles" href="{{ route('companies.edit', auth()->user()->employee->company_id) }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('companies/' . auth()->user()->employee->company_id . '/edit') ? 'is-active' : '' }}">
-                <span class="icon">
-                    <i class="fas fa-cog"></i>
-                </span>
-                <span>
-                    General Settings
-                </span>
-            </a>
-        </li>
-    </ul>
-    @endrole
+    @can('Update Employee')
+        <p class="menu-label has-text-weight-bold text-green">
+            Settings
+        </p>
+        <ul class="menu-list mb-5">
+            <li>
+                <a name="menuTitles" href="{{ route('employees.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees') ? 'is-active' : '' }}">
+                    <span class="icon">
+                        <i class="fas fa-users"></i>
+                    </span>
+                    <span>
+                        Employee Management
+                    </span>
+                </a>
+            </li>
+            <li>
+                <ul class="mt-0">
+                    <li>
+                        <a name="menuTitles" href="{{ route('employees.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees/create') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-plus-circle"></i>
+                            </span>
+                            <span>
+                                New Employee
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a name="menuTitles" href="{{ route('companies.edit', auth()->user()->employee->company_id) }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('companies/' . auth()->user()->employee->company_id . '/edit') ? 'is-active' : '' }}">
+                    <span class="icon">
+                        <i class="fas fa-cog"></i>
+                    </span>
+                    <span>
+                        General Settings
+                    </span>
+                </a>
+            </li>
+        </ul>
+    @endcan
 </aside>
