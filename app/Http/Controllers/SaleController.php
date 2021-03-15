@@ -45,7 +45,9 @@ class SaleController extends Controller
 
         $warehouses = $warehouse->getAllWithoutRelations();
 
-        return view('sales.create', compact('products', 'customers', 'shippingLines', 'warehouses'));
+        $currentReceiptNo = (Sale::select('receipt_no')->companySales()->latest()->first()->receipt_no) ?? 0;
+
+        return view('sales.create', compact('products', 'customers', 'shippingLines', 'warehouses', 'currentReceiptNo'));
     }
 
     public function store(Request $request)
