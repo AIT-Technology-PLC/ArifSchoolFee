@@ -62,7 +62,8 @@
                             <th id="firstTarget"><abbr> # </abbr></th>
                             <th><abbr> Tender No </abbr></th>
                             <th><abbr> Type </abbr></th>
-                            <th><abbr> Status </abbr></th>
+                            <th class="text-blue"><abbr> Status </abbr></th>
+                            <th class="text-purple"><abbr> Checklist Completion </abbr></th>
                             <th><abbr> Customer </abbr></th>
                             <th class="has-text-centered"><abbr> Participants </abbr></th>
                             <th><abbr> Bid Bond Type</abbr></th>
@@ -91,6 +92,11 @@
                                 <td class="is-capitalized">
                                     <span class="tag is-small bg-blue has-text-white">
                                         {{ $tender->status }}
+                                    </span>
+                                </td>
+                                <td class="is-capitalized">
+                                    <span class="tag is-small bg-purple has-text-white">
+                                        {{ $tender->getTenderChecklistsCompletionRate() }}%
                                     </span>
                                 </td>
                                 <td>
