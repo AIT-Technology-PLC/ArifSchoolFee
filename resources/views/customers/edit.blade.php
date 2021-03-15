@@ -120,7 +120,7 @@
                                     <select id="country" name="country">
                                         <option selected disabled> Select Country/City </option>
                                         @if ($customer->country)
-                                            <option value="{{ $customer->country }}"> {{ $customer->country }} </option>
+                                            <option value="{{ $customer->country }}" selected> {{ $customer->country }} </option>
                                         @endif
                                         <optgroup label="Ethiopian Cities">
                                             @include('lists.cities')
