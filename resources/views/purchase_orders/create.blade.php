@@ -25,9 +25,9 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
-                            <label for="code" class="label text-green has-text-weight-normal">Purchase Order No <sup class="has-text-danger">*</sup> </label>
+                            <label for="code" class="label text-green has-text-weight-normal">Purchase Order No <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="text" name="code" id="code">
+                                <input class="input" type="text" name="code" id="code" value="{{ old('code') ?? '' }}">
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-hashtag"></i>
                                 </span>

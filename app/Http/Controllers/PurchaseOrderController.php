@@ -5,15 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\PurchaseOrder;
-use App\Traits\PrependCompanyId;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseOrderController extends Controller
 {
-    use PrependCompanyId;
-
     private $purchaseOrder;
 
     public function __construct(PurchaseOrder $purchaseOrder)
@@ -43,10 +40,8 @@ class PurchaseOrderController extends Controller
 
     public function store(Request $request)
     {
-        $request['code'] = $this->prependCompanyId($request->code);
-
         $purchaseOrderData = $request->validate([
-            'code' => 'required|string|unique:purchase_orders',
+            'code' => 'nullable|string',
             'purchaseOrder' => 'required|array',
             'purchaseOrder.*.product_id' => 'required|integer',
             'purchaseOrder.*.quantity' => 'required|numeric|min:1',
@@ -117,10 +112,8 @@ class PurchaseOrderController extends Controller
             return redirect()->route('purchase-orders.show', $purchaseOrder->id);
         }
 
-        $request['code'] = $this->prependCompanyId($request->code);
-
         $purchaseOrderData = $request->validate([
-            'code' => 'required|string|unique:purchase_orders,code,' . $purchaseOrder->id,
+            'code' => 'nullable|string',
             'purchaseOrder' => 'required|array',
             'purchaseOrder.*.product_id' => 'required|integer',
             'purchaseOrder.*.quantity' => 'required|numeric|min:1',

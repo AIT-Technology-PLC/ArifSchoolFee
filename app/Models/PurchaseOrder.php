@@ -68,11 +68,6 @@ class PurchaseOrder extends Model
         return number_format($totalPrice * 1.15, 2);
     }
 
-    public function getCodeAttribute($value)
-    {
-        return Str::after($value, auth()->user()->employee->company->id . '_');
-    }
-
     public function getAll()
     {
         return $this->companyPurchaseOrder()->withCount('purchaseOrderDetails')->latest()->get();

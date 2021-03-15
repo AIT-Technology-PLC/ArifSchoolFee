@@ -77,7 +77,7 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
                                     <span class="tag is-small bg-gold has-text-white">
-                                        {{ $purchaseOrder->code }}
+                                        {{ $purchaseOrder->code ?? 'N/A' }}
                                     </span>
                                 </td>
                                 <td class="is-capitalized">
