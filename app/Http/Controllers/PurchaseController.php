@@ -42,7 +42,9 @@ class PurchaseController extends Controller
 
         $warehouses = $warehouse->getAllWithoutRelations();
 
-        return view('purchases.create', compact('products', 'suppliers', 'warehouses'));
+        $currentPurchaseNo = (Purchase::select('purchase_no')->companyPurchases()->latest()->first()->purchase_no) ?? 0;
+
+        return view('purchases.create', compact('products', 'suppliers', 'warehouses', 'currentPurchaseNo'));
     }
 
     public function store(Request $request)
