@@ -161,8 +161,6 @@ class CoreV1 extends Migration
             $table->string('type');
             $table->string('code')->nullable();
             $table->string('unit_of_measurement');
-            $table->decimal('selling_price', 22)->nullable();
-            $table->decimal('purchase_price', 22)->nullable();
             $table->decimal('min_on_hand', 22);
             $table->json('properties')->nullable();
             $table->longText('description')->nullable();

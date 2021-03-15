@@ -68,8 +68,6 @@
                             <th><abbr> Properties </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="text-purple"><abbr> Reorder Level</abbr></th>
-                            <th class="has-text-right"><abbr> Selling Price </abbr></th>
-                            <th class="has-text-right"><abbr> Purchase Price </abbr></th>
                             <th><abbr> Added By </abbr></th>
                             <th><abbr> Edited By </abbr></th>
                             <th><abbr> Actions </abbr></th>
@@ -104,8 +102,6 @@
                                         {{ $product->unit_of_measurement ?? 'N/A' }}
                                     </span>
                                 </td>
-                                <td class="has-text-right"> {{ $product->selling_price ?? 'N/A' }} </td>
-                                <td class="has-text-right"> {{ $product->purchase_price ?? 'N/A' }} </td>
                                 <td> {{ $product->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $product->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
