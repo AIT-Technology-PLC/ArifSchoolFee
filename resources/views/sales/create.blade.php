@@ -28,7 +28,7 @@
                         <div class="field">
                             <label for="receipt_no" class="label text-green has-text-weight-normal">Receipt No <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="text" name="receipt_no" id="receipt_no" value="{{ $currentReceiptNo + 1 }}">
+                                <input class="input" type="number" name="receipt_no" id="receipt_no" value="{{ $currentReceiptNo + 1 }}">
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-hashtag"></i>
                                 </span>

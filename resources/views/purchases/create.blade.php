@@ -20,7 +20,7 @@
                         <div class="field">
                             <label for="purchase_no" class="label text-green has-text-weight-normal">Purchase No <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="text" name="purchase_no" id="purchase_no" value="{{ $currentPurchaseNo + 1 }}">
+                                <input class="input" type="number" name="purchase_no" id="purchase_no" value="{{ $currentPurchaseNo + 1 }}">
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-hashtag"></i>
                                 </span>

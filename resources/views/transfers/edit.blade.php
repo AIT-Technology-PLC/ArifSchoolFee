@@ -20,7 +20,7 @@
                         <div class="field">
                             <label for="code" class="label text-green has-text-weight-normal">Transfer Number <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="text" name="code" id="code" value="{{ $transfer->code }}">
+                                <input class="input" type="number" name="code" id="code" value="{{ $transfer->code }}">
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-hashtag"></i>
                                 </span>
