@@ -6,10 +6,10 @@ trait PrependCompanyId
 {
     public function prependCompanyId($value)
     {
-        if (!$value) {
-            return null;
+        if ($value && is_numeric($value)) {
+            return auth()->user()->employee->company->id . '_' . $value;
         }
 
-        return auth()->user()->employee->company->id . '_' . $value;
+        return null;
     }
 }
