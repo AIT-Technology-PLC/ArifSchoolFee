@@ -43,7 +43,7 @@
                         <div class="field">
                             <label for="received_on" class="label text-green has-text-weight-normal"> Received On <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="received_on" id="received_on" placeholder="mm/dd/yyyy" value="{{ old('received_on') ?? '' }}">
+                                <input class="input" type="date" name="received_on" id="received_on" placeholder="mm/dd/yyyy" value="{{ old('received_on') ?? now()->toDateString() }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>

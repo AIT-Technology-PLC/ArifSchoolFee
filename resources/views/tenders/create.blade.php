@@ -104,7 +104,7 @@
                         <div class="field">
                             <label for="published_on" class="label text-green has-text-weight-normal"> Published On <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="published_on" id="published_on" placeholder="mm/dd/yyyy" value="{{ old('published_on') ?? '' }}">
+                                <input class="input" type="date" name="published_on" id="published_on" placeholder="mm/dd/yyyy" value="{{ old('published_on') ?? now()->toDateString() }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>

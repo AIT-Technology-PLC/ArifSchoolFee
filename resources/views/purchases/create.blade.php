@@ -36,7 +36,7 @@
                         <div class="field">
                             <label for="purchased_on" class="label text-green has-text-weight-normal"> Purchase Date <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="purchased_on" id="purchased_on" placeholder="mm/dd/yyyy" value="{{ old('purchased_on') ?? '' }}">
+                                <input class="input" type="date" name="purchased_on" id="purchased_on" placeholder="mm/dd/yyyy" value="{{ old('purchased_on') ?? now()->toDateString() }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-day"></i>
                                 </div>
