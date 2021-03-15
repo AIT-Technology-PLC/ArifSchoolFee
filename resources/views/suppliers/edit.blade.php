@@ -34,6 +34,38 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
+                            <label for="tin" class="label text-green has-text-weight-normal">TIN <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <input id="tin" name="tin" type="number" class="input" placeholder="Tin No" value="{{ $supplier->tin ?? '' }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-hashtag"></i>
+                                </span>
+                                @error('tin')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="address" class="label text-green has-text-weight-normal">Address <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <input id="address" name="address" type="text" class="input" placeholder="Address" value="{{ $supplier->address ?? '' }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </span>
+                                @error('address')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
                             <label for="contact_name" class="label text-green has-text-weight-normal">Contact Name <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <input id="contact_name" name="contact_name" type="text" class="input" placeholder="Contact Name" value="{{ $supplier->contact_name ?? '' }}">

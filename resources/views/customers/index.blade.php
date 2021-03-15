@@ -61,6 +61,8 @@
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
                             <th class="text-purple"><abbr> Company </abbr></th>
+                            <th><abbr> TIN </abbr></th>
+                            <th><abbr> Address </abbr></th>
                             <th><abbr> Contact </abbr></th>
                             <th><abbr> Email </abbr></th>
                             <th><abbr> Phone </abbr></th>
@@ -80,6 +82,8 @@
                                         {{ $customer->company_name ?? 'N/A' }}
                                     </span>
                                 </td>
+                                <td> {{ $customer->tin ?? 'N/A' }} </td>
+                                <td> {{ $customer->address ?? 'N/A' }} </td>
                                 <td class="is-capitalized">{{ $customer->contact_name ?? 'N/A' }}</td>
                                 <td>{{ $customer->email ?? 'N/A' }}</td>
                                 <td class="is-capitalized">{{ $customer->phone ?? 'N/A' }}</td>

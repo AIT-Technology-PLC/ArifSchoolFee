@@ -10,7 +10,7 @@ class Supplier extends Model
 {
     use SoftDeletes;
     
-    protected $fillable = ['company_id', 'created_by', 'updated_by', 'company_name', 'contact_name', 'email', 'phone', 'country'];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     public function company()
     {
