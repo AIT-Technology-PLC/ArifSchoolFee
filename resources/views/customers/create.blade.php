@@ -117,11 +117,16 @@
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="country" name="country">
-                                        <option selected disabled>Country</option>
-                                        <option value="China" {{ old('country') == 'China' ? 'selected' : '' }}>China</option>
-                                        <option value="India" {{ old('country') == 'India' ? 'selected' : '' }}>India</option>
-                                        <option value="UAE" {{ old('country') == 'UAE' ? 'selected' : '' }}>UAE</option>
-                                        <option value="KSA" {{ old('country') == 'KSA' ? 'selected' : '' }}>KSA</option>
+                                        <option selected disabled> Select Country/City </option>
+                                        @if (old('country'))
+                                            <option value="{{ old('country') }}"> {{ old('country') }} </option>
+                                        @endif
+                                        <optgroup label="Ethiopian Cities">
+                                            @include('lists.cities')
+                                        </optgroup>
+                                        <optgroup label="Others">
+                                            @include('lists.countries')
+                                        </optgroup>
                                         <option value="">None</option>
                                     </select>
                                 </div>

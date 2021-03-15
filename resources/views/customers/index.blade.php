@@ -66,7 +66,7 @@
                             <th><abbr> Contact </abbr></th>
                             <th><abbr> Email </abbr></th>
                             <th><abbr> Phone </abbr></th>
-                            <th><abbr> Country </abbr></th>
+                            <th><abbr> Country/City </abbr></th>
                             <th class="has-text-right"><abbr> Added On </abbr></th>
                             <th><abbr> Added By </abbr></th>
                             <th><abbr> Edited By </abbr></th>

@@ -118,11 +118,16 @@
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="country" name="country">
-                                        <option selected disabled>Country</option>
-                                        <option value="China" {{ $customer->country == 'China' ? 'selected' : '' }}>China</option>
-                                        <option value="India" {{ $customer->country == 'India' ? 'selected' : '' }}>India</option>
-                                        <option value="UAE" {{ $customer->country == 'UAE' ? 'selected' : '' }}>UAE</option>
-                                        <option value="KSA" {{ $customer->country == 'KSA' ? 'selected' : '' }}>KSA</option>
+                                        <option selected disabled> Select Country/City </option>
+                                        @if ($customer->country)
+                                            <option value="{{ $customer->country }}"> {{ $customer->country }} </option>
+                                        @endif
+                                        <optgroup label="Ethiopian Cities">
+                                            @include('lists.cities')
+                                        </optgroup>
+                                        <optgroup label="Others">
+                                            @include('lists.countries')
+                                        </optgroup>
                                         <option value="">None</option>
                                     </select>
                                 </div>
