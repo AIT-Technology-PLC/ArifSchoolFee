@@ -866,14 +866,27 @@ function initiateDataTables() {
         ],
         dom: "Bfrtip",
         buttons: [
-            "excel",
-            "print",
+            "colvis",
+            {
+                extend: "excelHtml5",
+                exportOptions: {
+                    columns: ":visible",
+                },
+            },
+            {
+                extend: "print",
+                exportOptions: {
+                    columns: ":visible",
+                },
+            },
             {
                 extend: "pdfHtml5",
                 orientation: "landscape",
                 pageSize: "LEGAL",
+                exportOptions: {
+                    columns: ":visible",
+                },
             },
-            "colvis",
         ],
     });
 
