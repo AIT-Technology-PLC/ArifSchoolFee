@@ -850,32 +850,20 @@ function showTablesAfterCompleteLoad() {
 }
 
 function initiateDataTables() {
-    if (d.querySelector("#table_id thead tr").children.length >= 10) {
-        $("#table_id").DataTable({
-            order: [[0, "desc"]],
-            responsive: true,
-            scrollCollapse: true,
-            scrollY: "500px",
-            scrollX: true,
-            columnDefs: [
-                { type: "natural", targets: 4 },
-                { type: "natural", targets: 5 },
-                { type: "natural", targets: 6 },
-                { type: "natural", targets: 7 },
-                { type: "natural", targets: 8 },
-                { type: "natural", targets: 9 },
-            ],
-        });
-    } else {
-        $("#table_id").DataTable({
-            order: [[0, "desc"]],
-            responsive: true,
-            scrollCollapse: true,
-            scrollY: "500px",
-            scrollX: true,
-            columnDefs: [{ type: "natural", targets: 4 }],
-        });
-    }
+    const table = d.getElementById("table_id");
+    let dateTargets = JSON.parse(table.dataset.date);
+    let numericTargets = JSON.parse(table.dataset.numeric);
+    $("#table_id").DataTable({
+        order: [[0, "desc"]],
+        responsive: true,
+        scrollCollapse: true,
+        scrollY: "500px",
+        scrollX: true,
+        columnDefs: [
+            { type: "natural", targets: numericTargets },
+            { type: "date", targets: dateTargets },
+        ],
+    });
 
     showTablesAfterCompleteLoad();
 }
@@ -925,12 +913,8 @@ function openApproveTransferModal(event) {
 }
 
 const addTenderForm = (function () {
-    const tenderFormGroup = d.getElementsByName(
-        "tenderFormGroup"
-    );
-    const tenderFormWrapper = d.getElementById(
-        "tenderFormWrapper"
-    );
+    const tenderFormGroup = d.getElementsByName("tenderFormGroup");
+    const tenderFormWrapper = d.getElementById("tenderFormWrapper");
     const productList = d.getElementById("tender[0][product_id]");
     const formLimit = 10;
     let index = tenderFormGroup.length;
@@ -991,10 +975,7 @@ const addTenderForm = (function () {
             </div>
         </div>`;
 
-        tenderFormWrapper.insertAdjacentHTML(
-            "beforeend",
-            createTenderForm
-        );
+        tenderFormWrapper.insertAdjacentHTML("beforeend", createTenderForm);
 
         index++;
 
