@@ -881,6 +881,10 @@ function initiateDataTables() {
             },
             {
                 extend: "pdfHtml5",
+                orientation: "landscape",
+                customize: function (doc) {
+                    doc.content[1].margin = [0, 0, 0, 0];
+                },
                 exportOptions: {
                     columns: ":visible",
                 },
