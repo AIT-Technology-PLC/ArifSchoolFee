@@ -847,6 +847,7 @@ function showTablesAfterCompleteLoad() {
     let table = d.getElementById("table_id");
     table.style.display = "table";
     d.getElementById("firstTarget").click();
+    changeDtButton();
 }
 
 function initiateDataTables() {
@@ -862,6 +863,17 @@ function initiateDataTables() {
         columnDefs: [
             { type: "natural", targets: numericTargets },
             { type: "date", targets: dateTargets },
+        ],
+        dom: "Bfrtip",
+        buttons: [
+            "excel",
+            "print",
+            {
+                extend: "pdfHtml5",
+                orientation: "landscape",
+                pageSize: "LEGAL",
+            },
+            "colvis",
         ],
     });
 
@@ -985,3 +997,10 @@ const addTenderForm = (function () {
         }
     };
 })();
+
+function changeDtButton() {
+    d.getElementsByClassName("buttons-print")[0].classList = "button is-small";
+    d.getElementsByClassName("buttons-pdf")[0].classList = "button is-small";
+    d.getElementsByClassName("buttons-excel")[0].classList = "button is-small";
+    d.getElementsByClassName("buttons-colvis")[0].classList = "button is-small";
+}
