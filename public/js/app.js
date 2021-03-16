@@ -999,8 +999,14 @@ const addTenderForm = (function () {
 })();
 
 function changeDtButton() {
-    d.getElementsByClassName("buttons-print")[0].classList = "button is-small";
-    d.getElementsByClassName("buttons-pdf")[0].classList = "button is-small";
-    d.getElementsByClassName("buttons-excel")[0].classList = "button is-small";
-    d.getElementsByClassName("buttons-colvis")[0].classList = "button is-small";
+    d.getElementsByClassName("buttons-print")[0].classList =
+        "button is-small btn-green is-outlined";
+    d.getElementsByClassName("buttons-pdf")[0].classList =
+        "button is-small btn-purple is-outlined";
+    d.getElementsByClassName("buttons-excel")[0].classList =
+        "button is-small btn-blue is-outlined";
+    d.getElementsByClassName("buttons-colvis")[0].firstChild.innerText =
+        "Hide Columns";
+    d.getElementsByClassName("buttons-colvis")[0].classList =
+        "button is-small btn-gold is-outlined";
 }
