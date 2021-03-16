@@ -12,6 +12,7 @@ clientsClaim();
 
 const PRECACHE = "precache-v3";
 const RUNTIME = "runtime-v3";
+const VERSION = 10;
 
 setCacheNameDetails({
     prefix: "",
@@ -21,16 +22,16 @@ setCacheNameDetails({
 });
 
 precacheAndRoute([
-    { url: "/offline", revision: 9 },
+    { url: "/offline", revision: VERSION },
     { url: "/manifest.json", revision: null },
     { url: "/img/favicon.png", revision: null },
     { url: "/img/logo.png", revision: null },
     { url: "/pwa/pwa-192x192.png", revision: null },
     { url: "/pwa/pwa-512x512.png", revision: null },
-    { url: "/js/caller.js", revision: 9 },
-    { url: "/js/app.js", revision: 9 },
-    { url: "/js/datatables-plugins.js", revision: 9 },
-    { url: "/css/app.css", revision: 9 },
+    { url: "/js/caller.js", revision: VERSION },
+    { url: "/js/app.js", revision: VERSION },
+    { url: "/js/datatables-plugins.js", revision: VERSION },
+    { url: "/css/app.css", revision: VERSION },
     {
         url: "https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css",
         revision: null,
