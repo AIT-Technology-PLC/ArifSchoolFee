@@ -29,6 +29,7 @@ precacheAndRoute([
     { url: "/pwa/pwa-512x512.png", revision: null },
     { url: "/js/caller.js", revision: 9 },
     { url: "/js/app.js", revision: 9 },
+    { url: "/js/datatables-plugins.js", revision: 9 },
     { url: "/css/app.css", revision: 9 },
     {
         url: "https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css",
@@ -57,10 +58,6 @@ precacheAndRoute([
     },
     {
         url: "https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js",
-        revision: null,
-    },
-    {
-        url: "https://cdn.datatables.net/plug-ins/1.10.22/sorting/natural.js",
         revision: null,
     },
     {

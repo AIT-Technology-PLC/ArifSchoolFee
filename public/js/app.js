@@ -881,8 +881,6 @@ function initiateDataTables() {
             },
             {
                 extend: "pdfHtml5",
-                orientation: "landscape",
-                pageSize: "LEGAL",
                 exportOptions: {
                     columns: ":visible",
                 },
