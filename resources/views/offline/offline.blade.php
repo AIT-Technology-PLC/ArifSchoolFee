@@ -32,11 +32,29 @@
                     </h2>
                     <div class="buttons is-centered mt-6">
                         <button id="backButton" class="button btn-green is-outlined is-uppercase has-text-weight-medium px-5 py-5">
-                            Back
+                            <span class="icon">
+                                <i class="fas fa-arrow-left"></i>
+                            </span>
+                            <span>
+                                Back
+                            </span>
                         </button>
-                        <button id="refreshButton" class="button bg-green has-text-white is-uppercase has-text-weight-medium px-5 py-5">
-                            Try Again
+                        <button id="refreshButton" class="button btn-green is-outlined is-uppercase has-text-weight-medium px-5 py-5">
+                            <span class="icon">
+                                <i class="fas fa-redo-alt"></i>
+                            </span>
+                            <span>
+                                Try Again
+                            </span>
                         </button>
+                        <a href="/" class="button bg-green has-text-white is-uppercase has-text-weight-medium px-5 py-5">
+                            <span class="icon">
+                                <i class="fas fa-bars"></i>
+                            </span>
+                            <span>
+                                Menu
+                            </span>
+                        </a>
                     </div>
                 </div>
             </div>
