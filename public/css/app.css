@@ -389,6 +389,13 @@ table.dataTable thead td {
     border-bottom: 1px solid #111;
     padding-left: 9px;
 }
+.dataTables_wrapper .dataTables_length {
+    font-size: small !important;
+    color: #3d8660 !important;
+    margin-top: 0 !important;
+    margin-bottom: 20px !important;
+    margin-right: 5px !important;
+}
 @media screen and (max-width: 640px) {
     .dataTables_wrapper .dataTables_length,
     .dataTables_wrapper .dataTables_filter {

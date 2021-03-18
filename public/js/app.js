@@ -864,7 +864,11 @@ function initiateDataTables() {
             { type: "natural", targets: numericTargets },
             { type: "date", targets: dateTargets },
         ],
-        dom: "Bfrtip",
+        lengthMenu: [
+            [10, 25, 50, 75, 100, -1],
+            [10, 25, 50, 75, 100, "All"],
+        ],
+        dom: "lBfrtip",
         buttons: [
             "colvis",
             {
