@@ -189,3 +189,9 @@ if (d.getElementById("addNewTenderForm")) {
         addTenderForm
     );
 }
+
+window.addEventListener("online", showOnlineBox);
+
+window.addEventListener("offline", showOfflineBox);
+
+window.addEventListener("load", showOfflineBoxPermanent);

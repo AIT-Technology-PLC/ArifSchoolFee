@@ -1029,3 +1029,31 @@ function changeDtButton() {
     d.getElementsByClassName("buttons-colvis")[0].classList =
         "button is-small btn-gold is-outlined";
 }
+
+function showOnlineBox() {
+    let backOffline = d.getElementById("backOffline");
+    backOffline.classList.add("is-hidden");
+
+    let backOnline = d.getElementById("backOnline");
+    backOnline.classList.remove("is-hidden");
+
+    setTimeout(() => backOnline.classList.add("is-hidden"), 2000);
+
+    if (backOnline.dataset.offline === "true") {
+        return setTimeout(() => goToPreviousPage(), 500);
+    }
+}
+
+function showOfflineBox() {
+    let backOnline = d.getElementById("backOnline");
+    backOnline.classList.add("is-hidden");
+
+    let backOffline = d.getElementById("backOffline");
+    backOffline.classList.remove("is-hidden");
+}
+
+function showOfflineBoxPermanent() {
+    if (!navigator.onLine) {
+        showOfflineBox();
+    }
+}
