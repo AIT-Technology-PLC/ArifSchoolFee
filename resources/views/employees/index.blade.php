@@ -154,7 +154,7 @@
                                         </span>
                                     </a>
                                     <span class="is-block">
-                                        @include('components.delete_button', ['model' => 'users',
+                                        @include('components.delete_button', ['model' => 'employees',
                                         'id' => $employee->user_id])
                                     </span>
                                 </td>
