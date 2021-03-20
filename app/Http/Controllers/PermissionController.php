@@ -10,6 +10,14 @@ class PermissionController extends Controller
 {
     public function edit(Employee $employee, Permission $permission)
     {
+        if ($employee->user->hasRole('System Manager')) {
+            return redirect('/permission-denied');
+        }
+
+        if ($employee->user->id == auth()->user()->id) {
+            return redirect('/permission-denied');
+        }
+
         $this->authorize('update', $employee);
 
         $userRolePermissions = $employee->user->getPermissionsViaRoles()->pluck('name')->toArray();
@@ -23,6 +31,14 @@ class PermissionController extends Controller
 
     public function update(Request $request, Employee $employee)
     {
+        if ($employee->user->hasRole('System Manager')) {
+            return redirect('/permission-denied');
+        }
+
+        if ($employee->user->id == auth()->user()->id) {
+            return redirect('/permission-denied');
+        }
+
         $this->authorize('update', $employee);
 
         $permissionData = $request->validate([
