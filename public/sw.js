@@ -12,7 +12,7 @@ clientsClaim();
 
 const PRECACHE = "precache-v4";
 const RUNTIME = "runtime-v4";
-const VERSION = 13;
+const VERSION = 14;
 
 setCacheNameDetails({
     prefix: "",
@@ -62,11 +62,13 @@ precacheAndRoute([
         revision: null,
     },
     {
-        url: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js",
+        url:
+            "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js",
         revision: null,
     },
     {
-        url: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js",
+        url:
+            "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js",
         revision: null,
     },
     {

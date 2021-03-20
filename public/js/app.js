@@ -848,6 +848,7 @@ function showTablesAfterCompleteLoad() {
     table.style.display = "table";
     d.getElementById("firstTarget").click();
     changeDtButton();
+    removeDtSearchLabel();
 }
 
 function initiateDataTables() {
@@ -1056,4 +1057,10 @@ function showOfflineBoxPermanent() {
     if (!navigator.onLine) {
         showOfflineBox();
     }
+}
+
+function removeDtSearchLabel() {
+    let tableFilter = d.getElementById("table_id_filter");
+    tableFilter.firstElementChild.childNodes[1].placeholder = "Search";
+    tableFilter.firstElementChild.firstChild.remove();
 }

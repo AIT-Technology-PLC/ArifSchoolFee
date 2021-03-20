@@ -334,22 +334,29 @@ table.dataTable.no-footer {
 }
 .dataTables_wrapper .dataTables_filter {
     color: white !important;
-    margin-top: 10px !important;
+    margin-top: 0px !important;
     margin-bottom: 20px !important;
+}
+@media screen and (max-width: 768px) {
+    .dataTables_wrapper .dataTables_filter {
+        color: white !important;
+        margin-top: 10px !important;
+        margin-bottom: 20px !important;
+    }
 }
 .dataTables_wrapper .dataTables_filter input {
     border: 1px solid #3d8660 !important;
     border-radius: 3px;
     padding: 5px;
     background-color: transparent;
-    margin-left: 3px;
+    margin-left: 0px !important;
 }
 .dataTables_wrapper .dataTables_filter input:focus {
     border: 1px solid #3d8660 !important;
     border-radius: 3px;
     padding: 5px;
     background-color: transparent;
-    margin-left: 3px;
+    margin-left: 0px !important;
 }
 .dataTables_wrapper.no-footer .dataTables_scrollBody {
     border-bottom: none !important;
@@ -400,7 +407,7 @@ table.dataTable thead td {
     .dataTables_wrapper .dataTables_length,
     .dataTables_wrapper .dataTables_filter {
         float: none;
-        text-align: left !important;
+        text-align: center !important;
     }
 }
 /* DataTable Styles */
