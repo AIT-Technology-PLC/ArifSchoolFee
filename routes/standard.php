@@ -36,3 +36,7 @@ Route::resource('sales', 'SaleController');
 Route::resource('merchandises', 'MerchandiseController');
 
 Route::resource('prices', 'PriceController');
+
+Route::get('/employees/{employee}/permissions/edit', 'PermissionController@edit')->name('permissions.edit');
+
+Route::patch('/employees/{employee}/permissions', 'PermissionController@update')->name('permissions.update');
