@@ -47,6 +47,9 @@
 .is-underlined {
     text-decoration: underline !important;
 }
+.is-not-underlined {
+    text-decoration: none !important;
+}
 .shadow-hover:hover {
     box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
         0 0 0 1px rgba(10, 10, 10, 0.02) !important;
@@ -297,6 +300,26 @@ td {
     overflow: none !important;
     overflow-y: none !important;
     max-width: 100%;
+}
+.is-borderless {
+    border: none !important;
+}
+.is-overflow {
+    overflow: auto !important;
+}
+.notification-box {
+    position: absolute;
+    top: 100%;
+    left: 60%;
+    width: 350px;
+}
+@media screen and (max-width: 768px) {
+    .notification-box {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+    }
 }
 /* DataTable Styles */
 table.dataTable.no-footer {

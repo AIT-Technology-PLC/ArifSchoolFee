@@ -13,7 +13,12 @@
                     SmartWork
                 </span>
             </a>
-            <span id="burger-menu" class="navbar-item to-the-right has-text-white is-size-5 is-hidden-desktop">
+            <a id="notificationButton" class="navbar-item has-text-white is-size-5 is-hidden-desktop to-the-right">
+                <span class="icon">
+                    <i class="fas fa-bell"></i>
+                </span>
+            </a>
+            <span id="burger-menu" class="navbar-item has-text-white is-size-5 is-hidden-desktop">
                 <span class="icon">
                     <i id="burgerMenuBars" class="fas fa-bars"></i>
                 </span>
@@ -58,6 +63,11 @@
                         <i class="fas fa-plus"></i>
                     </span>
                 </a>
+                <a id="notificationButton" class="navbar-item has-text-white link-text">
+                    <span class="icon">
+                        <i class="fas fa-bell"></i>
+                    </span>
+                </a>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link is-arrowless">
                         <figure class="image is-24x24" style="margin: auto !important">
@@ -97,5 +107,6 @@
             </div>
         </div>
         @include('layouts.create_menu')
+        @include('layouts.notification_box')
     </div>
 </nav>
