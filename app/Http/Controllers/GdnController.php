@@ -7,6 +7,7 @@ use App\Models\Gdn;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Warehouse;
+use App\Notifications\GdnApproved;
 use App\Notifications\GdnPrepared;
 use App\Services\StoreSaleableProducts;
 use App\Traits\Approvable;
@@ -185,6 +186,8 @@ class GdnController extends Controller
         if (!$gdn->isGdnApproved()) {
             $gdn->approveGdn();
             $message = 'You have approved this DO/GDN successfully';
+            Notification::send($this->notifiableUsers('Subtract GDN'), new GdnApproved($gdn));
+            $this->notifyCreator($gdn, new GdnApproved($gdn));
         }
 
         return redirect()->back()->with('successMessage', $message);
