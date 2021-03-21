@@ -73,7 +73,7 @@
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Employee'])
             <div>
-                <table id="table_id" class="is-hoverable is-size-7 display" data-date="[7]" data-numeric="[]">
+                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[7]" data-numeric="[]">
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
