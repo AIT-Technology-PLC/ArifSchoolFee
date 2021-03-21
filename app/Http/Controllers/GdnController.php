@@ -7,16 +7,19 @@ use App\Models\Gdn;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Warehouse;
+use App\Notifications\GdnPrepared;
 use App\Services\StoreSaleableProducts;
 use App\Traits\Approvable;
+use App\Traits\NotifiableUsers;
 use App\Traits\PrependCompanyId;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class GdnController extends Controller
 {
-    use PrependCompanyId, Approvable;
+    use PrependCompanyId, Approvable, NotifiableUsers;
 
     private $gdn;
 
@@ -90,9 +93,12 @@ class GdnController extends Controller
             return $isGdnValid ? $gdn : false;
         });
 
-        return $gdn ?
-        redirect()->route('gdns.show', $gdn->id) :
-        redirect()->back()->withInput($request->all());
+        if ($gdn) {
+            Notification::send($this->notifiableUsers('Approve GDN'), new GdnPrepared($gdn));
+            return redirect()->route('gdns.show', $gdn->id);
+        }
+
+        return redirect()->back()->withInput($request->all());
     }
 
     public function show(Gdn $gdn)
