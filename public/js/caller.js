@@ -195,3 +195,18 @@ window.addEventListener("online", showOnlineBox);
 window.addEventListener("offline", showOfflineBox);
 
 window.addEventListener("load", showOfflineBoxPermanent);
+
+if (d.getElementById("notificationBox")) {
+    d.getElementById("notificationButtonDesktop").addEventListener(
+        "click",
+        toggleNotificationBox
+    );
+    d.getElementById("notificationButtonMobile").addEventListener(
+        "click",
+        toggleNotificationBox
+    );
+    d.getElementById("closeNotificationButton").addEventListener(
+        "click",
+        toggleNotificationBox
+    );
+}

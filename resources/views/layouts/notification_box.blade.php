@@ -1,8 +1,8 @@
-<div class="notification-box mt-1">
+<div id="notificationBox" class="notification-box mt-1 is-hidden">
     <article class="message m-lr-10">
         <div class="message-header bg-green has-text-white">
             <p class="is-size-7">Notifications</p>
-            <button id="closeNotificationBox" class="delete"></button>
+            <button id="closeNotificationButton" class="delete"></button>
         </div>
         <div class="message-body is-overflow has-background-white" style="max-height: 300px !important">
             <p class="is-size-7">

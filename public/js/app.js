@@ -1064,3 +1064,7 @@ function removeDtSearchLabel() {
     tableFilter.firstElementChild.childNodes[1].placeholder = "Search";
     tableFilter.firstElementChild.firstChild.remove();
 }
+
+function toggleNotificationBox() {
+    d.getElementById("notificationBox").classList.toggle("is-hidden");
+}
