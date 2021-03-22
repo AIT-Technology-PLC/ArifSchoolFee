@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Transfer;
 use App\Models\Warehouse;
 use App\Notifications\TransferApproved;
+use App\Notifications\TransferMade;
 use App\Notifications\TransferPrepared;
 use App\Services\StoreSaleableProducts;
 use App\Traits\Approvable;
@@ -98,14 +99,21 @@ class TransferController extends Controller
     {
         $this->authorize('transfer', $transfer);
 
-        DB::transaction(function () use ($transfer) {
+        $transfer = DB::transaction(function () use ($transfer) {
             $transfer->changeStatusToTransferred();
             $isTransferValid = StoreSaleableProducts::storeTransferredProducts($transfer);
 
             if (!$isTransferValid) {
                 DB::rollback();
             }
+
+            return $isTransferValid ? $transfer : false;
         });
+
+        if ($transfer) {
+            Notification::send($this->notifiableUsers('Approve Transfer'), new TransferMade($transfer));
+            Notification::send($this->notifyCreator($transfer, $this->notifiableUsers('Approve Transfer')), new TransferMade($transfer));
+        }
 
         return redirect()->back();
     }
