@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Transfer;
 use App\Models\Warehouse;
+use App\Notifications\TransferApproved;
 use App\Notifications\TransferPrepared;
 use App\Services\StoreSaleableProducts;
 use App\Traits\Approvable;
@@ -179,6 +180,8 @@ class TransferController extends Controller
         if (!$transfer->isTransferApproved()) {
             $transfer->approveTransfer();
             $message = 'You have approved this Transfer successfully';
+            Notification::send($this->notifiableUsers('Make Transfer'), new TransferApproved($transfer));
+            Notification::send($this->notifyCreator($transfer, $this->notifiableUsers('Make Transfer')), new TransferApproved($transfer));
         }
 
         return redirect()->back()->with('successMessage', $message);
