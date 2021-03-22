@@ -7,6 +7,7 @@ use App\Models\Grn;
 use App\Models\Purchase;
 use App\Models\Sale;
 use App\Notifications\GdnSubtracted;
+use App\Notifications\GrnAdded;
 use App\Services\AddPurchasedItemsToInventory;
 use App\Services\StoreSaleableProducts;
 use App\Traits\NotifiableUsers;
@@ -34,6 +35,9 @@ class MerchandiseInventoryTransactionController extends Controller
             $purchase->changeStatusToAddedToInventory();
             AddPurchasedItemsToInventory::addToInventory($purchase);
         });
+
+        Notification::send($this->notifiableUsers('Approve GRN'), new GrnAdded($purchase));
+        $this->notifyCreator($purchase, new GrnAdded($purchase));
 
         return redirect()->back();
     }
