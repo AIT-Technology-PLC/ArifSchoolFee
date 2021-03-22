@@ -3,9 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Employee;
-use App\Notifications\GdnApproved;
 use App\User;
-use Illuminate\Support\Facades\Notification;
 
 trait NotifiableUsers
 {
@@ -23,10 +21,16 @@ trait NotifiableUsers
         return $users;
     }
 
-    public function notifyCreator($resource, $notification)
+    public function notifyCreator($resource, $users)
     {
-        if ($resource->createdBy->id != $resource->approvedBy->id) {
-            Notification::send($resource->createdBy, $notification);
+        if ($users->contains('id', $resource->createdBy->id)) {
+            return [];
         }
+
+        if ($resource->createdBy->id == auth()->user()->id) {
+            return [];
+        }
+
+        return $resource->createdBy;
     }
 }

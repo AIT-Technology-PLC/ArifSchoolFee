@@ -178,7 +178,7 @@ class GrnController extends Controller
             $grn->approveGrn();
             $message = 'You have approved this GRN successfully';
             Notification::send($this->notifiableUsers('Add GRN'), new GrnApproved($grn));
-            $this->notifyCreator($grn, new GrnApproved($grn));
+            Notification::send($this->notifyCreator($grn, $this->notifiableUsers('Add GRN')), new GrnApproved($grn));
         }
 
         return redirect()->back()->with('successMessage', $message);

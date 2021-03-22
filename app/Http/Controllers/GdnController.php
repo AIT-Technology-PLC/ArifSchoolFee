@@ -187,7 +187,7 @@ class GdnController extends Controller
             $gdn->approveGdn();
             $message = 'You have approved this DO/GDN successfully';
             Notification::send($this->notifiableUsers('Subtract GDN'), new GdnApproved($gdn));
-            $this->notifyCreator($gdn, new GdnApproved($gdn));
+            Notification::send($this->notifyCreator($gdn, $this->notifiableUsers('Subtract GDN')), new GdnApproved($gdn));
         }
 
         return redirect()->back()->with('successMessage', $message);

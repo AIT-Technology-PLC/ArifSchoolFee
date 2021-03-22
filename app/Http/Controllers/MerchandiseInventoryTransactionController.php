@@ -37,7 +37,7 @@ class MerchandiseInventoryTransactionController extends Controller
         });
 
         Notification::send($this->notifiableUsers('Approve GRN'), new GrnAdded($purchase));
-        $this->notifyCreator($purchase, new GrnAdded($purchase));
+        Notification::send($this->notifyCreator($purchase, $this->notifiableUsers('Approve GRN')), new GrnAdded($purchase));
 
         return redirect()->back();
     }
@@ -67,7 +67,7 @@ class MerchandiseInventoryTransactionController extends Controller
 
         if ($sale->getTable() == 'gdns' && $isSaleValid && $sale->isGdnSubtracted()) {
             Notification::send($this->notifiableUsers('Approve GDN'), new GdnSubtracted($sale));
-            $this->notifyCreator($sale, new GdnSubtracted($sale));
+            Notification::send($this->notifyCreator($sale, $this->notifiableUsers('Approve GDN')), new GdnSubtracted($sale));
         }
 
         return redirect()->back();
