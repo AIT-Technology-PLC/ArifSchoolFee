@@ -22,8 +22,9 @@ class GdnSubtracted extends Notification
     public function toArray($notifiable)
     {
         return [
+            'icon' => 'file-invoice',
             'message' => 'DO/GDN has been submitted to customer',
-            'endpoint' => '/gdn/' . $this->gdn->id,
+            'endpoint' => '/gdns/' . $this->gdn->id,
         ];
     }
 }

@@ -22,8 +22,9 @@ class GdnPrepared extends Notification
     public function toArray($notifiable)
     {
         return [
+            'icon' => 'file-invoice',
             'message' => 'Approval request for DO/GDN prepared by ' . ucfirst($this->gdn->createdBy->name),
-            'endpoint' => '/gdn/' . $this->gdn->id,
+            'endpoint' => '/gdns/' . $this->gdn->id,
         ];
     }
 }

@@ -22,8 +22,9 @@ class TransferApproved extends Notification
     public function toArray($notifiable)
     {
         return [
+            'icon' => 'exchange-alt',
             'message' => 'Transfer has been approved by ' . ucfirst($this->transfer->approvedBy->name),
-            'endpoint' => '/transfer/' . $this->transfer->id,
+            'endpoint' => '/transfers/' . $this->transfer->id,
         ];
     }
 }

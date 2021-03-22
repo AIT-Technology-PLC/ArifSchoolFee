@@ -22,8 +22,9 @@ class GrnPrepared extends Notification
     public function toArray($notifiable)
     {
         return [
+            'icon' => 'file-contract',
             'message' => 'Approval request for GRN prepared by ' . ucfirst($this->grn->createdBy->name),
-            'endpoint' => '/grn/' . $this->grn->id,
+            'endpoint' => '/grns/' . $this->grn->id,
         ];
     }
 }

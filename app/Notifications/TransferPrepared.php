@@ -22,8 +22,9 @@ class TransferPrepared extends Notification
     public function toArray($notifiable)
     {
         return [
+            'icon' => 'exchange-alt',
             'message' => 'Approval request for Transfer prepared by ' . ucfirst($this->transfer->createdBy->name),
-            'endpoint' => '/transfer/' . $this->transfer->id,
+            'endpoint' => '/transfers/' . $this->transfer->id,
         ];
     }
 }

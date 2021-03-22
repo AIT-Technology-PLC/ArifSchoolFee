@@ -201,12 +201,16 @@ if (d.getElementById("notificationBox")) {
         "click",
         toggleNotificationBox
     );
+
     d.getElementById("notificationButtonMobile").addEventListener(
         "click",
         toggleNotificationBox
     );
+
     d.getElementById("closeNotificationButton").addEventListener(
         "click",
         toggleNotificationBox
     );
+
+    window.addEventListener("load", showNotifications);
 }

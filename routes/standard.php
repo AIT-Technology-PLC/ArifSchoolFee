@@ -38,3 +38,7 @@ Route::resource('prices', 'PriceController');
 Route::get('/employees/{employee}/permissions/edit', 'PermissionController@edit')->name('permissions.edit');
 
 Route::patch('/employees/{employee}/permissions', 'PermissionController@update')->name('permissions.update');
+
+Route::get('/notifications/read', 'NotificationController@getReadNotifications');
+
+Route::get('/notifications/unread', 'NotificationController@getUnreadNotifications');

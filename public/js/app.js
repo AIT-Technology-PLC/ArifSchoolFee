@@ -1068,3 +1068,77 @@ function removeDtSearchLabel() {
 function toggleNotificationBox() {
     d.getElementById("notificationBox").classList.toggle("is-hidden");
 }
+
+async function getReadNotifications() {
+    const response = await axios.get("/notifications/read");
+    const readNotifications = response.data;
+
+    return readNotifications;
+}
+
+async function getUnreadNotifications() {
+    const response = await axios.get("/notifications/unread");
+    const unreadNotifications = response.data;
+
+    return unreadNotifications;
+}
+
+async function showNotifications() {
+    const notificationBody = d.getElementById("notificationBody");
+    const unreadNotifications = await getUnreadNotifications();
+    const readNotifications = await getReadNotifications();
+    const totalReadNotifications =
+        readNotifications.length > 5 ? 5 : readNotifications.length;
+    let notification = "";
+
+    if (unreadNotifications.length) {
+        for (let index = 0; index < unreadNotifications.length; index++) {
+            notification += `
+                <div class="columns is-marginless has-background-white text-green py-3 is-size-6-5 is-mobile">
+                    <div class="column is-1">
+                        <span class="icon is-small">
+                            <i class="fas fa-${unreadNotifications[index].data.icon}"></i>
+                        </span>
+                    </div>
+                    <div class="column is-11 pl-1">
+                        <a class="is-not-underlined" href="${unreadNotifications[index].data.endpoint}">
+                            ${unreadNotifications[index].data.message}
+                        </a>
+                    </div>
+                </div>
+                <hr class="mt-0 mb-0"></hr>`;
+        }
+    }
+
+    if (readNotifications.length) {
+        for (let index = 0; index < totalReadNotifications; index++) {
+            notification += `
+                <div class="columns is-marginless has-background-white has-text-grey-light py-3 is-size-6-5 is-mobile">
+                    <div class="column is-1">
+                        <span class="icon is-small">
+                            <i class="fas fa-${readNotifications[index].data.icon}"></i>
+                        </span>
+                    </div>
+                    <div class="column is-11 pl-1">
+                        <a class="is-not-underlined" href="${readNotifications[index].data.endpoint}">
+                            ${readNotifications[index].data.message}
+                        </a>
+                    </div>
+                </div>
+                <hr class="mt-0 mb-0"></hr>`;
+        }
+    }
+
+    if (!notification) {
+        notification += `
+            <div class="columns is-marginless has-background-white has-text-black py-3 is-size-6-5 is-mobile">
+                <div class="column is-12">
+                    <span>
+                        No notifications
+                    </span>
+                </div>
+            </div>`;
+    }
+
+    notificationBody.innerHTML = notification;
+}

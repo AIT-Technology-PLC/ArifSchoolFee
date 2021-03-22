@@ -22,8 +22,9 @@ class TransferMade extends Notification
     public function toArray($notifiable)
     {
         return [
+            'icon' => 'exchange-alt',
             'message' => 'Transfer has been made successfully',
-            'endpoint' => '/transfer/' . $this->transfer->id,
+            'endpoint' => '/transfers/' . $this->transfer->id,
         ];
     }
 }
