@@ -7,16 +7,19 @@ use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Warehouse;
+use App\Notifications\GrnPrepared;
 use App\Services\AddPurchasedItemsToInventory;
 use App\Traits\Approvable;
+use App\Traits\NotifiableUsers;
 use App\Traits\PrependCompanyId;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class GrnController extends Controller
 {
-    use PrependCompanyId, Approvable;
+    use PrependCompanyId, Approvable, NotifiableUsers;
 
     private $grn;
 
@@ -84,6 +87,8 @@ class GrnController extends Controller
 
             return $grn;
         });
+
+        Notification::send($this->notifiableUsers('Approve GRN'), new GrnPrepared($grn));
 
         return redirect()->route('grns.show', $grn->id);
     }
