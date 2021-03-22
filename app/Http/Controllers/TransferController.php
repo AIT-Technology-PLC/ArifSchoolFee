@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Transfer;
 use App\Models\Warehouse;
+use App\Notifications\TransferPrepared;
 use App\Services\StoreSaleableProducts;
 use App\Traits\Approvable;
+use App\Traits\NotifiableUsers;
 use App\Traits\PrependCompanyId;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class TransferController extends Controller
 {
-    use PrependCompanyId, Approvable;
+    use PrependCompanyId, Approvable, NotifiableUsers;
 
     private $transfer;
 
@@ -82,9 +85,12 @@ class TransferController extends Controller
             return $isTransferValid ? $transfer : false;
         });
 
-        return $transfer ?
-        redirect()->route('transfers.show', $transfer->id) :
-        redirect()->back()->withInput($request->all());
+        if ($transfer) {
+            Notification::send($this->notifiableUsers('Approve Transfer'), new TransferPrepared($transfer));
+            return redirect()->route('transfers.show', $transfer->id);
+        }
+
+        return redirect()->back()->withInput($request->all());
     }
 
     public function transfer(Transfer $transfer)
