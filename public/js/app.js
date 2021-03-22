@@ -1094,7 +1094,7 @@ async function showNotifications() {
     if (unreadNotifications.length) {
         for (let index = 0; index < unreadNotifications.length; index++) {
             notification += `
-                <div class="columns is-marginless has-background-white text-green py-3 is-size-6-5 is-mobile">
+                <div class="columns is-marginless has-background-white-bis text-green py-3 is-size-6-5 is-mobile">
                     <div class="column is-1">
                         <span class="icon is-small">
                             <i class="fas fa-${unreadNotifications[index].data.icon}"></i>
@@ -1113,7 +1113,7 @@ async function showNotifications() {
     if (readNotifications.length) {
         for (let index = 0; index < totalReadNotifications; index++) {
             notification += `
-                <div class="columns is-marginless has-background-white has-text-grey-light py-3 is-size-6-5 is-mobile">
+                <div class="columns is-marginless has-background-white has-text-grey py-3 is-size-6-5 is-mobile">
                     <div class="column is-1">
                         <span class="icon is-small">
                             <i class="fas fa-${readNotifications[index].data.icon}"></i>
