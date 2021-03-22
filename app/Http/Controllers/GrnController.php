@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Warehouse;
+use App\Notifications\GrnApproved;
 use App\Notifications\GrnPrepared;
 use App\Services\AddPurchasedItemsToInventory;
 use App\Traits\Approvable;
@@ -176,6 +177,8 @@ class GrnController extends Controller
         if (!$grn->isGrnApproved()) {
             $grn->approveGrn();
             $message = 'You have approved this GRN successfully';
+            Notification::send($this->notifiableUsers('Add GRN'), new GrnApproved($grn));
+            $this->notifyCreator($grn, new GrnApproved($grn));
         }
 
         return redirect()->back()->with('successMessage', $message);
