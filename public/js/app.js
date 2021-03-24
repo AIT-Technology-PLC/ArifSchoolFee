@@ -1085,6 +1085,10 @@ async function getUnreadNotifications() {
 
 async function showNotifications() {
     const notificationBody = d.getElementById("notificationBody");
+    const notificationCountDesktop = d.getElementById(
+        "notificationCountDesktop"
+    );
+    const notificationCountMobile = d.getElementById("notificationCountMobile");
     const unreadNotifications = await getUnreadNotifications();
     const readNotifications = await getReadNotifications();
     const totalReadNotifications =
@@ -1092,6 +1096,12 @@ async function showNotifications() {
     let notification = "";
 
     if (unreadNotifications.length) {
+        notificationCountDesktop.classList.remove("is-hidden");
+        notificationCountMobile.classList.remove("is-hidden");
+
+        notificationCountDesktop.innerText = unreadNotifications.length;
+        notificationCountMobile.innerText = unreadNotifications.length;
+
         for (let index = 0; index < unreadNotifications.length; index++) {
             notification += `
                 <div class="columns is-marginless has-background-white-bis text-green py-3 is-size-6-5 is-mobile">

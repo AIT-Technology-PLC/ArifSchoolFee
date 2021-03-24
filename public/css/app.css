@@ -321,6 +321,17 @@ td {
         width: 100%;
     }
 }
+#notificationCountDesktop,
+#notificationCountMobile {
+    position: absolute;
+    top: 5px;
+    content: attr(data-notif);
+    border-radius: 999px;
+    margin-left: 9px;
+    min-width: 26px;
+    padding: 2px 0;
+    font-size: x-small;
+}
 /* DataTable Styles */
 table.dataTable.no-footer {
     border-bottom: none !important;
