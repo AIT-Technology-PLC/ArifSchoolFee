@@ -29,13 +29,8 @@ class NotificationController extends Controller
 
     public function markNotificationAsRead(Notification $notification)
     {
-        $notification->markAsRead();
-    }
-
-    public function destroy(Notification $notification)
-    {
-        $notification->forceDelete();
-
-        return redirect()->back()->with('deleted', 'Deleted Successfully');
+        if ($notification->notifiable->id == auth()->user()->id) {
+            $notification->markAsRead();
+        }
     }
 }
