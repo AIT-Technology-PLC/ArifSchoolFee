@@ -213,4 +213,9 @@ if (d.getElementById("notificationBox")) {
     );
 
     window.addEventListener("load", showNotifications);
+
+    d.getElementById("notificationBox").addEventListener(
+        "click",
+        markNotificationAsRead
+    );
 }

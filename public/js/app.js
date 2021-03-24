@@ -1111,7 +1111,7 @@ async function showNotifications() {
                         </span>
                     </div>
                     <div class="column is-11 pl-1">
-                        <a class="is-not-underlined" href="${unreadNotifications[index].data.endpoint}">
+                        <a data-notification-id="${unreadNotifications[index].id}" class="unreadNotifications is-not-underlined" href="${unreadNotifications[index].data.endpoint}">
                             ${unreadNotifications[index].data.message}
                         </a>
                     </div>
@@ -1151,4 +1151,12 @@ async function showNotifications() {
     }
 
     notificationBody.innerHTML = notification;
+}
+
+function markNotificationAsRead(event) {
+    if (event.target.classList.contains("unreadNotifications")) {
+        axios.get(
+            `/notifications/${event.target.dataset.notificationId}/mark-as-read`
+        );
+    }
 }
