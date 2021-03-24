@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Notifications\DatabaseNotification as Notification;
+
 class NotificationController extends Controller
 {
     public function index()
@@ -25,17 +27,15 @@ class NotificationController extends Controller
         return $unreadNotifications;
     }
 
-    public function markNotificationAsRead($notification)
+    public function markNotificationAsRead(Notification $notification)
     {
-        $notification = auth()->user()->notifications->where('id', $notification)->first();
-
         $notification->markAsRead();
     }
 
-    public function destroy($notification)
+    public function destroy(Notification $notification)
     {
-        $notification = auth()->user()->notifications->where('id', $notification)->first();
+        $notification->forceDelete();
 
-        $notification->delete();
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }
