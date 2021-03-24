@@ -214,6 +214,10 @@ if (d.getElementById("notificationBox")) {
 
     window.addEventListener("load", showNotifications);
 
+    window.addEventListener("load", () =>
+        setInterval(showNotifications, 360000)
+    );
+
     d.getElementById("notificationBox").addEventListener(
         "click",
         markNotificationAsRead
