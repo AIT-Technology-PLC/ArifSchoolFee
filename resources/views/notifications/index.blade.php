@@ -120,6 +120,16 @@
                                             </span>
                                         </span>
                                     </a>
+                                    <a href="{{ route('notifications.markAsRead', $notification->id) }}">
+                                        <span class="tag btn-green is-outlined is-small text-green has-text-weight-medium">
+                                            <span class="icon">
+                                                <i class="fas fa-check-double"></i>
+                                            </span>
+                                            <span>
+                                                Mark as read
+                                            </span>
+                                        </span>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

@@ -34,6 +34,10 @@ class NotificationController extends Controller
         if ($notification->notifiable->id == auth()->user()->id) {
             $notification->markAsRead();
         }
+
+        if (!request()->ajax()) {
+            return redirect()->back();
+        }
     }
 
     public function markAllNotificationsAsRead()

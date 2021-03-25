@@ -43,7 +43,7 @@ Route::get('/notifications/read', 'NotificationController@getReadNotifications')
 
 Route::get('/notifications/unread', 'NotificationController@getUnreadNotifications');
 
-Route::get('/notifications/{notification}/mark-as-read', 'NotificationController@markNotificationAsRead');
+Route::get('/notifications/{notification}/mark-as-read', 'NotificationController@markNotificationAsRead')->name('notifications.markAsRead');
 
 Route::patch('/notifications/mark-all-read', 'NotificationController@markAllNotificationsAsRead')->name('notifications.markAllAsRead');
 
