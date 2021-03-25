@@ -18,8 +18,8 @@
                         <div class="is-size-3 has-text-weight-bold">
                             {{ $totalGdns }}
                         </div>
-                        <div class="is-uppercase is-size-7">
-                            Total SIVs/GDNs
+                        <div class="is-size-7">
+                            TOTAL DOs/GDNs
                         </div>
                     </div>
                 </div>
