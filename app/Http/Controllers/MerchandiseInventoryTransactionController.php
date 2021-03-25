@@ -48,7 +48,13 @@ class MerchandiseInventoryTransactionController extends Controller
             return new AuthorizationException();
         }
 
-        $sale = Sale::find($sale) ?? Gdn::find($sale);
+        if (request('model') == 'gdns') {
+            $sale = Gdn::find($sale);
+        }
+
+        if (request('model') == 'sales') {
+            $sale = Sale::find($sale);
+        }
 
         if ($sale->getTable() == 'gdns' && !$sale->isGdnApproved()) {
             return redirect()->back()->with('message', 'This DO/GDN is not approved');
