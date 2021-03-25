@@ -223,3 +223,10 @@ if (d.getElementById("notificationBox")) {
         markNotificationAsRead
     );
 }
+
+if (d.getElementById("markAllNotificationsAsRead")) {
+    d.getElementById("markAllNotificationsAsRead").addEventListener(
+        "click",
+        openMarkAllNotificationsAsReadModal
+    );
+}

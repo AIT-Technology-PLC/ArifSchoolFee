@@ -26,10 +26,10 @@
             </div>
         </div>
         <div class="column">
-            <div class="box text-green">
+            <div class="box has-text-grey-dark">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1 has-text-grey-dark">
+                        <span class="icon is-large is-size-1">
                             <i class="fas fa-bell"></i>
                         </span>
                     </div>
@@ -60,14 +60,18 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('notifications.markAllAsRead') }}" class="button is-small bg-green has-text-white">
-                                <span class="icon">
-                                    <i class="fas fa-check-double"></i>
-                                </span>
-                                <span>
-                                    Mark all as read
-                                </span>
-                            </a>
+                            <form id="formOne" action="{{ route('notifications.markAllAsRead')}}" method="POST" enctype="multipart/form-data" novalidate>
+                                @csrf
+                                @method('PATCH')
+                                <button id="markAllNotificationsAsRead" class="button is-small bg-green has-text-white">
+                                    <span class="icon">
+                                        <i class="fas fa-check-double"></i>
+                                    </span>
+                                    <span>
+                                        Mark all as read
+                                    </span>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

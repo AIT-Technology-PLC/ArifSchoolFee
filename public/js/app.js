@@ -1160,3 +1160,15 @@ function markNotificationAsRead(event) {
         );
     }
 }
+
+function openMarkAllNotificationsAsReadModal(event) {
+    event.preventDefault();
+    swal({
+        title: "Do you want to mark all notifications as read?",
+        buttons: ["Not now", "Yes, mark all as read"],
+    }).then((willMarkAllAsRead) => {
+        if (willMarkAllAsRead) {
+            d.getElementById("formOne").submit();
+        }
+    });
+}
