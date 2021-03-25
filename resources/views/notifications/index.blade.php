@@ -47,9 +47,31 @@
     </div>
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                Notifications
-            </h1>
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item is-justify-content-left">
+                        <div>
+                            <h1 class="title text-green has-text-weight-medium is-size-5">
+                                Notifications
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item is-justify-content-left">
+                        <div>
+                            <a href="{{ route('notifications.markAllAsRead') }}" class="button is-small bg-green has-text-white">
+                                <span class="icon">
+                                    <i class="fas fa-check-double"></i>
+                                </span>
+                                <span>
+                                    Mark all as read
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Category'])
