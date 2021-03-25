@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="columns is-marginless">
+    <div class="columns is-marginless is-multiline">
         <div class="column is-6">
             <div class="box text-green">
                 <div class="columns is-marginless is-vcentered is-mobile">
@@ -41,6 +41,44 @@
                                     Create New DO/GDN
                                 </span>
                             </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-6">
+            <div class="box">
+                <div class="columns is-marginless is-vcentered is-mobile">
+                    <div class="column has-text-centered is-paddingless">
+                        <span class="icon is-large is-size-1">
+                            <i class="fas fa-file-invoice"></i>
+                        </span>
+                    </div>
+                    <div class="column is-paddingless">
+                        <div class="is-size-3 has-text-weight-bold">
+                            {{ $totalNotApproved }}
+                        </div>
+                        <div class="is-uppercase is-size-7">
+                            Waiting For Approval
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-6">
+            <div class="box text-blue">
+                <div class="columns is-marginless is-vcentered is-mobile">
+                    <div class="column has-text-centered is-paddingless">
+                        <span class="icon is-large is-size-1">
+                            <i class="fas fa-file-invoice"></i>
+                        </span>
+                    </div>
+                    <div class="column is-paddingless">
+                        <div class="is-size-3 has-text-weight-bold">
+                            {{ $totalNotSubtracted }}
+                        </div>
+                        <div class="is-uppercase is-size-7">
+                            Not Subtracted From Inventory
                         </div>
                     </div>
                 </div>

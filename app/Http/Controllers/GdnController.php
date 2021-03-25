@@ -33,11 +33,15 @@ class GdnController extends Controller
 
     public function index(Gdn $gdn)
     {
-        $gdns = $gdn->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'sale', 'customer', 'company']);
+        $gdns = $gdn->getAll()->load(['gdnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'sale', 'customer', 'company']);
 
         $totalGdns = $gdn->countGdnsOfCompany();
 
-        return view('gdns.index', compact('gdns', 'totalGdns'));
+        $totalNotApproved = $gdns->whereNull('approved_by')->count();
+
+        $totalNotSubtracted = $gdns->where('status', 'Not Subtracted From Inventory')->whereNotNull('approved_by')->count();
+
+        return view('gdns.index', compact('gdns', 'totalGdns', 'totalNotApproved', 'totalNotSubtracted'));
     }
 
     public function create(Product $product, Customer $customer, Sale $sale, Warehouse $warehouse)
