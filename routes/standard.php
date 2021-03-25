@@ -44,3 +44,5 @@ Route::get('/notifications/read', 'NotificationController@getReadNotifications')
 Route::get('/notifications/unread', 'NotificationController@getUnreadNotifications');
 
 Route::get('/notifications/{notification}/mark-as-read', 'NotificationController@markNotificationAsRead');
+
+Route::resource('notifications', 'NotificationController')->only("index");
