@@ -142,7 +142,7 @@
                             <br>
                             Add product(s) automatically by clicking on the button.
                         </p>
-                        <form id="formOne" action="{{ route('merchandises.addToInventory', $grn->id) }}" method="post" novalidate>
+                        <form id="formOne" action="{{ route('merchandises.addToInventory', $grn->id . '?model=grns') }}" method="post" novalidate>
                             @csrf
                             <button id="openAddGrnModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">

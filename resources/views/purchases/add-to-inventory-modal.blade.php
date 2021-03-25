@@ -12,7 +12,7 @@
             </p>
             <button id="closeModal" class="delete is-medium" aria-label="close"></button>
         </header>
-        <form id="formOne" action="{{ route('merchandises.addToInventory', $purchase->id) }}" method="post" novalidate>
+        <form id="formOne" action="{{ route('merchandises.addToInventory', $purchase->id . '?model=purchases') }}" method="post" novalidate>
             @csrf
             <section class="modal-card-body py-6">
                 <div class="columns is-marginless is-multiline">

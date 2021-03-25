@@ -25,7 +25,13 @@ class MerchandiseInventoryTransactionController extends Controller
             return new AuthorizationException();
         }
 
-        $purchase = Purchase::find($purchase) ?? Grn::find($purchase);
+        if (request('model') == 'grns') {
+            $purchase = Grn::find($purchase);
+        }
+
+        if (request('model') == 'purchases') {
+            $purchase = Purchase::find($purchase);
+        }
 
         if ($purchase->getTable() == 'grns' && !$purchase->isGrnApproved()) {
             return redirect()->back()->with('message', 'This GRN is not approved');
