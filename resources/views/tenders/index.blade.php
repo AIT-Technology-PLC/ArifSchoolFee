@@ -103,7 +103,7 @@
                                     {{ $tender->customer->company_name ?? 'N/A' }}
                                 </td>
                                 <td class="has-text-centered">
-                                    {{ $tender->participants }}
+                                    {{ $tender->participants ?? 'N/A' }}
                                 </td>
                                 <td>
                                     {{ $tender->bid_bond_type ?? 'N/A' }}

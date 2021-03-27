@@ -87,9 +87,9 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="participants" class="label text-green has-text-weight-normal">Participants <sup class="has-text-danger">*</sup> </label>
+                            <label for="participants" class="label text-green has-text-weight-normal">Participants <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="number" name="participants" id="participants" value="{{ $tender->participants ?? '0' }}">
+                                <input class="input" type="number" name="participants" id="participants" value="{{ $tender->participants ?? '' }}">
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-users"></i>
                                 </span>
