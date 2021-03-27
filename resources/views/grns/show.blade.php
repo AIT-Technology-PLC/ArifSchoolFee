@@ -36,7 +36,7 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ $gdn->purchase->purchase_no ?? 'N/A' }}
+                                {{ $grn->purchase->purchase_no ?? 'N/A' }}
                             </div>
                             <div class="is-uppercase is-size-7">
                                 Purchase No
@@ -55,7 +55,7 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ $gdn->supplier->company_name ?? 'N/A' }}
+                                {{ $grn->supplier->company_name ?? 'N/A' }}
                             </div>
                             <div class="is-uppercase is-size-7">
                                 Supplier
