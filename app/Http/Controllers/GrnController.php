@@ -118,7 +118,7 @@ class GrnController extends Controller
 
     public function update(Request $request, Grn $grn)
     {
-        if ($grn->isAddedToInventory()) {
+        if ($grn->isGrnApproved()) {
             $grnPurchaseId = $request->validate([
                 'purchase_id' => 'nullable|integer',
             ]);

@@ -138,7 +138,7 @@ class TransferController extends Controller
 
     public function update(Request $request, Transfer $transfer)
     {
-        if ($transfer->isTransferDone()) {
+        if ($transfer->isTransferApproved()) {
             return redirect()->route('transfers.show', $transfer->id);
         }
 

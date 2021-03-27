@@ -130,7 +130,7 @@ class GdnController extends Controller
 
     public function update(Request $request, Gdn $gdn)
     {
-        if ($gdn->isGdnSubtracted()) {
+        if ($gdn->isGdnApproved()) {
             $gdnSaleId = $request->validate([
                 'sale_id' => 'nullable|integer',
             ]);
