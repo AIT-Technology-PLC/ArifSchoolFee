@@ -14,7 +14,7 @@ class CompanyPolicy
     {
         $doesAdminBelongsToCompany = $user->employee->company_id == $company->id;
 
-        return $doesAdminBelongsToCompany && $user->can('Update Employee');
+        return $doesAdminBelongsToCompany && $user->can('Update Company');
     }
 
     public function onlyPremiumOrProfessional(User $user)

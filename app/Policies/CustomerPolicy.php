@@ -12,27 +12,27 @@ class CustomerPolicy
 
     public function viewAny(User $user)
     {
-        return $user->can('Read Sale') ? true : false;
+        return $user->can('Read Customer') ? true : false;
     }
 
     public function view(User $user, Customer $customer)
     {
         $doesCustomerBelongToMyCompany = $user->employee->company_id == $customer->company_id;
 
-        return $doesCustomerBelongToMyCompany && $user->can('Read Sale') ?
+        return $doesCustomerBelongToMyCompany && $user->can('Read Customer') ?
         true : false;
     }
 
     public function create(User $user)
     {
-        return $user->can('Create Sale');
+        return $user->can('Create Customer');
     }
 
     public function update(User $user, Customer $customer)
     {
         $doesCustomerBelongToMyCompany = $user->employee->company_id == $customer->company_id;
 
-        return $user->can('Update Sale') && $doesCustomerBelongToMyCompany
+        return $user->can('Update Customer') && $doesCustomerBelongToMyCompany
         ? true : false;
 
     }
@@ -41,6 +41,6 @@ class CustomerPolicy
     {
         $doesCustomerBelongToMyCompany = $user->employee->company_id == $customer->company_id;
 
-        return $user->can('Delete Sale') && $doesCustomerBelongToMyCompany;
+        return $user->can('Delete Customer') && $doesCustomerBelongToMyCompany;
     }
 }
