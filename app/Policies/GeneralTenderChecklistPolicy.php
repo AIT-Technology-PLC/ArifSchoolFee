@@ -12,32 +12,32 @@ class GeneralTenderChecklistPolicy
 
     public function viewAny(User $user)
     {
-        return $user->can('Read Sale');
+        return $user->can('Read Tender');
     }
 
     public function view(User $user, GeneralTenderChecklist $generalTenderChecklist)
     {
         $doesTenderBelongToMyCompany = $user->employee->company_id == $generalTenderChecklist->company_id;
 
-        return $doesTenderBelongToMyCompany && $user->can('Read Sale');
+        return $doesTenderBelongToMyCompany && $user->can('Read Tender');
     }
 
     public function create(User $user)
     {
-        return $user->can('Create Sale');
+        return $user->can('Create Tender');
     }
 
     public function update(User $user, GeneralTenderChecklist $generalTenderChecklist)
     {
         $doesTenderBelongToMyCompany = $user->employee->company_id == $generalTenderChecklist->company_id;
 
-        return $doesTenderBelongToMyCompany && $user->can('Update Sale');
+        return $doesTenderBelongToMyCompany && $user->can('Update Tender');
     }
 
     public function delete(User $user, GeneralTenderChecklist $generalTenderChecklist)
     {
         $doesTenderBelongToMyCompany = $user->employee->company_id == $generalTenderChecklist->company_id;
 
-        return $doesTenderBelongToMyCompany && $user->can('Delete Sale');
+        return $doesTenderBelongToMyCompany && $user->can('Delete Tender');
     }
 }

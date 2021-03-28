@@ -139,112 +139,132 @@
     </ul>
 
     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
-        <p class="menu-label has-text-weight-bold text-green">
-            Warehouse Operations
-        </p>
-        <ul class="menu-list mb-5">
-            @can('Read GDN')
-                <li>
-                    <a name="menuTitles" href="{{ route('gdns.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('gdns') ? 'is-active' : '' }}">
-                        <span class="icon">
-                            <i class="fas fa-file-invoice"></i>
-                        </span>
-                        <span>
-                            DO/GDN Management
-                        </span>
-                    </a>
-                </li>
-            @endcan
-            @can('Create GDN')
-                <li>
-                    <ul class="mt-0">
-                        <li>
-                            <a name="menuTitles" href="{{ route('gdns.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('gdns/create') ? 'is-active' : '' }}">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    New Products Out
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            @endcan
-            @can('Read GRN')
-                <li>
-                    <a name="menuTitles" href="{{ route('grns.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('grns') ? 'is-active' : '' }}">
-                        <span class="icon">
-                            <i class="fas fa-file-contract"></i>
-                        </span>
-                        <span>
-                            GRN Management
-                        </span>
-                    </a>
-                </li>
-            @endcan
-            @can('Create GRN')
-                <li>
-                    <ul class="mt-0">
-                        <li>
-                            <a name="menuTitles" href="{{ route('grns.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('grns/create') ? 'is-active' : '' }}">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    New Products In
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            @endcan
-            @can('Read Transfer')
-                <li>
-                    <a name="menuTitles" href="{{ route('transfers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('transfers') ? 'is-active' : '' }}">
-                        <span class="icon">
-                            <i class="fas fa-exchange-alt"></i>
-                        </span>
-                        <span>
-                            Transfer Management
-                        </span>
-                    </a>
-                </li>
-            @endcan
-            @can('Create Transfer')
-                <li>
-                    <ul class="mt-0">
-                        <li>
-                            <a name="menuTitles" href="{{ route('transfers.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('transfers/create') ? 'is-active' : '' }}">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    New Transfer
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            @endcan
-        </ul>
+        @if (auth()
+            ->user()
+            ->can('Read GDN') ||
+        auth()
+            ->user()
+            ->can('Read GRN') ||
+        auth()
+            ->user()
+            ->can('Read Transfer'))
+            <p class="menu-label has-text-weight-bold text-green">
+                Warehouse Operations
+            </p>
+            <ul class="menu-list mb-5">
+                @can('Read GDN')
+                    <li>
+                        <a name="menuTitles" href="{{ route('gdns.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('gdns') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-file-invoice"></i>
+                            </span>
+                            <span>
+                                DO/GDN Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create GDN')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('gdns.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('gdns/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Products Out
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+                @can('Read GRN')
+                    <li>
+                        <a name="menuTitles" href="{{ route('grns.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('grns') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-file-contract"></i>
+                            </span>
+                            <span>
+                                GRN Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create GRN')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('grns.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('grns/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Products In
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+                @can('Read Transfer')
+                    <li>
+                        <a name="menuTitles" href="{{ route('transfers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('transfers') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </span>
+                            <span>
+                                Transfer Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Transfer')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('transfers.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('transfers/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Transfer
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+            </ul>
+        @endif
     @endcan
 
-    @can('Read Sale')
+    @if (auth()
+        ->user()
+        ->can('Read Sale') ||
+    auth()
+        ->user()
+        ->can('Read Price') ||
+    auth()
+        ->user()
+        ->can('Read Customer'))
         <p class="menu-label has-text-weight-bold text-green">
             Sales & Customers
         </p>
         <ul class="menu-list mb-5">
-            <li>
-                <a name="menuTitles" href="{{ route('sales.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'is-active' : '' }}">
-                    <span class="icon">
-                        <i class="fas fa-tags"></i>
-                    </span>
-                    <span>
-                        Sales Management
-                    </span>
-                </a>
-            </li>
+            @can('Read Sale')
+                <li>
+                    <a name="menuTitles" href="{{ route('sales.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-tags"></i>
+                        </span>
+                        <span>
+                            Sales Management
+                        </span>
+                    </a>
+                </li>
+            @endcan
             @can('Create Sale')
                 <li>
                     <ul class="mt-0">
@@ -261,17 +281,19 @@
                     </ul>
                 </li>
             @endcan
-            <li>
-                <a name="menuTitles" href="{{ route('prices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices') ? 'is-active' : '' }}">
-                    <span class="icon">
-                        <i class="fas fa-money-bill"></i>
-                    </span>
-                    <span>
-                        Price Management
-                    </span>
-                </a>
-            </li>
-            @can('Create Sale')
+            @can('Read Price')
+                <li>
+                    <a name="menuTitles" href="{{ route('prices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-money-bill"></i>
+                        </span>
+                        <span>
+                            Price Management
+                        </span>
+                    </a>
+                </li>
+            @endcan
+            @can('Create Price')
                 <li>
                     <ul class="mt-0">
                         <li>
@@ -288,17 +310,19 @@
                 </li>
             @endcan
             @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
-                <li>
-                    <a name="menuTitles" href="{{ route('customers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('customers') ? 'is-active' : '' }}">
-                        <span class="icon">
-                            <i class="fas fa-user-alt"></i>
-                        </span>
-                        <span>
-                            Customer Management
-                        </span>
-                    </a>
-                </li>
-                @can('Create Sale')
+                @can('Read Customer')
+                    <li>
+                        <a name="menuTitles" href="{{ route('customers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('customers') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-user-alt"></i>
+                            </span>
+                            <span>
+                                Customer Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Customer')
                     <li>
                         <ul class="mt-0">
                             <li>
@@ -316,10 +340,10 @@
                 @endcan
             @endcan
         </ul>
-    @endcan
+    @endif
 
     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
-        @can('Read Sale')
+        @can('Read Tender')
             <p class="menu-label has-text-weight-bold text-green">
                 Tenders
             </p>
@@ -334,7 +358,7 @@
                         </span>
                     </a>
                 </li>
-                @can('Create Sale')
+                @can('Create Tender')
                     <li>
                         <ul class="mt-0">
                             <li>
@@ -360,7 +384,7 @@
                         </span>
                     </a>
                 </li>
-                @can('Create Sale')
+                @can('Create Tender')
                     <li>
                         <ul class="mt-0">
                             <li>
@@ -386,7 +410,7 @@
                         </span>
                     </a>
                 </li>
-                @can('Create Sale')
+                @can('Create Tender')
                     <li>
                         <ul class="mt-0">
                             <li>
@@ -442,21 +466,28 @@
         @endcan
     @endcan
 
-    @can('Read Purchase')
+    @if (auth()
+        ->user()
+        ->can('Read Purchase') ||
+    auth()
+        ->user()
+        ->can('Read Supplier'))
         <p class="menu-label has-text-weight-bold text-green">
             Purchases & Suppliers
         </p>
         <ul class="menu-list mb-5">
-            <li>
-                <a name="menuTitles" href="{{ route('purchases.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases') ? 'is-active' : '' }}">
-                    <span class="icon">
-                        <i class="fas fa-shopping-bag"></i>
-                    </span>
-                    <span>
-                        Purchase Management
-                    </span>
-                </a>
-            </li>
+            @can('Read Purchase')
+                <li>
+                    <a name="menuTitles" href="{{ route('purchases.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </span>
+                        <span>
+                            Purchase Management
+                        </span>
+                    </a>
+                </li>
+            @endcan
             @can('Create Purchase')
                 <li>
                     <ul class="mt-0">
@@ -474,17 +505,19 @@
                 </li>
             @endcan
             @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
-                <li>
-                    <a name="menuTitles" href="{{ route('suppliers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'is-active' : '' }}">
-                        <span class="icon">
-                            <i class="fas fa-address-card"></i>
-                        </span>
-                        <span>
-                            Supplier Management
-                        </span>
-                    </a>
-                </li>
-                @can('Create Purchase')
+                @can('Read Supplier')
+                    <li>
+                        <a name="menuTitles" href="{{ route('suppliers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-address-card"></i>
+                            </span>
+                            <span>
+                                Supplier Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Supplier')
                     <li>
                         <ul class="mt-0">
                             <li>
@@ -502,65 +535,67 @@
                 @endcan
             @endcan
         </ul>
-    @endcan
+    @endif
 
-    <p class="menu-label has-text-weight-bold text-green">
-        Category & Products
-    </p>
-    <ul class="menu-list mb-5">
-        <li>
-            <a name="menuTitles" href="{{ route('categories.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories') ? 'is-active' : '' }}">
-                <span class="icon">
-                    <i class="fas fa-layer-group"></i>
-                </span>
-                <span>
-                    Categories Management
-                </span>
-            </a>
-        </li>
-        @can('Create Product')
+    @can('Read Product')
+        <p class="menu-label has-text-weight-bold text-green">
+            Category & Products
+        </p>
+        <ul class="menu-list mb-5">
             <li>
-                <ul class="mt-0">
-                    <li>
-                        <a name="menuTitles" href="{{ route('categories.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories/create') ? 'is-active' : '' }}">
-                            <span class="icon">
-                                <i class="fas fa-plus-circle"></i>
-                            </span>
-                            <span>
-                                New Category
-                            </span>
-                        </a>
-                    </li>
-                </ul>
+                <a name="menuTitles" href="{{ route('categories.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories') ? 'is-active' : '' }}">
+                    <span class="icon">
+                        <i class="fas fa-layer-group"></i>
+                    </span>
+                    <span>
+                        Categories Management
+                    </span>
+                </a>
             </li>
-        @endcan
-        <li>
-            <a name="menuTitles" href="{{ route('products.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('products') ? 'is-active' : '' }}">
-                <span class="icon">
-                    <i class="fas fa-th"></i>
-                </span>
-                <span>
-                    Products Management
-                </span>
-            </a>
-        </li>
-        @can('Create Product')
+            @can('Create Product')
+                <li>
+                    <ul class="mt-0">
+                        <li>
+                            <a name="menuTitles" href="{{ route('categories.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories/create') ? 'is-active' : '' }}">
+                                <span class="icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </span>
+                                <span>
+                                    New Category
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
             <li>
-                <ul class="mt-0">
-                    <li>
-                        <a name="menuTitles" href="/products/create" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('products/create') ? 'is-active' : '' }}">
-                            <span class="icon">
-                                <i class="fas fa-plus-circle"></i>
-                            </span>
-                            <span>
-                                New Product
-                            </span>
-                        </a>
-                    </li>
-                </ul>
+                <a name="menuTitles" href="{{ route('products.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('products') ? 'is-active' : '' }}">
+                    <span class="icon">
+                        <i class="fas fa-th"></i>
+                    </span>
+                    <span>
+                        Products Management
+                    </span>
+                </a>
             </li>
-        @endcan
-    </ul>
+            @can('Create Product')
+                <li>
+                    <ul class="mt-0">
+                        <li>
+                            <a name="menuTitles" href="/products/create" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('products/create') ? 'is-active' : '' }}">
+                                <span class="icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </span>
+                                <span>
+                                    New Product
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
+        </ul>
+    @endcan
 
     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
         @can('Read Warehouse')
@@ -598,45 +633,56 @@
         @endcan
     @endcan
 
-    @can('Update Employee')
+    @if (auth()
+        ->user()
+        ->can('Read Employee') ||
+    auth()
+        ->user()
+        ->can('Update Company'))
         <p class="menu-label has-text-weight-bold text-green">
             Settings
         </p>
         <ul class="menu-list mb-5">
-            <li>
-                <a name="menuTitles" href="{{ route('employees.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees') ? 'is-active' : '' }}">
-                    <span class="icon">
-                        <i class="fas fa-users"></i>
-                    </span>
-                    <span>
-                        Employee Management
-                    </span>
-                </a>
-            </li>
-            <li>
-                <ul class="mt-0">
-                    <li>
-                        <a name="menuTitles" href="{{ route('employees.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees/create') ? 'is-active' : '' }}">
-                            <span class="icon">
-                                <i class="fas fa-plus-circle"></i>
-                            </span>
-                            <span>
-                                New Employee
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a name="menuTitles" href="{{ route('companies.edit', auth()->user()->employee->company_id) }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('companies/' . auth()->user()->employee->company_id . '/edit') ? 'is-active' : '' }}">
-                    <span class="icon">
-                        <i class="fas fa-cog"></i>
-                    </span>
-                    <span>
-                        General Settings
-                    </span>
-                </a>
-            </li>
+            @can('Read Employee')
+                <li>
+                    <a name="menuTitles" href="{{ route('employees.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-users"></i>
+                        </span>
+                        <span>
+                            Employee Management
+                        </span>
+                    </a>
+                </li>
+            @endcan
+            @can('Create Employee')
+                <li>
+                    <ul class="mt-0">
+                        <li>
+                            <a name="menuTitles" href="{{ route('employees.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees/create') ? 'is-active' : '' }}">
+                                <span class="icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </span>
+                                <span>
+                                    New Employee
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
+            @can('Update Company')
+                <li>
+                    <a name="menuTitles" href="{{ route('companies.edit', auth()->user()->employee->company_id) }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('companies/' . auth()->user()->employee->company_id . '/edit') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-cog"></i>
+                        </span>
+                        <span>
+                            General Settings
+                        </span>
+                    </a>
+                </li>
+            @endcan
         </ul>
-    @endcan
+    @endif
 </aside>
