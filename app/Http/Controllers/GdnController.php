@@ -196,4 +196,13 @@ class GdnController extends Controller
 
         return redirect()->back()->with('successMessage', $message);
     }
+
+    public function printed(Gdn $gdn)
+    {
+        $this->authorize('view', $gdn);
+
+        $gdn->load(['gdnDetails.product', 'customer', 'company', 'createdBy', 'approvedBy']);
+
+        return view('gdns.print', compact('gdn'));
+    }
 }

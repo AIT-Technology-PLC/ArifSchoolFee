@@ -10,6 +10,8 @@ Route::resource('warehouses', 'WarehouseController');
 
 Route::resource('customers', 'CustomerController');
 
+Route::get('/gdns/{gdn}/print', 'GdnController@printed')->name('gdns.print');
+
 Route::post('/gdns/{gdn}/approve', 'GdnController@approve')->name('gdns.approve');
 
 Route::resource('gdns', 'GdnController');
