@@ -78,6 +78,8 @@
                                 Sales
                             </span>
                         </div>
+                    @endcan
+                    @can('Read Price')
                         <div class="column is-4 has-text-centered has-text-grey">
                             <a href="{{ route('prices.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
                                 <span class="icon">
@@ -89,6 +91,8 @@
                                 Prices
                             </span>
                         </div>
+                    @endcan
+                    @can('Read Tender')
                         <div class="column is-4 has-text-centered has-text-grey">
                             <a href="{{ route('tenders.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
                                 <span class="icon">
@@ -117,7 +121,7 @@
                         @endcan
                     @endcan
                     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
-                        @can('Read Sale')
+                        @can('Read PO')
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('purchase-orders.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
                                     <span class="icon">
@@ -145,7 +149,7 @@
                         </div>
                     @endcan
                     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
-                        @can('Read Purchase')
+                        @can('Read Supplier')
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('suppliers.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
                                     <span class="icon">
@@ -159,28 +163,30 @@
                             </div>
                         @endcan
                     @endcan
-                    <div class="column is-4 has-text-centered has-text-grey">
-                        <a href="{{ route('categories.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
-                            <span class="icon">
-                                <i class="fas fa-layer-group"></i>
+                    @can('Read Product')
+                        <div class="column is-4 has-text-centered has-text-grey">
+                            <a href="{{ route('categories.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
+                                <span class="icon">
+                                    <i class="fas fa-layer-group"></i>
+                                </span>
+                            </a>
+                            <br>
+                            <span class="is-size-6 is-size-7-mobile">
+                                Categories
                             </span>
-                        </a>
-                        <br>
-                        <span class="is-size-6 is-size-7-mobile">
-                            Categories
-                        </span>
-                    </div>
-                    <div class="column is-4 has-text-centered has-text-grey">
-                        <a href="{{ route('products.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
-                            <span class="icon">
-                                <i class="fas fa-th"></i>
+                        </div>
+                        <div class="column is-4 has-text-centered has-text-grey">
+                            <a href="{{ route('products.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
+                                <span class="icon">
+                                    <i class="fas fa-th"></i>
+                                </span>
+                            </a>
+                            <br>
+                            <span class="is-size-6 is-size-7-mobile">
+                                Products
                             </span>
-                        </a>
-                        <br>
-                        <span class="is-size-6 is-size-7-mobile">
-                            Products
-                        </span>
-                    </div>
+                        </div>
+                    @endcan
                     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
                         @can('Read Warehouse')
                             <div class="column is-4 has-text-centered has-text-grey">
