@@ -1172,3 +1172,7 @@ function openMarkAllNotificationsAsReadModal(event) {
         }
     });
 }
+
+function openGdnPrintPreview() {
+    location.pathname += "/print";
+}

@@ -138,6 +138,16 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
+                            @if ($gdn->isGdnApproved())
+                                <button id="printGdn" class="button is-small bg-purple has-text-white">
+                                    <span class="icon">
+                                        <i class="fas fa-print"></i>
+                                    </span>
+                                    <span>
+                                        Print
+                                    </span>
+                                </button>
+                            @endif
                             <a href="{{ route('gdns.edit', $gdn->id) }}" class="button is-small bg-green has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>

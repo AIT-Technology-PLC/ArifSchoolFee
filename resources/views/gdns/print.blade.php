@@ -182,6 +182,18 @@
             </div>
         </article>
     </section>
+
+    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/caller.js') }}"></script>
+
+    <script>
+        window.onload = window.print();
+        window.onafterprint = (event) => {
+            event.preventDefault();
+            window.close();
+        }
+
+    </script>
 </body>
 
 </html>
