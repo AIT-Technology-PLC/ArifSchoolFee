@@ -33,7 +33,11 @@ class EmployeePolicy
     {
         $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $employee->company_id;
 
-        return $doesAdminAndEmployeeBelongToSameCompany && $user->can('Update Employee');
+        if ($doesAdminAndEmployeeBelongToSameCompany && $user->hasRole('System Manager')) {
+            return true;
+        }
+
+        return $doesAdminAndEmployeeBelongToSameCompany && $user->id != $employee->user->id && $user->can('Update Employee');
     }
 
     public function delete(User $user, Employee $employee)
