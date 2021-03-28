@@ -66,19 +66,21 @@
                             </div>
                         @endcan
                     @endcan
-                    @can('Read Sale')
-                        <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('sales.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
-                                <span class="icon">
-                                    <i class="fas fa-tags"></i>
+                    @if (auth()->user()->employee->company->name != 'Scepto Import')
+                        @can('Read Sale')
+                            <div class="column is-4 has-text-centered has-text-grey">
+                                <a href="{{ route('sales.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">
+                                    <span class="icon">
+                                        <i class="fas fa-tags"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile">
+                                    Sales
                                 </span>
-                            </a>
-                            <br>
-                            <span class="is-size-6 is-size-7-mobile">
-                                Sales
-                            </span>
-                        </div>
-                    @endcan
+                            </div>
+                        @endcan
+                    @endif
                     @can('Read Price')
                         <div class="column is-4 has-text-centered has-text-grey">
                             <a href="{{ route('prices.index') }}" class="button is-rounded has-background-white-ter text-green is-size-4">

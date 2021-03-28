@@ -253,34 +253,36 @@
             Sales & Customers
         </p>
         <ul class="menu-list mb-5">
-            @can('Read Sale')
-                <li>
-                    <a name="menuTitles" href="{{ route('sales.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'is-active' : '' }}">
-                        <span class="icon">
-                            <i class="fas fa-tags"></i>
-                        </span>
-                        <span>
-                            Sales Management
-                        </span>
-                    </a>
-                </li>
-            @endcan
-            @can('Create Sale')
-                <li>
-                    <ul class="mt-0">
-                        <li>
-                            <a name="menuTitles" href="{{ route('sales.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales/create') ? 'is-active' : '' }}">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    New Sales
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            @endcan
+            @if (auth()->user()->employee->company->name != 'Scepto Import')
+                @can('Read Sale')
+                    <li>
+                        <a name="menuTitles" href="{{ route('sales.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-tags"></i>
+                            </span>
+                            <span>
+                                Sales Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Sale')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('sales.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Sales
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+            @endif
             @can('Read Price')
                 <li>
                     <a name="menuTitles" href="{{ route('prices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices') ? 'is-active' : '' }}">

@@ -54,10 +54,10 @@ class ModifyPermissionsTable extends Seeder
             Permission::create(['name' => 'Update Tender']);
             Permission::create(['name' => 'Delete Tender']);
 
-            Permission::create(['name' => 'Create Prices']);
-            Permission::create(['name' => 'Read Prices']);
-            Permission::create(['name' => 'Update Prices']);
-            Permission::create(['name' => 'Delete Prices']);
+            Permission::create(['name' => 'Create Price']);
+            Permission::create(['name' => 'Read Price']);
+            Permission::create(['name' => 'Update Price']);
+            Permission::create(['name' => 'Delete Price']);
 
             Permission::create(['name' => 'Update Company']);
 
