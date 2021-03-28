@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="columns is-marginless is-multiline">
-                    @if (!$employee->user->can('Update Employee'))
+                    @if (auth()->user()->id != $employee->user->id && !$employee->user->hasRole('System Manager'))
                         <div class="column is-6">
                             <div class="field">
                                 <label for="enabled" class="label text-green has-text-weight-normal"> Can this employee access the system? <sup class="has-text-danger">*</sup> </label>
@@ -89,7 +89,7 @@
                             </div>
                         </div>
                     @endif
-                    @if (!$employee->user->can('Update Employee'))
+                    @if (auth()->user()->id != $employee->user->id && !$employee->user->hasRole('System Manager'))
                         <div class="column is-6">
                             <div class="field">
                                 <label for="role" class="label text-green has-text-weight-normal"> Choose Role <sup class="has-text-danger">*</sup> </label>
