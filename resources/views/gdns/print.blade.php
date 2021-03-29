@@ -28,7 +28,7 @@
         <article>
             <div class="columns is-marginless has-background-white-ter">
                 <div class="column is-7 is-offset-1">
-                    <img class="" src="https://www.jigrachemicals.com/img/logo.png" style="width: 170px !important; height: 72px !important">
+                    <img class="" src="{{ asset('storage/' .$gdn->company->logo) }}" style="width: 170px !important; height: 72px !important">
                     <h1 class="is-uppercase has-text-black has-text-weight-medium is-size-4">
                         {{ $gdn->company->name }}
                     </h1>
