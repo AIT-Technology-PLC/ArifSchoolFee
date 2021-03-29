@@ -38,21 +38,21 @@
                         Tel/Phone
                         <br>
                         <span class="title is-size-6 is-uppercase">
-                            {{ $gdn->company->phone }}
+                            {{ $gdn->company->phone ?? '-' }}
                         </span>
                     </h1>
                     <h1 class="title is-size-7 has-text-grey-light mb-0">
                         E-mail
                         <br>
                         <span class="title is-size-6">
-                            {{ $gdn->company->email }}
+                            {{ $gdn->company->email ?? '-' }}
                         </span>
                     </h1>
                     <h1 class="title is-size-7 has-text-grey-light mb-0">
                         Address
                         <br>
                         <span class="title is-size-6">
-                            {{ $gdn->company->address }}
+                            {{ $gdn->company->address ?? '-' }}
                         </span>
                     </h1>
                 </div>
@@ -63,7 +63,7 @@
                         Customer
                         <br>
                         <span class="title is-size-6 is-uppercase">
-                            {{ $gdn->customer->name ?? '-' }}
+                            {{ $gdn->customer->company_name ?? '-' }}
                         </span>
                     </h1>
                     <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-0">
