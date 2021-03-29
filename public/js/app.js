@@ -1173,6 +1173,6 @@ function openMarkAllNotificationsAsReadModal(event) {
     });
 }
 
-function openGdnPrintPreview() {
-    location.pathname += "/print";
+function openInNewTab(url) {
+    open(url, "_blank").focus();
 }

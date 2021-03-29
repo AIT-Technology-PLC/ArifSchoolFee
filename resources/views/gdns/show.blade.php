@@ -139,7 +139,7 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             @if ($gdn->isGdnApproved())
-                                <button id="printGdn" class="button is-small bg-purple has-text-white">
+                                <button id="printGdn" class="button is-small bg-purple has-text-white is-hidden-mobile" onclick="openInNewTab('/gdns/{{ $gdn->id }}/print')">
                                     <span class="icon">
                                         <i class="fas fa-print"></i>
                                     </span>

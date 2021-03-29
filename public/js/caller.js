@@ -230,7 +230,3 @@ if (d.getElementById("markAllNotificationsAsRead")) {
         openMarkAllNotificationsAsReadModal
     );
 }
-
-if (d.getElementById("printGdn")) {
-    d.getElementById("printGdn").addEventListener("click", openGdnPrintPreview);
-}
