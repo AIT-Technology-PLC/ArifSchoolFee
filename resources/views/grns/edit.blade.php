@@ -144,7 +144,7 @@
                             </div>
                             <div class="column is-6">
                                 <div class="field">
-                                    <label for="grn[{{ $loop->index }}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                                    <label for="grn[{{ $loop->index }}][warehouse_id]" class="label text-green has-text-weight-normal"> To <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
                                         <div class="select is-fullwidth">
                                             <select id="grn[{{ $loop->index }}][warehouse_id]" name="grn[{{ $loop->index }}][warehouse_id]">

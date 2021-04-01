@@ -193,7 +193,7 @@
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
-                            <th><abbr> Warehouse </abbr></th>
+                            <th><abbr> To </abbr></th>
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Description </abbr></th>
