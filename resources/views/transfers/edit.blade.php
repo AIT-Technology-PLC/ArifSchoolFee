@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 @foreach ($transfer->transferDetails as $transferDetail)
-                    <div class="has-text-weight-medium has-text-left">
+                    <div class="has-text-weight-medium has-text-left mt-5">
                         <span class="tag bg-green has-text-white is-medium radius-bottom-0">
                             Item {{ $loop->index + 1 }}
                         </span>
