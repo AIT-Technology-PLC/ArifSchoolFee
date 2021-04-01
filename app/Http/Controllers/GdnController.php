@@ -74,6 +74,7 @@ class GdnController extends Controller
             'customer_id' => 'nullable|integer',
             'sale_id' => 'nullable|integer',
             'issued_on' => 'required|date',
+            'payment_type' => 'required|string',
             'description' => 'nullable|string',
         ]);
 
@@ -155,6 +156,7 @@ class GdnController extends Controller
             'customer_id' => 'nullable|integer',
             'sale_id' => 'nullable|integer',
             'issued_on' => 'required|date',
+            'payment_type' => 'required|string',
             'description' => 'nullable|string',
         ]);
 

@@ -98,9 +98,10 @@
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
-                            <th class="text-green"><abbr> Receipt No </abbr></th>
-                            <th class="text-gold"><abbr> DO/GDN No </abbr></th>
+                            <th class="text-green"><abbr> DO/GDN No </abbr></th>
+                            <th><abbr> Receipt No </abbr></th>
                             <th class="text-purple"><abbr> Status </abbr></th>
+                            <th class="text-gold"><abbr> Payment Method </abbr></th>
                             <th class="has-text-centered"><abbr> Items </abbr></th>
                             <th class="has-text-right"><abbr> Total Price </abbr></th>
                             <th><abbr> Customer </abbr></th>
@@ -117,14 +118,12 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
-                                    <span class="tag is-small bg-green has-text-white receipt">
-                                        {{ is_null($gdn->sale) ? 'N/A' : $gdn->sale->receipt_no }}
+                                    <span class="tag is-small bg-green has-text-white gdn">
+                                        {{ $gdn->code }}
                                     </span>
                                 </td>
                                 <td class="is-capitalized">
-                                    <span class="tag is-small bg-gold has-text-white gdn">
-                                        {{ $gdn->code }}
-                                    </span>
+                                    {{ is_null($gdn->sale) ? 'N/A' : $gdn->sale->receipt_no }}
                                 </td>
                                 <td class="is-capitalized">
                                     @if (!$gdn->isGdnApproved())
@@ -140,6 +139,11 @@
                                             {{ $gdn->status ?? 'N/A' }}
                                         </span>
                                     @endif
+                                </td>
+                                <td class="is-capitalized">
+                                    <span class="tag bg-gold has-text-white">
+                                        {{ $gdn->payment_type ?? 'N/A' }}
+                                    </span>
                                 </td>
                                 <td class="has-text-centered">
                                     {{ $gdn->gdn_details_count ?? 'N/A' }}
