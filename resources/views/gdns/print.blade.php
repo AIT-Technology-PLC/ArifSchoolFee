@@ -27,31 +27,31 @@
     <section class="sheet">
         <article>
             <div class="columns is-marginless has-background-white-ter">
-                <div class="column is-7 is-offset-1">
-                    <img class="" src="{{ asset('storage/' .$gdn->company->logo) }}" style="width: 170px !important; height: 72px !important">
-                    <h1 class="is-uppercase has-text-black has-text-weight-medium is-size-4">
+                <div class="column is-3 is-offset-1">
+                    <img class="" src="{{ asset('storage/' . $gdn->company->logo) }}" style="width: 170px !important; height: 72px !important">
+                </div>
+                <div class="column is-5 is-offset-3">
+                    <h1 class="is-capitalized has-text-black is-size-5">
                         {{ $gdn->company->name }}
                     </h1>
-                </div>
-                <div class="column is-4">
                     <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-0">
                         Tel/Phone
                         <br>
-                        <span class="title is-size-6 is-uppercase">
+                        <span class="title has-text-weight-normal is-size-6 is-uppercase">
                             {{ $gdn->company->phone ?? '-' }}
                         </span>
                     </h1>
                     <h1 class="title is-size-7 has-text-grey-light mb-0">
                         E-mail
                         <br>
-                        <span class="title is-size-6">
+                        <span class="title has-text-weight-normal is-size-6">
                             {{ $gdn->company->email ?? '-' }}
                         </span>
                     </h1>
                     <h1 class="title is-size-7 has-text-grey-light mb-0">
                         Address
                         <br>
-                        <span class="title is-size-6">
+                        <span class="title has-text-weight-normal is-size-6">
                             {{ $gdn->company->address ?? '-' }}
                         </span>
                     </h1>
@@ -130,7 +130,22 @@
                 </div>
             </div>
             <div class="columns is-marginless">
-                <div class="column mx-6"></div>
+                <div class="column mx-6">
+                    @if ($gdn->description)
+                        <div class="table-container">
+                            <table class="table is-bordered is-striped is-hoverable is-fullwidth is-size-7">
+                                <tbody>
+                                    <tr>
+                                        <td class="has-text-weight-bold">Notes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{!! nl2br(e($gdn->description)) !!}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </div>
                 <div class="column mx-6">
                     <div class="table-container">
                         <table class="table is-bordered is-striped is-hoverable is-fullwidth is-size-7">
