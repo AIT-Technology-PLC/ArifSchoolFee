@@ -121,6 +121,20 @@
                     </div>
                 </div>
             </div>
+            <div class="column is-12">
+                <div>
+                    <div class="columns is-marginless is-vcentered text-green">
+                        <div class="column">
+                            <div class="has-text-weight-bold">
+                                Details
+                            </div>
+                            <div class="is-size-7 mt-3">
+                                {!! is_null($purchaseOrder->description) ? 'N/A' : nl2br(e($purchaseOrder->description)) !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <section class="mt-3 mx-3 m-lr-0">
