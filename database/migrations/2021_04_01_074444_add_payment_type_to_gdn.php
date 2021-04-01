@@ -14,7 +14,11 @@ class AddPaymentTypeToGdn extends Migration
     public function up()
     {
         Schema::table('gdns', function (Blueprint $table) {
-            $table->string('payment_type');
+            $table->string('payment_type')->default('Cash Payment')->after('status');
+        });
+
+        Schema::table('gdns', function (Blueprint $table) {
+            $table->string('payment_type')->default(null)->change();
         });
     }
 
