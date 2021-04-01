@@ -94,7 +94,7 @@
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'DO/GDN'])
             <div>
-                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[8]" data-numeric="[5]">
+                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[9]" data-numeric="[6]">
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
