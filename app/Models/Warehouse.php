@@ -47,11 +47,6 @@ class Warehouse extends Model
         return $this->hasMany(MroItem::class);
     }
 
-    public function saleDetails()
-    {
-        return $this->hasMany(SaleDetail::class);
-    }
-
     public function gdnDetails()
     {
         return $this->hasMany(GdnDetail::class);
@@ -65,11 +60,6 @@ class Warehouse extends Model
     public function toTransferDetails()
     {
         return $this->hasMany(TransferDetail::class, 'to_warehouse_id');
-    }
-
-    public function purchaseDetails()
-    {
-        return $this->hasMany(PurchaseDetail::class);
     }
 
     public function grnDetails()

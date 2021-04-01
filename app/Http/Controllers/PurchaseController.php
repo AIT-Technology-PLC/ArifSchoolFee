@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
-use App\Models\Warehouse;
 use App\Services\AddPurchasedItemsToInventory;
 use App\Traits\PrependCompanyId;
 use Illuminate\Http\Request;
@@ -34,17 +33,15 @@ class PurchaseController extends Controller
         return view('purchases.index', compact('purchases', 'totalPurchases'));
     }
 
-    public function create(Product $product, Supplier $supplier, Warehouse $warehouse)
+    public function create(Product $product, Supplier $supplier)
     {
         $products = $product->getProductNames();
 
         $suppliers = $supplier->getSupplierNames();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
-
         $currentPurchaseNo = (Purchase::select('purchase_no')->companyPurchases()->latest()->first()->purchase_no) ?? 0;
 
-        return view('purchases.create', compact('products', 'suppliers', 'warehouses', 'currentPurchaseNo'));
+        return view('purchases.create', compact('products', 'suppliers', 'currentPurchaseNo'));
     }
 
     public function store(Request $request)

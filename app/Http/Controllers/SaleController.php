@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Sale;
-use App\Models\Warehouse;
 use App\Services\StoreSaleableProducts;
 use App\Traits\HasOptions;
 use App\Traits\PrependCompanyId;
@@ -15,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
-    use HasOptions, PrependCompanyId;
+    use PrependCompanyId;
 
     private $sale;
 
@@ -35,19 +34,15 @@ class SaleController extends Controller
         return view('sales.index', compact('sales', 'totalSales'));
     }
 
-    public function create(Product $product, Customer $customer, Warehouse $warehouse)
+    public function create(Product $product, Customer $customer)
     {
         $products = $product->getSaleableProducts();
 
         $customers = $customer->getCustomerNames();
 
-        $shippingLines = $this->getShippingLines();
-
-        $warehouses = $warehouse->getAllWithoutRelations();
-
         $currentReceiptNo = (Sale::select('receipt_no')->companySales()->latest()->first()->receipt_no) ?? 0;
 
-        return view('sales.create', compact('products', 'customers', 'shippingLines', 'warehouses', 'currentReceiptNo'));
+        return view('sales.create', compact('products', 'customers', 'currentReceiptNo'));
     }
 
     public function store(Request $request)
@@ -59,7 +54,6 @@ class SaleController extends Controller
             'receipt_no' => 'required|string|unique:sales',
             'sale' => 'required|array',
             'sale.*.product_id' => 'required|integer',
-            'sale.*.warehouse_id' => 'sometimes|required|integer',
             'sale.*.quantity' => 'required|numeric|min:1',
             'sale.*.unit_price' => 'required|numeric',
             'customer_id' => 'nullable|integer',
@@ -103,7 +97,7 @@ class SaleController extends Controller
 
     public function show(Sale $sale)
     {
-        $sale->load(['saleDetails.product', 'saleDetails.warehouse', 'gdns', 'customer', 'company']);
+        $sale->load(['saleDetails.product', 'gdns', 'customer', 'company']);
 
         request()->merge([
             'sale_id' => $sale->id,
@@ -116,7 +110,7 @@ class SaleController extends Controller
         return view('sales.show', compact('sale'));
     }
 
-    public function edit(Sale $sale, Product $product, Customer $customer, Warehouse $warehouse)
+    public function edit(Sale $sale, Product $product, Customer $customer)
     {
         $sale->load('saleDetails.product');
 
@@ -124,11 +118,7 @@ class SaleController extends Controller
 
         $customers = $customer->getCustomerNames();
 
-        $shippingLines = $this->getShippingLines();
-
-        $warehouses = $warehouse->getAllWithoutRelations();
-
-        return view('sales.edit', compact('sale', 'products', 'customers', 'shippingLines', 'warehouses'));
+        return view('sales.edit', compact('sale', 'products', 'customers'));
     }
 
     public function update(Request $request, Sale $sale)
@@ -143,7 +133,6 @@ class SaleController extends Controller
             'receipt_no' => 'required|string|unique:sales,receipt_no,' . $sale->id,
             'sale' => 'required|array',
             'sale.*.product_id' => 'required|integer',
-            'sale.*.warehouse_id' => 'sometimes|required|integer',
             'sale.*.quantity' => 'required|numeric|min:1',
             'sale.*.unit_price' => 'required|numeric',
             'customer_id' => 'nullable|integer',
