@@ -175,7 +175,7 @@
                 </div>
             </div>
         </div>
-        <div class="box radius-bottom-0 mb-0 radius-top-0">
+        <div class="box radius-bottom-0 mb-0 radius-top-0 pb-0">
             <div class="notification bg-gold has-text-white has-text-weight-medium {{ session('message') ? '' : 'is-hidden' }}">
                 <span class="icon">
                     <i class="fas fa-times-circle"></i>
@@ -261,7 +261,7 @@
                 </table>
             </div>
             @if ($sale->isSaleManual())
-                <div class="box has-background-white-bis">
+                <div class="box has-background-white-bis radius-bottom-0">
                     <h1 class="title is-size-5 text-green has-text-centered">
                         DO/GDN for this sale
                     </h1>
