@@ -56,11 +56,12 @@
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Purchase'])
             <div>
-                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[5]" data-numeric="[4]">
+                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[6]" data-numeric="[5]">
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
                             <th class="text-gold"><abbr> Purchase No </abbr></th>
+                            <th class="text-blue"><abbr> Purchase Type</abbr></th>
                             <th class="text-purple"><abbr> Payment Method </abbr></th>
                             <th class="has-text-centered"><abbr> Total Items </abbr></th>
                             <th class="has-text-right text-green"><abbr> Total Price </abbr></th>
@@ -77,6 +78,11 @@
                                 <td class="is-capitalized">
                                     <span class="tag bg-gold has-text-white is-small">
                                         {{ $purchase->purchase_no ?? 'N/A' }}
+                                    </span>
+                                </td>
+                                <td class="is-capitalized">
+                                    <span class="tag bg-blue has-text-white is-small">
+                                        {{ $purchase->type ?? 'N/A' }}
                                     </span>
                                 </td>
                                 <td class="is-capitalized">
