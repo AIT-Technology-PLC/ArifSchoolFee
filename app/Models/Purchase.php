@@ -110,4 +110,9 @@ class Purchase extends Model
     {
         return $this->is_manual;
     }
+
+    public function isImported()
+    {
+        return $this->type == 'Import';
+    }
 }

@@ -50,6 +50,28 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
+                            <label for="type" class="label text-green has-text-weight-normal">Purchase Type <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="type" name="type">
+                                        <option selected disabled>Select Purchase</option>
+                                        <option value="Local Purchase" {{ old('type') == 'Local Purchase' ? 'selected' : '' }}>Local Purchase</option>
+                                        <option value="Import" {{ old('type') == 'Import' ? 'selected' : '' }}>Import</option>
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-plane-departure"></i>
+                                </div>
+                            </div>
+                            @error('type')
+                                <span class="help has-text-danger" role="alert">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
                             <label for="payment_type" class="label text-green has-text-weight-normal">Payment Method <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
