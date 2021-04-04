@@ -15,7 +15,7 @@
             <div class="box radius-top-0">
                 <div class="columns is-marginless is-multiline is-mobile">
                     <div class="column is-4 has-text-centered has-text-grey">
-                        <a href="{{ route('merchandises.level') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                        <a href="{{ route('merchandises.level') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                             <span class="icon is-size-5">
                                 <i class="fas fa-chart-bar"></i>
                             </span>
@@ -28,7 +28,7 @@
                     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
                         @can('Read GDN')
                             <div class="column is-4 has-text-centered has-text-grey">
-                                <a href="{{ route('gdns.index') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                                <a href="{{ route('gdns.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-file-invoice"></i>
                                     </span>
@@ -41,7 +41,7 @@
                         @endcan
                         @can('Read GRN')
                             <div class="column is-4 has-text-centered has-text-grey">
-                                <a href="{{ route('grns.index') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                                <a href="{{ route('grns.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-file-signature"></i>
                                     </span>
@@ -54,7 +54,7 @@
                         @endcan
                         @can('Read Transfer')
                             <div class="column is-4 has-text-centered has-text-grey">
-                                <a href="{{ route('transfers.index') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                                <a href="{{ route('transfers.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-exchange-alt"></i>
                                     </span>
@@ -69,7 +69,7 @@
                     @if (auth()->user()->employee->company->name != 'Scepto Import')
                         @can('Read Sale')
                             <div class="column is-4 has-text-centered has-text-grey">
-                                <a href="{{ route('sales.index') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                                <a href="{{ route('sales.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-tags"></i>
                                     </span>
@@ -83,7 +83,7 @@
                     @endif
                     @can('Read Price')
                         <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('prices.index') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                            <a href="{{ route('prices.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                 <span class="icon is-size-5">
                                     <i class="fas fa-money-bill"></i>
                                 </span>
@@ -96,7 +96,7 @@
                     @endcan
                     @can('Read Tender')
                         <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('tenders.index') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                            <a href="{{ route('tenders.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                 <span class="icon is-size-5">
                                     <i class="fas fa-project-diagram"></i>
                                 </span>
@@ -110,7 +110,7 @@
                     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
                         @can('Read Sale')
                             <div class="column is-4 has-text-centered has-text-grey">
-                                <a href="{{ route('customers.index') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                                <a href="{{ route('customers.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-user"></i>
                                     </span>
@@ -125,7 +125,7 @@
                     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
                         @can('Read PO')
                             <div class="column is-4 has-text-centered has-text-grey">
-                                <a href="{{ route('purchase-orders.index') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                                <a href="{{ route('purchase-orders.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-file-alt"></i>
                                     </span>
@@ -139,7 +139,7 @@
                     @endcan
                     @can('Read Purchase')
                         <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('purchases.index') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                            <a href="{{ route('purchases.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                 <span class="icon is-size-5">
                                     <i class="fas fa-shopping-bag"></i>
                                 </span>
@@ -153,7 +153,7 @@
                     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
                         @can('Read Supplier')
                             <div class="column is-4 has-text-centered has-text-grey">
-                                <a href="{{ route('suppliers.index') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                                <a href="{{ route('suppliers.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-address-card"></i>
                                     </span>
@@ -167,7 +167,7 @@
                     @endcan
                     @can('Read Product')
                         <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('categories.index') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                            <a href="{{ route('categories.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                 <span class="icon is-size-5">
                                     <i class="fas fa-layer-group"></i>
                                 </span>
@@ -178,7 +178,7 @@
                             </span>
                         </div>
                         <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('products.index') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                            <a href="{{ route('products.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                 <span class="icon is-size-5">
                                     <i class="fas fa-th"></i>
                                 </span>
@@ -192,7 +192,7 @@
                     @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
                         @can('Read Warehouse')
                             <div class="column is-4 has-text-centered has-text-grey">
-                                <a href="{{ route('warehouses.index') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                                <a href="{{ route('warehouses.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-warehouse"></i>
                                     </span>
@@ -206,7 +206,7 @@
                     @endcan
                     @can('Read Employee')
                         <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('employees.index') }}" class="general-menu-item button text-green has-background-white-ter is-borderless">
+                            <a href="{{ route('employees.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                 <span class="icon is-size-5">
                                     <i class="fas fa-users"></i>
                                 </span>
