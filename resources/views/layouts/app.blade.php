@@ -18,7 +18,7 @@
             <div id="menuLeft" class="column is-one-fifth py-5 limit-to-100vh scroller is-overflow is-hidden-mobile">
                 @include('layouts.menu')
             </div>
-            <div id="contentRight" class="column bg-lightgreen py-5 scroller">
+            <div id="contentRight" class="column bg-lightgreen py-5 limit-to-100vh scroller">
                 @yield('content')
                 @include('layouts.footer')
             </div>
