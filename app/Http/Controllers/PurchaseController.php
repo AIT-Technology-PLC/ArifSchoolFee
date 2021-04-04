@@ -51,6 +51,7 @@ class PurchaseController extends Controller
         $purchaseData = $request->validate([
             'is_manual' => 'required|integer',
             'purchase_no' => 'required|string|unique:purchases',
+            'type' => 'required|string',
             'purchase' => 'required|array',
             'purchase.*.product_id' => 'required|integer',
             'purchase.*.quantity' => 'required|numeric',
@@ -120,6 +121,7 @@ class PurchaseController extends Controller
         $purchaseData = $request->validate([
             'purchase_no' => 'required|string|unique:purchases,purchase_no,' . $purchase->id,
             'purchase' => 'required|array',
+            'type' => 'required|string',
             'purchase.*.product_id' => 'required|integer',
             'purchase.*.quantity' => 'required|numeric',
             'purchase.*.unit_price' => 'required|numeric',
