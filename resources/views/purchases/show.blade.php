@@ -121,25 +121,27 @@
                     </div>
                 </div>
             </div>
-            <div class="column is-6">
-                <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-purple">
-                        <div class="column is-1">
-                            <span class="icon is-size-3">
-                                <i class="fas fa-dollar-sign"></i>
-                            </span>
-                        </div>
-                        <div class="column m-lr-20">
-                            <div class="has-text-weight-bold">
-                                {{ $purchase->totalPurchasePriceWithVAT ?? '0.00' }}
+            @if (!$purchase->isImported())
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-purple">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </span>
                             </div>
-                            <div class="is-uppercase is-size-7">
-                                Total Price with VAT ({{ $purchase->company->currency }})
+                            <div class="column m-lr-20">
+                                <div class="has-text-weight-bold">
+                                    {{ $purchase->totalPurchasePriceWithVAT ?? '0.00' }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Total Price with VAT ({{ $purchase->company->currency }})
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
             <div class="column is-12">
                 <div>
                     <div class="columns is-marginless is-vcentered text-green">

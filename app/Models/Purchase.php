@@ -75,6 +75,16 @@ class Purchase extends Model
         return number_format($totalPrice, 2);
     }
 
+    public function getTotalPurchasePricewithVATAttribute()
+    {
+        $totalPrice = $this->purchaseDetails
+            ->reduce(function ($carry, $item) {
+                return $carry + ($item->unit_price * $item->quantity);
+            }, 0);
+
+        return number_format($totalPrice * 1.15, 2);
+    }
+
     public function getAll()
     {
         return $this->companyPurchases()->withCount('purchaseDetails')->latest()->get();
