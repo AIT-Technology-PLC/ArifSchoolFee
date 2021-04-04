@@ -54,13 +54,13 @@
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="type" name="type">
-                                        <option selected disabled>Select Purchase</option>
+                                        <option selected disabled>Select Type</option>
                                         <option value="Local Purchase" {{ $purchase->isImported() ? '' : 'selected' }}>Local Purchase</option>
                                         <option value="Import" {{ $purchase->isImported() ? 'selected' : '' }}>Import</option>
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
-                                    <i class="fas fa-plane-departure"></i>
+                                    <i class="fas fa-shopping-bag"></i>
                                 </div>
                             </div>
                             @error('type')
