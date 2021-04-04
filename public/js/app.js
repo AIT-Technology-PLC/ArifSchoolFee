@@ -250,8 +250,8 @@ const addSaleForm = (function () {
 function jumpToCurrentPageMenuTitle() {
     let menuTitles = d.getElementsByName("menuTitles");
 
-    let currentMenuTitle = Object.values(menuTitles).filter(
-        (menuTitle) => menuTitle.href == location.href
+    let currentMenuTitle = Object.values(menuTitles).filter((menuTitle) =>
+        menuTitle.href.includes(location.pathname.split("/")[1])
     );
 
     if (location.pathname.endsWith("/") || !currentMenuTitle.length) {
@@ -263,7 +263,9 @@ function jumpToCurrentPageMenuTitle() {
 
     if (currentMenuTitle.previousElementSibling) {
         currentMenuTitle.previousElementSibling.scrollIntoView();
-    } else {
+    }
+
+    if (!currentMenuTitle.previousElementSibling) {
         currentMenuTitle.parentElement.parentElement.previousElementSibling.scrollIntoView();
     }
 }
