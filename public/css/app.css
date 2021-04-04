@@ -117,11 +117,17 @@ nav {
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
 }
-.limit-to-100vh {
+#menuLeft {
     height: calc(100vh - 52px);
     height: -webkit-calc(100vh - 52px);
     height: -moz-calc(100vh - 52px);
     height: -o-calc(100vh - 52px);
+}
+#contentRight {
+    min-height: calc(100vh - 52px);
+    min-height: -webkit-calc(100vh - 52px);
+    min-height: -moz-calc(100vh - 52px);
+    min-height: -o-calc(100vh - 52px);
 }
 @media screen and (min-width: 769px) {
     ::-webkit-scrollbar {

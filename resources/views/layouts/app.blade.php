@@ -15,10 +15,10 @@
 
     <main>
         <div class="columns is-marginless">
-            <div id="menuLeft" class="column is-one-fifth py-5 limit-to-100vh scroller is-overflow is-hidden-mobile">
+            <div id="menuLeft" class="column is-one-fifth py-5 scroller is-overflow is-hidden-mobile">
                 @include('layouts.menu')
             </div>
-            <div id="contentRight" class="column bg-lightgreen py-5 limit-to-100vh scroller">
+            <div id="contentRight" class="column bg-lightgreen py-5 scroller">
                 @yield('content')
                 @include('layouts.footer')
             </div>
