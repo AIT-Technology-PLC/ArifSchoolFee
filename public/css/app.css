@@ -122,28 +122,45 @@ nav {
     height: -webkit-calc(100vh - 52px);
     height: -moz-calc(100vh - 52px);
     height: -o-calc(100vh - 52px);
-    overscroll-behavior: contain;
-    overflow: auto;
 }
-html {
-    overflow: hidden;
-}
-::-webkit-scrollbar {
-    width: 12.5px;
-}
-::-webkit-scrollbar-track {
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb {
-    background: #b1cfbf;
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #77aa90;
-}
-.scroller {
-    scrollbar-color: #b1cfbf white;
-    scrollbar-width: thin;
+@media screen and (min-width: 769px) {
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #edf7f2;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #b1cfbf;
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #77aa90;
+    }
+    /* Firefox Scrollbar */
+    .scroller {
+        scrollbar-color: #b1cfbf white;
+        scrollbar-width: auto;
+    }
+    html {
+        scrollbar-color: #b1cfbf #edf7f2;
+        scrollbar-width: auto;
+    }
+    /* Firefox Scrollbar */
+    #menuLeft {
+        position: fixed;
+        left: 0;
+        right: 0;
+        overflow: auto;
+    }
+    #menuLeft::-webkit-scrollbar-track {
+        background: white;
+    }
+    #contentRight {
+        position: absolute;
+        right: 0;
+        left: 20%;
+    }
 }
 .is-green > progress::-webkit-progress-value {
     background-color: #3d8660 !important;
@@ -156,31 +173,6 @@ html {
 }
 .is-gold > progress::-webkit-progress-value {
     background-color: #86843d !important;
-}
-@media screen and (max-width: 768px) {
-    .limit-to-100vh {
-        height: auto !important;
-    }
-    html {
-        overflow: auto;
-    }
-    ::-webkit-scrollbar {
-        width: auto;
-    }
-    ::-webkit-scrollbar-track {
-        border-radius: auto;
-    }
-    ::-webkit-scrollbar-thumb {
-        background: auto;
-        border-radius: auto;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: auto;
-    }
-    .scroller {
-        scrollbar-color: auto;
-        scrollbar-width: auto;
-    }
 }
 td {
     padding-top: 1rem !important;
