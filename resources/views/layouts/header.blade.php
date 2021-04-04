@@ -41,7 +41,7 @@
             <div class="navbar-end">
                 <a href="/" id="mainMenuButton" class="navbar-item has-text-white link-text" data-title="Main Menu">
                     <span class="icon">
-                        <i class="fas fa-bars"></i>
+                        <i class="fas fa-home"></i>
                     </span>
                 </a>
                 <a id="backButton" class="navbar-item has-text-white link-text" data-title="Back">
