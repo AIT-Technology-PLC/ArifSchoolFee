@@ -132,6 +132,7 @@ nav {
 @media screen and (min-width: 769px) {
     ::-webkit-scrollbar {
         width: 8px;
+        height: 8px;
     }
     ::-webkit-scrollbar-track {
         background: #edf7f2;
@@ -337,6 +338,14 @@ td {
 }
 .general-menu-item:hover {
     border: 1px solid #3d8660 !important;
+}
+.button.is-focused:not(:active),
+.button:focus:not(:active) {
+    box-shadow: none !important;
+}
+.button:focus {
+    border-color: none !important;
+    color: none !important;
 }
 /* DataTable Styles */
 table.dataTable.no-footer {
