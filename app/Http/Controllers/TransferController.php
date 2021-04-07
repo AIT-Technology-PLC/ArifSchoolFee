@@ -174,6 +174,10 @@ class TransferController extends Controller
 
     public function destroy(Transfer $transfer)
     {
+        if ($transfer->isTransferApproved()) {
+            return view('errors.permission_denied');
+        }
+
         $transfer->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');

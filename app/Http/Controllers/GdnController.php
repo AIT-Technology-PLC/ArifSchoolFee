@@ -178,6 +178,10 @@ class GdnController extends Controller
 
     public function destroy(Gdn $gdn)
     {
+        if ($gdn->isGdnApproved()) {
+            return view('errors.permission_denied');
+        }
+
         $gdn->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');

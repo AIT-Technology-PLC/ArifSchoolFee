@@ -163,6 +163,10 @@ class GrnController extends Controller
 
     public function destroy(Grn $grn)
     {
+        if ($grn->isGrnApproved()) {
+            return view('errors.permission_denied');
+        }
+
         $grn->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
