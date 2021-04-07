@@ -105,7 +105,7 @@ const addPurchaseForm = (function () {
                         </div>
                     </div>
                     <div class="column is-6">
-                        <label for="purchase[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                        <label for="purchase[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
                         <div class="field has-addons">
                             <div class="control has-icons-left is-expanded">
                                 <input id="purchase[${index}][unit_price]" name="purchase[${index}][unit_price]" type="number" class="input" placeholder="Purchase Price">
@@ -205,7 +205,7 @@ const addSaleForm = (function () {
                         </div>
                     </div>
                     <div class="column is-6">
-                        <label for="sale[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                        <label for="sale[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
                         <div class="field has-addons">
                             <div class="control has-icons-left is-expanded">
                                 <input id="sale[${index}][unit_price]" name="sale[${index}][unit_price]" type="number" class="input" placeholder="Sale Price">
@@ -441,7 +441,7 @@ const addGdnForm = (function () {
                     </div>
                 </div>
                 <div class="column is-6">
-                        <label for="gdn[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger"></sup> </label>
+                        <label for="gdn[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger"></sup> </label>
                         <div class="field has-addons">
                             <div class="control has-icons-left is-expanded">
                                 <input id="gdn[${index}][unit_price]" name="gdn[${index}][unit_price]" type="number" class="input" placeholder="Sale Price" value="0.00">
@@ -685,7 +685,7 @@ const addPurchaseOrderForm = (function () {
                     </div>
                 </div>
                 <div class="column is-6">
-                    <label for="purchaseOrder[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                    <label for="purchaseOrder[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
                     <div class="field has-addons">
                         <div class="control has-icons-left is-expanded">
                             <input id="purchaseOrder[${index}][unit_price]" name="purchaseOrder[${index}][unit_price]" type="number" class="input" placeholder="Unit Price">

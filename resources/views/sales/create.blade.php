@@ -164,7 +164,7 @@
                             </div>
                         </div>
                         <div class="column is-6">
-                            <label for="sale[0][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                            <label for="sale[0][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
                             <div class="field has-addons">
                                 <div class="control has-icons-left is-expanded">
                                     <input id="sale[0][unit_price]" name="sale[0][unit_price]" type="number" class="input" placeholder="Sale Price" value="{{ old('sale.0.unit_price') ?? '' }}">
@@ -236,7 +236,7 @@
                                     </div>
                                 </div>
                                 <div class="column is-6">
-                                    <label for="sale[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                                    <label for="sale[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
                                     <div class="field has-addons">
                                         <div class="control has-icons-left is-expanded">
                                             <input id="sale[{{ $i }}][unit_price]" name="sale[{{ $i }}][unit_price]" type="number" class="input" placeholder="Sale Price" value="{{ old('sale.' . $i . '.unit_price') ?? '' }}">

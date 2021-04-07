@@ -141,7 +141,7 @@
                             </div>
                         </div>
                         <div class="column is-6">
-                            <label for="purchaseOrder[0][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                            <label for="purchaseOrder[0][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
                             <div class="field has-addons">
                                 <div class="control has-icons-left is-expanded">
                                     <input id="purchaseOrder[0][unit_price]" name="purchaseOrder[0][unit_price]" type="number" class="input" placeholder="Quantity" value="{{ old('purchaseOrder.0.unit_price') ?? '' }}">
@@ -229,7 +229,7 @@
                                     </div>
                                 </div>
                                 <div class="column is-6">
-                                    <label for="purchaseOrder[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                                    <label for="purchaseOrder[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
                                     <div class="field has-addons">
                                         <div class="control has-icons-left is-expanded">
                                             <input id="purchaseOrder[{{ $i }}][unit_price]" name="purchaseOrder[{{ $i }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ old('purchaseOrder.' . $i . '.unit_price') ?? '' }}">

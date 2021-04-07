@@ -227,7 +227,7 @@
                             </div>
                         </div>
                         <div class="column is-6">
-                            <label for="gdn[0][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger"></sup> </label>
+                            <label for="gdn[0][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger"></sup> </label>
                             <div class="field has-addons">
                                 <div class="control has-icons-left is-expanded">
                                     <input id="gdn[0][unit_price]" name="gdn[0][unit_price]" type="number" class="input" placeholder="Sale Price" value="{{ old('gdn.0.unit_price') ?? '0.00' }}">
@@ -337,7 +337,7 @@
                                     </div>
                                 </div>
                                 <div class="column is-6">
-                                    <label for="gdn[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <unit_price class="has-text-danger"></sup> </label>
+                                    <label for="gdn[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <unit_price class="has-text-danger"></sup> </label>
                                     <div class="field has-addons">
                                         <div class="control has-icons-left is-expanded">
                                             <input id="gdn[{{ $i }}][unit_price]" name="gdn[{{ $i }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ old('gdn.' . $i . '.unit_price') ?? '0.00' }}">

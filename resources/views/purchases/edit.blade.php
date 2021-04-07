@@ -181,7 +181,7 @@
                                 </div>
                             </div>
                             <div class="column is-6">
-                                <label for="purchase[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price <sup class="has-text-danger">*</sup> </label>
+                                <label for="purchase[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
                                 <div class="field has-addons">
                                     <div class="control has-icons-left is-expanded">
                                         <input id="purchase[{{ $loop->index }}][unit_price]" name="purchase[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Purchase Price" value="{{ $purchaseDetail->unit_price ?? '' }}">
