@@ -14,12 +14,13 @@
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Tender checklist item'])
             <div>
-                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[]" data-numeric="[]">
+                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[3]" data-numeric="[]">
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
                             <th class="text-green"><abbr> Item </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            <th><abbr> Added On </abbr></th>
                             <th><abbr> Added By </abbr></th>
                             <th><abbr> Edited By </abbr></th>
                             <th><abbr> Actions </abbr></th>
@@ -37,6 +38,7 @@
                                 <td> 
                                     {{ $generalTenderChecklist->description ?? 'N/A' }} 
                                 </td>
+                                <td> {{ $generalTenderChecklist->created_at->toDayDateTimeString() }} </td>
                                 <td> {{ $generalTenderChecklist->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $generalTenderChecklist->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
