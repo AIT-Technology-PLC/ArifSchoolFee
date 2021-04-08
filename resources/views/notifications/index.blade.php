@@ -60,7 +60,7 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <form id="formOne" action="{{ route('notifications.markAllAsRead')}}" method="POST" enctype="multipart/form-data" novalidate>
+                            <form id="formOne" action="{{ route('notifications.markAllAsRead') }}" method="POST" enctype="multipart/form-data" novalidate>
                                 @csrf
                                 @method('PATCH')
                                 <button id="markAllNotificationsAsRead" class="button is-small bg-green has-text-white">
@@ -120,16 +120,18 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <a href="{{ route('notifications.markAsRead', $notification->id) }}">
-                                        <span class="tag btn-green is-outlined is-small text-green has-text-weight-medium">
-                                            <span class="icon">
-                                                <i class="fas fa-check-double"></i>
+                                    @if (!$notification->read())
+                                        <a href="{{ route('notifications.markAsRead', $notification->id) }}">
+                                            <span class="tag btn-green is-outlined is-small text-green has-text-weight-medium">
+                                                <span class="icon">
+                                                    <i class="fas fa-check-double"></i>
+                                                </span>
+                                                <span>
+                                                    Mark as read
+                                                </span>
                                             </span>
-                                            <span>
-                                                Mark as read
-                                            </span>
-                                        </span>
-                                    </a>
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

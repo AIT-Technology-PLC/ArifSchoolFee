@@ -14,7 +14,7 @@ Login - SmartWork by Onrica
                         <img src="{{ asset('img/logo.png') }}" width="200">
                     </div>
                     <div class="box" style="background: #509270;">
-                        <form id="formOne" method="POST" action="{{ route('post.login') }}" novalidate>
+                        <form id="formOne" method="POST" action="{{ route('post.login') }}" novalidate autocomplete="off">
                             @csrf
                             <div class="field">
                                 <label for="email" class="label has-text-white is-uppercase is-size-7">E-Mail Address</label>
