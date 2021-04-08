@@ -93,7 +93,7 @@
                     </thead>
                     <tbody>
                         @foreach ($notifications as $notification)
-                            <tr>
+                            <tr class="showRowDetails is-clickable" data-id="{{ $notification->data['endpoint'] }}">
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $notification->data['message'] }} </td>
                                 <td>

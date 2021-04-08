@@ -75,7 +75,7 @@
                     </thead>
                     <tbody class="list">
                         @foreach ($grns as $grn)
-                            <tr>
+                            <tr class="showRowDetails is-clickable" data-id="{{ route('grns.show', $grn->id) }}">
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
                                     <span class="tag is-small bg-green has-text-white receipt">

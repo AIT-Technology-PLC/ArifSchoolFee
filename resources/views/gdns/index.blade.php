@@ -115,7 +115,7 @@
                     </thead>
                     <tbody class="list">
                         @foreach ($gdns as $gdn)
-                            <tr>
+                            <tr class="showRowDetails is-clickable" data-id="{{ route('gdns.show', $gdn->id) }}">
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
                                     <span class="tag is-small bg-green has-text-white gdn">

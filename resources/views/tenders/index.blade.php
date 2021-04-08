@@ -81,7 +81,7 @@
                     </thead>
                     <tbody class="list">
                         @foreach ($tenders as $tender)
-                            <tr>
+                            <tr class="showRowDetails is-clickable" data-id="{{ route('tenders.show', $tender->id) }}">
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td>
                                     {{ $tender->code ?? 'N/A' }}

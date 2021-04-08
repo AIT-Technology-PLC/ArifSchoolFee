@@ -1178,3 +1178,7 @@ function openMarkAllNotificationsAsReadModal(event) {
 function openInNewTab(url) {
     open(url, "_blank").focus();
 }
+
+function showRowDetailsPage() {
+    location.href = this.dataset.id;
+}

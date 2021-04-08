@@ -73,7 +73,7 @@
                     </thead>
                     <tbody>
                         @foreach ($purchaseOrders as $purchaseOrder)
-                            <tr>
+                            <tr class="showRowDetails is-clickable" data-id="{{ route('purchase-orders.show', $purchaseOrder->id) }}">
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
                                     <span class="tag is-small bg-gold has-text-white">

@@ -73,7 +73,7 @@
                     </thead>
                     <tbody class="list">
                         @foreach ($transfers as $transfer)
-                            <tr>
+                            <tr class="showRowDetails is-clickable" data-id="{{ route('transfers.show', $transfer->id) }}">
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
                                     <span class="tag is-small bg-gold has-text-white">

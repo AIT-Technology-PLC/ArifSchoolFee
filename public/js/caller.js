@@ -230,3 +230,9 @@ if (d.getElementById("markAllNotificationsAsRead")) {
         openMarkAllNotificationsAsReadModal
     );
 }
+
+if (d.getElementsByClassName("showRowDetails").length) {
+    for (let element of d.getElementsByClassName("showRowDetails")) {
+        element.addEventListener("click", showRowDetailsPage);
+    }
+}
