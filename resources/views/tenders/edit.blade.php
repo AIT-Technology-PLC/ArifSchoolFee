@@ -165,6 +165,22 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
+                            <label for="price" class="label text-green has-text-weight-normal"> Price <sup class="has-text-danger"></sup></label>
+                            <div class="control has-icons-left">
+                                <textarea name="price" id="price" cols="30" rows="3" class="textarea pl-6" placeholder="Price Description">{{ $tender->price ?? '' }}</textarea>
+                                <span class="icon is-large is-left">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </span>
+                                @error('price')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
                             <label for="customer_id" class="label text-green has-text-weight-normal"> Customer <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">

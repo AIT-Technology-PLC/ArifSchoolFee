@@ -69,6 +69,7 @@
                             <th><abbr> Bid Bond Type</abbr></th>
                             <th><abbr> Bid Bond Amount</abbr></th>
                             <th><abbr> Bid Bond Validity</abbr></th>
+                            <th><abbr> Price Description </abbr></th>
                             <th class="has-text-centered"><abbr> Items </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Published On </abbr></th>
@@ -113,6 +114,9 @@
                                 </td>
                                 <td>
                                     {{ $tender->bid_bond_validity ?? 'N/A' }}
+                                </td>
+                                <td>
+                                    {!! nl2br(e($tender->price)) !!}
                                 </td>
                                 <td class="has-text-centered">
                                     {{ $tender->tender_details_count }}

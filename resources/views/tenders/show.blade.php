@@ -199,6 +199,26 @@
                     </div>
                 </div>
             </div>
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size-7 has-text-weight-bold">
+                                {{ $tender->price ? '' : 'N/A' }}
+                                {!! nl2br(e($tender->price)) !!}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Price
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="column is-12">
                 <div>
                     <div class="columns is-marginless is-vcentered text-green">
