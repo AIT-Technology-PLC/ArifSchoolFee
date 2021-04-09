@@ -128,12 +128,12 @@
                                     {{ $tender->published_on->toFormattedDateString() }}
                                 </td>
                                 <td class="has-text-right">
-                                    <span class="tag is-small bg-purple has-text-white">
+                                    <span style="background-color: inherit" class="tag is-small {{ $tender->closing_date->isPast() ? '' : 'bg-purple has-text-white' }}">
                                         {{ $tender->closing_date->toDayDateTimeString() }}
                                     </span>
                                 </td>
                                 <td class="has-text-right">
-                                    <span class="tag is-small" style="background-color: inherit !important">
+                                    <span class="tag is-small" style="background-color: inherit">
                                         {{ $tender->opening_date->toDayDateTimeString() }}
                                     </span>
                                 </td>

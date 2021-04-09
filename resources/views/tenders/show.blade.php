@@ -163,7 +163,7 @@
             </div>
             <div class="column is-6">
                 <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-purple">
+                    <div class="columns is-marginless is-vcentered is-mobile text-green {{ $tender->closing_date->isPast() ? '' : 'text-purple' }}">
                         <div class="column is-1">
                             <span class="icon is-size-3">
                                 <i class="fas fa-calendar-day"></i>
