@@ -15,6 +15,16 @@
         <form id="formOne" action="{{ route('tender-checklists.store', 'tender=' . $tender->id) }}" method="post" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
+                <div class="has-text-right-tablet">
+                    <button id="selectAllCheckboxes" class="button bg-purple is-small has-text-white" type="button"> 
+                        <span class="icon">
+                            <i class="fas fa-check-square"></i>
+                        </span>
+                        <span>
+                            Select All 
+                        </span>
+                    </button>
+                </div>
                 <p class="text-green has-text-weight-normal mx-3 mb-3 mt-4">
                     Select Checklists
                 </p>

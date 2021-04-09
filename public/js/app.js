@@ -1182,3 +1182,21 @@ function openInNewTab(url) {
 function showRowDetailsPage() {
     location.href = this.dataset.id;
 }
+
+function selectAllCheckboxes() {
+    let checkboxes = document.querySelectorAll("input[type='checkbox']");
+
+    for (let checkbox of checkboxes) {
+        if (this.children[1].innerText === "Select All") {
+            checkbox.checked = true;
+        }
+
+        if (this.children[1].innerText === "Undo Select") {
+            checkbox.checked = false;
+        }
+    }
+
+    this.children[1].innerText === "Select All"
+        ? (this.children[1].innerText = "Undo Select")
+        : (this.children[1].innerText = "Select All");
+}

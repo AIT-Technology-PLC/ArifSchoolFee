@@ -236,3 +236,10 @@ if (d.getElementsByClassName("showRowDetails").length) {
         element.addEventListener("click", showRowDetailsPage);
     }
 }
+
+if (d.getElementById("selectAllCheckboxes")) {
+    d.getElementById("selectAllCheckboxes").addEventListener(
+        "click",
+        selectAllCheckboxes
+    );
+}
