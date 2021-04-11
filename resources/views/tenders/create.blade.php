@@ -180,6 +180,22 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
+                            <label for="payment_term" class="label text-green has-text-weight-normal"> Payment Term <sup class="has-text-danger"></sup></label>
+                            <div class="control has-icons-left">
+                                <textarea name="payment_term" id="payment_term" cols="30" rows="3" class="textarea pl-6" placeholder="Payment Term">{{ old('payment_term') ?? '' }}</textarea>
+                                <span class="icon is-large is-left">
+                                    <i class="fas fa-file-invoice-dollar"></i>
+                                </span>
+                                @error('payment_term')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
                             <label for="customer_id" class="label text-green has-text-weight-normal"> Customer <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">

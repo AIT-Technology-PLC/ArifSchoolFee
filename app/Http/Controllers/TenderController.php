@@ -53,6 +53,7 @@ class TenderController extends Controller
             'bid_bond_type' => 'nullable|string',
             'bid_bond_validity' => 'nullable|integer',
             'price' => 'nullable|string',
+            'payment_term' => 'nullable|string',
             'published_on' => 'required|date',
             'closing_date' => 'required|date|after_or_equal:published_on',
             'opening_date' => 'required|date|after:closing_date',
@@ -74,12 +75,14 @@ class TenderController extends Controller
         $basicTenderData = Arr::except($tenderData, 'tender');
         $tenderDetailsData = $tenderData['tender'];
 
-        DB::transaction(function () use ($basicTenderData, $tenderDetailsData) {
+        $tender = DB::transaction(function () use ($basicTenderData, $tenderDetailsData) {
             $tender = $this->tender->create($basicTenderData);
             $tender->tenderDetails()->createMany($tenderDetailsData);
+
+            return $tender;
         });
 
-        return redirect()->route('tenders.index');
+        return redirect()->route('tenders.show', $tender);
     }
 
     public function show(Tender $tender)
@@ -111,6 +114,7 @@ class TenderController extends Controller
             'bid_bond_type' => 'nullable|string',
             'bid_bond_validity' => 'nullable|integer',
             'price' => 'nullable|string',
+            'payment_term' => 'nullable|string',
             'published_on' => 'required|date',
             'closing_date' => 'required|date|after_or_equal:published_on',
             'opening_date' => 'required|date|after:closing_date',
