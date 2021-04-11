@@ -15,6 +15,7 @@ class AddPriceToTendersTable extends Migration
     {
         Schema::table('tenders', function (Blueprint $table) {
             $table->longText('price')->nullable()->after('bid_bond_type');
+            $table->longText('payment_term')->nullable()->after('price');
         });
     }
 
@@ -26,7 +27,7 @@ class AddPriceToTendersTable extends Migration
     public function down()
     {
         Schema::table('tenders', function (Blueprint $table) {
-            $table->dropColumn(['price']);
+            $table->dropColumn(['price', 'payment_term']);
         });
     }
 }
