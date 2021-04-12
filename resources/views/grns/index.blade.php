@@ -117,7 +117,7 @@
                                 <td> {{ $grn->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $grn->approvedBy->name ?? 'N/A' }} </td>
                                 <td> {{ $grn->updatedBy->name ?? 'N/A' }} </td>
-                                <td>
+                                <td class="actions">
                                     <a class="is-block" href="{{ route('grns.show', $grn->id) }}" data-title="View Details">
                                         <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">

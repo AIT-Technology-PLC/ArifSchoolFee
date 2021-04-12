@@ -107,7 +107,7 @@
                                 <td> {{ $transfer->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $transfer->approvedBy->name ?? 'N/A' }} </td>
                                 <td> {{ $transfer->updatedBy->name ?? 'N/A' }} </td>
-                                <td>
+                                <td class="actions">
                                     <a class="is-block" href="{{ route('transfers.show', $transfer->id) }}" data-title="View Details">
                                         <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">

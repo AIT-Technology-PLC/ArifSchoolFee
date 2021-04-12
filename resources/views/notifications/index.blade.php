@@ -109,7 +109,7 @@
                                 </td>
                                 <td class="has-text-right"> {{ $notification->read() ? $notification->read_at->toDayDateTimeString() : 'N/A' }} </td>
                                 <td class="has-text-right"> {{ $notification->created_at->toDayDateTimeString() }} </td>
-                                <td>
+                                <td class="actions">
                                     <a href="{{ $notification->data['endpoint'] }}">
                                         <span class="tag btn-purple is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">

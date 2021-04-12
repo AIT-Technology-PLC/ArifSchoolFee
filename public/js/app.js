@@ -1179,7 +1179,17 @@ function openInNewTab(url) {
     open(url, "_blank").focus();
 }
 
-function showRowDetailsPage() {
+function showRowDetailsPage(event) {
+    let targetElement = event.target;
+
+    while (targetElement.tagName !== "TR") {
+        if (targetElement.classList.contains("actions")) {
+            return;
+        }
+
+        targetElement = targetElement.parentElement;
+    }
+
     location.href = this.dataset.id;
 }
 
