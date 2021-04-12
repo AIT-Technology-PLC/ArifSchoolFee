@@ -42,7 +42,7 @@ precacheAndRoute([
         revision: null,
     },
     {
-        url: "https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css",
+        url: "https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css",
         revision: null,
     },
     {
@@ -82,7 +82,7 @@ precacheAndRoute([
         revision: null,
     },
     {
-        url: "https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js",
+        url: "https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js",
         revision: null,
     },
     {
