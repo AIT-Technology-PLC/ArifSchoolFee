@@ -243,3 +243,17 @@ if (d.getElementById("selectAllCheckboxes")) {
         selectAllCheckboxes
     );
 }
+
+if (d.getElementsByClassName("summernote").length) {
+    $(".summernote").summernote({
+        placeholder: "Write description or other notes here",
+        tabsize: 2,
+        minHeight: 90,
+        tabDisable: true,
+        toolbar: [
+            ["font", ["bold"]],
+            ["table", ["table"]],
+            ["forecolor", ["forecolor"]],
+        ],
+    });
+}

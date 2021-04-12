@@ -46,6 +46,16 @@ precacheAndRoute([
         revision: null,
     },
     {
+        url:
+            "https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css",
+        revision: null,
+    },
+    {
+        url:
+            "https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css",
+        revision: null,
+    },
+    {
         url: "https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js",
         revision: null,
     },
@@ -82,6 +92,11 @@ precacheAndRoute([
     },
     {
         url: "https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.3/pace.min.js",
+        revision: null,
+    },
+    {
+        url:
+            "https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js",
         revision: null,
     },
 ]);
