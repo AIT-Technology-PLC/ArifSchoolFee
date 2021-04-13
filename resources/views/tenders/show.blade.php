@@ -364,7 +364,7 @@
                                     {{ $tenderChecklist->status ?? 'N/A' }}
                                 </td>
                                 <td>
-                                    {{ $tenderChecklist->comment ?? 'N/A' }}
+                                    {!! nl2br(e($tenderChecklist->comment)) ?? 'N/A' !!}
                                 </td>
                                 <td>
                                     <a href="{{ route('tender-checklists.edit', $tenderChecklist->id) }}" data-title="Update Checklist">
