@@ -125,6 +125,11 @@ class Company extends Model
         return $this->hasMany(TenderStatus::class);
     }
 
+    public function scopeEnabled($query)
+    {
+        return $query->where('enabled', 1);
+    }
+
     public function isCompanyStandardMember()
     {
         return $this->membership_plan == "Standard";

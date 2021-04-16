@@ -7,7 +7,7 @@ use Illuminate\Notifications\DatabaseNotification;
 
 class DeleteWeekOldNotifications extends Command
 {
-    protected $signature = 'delete:notifications';
+    protected $signature = 'notifications:delete-week';
 
     protected $description = 'Delete notifications that were created week ago or more';
 
