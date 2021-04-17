@@ -157,6 +157,9 @@
                                 </td>
                                 <td class="description">
                                     {!! nl2br(e(substr($gdn->description, 0, 40))) ?? 'N/A' !!}
+                                    <span class="is-hidden">
+                                        {!! $gdn->description ?? '' !!}
+                                    </span>
                                 </td>
                                 <td class="has-text-right">
                                     {{ $gdn->issued_on->toFormattedDateString() }}

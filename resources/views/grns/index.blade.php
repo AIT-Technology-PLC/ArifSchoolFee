@@ -110,6 +110,9 @@
                                 </td>
                                 <td class="description">
                                     {!! nl2br(e(substr($grn->description, 0, 40))) ?? 'N/A' !!}
+                                    <span class="is-hidden">
+                                        {!! $grn->description ?? '' !!}
+                                    </span>
                                 </td>
                                 <td class="has-text-right">
                                     {{ $grn->issued_on->toFormattedDateString() }}

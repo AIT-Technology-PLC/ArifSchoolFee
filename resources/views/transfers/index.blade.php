@@ -100,6 +100,9 @@
                                 </td>
                                 <td>
                                     {!! nl2br(e(substr($transfer->description, 0, 40))) ?? 'N/A' !!}
+                                    <span class="is-hidden">
+                                        {!! $transfer->description ?? '' !!}
+                                    </span>
                                 </td>
                                 <td class="has-text-right">
                                     {{ $transfer->issued_on->toFormattedDateString() }}

@@ -99,6 +99,9 @@
                                 </td>
                                 <td>
                                     {!! nl2br(e(substr($purchaseOrder->description, 0, 40))) ?? 'N/A' !!}
+                                    <span class="is-hidden">
+                                        {!! $purchaseOrder->description ?? '' !!}
+                                    </span>
                                 </td>
                                 <td class="has-text-right">
                                     {{ $purchaseOrder->received_on->toFormattedDateString() }}
