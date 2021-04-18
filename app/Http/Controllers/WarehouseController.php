@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class WarehouseController extends Controller
 {
@@ -38,11 +39,14 @@ class WarehouseController extends Controller
             'description' => 'nullable|string',
         ]);
 
+        $data['company_id'] = auth()->user()->employee->company_id;
         $data['created_by'] = auth()->user()->id;
         $data['updated_by'] = auth()->user()->id;
-        $data['company_id'] = auth()->user()->employee->company_id;
 
-        $this->warehouse->firstOrCreate($data);
+        $this->warehouse->firstOrCreate(
+            Arr::only($data, ['name', 'company_id']),
+            Arr::except($data, ['name', 'company_id'])
+        );
 
         return redirect()->route('warehouses.index');
     }

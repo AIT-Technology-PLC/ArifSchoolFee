@@ -44,8 +44,8 @@ class PriceController extends Controller
         $priceData['updated_by'] = auth()->user()->id;
 
         $this->price->firstOrCreate(
-            Arr::only($priceData, 'product_id'),
-            Arr::except($priceData, 'product_id')
+            Arr::only($priceData, ['product_id', 'company_id']),
+            Arr::except($priceData, ['product_id', 'company_id'])
         );
 
         return redirect()->route('prices.index');

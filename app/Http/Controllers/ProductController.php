@@ -7,6 +7,7 @@ use App\Models\ProductCategory;
 use App\Models\Supplier;
 use App\Traits\HasOptions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class ProductController extends Controller
 {
@@ -61,7 +62,10 @@ class ProductController extends Controller
         $data['updated_by'] = auth()->user()->id;
         $data['company_id'] = auth()->user()->employee->company_id;
 
-        $this->product->firstOrCreate($data);
+        $this->product->firstOrCreate(
+            Arr::only($data, ['name', 'company_id']),
+            Arr::except($data, ['name', 'company_id'])
+        );
 
         return redirect()->route('products.index');
     }

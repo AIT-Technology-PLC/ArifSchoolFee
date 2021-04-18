@@ -41,8 +41,8 @@ class TenderStatusController extends Controller
         $tenderStatus['updated_by'] = auth()->user()->id;
 
         $this->tenderStatus->firstOrCreate(
-            Arr::only($tenderStatus, 'status'),
-            Arr::except($tenderStatus, 'status'),
+            Arr::only($tenderStatus, ['status', 'company_id']),
+            Arr::except($tenderStatus, ['status', 'company_id'])
         );
 
         return redirect()->route('tender-statuses.index');

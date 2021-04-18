@@ -41,8 +41,8 @@ class GeneralTenderChecklistController extends Controller
         $generalTenderChecklistData['updated_by'] = auth()->user()->id;
 
         $this->generalTenderChecklist->firstOrCreate(
-            Arr::only($generalTenderChecklistData, 'item'),
-            Arr::except($generalTenderChecklistData, 'item'),
+            Arr::only($generalTenderChecklistData, ['item', 'company_id']),
+            Arr::except($generalTenderChecklistData, ['item', 'company_id'])
         );
 
         return redirect()->route('general-tender-checklists.index');

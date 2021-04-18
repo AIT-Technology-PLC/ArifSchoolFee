@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class SupplierController extends Controller
 {
@@ -46,7 +47,10 @@ class SupplierController extends Controller
         $data['created_by'] = auth()->user()->id;
         $data['updated_by'] = auth()->user()->id;
 
-        $this->supplier->firstOrCreate($data);
+        $this->supplier->firstOrCreate(
+            Arr::only($data, ['company_name', 'company_id']),
+            Arr::except($data, ['company_name', 'company_id'])
+        );
 
         return redirect()->route('suppliers.index');
     }

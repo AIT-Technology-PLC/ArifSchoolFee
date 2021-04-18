@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class ProductCategoryController extends Controller
 {
@@ -38,13 +39,14 @@ class ProductCategoryController extends Controller
             'properties' => 'nullable|array',
         ]);
 
+        $data['company_id'] = auth()->user()->employee->company_id;
         $data['created_by'] = auth()->user()->id;
-
         $data['updated_by'] = auth()->user()->id;
 
-        $data['company_id'] = auth()->user()->employee->company_id;
-
-        $this->category->firstOrCreate($data);
+        $this->category->firstOrCreate(
+            Arr::only($data, ['name', 'company_id']),
+            Arr::except($data, ['name', 'company_id'])
+        );
 
         return redirect()->route('categories.index');
     }

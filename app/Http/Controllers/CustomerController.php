@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class CustomerController extends Controller
 {
@@ -43,11 +44,13 @@ class CustomerController extends Controller
         ]);
 
         $data['company_id'] = auth()->user()->employee->company_id;
+        $data['created_by'] = auth()->user()->id;
+        $data['updated_by'] = auth()->user()->id;
 
-        $this->customer->firstOrCreate($data, [
-            'created_by' => auth()->user()->id,
-            'updated_by' => auth()->user()->id,
-        ]);
+        $this->customer->firstOrCreate(
+            Arr::only($data, ['company_name', 'company_id']),
+            Arr::except($data, ['company_name', 'company_id'])
+        );
 
         return redirect()->route('customers.index');
     }
