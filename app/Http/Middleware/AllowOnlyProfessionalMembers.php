@@ -21,6 +21,6 @@ class AllowOnlyProfessionalMembers
             return $next($request);
         }
 
-        return redirect('/permission-denied');
+        return response()->view('errors.permission_denied');
     }
 }

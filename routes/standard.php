@@ -11,8 +11,6 @@ Route::post('merchandises/subtract-from-inventory/{sale}',
 Route::get('merchandises/level', 'MerchandiseInventoryLevelController@index')
     ->name('merchandises.level');
 
-Route::get('/permission-denied', 'ErrorPageController@getPermissionDeniedPage');
-
 // Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/', 'MenuController@index')->name('home');

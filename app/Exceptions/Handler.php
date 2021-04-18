@@ -54,7 +54,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof AuthorizationException) {
-            return redirect('/permission-denied');
+            return response()->view('errors.permission_denied');
         }
 
         if ($exception instanceof TokenMismatchException) {

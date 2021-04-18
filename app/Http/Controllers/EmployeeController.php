@@ -121,11 +121,11 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee)
     {
         if ($employee->user->hasRole('System Manager')) {
-            return redirect('/permission-denied');
+            return view('errors.permission_denied');
         }
 
         if ($employee->user->id == auth()->user()->id) {
-            return redirect('/permission-denied');
+            return view('errors.permission_denied');
         }
 
         $employee->user->forceDelete();

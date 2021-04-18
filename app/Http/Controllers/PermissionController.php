@@ -11,11 +11,11 @@ class PermissionController extends Controller
     public function edit(Employee $employee, Permission $permission)
     {
         if ($employee->user->hasRole('System Manager')) {
-            return redirect('/permission-denied');
+            return view('errors.permission_denied');
         }
 
         if ($employee->user->id == auth()->user()->id) {
-            return redirect('/permission-denied');
+            return view('errors.permission_denied');
         }
 
         $this->authorize('update', $employee);
@@ -34,11 +34,11 @@ class PermissionController extends Controller
     public function update(Request $request, Employee $employee)
     {
         if ($employee->user->hasRole('System Manager')) {
-            return redirect('/permission-denied');
+            return view('errors.permission_denied');
         }
 
         if ($employee->user->id == auth()->user()->id) {
-            return redirect('/permission-denied');
+            return view('errors.permission_denied');
         }
 
         $this->authorize('update', $employee);
