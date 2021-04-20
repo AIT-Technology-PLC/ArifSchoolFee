@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Employee;
 use App\User;
 use Faker\Generator as Faker;

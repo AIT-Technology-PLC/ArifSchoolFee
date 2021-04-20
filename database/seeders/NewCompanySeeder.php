@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Company;
 use App\Models\Employee;
 use App\Models\Warehouse;

@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\OfflineController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('offline', 'OfflineController@offline');
+Route::get('offline', [OfflineController::class, 'offline']);
 
 Auth::routes();
 
-Route::post('/auth/login', 'Auth\LoginController@login')->name('post.login');
+Route::post('/auth/login', [LoginController::class, 'login'])->name('post.login');

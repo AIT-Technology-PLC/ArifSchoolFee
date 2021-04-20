@@ -2,11 +2,11 @@
 
 namespace App\Exceptions;
 
-use Throwable;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -25,46 +25,32 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontFlash = [
+        'current_password',
         'password',
         'password_confirmation',
     ];
 
     /**
-     * Report or log an exception.
+     * Register the exception handling callbacks for the application.
      *
-     * @param  \Throwable  $exception
      * @return void
-     *
-     * @throws \Throwable
      */
-    public function report(Throwable $exception)
+    public function register()
     {
-        parent::report($exception);
-    }
+        $this->reportable(function (Throwable $exception) {
 
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Throwable
-     */
-    public function render($request, Throwable $exception)
-    {
-        if ($exception instanceof AuthorizationException) {
-            return response()->view('errors.permission_denied');
-        }
+            if ($exception instanceof AuthorizationException) {
+                return response()->view('errors.permission_denied');
+            }
 
-        if ($exception instanceof TokenMismatchException) {
-            return redirect()->route('login');
-        }
+            if ($exception instanceof TokenMismatchException) {
+                return redirect()->route('login');
+            }
 
-        if ($exception instanceof MethodNotAllowedHttpException) {
-            return redirect('/');
-        }
+            if ($exception instanceof MethodNotAllowedHttpException) {
+                return redirect('/');
+            }
 
-        return parent::render($request, $exception);
+        });
     }
 }
