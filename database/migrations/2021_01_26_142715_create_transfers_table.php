@@ -14,7 +14,7 @@ class CreateTransfersTable extends Migration
     public function up()
     {
         Schema::create('transfers', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
@@ -33,7 +33,7 @@ class CreateTransfersTable extends Migration
         });
 
         Schema::create('transfer_details', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('transfer_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('to_warehouse_id')->nullable()->unsigned();

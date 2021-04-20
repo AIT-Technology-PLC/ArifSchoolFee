@@ -14,7 +14,7 @@ class CreatePurchaseOrdersTable extends Migration
     public function up()
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('customer_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
@@ -35,7 +35,7 @@ class CreatePurchaseOrdersTable extends Migration
         });
 
         Schema::create('purchase_order_details', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('purchase_order_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->decimal('quantity', 22);

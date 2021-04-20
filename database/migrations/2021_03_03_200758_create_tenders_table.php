@@ -14,7 +14,7 @@ class CreateTendersTable extends Migration
     public function up()
     {
         Schema::create('general_tender_checklists', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
@@ -31,7 +31,7 @@ class CreateTendersTable extends Migration
         });
 
         Schema::create('tender_statuses', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
@@ -48,7 +48,7 @@ class CreateTendersTable extends Migration
         });
 
         Schema::create('tenders', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('customer_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
@@ -77,7 +77,7 @@ class CreateTendersTable extends Migration
         });
 
         Schema::create('tender_details', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('tender_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->decimal('quantity', 22);
@@ -94,7 +94,7 @@ class CreateTendersTable extends Migration
         });
 
         Schema::create('tender_checklists', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('tender_id')->nullable()->unsigned();
             $table->string('item');
             $table->string('status')->nullable();

@@ -15,7 +15,7 @@ class CoreV1 extends Migration
     {
         // Users
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -35,7 +35,7 @@ class CoreV1 extends Migration
 
         // Failed Jobs - Queue
         Schema::create('failed_jobs', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->text('connection');
             $table->text('queue');
             $table->longText('payload');
@@ -45,7 +45,7 @@ class CoreV1 extends Migration
 
         // Plans
         Schema::create('plans', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->string('description')->nullable();
             $table->timestamps();
@@ -54,7 +54,7 @@ class CoreV1 extends Migration
 
         // Companies
         Schema::create('companies', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('plan_id')->nullable()->unsigned();
             $table->string('name');
             $table->string('sector')->nullable();
@@ -71,7 +71,7 @@ class CoreV1 extends Migration
 
         // Employees
         Schema::create('employees', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('user_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
@@ -92,7 +92,7 @@ class CoreV1 extends Migration
 
         // Warehouses
         Schema::create('warehouses', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
@@ -111,7 +111,7 @@ class CoreV1 extends Migration
 
         // Suppliers
         Schema::create('suppliers', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
@@ -132,7 +132,7 @@ class CoreV1 extends Migration
 
         // Product Categories
         Schema::create('product_categories', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
@@ -151,7 +151,7 @@ class CoreV1 extends Migration
 
         // Products
         Schema::create('products', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('product_category_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('supplier_id')->nullable()->unsigned();
@@ -180,7 +180,7 @@ class CoreV1 extends Migration
 
         // Product Images
         Schema::create('product_images', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->string('name');
             $table->string('original_name');
@@ -194,7 +194,7 @@ class CoreV1 extends Migration
 
         // Purchases
         Schema::create('purchases', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('supplier_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
@@ -219,7 +219,7 @@ class CoreV1 extends Migration
 
         // Purchase Details
         Schema::create('purchase_details', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('purchase_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
@@ -238,7 +238,7 @@ class CoreV1 extends Migration
 
         // Customers
         Schema::create('customers', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
@@ -259,7 +259,7 @@ class CoreV1 extends Migration
 
         // Sales
         Schema::create('sales', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('customer_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
@@ -284,7 +284,7 @@ class CoreV1 extends Migration
 
         // Sale Details
         Schema::create('sale_details', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('sale_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
@@ -303,7 +303,7 @@ class CoreV1 extends Migration
 
         // Merchandise Products
         Schema::create('merchandises', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
@@ -334,7 +334,7 @@ class CoreV1 extends Migration
 
         // Manufacturing Products
         Schema::create('manufacturings', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
@@ -367,7 +367,7 @@ class CoreV1 extends Migration
 
         // Raw Material
         Schema::create('raw_materials', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
@@ -395,7 +395,7 @@ class CoreV1 extends Migration
 
         // Bill of Materials
         Schema::create('bill_of_materials', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
@@ -416,7 +416,7 @@ class CoreV1 extends Migration
 
         // MRO Items
         Schema::create('mro_items', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();

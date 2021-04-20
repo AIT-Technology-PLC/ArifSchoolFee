@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::post('merchandises/add-to-inventory/{purchase}',
     'MerchandiseInventoryTransactionController@addToInventory')
     ->name('merchandises.addToInventory');

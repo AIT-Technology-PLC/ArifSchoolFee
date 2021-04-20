@@ -26,7 +26,7 @@ class SendTenderDeadlineNotifications extends Command
         $companies = Company::enabled()->get();
 
         if ($companies->isEmpty()) {
-            return;
+            return 0;
         }
 
         foreach ($companies as $company) {

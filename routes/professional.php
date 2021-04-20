@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/merchandises/level/warehouse/{warehouse}', 'MerchandiseInventoryLevelController@getCurrentMerchandiseLevelByWarehouse');
 
 Route::post('purchase-orders/{purchaseOrder}/close', 'PurchaseOrderController@close')->name('purchase-orders.close');

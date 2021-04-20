@@ -14,7 +14,7 @@ class CreateGrnsTable extends Migration
     public function up()
     {
         Schema::create('grns', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('purchase_id')->nullable()->unsigned();
             $table->bigInteger('supplier_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
@@ -38,7 +38,7 @@ class CreateGrnsTable extends Migration
         });
 
         Schema::create('grn_details', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('grn_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();

@@ -14,7 +14,7 @@ class CreateGdnsTable extends Migration
     public function up()
     {
         Schema::create('gdns', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('sale_id')->nullable()->unsigned();
             $table->bigInteger('customer_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
@@ -38,7 +38,7 @@ class CreateGdnsTable extends Migration
         });
 
         Schema::create('gdn_details', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('gdn_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
