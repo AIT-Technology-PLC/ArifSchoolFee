@@ -41,7 +41,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
@@ -64,7 +64,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
@@ -87,7 +87,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
@@ -110,7 +110,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
@@ -133,7 +133,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
@@ -156,7 +156,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
@@ -179,7 +179,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
@@ -202,7 +202,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
@@ -225,7 +225,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
@@ -248,7 +248,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
@@ -271,7 +271,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
@@ -294,7 +294,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
@@ -317,7 +317,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
@@ -340,7 +340,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
@@ -363,7 +363,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                        <input type="checkbox" name="permissions[{{ $loop->index }}]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
                                                         {{ $permission }}
                                                     </label>
                                                 </div>
