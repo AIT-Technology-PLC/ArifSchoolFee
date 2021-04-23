@@ -9,7 +9,7 @@ class PurchaseGrnController extends Controller
 {
     public function create(Purchase $purchase, Request $request)
     {
-        $this->authorize('create', $purchase);
+        $this->authorize('view', $purchase);
 
         $request->merge([
             'purchase_id' => $purchase->id,

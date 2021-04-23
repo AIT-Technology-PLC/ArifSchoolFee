@@ -99,14 +99,6 @@ class SaleController extends Controller
     {
         $sale->load(['saleDetails.product', 'gdns', 'customer', 'company']);
 
-        request()->merge([
-            'sale_id' => $sale->id,
-            'customer_id' => $sale->customer_id,
-            'gdn' => $sale->saleDetails->toArray(),
-        ]);
-
-        request()->flash(request()->all());
-
         return view('sales.show', compact('sale'));
     }
 

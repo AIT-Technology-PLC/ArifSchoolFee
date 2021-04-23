@@ -153,7 +153,7 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             @if ($sale->isSaleManual())
-                                <a href="{{ route('gdns.create') }}" class="button is-small bg-purple has-text-white">
+                                <a href="{{ route('sales.gdns.create', $sale->id) }}" class="button is-small bg-purple has-text-white">
                                     <span class="icon">
                                         <i class="fas fa-plus-circle"></i>
                                     </span>
