@@ -96,6 +96,7 @@ class Merchandise extends Model
                     return $onHandMerchandise->product->isProductLimited($onHandMerchandise->total_on_hand);
                 }
             )
+            ->groupBy('product_id')
             ->count();
 
         return $distinctTotalLimitedMerchandises;
