@@ -62,7 +62,7 @@ class Merchandise extends Model
             ->get();
     }
 
-    public function getCurrentMerchandiseLevelByProduct()
+    public function getMerchandiseProductsLevel()
     {
         return $this->companyMerchandises()
             ->select('product_id', 'warehouse_id', DB::raw('SUM(total_on_hand) AS total_on_hand'))

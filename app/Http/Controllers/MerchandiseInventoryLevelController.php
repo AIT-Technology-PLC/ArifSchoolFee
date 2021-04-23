@@ -19,20 +19,20 @@ class MerchandiseInventoryLevelController extends Controller
     {
         $warehouses = $warehouse->getAllWithoutRelations();
 
-        $onHandStockMerchandises = $product->getAllOnHandStockMerchandises()->load('productCategory');
+        $onHandMerchandises = $this->merchandise->getMerchandiseProductsLevel()->load('product.productCategory');
 
-        $onHandMerchandises = $this->merchandise->getCurrentMerchandiseLevelByProduct()->load('product.productCategory');
+        $totalWarehouseInUse = $warehouse->getTotalWarehousesUsed($onHandMerchandises);
+
+        $onHandMerchandiseProducts = $onHandMerchandises->pluck('product')->unique();
+
+        $outOfStockMerchandiseProducts = $product->getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)->load('productCategory');
 
         $totalDistinctOnHandMerchandises = $this->merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
 
-        $outOfStockMerchandises = $product->getAllOutOfStockMerchandises()->load('productCategory');
-
-        $totalOutOfStockMerchandises = $product->getTotalOutOfStockMerchandises($outOfStockMerchandises);
+        $totalOutOfStockMerchandises = $outOfStockMerchandiseProducts->count();
 
         $totalDistinctLimitedMerchandises = $this->merchandise->getTotalDistinctLimitedMerchandises($onHandMerchandises);
 
-        $totalWarehouseInUse = $warehouse->getTotalWarehousesUsed($this->merchandise->getAllOnHandMerchandises());
-
-        return view('merchandises.levels.index', compact('onHandMerchandises', 'onHandStockMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'totalWarehouseInUse', 'warehouses'));
+        return view('merchandises.levels.index', compact('onHandMerchandises', 'onHandMerchandiseProducts', 'outOfStockMerchandiseProducts', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'totalWarehouseInUse', 'warehouses'));
     }
 }

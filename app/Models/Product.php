@@ -166,44 +166,36 @@ class Product extends Model
         return $this->unit_of_measurement;
     }
 
-    public function getAllOutOfStockMerchandises()
+    public function getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)
     {
-        $allMerchandiseProducts = $this->companyProducts()->with(['merchandises'])
-            ->where('type', 'Merchandise Product')->get();
+        $onHandMerchandiseProductsId = $onHandMerchandiseProducts->pluck('id');
 
-        $outOfStockMerchandises = $allMerchandiseProducts->filter(function ($merchandiseProduct) {
-            if ($merchandiseProduct->merchandises->isEmpty()) {
-                return true;
-            } else {
-                return $merchandiseProduct->merchandises->where('total_on_hand', '>', 0.00)->isEmpty();
-            }
-        });
+        $outOfStockMerchandiseProducts = $this->companyProducts()
+            ->where('type', 'Merchandise Product')
+            ->whereNotIn('id', $onHandMerchandiseProductsId)
+            ->get();
 
-        return $outOfStockMerchandises;
+        return $outOfStockMerchandiseProducts;
     }
 
-    public function getAllOnHandStockMerchandises()
+    public function getOnHandMerchandiseProducts()
     {
-        $onHandStockMerchandises = $this->companyProducts()->with(['merchandises'])
+        $onHandStockMerchandiseProducts = $this->companyProducts()
             ->where('type', 'Merchandise Product')
             ->whereIn('id', function ($query) {
-                $query->select('product_id')->from('merchandises')->where('total_on_hand', '>', 0.00);
+                return $query->select('product_id')
+                    ->from('merchandises')
+                    ->where('company_id', auth()->user()->employee->company->id)
+                    ->where('total_on_hand', '>', 0.00);
             })
             ->get();
 
-        return $onHandStockMerchandises;
+        return $onHandStockMerchandiseProducts;
     }
 
-    public function getAllOutOfStockMerchandisesByWarehouse($onHandMerchandises)
+    public function getOutOfStockMerchandiseProductsByWarehouse($onHandMerchandises)
     {
         return $this->companyProducts()->where('type', 'Merchandise Product')->whereNotIn('id', $onHandMerchandises->pluck('product_id'))->get();
-    }
-
-    public function getTotalOutOfStockMerchandises($outOfStockMerchandises)
-    {
-        $totalOutOfStockMerchandises = $outOfStockMerchandises->count();
-
-        return $totalOutOfStockMerchandises;
     }
 
     public function isProductSaleable($productId = null)

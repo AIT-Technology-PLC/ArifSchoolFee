@@ -14,7 +14,7 @@
                     </tr>
                 </thead>
                 <tbody class="list">
-                    @foreach ($onHandStockMerchandises as $product)
+                    @foreach ($onHandMerchandiseProducts as $product)
                         <tr>
                             <td> {{ $loop->index + 1 }} </td>
                             <td class="is-capitalized name"> {{ $product->name ?? 'N/A' }} </td>

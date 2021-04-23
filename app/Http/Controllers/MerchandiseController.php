@@ -22,14 +22,16 @@ class MerchandiseController extends Controller
     public function index(Product $product, Warehouse $warehouse)
     {
         $onHandMerchandises = $this->merchandise->getAllOnHandMerchandises()->load(['product', 'warehouse', 'createdBy', 'updatedBy']);
+        
+        $onHandMerchandiseProducts = $onHandMerchandises->pluck('product')->unique();
 
         $totalDistinctOnHandMerchandises = $this->merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
 
-        $outOfStockMerchandises = $product->getAllOutOfStockMerchandises();
+        $outOfStockMerchandises = $product->getOutOfStockMerchandiseProducts($onHandMerchandiseProducts);
 
-        $totalOutOfStockMerchandises = $product->getTotalOutOfStockMerchandises($outOfStockMerchandises);
+        $totalOutOfStockMerchandises = $outOfStockMerchandises->count();
 
-        $totalDistinctLimitedMerchandises = $this->merchandise->getTotalDistinctLimitedMerchandises($this->merchandise->getCurrentMerchandiseLevelByProduct()->load('product'));
+        $totalDistinctLimitedMerchandises = $this->merchandise->getTotalDistinctLimitedMerchandises($this->merchandise->getMerchandiseProductsLevel()->load('product'));
 
         $totalWarehouseInUse = $warehouse->getTotalWarehousesUsed($onHandMerchandises);
 
