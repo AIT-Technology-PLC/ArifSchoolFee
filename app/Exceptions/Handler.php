@@ -2,9 +2,8 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Session\TokenMismatchException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Throwable;
 
@@ -38,17 +37,20 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $exception) {
+        });
 
-            if ($exception instanceof AuthorizationException) {
+        $this->renderable(function (HttpException $exception, $request) {
+
+            if ($exception->getStatusCode() == 403) {
                 return response()->view('errors.permission_denied');
             }
 
-            if ($exception instanceof TokenMismatchException) {
+            if ($exception->getStatusCode() == 419) {
                 return redirect()->route('login');
             }
 
             if ($exception instanceof MethodNotAllowedHttpException) {
-                return redirect('/');
+                return redirect()->back();
             }
 
         });
