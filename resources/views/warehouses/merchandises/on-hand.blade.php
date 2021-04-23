@@ -1,0 +1,55 @@
+<section id="onHand" class="mx-3 m-lr-0">
+    <div class="box radius-top-0">
+        <div>
+            <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[]" data-numeric="[4]">
+                <thead>
+                    <tr>
+                        <th id="firstTarget"><abbr> # </abbr></th>
+                        <th><abbr> Product </abbr></th>
+                        <th><abbr> Code </abbr></th>
+                        <th><abbr> Category </abbr></th>
+                        <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
+                        <th class="text-gold"><abbr> Level </abbr></th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+                    @foreach ($onHandMerchandises as $merchandise)
+                        <tr>
+                            <td> {{ $loop->index + 1 }} </td>
+                            <td class="is-capitalized name"> {{ $merchandise->product->name ?? 'N/A' }} </td>
+                            <td class="is-capitalized code"> {{ $merchandise->product->code ?? 'N/A' }} </td>
+                            <td class="is-capitalized"> {{ $merchandise->product->productCategory->name ?? 'N/A' }} </td>
+                            <td class="has-text-right">
+                                <span class="tag is-small bg-green has-text-white onHand">
+                                    {{ $merchandise->total_on_hand }}
+                                    {{ $merchandise->product->unit_of_measurement }}
+                                </span>
+                            </td>
+                            <td class="is-capitalized">
+                                @if ($merchandise->product->isProductLimited($merchandise->total_on_hand))
+                                    <span class="tag is-small bg-gold has-text-white">
+                                        <span class="icon">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                        </span>
+                                        <span>
+                                            Limited
+                                        </span>
+                                    </span>
+                                @else
+                                    <span class="tag is-small bg-blue has-text-white">
+                                        <span class="icon">
+                                            <i class="fas fa-check-circle"></i>
+                                        </span>
+                                        <span>
+                                            Sufficient
+                                        </span>
+                                    </span>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

@@ -357,7 +357,7 @@ function changeWarehouse() {
         return (location.href = "/merchandises/level");
     }
 
-    location.href = `/merchandises/level/warehouse/${this.value}`;
+    location.href = `/warehouses/${this.value}/merchandises`;
 }
 
 function toggleLeftMenuOnMobile() {
