@@ -88,14 +88,6 @@ class PurchaseController extends Controller
     {
         $purchase->load(['purchaseDetails.product', 'supplier', 'company', 'grns']);
 
-        request()->merge([
-            'purchase_id' => $purchase->id,
-            'supplier_id' => $purchase->supplier_id,
-            'grn' => $purchase->purchaseDetails->toArray(),
-        ]);
-
-        request()->flash(request()->all());
-
         return view('purchases.show', compact('purchase'));
     }
 
