@@ -23,7 +23,7 @@
                             @foreach ($warehouses as $warehouse)
                                 <td class="has-text-right">
                                     <span class="tag is-small bg-green has-text-white">
-                                        {{ $onHandMerchandises->where('product_id', $product->id)->where('warehouse_id', $warehouse->id)->first()->total_on_hand ?? '0.00' }}
+                                        {{ $merchandise->getTotalOnHandAmount($onHandMerchandises, $product->id, $warehouse->id) }}
                                         {{ $product->unit_of_measurement }}
                                     </span>
                                 </td>

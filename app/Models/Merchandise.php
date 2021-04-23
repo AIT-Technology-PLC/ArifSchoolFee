@@ -102,6 +102,14 @@ class Merchandise extends Model
         return $distinctTotalLimitedMerchandises;
     }
 
+    public function getTotalOnHandAmount($onHandMerchandises, $productId, $warehouseId)
+    {
+        return $onHandMerchandises->where('product_id', $productId)
+            ->where('warehouse_id', $warehouseId)
+            ->first()
+            ->total_on_hand ?? '0.00';
+    }
+
     public function isReturnedQuantityValueValid($returnedQuantity)
     {
         $totalSoldQuantity = $this->total_sold;
