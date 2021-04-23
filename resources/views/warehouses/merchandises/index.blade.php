@@ -156,8 +156,8 @@
         </div>
     </section>
 
-    @include('merchandises.levels.on-hand')
+    @include('warehouses.merchandises.on-hand')
 
-    @include('merchandises.levels.out-of')
+    @include('warehouses.merchandises.out-of')
 
 @endsection

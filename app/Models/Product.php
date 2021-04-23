@@ -182,6 +182,18 @@ class Product extends Model
         return $outOfStockMerchandises;
     }
 
+    public function getAllOnHandStockMerchandises()
+    {
+        $onHandStockMerchandises = $this->companyProducts()->with(['merchandises'])
+            ->where('type', 'Merchandise Product')
+            ->whereIn('id', function ($query) {
+                $query->select('product_id')->from('merchandises')->where('total_on_hand', '>', 0.00);
+            })
+            ->get();
+
+        return $onHandStockMerchandises;
+    }
+
     public function getAllOutOfStockMerchandisesByWarehouse($onHandMerchandises)
     {
         return $this->companyProducts()->where('type', 'Merchandise Product')->whereNotIn('id', $onHandMerchandises->pluck('product_id'))->get();

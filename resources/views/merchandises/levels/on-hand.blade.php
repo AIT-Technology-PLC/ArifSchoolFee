@@ -8,44 +8,26 @@
                         <th><abbr> Product </abbr></th>
                         <th><abbr> Code </abbr></th>
                         <th><abbr> Category </abbr></th>
-                        <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
-                        <th class="text-gold"><abbr> Level </abbr></th>
+                        @foreach ($warehouses as $warehouse)
+                            <th class="has-text-right text-green is-capitalized"><abbr> {{ $warehouse->name }} </abbr></th>
+                        @endforeach
                     </tr>
                 </thead>
                 <tbody class="list">
-                    @foreach ($onHandMerchandises as $merchandise)
+                    @foreach ($onHandStockMerchandises as $product)
                         <tr>
                             <td> {{ $loop->index + 1 }} </td>
-                            <td class="is-capitalized name"> {{ $merchandise->product->name ?? 'N/A' }} </td>
-                            <td class="is-capitalized code"> {{ $merchandise->product->code ?? 'N/A' }} </td>
-                            <td class="is-capitalized"> {{ $merchandise->product->productCategory->name ?? 'N/A' }} </td>
-                            <td class="has-text-right">
-                                <span class="tag is-small bg-green has-text-white onHand">
-                                    {{ $merchandise->total_on_hand }}
-                                    {{ $merchandise->product->unit_of_measurement }}
-                                </span>
-                            </td>
-                            <td class="is-capitalized">
-                                @if ($merchandise->product->isProductLimited($merchandise->total_on_hand))
-                                    <span class="tag is-small bg-gold has-text-white">
-                                        <span class="icon">
-                                            <i class="fas fa-exclamation-circle"></i>
-                                        </span>
-                                        <span>
-                                            Limited
-                                        </span>
+                            <td class="is-capitalized name"> {{ $product->name ?? 'N/A' }} </td>
+                            <td class="is-capitalized code"> {{ $product->code ?? 'N/A' }} </td>
+                            <td class="is-capitalized"> {{ $product->productCategory->name ?? 'N/A' }} </td>
+                            @foreach ($warehouses as $warehouse)
+                                <td class="has-text-right">
+                                    <span class="tag is-small bg-green has-text-white">
+                                        {{ $onHandMerchandises->where('product_id', $product->id)->where('warehouse_id', $warehouse->id)->first()->total_on_hand ?? '0.00' }}
+                                        {{ $product->unit_of_measurement }}
                                     </span>
-                                @else
-                                    <span class="tag is-small bg-blue has-text-white">
-                                        <span class="icon">
-                                            <i class="fas fa-check-circle"></i>
-                                        </span>
-                                        <span>
-                                            Sufficient
-                                        </span>
-                                    </span>
-                                @endif
-                            </td>
+                                </td>
+                            @endforeach
                         </tr>
                     @endforeach
                 </tbody>
