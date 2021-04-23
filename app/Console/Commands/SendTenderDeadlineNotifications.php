@@ -54,5 +54,7 @@ class SendTenderDeadlineNotifications extends Command
             Notification::send($users, new TenderDeadlineIsClose($tenders));
 
         }
+
+        return 0;
     }
 }

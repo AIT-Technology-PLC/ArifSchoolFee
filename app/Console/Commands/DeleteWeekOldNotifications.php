@@ -19,5 +19,7 @@ class DeleteWeekOldNotifications extends Command
     public function handle(DatabaseNotification $databaseNotification)
     {
         $databaseNotification->whereRaw('DATEDIFF(CURRENT_DATE, created_at) >= 7')->delete();
+
+        return 0;
     }
 }
