@@ -1,12 +1,11 @@
 <section id="onHand" class="mx-3 m-lr-0">
     <div class="box radius-top-0">
         <div>
-            <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[]" data-numeric="[4]">
+            <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[]" data-numeric="[3]">
                 <thead>
                     <tr>
                         <th id="firstTarget"><abbr> # </abbr></th>
                         <th><abbr> Product </abbr></th>
-                        <th><abbr> Code </abbr></th>
                         <th><abbr> Category </abbr></th>
                         <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
                         <th class="text-gold"><abbr> Level </abbr></th>
@@ -16,8 +15,15 @@
                     @foreach ($onHandMerchandises as $merchandise)
                         <tr>
                             <td> {{ $loop->index + 1 }} </td>
-                            <td class="is-capitalized name"> {{ $merchandise->product->name ?? 'N/A' }} </td>
-                            <td class="is-capitalized code"> {{ $merchandise->product->code ?? 'N/A' }} </td>
+                            <td class="is-capitalized name"> 
+                                {{ $merchandise->product->name ?? 'N/A' }} 
+                                @if ($merchandise->product->code)
+                                    <span class="has-text-grey has-has-text-weight-bold">
+                                        -
+                                        {{ $merchandise->product->code }}
+                                    </span>
+                                @endif
+                            </td>
                             <td class="is-capitalized"> {{ $merchandise->product->productCategory->name ?? 'N/A' }} </td>
                             <td class="has-text-right">
                                 <span class="tag is-small bg-green has-text-white onHand">
