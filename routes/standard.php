@@ -4,8 +4,8 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MerchandiseController;
-use App\Http\Controllers\MerchandiseInventoryLevelController;
 use App\Http\Controllers\MerchandiseInventoryTransactionController;
+use App\Http\Controllers\MerchandiseLevelController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PriceController;
@@ -23,7 +23,7 @@ Route::post('merchandises/subtract-from-inventory/{sale}',
     [MerchandiseInventoryTransactionController::class, 'subtractFromInventory'])
     ->name('merchandises.subtractFromInventory');
 
-Route::get('merchandises/level', [MerchandiseInventoryLevelController::class, 'index'])
+Route::get('merchandises/level', [MerchandiseLevelController::class, 'index'])
     ->name('merchandises.level');
 
 // Route::get('/', 'HomeController@index')->name('home');

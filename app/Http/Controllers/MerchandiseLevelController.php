@@ -6,7 +6,7 @@ use App\Models\Merchandise;
 use App\Models\Product;
 use App\Models\Warehouse;
 
-class MerchandiseInventoryLevelController extends Controller
+class MerchandiseLevelController extends Controller
 {
     private $merchandise;
 
@@ -21,17 +21,17 @@ class MerchandiseInventoryLevelController extends Controller
 
         $onHandMerchandises = $this->merchandise->getMerchandiseProductsLevel()->load('product.productCategory');
 
-        $totalWarehouseInUse = $warehouse->getTotalWarehousesUsed($onHandMerchandises);
-
         $onHandMerchandiseProducts = $onHandMerchandises->pluck('product')->unique();
 
         $outOfStockMerchandiseProducts = $product->getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)->load('productCategory');
 
         $totalDistinctOnHandMerchandises = $this->merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
 
+        $totalDistinctLimitedMerchandises = $this->merchandise->getTotalDistinctLimitedMerchandises($onHandMerchandises);
+
         $totalOutOfStockMerchandises = $outOfStockMerchandiseProducts->count();
 
-        $totalDistinctLimitedMerchandises = $this->merchandise->getTotalDistinctLimitedMerchandises($onHandMerchandises);
+        $totalWarehouseInUse = $warehouse->getTotalWarehousesUsed($onHandMerchandises);
 
         return view('merchandises.levels.index', compact('onHandMerchandises', 'onHandMerchandiseProducts', 'outOfStockMerchandiseProducts', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'totalWarehouseInUse', 'warehouses'));
     }

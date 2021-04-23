@@ -14,15 +14,15 @@ class MerchandiseLevelByWarehouseController extends Controller
 
         $onHandMerchandises = $merchandise->getCurrentMerchandiseLevelByProductAndWarehouse($warehouse->id)->load('product.productCategory');
 
-        $totalDistinctOnHandMerchandises = $merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
-
         $outOfStockMerchandises = $product->getOutOfStockMerchandiseProductsByWarehouse($onHandMerchandises)->load('productCategory');
+
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        $totalDistinctOnHandMerchandises = $merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
 
         $totalOutOfStockMerchandises = $outOfStockMerchandises->count();
 
         $totalDistinctLimitedMerchandises = $merchandise->getTotalDistinctLimitedMerchandises($onHandMerchandises);
-
-        $warehouses = $warehouse->getAllWithoutRelations();
 
         return view('warehouses.merchandises.index', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'warehouses', 'warehouse'));
     }
