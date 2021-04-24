@@ -10,6 +10,7 @@
                         @foreach ($warehouses as $warehouse)
                             <th class="has-text-right text-green is-capitalized"><abbr> {{ $warehouse->name }} </abbr></th>
                         @endforeach
+                        <th class="has-text-right text-green is-capitalized"><abbr> Total Balance </abbr></th>
                     </tr>
                 </thead>
                 <tbody class="list">
@@ -28,12 +29,18 @@
                             <td class="is-capitalized"> {{ $product->productCategory->name ?? 'N/A' }} </td>
                             @foreach ($warehouses as $warehouse)
                                 <td class="has-text-right">
-                                    <span class="tag is-small bg-green has-text-white">
+                                    <span class="tag is-small btn-green is-outline">
                                         {{ $merchandise->getTotalOnHandAmount($onHandMerchandises, $product->id, $warehouse->id) }}
                                         {{ $product->unit_of_measurement }}
                                     </span>
                                 </td>
                             @endforeach
+                            <td class="has-text-right">
+                                <span class="tag is-small bg-green has-text-white">
+                                    {{ $merchandise->getProductTotalBalance($onHandMerchandises, $product->id) }}
+                                    {{ $product->unit_of_measurement }}
+                                </span>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

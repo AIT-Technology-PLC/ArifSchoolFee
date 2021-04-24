@@ -110,6 +110,11 @@ class Merchandise extends Model
             ->total_on_hand ?? '0.00';
     }
 
+    public function getProductTotalBalance($onHandMerchandises, $productId)
+    {
+        return $onHandMerchandises->where('product_id', $productId)->sum('total_on_hand');
+    }
+
     public function isReturnedQuantityValueValid($returnedQuantity)
     {
         $totalSoldQuantity = $this->total_sold;
