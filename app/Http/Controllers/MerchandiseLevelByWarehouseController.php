@@ -14,7 +14,9 @@ class MerchandiseLevelByWarehouseController extends Controller
 
         $onHandMerchandises = $merchandise->getCurrentMerchandiseLevelByProductAndWarehouse($warehouse->id)->load('product.productCategory');
 
-        $outOfStockMerchandises = $product->getOutOfStockMerchandiseProductsByWarehouse($onHandMerchandises)->load('productCategory');
+        $onHandMerchandiseProducts = $onHandMerchandises->pluck('product')->unique();
+
+        $outOfStockMerchandises = $product->getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)->load('productCategory');
 
         $warehouses = $warehouse->getAllWithoutRelations();
 

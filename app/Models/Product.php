@@ -168,34 +168,10 @@ class Product extends Model
 
     public function getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)
     {
-        $onHandMerchandiseProductsId = $onHandMerchandiseProducts->pluck('id');
-
-        $outOfStockMerchandiseProducts = $this->companyProducts()
+        return $this->companyProducts()
             ->where('type', 'Merchandise Product')
-            ->whereNotIn('id', $onHandMerchandiseProductsId)
+            ->whereNotIn('id', $onHandMerchandiseProducts->pluck('id'))
             ->get();
-
-        return $outOfStockMerchandiseProducts;
-    }
-
-    public function getOnHandMerchandiseProducts()
-    {
-        $onHandStockMerchandiseProducts = $this->companyProducts()
-            ->where('type', 'Merchandise Product')
-            ->whereIn('id', function ($query) {
-                return $query->select('product_id')
-                    ->from('merchandises')
-                    ->where('company_id', auth()->user()->employee->company->id)
-                    ->where('total_on_hand', '>', 0.00);
-            })
-            ->get();
-
-        return $onHandStockMerchandiseProducts;
-    }
-
-    public function getOutOfStockMerchandiseProductsByWarehouse($onHandMerchandises)
-    {
-        return $this->companyProducts()->where('type', 'Merchandise Product')->whereNotIn('id', $onHandMerchandises->pluck('product_id'))->get();
     }
 
     public function isProductSaleable($productId = null)
