@@ -12,7 +12,7 @@ clientsClaim();
 
 const PRECACHE = "precache-v4";
 const RUNTIME = "runtime-v4";
-const VERSION = 21;
+const VERSION = 22;
 
 setCacheNameDetails({
     prefix: "",
