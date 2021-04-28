@@ -40,8 +40,8 @@
                                 <td> {{ $tenderStatus->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $tenderStatus->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
-                                    <a class="is-block" href="{{ route('tender-statuses.edit', $tenderStatus->id) }}" data-title="Modify Tender Status Data">
-                                        <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                    <a href="{{ route('tender-statuses.edit', $tenderStatus->id) }}" data-title="Modify Tender Status Data">
+                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
                                             </span>
@@ -50,7 +50,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <span class="is-block">
+                                    <span>
                                         @include('components.delete_button', ['model' => 'tender-statuses',
                                         'id' => $tenderStatus->id])
                                     </span>

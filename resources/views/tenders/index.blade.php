@@ -147,8 +147,8 @@
                                 <td> {{ $tender->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $tender->updatedBy->name ?? 'N/A' }} </td>
                                 <td class="actions">
-                                    <a class="is-block" href="{{ route('tenders.show', $tender->id) }}" data-title="View Details">
-                                        <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
+                                    <a href="{{ route('tenders.show', $tender->id) }}" data-title="View Details">
+                                        <span class="tag is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-info-circle"></i>
                                             </span>
@@ -157,8 +157,8 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <a class="is-block" href="{{ route('tenders.edit', $tender->id) }}" data-title="Modify Tender Data">
-                                        <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                    <a href="{{ route('tenders.edit', $tender->id) }}" data-title="Modify Tender Data">
+                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
                                             </span>
@@ -167,7 +167,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <span class="is-block">
+                                    <span>
                                         @include('components.delete_button', ['model' => 'tenders',
                                         'id' => $tender->id])
                                     </span>

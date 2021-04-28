@@ -99,8 +99,8 @@
                                 <td> {{ $sale->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $sale->updatedBy->name ?? 'N/A' }} </td>
                                 <td class="actions">
-                                    <a class="is-block" href="{{ route('sales.show', $sale->id) }}" data-title="View Details">
-                                        <span class="tag mb-3 is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
+                                    <a href="{{ route('sales.show', $sale->id) }}" data-title="View Details">
+                                        <span class="tag is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-info-circle"></i>
                                             </span>
@@ -109,8 +109,8 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <a class="is-block" href="{{ route('sales.edit', $sale->id) }}" data-title="Modify Sales Data">
-                                        <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                    <a href="{{ route('sales.edit', $sale->id) }}" data-title="Modify Sales Data">
+                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
                                             </span>
@@ -119,7 +119,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <span class="is-block">
+                                    <span>
                                         @include('components.delete_button', ['model' => 'sales',
                                         'id' => $sale->id])
                                     </span>
