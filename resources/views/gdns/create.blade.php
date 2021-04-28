@@ -53,7 +53,7 @@
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
-                                    <i class="fas fa-address-card"></i>
+                                    <i class="fas fa-user"></i>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
-                                    <i class="fas fa-address-card"></i>
+                                    <i class="fas fa-tags"></i>
                                 </div>
                             </div>
                         </div>
