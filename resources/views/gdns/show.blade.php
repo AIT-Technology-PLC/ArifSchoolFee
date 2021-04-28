@@ -212,8 +212,8 @@
                 </span>
             </div>
             @if ($gdn->isGdnApproved() && $gdn->isGdnSubtracted())
-                <div class="message is-success">
-                    <p class="message-body">
+                <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
+                    <p class="has-text-grey text-green is-size-6">
                         <span class="icon">
                             <i class="fas fa-check-circle"></i>
                         </span>
@@ -244,9 +244,14 @@
                         </form>
                     </div>
                 @else
-                    <div class="box has-background-white-ter has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-7">
-                            Product(s) listed below are still not subtracted from your inventory.
+                    <div class="box is-shadowless has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-6">
+                            <span class="icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </span>
+                            <span>
+                                Product(s) listed below are still not subtracted from your inventory.
+                            </span>
                         </p>
                     </div>
                 @endcan
@@ -272,9 +277,16 @@
                         </form>
                     </div>
                 @else
-                    <p class="has-text-grey text-purple is-size-7">
-                        This DO/GDN has not been approved.
-                    </p>
+                    <div class="box is-shadowless has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-6">
+                            <span class="icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </span>
+                            <span>
+                                This DO/GDN has not been approved.
+                            </span>
+                        </p>
+                    </div>
                 @endcan
             @endif
             <div class="table-container">
