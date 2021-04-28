@@ -123,7 +123,7 @@
                         </form>
                     </div>
                 @else
-                    <div class="box is-shadowless has-background-white-ter has-text-left mb-6">
+                    <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-6">
                             <span class="icon">
                                 <i class="fas fa-exclamation-circle"></i>
@@ -156,7 +156,7 @@
                         </form>
                     </div>
                 @else
-                    <div class="box is-shadowless has-background-white-ter has-text-left mb-6">
+                    <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-6">
                             <span class="icon">
                                 <i class="fas fa-exclamation-circle"></i>
