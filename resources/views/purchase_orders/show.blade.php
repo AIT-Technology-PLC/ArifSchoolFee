@@ -184,8 +184,8 @@
                     </form>
                 </div>
             @else
-                <div class="message is-success">
-                    <p class="message-body">
+                <div class="box is-shadowless has-background-white-ter has-text-left mb-6">
+                    <p class="has-text-grey text-green is-size-6">
                         <span class="icon">
                             <i class="fas fa-check-circle"></i>
                         </span>
