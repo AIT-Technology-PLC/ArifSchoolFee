@@ -66,8 +66,8 @@
                             <td> {{ $merchandise->createdBy->name ?? 'N/A' }} </td>
                             <td> {{ $merchandise->updatedBy->name ?? 'N/A' }} </td>
                             <td>
-                                <a class="is-block" href="{{ route('merchandises.edit', $merchandise->id) }}" data-title="Manage Returned or Damaged Product">
-                                    <span class="tag mb-3 is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                <a href="{{ route('merchandises.edit', $merchandise->id) }}" data-title="Manage Returned or Damaged Product">
+                                    <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                         <span class="icon">
                                             <i class="fas fa-toolbox"></i>
                                         </span>
@@ -76,7 +76,7 @@
                                         </span>
                                     </span>
                                 </a>
-                                <span class="is-block">
+                                <span>
                                     @include('components.delete_button', ['model' => 'merchandises',
                                     'id' => $merchandise->id])
                                 </span>
