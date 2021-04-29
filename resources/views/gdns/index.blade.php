@@ -102,7 +102,6 @@
                             <th><abbr> Receipt No </abbr></th>
                             <th class="text-purple"><abbr> Status </abbr></th>
                             <th class="text-gold"><abbr> Payment Method </abbr></th>
-                            <th class="has-text-centered"><abbr> Items </abbr></th>
                             <th class="has-text-right"><abbr> Total Price </abbr></th>
                             <th><abbr> Customer </abbr></th>
                             <th><abbr> Description </abbr></th>
@@ -145,12 +144,9 @@
                                         {{ $gdn->payment_type ?? 'N/A' }}
                                     </span>
                                 </td>
-                                <td class="has-text-centered">
-                                    {{ $gdn->gdn_details_count ?? 'N/A' }}
-                                </td>
                                 <td class="has-text-right">
                                     {{ $gdn->company->currency }}.
-                                    {{ $gdn->totalGdnPriceWithVAT }}
+                                    {{ number_format($gdn->totalGdnPriceWithVAT, 2) }}
                                 </td>
                                 <td>
                                     {{ $gdn->customer->company_name ?? 'N/A' }}

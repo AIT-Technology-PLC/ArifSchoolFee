@@ -76,6 +76,7 @@ class GdnController extends Controller
             'issued_on' => 'required|date',
             'payment_type' => 'required|string',
             'description' => 'nullable|string',
+            'cash_received_in_percentage' => 'nullable|numeric|between:0,100|required_if:payment_type,Credit Payment',
         ]);
 
         $gdnData['status'] = 'Not Subtracted From Inventory';
@@ -158,6 +159,7 @@ class GdnController extends Controller
             'issued_on' => 'required|date',
             'payment_type' => 'required|string',
             'description' => 'nullable|string',
+            'cash_received_in_percentage' => 'nullable|numeric|between:0,100|required_if:payment_type,Credit Payment',
         ]);
 
         $gdnData['updated_by'] = auth()->user()->id;

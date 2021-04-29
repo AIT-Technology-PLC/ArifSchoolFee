@@ -69,22 +69,22 @@ class Gdn extends Model
                 return $carry + ($item->unit_price * $item->quantity);
             }, 0);
 
-        return number_format($totalPrice, 2);
+        return $totalPrice;
     }
 
     public function getTotalGdnPriceWithVATAttribute()
     {
-        $totalPrice = $this->gdnDetails
-            ->reduce(function ($carry, $item) {
-                return $carry + ($item->unit_price * $item->quantity);
-            }, 0);
+        return $this->totalGdnPrice * 1.15;
+    }
 
-        return number_format($totalPrice * 1.15, 2);
+    public function getCreditPayableInPercentageAttribute()
+    {
+        return 100.00 - $this->cash_received_in_percentage;
     }
 
     public function getAll()
     {
-        return $this->companyGdn()->withCount('gdnDetails')->latest()->get();
+        return $this->companyGdn()->latest()->get();
     }
 
     public function countGdnsOfCompany()
@@ -117,5 +117,23 @@ class Gdn extends Model
         }
 
         return false;
+    }
+
+    public function getPaymentInCash()
+    {
+        if ($this->cash_received_in_percentage < 0) {
+            return $this->totalGdnPriceWithVAT;
+        }
+
+        return $this->totalGdnPriceWithVAT * ($this->cash_received_in_percentage / 100);
+    }
+
+    public function getPaymentInCredit()
+    {
+        if ($this->credit_payable_in_percentage < 0) {
+            return $this->totalGdnPriceWithVAT;
+        }
+
+        return $this->totalGdnPriceWithVAT * ($this->credit_payable_in_percentage / 100);
     }
 }

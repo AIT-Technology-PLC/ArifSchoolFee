@@ -112,10 +112,50 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ $gdn->totalGdnPrice }}
+                                {{ number_format($gdn->totalGdnPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
                                 Total Price ({{ $gdn->company->currency }})
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ number_format($gdn->getPaymentInCash(), 2) }}
+                                ({{ (int) $gdn->cash_received_in_percentage }}%)
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                In Cash ({{ $gdn->company->currency }})
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-money-check"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ number_format($gdn->getPaymentInCredit(), 2) }}
+                                ({{ $gdn->credit_payable_in_percentage }}%)
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                On Credit ({{ $gdn->company->currency }})
                             </div>
                         </div>
                     </div>
@@ -131,7 +171,7 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ $gdn->totalGdnPriceWithVAT }}
+                                {{ number_format($gdn->totalGdnPriceWithVAT, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
                                 Total Price with VAT ({{ $gdn->company->currency }})
