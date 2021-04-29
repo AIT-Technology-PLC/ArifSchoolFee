@@ -63,7 +63,6 @@
                             <th class="text-green"><abbr> Purchase No </abbr></th>
                             <th class="text-gold"><abbr> GRN No </abbr></th>
                             <th class="text-purple"><abbr> Status </abbr></th>
-                            <th class="has-text-centered"><abbr> Items </abbr></th>
                             <th><abbr> Supplier </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Issued On </abbr></th>
@@ -101,9 +100,6 @@
                                             {{ $grn->status ?? 'N/A' }}
                                         </span>
                                     @endif
-                                </td>
-                                <td class="has-text-centered">
-                                    {{ $grn->grn_details_count ?? 'N/A' }}
                                 </td>
                                 <td>
                                     {{ $grn->supplier->company_name ?? 'N/A' }}

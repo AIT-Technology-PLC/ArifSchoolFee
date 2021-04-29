@@ -54,7 +54,7 @@ class Transfer extends Model
 
     public function getAll()
     {
-        return $this->companyTransfer()->withCount('transferDetails')->latest()->get();
+        return $this->companyTransfer()->latest()->get();
     }
 
     public function countTransfersOfCompany()

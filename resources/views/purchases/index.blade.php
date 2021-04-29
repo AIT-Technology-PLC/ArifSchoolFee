@@ -63,7 +63,6 @@
                             <th class="text-gold"><abbr> Purchase No </abbr></th>
                             <th class="text-blue"><abbr> Purchase Type</abbr></th>
                             <th class="text-purple"><abbr> Payment Method </abbr></th>
-                            <th class="has-text-centered"><abbr> Total Items </abbr></th>
                             <th class="has-text-right text-green"><abbr> Total Price </abbr></th>
                             <th class="has-text-right"><abbr> Purchased On </abbr></th>
                             <th><abbr> Prepared By </abbr></th>
@@ -89,9 +88,6 @@
                                     <span class="tag bg-purple has-text-white is-small">
                                         {{ $purchase->payment_type ?? 'N/A' }}
                                     </span>
-                                </td>
-                                <td class="has-text-centered has-text-weight-bold">
-                                    {{ $purchase->purchase_details_count ?? 'N/A' }}
                                 </td>
                                 <td class="has-text-right">
                                     <span class="tag is-small bg-green has-text-white">

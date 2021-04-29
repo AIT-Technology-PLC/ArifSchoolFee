@@ -62,7 +62,6 @@
                             <th id="firstTarget"><abbr> # </abbr></th>
                             <th class="text-gold"><abbr> Purchase Order No </abbr></th>
                             <th class="text-purple"><abbr> Status </abbr></th>
-                            <th class="has-text-centered"><abbr> Items </abbr></th>
                             <th><abbr> Customer </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Received On </abbr></th>
@@ -90,9 +89,6 @@
                                             Open PO
                                         </span>
                                     @endif
-                                </td>
-                                <td class="has-text-centered">
-                                    {{ $purchaseOrder->purchase_order_details_count ?? 'N/A' }}
                                 </td>
                                 <td>
                                     {{ $purchaseOrder->customer->company_name ?? 'N/A' }}

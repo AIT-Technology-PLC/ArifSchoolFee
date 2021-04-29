@@ -87,7 +87,7 @@ class Purchase extends Model
 
     public function getAll()
     {
-        return $this->companyPurchases()->withCount('purchaseDetails')->latest()->get();
+        return $this->companyPurchases()->latest()->get();
     }
 
     public function getManualPurchases()

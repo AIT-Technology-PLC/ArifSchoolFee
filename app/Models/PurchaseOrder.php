@@ -70,7 +70,7 @@ class PurchaseOrder extends Model
 
     public function getAll()
     {
-        return $this->companyPurchaseOrder()->withCount('purchaseOrderDetails')->latest()->get();
+        return $this->companyPurchaseOrder()->latest()->get();
     }
 
     public function countPurchaseOrdersOfCompany()

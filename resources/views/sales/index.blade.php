@@ -62,7 +62,6 @@
                             <th id="firstTarget"><abbr> # </abbr></th>
                             <th class="text-gold"><abbr> Receipt No </abbr></th>
                             <th class="text-purple"><abbr> Payment Method </abbr></th>
-                            <th class="has-text-centered"><abbr> Total Items </abbr></th>
                             <th class="has-text-right text-green"><abbr> Total Price </abbr></th>
                             <th class="has-text-right"><abbr> Sold on </abbr></th>
                             <th><abbr> Prepared By </abbr></th>
@@ -83,9 +82,6 @@
                                     <span class="tag bg-purple has-text-white">
                                         {{ $sale->payment_type ?? 'N/A' }}
                                     </span>
-                                </td>
-                                <td class="has-text-centered has-text-weight-bold">
-                                    {{ $sale->sale_details_count ?? 'N/A' }}
                                 </td>
                                 <td class="has-text-right">
                                     <span class="tag is-small bg-green has-text-white">

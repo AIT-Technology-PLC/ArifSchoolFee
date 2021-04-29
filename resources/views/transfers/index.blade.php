@@ -62,7 +62,6 @@
                             <th id="firstTarget"><abbr> # </abbr></th>
                             <th class="text-gold"><abbr> Transfer No </abbr></th>
                             <th class="text-purple"><abbr> Status </abbr></th>
-                            <th class="has-text-centered"><abbr> Items </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Issued On </abbr></th>
                             <th><abbr> Prepared By </abbr></th>
@@ -94,9 +93,6 @@
                                             {{ $transfer->status ?? 'N/A' }}
                                         </span>
                                     @endif
-                                </td>
-                                <td class="has-text-centered">
-                                    {{ $transfer->transfer_details_count ?? 'N/A' }}
                                 </td>
                                 <td>
                                     {!! nl2br(e(substr($transfer->description, 0, 40))) ?? 'N/A' !!}

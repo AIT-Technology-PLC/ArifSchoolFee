@@ -64,7 +64,7 @@ class Grn extends Model
 
     public function getAll()
     {
-        return $this->companyGrn()->withCount('grnDetails')->latest()->get();
+        return $this->companyGrn()->latest()->get();
     }
 
     public function countGrnsOfCompany()
