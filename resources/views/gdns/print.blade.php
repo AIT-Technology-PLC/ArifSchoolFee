@@ -142,41 +142,39 @@
             </div>
             <div class="columns is-marginless">
                 <div class="column mx-6 pt-0">
-                    @if ($gdn->description)
-                        <div class="table-container">
-                            <table class="table is-bordered is-striped is-hoverable is-fullwidth is-size-7">
-                                <tbody>
-                                    <tr>
-                                        <td colspan="2" class="has-text-weight-bold">Payment Details</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>
-                                                <span class="has-text-weight-bold is-uppercase">
-                                                    In Cash ({{ (int) $gdn->cash_received_in_percentage }}%)
-                                                </span>
-                                                <br>
-                                                <span>
-                                                    {{ number_format($gdn->getPaymentInCash(), 2) }}
-                                                </span>
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p>
-                                                <span class="has-text-weight-bold is-uppercase">
-                                                    On Credit ({{ $gdn->credit_payable_in_percentage }}%)
-                                                </span>
-                                                <br>
-                                                <span>
-                                                    {{ number_format($gdn->getPaymentInCredit(), 2) }}
-                                                </span>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    @endif
+                    <div class="table-container">
+                        <table class="table is-bordered is-striped is-hoverable is-fullwidth is-size-7">
+                            <tbody>
+                                <tr>
+                                    <td colspan="2" class="has-text-weight-bold">Payment Details</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <span class="has-text-weight-bold is-uppercase">
+                                                In Cash ({{ (int) $gdn->cash_received_in_percentage }}%)
+                                            </span>
+                                            <br>
+                                            <span>
+                                                {{ number_format($gdn->getPaymentInCash(), 2) }}
+                                            </span>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p>
+                                            <span class="has-text-weight-bold is-uppercase">
+                                                On Credit ({{ $gdn->credit_payable_in_percentage }}%)
+                                            </span>
+                                            <br>
+                                            <span>
+                                                {{ number_format($gdn->getPaymentInCredit(), 2) }}
+                                            </span>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="column mx-6 pt-0">
                     <div class="table-container">
