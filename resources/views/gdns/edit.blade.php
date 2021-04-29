@@ -117,7 +117,7 @@
                         </div>
                     </div>
                     <div class="column is-6">
-                        <label for="cash_received_in_percentage" class="label text-green has-text-weight-normal">Cash Received <sup class="has-text-weight-light"> (In Percentage)</sup> <sup class="has-text-danger"></sup> </label>
+                        <label for="cash_received_in_percentage" class="label text-green has-text-weight-normal">Cash Received <sup class="has-text-danger">*</sup> <sup class="has-text-weight-light"> (In Percentage)</sup> </label>
                         <div class="field has-addons">
                             <div class="control has-icons-left is-expanded">
                                 <input class="input" type="number" name="cash_received_in_percentage" id="cash_received_in_percentage" placeholder="eg. 50" value="{{ $gdn->cash_received_in_percentage ?? '' }}">
