@@ -152,7 +152,7 @@
                                     <td>
                                         <p>
                                             <span class="has-text-weight-bold is-uppercase">
-                                                In Cash ({{ (int) $gdn->cash_received_in_percentage }}%)
+                                                In Cash ({{ (float) $gdn->cash_received_in_percentage }}%)
                                             </span>
                                             <br>
                                             <span>
@@ -186,11 +186,11 @@
                                 </tr>
                                 <tr>
                                     <td class="has-text-weight-bold">VAT 15%</td>
-                                    <td class="has-text-right">{{ number_format(str_replace(',', '', $gdn->totalGdnPrice) * 0.15, 2) }}</td>
+                                    <td class="has-text-right">{{ number_format($gdn->totalGdnPrice * 0.15, 2) }}</td>
                                 </tr>
                                 <tr>
                                     <td class="has-text-weight-bold">Grand Total</td>
-                                    <td class="has-text-right">{{ number_format($gdn->totalGdnPriceWithVAT, 2) }}</td>
+                                    <td class="has-text-right has-text-weight-bold">{{ number_format($gdn->totalGdnPriceWithVAT, 2) }}</td>
                                 </tr>
                             </tbody>
                         </table>
