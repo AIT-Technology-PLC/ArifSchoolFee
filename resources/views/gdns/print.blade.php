@@ -131,8 +131,8 @@
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $gdnDetail->product->name }} </td>
                                         <td> {{ $gdnDetail->product->productCategory->name }} </td>
-                                        <td> {{ $gdnDetail->quantity }} {{ $gdnDetail->product->unit_of_measurement }} </td>
-                                        <td> {{ $gdnDetail->unit_price }} </td>
+                                        <td> {{ number_format($gdnDetail->quantity, 2) }} {{ $gdnDetail->product->unit_of_measurement }} </td>
+                                        <td> {{ number_format($gdnDetail->unit_price, 2) }} </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -147,10 +147,31 @@
                             <table class="table is-bordered is-striped is-hoverable is-fullwidth is-size-7">
                                 <tbody>
                                     <tr>
-                                        <td class="has-text-weight-bold">Notes</td>
+                                        <td colspan="2" class="has-text-weight-bold">Payment Details</td>
                                     </tr>
                                     <tr>
-                                        <td>{!! nl2br(e(substr($gdn->description, 0, 120))) !!}</td>
+                                        <td>
+                                            <p>
+                                                <span class="has-text-weight-bold is-uppercase">
+                                                    In Cash ({{ (int) $gdn->cash_received_in_percentage }}%)
+                                                </span>
+                                                <br>
+                                                <span>
+                                                    {{ number_format($gdn->getPaymentInCash(), 2) }}
+                                                </span>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <span class="has-text-weight-bold is-uppercase">
+                                                    On Credit ({{ $gdn->credit_payable_in_percentage }}%)
+                                                </span>
+                                                <br>
+                                                <span>
+                                                    {{ number_format($gdn->getPaymentInCredit(), 2) }}
+                                                </span>
+                                            </p>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -163,7 +184,7 @@
                             <tbody>
                                 <tr>
                                     <td class="has-text-weight-bold">Sub-Total</td>
-                                    <td class="has-text-right">{{ $gdn->totalGdnPrice }}</td>
+                                    <td class="has-text-right">{{ number_format($gdn->totalGdnPrice, 2) }}</td>
                                 </tr>
                                 <tr>
                                     <td class="has-text-weight-bold">VAT 15%</td>
@@ -171,7 +192,7 @@
                                 </tr>
                                 <tr>
                                     <td class="has-text-weight-bold">Grand Total</td>
-                                    <td class="has-text-right">{{ $gdn->totalGdnPriceWithVAT }}</td>
+                                    <td class="has-text-right">{{ number_format($gdn->totalGdnPriceWithVAT, 2) }}</td>
                                 </tr>
                             </tbody>
                         </table>
