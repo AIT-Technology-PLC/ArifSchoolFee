@@ -212,10 +212,8 @@ if (d.getElementById("notificationBox")) {
         toggleNotificationBox
     );
 
-    window.addEventListener("load", showNotifications);
-
     window.addEventListener("load", () =>
-        setInterval(showNotifications, 360000)
+        setInterval(showNewNotifications, 360000)
     );
 
     d.getElementById("notificationBox").addEventListener(

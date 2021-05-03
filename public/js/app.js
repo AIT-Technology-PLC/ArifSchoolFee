@@ -1071,13 +1071,6 @@ function toggleNotificationBox() {
     d.getElementById("notificationBox").classList.toggle("is-hidden");
 }
 
-async function getReadNotifications() {
-    const response = await axios.get("/notifications/read");
-    const readNotifications = response.data;
-
-    return readNotifications;
-}
-
 async function getUnreadNotifications() {
     const response = await axios.get("/notifications/unread");
     const unreadNotifications = response.data;
@@ -1085,16 +1078,13 @@ async function getUnreadNotifications() {
     return unreadNotifications;
 }
 
-async function showNotifications() {
+async function showNewNotifications() {
     const notificationBody = d.getElementById("notificationBody");
     const notificationCountDesktop = d.getElementById(
         "notificationCountDesktop"
     );
     const notificationCountMobile = d.getElementById("notificationCountMobile");
     const unreadNotifications = await getUnreadNotifications();
-    const readNotifications = await getReadNotifications();
-    const totalReadNotifications =
-        readNotifications.length > 5 ? 5 : readNotifications.length;
     let notification = "";
 
     if (unreadNotifications.length) {
@@ -1120,39 +1110,9 @@ async function showNotifications() {
                 </div>
                 <hr class="mt-0 mb-0"></hr>`;
         }
-    }
 
-    if (readNotifications.length) {
-        for (let index = 0; index < totalReadNotifications; index++) {
-            notification += `
-                <div class="columns is-marginless has-background-white has-text-grey py-3 is-size-6-5 is-mobile">
-                    <div class="column is-1">
-                        <span class="icon is-small">
-                            <i class="fas fa-${readNotifications[index].data.icon}"></i>
-                        </span>
-                    </div>
-                    <div class="column is-11 pl-1">
-                        <a class="is-not-underlined" href="${readNotifications[index].data.endpoint}">
-                            ${readNotifications[index].data.message}
-                        </a>
-                    </div>
-                </div>
-                <hr class="mt-0 mb-0"></hr>`;
-        }
+        notificationBody.innerHTML = notification;
     }
-
-    if (!notification) {
-        notification += `
-            <div class="columns is-marginless has-background-white has-text-black py-3 is-size-6-5 is-mobile">
-                <div class="column is-12">
-                    <span>
-                        No notifications
-                    </span>
-                </div>
-            </div>`;
-    }
-
-    notificationBody.innerHTML = notification;
 }
 
 function markNotificationAsRead(event) {

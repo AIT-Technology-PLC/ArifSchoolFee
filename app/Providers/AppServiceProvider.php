@@ -23,7 +23,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('*', function ($view) {
+
+            if (auth()->check()) {
+
+                $view->with([
+                    'unreadNotifications' => auth()->user()->unreadNotifications,
+                ]);
+
+            }
+
+        });
     }
 
     protected function loadHelpers()

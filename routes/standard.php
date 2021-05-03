@@ -52,8 +52,6 @@ Route::get('/employees/{employee}/permissions/edit', [PermissionController::clas
 
 Route::patch('/employees/{employee}/permissions', [PermissionController::class, 'update'])->name('permissions.update');
 
-Route::get('/notifications/read', [NotificationController::class, 'getReadNotifications']);
-
 Route::get('/notifications/unread', [NotificationController::class, 'getUnreadNotifications']);
 
 Route::get('/notifications/{notification}/mark-as-read',
