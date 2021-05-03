@@ -1106,9 +1106,13 @@ async function showNewNotifications() {
                         <a data-notification-id="${unreadNotifications[index].id}" class="unreadNotifications is-not-underlined" href="${unreadNotifications[index].data.endpoint}">
                             ${unreadNotifications[index].data.message}
                         </a>
+                        <br>
+                        <span class="is-size-7 has-text-weight-bold">
+                            just now
+                        </span>
                     </div>
                 </div>
-                <hr class="mt-0 mb-0"></hr>`;
+                <hr class="mt-0 mb-0">`;
         }
 
         notificationBody.innerHTML = notification;

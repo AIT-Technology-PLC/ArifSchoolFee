@@ -16,6 +16,10 @@
                         <a data-notification-id="{{ $unreadNotification->id }}" class="unreadNotifications is-not-underlined" href="{{ $unreadNotification->data['endpoint'] }}">
                             {{ $unreadNotification->data['message'] }}
                         </a>
+                        <br>
+                        <span class="is-size-7 has-text-weight-bold">
+                            {{ $unreadNotification->created_at->diffForHumans() }}
+                        </span>
                     </div>
                 </div>
                 <hr class="mt-0 mb-0">
