@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class PermissionSeeder extends Seeder
 {
@@ -15,160 +16,80 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
         DB::transaction(function () {
+
             // Roles
-            $systemManager = Role::create(['name' => 'System Manager']);
-            $storeKeeper = Role::create(['name' => 'Store Keeper']);
-            $salesOfficer = Role::create(['name' => 'Sales Officer']);
-            $salesManager = Role::create(['name' => 'Sales Manager']);
-            $purchaseManager = Role::create(['name' => 'Purchase Manager']);
             $analyst = Role::create(['name' => 'Analyst']);
+            $purchaseManager = Role::create(['name' => 'Purchase Manager']);
+            $salesOfficer = Role::create(['name' => 'Sales Officer']);
+            $storeKeeper = Role::create(['name' => 'Store Keeper']);
+            $systemManager = Role::create(['name' => 'System Manager']);
+            $tenderOfficer = Role::create(['name' => 'Tender Officer']);
+            $userManager = Role::create(['name' => 'User Manager']);
 
             // GDN
             $createGdn = Permission::create(['name' => 'Create GDN']);
-            $createGdn->assignRole($storeKeeper);
-            $createGdn->assignRole($salesOfficer);
-            $createGdn->assignRole($salesManager);
-
             $readGdn = Permission::create(['name' => 'Read GDN']);
-            $readGdn->assignRole($storeKeeper);
-            $readGdn->assignRole($salesOfficer);
-            $readGdn->assignRole($salesManager);
-            $readGdn->assignRole($analyst);
-
             $updateGdn = Permission::create(['name' => 'Update GDN']);
-            $updateGdn->assignRole($storeKeeper);
-            $updateGdn->assignRole($salesOfficer);
-            $updateGdn->assignRole($salesManager);
-
             $deleteGdn = Permission::create(['name' => 'Delete GDN']);
-
             $approveGdn = Permission::create(['name' => 'Approve GDN']);
-            $approveGdn->assignRole($salesManager);
-
             $subtractGdn = Permission::create(['name' => 'Subtract GDN']);
-            $subtractGdn->assignRole($salesManager);
-            $subtractGdn->assignRole($storeKeeper);
+            $subtractGdn = Permission::create(['name' => 'Delete Approved GDN']);
 
             // GRN
             $createGrn = Permission::create(['name' => 'Create GRN']);
-            $createGrn->assignRole($storeKeeper);
-            $createGrn->assignRole($purchaseManager);
-
             $readGrn = Permission::create(['name' => 'Read GRN']);
-            $readGrn->assignRole($storeKeeper);
-            $readGrn->assignRole($purchaseManager);
-            $readGrn->assignRole($analyst);
-
             $updateGrn = Permission::create(['name' => 'Update GRN']);
-            $updateGrn->assignRole($storeKeeper);
-            $updateGrn->assignRole($purchaseManager);
-
             $deleteGrn = Permission::create(['name' => 'Delete GRN']);
-
             $approveGrn = Permission::create(['name' => 'Approve GRN']);
-            $approveGrn->assignRole($purchaseManager);
-
             $addGrn = Permission::create(['name' => 'Add GRN']);
-            $addGrn->assignRole($purchaseManager);
-            $addGrn->assignRole($storeKeeper);
+            $addGrn = Permission::create(['name' => 'Delete Approved GRN']);
 
             // Transfer
             $createTransfer = Permission::create(['name' => 'Create Transfer']);
-            $createTransfer->assignRole($storeKeeper);
-
             $readTransfer = Permission::create(['name' => 'Read Transfer']);
-            $readTransfer->assignRole($storeKeeper);
-
             $updateTransfer = Permission::create(['name' => 'Update Transfer']);
-            $updateTransfer->assignRole($storeKeeper);
-
             $deleteTransfer = Permission::create(['name' => 'Delete Transfer']);
-
             $approveTransfer = Permission::create(['name' => 'Approve Transfer']);
-            $approveTransfer->assignRole($storeKeeper);
-
             $makeTransfer = Permission::create(['name' => 'Make Transfer']);
-            $makeTransfer->assignRole($storeKeeper);
+            $makeTransfer = Permission::create(['name' => 'Delete Approved Transfer']);
 
             // Merchandise
             $createMerchandise = Permission::create(['name' => 'Create Merchandise']);
-            $createMerchandise->assignRole($storeKeeper);
-
             $readMerchandise = Permission::create(['name' => 'Read Merchandise']);
-            $readMerchandise->assignRole($storeKeeper);
-
             $updateMerchandise = Permission::create(['name' => 'Update Merchandise']);
-            $updateMerchandise->assignRole($storeKeeper);
-
             $deleteMerchandise = Permission::create(['name' => 'Delete Merchandise']);
 
             // Sale
             $createSale = Permission::create(['name' => 'Create Sale']);
-            $createSale->assignRole($salesOfficer);
-            $createSale->assignRole($salesManager);
-
             $readSale = Permission::create(['name' => 'Read Sale']);
-            $readSale->assignRole($salesOfficer);
-            $readSale->assignRole($salesManager);
-            $readSale->assignRole($analyst);
-
             $updateSale = Permission::create(['name' => 'Update Sale']);
-            $updateSale->assignRole($salesOfficer);
-            $updateSale->assignRole($salesManager);
-
             $deleteSale = Permission::create(['name' => 'Delete Sale']);
-
             $approveSale = Permission::create(['name' => 'Approve Sale']);
-            $approveSale->assignRole($salesManager);
+            $approveSale = Permission::create(['name' => 'Delete Approved Sale']);
 
             // Purchase
             $createPurchase = Permission::create(['name' => 'Create Purchase']);
-            $createPurchase->assignRole($purchaseManager);
-
             $readPurchase = Permission::create(['name' => 'Read Purchase']);
-            $readPurchase->assignRole($purchaseManager);
-            $readPurchase->assignRole($analyst);
-
             $updatePurchase = Permission::create(['name' => 'Update Purchase']);
-            $updatePurchase->assignRole($purchaseManager);
-
             $deletePurchase = Permission::create(['name' => 'Delete Purchase']);
-
             $approvePurchase = Permission::create(['name' => 'Approve Purchase']);
-            $approvePurchase->assignRole($purchaseManager);
+            $approvePurchase = Permission::create(['name' => 'Delete Approved Purchase']);
 
             // PO
             $createPo = Permission::create(['name' => 'Create PO']);
-            $createPo->assignRole($salesOfficer);
-            $createPo->assignRole($salesManager);
-
             $readPo = Permission::create(['name' => 'Read PO']);
-            $readPo->assignRole($salesOfficer);
-            $readPo->assignRole($salesManager);
-            $readPo->assignRole($analyst);
-
             $updatePo = Permission::create(['name' => 'Update PO']);
-            $updatePo->assignRole($salesOfficer);
-            $updatePo->assignRole($salesManager);
-
             $deletePo = Permission::create(['name' => 'Delete PO']);
-
             $approvePo = Permission::create(['name' => 'Approve PO']);
-            $approvePo->assignRole($salesOfficer);
-            $approvePo->assignRole($salesManager);
+            $approvePo = Permission::create(['name' => 'Delete Approved PO']);
 
             // Product
             $createProduct = Permission::create(['name' => 'Create Product']);
-            $createProduct->assignRole($purchaseManager);
-            $createProduct->assignRole($salesManager);
-
             $readProduct = Permission::create(['name' => 'Read Product']);
-
             $updateProduct = Permission::create(['name' => 'Update Product']);
-            $updateProduct->assignRole($purchaseManager);
-            $updateProduct->assignRole($salesManager);
-
             $deleteProduct = Permission::create(['name' => 'Delete Product']);
 
             // Warehouse
@@ -183,7 +104,98 @@ class PermissionSeeder extends Seeder
             $updateEmployee = Permission::create(['name' => 'Update Employee']);
             $deleteEmployee = Permission::create(['name' => 'Delete Employee']);
 
-            $systemManager->givePermissionTo(Permission::all());
+            // Supplier
+            $createSupplier = Permission::create(['name' => 'Create Supplier']);
+            $readSupplier = Permission::create(['name' => 'Read Supplier']);
+            $updateSupplier = Permission::create(['name' => 'Update Supplier']);
+            $deleteSupplier = Permission::create(['name' => 'Delete Supplier']);
+
+            // Customer
+            $createCustomer = Permission::create(['name' => 'Create Customer']);
+            $readCustomer = Permission::create(['name' => 'Read Customer']);
+            $updateCustomer = Permission::create(['name' => 'Update Customer']);
+            $deleteCustomer = Permission::create(['name' => 'Delete Customer']);
+
+            // Tender
+            $createTender = Permission::create(['name' => 'Create Tender']);
+            $readTender = Permission::create(['name' => 'Read Tender']);
+            $updateTender = Permission::create(['name' => 'Update Tender']);
+            $deleteTender = Permission::create(['name' => 'Delete Tender']);
+
+            // Price
+            $createPrice = Permission::create(['name' => 'Create Price']);
+            $readPrice = Permission::create(['name' => 'Read Price']);
+            $updatePrice = Permission::create(['name' => 'Update Price']);
+            $deletePrice = Permission::create(['name' => 'Delete Price']);
+
+            // Company
+            $updateCompany = Permission::create(['name' => 'Update Company']);
+
+            // Assign permissions to role
+            $analyst->syncPermissions([
+                'Read GDN',
+                'Read GRN',
+                'Read PO',
+                'Read Purchase',
+                'Read Sale',
+            ]);
+
+            $purchaseManager->syncPermissions([
+                'Create Purchase',
+                'Create Supplier',
+                'Read Product',
+                'Read Purchase',
+                'Read Supplier',
+                'Update Purchase',
+                'Update Supplier',
+            ]);
+
+            $salesOfficer->syncPermissions([
+                'Create Customer',
+                'Create GDN',
+                'Create PO',
+                'Create Sale',
+                'Read Customer',
+                'Read GDN',
+                'Read PO',
+                'Read Product',
+                'Read Sale',
+                'Update Customer',
+                'Update GDN',
+                'Update PO',
+                'Update Sale',
+            ]);
+
+            $storeKeeper->syncPermissions([
+                'Add GRN',
+                'Create GRN',
+                'Create Merchandise',
+                'Create Transfer',
+                'Make Transfer',
+                'Read GRN',
+                'Read Merchandise',
+                'Read Product',
+                'Read Transfer',
+                'Read Warehouse',
+                'Subtract GDN',
+                'Update GRN',
+                'Update Merchandise',
+                'Update Transfer',
+            ]);
+
+            $systemManager->syncPermissions(Permission::all());
+
+            $tenderOfficer->syncPermissions([
+                'Create Tender',
+                'Read Tender',
+                'Update Tender',
+            ]);
+
+            $userManager->syncPermissions([
+                'Create Employee',
+                'Read Employee',
+                'Update Employee',
+            ]);
         });
     }
 }
