@@ -14,7 +14,7 @@ class PermissionController extends Controller
             return view('errors.permission_denied');
         }
 
-        if ($employee->user->id == auth()->user()->id) {
+        if ($employee->user->id == auth()->id()) {
             return view('errors.permission_denied');
         }
 
@@ -37,7 +37,7 @@ class PermissionController extends Controller
             return view('errors.permission_denied');
         }
 
-        if ($employee->user->id == auth()->user()->id) {
+        if ($employee->user->id == auth()->id()) {
             return view('errors.permission_denied');
         }
 

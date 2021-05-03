@@ -52,7 +52,7 @@ class Purchase extends Model
 
     public function scopeCompanyPurchases($query)
     {
-        return $query->where('company_id', auth()->user()->employee->company_id);
+        return $query->where('company_id', userCompany()->id);
     }
 
     public function scopeWhereManual($query, $value)
@@ -62,7 +62,7 @@ class Purchase extends Model
 
     public function getPurchaseNoAttribute($value)
     {
-        return Str::after($value, auth()->user()->employee->company->id . '_');
+        return Str::after($value, userCompany()->id . '_');
     }
 
     public function getTotalPurchasePriceAttribute()

@@ -61,9 +61,9 @@ class EmployeeController extends Controller
 
             $this->employee->create([
                 'user_id' => $user->id,
-                'company_id' => auth()->user()->employee->company_id,
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'company_id' => userCompany()->id,
+                'created_by' => auth()->id(),
+                'updated_by' => auth()->id(),
                 'position' => $data['position'],
                 'enabled' => $data['enabled'],
             ]);
@@ -105,7 +105,7 @@ class EmployeeController extends Controller
             ]);
 
             $employee->update([
-                'updated_by' => auth()->user()->id,
+                'updated_by' => auth()->id(),
                 'position' => $data['position'],
                 'enabled' => $data['enabled'] ?? $employee->enabled,
             ]);
@@ -124,7 +124,7 @@ class EmployeeController extends Controller
             return view('errors.permission_denied');
         }
 
-        if ($employee->user->id == auth()->user()->id) {
+        if ($employee->user->id == auth()->id()) {
             return view('errors.permission_denied');
         }
 

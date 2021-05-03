@@ -56,12 +56,12 @@ class Sale extends Model
             return null;
         }
 
-        return Str::after($value, auth()->user()->employee->company->id . '_');
+        return Str::after($value, userCompany()->id . '_');
     }
 
     public function scopeCompanySales($query)
     {
-        return $query->where('company_id', auth()->user()->employee->company_id);
+        return $query->where('company_id', userCompany()->id);
     }
 
     public function scopeWhereManual($query, $value)

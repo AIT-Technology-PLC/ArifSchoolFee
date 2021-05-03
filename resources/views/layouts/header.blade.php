@@ -33,7 +33,7 @@
                             <i class="fas fa-building"></i>
                         </span>
                         <span class="is-capitalized">
-                            {{ auth()->user()->employee->company->name }}
+                            {{ userCompany()->name }}
                         </span>
                     </h1>
                 </a>

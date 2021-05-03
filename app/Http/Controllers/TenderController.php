@@ -68,9 +68,9 @@ class TenderController extends Controller
         $tenderData['closing_date'] = (new Carbon($tenderData['closing_date']))->toDateTimeString();
         $tenderData['opening_date'] = (new Carbon($tenderData['opening_date']))->toDateTimeString();
 
-        $tenderData['company_id'] = auth()->user()->employee->company_id;
-        $tenderData['created_by'] = auth()->user()->id;
-        $tenderData['updated_by'] = auth()->user()->id;
+        $tenderData['company_id'] = userCompany()->id;
+        $tenderData['created_by'] = auth()->id();
+        $tenderData['updated_by'] = auth()->id();
 
         $basicTenderData = Arr::except($tenderData, 'tender');
         $tenderDetailsData = $tenderData['tender'];
@@ -129,7 +129,7 @@ class TenderController extends Controller
         $tenderData['closing_date'] = (new Carbon($tenderData['closing_date']))->toDateTimeString();
         $tenderData['opening_date'] = (new Carbon($tenderData['opening_date']))->toDateTimeString();
 
-        $tenderData['updated_by'] = auth()->user()->id;
+        $tenderData['updated_by'] = auth()->id();
 
         $basicTenderData = Arr::except($tenderData, ['tender', 'checklists']);
         $tenderDetailsData = $tenderData['tender'];

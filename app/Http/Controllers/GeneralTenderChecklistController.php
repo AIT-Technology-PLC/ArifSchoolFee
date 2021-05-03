@@ -36,9 +36,9 @@ class GeneralTenderChecklistController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $generalTenderChecklistData['company_id'] = auth()->user()->employee->company_id;
-        $generalTenderChecklistData['created_by'] = auth()->user()->id;
-        $generalTenderChecklistData['updated_by'] = auth()->user()->id;
+        $generalTenderChecklistData['company_id'] = userCompany()->id;
+        $generalTenderChecklistData['created_by'] = auth()->id();
+        $generalTenderChecklistData['updated_by'] = auth()->id();
 
         $this->generalTenderChecklist->firstOrCreate(
             Arr::only($generalTenderChecklistData, ['item', 'company_id']),
@@ -60,7 +60,7 @@ class GeneralTenderChecklistController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $generalTenderChecklistData['updated_by'] = auth()->user()->id;
+        $generalTenderChecklistData['updated_by'] = auth()->id();
 
         $generalTenderChecklist->update($generalTenderChecklistData);
 

@@ -53,9 +53,9 @@ class PurchaseOrderController extends Controller
         ]);
 
         $purchaseOrderData['is_closed'] = 0;
-        $purchaseOrderData['company_id'] = auth()->user()->employee->company_id;
-        $purchaseOrderData['created_by'] = auth()->user()->id;
-        $purchaseOrderData['updated_by'] = auth()->user()->id;
+        $purchaseOrderData['company_id'] = userCompany()->id;
+        $purchaseOrderData['created_by'] = auth()->id();
+        $purchaseOrderData['updated_by'] = auth()->id();
 
         $basicPurchaseOrderData = Arr::except($purchaseOrderData, 'purchaseOrder');
         $purchaseOrderDetailsData = $purchaseOrderData['purchaseOrder'];
@@ -124,7 +124,7 @@ class PurchaseOrderController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $purchaseOrderData['updated_by'] = auth()->user()->id;
+        $purchaseOrderData['updated_by'] = auth()->id();
 
         $basicPurchaseOrderData = Arr::except($purchaseOrderData, 'purchaseOrder');
         $purchaseOrderDetailsData = $purchaseOrderData['purchaseOrder'];

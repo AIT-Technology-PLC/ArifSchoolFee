@@ -44,12 +44,12 @@ class Transfer extends Model
 
     public function scopeCompanyTransfer($query)
     {
-        return $query->where('company_id', auth()->user()->employee->company_id);
+        return $query->where('company_id', userCompany()->id);
     }
 
     public function getCodeAttribute($value)
     {
-        return Str::after($value, auth()->user()->employee->company->id . '_');
+        return Str::after($value, userCompany()->id . '_');
     }
 
     public function getAll()
@@ -75,7 +75,7 @@ class Transfer extends Model
 
     public function approveTransfer()
     {
-        $this->approved_by = auth()->user()->id;
+        $this->approved_by = auth()->id();
 
         $this->save();
     }

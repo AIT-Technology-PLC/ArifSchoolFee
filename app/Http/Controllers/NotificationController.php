@@ -31,7 +31,7 @@ class NotificationController extends Controller
 
     public function markNotificationAsRead(Notification $notification)
     {
-        if ($notification->notifiable->id == auth()->user()->id) {
+        if ($notification->notifiable->id == auth()->id()) {
             $notification->markAsRead();
         }
 

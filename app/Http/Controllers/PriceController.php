@@ -39,9 +39,9 @@ class PriceController extends Controller
             'price' => 'required|numeric|min:1',
         ]);
 
-        $priceData['company_id'] = auth()->user()->employee->company_id;
-        $priceData['created_by'] = auth()->user()->id;
-        $priceData['updated_by'] = auth()->user()->id;
+        $priceData['company_id'] = userCompany()->id;
+        $priceData['created_by'] = auth()->id();
+        $priceData['updated_by'] = auth()->id();
 
         $this->price->firstOrCreate(
             Arr::only($priceData, ['product_id', 'company_id']),
@@ -63,7 +63,7 @@ class PriceController extends Controller
             'price' => 'required|numeric|min:1',
         ]);
 
-        $priceData['updated_by'] = auth()->user()->id;
+        $priceData['updated_by'] = auth()->id();
 
         $price->update($priceData);
 

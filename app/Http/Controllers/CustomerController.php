@@ -43,9 +43,9 @@ class CustomerController extends Controller
             'country' => 'nullable|string|max:255',
         ]);
 
-        $data['company_id'] = auth()->user()->employee->company_id;
-        $data['created_by'] = auth()->user()->id;
-        $data['updated_by'] = auth()->user()->id;
+        $data['company_id'] = userCompany()->id;
+        $data['created_by'] = auth()->id();
+        $data['updated_by'] = auth()->id();
 
         $this->customer->firstOrCreate(
             Arr::only($data, ['company_name', 'company_id']),
@@ -77,7 +77,7 @@ class CustomerController extends Controller
             'country' => 'nullable|string|max:255',
         ]);
 
-        $data['updated_by'] = auth()->user()->id;
+        $data['updated_by'] = auth()->id();
 
         $customer->update($data);
 

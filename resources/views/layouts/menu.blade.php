@@ -52,7 +52,7 @@
         </li>
     </ul>
 
-    @can('onlyPremium', auth()->user()->employee->company)
+    @can('onlyPremium', userCompany())
         <p class="menu-label has-text-weight-bold text-green">
             Manufacturing Inventory
         </p>
@@ -138,7 +138,7 @@
         @endcan
     </ul>
 
-    @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
+    @can('onlyPremiumOrProfessional', userCompany())
         @if (auth()
             ->user()
             ->can('Read GDN') ||
@@ -253,7 +253,7 @@
             Sales & Customers
         </p>
         <ul class="menu-list mb-5">
-            @if (auth()->user()->employee->company->name != 'Scepto Import')
+            @if (userCompany()->name != 'Scepto Import')
                 @can('Read Sale')
                     <li>
                         <a name="menuTitles" href="{{ route('sales.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'is-active' : '' }}">
@@ -311,7 +311,7 @@
                     </ul>
                 </li>
             @endcan
-            @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
+            @can('onlyPremiumOrProfessional', userCompany())
                 @can('Read Customer')
                     <li>
                         <a name="menuTitles" href="{{ route('customers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('customers') ? 'is-active' : '' }}">
@@ -344,7 +344,7 @@
         </ul>
     @endif
 
-    @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
+    @can('onlyPremiumOrProfessional', userCompany())
         @can('Read Tender')
             <p class="menu-label has-text-weight-bold text-green">
                 Tenders
@@ -432,7 +432,7 @@
         @endcan
     @endcan
 
-    @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
+    @can('onlyPremiumOrProfessional', userCompany())
         @can('Read PO')
             <p class="menu-label has-text-weight-bold text-green">
                 Purchase Orders
@@ -506,7 +506,7 @@
                     </ul>
                 </li>
             @endcan
-            @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
+            @can('onlyPremiumOrProfessional', userCompany())
                 @can('Read Supplier')
                     <li>
                         <a name="menuTitles" href="{{ route('suppliers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'is-active' : '' }}">
@@ -599,7 +599,7 @@
         </ul>
     @endcan
 
-    @can('onlyPremiumOrProfessional', auth()->user()->employee->company)
+    @can('onlyPremiumOrProfessional', userCompany())
         @can('Read Warehouse')
             <p class="menu-label has-text-weight-bold text-green">
                 Warehouse
@@ -675,7 +675,7 @@
             @endcan
             @can('Update Company')
                 <li>
-                    <a name="menuTitles" href="{{ route('companies.edit', auth()->user()->employee->company_id) }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('companies/' . auth()->user()->employee->company_id . '/edit') ? 'is-active' : '' }}">
+                    <a name="menuTitles" href="{{ route('companies.edit', userCompany()->id) }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('companies/' . userCompany()->id . '/edit') ? 'is-active' : '' }}">
                         <span class="icon">
                             <i class="fas fa-cog"></i>
                         </span>

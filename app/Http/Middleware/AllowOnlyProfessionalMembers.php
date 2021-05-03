@@ -15,7 +15,7 @@ class AllowOnlyProfessionalMembers
      */
     public function handle($request, Closure $next)
     {
-        $isCompanyPremiumOrProfessionalMember = auth()->user()->employee->company->isCompanyPremiumOrProfessionalMember();
+        $isCompanyPremiumOrProfessionalMember = userCompany()->isCompanyPremiumOrProfessionalMember();
 
         if ($isCompanyPremiumOrProfessionalMember) {
             return $next($request);

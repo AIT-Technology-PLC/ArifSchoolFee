@@ -58,9 +58,9 @@ class ProductController extends Controller
             'supplier_id' => 'nullable|integer',
         ]);
 
-        $data['created_by'] = auth()->user()->id;
-        $data['updated_by'] = auth()->user()->id;
-        $data['company_id'] = auth()->user()->employee->company_id;
+        $data['created_by'] = auth()->id();
+        $data['updated_by'] = auth()->id();
+        $data['company_id'] = userCompany()->id;
 
         $this->product->firstOrCreate(
             Arr::only($data, ['name', 'company_id']),
@@ -102,7 +102,7 @@ class ProductController extends Controller
             'supplier_id' => 'nullable|integer',
         ]);
 
-        $data['updated_by'] = auth()->user()->id;
+        $data['updated_by'] = auth()->id();
 
         $product->update($data);
 

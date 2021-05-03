@@ -36,9 +36,9 @@ class TenderStatusController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $tenderStatus['company_id'] = auth()->user()->employee->company_id;
-        $tenderStatus['created_by'] = auth()->user()->id;
-        $tenderStatus['updated_by'] = auth()->user()->id;
+        $tenderStatus['company_id'] = userCompany()->id;
+        $tenderStatus['created_by'] = auth()->id();
+        $tenderStatus['updated_by'] = auth()->id();
 
         $this->tenderStatus->firstOrCreate(
             Arr::only($tenderStatus, ['status', 'company_id']),
@@ -60,7 +60,7 @@ class TenderStatusController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $tenderStatusData['updated_by'] = auth()->user()->id;
+        $tenderStatusData['updated_by'] = auth()->id();
 
         $tenderStatus->update($tenderStatusData);
 

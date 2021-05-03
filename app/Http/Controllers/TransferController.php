@@ -67,9 +67,9 @@ class TransferController extends Controller
         ]);
 
         $transferData['status'] = 'Not Transferred';
-        $transferData['company_id'] = auth()->user()->employee->company_id;
-        $transferData['created_by'] = auth()->user()->id;
-        $transferData['updated_by'] = auth()->user()->id;
+        $transferData['company_id'] = userCompany()->id;
+        $transferData['created_by'] = auth()->id();
+        $transferData['updated_by'] = auth()->id();
         $transferData['approved_by'] = $this->approvedBy();
 
         $basicTransferData = Arr::except($transferData, 'transfer');
@@ -156,7 +156,7 @@ class TransferController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $transferData['updated_by'] = auth()->user()->id;
+        $transferData['updated_by'] = auth()->id();
 
         $basicTransferData = Arr::except($transferData, 'transfer');
         $transferDetailsData = $transferData['transfer'];

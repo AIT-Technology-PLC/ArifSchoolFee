@@ -15,7 +15,7 @@ class AllowOnlyPremiumMembers
      */
     public function handle($request, Closure $next)
     {
-        $isCompanyPremiumMember = auth()->user()->employee->company->isCompanyPremiumMember();
+        $isCompanyPremiumMember = userCompany()->isCompanyPremiumMember();
 
         if ($isCompanyPremiumMember) {
             return $next($request);

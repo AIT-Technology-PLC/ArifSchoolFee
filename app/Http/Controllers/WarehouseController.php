@@ -39,9 +39,9 @@ class WarehouseController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $data['company_id'] = auth()->user()->employee->company_id;
-        $data['created_by'] = auth()->user()->id;
-        $data['updated_by'] = auth()->user()->id;
+        $data['company_id'] = userCompany()->id;
+        $data['created_by'] = auth()->id();
+        $data['updated_by'] = auth()->id();
 
         $this->warehouse->firstOrCreate(
             Arr::only($data, ['name', 'company_id']),
@@ -69,7 +69,7 @@ class WarehouseController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $data['updated_by'] = auth()->user()->id;
+        $data['updated_by'] = auth()->id();
 
         $warehouse->update($data);
 

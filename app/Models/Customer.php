@@ -49,7 +49,7 @@ class Customer extends Model
 
     public function scopeCompanyCustomers($query)
     {
-        return $query->where('company_id', auth()->user()->employee->company_id);
+        return $query->where('company_id', userCompany()->id);
     }
 
     public function getAll()

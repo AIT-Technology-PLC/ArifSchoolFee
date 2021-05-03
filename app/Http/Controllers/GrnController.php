@@ -73,9 +73,9 @@ class GrnController extends Controller
         ]);
 
         $grnData['status'] = 'Not Added To Inventory';
-        $grnData['company_id'] = auth()->user()->employee->company_id;
-        $grnData['created_by'] = auth()->user()->id;
-        $grnData['updated_by'] = auth()->user()->id;
+        $grnData['company_id'] = userCompany()->id;
+        $grnData['created_by'] = auth()->id();
+        $grnData['updated_by'] = auth()->id();
         $grnData['approved_by'] = $this->approvedBy();
 
         $basicGrnData = Arr::except($grnData, 'grn');
@@ -123,7 +123,7 @@ class GrnController extends Controller
                 'purchase_id' => 'nullable|integer',
             ]);
 
-            $grnPurchaseId['updated_by'] = auth()->user()->id;
+            $grnPurchaseId['updated_by'] = auth()->id();
 
             $grn->update($grnPurchaseId);
 
@@ -145,7 +145,7 @@ class GrnController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $grnData['updated_by'] = auth()->user()->id;
+        $grnData['updated_by'] = auth()->id();
 
         $basicGrnData = Arr::except($grnData, 'grn');
         $grnDetailsData = $grnData['grn'];

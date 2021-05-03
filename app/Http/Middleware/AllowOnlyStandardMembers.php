@@ -15,8 +15,8 @@ class AllowOnlyStandardMembers
      */
     public function handle($request, Closure $next)
     {
-        $isCompanyStandard = auth()->user()->employee->company->isCompanyStandardMember();
-        $isCompanyPremiumOrProfessionalMember = auth()->user()->employee->company->isCompanyPremiumOrProfessionalMember();
+        $isCompanyStandard = userCompany()->isCompanyStandardMember();
+        $isCompanyPremiumOrProfessionalMember = userCompany()->isCompanyPremiumOrProfessionalMember();
 
         $canAccess = $isCompanyStandard || $isCompanyPremiumOrProfessionalMember;
 

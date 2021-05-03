@@ -28,7 +28,7 @@ class AllowOnlyEnabledUsers
 
     public function isCompanyEnabled()
     {
-        $isCompanyEnabled = auth()->user()->employee->company->enabled;
+        $isCompanyEnabled = userCompany()->enabled;
 
         return $isCompanyEnabled;
     }

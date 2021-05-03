@@ -11,7 +11,7 @@ trait Approvable
         ]);
 
         if (count($isApproved)) {
-            return $isApproved['is_approved'] ? auth()->user()->id : null;
+            return $isApproved['is_approved'] ? auth()->id() : null;
         }
 
         return null;

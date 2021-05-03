@@ -27,7 +27,7 @@ trait NotifiableUsers
             return [];
         }
 
-        if ($resource->createdBy->id == auth()->user()->id) {
+        if ($resource->createdBy->id == auth()->id()) {
             return [];
         }
 

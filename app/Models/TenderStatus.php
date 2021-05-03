@@ -29,7 +29,7 @@ class TenderStatus extends Model
 
     public function scopeCompanyTenderStatus($query)
     {
-        return $query->where('company_id', auth()->user()->employee->company_id);
+        return $query->where('company_id', userCompany()->id);
     }
 
     public function getAll()

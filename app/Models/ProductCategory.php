@@ -56,7 +56,7 @@ class ProductCategory extends Model
 
     public function scopeCompanyCategories($query)
     {
-        return $query->where('company_id', auth()->user()->employee->company_id);
+        return $query->where('company_id', userCompany()->id);
     }
 
     public function getAll()

@@ -6,7 +6,6 @@ use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Services\StoreSaleableProducts;
-use App\Traits\HasOptions;
 use App\Traits\PrependCompanyId;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -63,9 +62,9 @@ class SaleController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $saleData['company_id'] = auth()->user()->employee->company_id;
-        $saleData['created_by'] = auth()->user()->id;
-        $saleData['updated_by'] = auth()->user()->id;
+        $saleData['company_id'] = userCompany()->id;
+        $saleData['created_by'] = auth()->id();
+        $saleData['updated_by'] = auth()->id();
 
         $basicSaleData = Arr::except($saleData, 'sale');
         $saleDetailsData = $saleData['sale'];
@@ -133,7 +132,7 @@ class SaleController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $saleData['updated_by'] = auth()->user()->id;
+        $saleData['updated_by'] = auth()->id();
 
         $basicSaleData = Arr::except($saleData, 'sale');
         $saleDetailsData = $saleData['sale'];

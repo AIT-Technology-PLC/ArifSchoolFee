@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Supplier extends Model
 {
     use SoftDeletes;
-    
+
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     public function company()
@@ -44,7 +44,7 @@ class Supplier extends Model
 
     public function scopeCompanySuppliers($query)
     {
-        return $query->where('company_id', auth()->user()->employee->company_id);
+        return $query->where('company_id', userCompany()->id);
     }
 
     public function getAll()

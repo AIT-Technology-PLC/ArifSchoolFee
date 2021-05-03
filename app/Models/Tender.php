@@ -50,7 +50,7 @@ class Tender extends Model
 
     public function scopeCompanyTender($query)
     {
-        return $query->where('company_id', auth()->user()->employee->company_id);
+        return $query->where('company_id', userCompany()->id);
     }
 
     public function getAll()
@@ -66,10 +66,10 @@ class Tender extends Model
     public function getTenderChecklistsCompletionRate()
     {
         $completedChecklists = $this->tenderChecklists->where('status', 'Completed')->count();
-        
+
         if ($completedChecklists) {
             $totalChecklists = $this->tenderChecklists->count();
-            $checklistCompletionRate = ($completedChecklists/$totalChecklists) * 100;
+            $checklistCompletionRate = ($completedChecklists / $totalChecklists) * 100;
             return number_format($checklistCompletionRate, 2);
         }
 

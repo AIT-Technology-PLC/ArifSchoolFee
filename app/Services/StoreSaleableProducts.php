@@ -120,7 +120,7 @@ class StoreSaleableProducts
                 $merchandise = new Merchandise();
                 $merchandise = $merchandise
                     ->where([
-                        ['company_id', auth()->user()->employee->company_id],
+                        ['company_id', userCompany()->id],
                         ['product_id', $detail->product->id],
                         ['warehouse_id', $detail->warehouse->id],
                         ['total_on_hand', '>', 0],
@@ -158,7 +158,7 @@ class StoreSaleableProducts
                 $merchandise = new Merchandise();
                 $merchandise = $merchandise
                     ->where([
-                        ['company_id', auth()->user()->employee->company_id],
+                        ['company_id', userCompany()->id],
                         ['product_id', $detail->product->id],
                         ['warehouse_id', $detail->warehouse->id],
                         ['total_on_hand', '>', 0],

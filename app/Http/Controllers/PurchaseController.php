@@ -63,9 +63,9 @@ class PurchaseController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $purchaseData['company_id'] = auth()->user()->employee->company_id;
-        $purchaseData['created_by'] = auth()->user()->id;
-        $purchaseData['updated_by'] = auth()->user()->id;
+        $purchaseData['company_id'] = userCompany()->id;
+        $purchaseData['created_by'] = auth()->id();
+        $purchaseData['updated_by'] = auth()->id();
 
         $basicPurchaseData = Arr::except($purchaseData, 'purchase');
         $purchaseDetailsData = $purchaseData['purchase'];
@@ -123,7 +123,7 @@ class PurchaseController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $purchaseData['updated_by'] = auth()->user()->id;
+        $purchaseData['updated_by'] = auth()->id();
 
         $basicPurchaseData = Arr::except($purchaseData, 'purchase');
         $purchaseDetailsData = $purchaseData['purchase'];

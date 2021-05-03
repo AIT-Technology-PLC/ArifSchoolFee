@@ -80,9 +80,9 @@ class GdnController extends Controller
         ]);
 
         $gdnData['status'] = 'Not Subtracted From Inventory';
-        $gdnData['company_id'] = auth()->user()->employee->company_id;
-        $gdnData['created_by'] = auth()->user()->id;
-        $gdnData['updated_by'] = auth()->user()->id;
+        $gdnData['company_id'] = userCompany()->id;
+        $gdnData['created_by'] = auth()->id();
+        $gdnData['updated_by'] = auth()->id();
         $gdnData['approved_by'] = $this->approvedBy();
 
         $basicGdnData = Arr::except($gdnData, 'gdn');
@@ -137,7 +137,7 @@ class GdnController extends Controller
                 'sale_id' => 'nullable|integer',
             ]);
 
-            $gdnSaleId['updated_by'] = auth()->user()->id;
+            $gdnSaleId['updated_by'] = auth()->id();
 
             $gdn->update($gdnSaleId);
 
@@ -162,7 +162,7 @@ class GdnController extends Controller
             'cash_received_in_percentage' => 'required|numeric|between:0,100',
         ]);
 
-        $gdnData['updated_by'] = auth()->user()->id;
+        $gdnData['updated_by'] = auth()->id();
 
         $basicGdnData = Arr::except($gdnData, 'gdn');
         $gdnDetailsData = $gdnData['gdn'];
