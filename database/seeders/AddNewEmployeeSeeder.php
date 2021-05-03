@@ -7,6 +7,8 @@ use App\User;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class AddNewEmployeeSeeder extends Seeder
 {
@@ -17,31 +19,35 @@ class AddNewEmployeeSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        $companiesId = DB::table('companies')->get(['id'])->map(fn($company) => $company->id);
+        $systemManagerUser = User::role('System Manager')
+            ->get()
+            ->random(1)
+            ->first();
 
-        for ($i = 0; $i <= 2; $i++) {
-            DB::transaction(function () use ($faker, $companiesId) {
-                $user = User::create([
-                    'name' => $faker->name,
-                    'email' => $faker->unique()->safeEmail,
-                    'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-                ]);
+        $employee = Employee::where('user_id', $systemManagerUser->id)->first();
 
-                $companyId = $faker->randomElement($companiesId);
+        DB::transaction(function () use ($faker, $employee) {
+            $user = User::create([
+                'name' => $faker->name,
+                'email' => $faker->unique()->safeEmail,
+                'password' => Hash::make('password'),
+            ]);
 
-                Employee::create([
-                    'user_id' => $user->id,
-                    'company_id' => $companyId,
-                    'created_by' => $companyId,
-                    'updated_by' => $companyId,
-                    'position' => $faker->jobTitle,
-                    'enabled' => $faker->randomElement([0, 1]),
-                ]);
+            Employee::create([
+                'user_id' => $user->id,
+                'company_id' => $employee->company_id,
+                'created_by' => $employee->user_id,
+                'updated_by' => $employee->user_id,
+                'position' => $faker->jobTitle,
+                'enabled' => 1,
+            ]);
 
-                $user->assignRole($faker->randomElement([
-                    'Sales Officer', 'Sales Manager', 'Purchase Manager', 'Store Keeper', 'Analyst',
-                ]));
-            });
-        }
+            $user->assignRole(
+                Role::where('name', '<>', 'System Manager')
+                    ->get()
+                    ->random(1)
+            );
+        });
+
     }
 }
