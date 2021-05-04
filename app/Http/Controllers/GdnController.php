@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreGdnRequest;
+use App\Http\Requests\UpdateGdnRequest;
 use App\Models\Customer;
 use App\Models\Gdn;
 use App\Models\Product;
@@ -12,9 +13,6 @@ use App\Notifications\GdnApproved;
 use App\Notifications\GdnPrepared;
 use App\Services\StoreSaleableProducts;
 use App\Traits\NotifiableUsers;
-use App\Traits\PrependCompanyId;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -74,7 +72,7 @@ class GdnController extends Controller
             }
 
             return $isGdnValid ? $gdn : false;
-            
+
         });
 
         if (!$gdn) {
@@ -108,48 +106,19 @@ class GdnController extends Controller
         return view('gdns.edit', compact('gdn', 'products', 'customers', 'sales', 'warehouses'));
     }
 
-    public function update(Request $request, Gdn $gdn)
+    public function update(UpdateGdnRequest $request, Gdn $gdn)
     {
         if ($gdn->isGdnApproved()) {
-            $gdnSaleId = $request->validate([
-                'sale_id' => 'nullable|integer',
-            ]);
-
-            $gdnSaleId['updated_by'] = auth()->id();
-
-            $gdn->update($gdnSaleId);
+            $gdn->update($request->only('sale_id', 'updated_by'));
 
             return redirect()->route('gdns.show', $gdn->id);
         }
 
-        $request['code'] = $this->prependCompanyId($request->code);
+        DB::transaction(function () use ($request, $gdn) {
+            $gdn->update($request->except('gdn'));
 
-        $gdnData = $request->validate([
-            'code' => 'required|string|unique:gdns,code,' . $gdn->id,
-            'gdn' => 'required|array',
-            'gdn.*.product_id' => 'required|integer',
-            'gdn.*.warehouse_id' => 'required|integer',
-            'gdn.*.unit_price' => 'nullable|numeric',
-            'gdn.*.quantity' => 'required|numeric|min:1',
-            'gdn.*.description' => 'nullable|string',
-            'customer_id' => 'nullable|integer',
-            'sale_id' => 'nullable|integer',
-            'issued_on' => 'required|date',
-            'payment_type' => 'required|string',
-            'description' => 'nullable|string',
-            'cash_received_in_percentage' => 'required|numeric|between:0,100',
-        ]);
-
-        $gdnData['updated_by'] = auth()->id();
-
-        $basicGdnData = Arr::except($gdnData, 'gdn');
-        $gdnDetailsData = $gdnData['gdn'];
-
-        DB::transaction(function () use ($basicGdnData, $gdnDetailsData, $gdn) {
-            $gdn->update($basicGdnData);
-
-            for ($i = 0; $i < count($gdnDetailsData); $i++) {
-                $gdn->gdnDetails[$i]->update($gdnDetailsData[$i]);
+            for ($i = 0; $i < count($request->only('gdn')['gdn']); $i++) {
+                $gdn->gdnDetails[$i]->update($request->only('gdn')['gdn'][$i]);
             }
         });
 
