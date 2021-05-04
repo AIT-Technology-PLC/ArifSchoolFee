@@ -52,64 +52,6 @@
         </li>
     </ul>
 
-    @can('onlyPremium', userCompany())
-        <p class="menu-label has-text-weight-bold text-green">
-            Manufacturing Inventory
-        </p>
-        <ul class="menu-list mb-5">
-            <li>
-                <a class="has-text-grey has-text-weight-normal is-size-6-5">
-                    <span class="icon">
-                        <i class="fas fa-plus-circle"></i>
-                    </span>
-                    <span>
-                        Start New Production
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a class="has-text-grey has-text-weight-normal is-size-6-5">
-                    <span class="icon">
-                        <i class="fas fa-boxes"></i>
-                    </span>
-                    <span>
-                        Finished Products
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a class="has-text-grey has-text-weight-normal is-size-6-5">
-                    <span class="icon">
-                        <i class="fas fa-sync-alt"></i>
-                    </span>
-                    <span>
-                        In-process Prodcuts
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a class="has-text-grey has-text-weight-normal is-size-6-5">
-                    <span class="icon">
-                        <i class="fas fa-box-open"></i>
-                    </span>
-                    <span>
-                        Raw Materials
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a class="has-text-grey has-text-weight-normal is-size-6-5">
-                    <span class="icon">
-                        <i class="fas fa-tools"></i>
-                    </span>
-                    <span>
-                        MRO Items
-                    </span>
-                </a>
-            </li>
-        </ul>
-    @endcan
-
     <p class="menu-label has-text-weight-bold text-green">
         Merchandise Inventory
     </p>

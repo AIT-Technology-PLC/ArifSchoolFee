@@ -55,26 +55,6 @@ class Company extends Model
         return $this->hasMany(Merchandise::class);
     }
 
-    public function manufacturings()
-    {
-        return $this->hasMany(Manufacturing::class);
-    }
-
-    public function rawMaterials()
-    {
-        return $this->hasMany(RawMaterial::class);
-    }
-
-    public function billOfMaterials()
-    {
-        return $this->hasMany(BillOfMaterial::class);
-    }
-
-    public function mroItems()
-    {
-        return $this->hasMany(MroItem::class);
-    }
-
     public function customers()
     {
         return $this->hasMany(Customer::class);

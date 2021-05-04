@@ -16,34 +16,9 @@ class Product extends Model
         'properties' => 'array',
     ];
 
-    public function productImages()
-    {
-        return $this->hasMany(ProductImage::class);
-    }
-
     public function merchandises()
     {
         return $this->hasMany(Merchandise::class);
-    }
-
-    public function manufacturings()
-    {
-        return $this->hasMany(Manufacturing::class);
-    }
-
-    public function rawMaterials()
-    {
-        return $this->hasMany(RawMaterial::class);
-    }
-
-    public function billOfMaterial()
-    {
-        return $this->hasOne(BillOfMaterial::class);
-    }
-
-    public function mroItems()
-    {
-        return $this->hasMany(MroItem::class);
     }
 
     public function purchaseDetails()
@@ -133,12 +108,7 @@ class Product extends Model
 
     public function scopeSaleableProducts($query)
     {
-        return $query->where('type', '<>', 'Raw Material')->where('type', '<>', 'MRO Item');
-    }
-
-    public function scopeNonSaleableProducts($query)
-    {
-        return $query->where('type', 'Raw Material')->orWhere('type', 'MRO Item');
+        return $query->where('type', 'Merchandise Product');
     }
 
     public function getAll()
@@ -154,11 +124,6 @@ class Product extends Model
     public function getSaleableProducts()
     {
         return $this->companyProducts()->saleableProducts()->orderBy('name')->get();
-    }
-
-    public function getNonSaleableProducts()
-    {
-        return $this->companyProducts()->nonSaleableProducts()->orderBy('name')->get();
     }
 
     public function getProductUOM()

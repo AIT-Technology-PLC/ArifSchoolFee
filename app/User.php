@@ -8,22 +8,22 @@ use App\Models\Gdn;
 use App\Models\GeneralTenderChecklist;
 use App\Models\Grn;
 use App\Models\Merchandise;
+use App\Models\Price;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Purchase;
 use App\Models\PurchaseOrder;
 use App\Models\Sale;
 use App\Models\Supplier;
-use App\Models\Transfer;
-use App\Models\Warehouse;
-use App\Models\Price;
 use App\Models\Tender;
 use App\Models\TenderStatus;
+use App\Models\Transfer;
+use App\Models\Warehouse;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
@@ -115,46 +115,6 @@ class User extends Authenticatable
     public function merchandisesUpdated()
     {
         return $this->hasMany(Merchandise::class, 'updated_by');
-    }
-
-    public function manufacturingsCreated()
-    {
-        return $this->hasMany(Manufacturing::class, 'created_by');
-    }
-
-    public function manufacturingsUpdated()
-    {
-        return $this->hasMany(Manufacturing::class, 'updated_by');
-    }
-
-    public function rawMaterialsCreated()
-    {
-        return $this->hasMany(RawMaterial::class, 'created_by');
-    }
-
-    public function rawMaterialsUpdated()
-    {
-        return $this->hasMany(RawMaterial::class, 'updated_by');
-    }
-
-    public function billOfMaterialsCreated()
-    {
-        return $this->hasMany(BillOfMaterial::class, 'created_by');
-    }
-
-    public function billOfMaterialsUpdated()
-    {
-        return $this->hasMany(BillOfMaterial::class, 'updated_by');
-    }
-
-    public function mroItemsCreated()
-    {
-        return $this->hasMany(MroItem::class, 'created_by');
-    }
-
-    public function mroItemsUpdated()
-    {
-        return $this->hasMany(MroItem::class, 'updated_by');
     }
 
     public function customersCreated()
