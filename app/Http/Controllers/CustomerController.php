@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCustomerRequest;
+use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class CustomerController extends Controller
@@ -42,31 +42,14 @@ class CustomerController extends Controller
         return redirect()->route('customers.index');
     }
 
-    public function show(Customer $customer)
-    {
-        //
-    }
-
     public function edit(Customer $customer)
     {
         return view('customers.edit', compact('customer'));
     }
 
-    public function update(Request $request, Customer $customer)
+    public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        $data = $request->validate([
-            'company_name' => 'required|string|max:255',
-            'tin' => 'nullable|numeric',
-            'address' => 'nullable|string|max:255',
-            'contact_name' => 'nullable|string|max:255',
-            'email' => 'nullable|string|email|max:255',
-            'phone' => 'nullable|string|max:255',
-            'country' => 'nullable|string|max:255',
-        ]);
-
-        $data['updated_by'] = auth()->id();
-
-        $customer->update($data);
+        $customer->update($request->all());
 
         return redirect()->route('customers.index');
     }
