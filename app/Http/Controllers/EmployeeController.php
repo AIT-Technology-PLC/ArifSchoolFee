@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Employee;
 use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -81,30 +80,15 @@ class EmployeeController extends Controller
         return view('employees.edit', compact('employee', 'roles'));
     }
 
-    public function update(Request $request, Employee $employee)
+    public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'position' => 'required|string',
-            'enabled' => 'sometimes|required|integer|max:1',
-            'role' => 'sometimes|required|string',
-        ]);
+        DB::transaction(function () use ($request, $employee) {
+            $employee->user->update($request->only(['name', 'email']));
 
-        DB::transaction(function () use ($data, $employee) {
-            $employee->user->update([
-                'name' => $data['name'],
-                'email' => $data['email'],
-            ]);
+            $employee->update($request->only(['position', 'enabled', 'updated_by']));
 
-            $employee->update([
-                'updated_by' => auth()->id(),
-                'position' => $data['position'],
-                'enabled' => $data['enabled'] ?? $employee->enabled,
-            ]);
-
-            if (Arr::has($data, 'role')) {
-                $employee->user->syncRoles([$data['role']]);
+            if ($request->has('role')) {
+                $employee->user->syncRoles([$request->role]);
             };
         });
 
