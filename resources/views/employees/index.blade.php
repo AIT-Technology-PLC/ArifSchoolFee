@@ -155,7 +155,7 @@
                                     </a>
                                     <span>
                                         @include('components.delete_button', ['model' => 'employees',
-                                        'id' => $employee->user_id])
+                                        'id' => $employee->id])
                                     </span>
                                 </td>
                             </tr>
