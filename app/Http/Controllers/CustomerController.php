@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCustomerRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -31,25 +32,11 @@ class CustomerController extends Controller
         return view('customers.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreCustomerRequest $request)
     {
-        $data = $request->validate([
-            'company_name' => 'required|string|max:255',
-            'tin' => 'nullable|numeric',
-            'address' => 'nullable|string|max:255',
-            'contact_name' => 'nullable|string|max:255',
-            'email' => 'nullable|string|email|max:255',
-            'phone' => 'nullable|string|max:255',
-            'country' => 'nullable|string|max:255',
-        ]);
-
-        $data['company_id'] = userCompany()->id;
-        $data['created_by'] = auth()->id();
-        $data['updated_by'] = auth()->id();
-
         $this->customer->firstOrCreate(
-            Arr::only($data, ['company_name', 'company_id']),
-            Arr::except($data, ['company_name', 'company_id'])
+            Arr::only($request->all(), ['company_name', 'company_id']),
+            Arr::except($request->all(), ['company_name', 'company_id'])
         );
 
         return redirect()->route('customers.index');
