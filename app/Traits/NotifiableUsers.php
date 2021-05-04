@@ -23,6 +23,10 @@ trait NotifiableUsers
 
     public function notifyCreator($resource, $users)
     {
+        if (!$resource->createdBy) {
+            return [];
+        }
+
         if ($users->contains('id', $resource->createdBy->id)) {
             return [];
         }
