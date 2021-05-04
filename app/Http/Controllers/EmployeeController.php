@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEmployeeRequest;
 use App\Models\Employee;
 use App\User;
 use Illuminate\Http\Request;
@@ -41,34 +42,26 @@ class EmployeeController extends Controller
         return view('employees.create', compact('roles'));
     }
 
-    public function store(Request $request)
+    public function store(StoreEmployeeRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'position' => 'required|string',
-            'enabled' => 'required|integer|max:1',
-            'role' => 'required|string',
-        ]);
-
-        DB::transaction(function () use ($data) {
+        DB::transaction(function () use ($request) {
             $user = User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
             ]);
 
-            $this->employee->create([
-                'user_id' => $user->id,
-                'company_id' => userCompany()->id,
-                'created_by' => auth()->id(),
-                'updated_by' => auth()->id(),
-                'position' => $data['position'],
-                'enabled' => $data['enabled'],
-            ]);
+            $user->employee()->create(
+                $request->only([
+                    'position',
+                    'enabled',
+                    'company_id',
+                    'created_by',
+                    'updated_by',
+                ])
+            );
 
-            $user->assignRole($data['role']);
+            $user->assignRole($request->role);
         });
 
         return redirect()->route('employees.index');
