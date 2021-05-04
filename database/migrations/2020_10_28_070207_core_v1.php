@@ -58,6 +58,10 @@ class CoreV1 extends Migration
             $table->id();
             $table->bigInteger('plan_id')->nullable()->unsigned();
             $table->string('name');
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('logo')->nullable();
             $table->string('sector')->nullable();
             $table->string('membership_plan')->nullable();
             $table->boolean('enabled');
@@ -117,6 +121,8 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('company_name');
+            $table->string('tin')->nullable();
+            $table->string('address')->nullable();
             $table->string('contact_name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
@@ -179,20 +185,6 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
-        // Product Images
-        Schema::create('product_images', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('product_id')->nullable()->unsigned();
-            $table->string('name');
-            $table->string('original_name');
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('product_id');
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-        });
-
         // Purchases
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
@@ -201,6 +193,7 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('purchase_no')->unique();
+            $table->string('type');
             $table->string('payment_type');
             $table->string('status')->nullable();
             $table->boolean('is_manual');
@@ -244,6 +237,8 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('company_name');
+            $table->string('tin')->nullable();
+            $table->string('address')->nullable();
             $table->string('contact_name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
@@ -333,116 +328,6 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
-        // Manufacturing Products
-        Schema::create('manufacturings', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('product_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->decimal('total_products', 22);
-            $table->decimal('total_in_process', 22);
-            $table->decimal('total_on_hand', 22);
-            $table->decimal('total_sold', 22);
-            $table->decimal('total_broken', 22);
-            $table->decimal('total_returns', 22);
-            $table->string('status');
-            $table->dateTime('started_on')->nullable();
-            $table->dateTime('finishes_on')->nullable();
-            $table->dateTime('expires_on')->nullable();
-            $table->longText('description')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('product_id');
-            $table->index('company_id');
-            $table->index('warehouse_id');
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-        });
-
-        // Raw Material
-        Schema::create('raw_materials', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('product_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->decimal('total_received', 22);
-            $table->decimal('total_used', 22);
-            $table->decimal('total_on_hand', 22);
-            $table->decimal('total_broken', 22);
-            $table->dateTime('expires_on')->nullable();
-            $table->longText('description')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('product_id');
-            $table->index('company_id');
-            $table->index('warehouse_id');
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-        });
-
-        // Bill of Materials
-        Schema::create('bill_of_materials', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('product_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->json('materials');
-            $table->longText('description')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('product_id');
-            $table->index('company_id');
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-        });
-
-        // MRO Items
-        Schema::create('mro_items', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('product_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->decimal('total_received', 22);
-            $table->decimal('total_used', 22);
-            $table->decimal('total_on_hand', 22);
-            $table->decimal('total_broken', 22);
-            $table->dateTime('expires_on')->nullable();
-            $table->longText('description')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('product_id');
-            $table->index('company_id');
-            $table->index('warehouse_id');
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-        });
-
         Schema::enableForeignKeyConstraints();
     }
 
@@ -463,16 +348,11 @@ class CoreV1 extends Migration
         Schema::drop('suppliers');
         Schema::drop('product_categories');
         Schema::drop('products');
-        Schema::drop('product_images');
         Schema::drop('purchases');
         Schema::drop('purchase_details');
         Schema::drop('customers');
         Schema::drop('sales');
         Schema::drop('sale_details');
         Schema::drop('merchandises');
-        Schema::drop('manufacturings');
-        Schema::drop('raw_materials');
-        Schema::drop('bill_of_materials');
-        Schema::drop('mro_items');
     }
 }

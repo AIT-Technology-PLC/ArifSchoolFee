@@ -20,6 +20,7 @@ class CreateGrnsTable extends Migration
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->bigInteger('approved_by')->nullable()->unsigned();
             $table->string('code')->unique();
             $table->string('status');
             $table->longText('description')->nullable();
@@ -35,6 +36,7 @@ class CreateGrnsTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('grn_details', function (Blueprint $table) {

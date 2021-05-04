@@ -19,7 +19,7 @@ class CreatePurchaseOrdersTable extends Migration
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('code')->unique();
+            $table->string('code')->nullable();
             $table->boolean('is_closed');
             $table->longText('description')->nullable();
             $table->dateTime('received_on')->nullable();

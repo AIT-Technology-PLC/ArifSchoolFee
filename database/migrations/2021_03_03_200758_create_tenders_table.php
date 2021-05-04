@@ -59,7 +59,9 @@ class CreateTendersTable extends Migration
             $table->string('bid_bond_amount', 22)->nullable();
             $table->bigInteger('bid_bond_validity')->nullable();
             $table->string('bid_bond_type')->nullable();
-            $table->bigInteger('participants');
+            $table->longText('price')->nullable();
+            $table->longText('payment_term')->nullable();
+            $table->bigInteger('participants')->nullable();
             $table->dateTime('published_on')->nullable();
             $table->dateTime('closing_date')->nullable();
             $table->dateTime('opening_date')->nullable();
