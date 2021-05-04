@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Http\Requests;
+
+use App\Services\SetDataOwnerService;
+use App\Traits\PrependCompanyId;
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreGdnRequest extends FormRequest
+{
+    use PrependCompanyId;
+
+    public function authorize()
+    {
+        return true;
+    }
+
+    public function rules()
+    {
+        return [
+            'code' => 'required|string|unique:gdns',
+            'gdn' => 'required|array',
+            'gdn.*.product_id' => 'required|integer',
+            'gdn.*.warehouse_id' => 'required|integer',
+            'gdn.*.unit_price' => 'nullable|numeric',
+            'gdn.*.quantity' => 'required|numeric|min:1',
+            'gdn.*.description' => 'nullable|string',
+            'customer_id' => 'nullable|integer',
+            'sale_id' => 'nullable|integer',
+            'issued_on' => 'required|date',
+            'payment_type' => 'required|string',
+            'description' => 'nullable|string',
+            'cash_received_in_percentage' => 'required|numeric|between:0,100',
+        ];
+    }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'code' => $this->prependCompanyId($this->code),
+        ]);
+    }
+
+    public function passedValidation()
+    {
+        $this->merge([
+            'status' => 'Not Subtracted From Inventory',
+        ]);
+
+        $this->merge(SetDataOwnerService::forTransaction());
+    }
+}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreGdnRequest;
 use App\Models\Customer;
 use App\Models\Gdn;
 use App\Models\Product;
@@ -10,7 +11,6 @@ use App\Models\Warehouse;
 use App\Notifications\GdnApproved;
 use App\Notifications\GdnPrepared;
 use App\Services\StoreSaleableProducts;
-use App\Traits\Approvable;
 use App\Traits\NotifiableUsers;
 use App\Traits\PrependCompanyId;
 use Illuminate\Http\Request;
@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Notification;
 
 class GdnController extends Controller
 {
-    use PrependCompanyId, Approvable, NotifiableUsers;
+    use NotifiableUsers;
 
     private $gdn;
 
@@ -59,38 +59,14 @@ class GdnController extends Controller
         return view('gdns.create', compact('products', 'customers', 'sales', 'warehouses', 'currentGdnCode'));
     }
 
-    public function store(Request $request)
+    public function store(StoreGdnRequest $request)
     {
-        $request['code'] = $this->prependCompanyId($request->code);
+        $gdn = DB::transaction(function () use ($request) {
 
-        $gdnData = $request->validate([
-            'code' => 'required|string|unique:gdns',
-            'gdn' => 'required|array',
-            'gdn.*.product_id' => 'required|integer',
-            'gdn.*.warehouse_id' => 'required|integer',
-            'gdn.*.unit_price' => 'nullable|numeric',
-            'gdn.*.quantity' => 'required|numeric|min:1',
-            'gdn.*.description' => 'nullable|string',
-            'customer_id' => 'nullable|integer',
-            'sale_id' => 'nullable|integer',
-            'issued_on' => 'required|date',
-            'payment_type' => 'required|string',
-            'description' => 'nullable|string',
-            'cash_received_in_percentage' => 'required|numeric|between:0,100',
-        ]);
+            $gdn = $this->gdn->create($request->except('gdn'));
 
-        $gdnData['status'] = 'Not Subtracted From Inventory';
-        $gdnData['company_id'] = userCompany()->id;
-        $gdnData['created_by'] = auth()->id();
-        $gdnData['updated_by'] = auth()->id();
-        $gdnData['approved_by'] = $this->approvedBy();
+            $gdn->gdnDetails()->createMany($request->only('gdn')['gdn']);
 
-        $basicGdnData = Arr::except($gdnData, 'gdn');
-        $gdnDetailsData = $gdnData['gdn'];
-
-        $gdn = DB::transaction(function () use ($basicGdnData, $gdnDetailsData) {
-            $gdn = $this->gdn->create($basicGdnData);
-            $gdn->gdnDetails()->createMany($gdnDetailsData);
             $isGdnValid = StoreSaleableProducts::storeSoldProducts($gdn);
 
             if (!$isGdnValid) {
@@ -98,14 +74,16 @@ class GdnController extends Controller
             }
 
             return $isGdnValid ? $gdn : false;
+            
         });
 
-        if ($gdn) {
-            Notification::send($this->notifiableUsers('Approve GDN'), new GdnPrepared($gdn));
-            return redirect()->route('gdns.show', $gdn->id);
+        if (!$gdn) {
+            return redirect()->back()->withInput($request->all());
         }
 
-        return redirect()->back()->withInput($request->all());
+        Notification::send($this->notifiableUsers('Approve GDN'), new GdnPrepared($gdn));
+
+        return redirect()->route('gdns.show', $gdn->id);
     }
 
     public function show(Gdn $gdn)
