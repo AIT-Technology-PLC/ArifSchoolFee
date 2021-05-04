@@ -60,7 +60,6 @@ class GdnController extends Controller
     public function store(StoreGdnRequest $request)
     {
         $gdn = DB::transaction(function () use ($request) {
-
             $gdn = $this->gdn->create($request->except('gdn'));
 
             $gdn->gdnDetails()->createMany($request->only('gdn')['gdn']);
@@ -72,7 +71,6 @@ class GdnController extends Controller
             }
 
             return $isGdnValid ? $gdn : false;
-
         });
 
         if (!$gdn) {
@@ -144,7 +142,9 @@ class GdnController extends Controller
 
         if (!$gdn->isGdnApproved()) {
             $gdn->approveGdn();
+
             $message = 'You have approved this DO/GDN successfully';
+            
             Notification::send($this->notifiableUsers('Subtract GDN'), new GdnApproved($gdn));
             Notification::send($this->notifyCreator($gdn, $this->notifiableUsers('Subtract GDN')), new GdnApproved($gdn));
         }
