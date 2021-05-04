@@ -328,6 +328,296 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
+        Schema::create('gdns', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('sale_id')->nullable()->unsigned();
+            $table->bigInteger('customer_id')->nullable()->unsigned();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->bigInteger('approved_by')->nullable()->unsigned();
+            $table->string('code')->unique();
+            $table->string('status');
+            $table->string('payment_type');
+            $table->decimal('cash_received_in_percentage', 22);
+            $table->longText('description')->nullable();
+            $table->dateTime('issued_on')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+            $table->index('sale_id');
+
+            $table->foreign('sale_id')->references('id')->on('sales')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+        });
+
+        Schema::create('gdn_details', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('gdn_id')->nullable()->unsigned();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
+            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->decimal('quantity', 22);
+            $table->decimal('unit_price', 22)->nullable();
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('gdn_id');
+
+            $table->foreign('gdn_id')->references('id')->on('gdns')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+        });
+
+        Schema::create('transfers', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->bigInteger('approved_by')->nullable()->unsigned();
+            $table->string('code')->unique();
+            $table->string('status');
+            $table->longText('description')->nullable();
+            $table->dateTime('issued_on')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+        });
+
+        Schema::create('transfer_details', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('transfer_id')->nullable()->unsigned();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
+            $table->bigInteger('to_warehouse_id')->nullable()->unsigned();
+            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->decimal('quantity', 22);
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('transfer_id');
+
+            $table->foreign('transfer_id')->references('id')->on('transfers')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('to_warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+        });
+
+        Schema::create('purchase_orders', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('customer_id')->nullable()->unsigned();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('code')->nullable();
+            $table->boolean('is_closed');
+            $table->longText('description')->nullable();
+            $table->dateTime('received_on')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+        });
+
+        Schema::create('purchase_order_details', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('purchase_order_id')->nullable()->unsigned();
+            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->decimal('quantity', 22);
+            $table->decimal('quantity_left', 22);
+            $table->decimal('unit_price', 22);
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('purchase_order_id');
+
+            $table->foreign('purchase_order_id')->references('id')->on('purchase_orders')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+        });
+
+        Schema::create('grns', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('purchase_id')->nullable()->unsigned();
+            $table->bigInteger('supplier_id')->nullable()->unsigned();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->bigInteger('approved_by')->nullable()->unsigned();
+            $table->string('code')->unique();
+            $table->string('status');
+            $table->longText('description')->nullable();
+            $table->dateTime('issued_on')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+            $table->index('purchase_id');
+
+            $table->foreign('purchase_id')->references('id')->on('purchases')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+        });
+
+        Schema::create('grn_details', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('grn_id')->nullable()->unsigned();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
+            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->decimal('quantity', 22);
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('grn_id');
+
+            $table->foreign('grn_id')->references('id')->on('grns')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+        });
+
+        Schema::create('prices', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->decimal('price', 22);
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+        });
+
+        Schema::create('general_tender_checklists', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('item');
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+        });
+
+        Schema::create('tender_statuses', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('status');
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+        });
+
+        Schema::create('tenders', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('customer_id')->nullable()->unsigned();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('code')->nullable();
+            $table->string('type');
+            $table->string('status');
+            $table->string('bid_bond_amount', 22)->nullable();
+            $table->bigInteger('bid_bond_validity')->nullable();
+            $table->string('bid_bond_type')->nullable();
+            $table->longText('price')->nullable();
+            $table->longText('payment_term')->nullable();
+            $table->bigInteger('participants')->nullable();
+            $table->dateTime('published_on')->nullable();
+            $table->dateTime('closing_date')->nullable();
+            $table->dateTime('opening_date')->nullable();
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+            $table->index('customer_id');
+
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+        });
+
+        Schema::create('tender_details', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('tender_id')->nullable()->unsigned();
+            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->decimal('quantity', 22);
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('tender_id');
+            $table->index('product_id');
+
+            $table->foreign('tender_id')->references('id')->on('tenders')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+
+        });
+
+        Schema::create('tender_checklists', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('tender_id')->nullable()->unsigned();
+            $table->string('item');
+            $table->string('status')->nullable();
+            $table->string('comment')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('tender_id');
+
+            $table->foreign('tender_id')->references('id')->on('tenders')->onDelete('cascade')->onUpdate('cascade');
+        });
+
+        Schema::create('notifications', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('type');
+            $table->morphs('notifiable');
+            $table->text('data');
+            $table->timestamp('read_at')->nullable();
+            $table->timestamps();
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -354,5 +644,20 @@ class CoreV1 extends Migration
         Schema::drop('sales');
         Schema::drop('sale_details');
         Schema::drop('merchandises');
+        Schema::drop('gdns');
+        Schema::drop('gdn_details');
+        Schema::drop('transfers');
+        Schema::drop('transfer_details');
+        Schema::drop('purchase_orders');
+        Schema::drop('purchase_order_details');
+        Schema::drop('grns');
+        Schema::drop('grn_details');
+        Schema::drop('prices');
+        Schema::drop('general_tender_checklists');
+        Schema::drop('tender_statuses');
+        Schema::drop('tenders');
+        Schema::drop('tender_details');
+        Schema::drop('tender_checklists');
+        Schema::drop('notifications');
     }
 }
