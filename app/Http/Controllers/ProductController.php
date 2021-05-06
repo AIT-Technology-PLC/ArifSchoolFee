@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Supplier;
 use App\Traits\HasOptions;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class ProductController extends Controller
 {
@@ -44,35 +44,14 @@ class ProductController extends Controller
         return view('products.create', compact('categories', 'suppliers', 'inventoryTypes', 'unitTypes'));
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-            'code' => 'nullable|string|max:255',
-            'unit_of_measurement' => 'required|string|max:255',
-            'min_on_hand' => 'required|numeric',
-            'description' => 'nullable|string',
-            'properties' => 'nullable|array',
-            'product_category_id' => 'required|integer',
-            'supplier_id' => 'nullable|integer',
-        ]);
-
-        $data['created_by'] = auth()->id();
-        $data['updated_by'] = auth()->id();
-        $data['company_id'] = userCompany()->id;
-
         $this->product->firstOrCreate(
-            Arr::only($data, ['name', 'company_id']),
-            Arr::except($data, ['name', 'company_id'])
+            $request->only(['name', 'company_id']),
+            $request->except(['name', 'company_id'])
         );
 
         return redirect()->route('products.index');
-    }
-
-    public function show(Product $product)
-    {
-        //
     }
 
     public function edit(Product $product, ProductCategory $category, Supplier $supplier)
