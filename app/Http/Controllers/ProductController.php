@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Supplier;
 use App\Traits\HasOptions;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -67,23 +67,9 @@ class ProductController extends Controller
         return view('products.edit', compact('product', 'categories', 'suppliers', 'inventoryTypes', 'unitTypes'));
     }
 
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-            'code' => 'nullable|string|max:255',
-            'unit_of_measurement' => 'required|string|max:255',
-            'min_on_hand' => 'required|numeric',
-            'description' => 'nullable|string',
-            'properties' => 'nullable|array',
-            'product_category_id' => 'required|integer',
-            'supplier_id' => 'nullable|integer',
-        ]);
-
-        $data['updated_by'] = auth()->id();
-
-        $product->update($data);
+        $product->update($request->all());
 
         return redirect()->route('products.index');
     }
