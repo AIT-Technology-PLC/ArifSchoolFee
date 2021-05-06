@@ -60,7 +60,7 @@ class GrnController extends Controller
         $grn = DB::transaction(function () use ($request) {
             $grn = $this->grn->create($request->except('grn'));
 
-            $grn->grnDetails()->createMany($request->only('grn')['grn']);
+            $grn->grnDetails()->createMany($request->grn);
 
             AddPurchasedItemsToInventory::addToInventory($grn);
 
@@ -105,8 +105,8 @@ class GrnController extends Controller
         DB::transaction(function () use ($request, $grn) {
             $grn->update($request->except('grn'));
 
-            for ($i = 0; $i < count($request->only('grn')['grn']); $i++) {
-                $grn->grnDetails[$i]->update($request->only('grn')['grn'][$i]);
+            for ($i = 0; $i < count($request->grn); $i++) {
+                $grn->grnDetails[$i]->update($request->grn[$i]);
             }
         });
 

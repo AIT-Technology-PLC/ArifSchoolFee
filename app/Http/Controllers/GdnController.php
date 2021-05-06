@@ -62,7 +62,7 @@ class GdnController extends Controller
         $gdn = DB::transaction(function () use ($request) {
             $gdn = $this->gdn->create($request->except('gdn'));
 
-            $gdn->gdnDetails()->createMany($request->only('gdn')['gdn']);
+            $gdn->gdnDetails()->createMany($request->gdn);
 
             $isGdnValid = StoreSaleableProducts::storeSoldProducts($gdn);
 
@@ -115,8 +115,8 @@ class GdnController extends Controller
         DB::transaction(function () use ($request, $gdn) {
             $gdn->update($request->except('gdn'));
 
-            for ($i = 0; $i < count($request->only('gdn')['gdn']); $i++) {
-                $gdn->gdnDetails[$i]->update($request->only('gdn')['gdn'][$i]);
+            for ($i = 0; $i < count($request->gdn); $i++) {
+                $gdn->gdnDetails[$i]->update($request->gdn[$i]);
             }
         });
 
