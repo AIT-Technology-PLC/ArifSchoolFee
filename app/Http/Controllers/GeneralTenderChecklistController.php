@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreGeneralTenderChecklistRequest;
+use App\Http\Requests\UpdateGeneralTenderChecklistRequest;
 use App\Models\GeneralTenderChecklist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -45,16 +46,9 @@ class GeneralTenderChecklistController extends Controller
         return view('general_tender_checklists.edit', compact('generalTenderChecklist'));
     }
 
-    public function update(Request $request, GeneralTenderChecklist $generalTenderChecklist)
+    public function update(UpdateGeneralTenderChecklistRequest $request, GeneralTenderChecklist $generalTenderChecklist)
     {
-        $generalTenderChecklistData = $request->validate([
-            'item' => 'required|string',
-            'description' => 'nullable|string',
-        ]);
-
-        $generalTenderChecklistData['updated_by'] = auth()->id();
-
-        $generalTenderChecklist->update($generalTenderChecklistData);
+        $generalTenderChecklist->update($request->all());
 
         return redirect()->route('general-tender-checklists.index');
     }
