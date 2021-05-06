@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductCategoryRequest;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class ProductCategoryController extends Controller
 {
@@ -31,21 +31,11 @@ class ProductCategoryController extends Controller
         return view('categories.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreProductCategoryRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'properties' => 'nullable|array',
-        ]);
-
-        $data['company_id'] = userCompany()->id;
-        $data['created_by'] = auth()->id();
-        $data['updated_by'] = auth()->id();
-
         $this->category->firstOrCreate(
-            Arr::only($data, ['name', 'company_id']),
-            Arr::except($data, ['name', 'company_id'])
+            $request->only(['name', 'company_id']),
+            $request->except(['name', 'company_id']),
         );
 
         return redirect()->route('categories.index');
