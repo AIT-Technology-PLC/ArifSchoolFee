@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateMerchandiseRequest;
 use App\Models\Merchandise;
 use App\Models\Product;
 use App\Models\Warehouse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class MerchandiseController extends Controller
@@ -47,27 +47,14 @@ class MerchandiseController extends Controller
         return view('merchandises.edit', compact('merchandise'));
     }
 
-    public function update(Request $request, Merchandise $merchandise)
+    public function update(UpdateMerchandiseRequest $request, Merchandise $merchandise)
     {
-        $data = $request->validate([
-            'total_returns' => 'nullable|numeric',
-            'total_broken' => 'nullable|numeric',
-        ]);
-
-        $data["total_returns"] = $merchandise->isReturnedQuantityValueValid($data['total_returns']);
-        $data["total_broken"] = $merchandise->isBrokenQuantityValueValid($data['total_broken']);
-
-        DB::transaction(function () use ($merchandise, $data) {
-            $merchandise->update($data);
+        DB::transaction(function () use ($request, $merchandise) {
+            $merchandise->update($request->all());
             $merchandise->decrementTotalOnHandQuantity();
         });
 
         return redirect()->route('merchandises.index');
-    }
-
-    public function show(Merchandise $merchandise)
-    {
-        //
     }
 
     public function destroy(Merchandise $merchandise)
