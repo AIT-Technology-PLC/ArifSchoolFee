@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePriceRequest;
 use App\Models\Price;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class PriceController extends Controller
 {
@@ -32,20 +32,11 @@ class PriceController extends Controller
         return view('prices.create', compact('products'));
     }
 
-    public function store(Request $request)
+    public function store(StorePriceRequest $request)
     {
-        $priceData = $request->validate([
-            'product_id' => 'required|integer',
-            'price' => 'required|numeric|min:1',
-        ]);
-
-        $priceData['company_id'] = userCompany()->id;
-        $priceData['created_by'] = auth()->id();
-        $priceData['updated_by'] = auth()->id();
-
         $this->price->firstOrCreate(
-            Arr::only($priceData, ['product_id', 'company_id']),
-            Arr::except($priceData, ['product_id', 'company_id'])
+            $request->only(['product_id', 'company_id']),
+            $request->except(['product_id', 'company_id']),
         );
 
         return redirect()->route('prices.index');
