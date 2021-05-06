@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreGeneralTenderChecklistRequest;
 use App\Models\GeneralTenderChecklist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -29,20 +30,11 @@ class GeneralTenderChecklistController extends Controller
         return view('general_tender_checklists.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreGeneralTenderChecklistRequest $request)
     {
-        $generalTenderChecklistData = $request->validate([
-            'item' => 'required|string',
-            'description' => 'nullable|string',
-        ]);
-
-        $generalTenderChecklistData['company_id'] = userCompany()->id;
-        $generalTenderChecklistData['created_by'] = auth()->id();
-        $generalTenderChecklistData['updated_by'] = auth()->id();
-
         $this->generalTenderChecklist->firstOrCreate(
-            Arr::only($generalTenderChecklistData, ['item', 'company_id']),
-            Arr::except($generalTenderChecklistData, ['item', 'company_id'])
+            Arr::only($request->all(), ['item', 'company_id']),
+            Arr::except($request->all(), ['item', 'company_id'])
         );
 
         return redirect()->route('general-tender-checklists.index');
