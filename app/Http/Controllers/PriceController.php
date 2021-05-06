@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePriceRequest;
+use App\Http\Requests\UpdatePriceRequest;
 use App\Models\Price;
 use App\Models\Product;
-use Illuminate\Http\Request;
 
 class PriceController extends Controller
 {
@@ -47,16 +47,9 @@ class PriceController extends Controller
         return view('prices.edit', compact('price'));
     }
 
-    public function update(Request $request, Price $price)
+    public function update(UpdatePriceRequest $request, Price $price)
     {
-        $priceData = $request->validate([
-            'product_id' => 'required|integer',
-            'price' => 'required|numeric|min:1',
-        ]);
-
-        $priceData['updated_by'] = auth()->id();
-
-        $price->update($priceData);
+        $price->update($request->all());
 
         return redirect()->route('prices.index');
     }
