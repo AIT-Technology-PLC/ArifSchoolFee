@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreGrnRequest;
 use App\Models\Grn;
 use App\Models\Product;
 use App\Models\Purchase;
@@ -55,35 +56,13 @@ class GrnController extends Controller
         return view('grns.create', compact('products', 'warehouses', 'suppliers', 'purchases', 'currentGrnCode'));
     }
 
-    public function store(Request $request)
+    public function store(StoreGrnRequest $request)
     {
-        $request['code'] = $this->prependCompanyId($request->code);
+        $grn = DB::transaction(function () use ($request) {
+            $grn = $this->grn->create($request->except('grn'));
 
-        $grnData = $request->validate([
-            'code' => 'required|string|unique:grns',
-            'grn' => 'required|array',
-            'grn.*.product_id' => 'required|integer',
-            'grn.*.warehouse_id' => 'required|integer',
-            'grn.*.quantity' => 'required|numeric|min:1',
-            'grn.*.description' => 'nullable|string',
-            'supplier_id' => 'nullable|integer',
-            'purchase_id' => 'nullable|integer',
-            'issued_on' => 'required|date',
-            'description' => 'nullable|string',
-        ]);
+            $grn->grnDetails()->createMany($request->only('grn')['grn']);
 
-        $grnData['status'] = 'Not Added To Inventory';
-        $grnData['company_id'] = userCompany()->id;
-        $grnData['created_by'] = auth()->id();
-        $grnData['updated_by'] = auth()->id();
-        $grnData['approved_by'] = $this->approvedBy();
-
-        $basicGrnData = Arr::except($grnData, 'grn');
-        $grnDetailsData = $grnData['grn'];
-
-        $grn = DB::transaction(function () use ($basicGrnData, $grnDetailsData) {
-            $grn = $this->grn->create($basicGrnData);
-            $grn->grnDetails()->createMany($grnDetailsData);
             AddPurchasedItemsToInventory::addToInventory($grn);
 
             return $grn;
