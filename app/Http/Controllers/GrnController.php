@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreGrnRequest;
+use App\Http\Requests\UpdateGrnRequest;
 use App\Models\Grn;
 use App\Models\Product;
 use App\Models\Purchase;
@@ -14,8 +15,6 @@ use App\Services\AddPurchasedItemsToInventory;
 use App\Traits\Approvable;
 use App\Traits\NotifiableUsers;
 use App\Traits\PrependCompanyId;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -95,45 +94,19 @@ class GrnController extends Controller
         return view('grns.edit', compact('grn', 'products', 'warehouses', 'suppliers', 'purchases'));
     }
 
-    public function update(Request $request, Grn $grn)
+    public function update(UpdateGrnRequest $request, Grn $grn)
     {
         if ($grn->isGrnApproved()) {
-            $grnPurchaseId = $request->validate([
-                'purchase_id' => 'nullable|integer',
-            ]);
-
-            $grnPurchaseId['updated_by'] = auth()->id();
-
-            $grn->update($grnPurchaseId);
+            $grn->update($request->only(['purchase_id', 'updated_by']));
 
             return redirect()->route('grns.show', $grn->id);
         }
 
-        $request['code'] = $this->prependCompanyId($request->code);
+        DB::transaction(function () use ($request, $grn) {
+            $grn->update($request->except('grn'));
 
-        $grnData = $request->validate([
-            'code' => 'required|string|unique:grns,code,' . $grn->id,
-            'grn' => 'required|array',
-            'grn.*.product_id' => 'required|integer',
-            'grn.*.warehouse_id' => 'required|integer',
-            'grn.*.quantity' => 'required|numeric|min:1',
-            'grn.*.description' => 'nullable|string',
-            'supplier_id' => 'nullable|integer',
-            'purchase_id' => 'nullable|integer',
-            'issued_on' => 'required|date',
-            'description' => 'nullable|string',
-        ]);
-
-        $grnData['updated_by'] = auth()->id();
-
-        $basicGrnData = Arr::except($grnData, 'grn');
-        $grnDetailsData = $grnData['grn'];
-
-        DB::transaction(function () use ($basicGrnData, $grnDetailsData, $grn) {
-            $grn->update($basicGrnData);
-
-            for ($i = 0; $i < count($grnDetailsData); $i++) {
-                $grn->grnDetails[$i]->update($grnDetailsData[$i]);
+            for ($i = 0; $i < count($request->only('grn')['grn']); $i++) {
+                $grn->grnDetails[$i]->update($request->only('grn')['grn'][$i]);
             }
         });
 
