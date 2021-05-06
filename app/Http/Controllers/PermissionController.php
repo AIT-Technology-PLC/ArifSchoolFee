@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdatePermissionRequest;
 use App\Models\Employee;
-use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
@@ -31,7 +31,7 @@ class PermissionController extends Controller
         return view('permissions.edit', compact('employee', 'permissionsByCategory', 'userDirectPermissions'));
     }
 
-    public function update(Request $request, Employee $employee)
+    public function update(UpdatePermissionRequest $request, Employee $employee)
     {
         if ($employee->user->hasRole('System Manager')) {
             return view('errors.permission_denied');
@@ -43,14 +43,7 @@ class PermissionController extends Controller
 
         $this->authorize('update', $employee);
 
-        $permissionData = $request->validate([
-            'permissions' => 'nullable|array',
-            'permissions.*' => 'nullable|string',
-        ]);
-
-        $permissionData = $permissionData['permissions'] ?? '';
-
-        $employee->user->syncPermissions([$permissionData]);
+        $employee->user->syncPermissions($request->permissions);
 
         return redirect()->back()->with('message', 'Permissions updated successfully');
     }
