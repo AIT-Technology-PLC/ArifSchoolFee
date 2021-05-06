@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
-use Illuminate\Support\Arr;
 
 class CustomerController extends Controller
 {
@@ -35,8 +34,8 @@ class CustomerController extends Controller
     public function store(StoreCustomerRequest $request)
     {
         $this->customer->firstOrCreate(
-            Arr::only($request->all(), ['company_name', 'company_id']),
-            Arr::except($request->all(), ['company_name', 'company_id'])
+            $request->only(['company_name', 'company_id']),
+            $request->except(['company_name', 'company_id'])
         );
 
         return redirect()->route('customers.index');

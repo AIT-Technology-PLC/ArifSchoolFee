@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreGeneralTenderChecklistRequest;
 use App\Http\Requests\UpdateGeneralTenderChecklistRequest;
 use App\Models\GeneralTenderChecklist;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class GeneralTenderChecklistController extends Controller
 {
@@ -34,8 +32,8 @@ class GeneralTenderChecklistController extends Controller
     public function store(StoreGeneralTenderChecklistRequest $request)
     {
         $this->generalTenderChecklist->firstOrCreate(
-            Arr::only($request->all(), ['item', 'company_id']),
-            Arr::except($request->all(), ['item', 'company_id'])
+            $request->only(['item', 'company_id']),
+            $request->except(['item', 'company_id'])
         );
 
         return redirect()->route('general-tender-checklists.index');

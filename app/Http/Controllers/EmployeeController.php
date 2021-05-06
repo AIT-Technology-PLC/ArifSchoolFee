@@ -88,7 +88,7 @@ class EmployeeController extends Controller
             $employee->update($request->only(['position', 'enabled', 'updated_by']));
 
             if ($request->has('role')) {
-                $employee->user->syncRoles([$request->role]);
+                $employee->user->syncRoles($request->role);
             };
         });
 
