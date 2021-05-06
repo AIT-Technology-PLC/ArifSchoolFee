@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductCategoryRequest;
+use App\Http\Requests\UpdateProductCategoryRequest;
 use App\Models\ProductCategory;
-use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
 {
@@ -51,17 +51,9 @@ class ProductCategoryController extends Controller
         return view('categories.edit', compact('category'));
     }
 
-    public function update(Request $request, ProductCategory $category)
+    public function update(UpdateProductCategoryRequest $request, ProductCategory $category)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'properties' => 'nullable|array',
-        ]);
-
-        $data['updated_by'] = auth()->id();
-
-        $category->update($data);
+        $category->update($request->all());
 
         return redirect()->route('categories.index');
     }
