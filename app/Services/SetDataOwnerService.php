@@ -3,53 +3,47 @@
 namespace App\Services;
 
 use App\Traits\Approvable;
+use Illuminate\Support\Arr;
 
 class SetDataOwnerService
 {
     use Approvable;
 
-    private $company;
+    private $attributes;
 
-    private $createdBy;
-
-    private $updatedBy;
-
-    private $approvedBy;
+    private static $instance = null;
 
     private function __construct()
     {
-        $this->company = userCompany()->id;
+        $this->attributes = [
+            'company_id' => userCompany()->id,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
+            'approved_by' => $this->approvedBy(),
+        ];
+    }
 
-        $this->createdBy = auth()->id();
+    public static function getInstance()
+    {
+        if (self::$instance == null) {
+            self::$instance = new self();
+        }
 
-        $this->updatedBy = auth()->id();
-
-        $this->approvedBy = $this->approvedBy();
+        return self::$instance;
     }
 
     public static function forTransaction()
     {
-        return [
-            'company_id' => (new self)->company,
-            'created_by' => (new self)->createdBy,
-            'updated_by' => (new self)->updatedBy,
-            'approved_by' => (new self)->approvedBy,
-        ];
+        return self::getInstance()->attributes;
     }
 
     public static function forUpdate()
     {
-        return [
-            'updated_by' => (new self)->updatedBy,
-        ];
+        return Arr::only(self::getInstance()->attributes, 'updated_by');
     }
 
     public static function forNonTransaction()
     {
-        return [
-            'company_id' => (new self)->company,
-            'created_by' => (new self)->createdBy,
-            'updated_by' => (new self)->updatedBy,
-        ];
+        return Arr::only(self::getInstance()->attributes, ['company_id', 'created_by', 'updated_by']);
     }
 }
