@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePurchaseOrderRequest;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\PurchaseOrder;
@@ -38,35 +39,12 @@ class PurchaseOrderController extends Controller
         return view('purchase_orders.create', compact('products', 'customers'));
     }
 
-    public function store(Request $request)
+    public function store(StorePurchaseOrderRequest $request)
     {
-        $purchaseOrderData = $request->validate([
-            'code' => 'nullable|string',
-            'purchaseOrder' => 'required|array',
-            'purchaseOrder.*.product_id' => 'required|integer',
-            'purchaseOrder.*.quantity' => 'required|numeric|min:1',
-            'purchaseOrder.*.unit_price' => 'required|numeric',
-            'purchaseOrder.*.description' => 'nullable|string',
-            'customer_id' => 'nullable|integer',
-            'received_on' => 'required|date',
-            'description' => 'nullable|string',
-        ]);
+        $purchaseOrder = DB::transaction(function () use ($request) {
+            $purchaseOrder = $this->purchaseOrder->create($request->except('purchaseOrder'));
 
-        $purchaseOrderData['is_closed'] = 0;
-        $purchaseOrderData['company_id'] = userCompany()->id;
-        $purchaseOrderData['created_by'] = auth()->id();
-        $purchaseOrderData['updated_by'] = auth()->id();
-
-        $basicPurchaseOrderData = Arr::except($purchaseOrderData, 'purchaseOrder');
-        $purchaseOrderDetailsData = $purchaseOrderData['purchaseOrder'];
-
-        foreach ($purchaseOrderDetailsData as &$purchaseOrderDetailData) {
-            $purchaseOrderDetailData['quantity_left'] = $purchaseOrderDetailData['quantity'];
-        }
-
-        $purchaseOrder = DB::transaction(function () use ($basicPurchaseOrderData, $purchaseOrderDetailsData) {
-            $purchaseOrder = $this->purchaseOrder->create($basicPurchaseOrderData);
-            $purchaseOrder->purchaseOrderDetails()->createMany($purchaseOrderDetailsData);
+            $purchaseOrder->purchaseOrderDetails()->createMany($request->purchaseOrder);
 
             return $purchaseOrder;
         });
