@@ -60,8 +60,8 @@ class PurchaseOrderController extends Controller
         $basicPurchaseOrderData = Arr::except($purchaseOrderData, 'purchaseOrder');
         $purchaseOrderDetailsData = $purchaseOrderData['purchaseOrder'];
 
-        for ($i = 0; $i < count($purchaseOrderDetailsData); $i++) {
-            $purchaseOrderDetailsData[$i]['quantity_left'] = $purchaseOrderDetailsData[$i]['quantity'];
+        foreach ($purchaseOrderDetailsData as &$purchaseOrderDetailData) {
+            $purchaseOrderDetailData['quantity_left'] = $purchaseOrderDetailData['quantity'];
         }
 
         $purchaseOrder = DB::transaction(function () use ($basicPurchaseOrderData, $purchaseOrderDetailsData) {
