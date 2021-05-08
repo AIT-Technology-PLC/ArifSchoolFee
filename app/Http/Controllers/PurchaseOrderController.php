@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePurchaseOrderRequest;
+use App\Http\Requests\UpdatePurchaseOrderRequest;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\PurchaseOrder;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseOrderController extends Controller
@@ -84,34 +83,17 @@ class PurchaseOrderController extends Controller
         return view('purchase_orders.edit', compact('purchaseOrder', 'products', 'customers'));
     }
 
-    public function update(Request $request, PurchaseOrder $purchaseOrder)
+    public function update(UpdatePurchaseOrderRequest $request, PurchaseOrder $purchaseOrder)
     {
         if ($purchaseOrder->isPurchaseOrderClosed()) {
             return redirect()->route('purchase-orders.show', $purchaseOrder->id);
         }
 
-        $purchaseOrderData = $request->validate([
-            'code' => 'nullable|string',
-            'purchaseOrder' => 'required|array',
-            'purchaseOrder.*.product_id' => 'required|integer',
-            'purchaseOrder.*.quantity' => 'required|numeric|min:1',
-            'purchaseOrder.*.quantity_left' => 'required|numeric|lte:purchaseOrder.*.quantity',
-            'purchaseOrder.*.unit_price' => 'required|numeric',
-            'purchaseOrder.*.description' => 'nullable|string',
-            'customer_id' => 'nullable|integer',
-            'description' => 'nullable|string',
-        ]);
+        DB::transaction(function () use ($request, $purchaseOrder) {
+            $purchaseOrder->update($request->except('purchaseOrder'));
 
-        $purchaseOrderData['updated_by'] = auth()->id();
-
-        $basicPurchaseOrderData = Arr::except($purchaseOrderData, 'purchaseOrder');
-        $purchaseOrderDetailsData = $purchaseOrderData['purchaseOrder'];
-
-        DB::transaction(function () use ($basicPurchaseOrderData, $purchaseOrderDetailsData, $purchaseOrder) {
-            $purchaseOrder->update($basicPurchaseOrderData);
-
-            for ($i = 0; $i < count($purchaseOrderDetailsData); $i++) {
-                $purchaseOrder->purchaseOrderDetails[$i]->update($purchaseOrderDetailsData[$i]);
+            for ($i = 0; $i < count($request->purchaseOrder); $i++) {
+                $purchaseOrder->purchaseOrderDetails[$i]->update($request->purchaseOrder[$i]);
             }
         });
 
