@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePurchaseRequest;
+use App\Http\Requests\UpdatePurchaseRequest;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Services\AddPurchasedItemsToInventory;
 use App\Traits\PrependCompanyId;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
@@ -49,7 +48,7 @@ class PurchaseController extends Controller
     {
         $purchase = DB::transaction(function () use ($request) {
             $purchase = $this->purchase->create($request->except('purchase'));
-            
+
             $purchase->purchaseDetails()->createMany($request->purchase);
 
             if (!$purchase->isPurchaseManual()) {
@@ -80,37 +79,17 @@ class PurchaseController extends Controller
         return view('purchases.edit', compact('purchase', 'products', 'suppliers'));
     }
 
-    public function update(Request $request, Purchase $purchase)
+    public function update(UpdatePurchaseRequest $request, Purchase $purchase)
     {
         if ($purchase->isAddedToInventory()) {
             return redirect()->route('purchases.show', $purchase->id);
         }
 
-        $request['purchase_no'] = $this->prependCompanyId($request->purchase_no);
+        DB::transaction(function () use ($request, $purchase) {
+            $purchase->update($request->except('purchase'));
 
-        $purchaseData = $request->validate([
-            'purchase_no' => 'required|string|unique:purchases,purchase_no,' . $purchase->id,
-            'purchase' => 'required|array',
-            'type' => 'required|string',
-            'purchase.*.product_id' => 'required|integer',
-            'purchase.*.quantity' => 'required|numeric',
-            'purchase.*.unit_price' => 'required|numeric',
-            'supplier_id' => 'nullable|integer',
-            'purchased_on' => 'required|date',
-            'payment_type' => 'required|string',
-            'description' => 'nullable|string',
-        ]);
-
-        $purchaseData['updated_by'] = auth()->id();
-
-        $basicPurchaseData = Arr::except($purchaseData, 'purchase');
-        $purchaseDetailsData = $purchaseData['purchase'];
-
-        DB::transaction(function () use ($purchase, $basicPurchaseData, $purchaseDetailsData) {
-            $purchase->update($basicPurchaseData);
-
-            for ($i = 0; $i < count($purchaseDetailsData); $i++) {
-                $purchase->purchaseDetails[$i]->update($purchaseDetailsData[$i]);
+            for ($i = 0; $i < count($request->purchase); $i++) {
+                $purchase->purchaseDetails[$i]->update($request->purchase[$i]);
             }
         });
 
