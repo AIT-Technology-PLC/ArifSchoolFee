@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePurchaseRequest;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
@@ -44,35 +45,12 @@ class PurchaseController extends Controller
         return view('purchases.create', compact('products', 'suppliers', 'currentPurchaseNo'));
     }
 
-    public function store(Request $request)
+    public function store(StorePurchaseRequest $request)
     {
-        $request['purchase_no'] = $this->prependCompanyId($request->purchase_no);
-
-        $purchaseData = $request->validate([
-            'is_manual' => 'required|integer',
-            'purchase_no' => 'required|string|unique:purchases',
-            'type' => 'required|string',
-            'purchase' => 'required|array',
-            'purchase.*.product_id' => 'required|integer',
-            'purchase.*.quantity' => 'required|numeric',
-            'purchase.*.unit_price' => 'required|numeric',
-            'supplier_id' => 'nullable|integer',
-            'status' => 'sometimes|required|string|max:255',
-            'purchased_on' => 'required|date',
-            'payment_type' => 'required|string',
-            'description' => 'nullable|string',
-        ]);
-
-        $purchaseData['company_id'] = userCompany()->id;
-        $purchaseData['created_by'] = auth()->id();
-        $purchaseData['updated_by'] = auth()->id();
-
-        $basicPurchaseData = Arr::except($purchaseData, 'purchase');
-        $purchaseDetailsData = $purchaseData['purchase'];
-
-        $purchase = DB::transaction(function () use ($basicPurchaseData, $purchaseDetailsData) {
-            $purchase = $this->purchase->create($basicPurchaseData);
-            $purchase->purchaseDetails()->createMany($purchaseDetailsData);
+        $purchase = DB::transaction(function () use ($request) {
+            $purchase = $this->purchase->create($request->except('purchase'));
+            
+            $purchase->purchaseDetails()->createMany($request->purchase);
 
             if (!$purchase->isPurchaseManual()) {
                 AddPurchasedItemsToInventory::addToInventory($purchase);
