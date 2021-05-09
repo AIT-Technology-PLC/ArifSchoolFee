@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSupplierRequest;
+use App\Http\Requests\UpdateSupplierRequest;
 use App\Models\Supplier;
-use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
@@ -46,21 +46,9 @@ class SupplierController extends Controller
         return view('suppliers.edit', compact('supplier'));
     }
 
-    public function update(Request $request, Supplier $supplier)
+    public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {
-        $data = $request->validate([
-            'company_name' => 'required|string|max:255',
-            'tin' => 'nullable|numeric',
-            'address' => 'nullable|string|max:255',
-            'contact_name' => 'nullable|string|max:255',
-            'email' => 'nullable|string|email|max:255',
-            'phone' => 'nullable|string|max:255',
-            'country' => 'nullable|string|max:255',
-        ]);
-
-        $data['updated_by'] = auth()->id();
-
-        $supplier->update($data);
+        $supplier->update($request->all());
 
         return redirect()->route('suppliers.index');
     }
