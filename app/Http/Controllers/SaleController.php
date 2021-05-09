@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSaleRequest;
+use App\Http\Requests\UpdateSaleRequest;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Services\StoreSaleableProducts;
 use App\Traits\PrependCompanyId;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
@@ -91,41 +90,21 @@ class SaleController extends Controller
         return view('sales.edit', compact('sale', 'products', 'customers'));
     }
 
-    public function update(Request $request, Sale $sale)
+    public function update(UpdateSaleRequest $request, Sale $sale)
     {
         if ($sale->isSaleSubtracted()) {
             return redirect()->route('sales.show', $sale->id);
         }
 
-        $request['receipt_no'] = $this->prependCompanyId($request->receipt_no);
+        DB::transaction(function () use ($request, $sale) {
+            $sale->update($request->except('sale'));
 
-        $saleData = $request->validate([
-            'receipt_no' => 'required|string|unique:sales,receipt_no,' . $sale->id,
-            'sale' => 'required|array',
-            'sale.*.product_id' => 'required|integer',
-            'sale.*.quantity' => 'required|numeric|min:1',
-            'sale.*.unit_price' => 'required|numeric',
-            'customer_id' => 'nullable|integer',
-            'sold_on' => 'required|date',
-            'payment_type' => 'required|string',
-            'description' => 'nullable|string',
-        ]);
-
-        $saleData['updated_by'] = auth()->id();
-
-        $basicSaleData = Arr::except($saleData, 'sale');
-        $saleDetailsData = $saleData['sale'];
-
-        DB::transaction(function () use ($basicSaleData, $saleDetailsData, $sale) {
-            $sale->update($basicSaleData);
-
-            for ($i = 0; $i < count($saleDetailsData); $i++) {
-                $sale->saleDetails[$i]->update($saleDetailsData[$i]);
+            for ($i = 0; $i < count($request->sale); $i++) {
+                $sale->saleDetails[$i]->update($request->sale[$i]);
             }
         });
 
         return redirect()->route('sales.show', $sale->id);
-
     }
 
     public function destroy(Sale $sale)
