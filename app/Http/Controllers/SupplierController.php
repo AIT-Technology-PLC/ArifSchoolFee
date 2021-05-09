@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSupplierRequest;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class SupplierController extends Controller
 {
@@ -31,33 +31,14 @@ class SupplierController extends Controller
         return view('suppliers.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreSupplierRequest $request)
     {
-        $data = $request->validate([
-            'company_name' => 'required|string|max:255',
-            'tin' => 'nullable|numeric',
-            'address' => 'nullable|string|max:255',
-            'contact_name' => 'nullable|string|max:255',
-            'email' => 'nullable|string|email|max:255',
-            'phone' => 'nullable|string|max:255',
-            'country' => 'nullable|string|max:255',
-        ]);
-
-        $data['company_id'] = userCompany()->id;
-        $data['created_by'] = auth()->id();
-        $data['updated_by'] = auth()->id();
-
         $this->supplier->firstOrCreate(
-            Arr::only($data, ['company_name', 'company_id']),
-            Arr::except($data, ['company_name', 'company_id'])
+            $request->only(['company_name', 'company_id']),
+            $request->except(['company_name', 'company_id']),
         );
 
         return redirect()->route('suppliers.index');
-    }
-
-    public function show(Supplier $supplier)
-    {
-        //
     }
 
     public function edit(Supplier $supplier)
