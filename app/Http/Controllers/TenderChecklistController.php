@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTenderChecklistRequest;
 use App\Models\GeneralTenderChecklist;
 use App\Models\Tender;
 use App\Models\TenderChecklist;
@@ -20,19 +21,13 @@ class TenderChecklistController extends Controller
         return view('tender_checklists.create', compact('generalTenderChecklists', 'tender'));
     }
 
-    public function store(Request $request, Tender $tender)
+    public function store(StoreTenderChecklistRequest $request, Tender $tender)
     {
         $tender = $tender->find(request('tender'));
 
         $this->authorize('create', $tender);
 
-        $tenderChecklistData = $request->validate([
-            'checklists' => 'required|array',
-        ]);
-
-        $tenderChecklistData = $tenderChecklistData['checklists'];
-
-        $tender->tenderChecklists()->createMany($tenderChecklistData);
+        $tender->tenderChecklists()->createMany($request->checklists);
 
         return redirect()->route('tenders.show', $tender->id);
     }
