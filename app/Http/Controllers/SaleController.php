@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSaleRequest;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Sale;
@@ -44,34 +45,12 @@ class SaleController extends Controller
         return view('sales.create', compact('products', 'customers', 'currentReceiptNo'));
     }
 
-    public function store(Request $request)
+    public function store(StoreSaleRequest $request)
     {
-        $request['receipt_no'] = $this->prependCompanyId($request->receipt_no);
+        $sale = DB::transaction(function () use ($request) {
+            $sale = $this->sale->create($request->except('sale'));
 
-        $saleData = $request->validate([
-            'is_manual' => 'required|integer',
-            'receipt_no' => 'required|string|unique:sales',
-            'sale' => 'required|array',
-            'sale.*.product_id' => 'required|integer',
-            'sale.*.quantity' => 'required|numeric|min:1',
-            'sale.*.unit_price' => 'required|numeric',
-            'customer_id' => 'nullable|integer',
-            'sold_on' => 'required|date',
-            'status' => 'sometimes|required|string|max:255',
-            'payment_type' => 'required|string',
-            'description' => 'nullable|string',
-        ]);
-
-        $saleData['company_id'] = userCompany()->id;
-        $saleData['created_by'] = auth()->id();
-        $saleData['updated_by'] = auth()->id();
-
-        $basicSaleData = Arr::except($saleData, 'sale');
-        $saleDetailsData = $saleData['sale'];
-
-        $sale = DB::transaction(function () use ($basicSaleData, $saleDetailsData) {
-            $sale = $this->sale->create($basicSaleData);
-            $sale->saleDetails()->createMany($saleDetailsData);
+            $sale->saleDetails()->createMany($request->sale);
 
             if ($sale->isSaleManual()) {
                 $isSaleValid = StoreSaleableProducts::areProductsSaleable($sale->saleDetails) &&
