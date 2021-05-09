@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTenderStatusRequest;
+use App\Http\Requests\UpdateTenderStatusRequest;
 use App\Models\TenderStatus;
-use Illuminate\Http\Request;
 
 class TenderStatusController extends Controller
 {
@@ -44,16 +44,9 @@ class TenderStatusController extends Controller
         return view('tender_statuses.edit', compact('tenderStatus'));
     }
 
-    public function update(Request $request, TenderStatus $tenderStatus)
+    public function update(UpdateTenderStatusRequest $request, TenderStatus $tenderStatus)
     {
-        $tenderStatusData = $request->validate([
-            'status' => 'required|string',
-            'description' => 'nullable|string',
-        ]);
-
-        $tenderStatusData['updated_by'] = auth()->id();
-
-        $tenderStatus->update($tenderStatusData);
+        $tenderStatus->update($request->all());
 
         return redirect()->route('tender-statuses.index');
     }
