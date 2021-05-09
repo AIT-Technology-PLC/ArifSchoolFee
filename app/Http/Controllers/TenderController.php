@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTenderRequest;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Tender;
@@ -42,42 +43,12 @@ class TenderController extends Controller
         return view('tenders.create', compact('customers', 'tenderStatuses', 'products'));
     }
 
-    public function store(Request $request)
+    public function store(StoreTenderRequest $request)
     {
-        $tenderData = $request->validate([
-            'code' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-            'status' => 'required|string|max:255',
-            'participants' => 'nullable|integer|min:1',
-            'bid_bond_amount' => 'nullable|string',
-            'bid_bond_type' => 'nullable|string',
-            'bid_bond_validity' => 'nullable|integer',
-            'price' => 'nullable|string',
-            'payment_term' => 'nullable|string',
-            'published_on' => 'required|date',
-            'closing_date' => 'required|date|after_or_equal:published_on',
-            'opening_date' => 'required|date|after:closing_date',
-            'customer_id' => 'nullable|integer',
-            'description' => 'nullable|string',
-            'tender' => 'required|array',
-            'tender.*.product_id' => 'required|integer',
-            'tender.*.quantity' => 'required|numeric',
-            'tender.*.description' => 'nullable|string',
-        ]);
+        $tender = DB::transaction(function () use ($request) {
+            $tender = $this->tender->create($request->except('tender'));
 
-        $tenderData['closing_date'] = (new Carbon($tenderData['closing_date']))->toDateTimeString();
-        $tenderData['opening_date'] = (new Carbon($tenderData['opening_date']))->toDateTimeString();
-
-        $tenderData['company_id'] = userCompany()->id;
-        $tenderData['created_by'] = auth()->id();
-        $tenderData['updated_by'] = auth()->id();
-
-        $basicTenderData = Arr::except($tenderData, 'tender');
-        $tenderDetailsData = $tenderData['tender'];
-
-        $tender = DB::transaction(function () use ($basicTenderData, $tenderDetailsData) {
-            $tender = $this->tender->create($basicTenderData);
-            $tender->tenderDetails()->createMany($tenderDetailsData);
+            $tender->tenderDetails()->createMany($request->tender);
 
             return $tender;
         });
