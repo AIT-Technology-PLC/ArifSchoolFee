@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTenderChecklistRequest;
+use App\Http\Requests\UpdateTenderChecklistRequest;
 use App\Models\GeneralTenderChecklist;
 use App\Models\Tender;
 use App\Models\TenderChecklist;
@@ -39,16 +40,11 @@ class TenderChecklistController extends Controller
         return view('tender_checklists.edit', compact('tenderChecklist'));
     }
 
-    public function update(Request $request, TenderChecklist $tenderChecklist)
+    public function update(UpdateTenderChecklistRequest $request, TenderChecklist $tenderChecklist)
     {
         $this->authorize('update', $tenderChecklist->tender);
 
-        $tenderChecklistData = $request->validate([
-            'status' => 'required|string',
-            'comment' => 'nullable|string',
-        ]);
-
-        $tenderChecklist->update($tenderChecklistData);
+        $tenderChecklist->update($request->all());
 
         return redirect()->route('tenders.show', $tenderChecklist->tender_id);
     }
