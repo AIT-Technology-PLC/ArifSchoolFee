@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTenderRequest;
+use App\Http\Requests\UpdateTenderRequest;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Tender;
 use App\Models\TenderStatus;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class TenderController extends Controller
@@ -74,42 +72,13 @@ class TenderController extends Controller
         return view('tenders.edit', compact('tender', 'customers', 'tenderStatuses', 'products'));
     }
 
-    public function update(Request $request, Tender $tender)
+    public function update(UpdateTenderRequest $request, Tender $tender)
     {
-        $tenderData = $request->validate([
-            'code' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-            'status' => 'required|string|max:255',
-            'participants' => 'nullable|integer',
-            'bid_bond_amount' => 'nullable|string',
-            'bid_bond_type' => 'nullable|string',
-            'bid_bond_validity' => 'nullable|integer',
-            'price' => 'nullable|string',
-            'payment_term' => 'nullable|string',
-            'published_on' => 'required|date',
-            'closing_date' => 'required|date|after_or_equal:published_on',
-            'opening_date' => 'required|date|after:closing_date',
-            'customer_id' => 'nullable|integer',
-            'description' => 'nullable|string',
-            'tender' => 'required|array',
-            'tender.*.product_id' => 'required|integer',
-            'tender.*.quantity' => 'required|numeric',
-            'tender.*.description' => 'nullable|string',
-        ]);
+        DB::transaction(function () use ($request, $tender) {
+            $tender->update($request->except('tender'));
 
-        $tenderData['closing_date'] = (new Carbon($tenderData['closing_date']))->toDateTimeString();
-        $tenderData['opening_date'] = (new Carbon($tenderData['opening_date']))->toDateTimeString();
-
-        $tenderData['updated_by'] = auth()->id();
-
-        $basicTenderData = Arr::except($tenderData, ['tender', 'checklists']);
-        $tenderDetailsData = $tenderData['tender'];
-
-        DB::transaction(function () use ($tender, $basicTenderData, $tenderDetailsData) {
-            $tender->update($basicTenderData);
-
-            for ($i = 0; $i < count($tenderDetailsData); $i++) {
-                $tender->tenderDetails[$i]->update($tenderDetailsData[$i]);
+            for ($i = 0; $i < count($request->tender); $i++) {
+                $tender->tenderDetails[$i]->update($request->tender[$i]);
             }
         });
 
