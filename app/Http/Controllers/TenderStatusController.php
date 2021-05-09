@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTenderStatusRequest;
 use App\Models\TenderStatus;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class TenderStatusController extends Controller
 {
@@ -29,20 +29,11 @@ class TenderStatusController extends Controller
         return view('tender_statuses.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreTenderStatusRequest $request)
     {
-        $tenderStatus = $request->validate([
-            'status' => 'required|string',
-            'description' => 'nullable|string',
-        ]);
-
-        $tenderStatus['company_id'] = userCompany()->id;
-        $tenderStatus['created_by'] = auth()->id();
-        $tenderStatus['updated_by'] = auth()->id();
-
         $this->tenderStatus->firstOrCreate(
-            Arr::only($tenderStatus, ['status', 'company_id']),
-            Arr::except($tenderStatus, ['status', 'company_id'])
+            $request->only(['status', 'company_id']),
+            $request->except(['status', 'company_id']),
         );
 
         return redirect()->route('tender-statuses.index');
