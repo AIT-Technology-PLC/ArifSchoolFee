@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreWarehouseRequest;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class WarehouseController extends Controller
 {
@@ -31,21 +31,11 @@ class WarehouseController extends Controller
         return view('warehouses.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreWarehouseRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
-        $data['company_id'] = userCompany()->id;
-        $data['created_by'] = auth()->id();
-        $data['updated_by'] = auth()->id();
-
         $this->warehouse->firstOrCreate(
-            Arr::only($data, ['name', 'company_id']),
-            Arr::except($data, ['name', 'company_id'])
+            $request->only(['name', 'company_id']),
+            $request->except(['name', 'company_id']),
         );
 
         return redirect()->route('warehouses.index');
