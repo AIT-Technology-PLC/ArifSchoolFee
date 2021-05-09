@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTransferRequest;
 use App\Models\Product;
 use App\Models\Transfer;
 use App\Models\Warehouse;
@@ -50,34 +51,13 @@ class TransferController extends Controller
         return view('transfers.create', compact('products', 'warehouses', 'currentTransferCode'));
     }
 
-    public function store(Request $request)
+    public function store(StoreTransferRequest $request)
     {
-        $request['code'] = $this->prependCompanyId($request->code);
+        $transfer = DB::transaction(function () use ($request) {
+            $transfer = $this->transfer->create($request->except('transfer'));
 
-        $transferData = $request->validate([
-            'code' => 'required|string|unique:transfers',
-            'transfer' => 'required|array',
-            'transfer.*.product_id' => 'required|integer',
-            'transfer.*.warehouse_id' => 'required|integer',
-            'transfer.*.to_warehouse_id' => 'required|integer|different:transfer.*.warehouse_id',
-            'transfer.*.quantity' => 'required|numeric|min:1',
-            'transfer.*.description' => 'nullable|string',
-            'issued_on' => 'required|date',
-            'description' => 'nullable|string',
-        ]);
+            $transfer->transferDetails()->createMany($request->transfer);
 
-        $transferData['status'] = 'Not Transferred';
-        $transferData['company_id'] = userCompany()->id;
-        $transferData['created_by'] = auth()->id();
-        $transferData['updated_by'] = auth()->id();
-        $transferData['approved_by'] = $this->approvedBy();
-
-        $basicTransferData = Arr::except($transferData, 'transfer');
-        $transferDetailsData = $transferData['transfer'];
-
-        $transfer = DB::transaction(function () use ($basicTransferData, $transferDetailsData) {
-            $transfer = $this->transfer->create($basicTransferData);
-            $transfer->transferDetails()->createMany($transferDetailsData);
             $isTransferValid = StoreSaleableProducts::storeTransferredProducts($transfer);
 
             if (!$isTransferValid) {
