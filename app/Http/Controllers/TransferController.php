@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTransferRequest;
+use App\Http\Requests\UpdateTransferRequest;
 use App\Models\Product;
 use App\Models\Transfer;
 use App\Models\Warehouse;
@@ -13,8 +14,6 @@ use App\Services\StoreSaleableProducts;
 use App\Traits\Approvable;
 use App\Traits\NotifiableUsers;
 use App\Traits\PrependCompanyId;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -116,36 +115,17 @@ class TransferController extends Controller
         return view('transfers.edit', compact('transfer', 'products', 'warehouses'));
     }
 
-    public function update(Request $request, Transfer $transfer)
+    public function update(UpdateTransferRequest $request, Transfer $transfer)
     {
         if ($transfer->isTransferApproved()) {
             return redirect()->route('transfers.show', $transfer->id);
         }
 
-        $request['code'] = $this->prependCompanyId($request->code);
+        DB::transaction(function () use ($request, $transfer) {
+            $transfer->update($request->except('transfer'));
 
-        $transferData = $request->validate([
-            'code' => 'required|string|unique:transfers,code,' . $transfer->id,
-            'transfer' => 'required|array',
-            'transfer.*.product_id' => 'required|integer',
-            'transfer.*.warehouse_id' => 'required|integer',
-            'transfer.*.to_warehouse_id' => 'required|integer|different:transfer.*.warehouse_id',
-            'transfer.*.quantity' => 'required|numeric|min:1',
-            'transfer.*.description' => 'nullable|string',
-            'issued_on' => 'required|date',
-            'description' => 'nullable|string',
-        ]);
-
-        $transferData['updated_by'] = auth()->id();
-
-        $basicTransferData = Arr::except($transferData, 'transfer');
-        $transferDetailsData = $transferData['transfer'];
-
-        DB::transaction(function () use ($basicTransferData, $transferDetailsData, $transfer) {
-            $transfer->update($basicTransferData);
-
-            for ($i = 0; $i < count($transferDetailsData); $i++) {
-                $transfer->transferDetails[$i]->update($transferDetailsData[$i]);
+            for ($i = 0; $i < count($request->transfer); $i++) {
+                $transfer->transferDetails[$i]->update($request->transfer[$i]);
             }
         });
 
