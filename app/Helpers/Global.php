@@ -1,6 +1,10 @@
 <?php
 
-function userCompany()
-{
-    return auth()->user()->employee->company;
+if (!function_exists('userCompany')) {
+
+    function userCompany()
+    {
+        return auth()->user()->employee->company;
+    }
+
 }

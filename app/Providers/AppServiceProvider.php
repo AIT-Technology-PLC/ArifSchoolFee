@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->loadHelpers();
+        require_once __DIR__ . '/../Helpers/Global.php';
     }
 
     /**
@@ -34,12 +34,5 @@ class AppServiceProvider extends ServiceProvider
             }
 
         });
-    }
-
-    protected function loadHelpers()
-    {
-        foreach (glob(__DIR__ . '/../Helpers/Global.php') as $filename) {
-            require_once $filename;
-        }
     }
 }
