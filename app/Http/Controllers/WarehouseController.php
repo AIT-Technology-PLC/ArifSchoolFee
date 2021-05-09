@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreWarehouseRequest;
+use App\Http\Requests\UpdateWarehouseRequest;
 use App\Models\Warehouse;
-use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
 {
@@ -41,27 +41,14 @@ class WarehouseController extends Controller
         return redirect()->route('warehouses.index');
     }
 
-    public function show(Warehouse $warehouse)
-    {
-        //
-    }
-
     public function edit(Warehouse $warehouse)
     {
         return view('warehouses.edit', compact('warehouse'));
     }
 
-    public function update(Request $request, Warehouse $warehouse)
+    public function update(UpdateWarehouseRequest $request, Warehouse $warehouse)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
-        $data['updated_by'] = auth()->id();
-
-        $warehouse->update($data);
+        $warehouse->update($request->all());
 
         return redirect()->route('warehouses.index');
     }
