@@ -11,7 +11,6 @@ use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Notifications\GrnApproved;
 use App\Notifications\GrnPrepared;
-use App\Services\AddPurchasedItemsToInventory;
 use App\Traits\Approvable;
 use App\Traits\NotifiableUsers;
 use App\Traits\PrependCompanyId;
@@ -61,8 +60,6 @@ class GrnController extends Controller
             $grn = $this->grn->create($request->except('grn'));
 
             $grn->grnDetails()->createMany($request->grn);
-
-            AddPurchasedItemsToInventory::addToInventory($grn);
 
             return $grn;
         });

@@ -85,29 +85,6 @@
                             </div>
                         </div>
                     </div>
-                    @can('Approve GRN')    
-                        <div class="column is-6">
-                            <div class="field">
-                                <label for="is_approved" class="label text-green has-text-weight-normal"> Approve GRN <sup class="has-text-danger">*</sup> </label>
-                                <div class="control has-icons-left">
-                                    <label class="radio has-text-grey has-text-weight-normal">
-                                        <input type="radio" name="is_approved" id="is_approved" value="1" {{ old('is_approved') ? 'checked' : '' }} checked>
-                                        Yes, approve now.
-                                    </label>
-                                    <br>
-                                    <label class="radio has-text-grey has-text-weight-normal">
-                                        <input type="radio" name="is_approved" id="is_approved" value="0" {{ old('is_approved') ? '' : 'checked' }}>
-                                        No, approve later.
-                                    </label>
-                                    @error('is_approved')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                    @endcan
                     <div class="column is-6">
                         <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
