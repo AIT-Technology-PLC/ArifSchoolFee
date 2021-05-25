@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class MerchandiseInventoryService
 {
@@ -24,12 +25,21 @@ class MerchandiseInventoryService
                 Arr::add(SetDataOwnerService::forNonTransaction(),
                     'on_hand', 0.00)
             );
-    
+
             $merchandise->on_hand = $merchandise->on_hand + $detail->quantity;
-    
+
             $merchandise->updated_by = SetDataOwnerService::forUpdate()['updated_by'];
-    
+
             $merchandise->save();
         });
+    }
+
+    public function isAvailable($detail)
+    {
+        return $this->merchandise->where([
+            ['product_id', $detail->product_id],
+            ['warehouse_id', $detail->warehouse_id],
+            ['on_hand', '>=', $detail->quantity],
+        ])->exists();
     }
 }
