@@ -43,6 +43,6 @@ class StoreTransferRequest extends FormRequest
             'status' => 'Not Transferred',
         ]);
 
-        $this->merge(SetDataOwnerService::forTransaction());
+        $this->merge(SetDataOwnerService::forNonTransaction());
     }
 }
