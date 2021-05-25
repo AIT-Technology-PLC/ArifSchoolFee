@@ -11,15 +11,13 @@ use App\Notifications\TransferApproved;
 use App\Notifications\TransferMade;
 use App\Notifications\TransferPrepared;
 use App\Services\StoreSaleableProducts;
-use App\Traits\Approvable;
 use App\Traits\NotifiableUsers;
-use App\Traits\PrependCompanyId;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class TransferController extends Controller
 {
-    use PrependCompanyId, Approvable, NotifiableUsers;
+    use NotifiableUsers;
 
     private $transfer;
 

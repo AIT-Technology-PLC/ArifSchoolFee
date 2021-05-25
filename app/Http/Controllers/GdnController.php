@@ -63,10 +63,10 @@ class GdnController extends Controller
 
             $gdn->gdnDetails()->createMany($request->gdn);
 
+            Notification::send($this->notifiableUsers('Approve GDN'), new GdnPrepared($gdn));
+
             return $gdn;
         });
-
-        Notification::send($this->notifiableUsers('Approve GDN'), new GdnPrepared($gdn));
 
         return redirect()->route('gdns.show', $gdn->id);
     }
@@ -130,12 +130,15 @@ class GdnController extends Controller
         $message = 'This DO/GDN is already approved';
 
         if (!$gdn->isGdnApproved()) {
-            $gdn->approveGdn();
+            $message = DB::transaction(function () use ($gdn) {
+                $gdn->approveGdn();
 
-            $message = 'You have approved this DO/GDN successfully';
+                Notification::send($this->notifiableUsers('Subtract GDN'), new GdnApproved($gdn));
 
-            Notification::send($this->notifiableUsers('Subtract GDN'), new GdnApproved($gdn));
-            Notification::send($this->notifyCreator($gdn, $this->notifiableUsers('Subtract GDN')), new GdnApproved($gdn));
+                Notification::send($this->notifyCreator($gdn, $this->notifiableUsers('Subtract GDN')), new GdnApproved($gdn));
+
+                return 'You have approved this DO/GDN successfully';
+            });
         }
 
         return redirect()->back()->with('successMessage', $message);

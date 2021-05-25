@@ -13,15 +13,13 @@ use App\Notifications\GrnAdded;
 use App\Notifications\GrnApproved;
 use App\Notifications\GrnPrepared;
 use App\Services\InventoryOperationService;
-use App\Traits\Approvable;
 use App\Traits\NotifiableUsers;
-use App\Traits\PrependCompanyId;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class GrnController extends Controller
 {
-    use PrependCompanyId, Approvable, NotifiableUsers;
+    use NotifiableUsers;
 
     private $grn;
 
@@ -67,7 +65,6 @@ class GrnController extends Controller
 
             return $grn;
         });
-
 
         return redirect()->route('grns.show', $grn->id);
     }
