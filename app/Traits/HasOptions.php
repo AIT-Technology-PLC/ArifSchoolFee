@@ -10,10 +10,10 @@ trait HasOptions
         $isCompanyPremiumMember = userCompany()->isCompanyPremiumMember();
 
         if ($isCompanyPremiumMember) {
-            return ['Manufactured Product', 'Raw Material', 'MRO Item', 'Merchandise Product'];
+            return ['Manufactured Inventory', 'Raw Material Inventory', 'Merchandise Inventory'];
         }
 
-        return ['Merchandise Product'];
+        return ['Merchandise Inventory'];
     }
 
     public function getMeasurementUnits()
