@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Warehouse;
+use App\Notifications\GrnAdded;
 use App\Notifications\GrnApproved;
 use App\Notifications\GrnPrepared;
 use App\Services\InventoryOperationService;
@@ -62,10 +63,11 @@ class GrnController extends Controller
 
             $grn->grnDetails()->createMany($request->grn);
 
+            Notification::send($this->notifiableUsers('Approve GRN'), new GrnPrepared($grn));
+
             return $grn;
         });
 
-        Notification::send($this->notifiableUsers('Approve GRN'), new GrnPrepared($grn));
 
         return redirect()->route('grns.show', $grn->id);
     }
@@ -129,10 +131,15 @@ class GrnController extends Controller
         $message = 'This GRN is already approved';
 
         if (!$grn->isGrnApproved()) {
-            $grn->approveGrn();
-            $message = 'You have approved this GRN successfully';
-            Notification::send($this->notifiableUsers('Add GRN'), new GrnApproved($grn));
-            Notification::send($this->notifyCreator($grn, $this->notifiableUsers('Add GRN')), new GrnApproved($grn));
+            $message = DB::transaction(function () use ($grn) {
+                $grn->approveGrn();
+
+                Notification::send($this->notifiableUsers('Add GRN'), new GrnApproved($grn));
+
+                Notification::send($this->notifyCreator($grn, $this->notifiableUsers('Add GRN')), new GrnApproved($grn));
+
+                return 'You have approved this GRN successfully';
+            });
         }
 
         return redirect()->back()->with('successMessage', $message);
@@ -146,13 +153,15 @@ class GrnController extends Controller
             return redirect()->back()->with('failedMessage', 'This GRN is not approved.');
         }
 
-        InventoryOperationService::add($grn->grnDetails);
+        DB::transaction(function () use ($grn) {
+            InventoryOperationService::add($grn->grnDetails);
 
-        $grn->addedToInventory();
+            $grn->addedToInventory();
 
-        Notification::send($this->notifiableUsers('Approve GRN'), new GrnAdded($grn));
+            Notification::send($this->notifiableUsers('Approve GRN'), new GrnAdded($grn));
 
-        Notification::send($this->notifyCreator($grn, $this->notifiableUsers('Approve GRN')), new GrnAdded($grn));
+            Notification::send($this->notifyCreator($grn, $this->notifiableUsers('Approve GRN')), new GrnAdded($grn));
+        });
 
         return redirect()->back();
     }
