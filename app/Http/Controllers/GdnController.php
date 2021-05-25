@@ -162,16 +162,26 @@ class GdnController extends Controller
             return redirect()->back()->with('message', 'This DO/GDN is not approved');
         }
 
-        DB::transaction(function () use ($gdn) {
-            InventoryOperationService::subtract($gdn->gdnDetails);
+        $result = DB::transaction(function () use ($gdn) {
+            $result = InventoryOperationService::subtract($gdn->gdnDetails);
+
+            if (!$result['isSubtracted']) {
+                DB::rollBack();
+
+                return $result;
+            }
 
             $gdn->changeStatusToSubtractedFromInventory();
 
             Notification::send($this->notifiableUsers('Approve GDN'), new GdnSubtracted($gdn));
 
             Notification::send($this->notifyCreator($gdn, $this->notifiableUsers('Approve GDN')), new GdnSubtracted($gdn));
+
+            return $result;
         });
 
-        return redirect()->back();
+        return $result['isSubtracted'] ?
+        redirect()->back() :
+        redirect()->back()->with('message', $result['unavailableProducts']);
     }
 }
