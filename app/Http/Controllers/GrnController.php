@@ -136,4 +136,27 @@ class GrnController extends Controller
 
         return redirect()->back()->with('successMessage', $message);
     }
+
+    public function add(Grn $grn)
+    {
+        $this->authorize('add', $grn);
+
+        if (!$grn->isGrnApproved()) {
+            return redirect()->back()->with('failedMessage', 'This GRN is not approved');
+        }
+
+        $result = InventoryOperations::add($grn->grnDetails);
+
+        if (!$result['isAdded']) {
+            return redirect()->back()->with('failedMessage', $result['message']);
+        }
+
+        $grn->addedToInventory();
+
+        Notification::send($this->notifiableUsers('Approve GRN'),new GrnAdded($grn));
+
+        Notification::send($this->notifyCreator($grn, $this->notifiableUsers('Approve GRN')),new GrnAdded($grn));
+
+        return redirect()->back()->with('successMessage', $result['message']);
+    }
 }

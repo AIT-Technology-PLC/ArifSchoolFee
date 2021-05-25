@@ -18,7 +18,7 @@ trait HasOptions
 
     public function getMeasurementUnits()
     {
-        return ['Metric Ton', 'Quintal', 'Piece', 'Kilogram', 'Box'];
+        return ['Metric Ton', 'Quintal', 'Piece', 'Kilogram', 'Box', 'Meter', 'Centimeter'];
     }
 
     public function getShippingLines()
