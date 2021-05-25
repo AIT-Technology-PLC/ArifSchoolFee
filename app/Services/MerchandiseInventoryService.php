@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use App\Models\Merchandise;
+use App\Services\SetDataOwnerService;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use App\Services\SetDataOwnerService;
 
 class MerchandiseInventoryService
 {
@@ -58,5 +58,14 @@ class MerchandiseInventoryService
         $merchandise->updated_by = SetDataOwnerService::forUpdate()['updated_by'];
 
         $merchandise->save();
+    }
+
+    public function transfer($detail)
+    {
+        DB::transaction(function () use ($detail) {
+            $this->subtract($detail);
+
+            $this->add($detail);
+        });
     }
 }
