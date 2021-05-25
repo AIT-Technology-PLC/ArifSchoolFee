@@ -11,6 +11,7 @@ use App\Models\Sale;
 use App\Models\Warehouse;
 use App\Notifications\GdnApproved;
 use App\Notifications\GdnPrepared;
+use App\Services\InventoryOperationService;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -151,5 +152,26 @@ class GdnController extends Controller
         $gdn->load(['gdnDetails.product', 'customer', 'company', 'createdBy', 'approvedBy']);
 
         return view('gdns.print', compact('gdn'));
+    }
+
+    public function subtract(Gdn $gdn)
+    {
+        $this->authorize('subtract', $gdn);
+
+        if (!$gdn->isGdnApproved()) {
+            return redirect()->back()->with('message', 'This DO/GDN is not approved');
+        }
+
+        DB::transaction(function () use ($gdn) {
+            InventoryOperationService::subtract($gdn->gdnDetails);
+
+            $gdn->changeStatusToSubtractedFromInventory();
+
+            Notification::send($this->notifiableUsers('Approve GDN'), new GdnSubtracted($gdn));
+
+            Notification::send($this->notifyCreator($gdn, $this->notifiableUsers('Approve GDN')), new GdnSubtracted($gdn));
+        });
+
+        return redirect()->back();
     }
 }
