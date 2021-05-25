@@ -11,6 +11,7 @@ use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Notifications\GrnApproved;
 use App\Notifications\GrnPrepared;
+use App\Services\InventoryOperationService;
 use App\Traits\Approvable;
 use App\Traits\NotifiableUsers;
 use App\Traits\PrependCompanyId;
@@ -142,21 +143,17 @@ class GrnController extends Controller
         $this->authorize('add', $grn);
 
         if (!$grn->isGrnApproved()) {
-            return redirect()->back()->with('failedMessage', 'This GRN is not approved');
+            return redirect()->back()->with('failedMessage', 'This GRN is not approved.');
         }
 
-        $result = InventoryOperations::add($grn->grnDetails);
-
-        if (!$result['isAdded']) {
-            return redirect()->back()->with('failedMessage', $result['message']);
-        }
+        InventoryOperationService::add($grn->grnDetails);
 
         $grn->addedToInventory();
 
-        Notification::send($this->notifiableUsers('Approve GRN'),new GrnAdded($grn));
+        Notification::send($this->notifiableUsers('Approve GRN'), new GrnAdded($grn));
 
-        Notification::send($this->notifyCreator($grn, $this->notifiableUsers('Approve GRN')),new GrnAdded($grn));
+        Notification::send($this->notifyCreator($grn, $this->notifiableUsers('Approve GRN')), new GrnAdded($grn));
 
-        return redirect()->back()->with('successMessage', $result['message']);
+        return redirect()->back();
     }
 }
