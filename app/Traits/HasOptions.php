@@ -20,9 +20,4 @@ trait HasOptions
     {
         return ['Metric Ton', 'Quintal', 'Piece', 'Kilogram', 'Box', 'Meter', 'Centimeter'];
     }
-
-    public function getShippingLines()
-    {
-        return ['DHL', 'MAERSEK'];
-    }
 }
