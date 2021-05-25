@@ -11,7 +11,6 @@ use App\Models\Sale;
 use App\Models\Warehouse;
 use App\Notifications\GdnApproved;
 use App\Notifications\GdnPrepared;
-use App\Services\StoreSaleableProducts;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -64,18 +63,8 @@ class GdnController extends Controller
 
             $gdn->gdnDetails()->createMany($request->gdn);
 
-            $isGdnValid = StoreSaleableProducts::storeSoldProducts($gdn);
-
-            if (!$isGdnValid) {
-                DB::rollback();
-            }
-
-            return $isGdnValid ? $gdn : false;
+            return $gdn;
         });
-
-        if (!$gdn) {
-            return redirect()->back()->withInput($request->all());
-        }
 
         Notification::send($this->notifiableUsers('Approve GDN'), new GdnPrepared($gdn));
 
@@ -144,7 +133,7 @@ class GdnController extends Controller
             $gdn->approveGdn();
 
             $message = 'You have approved this DO/GDN successfully';
-            
+
             Notification::send($this->notifiableUsers('Subtract GDN'), new GdnApproved($gdn));
             Notification::send($this->notifyCreator($gdn, $this->notifiableUsers('Subtract GDN')), new GdnApproved($gdn));
         }

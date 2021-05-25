@@ -47,6 +47,6 @@ class StoreGdnRequest extends FormRequest
             'status' => 'Not Subtracted From Inventory',
         ]);
 
-        $this->merge(SetDataOwnerService::forTransaction());
+        $this->merge(SetDataOwnerService::forNonTransaction());
     }
 }
