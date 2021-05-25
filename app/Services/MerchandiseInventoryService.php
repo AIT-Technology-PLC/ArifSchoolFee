@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Merchandise;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use App\Services\SetDataOwnerService;
 
 class MerchandiseInventoryService
 {
