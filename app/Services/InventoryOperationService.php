@@ -50,7 +50,7 @@ class InventoryOperationService
         return $result;
     }
 
-    public function transfer($details)
+    public static function transfer($details)
     {
         $result = DB::transaction(function () use ($details) {
             $unavailableProducts = [];

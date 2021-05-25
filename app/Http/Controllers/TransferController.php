@@ -10,7 +10,7 @@ use App\Models\Warehouse;
 use App\Notifications\TransferApproved;
 use App\Notifications\TransferMade;
 use App\Notifications\TransferPrepared;
-use App\Services\StoreSaleableProducts;
+use App\Services\InventoryOperationService;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -55,44 +55,12 @@ class TransferController extends Controller
 
             $transfer->transferDetails()->createMany($request->transfer);
 
-            $isTransferValid = StoreSaleableProducts::storeTransferredProducts($transfer);
-
-            if (!$isTransferValid) {
-                DB::rollback();
-            }
-
-            return $isTransferValid ? $transfer : false;
-        });
-
-        if ($transfer) {
             Notification::send($this->notifiableUsers('Approve Transfer'), new TransferPrepared($transfer));
-            return redirect()->route('transfers.show', $transfer->id);
-        }
 
-        return redirect()->back()->withInput($request->all());
-    }
-
-    public function transfer(Transfer $transfer)
-    {
-        $this->authorize('transfer', $transfer);
-
-        $transfer = DB::transaction(function () use ($transfer) {
-            $transfer->changeStatusToTransferred();
-            $isTransferValid = StoreSaleableProducts::storeTransferredProducts($transfer);
-
-            if (!$isTransferValid) {
-                DB::rollback();
-            }
-
-            return $isTransferValid ? $transfer : false;
+            return $transfer;
         });
 
-        if ($transfer) {
-            Notification::send($this->notifiableUsers('Approve Transfer'), new TransferMade($transfer));
-            Notification::send($this->notifyCreator($transfer, $this->notifiableUsers('Approve Transfer')), new TransferMade($transfer));
-        }
-
-        return redirect()->back();
+        return redirect()->route('transfers.show', $transfer->id);
     }
 
     public function show(Transfer $transfer)
@@ -148,12 +116,48 @@ class TransferController extends Controller
         $message = 'This Transfer is already approved';
 
         if (!$transfer->isTransferApproved()) {
-            $transfer->approveTransfer();
-            $message = 'You have approved this Transfer successfully';
-            Notification::send($this->notifiableUsers('Make Transfer'), new TransferApproved($transfer));
-            Notification::send($this->notifyCreator($transfer, $this->notifiableUsers('Make Transfer')), new TransferApproved($transfer));
+            $message = DB::transaction(function () use ($transfer) {
+                $transfer->approveTransfer();
+
+                Notification::send($this->notifiableUsers('Make Transfer'), new TransferApproved($transfer));
+
+                Notification::send($this->notifyCreator($transfer, $this->notifiableUsers('Make Transfer')), new TransferApproved($transfer));
+
+                return 'You have approved this Transfer successfully';
+            });
         }
 
         return redirect()->back()->with('successMessage', $message);
+    }
+
+    public function transfer(Transfer $transfer)
+    {
+        $this->authorize('transfer', $transfer);
+
+        if (!$transfer->isTransferApproved()) {
+            return redirect()->back()->with('message', 'This Transfer is not approved');
+        }
+
+        $result = DB::transaction(function () use ($transfer) {
+            $result = InventoryOperationService::transfer($transfer->transferDetails);
+
+            if (!$result['isTransffered']) {
+                DB::rollBack();
+
+                return $result;
+            }
+
+            $transfer->changeStatusToTransferred();
+
+            Notification::send($this->notifiableUsers('Approve Transfer'), new TransferMade($transfer));
+
+            Notification::send($this->notifyCreator($transfer, $this->notifiableUsers('Approve Transfer')), new TransferMade($transfer));
+
+            return $result;
+        });
+
+        return $result['isTransffered'] ?
+        redirect()->back() :
+        redirect()->back()->with('message', $result['unavailableProducts']);
     }
 }
