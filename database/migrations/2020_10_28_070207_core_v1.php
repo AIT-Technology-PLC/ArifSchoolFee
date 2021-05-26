@@ -303,17 +303,7 @@ class CoreV1 extends Migration
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->decimal('total_received', 22);
-            $table->decimal('total_on_hand', 22);
-            $table->decimal('total_sold', 22);
-            $table->decimal('total_transfer', 22);
-            $table->decimal('total_broken', 22);
-            $table->decimal('total_returns', 22);
-            $table->dateTime('received_on')->nullable();
-            $table->dateTime('expires_on')->nullable();
-            $table->longText('description')->nullable();
+            $table->decimal('on_hand', 22);
             $table->timestamps();
             $table->softDeletes();
 
@@ -324,8 +314,6 @@ class CoreV1 extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('gdns', function (Blueprint $table) {
