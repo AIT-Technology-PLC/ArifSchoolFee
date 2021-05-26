@@ -15,14 +15,6 @@
             @csrf
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
-                <div class="notification bg-gold has-text-white has-text-weight-medium {{ session('message') ? '' : 'is-hidden' }}">
-                    <span class="icon">
-                        <i class="fas fa-times-circle"></i>
-                    </span>
-                    <span>
-                        {{ session('message') }}
-                    </span>
-                </div>
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
