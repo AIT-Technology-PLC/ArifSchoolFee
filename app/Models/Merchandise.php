@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -37,13 +36,6 @@ class Merchandise extends Model
         return $this->companyMerchandises()
             ->where('on_hand', '>', 0)
             ->get();
-    }
-
-    public function getTotalDistinctOnHandMerchandises($onHandMerchandises)
-    {
-        $distinctTotalOnHandMerchandises = $onHandMerchandises->groupBy('product_id')->count();
-
-        return $distinctTotalOnHandMerchandises;
     }
 
     public function getTotalDistinctLimitedMerchandises($onHandMerchandises)

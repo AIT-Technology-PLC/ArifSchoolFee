@@ -27,12 +27,12 @@
                             <td class="is-capitalized"> {{ $merchandise->product->productCategory->name ?? 'N/A' }} </td>
                             <td class="has-text-right">
                                 <span class="tag is-small bg-green has-text-white onHand">
-                                    {{ $merchandise->total_on_hand }}
+                                    {{ $merchandise->on_hand }}
                                     {{ $merchandise->product->unit_of_measurement }}
                                 </span>
                             </td>
                             <td class="is-capitalized">
-                                @if ($merchandise->product->isProductLimited($merchandise->total_on_hand))
+                                @if ($merchandise->product->isProductLimited($merchandise->on_hand))
                                     <span class="tag is-small bg-gold has-text-white">
                                         <span class="icon">
                                             <i class="fas fa-exclamation-circle"></i>
