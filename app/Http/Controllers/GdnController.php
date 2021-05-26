@@ -15,6 +15,7 @@ use App\Services\InventoryOperationService;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\GdnSubtracted;
 
 class GdnController extends Controller
 {
@@ -159,7 +160,7 @@ class GdnController extends Controller
         $this->authorize('subtract', $gdn);
 
         if (!$gdn->isGdnApproved()) {
-            return redirect()->back()->with('message', 'This DO/GDN is not approved');
+            return redirect()->back()->with('failedMessage', 'This DO/GDN is not approved');
         }
 
         $result = DB::transaction(function () use ($gdn) {
@@ -182,6 +183,6 @@ class GdnController extends Controller
 
         return $result['isSubtracted'] ?
         redirect()->back() :
-        redirect()->back()->with('message', $result['unavailableProducts']);
+        redirect()->back()->with('failedMessage', $result['unavailableProducts']);
     }
 }
