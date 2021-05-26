@@ -19,25 +19,25 @@ class MerchandiseController extends Controller
         $this->merchandise = $merchandise;
     }
 
-    public function index(Product $product, Warehouse $warehouse)
+    public function index(Merchandise $merchandise, Product $product, Warehouse $warehouse)
     {
-        $onHandMerchandises = $this->merchandise->getAllOnHandMerchandises()->load(['product', 'warehouse', 'createdBy', 'updatedBy']);
+        $onHandMerchandises = $merchandise->getAll()->load('product.productCategory');
 
         $onHandMerchandiseProducts = $onHandMerchandises->pluck('product')->unique();
 
-        $historyMerchandises = $this->merchandise->getMerchandisesInventoryHistory()->load(['product', 'warehouse', 'createdBy', 'updatedBy']);
+        $totalDistinctOnHandMerchandises = $onHandMerchandiseProducts->count();
 
-        $totalDistinctOnHandMerchandises = $this->merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
+        $totalDistinctLimitedMerchandises = $merchandise->getTotalDistinctLimitedMerchandises($onHandMerchandises);
+        
+        $outOfStockMerchandiseProducts = $product->getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)->load('productCategory');
 
-        $totalDistinctLimitedMerchandises = $this->merchandise->getTotalDistinctLimitedMerchandises(
-            $this->merchandise->getMerchandiseProductsLevel()->load('product')
-        );
+        $totalOutOfStockMerchandises = $outOfStockMerchandiseProducts->count();
 
-        $totalOutOfStockMerchandises = $product->getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)->count();
+        $warehouses = $warehouse->getAllWithoutRelations();
 
         $totalWarehouseInUse = $warehouse->getTotalWarehousesUsed($onHandMerchandises);
 
-        return view('merchandises.index', compact('onHandMerchandises', 'historyMerchandises', 'totalDistinctOnHandMerchandises', 'totalDistinctLimitedMerchandises', 'totalOutOfStockMerchandises', 'totalWarehouseInUse'));
+        return view('merchandises.index', compact('merchandise', 'onHandMerchandises', 'onHandMerchandiseProducts', 'outOfStockMerchandiseProducts', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'totalWarehouseInUse', 'warehouses'));
     }
 
     public function edit(Merchandise $merchandise, Warehouse $warehouse)

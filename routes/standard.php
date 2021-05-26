@@ -15,17 +15,6 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SaleController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('merchandises/add-to-inventory/{purchase}',
-    [MerchandiseInventoryTransactionController::class, 'addToInventory'])
-    ->name('merchandises.addToInventory');
-
-Route::post('merchandises/subtract-from-inventory/{sale}',
-    [MerchandiseInventoryTransactionController::class, 'subtractFromInventory'])
-    ->name('merchandises.subtractFromInventory');
-
-Route::get('merchandises/level', [MerchandiseLevelController::class, 'index'])
-    ->name('merchandises.level');
-
 // Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/', [MenuController::class, 'index'])->name('home');
