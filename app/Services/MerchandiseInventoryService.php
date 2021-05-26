@@ -3,17 +3,15 @@
 namespace App\Services;
 
 use App\Models\Merchandise;
-use App\Services\SetDataOwnerService;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class MerchandiseInventoryService
 {
     private $merchandise;
 
-    public function __construct(Merchandise $merchandise)
+    public function __construct()
     {
-        $this->merchandise = $merchandise;
+        $this->merchandise = new Merchandise();
     }
 
     public function add($detail)
@@ -24,13 +22,12 @@ class MerchandiseInventoryService
                     'product_id' => $detail->product_id,
                     'warehouse_id' => $detail->warehouse_id,
                 ],
-                Arr::add(SetDataOwnerService::forNonTransaction(),
-                    'on_hand', 0.00)
+                [
+                    'on_hand' => 0.00,
+                ]
             );
 
             $merchandise->on_hand = $merchandise->on_hand + $detail->quantity;
-
-            $merchandise->updated_by = SetDataOwnerService::forUpdate()['updated_by'];
 
             $merchandise->save();
         });
@@ -54,8 +51,6 @@ class MerchandiseInventoryService
         ])->first();
 
         $merchandise->on_hand = $merchandise->on_hand - $detail->quantity;
-
-        $merchandise->updated_by = SetDataOwnerService::forUpdate()['updated_by'];
 
         $merchandise->save();
     }

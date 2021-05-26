@@ -108,7 +108,7 @@ class Product extends Model
 
     public function scopeSaleableProducts($query)
     {
-        return $query->where('type', 'Merchandise Product');
+        return $query->where('type', 'Merchandise Inventory');
     }
 
     public function getAll()
@@ -134,7 +134,7 @@ class Product extends Model
     public function getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)
     {
         return $this->companyProducts()
-            ->where('type', 'Merchandise Product')
+            ->where('type', 'Merchandise Inventory')
             ->whereNotIn('id', $onHandMerchandiseProducts->pluck('id'))
             ->get();
     }
@@ -154,7 +154,7 @@ class Product extends Model
             $productId = $this->id;
         }
 
-        return $this->where('id', $productId)->where('type', 'Merchandise Product')->exists();
+        return $this->where('id', $productId)->where('type', 'Merchandise Inventory')->exists();
     }
 
     public function isProductLimited($onHandQuantity)

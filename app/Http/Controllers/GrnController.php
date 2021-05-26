@@ -153,7 +153,7 @@ class GrnController extends Controller
         DB::transaction(function () use ($grn) {
             InventoryOperationService::add($grn->grnDetails);
 
-            $grn->addedToInventory();
+            $grn->changeStatusToAddedToInventory();
 
             Notification::send($this->notifiableUsers('Approve GRN'), new GrnAdded($grn));
 
