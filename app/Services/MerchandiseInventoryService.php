@@ -24,6 +24,7 @@ class MerchandiseInventoryService
                 ],
                 [
                     'on_hand' => 0.00,
+                    'company_id' => SetDataOwnerService::forNonTransaction()['company_id'],
                 ]
             );
 
@@ -59,6 +60,8 @@ class MerchandiseInventoryService
     {
         DB::transaction(function () use ($detail) {
             $this->subtract($detail);
+
+            $detail->warehouse_id = $detail->to_warehouse_id;
 
             $this->add($detail);
         });

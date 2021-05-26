@@ -74,13 +74,16 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            <div class="notification bg-gold has-text-white has-text-weight-medium {{ session('message') ? '' : 'is-hidden' }}">
-                <span class="icon">
-                    <i class="fas fa-times-circle"></i>
-                </span>
-                <span>
-                    {{ session('message') }}
-                </span>
+            <div class="notification bg-lightpurple text-purple {{ session('failedMessage') ? '' : 'is-hidden' }}">
+                @foreach ((array) session('failedMessage') as $message)
+                    <span class="icon">
+                        <i class="fas fa-times-circle"></i>
+                    </span>
+                    <span>
+                        {{ $message }}
+                    </span>
+                    <br>
+                @endforeach
             </div>
             <div class="notification bg-green has-text-white has-text-weight-medium {{ session('successMessage') ? '' : 'is-hidden' }}">
                 <span class="icon">

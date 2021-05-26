@@ -135,7 +135,7 @@ class TransferController extends Controller
         $this->authorize('transfer', $transfer);
 
         if (!$transfer->isTransferApproved()) {
-            return redirect()->back()->with('message', 'This Transfer is not approved');
+            return redirect()->back()->with('failedMessage', 'This Transfer is not approved');
         }
 
         $result = DB::transaction(function () use ($transfer) {
@@ -158,6 +158,6 @@ class TransferController extends Controller
 
         return $result['isTransffered'] ?
         redirect()->back() :
-        redirect()->back()->with('message', $result['unavailableProducts']);
+        redirect()->back()->with('failedMessage', $result['unavailableProducts']);
     }
 }

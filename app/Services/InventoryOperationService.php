@@ -27,7 +27,7 @@ class InventoryOperationService
                 $type = InventoryTypeFactory::make($detail);
 
                 if (!$type->isAvailable($detail)) {
-                    array_push($unavailableProducts, $detail->product->name . 'is not available or not enough in ' . $detail->warehouse->name . '.');
+                    array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
                 }
             }
 
@@ -59,7 +59,7 @@ class InventoryOperationService
                 $type = InventoryTypeFactory::make($detail);
 
                 if (!$type->isAvailable($detail)) {
-                    array_push($unavailableProducts, $detail->product->name . 'is not available or not enough in ' . $detail->warehouse->name . '.');
+                    array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
                 }
             }
 
