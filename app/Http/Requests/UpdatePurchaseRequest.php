@@ -34,7 +34,7 @@ class UpdatePurchaseRequest extends FormRequest
     public function prepareForValidation()
     {
         $this->merge([
-            'code' => $this->prependCompanyId($this->purchase_no)
+            'purchase_no' => $this->prependCompanyId($this->purchase_no)
         ]);
     }
 

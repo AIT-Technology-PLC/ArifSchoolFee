@@ -15,9 +15,6 @@ class Sale extends Model
 
     protected $casts = [
         'sold_on' => 'datetime',
-        'shipped_at' => 'datetime',
-        'delivered_at' => 'datetime',
-        'is_manual' => 'boolean',
     ];
 
     public function createdBy()
@@ -64,11 +61,6 @@ class Sale extends Model
         return $query->where('company_id', userCompany()->id);
     }
 
-    public function scopeWhereManual($query, $value)
-    {
-        return $query->where('is_manual', $value);
-    }
-
     public function getTotalSalePriceAttribute()
     {
         $totalPrice = $this->saleDetails
@@ -94,35 +86,9 @@ class Sale extends Model
         return $this->companySales()->latest()->get();
     }
 
-    public function getManualSales()
-    {
-        return $this->companySales()->whereManual(1)->latest()->get();
-    }
-
-    public function getAutomatedSales()
-    {
-        return $this->companySales()->whereManual(0)->latest()->get();
-    }
-
     public function countSalesOfCompany()
     {
         return $this->companySales()->count();
-    }
-
-    public function changeStatusToSubtractedFromInventory()
-    {
-        $this->status = 'Subtracted From Inventory';
-        $this->save();
-    }
-
-    public function isSaleSubtracted()
-    {
-        return $this->status == 'Subtracted From Inventory';
-    }
-
-    public function isSaleManual()
-    {
-        return $this->is_manual;
     }
 
     public function isSalePaymentCash()

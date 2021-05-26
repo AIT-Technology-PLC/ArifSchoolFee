@@ -14,10 +14,7 @@ class Purchase extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
-        'shipped_at' => 'datetime',
-        'delivered_at' => 'datetime',
         'purchased_on' => 'datetime',
-        'is_manual' => 'boolean',
     ];
 
     public function createdBy()
@@ -55,11 +52,6 @@ class Purchase extends Model
         return $query->where('company_id', userCompany()->id);
     }
 
-    public function scopeWhereManual($query, $value)
-    {
-        return $query->where('is_manual', $value);
-    }
-
     public function getPurchaseNoAttribute($value)
     {
         return Str::after($value, userCompany()->id . '_');
@@ -90,35 +82,9 @@ class Purchase extends Model
         return $this->companyPurchases()->latest()->get();
     }
 
-    public function getManualPurchases()
-    {
-        return $this->companyPurchases()->whereManual(1)->latest()->get();
-    }
-
-    public function getAutomatedPurchases()
-    {
-        return $this->companyPurchases()->whereManual(0)->latest()->get();
-    }
-
     public function countPurchasesOfCompany()
     {
         return $this->companyPurchases()->count();
-    }
-
-    public function changeStatusToAddedToInventory()
-    {
-        $this->status = 'Added To Inventory';
-        $this->save();
-    }
-
-    public function isAddedToInventory()
-    {
-        return $this->status == 'Added To Inventory';
-    }
-
-    public function isPurchaseManual()
-    {
-        return $this->is_manual;
     }
 
     public function isImported()

@@ -18,7 +18,6 @@ class StorePurchaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'is_manual' => 'required|integer',
             'purchase_no' => 'required|string|unique:purchases',
             'type' => 'required|string',
             'purchase' => 'required|array',
@@ -36,7 +35,7 @@ class StorePurchaseRequest extends FormRequest
     public function prepareForValidation()
     {
         $this->merge([
-            'code' => $this->prependCompanyId($this->purchase_no),
+            'purchase_no' => $this->prependCompanyId($this->purchase_no),
         ]);
     }
 

@@ -7,7 +7,6 @@ use App\Http\Requests\UpdatePurchaseRequest;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
-use App\Services\AddPurchasedItemsToInventory;
 use App\Traits\PrependCompanyId;
 use Illuminate\Support\Facades\DB;
 
@@ -51,10 +50,6 @@ class PurchaseController extends Controller
 
             $purchase->purchaseDetails()->createMany($request->purchase);
 
-            if (!$purchase->isPurchaseManual()) {
-                AddPurchasedItemsToInventory::addToInventory($purchase);
-            }
-
             return $purchase;
         });
 
@@ -81,10 +76,6 @@ class PurchaseController extends Controller
 
     public function update(UpdatePurchaseRequest $request, Purchase $purchase)
     {
-        if ($purchase->isAddedToInventory()) {
-            return redirect()->route('purchases.show', $purchase->id);
-        }
-
         DB::transaction(function () use ($request, $purchase) {
             $purchase->update($request->except('purchase'));
 

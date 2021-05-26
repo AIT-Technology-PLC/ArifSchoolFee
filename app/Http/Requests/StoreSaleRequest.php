@@ -18,7 +18,6 @@ class StoreSaleRequest extends FormRequest
     public function rules()
     {
         return [
-            'is_manual' => 'required|integer',
             'receipt_no' => 'required|string|unique:sales',
             'sale' => 'required|array',
             'sale.*.product_id' => 'required|integer',
@@ -35,7 +34,7 @@ class StoreSaleRequest extends FormRequest
     public function prepareForValidation()
     {
         $this->merge([
-            'code' => $this->prependCompanyId($this->receipt_no),
+            'receipt_no' => $this->prependCompanyId($this->receipt_no),
         ]);
     }
 

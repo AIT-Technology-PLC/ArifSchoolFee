@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateSaleRequest;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Sale;
-use App\Services\StoreSaleableProducts;
 use App\Traits\PrependCompanyId;
 use Illuminate\Support\Facades\DB;
 
@@ -51,25 +50,10 @@ class SaleController extends Controller
 
             $sale->saleDetails()->createMany($request->sale);
 
-            if ($sale->isSaleManual()) {
-                $isSaleValid = StoreSaleableProducts::areProductsSaleable($sale->saleDetails) &&
-                StoreSaleableProducts::areProductsPricesValid($sale->saleDetails);
-            }
-
-            if (!$sale->isSaleManual()) {
-                $isSaleValid = StoreSaleableProducts::storeSoldProducts($sale);
-            }
-
-            if (!$isSaleValid) {
-                DB::rollback();
-            }
-
-            return $isSaleValid ? $sale : false;
+            return $sale;
         });
 
-        return $sale ?
-        redirect()->route('sales.show', $sale->id) :
-        redirect()->back()->withInput($request->all());
+        return redirect()->route('sales.show', $sale->id);
     }
 
     public function show(Sale $sale)
@@ -92,10 +76,6 @@ class SaleController extends Controller
 
     public function update(UpdateSaleRequest $request, Sale $sale)
     {
-        if ($sale->isSaleSubtracted()) {
-            return redirect()->route('sales.show', $sale->id);
-        }
-
         DB::transaction(function () use ($request, $sale) {
             $sale->update($request->except('sale'));
 

@@ -33,7 +33,7 @@ class UpdateSaleRequest extends FormRequest
     public function prepareForValidation()
     {
         $this->merge([
-            'code' => $request['receipt_no'] = $this->prependCompanyId($this->receipt_no),
+            'receipt_no' => $this->prependCompanyId($this->receipt_no),
         ]);
     }
 

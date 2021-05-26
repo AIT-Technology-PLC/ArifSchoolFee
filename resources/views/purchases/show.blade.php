@@ -173,16 +173,14 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            @if ($purchase->isPurchaseManual())
-                                <a href="{{ route('purchases.grns.create', $purchase->id) }}" class="button is-small bg-purple has-text-white">
-                                    <span class="icon">
-                                        <i class="fas fa-plus-circle"></i>
-                                    </span>
-                                    <span>
-                                        New GRN
-                                    </span>
-                                </a>
-                            @endif
+                            <a href="{{ route('purchases.grns.create', $purchase->id) }}" class="button is-small bg-purple has-text-white">
+                                <span class="icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </span>
+                                <span>
+                                    New GRN
+                                </span>
+                            </a>
                             <a href="{{ route('purchases.edit', $purchase->id) }}" class="button is-small bg-green has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
@@ -197,41 +195,6 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0 pb-0">
-            @if (!$purchase->isPurchaseManual())
-                @if (!$purchase->isAddedToInventory())
-                    <div class="box has-background-white-ter has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-7">
-                            Product(s) listed below are still not added to your Inventory.
-                            <br>
-                            Add product(s) automatically by clicking on the button.
-                        </p>
-                        <button id="openAddToInventoryModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
-                            <span class="icon">
-                                <i class="fas fa-plus"></i>
-                            </span>
-                            <span>
-                                Add to Inventory
-                            </span>
-                        </button>
-                        @error('warehouse_id')
-                            <span class="help has-text-danger" role="alert">
-                                To add purchased products to Inventory, please select a warehouse.
-                            </span>
-                        @enderror
-                    </div>
-                @else
-                    <div class="message is-success">
-                        <p class="message-body">
-                            <span class="icon">
-                                <i class="fas fa-check-circle"></i>
-                            </span>
-                            <span>
-                                Product(s) listed below have been to your Inventory.
-                            </span>
-                        </p>
-                    </div>
-                @endif
-            @endif
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
                     <thead>
@@ -267,51 +230,49 @@
                     </tbody>
                 </table>
             </div>
-            @if ($purchase->isPurchaseManual())
-                <div class="box has-background-white-bis radius-bottom-0">
-                    <h1 class="title is-size-5 text-green has-text-centered">
-                        GRNs for this purchase
-                    </h1>
-                    <div class="table-container has-background-white-bis">
-                        <table class="table is-hoverable is-fullwidth is-size-7 has-background-white-bis">
-                            <thead>
+            <div class="box has-background-white-bis radius-bottom-0">
+                <h1 class="title is-size-5 text-green has-text-centered">
+                    GRNs for this purchase
+                </h1>
+                <div class="table-container has-background-white-bis">
+                    <table class="table is-hoverable is-fullwidth is-size-7 has-background-white-bis">
+                        <thead>
+                            <tr>
+                                <th><abbr> # </abbr></th>
+                                <th><abbr> GRN No </abbr></th>
+                                <th><abbr> Status </abbr></th>
+                                <th><abbr> Issued on </abbr></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($purchase->grns as $grn)
                                 <tr>
-                                    <th><abbr> # </abbr></th>
-                                    <th><abbr> GRN No </abbr></th>
-                                    <th><abbr> Status </abbr></th>
-                                    <th><abbr> Issued on </abbr></th>
+                                    <td> {{ $loop->index + 1 }} </td>
+                                    <td class="is-capitalized">
+                                        <a class="is-underlined" href="{{ route('grns.show', $grn->id) }}">
+                                            {{ $grn->code }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @if ($grn->isAddedToInventory())
+                                            <span class="tag is-small bg-purple has-text-white">
+                                                {{ $grn->status ?? 'N/A' }}
+                                            </span>
+                                        @else
+                                            <span class="tag is-small bg-blue has-text-white">
+                                                {{ $grn->status ?? 'N/A' }}
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="is-capitalized">
+                                        {{ $grn->issued_on->toFormattedDateString() }}
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($purchase->grns as $grn)
-                                    <tr>
-                                        <td> {{ $loop->index + 1 }} </td>
-                                        <td class="is-capitalized">
-                                            <a class="is-underlined" href="{{ route('grns.show', $grn->id) }}">
-                                                {{ $grn->code }}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            @if ($grn->isAddedToInventory())
-                                                <span class="tag is-small bg-purple has-text-white">
-                                                    {{ $grn->status ?? 'N/A' }}
-                                                </span>
-                                            @else
-                                                <span class="tag is-small bg-blue has-text-white">
-                                                    {{ $grn->status ?? 'N/A' }}
-                                                </span>
-                                            @endif
-                                        </td>
-                                        <td class="is-capitalized">
-                                            {{ $grn->issued_on->toFormattedDateString() }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-            @endif
+            </div>
         </div>
     </section>
 @endsection

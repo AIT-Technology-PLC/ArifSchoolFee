@@ -13,7 +13,6 @@
         </div>
         <form id="formOne" action="{{ route('sales.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
-            <input type="hidden" name="is_manual" value="1">
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
