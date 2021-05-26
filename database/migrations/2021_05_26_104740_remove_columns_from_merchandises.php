@@ -31,6 +31,8 @@ class RemoveColumnsFromMerchandises extends Migration
                 'expires_on',
                 'description',
             ]);
+
+            $table->unique(['product_id', 'warehouse_id']);
         });
     }
 
