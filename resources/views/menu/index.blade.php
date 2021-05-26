@@ -15,7 +15,7 @@
             <div class="box radius-top-0">
                 <div class="columns is-marginless is-multiline is-mobile">
                     <div class="column is-4 has-text-centered has-text-grey">
-                        <a href="{{ route('merchandises.level') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
+                        <a href="{{ route('merchandises.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                             <span class="icon is-size-5">
                                 <i class="fas fa-chart-bar"></i>
                             </span>
