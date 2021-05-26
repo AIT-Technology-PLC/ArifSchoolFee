@@ -4,8 +4,6 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MerchandiseController;
-use App\Http\Controllers\MerchandiseInventoryTransactionController;
-use App\Http\Controllers\MerchandiseLevelController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PriceController;

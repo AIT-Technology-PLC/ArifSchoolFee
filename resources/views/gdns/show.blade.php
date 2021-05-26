@@ -271,7 +271,7 @@
                             <br>
                             Click on the button below to subtract product(s) from the inventory.
                         </p>
-                        <form id="formOne" action="{{ route('merchandises.subtractFromInventory', $gdn->id . '?model=gdns') }}" method="post" novalidate>
+                        <form id="formOne" action="{{ route('gdns.subtract', $gdn->id) }}" method="post" novalidate>
                             @csrf
                             <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">

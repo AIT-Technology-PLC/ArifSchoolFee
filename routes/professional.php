@@ -26,11 +26,15 @@ Route::post('purchase-orders/{purchaseOrder}/close', [PurchaseOrderController::c
 
 Route::post('/gdns/{gdn}/approve', [GdnController::class, 'approve'])->name('gdns.approve');
 
-Route::post('/transfers/transfer/{transfer}', [TransferController::class, 'transfer'])->name('transfers.transfer');
+Route::post('/gdns/{gdn}/subtract', [GdnController::class, 'subtract'])->name('gdns.subtract');
 
-Route::post('/transfers/approve/{transfer}', [TransferController::class, 'approve'])->name('transfers.approve');
+Route::post('/transfers/{transfer}/approve', [TransferController::class, 'approve'])->name('transfers.approve');
+
+Route::post('/transfers/{transfer}/transfer', [TransferController::class, 'transfer'])->name('transfers.transfer');
 
 Route::post('/grns/{grn}/approve', [GrnController::class, 'approve'])->name('grns.approve');
+
+Route::post('/grns/{grn}/add', [GrnController::class, 'add'])->name('grns.add');
 
 Route::resource('warehouses.merchandises', MerchandiseLevelByWarehouseController::class);
 
