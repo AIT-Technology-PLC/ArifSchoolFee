@@ -25,7 +25,6 @@ class StoreSaleRequest extends FormRequest
             'sale.*.unit_price' => 'required|numeric',
             'customer_id' => 'nullable|integer',
             'sold_on' => 'required|date',
-            'status' => 'sometimes|required|string|max:255',
             'payment_type' => 'required|string',
             'description' => 'nullable|string',
         ];

@@ -25,7 +25,6 @@ class StorePurchaseRequest extends FormRequest
             'purchase.*.quantity' => 'required|numeric',
             'purchase.*.unit_price' => 'required|numeric',
             'supplier_id' => 'nullable|integer',
-            'status' => 'sometimes|required|string|max:255',
             'purchased_on' => 'required|date',
             'payment_type' => 'required|string',
             'description' => 'nullable|string',

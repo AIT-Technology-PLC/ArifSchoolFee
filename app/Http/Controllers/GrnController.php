@@ -47,7 +47,7 @@ class GrnController extends Controller
 
         $suppliers = $supplier->getSupplierNames();
 
-        $purchases = $purchase->getManualPurchases();
+        $purchases = $purchase->getAll();
 
         $currentGrnCode = (Grn::select('code')->companyGrn()->latest()->first()->code) ?? 0;
 
@@ -86,7 +86,7 @@ class GrnController extends Controller
 
         $suppliers = $supplier->getSupplierNames();
 
-        $purchases = $purchase->getManualPurchases();
+        $purchases = $purchase->getAll();
 
         return view('grns.edit', compact('grn', 'products', 'warehouses', 'suppliers', 'purchases'));
     }
