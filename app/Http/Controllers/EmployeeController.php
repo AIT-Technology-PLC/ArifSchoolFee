@@ -89,7 +89,7 @@ class EmployeeController extends Controller
 
             if ($request->has('role')) {
                 $employee->user->syncRoles($request->role);
-            };
+            }
         });
 
         return redirect()->route('employees.index');
