@@ -10,19 +10,19 @@ class MerchandiseLevelController extends Controller
 {
     public function index(Merchandise $merchandise, Product $product, Warehouse $warehouse)
     {
-        $warehouses = $warehouse->getAllWithoutRelations();
-
-        $onHandMerchandises = $merchandise->getMerchandiseProductsLevel()->load('product.productCategory');
+        $onHandMerchandises = $merchandise->getAll()->load('product.productCategory');
 
         $onHandMerchandiseProducts = $onHandMerchandises->pluck('product')->unique();
 
-        $outOfStockMerchandiseProducts = $product->getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)->load('productCategory');
-
-        $totalDistinctOnHandMerchandises = $merchandise->getTotalDistinctOnHandMerchandises($onHandMerchandises);
+        $totalDistinctOnHandMerchandises = $onHandMerchandiseProducts->count();
 
         $totalDistinctLimitedMerchandises = $merchandise->getTotalDistinctLimitedMerchandises($onHandMerchandises);
+        
+        $outOfStockMerchandiseProducts = $product->getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)->load('productCategory');
 
         $totalOutOfStockMerchandises = $outOfStockMerchandiseProducts->count();
+
+        $warehouses = $warehouse->getAllWithoutRelations();
 
         $totalWarehouseInUse = $warehouse->getTotalWarehousesUsed($onHandMerchandises);
 

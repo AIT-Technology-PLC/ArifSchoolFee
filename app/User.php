@@ -7,7 +7,6 @@ use App\Models\Employee;
 use App\Models\Gdn;
 use App\Models\GeneralTenderChecklist;
 use App\Models\Grn;
-use App\Models\Merchandise;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\ProductCategory;
@@ -105,16 +104,6 @@ class User extends Authenticatable
     public function purchasesUpdated()
     {
         return $this->hasMany(Purchase::class, 'updated_by');
-    }
-
-    public function merchandisesCreated()
-    {
-        return $this->hasMany(Merchandise::class, 'created_by');
-    }
-
-    public function merchandisesUpdated()
-    {
-        return $this->hasMany(Merchandise::class, 'updated_by');
     }
 
     public function customersCreated()

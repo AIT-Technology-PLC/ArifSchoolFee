@@ -5,28 +5,12 @@ namespace App\Models;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
 
 class Merchandise extends Model
 {
     use SoftDeletes;
 
     protected $guarded = ['id'];
-
-    protected $casts = [
-        'expires_on' => 'datetime',
-        'received_on' => 'datetime',
-    ];
-
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
 
     public function company()
     {
@@ -48,36 +32,10 @@ class Merchandise extends Model
         return $query->where('company_id', userCompany()->id);
     }
 
-    public function getAllOnHandMerchandises()
+    public function getAll()
     {
         return $this->companyMerchandises()
-            ->where('total_on_hand', '>', 0)
-            ->get();
-    }
-
-    public function getMerchandisesInventoryHistory()
-    {
-        return $this->companyMerchandises()
-            ->where('total_on_hand', '<=', 0)
-            ->get();
-    }
-
-    public function getMerchandiseProductsLevel()
-    {
-        return $this->companyMerchandises()
-            ->select('product_id', 'warehouse_id', DB::raw('SUM(total_on_hand) AS total_on_hand'))
-            ->where('total_on_hand', '>', 0)
-            ->groupBy('product_id', 'warehouse_id')
-            ->get();
-    }
-
-    public function getCurrentMerchandiseLevelByProductAndWarehouse($warehouseId)
-    {
-        return $this->companyMerchandises()
-            ->select('product_id', DB::raw('SUM(total_on_hand) AS total_on_hand'))
-            ->where('total_on_hand', '>', 0)
-            ->where('warehouse_id', $warehouseId)
-            ->groupBy('product_id')
+            ->where('on_hand', '>', 0)
             ->get();
     }
 
@@ -93,7 +51,7 @@ class Merchandise extends Model
         $distinctTotalLimitedMerchandises = $onHandMerchandises
             ->filter(
                 function ($onHandMerchandise) {
-                    return $onHandMerchandise->product->isProductLimited($onHandMerchandise->total_on_hand);
+                    return $onHandMerchandise->product->isProductLimited($onHandMerchandise->on_hand);
                 }
             )
             ->groupBy('product_id')
@@ -102,101 +60,16 @@ class Merchandise extends Model
         return $distinctTotalLimitedMerchandises;
     }
 
-    public function getTotalOnHandAmount($onHandMerchandises, $productId, $warehouseId)
+    public function getProductOnHandInWarehouse($onHandMerchandises, $productId, $warehouseId)
     {
         return $onHandMerchandises->where('product_id', $productId)
             ->where('warehouse_id', $warehouseId)
             ->first()
-            ->total_on_hand ?? '0.00';
+            ->on_hand ?? '0.00';
     }
 
-    public function getProductTotalBalance($onHandMerchandises, $productId)
+    public function getProductOnHandTotalBalance($onHandMerchandises, $productId)
     {
-        return $onHandMerchandises->where('product_id', $productId)->sum('total_on_hand');
-    }
-
-    public function isReturnedQuantityValueValid($returnedQuantity)
-    {
-        $totalSoldQuantity = $this->total_sold;
-        $previousReturnedQuantity = $this->total_returns;
-
-        if ($returnedQuantity < 0 || !is_numeric($returnedQuantity)) {
-            return $previousReturnedQuantity;
-        }
-
-        if ($returnedQuantity <= $totalSoldQuantity) {
-            return $returnedQuantity;
-        }
-
-        return $previousReturnedQuantity;
-    }
-
-    public function isBrokenQuantityValueValid($brokenQuantity)
-    {
-        $totalOnHandQuantity = $this->total_on_hand;
-        $previousBrokenQuantity = $this->total_broken;
-
-        if ($brokenQuantity < 0 || !is_numeric($brokenQuantity)) {
-            return $previousBrokenQuantity;
-        }
-
-        if ($brokenQuantity <= $totalOnHandQuantity + $previousBrokenQuantity) {
-            return $brokenQuantity;
-        }
-
-        return $previousBrokenQuantity;
-    }
-
-    public function isSoldQuantityValueValid($soldQuantity)
-    {
-        $totalOnHandQuantity = $this->total_on_hand;
-        $previousSoldQuantity = $this->total_sold;
-        $totalSoldQuantity = $soldQuantity + $previousSoldQuantity;
-
-        if ($soldQuantity < 0 || !is_numeric($soldQuantity)) {
-            return $previousSoldQuantity;
-        }
-
-        if ($totalSoldQuantity <= $totalOnHandQuantity + $previousSoldQuantity) {
-            return $totalSoldQuantity;
-        }
-
-        return $previousSoldQuantity;
-    }
-
-    public function isTransferQuantityValueValid($transferQuantity)
-    {
-        $totalOnHandQuantity = $this->total_on_hand;
-        $previousTransferQuantity = $this->total_transfer;
-        $totalTransferQuantity = $transferQuantity + $previousTransferQuantity;
-
-        if ($transferQuantity < 0 || !is_numeric($transferQuantity)) {
-            return $previousTransferQuantity;
-        }
-
-        if ($totalTransferQuantity <= $totalOnHandQuantity + $previousTransferQuantity) {
-            return $totalTransferQuantity;
-        }
-
-        return $previousTransferQuantity;
-    }
-
-    public function decrementTotalOnHandQuantity()
-    {
-        $totalReceivedQuantity = $this->total_received;
-        $totalSoldQuantity = $this->total_sold;
-        $totalBrokenQuantity = $this->total_broken;
-        $totalTransferQuantity = $this->total_transfer;
-
-        $totalOnHand = $totalReceivedQuantity - ($totalSoldQuantity + $totalBrokenQuantity + $totalTransferQuantity);
-
-        $this->total_on_hand = $totalOnHand;
-
-        $this->save();
-    }
-
-    public function isAvailableEnoughForSale($productId, $warehouseId, $quantityToSell)
-    {
-        return $this->where('product_id', $productId)->where('warehouse_id', $warehouseId)->sum('total_on_hand') >= $quantityToSell;
+        return $onHandMerchandises->where('product_id', $productId)->sum('on_hand');
     }
 }

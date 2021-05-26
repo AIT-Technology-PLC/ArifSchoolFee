@@ -30,14 +30,14 @@
                             @foreach ($warehouses as $warehouse)
                                 <td class="has-text-right">
                                     <span class="tag is-small btn-green is-outline">
-                                        {{ $merchandise->getTotalOnHandAmount($onHandMerchandises, $product->id, $warehouse->id) }}
+                                        {{ $merchandise->getProductOnHandInWarehouse($onHandMerchandises, $product->id, $warehouse->id) }}
                                         {{ $product->unit_of_measurement }}
                                     </span>
                                 </td>
                             @endforeach
                             <td class="has-text-right">
                                 <span class="tag is-small bg-green has-text-white">
-                                    {{ $merchandise->getProductTotalBalance($onHandMerchandises, $product->id) }}
+                                    {{ $merchandise->getProductOnHandTotalBalance($onHandMerchandises, $product->id) }}
                                     {{ $product->unit_of_measurement }}
                                 </span>
                             </td>
