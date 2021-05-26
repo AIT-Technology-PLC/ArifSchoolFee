@@ -342,8 +342,7 @@ function openCloseSaleModal(event) {
     event.preventDefault();
     swal({
         title: "Do you want to subtract?",
-        text:
-            "By clicking 'Yes, Subtract', you are going to subtract the products from inventory.",
+        text: "By clicking 'Yes, Subtract', you are going to subtract the products from inventory.",
         buttons: ["Not now", "Yes, Subtract"],
     }).then((willCloseSale) => {
         if (willCloseSale) {
@@ -354,7 +353,7 @@ function openCloseSaleModal(event) {
 
 function changeWarehouse() {
     if (this.value == 0) {
-        return (location.href = "/merchandises/level");
+        return (location.href = "/merchandises");
     }
 
     location.href = `/warehouses/${this.value}/merchandises`;
@@ -620,8 +619,7 @@ function openTransferModal(event) {
     event.preventDefault();
     swal({
         title: "Do you want to transfer?",
-        text:
-            "By clicking 'Yes, Transfer', you are going to transfer the products.",
+        text: "By clicking 'Yes, Transfer', you are going to transfer the products.",
         buttons: ["Not now", "Yes, Transfer"],
         dangerMode: true,
     }).then((willTransfer) => {
@@ -730,8 +728,7 @@ function closePurchaseOrderModal(event) {
     event.preventDefault();
     swal({
         title: "Do you want to close this PO?",
-        text:
-            "By clicking 'Yes, Close', you are going to close this PO and the remaining quantities will be set to '0'.",
+        text: "By clicking 'Yes, Close', you are going to close this PO and the remaining quantities will be set to '0'.",
         buttons: ["Not now", "Yes, Close"],
         dangerMode: true,
     }).then((willClose) => {
@@ -906,8 +903,7 @@ function openApproveGdnModal(event) {
     event.preventDefault();
     swal({
         title: "Do you want to approve this DO/GDN?",
-        text:
-            "By clicking 'Yes, Approve', you are going to approve this DO/GDN.",
+        text: "By clicking 'Yes, Approve', you are going to approve this DO/GDN.",
         buttons: ["Not now", "Yes, Approve"],
         dangerMode: true,
     }).then((willTransfer) => {
@@ -935,8 +931,7 @@ function openApproveTransferModal(event) {
     event.preventDefault();
     swal({
         title: "Do you want to approve this Transfer?",
-        text:
-            "By clicking 'Yes, Approve', you are going to approve this Transfer.",
+        text: "By clicking 'Yes, Approve', you are going to approve this Transfer.",
         buttons: ["Not now", "Yes, Approve"],
         dangerMode: true,
     }).then((willTransfer) => {
