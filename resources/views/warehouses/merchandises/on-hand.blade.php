@@ -27,7 +27,7 @@
                             <td class="is-capitalized"> {{ $merchandise->product->productCategory->name ?? 'N/A' }} </td>
                             <td class="has-text-right">
                                 <span class="tag is-small bg-green has-text-white onHand">
-                                    {{ number_format($merchandise->on_hand, 2) }}
+                                    {{ $merchandise->on_hand }}
                                     {{ $merchandise->product->unit_of_measurement }}
                                 </span>
                             </td>

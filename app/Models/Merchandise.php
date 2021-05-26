@@ -54,16 +54,14 @@ class Merchandise extends Model
 
     public function getProductOnHandInWarehouse($onHandMerchandises, $productId, $warehouseId)
     {
-        $productOnHandAmountInWarehouse = $onHandMerchandises->where('product_id', $productId)
+        return $onHandMerchandises->where('product_id', $productId)
             ->where('warehouse_id', $warehouseId)
             ->first()
             ->on_hand ?? 0.00;
-
-        return number_format($productOnHandAmountInWarehouse, 2);
     }
 
     public function getProductOnHandTotalBalance($onHandMerchandises, $productId)
     {
-        return number_format($onHandMerchandises->where('product_id', $productId)->sum('on_hand'), 2);
+        return $onHandMerchandises->where('product_id', $productId)->sum('on_hand');
     }
 }
