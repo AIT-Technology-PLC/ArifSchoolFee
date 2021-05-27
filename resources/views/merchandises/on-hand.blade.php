@@ -29,10 +29,12 @@
                             <td class="is-capitalized"> {{ $product->productCategory->name ?? 'N/A' }} </td>
                             @foreach ($warehouses as $warehouse)
                                 <td class="has-text-right">
-                                    <span class="tag is-small btn-green is-outline">
-                                        {{ $merchandise->getProductOnHandInWarehouse($onHandMerchandises, $product->id, $warehouse->id) }}
-                                        {{ $product->unit_of_measurement }}
-                                    </span>
+                                    <a href="{{ route('warehouses-products', [$warehouse->id, $product->id]) }}" data-title="View Product History">
+                                        <span class="tag is-small btn-green is-outline">
+                                            {{ $merchandise->getProductOnHandInWarehouse($onHandMerchandises, $product->id, $warehouse->id) }}
+                                            {{ $product->unit_of_measurement }}
+                                        </span>
+                                    </a>
                                 </td>
                             @endforeach
                             <td class="has-text-right">

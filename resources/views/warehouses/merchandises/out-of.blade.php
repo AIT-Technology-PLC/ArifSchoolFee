@@ -25,13 +25,13 @@
                             </td>
                             <td class="is-capitalized"> {{ $product->productCategory->name ?? 'N/A' }} </td>
                             <td>
-                                <a href="{{ route('warehouses-products', [$warehouse->id, $product->id]) }}" data-title="Modify Supplier Data">
+                                <a href="{{ route('warehouses-products', [$warehouse->id, $product->id]) }}" data-title="View Product History">
                                     <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                         <span class="icon">
                                             <i class="fas fa-history"></i>
                                         </span>
                                         <span>
-                                            History
+                                            View History
                                         </span>
                                     </span>
                                 </a>
