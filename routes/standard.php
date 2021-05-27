@@ -20,6 +20,22 @@ Route::get('/', [MenuController::class, 'index'])->name('home');
 
 Route::get('/product/uom/{product}', [ProductController::class, 'getProductUOM']);
 
+Route::get('/employees/{employee}/permissions/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
+
+Route::get('/notifications/unread', [NotificationController::class, 'getUnreadNotifications']);
+
+Route::get('/notifications/{notification}/mark-as-read',
+    [NotificationController::class, 'markNotificationAsRead'])
+    ->name('notifications.markAsRead');
+
+Route::get('/warehouses/{warehouse}/products/{product}', WarehouseProductController::class);
+
+Route::patch('/employees/{employee}/permissions', [PermissionController::class, 'update'])->name('permissions.update');
+
+Route::patch('/notifications/mark-all-read',
+    [NotificationController::class, 'markAllNotificationsAsRead'])
+    ->name('notifications.markAllAsRead');
+
 Route::resource('products', ProductController::class);
 
 Route::resource('categories', ProductCategoryController::class);
@@ -36,20 +52,4 @@ Route::resource('merchandises', MerchandiseController::class);
 
 Route::resource('prices', PriceController::class);
 
-Route::get('/employees/{employee}/permissions/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
-
-Route::patch('/employees/{employee}/permissions', [PermissionController::class, 'update'])->name('permissions.update');
-
-Route::get('/notifications/unread', [NotificationController::class, 'getUnreadNotifications']);
-
-Route::get('/notifications/{notification}/mark-as-read',
-    [NotificationController::class, 'markNotificationAsRead'])
-    ->name('notifications.markAsRead');
-
-Route::patch('/notifications/mark-all-read',
-    [NotificationController::class, 'markAllNotificationsAsRead'])
-    ->name('notifications.markAllAsRead');
-
 Route::resource('notifications', NotificationController::class)->only("index");
-
-Route::get('/warehouses/{warehouse}/products/{product}', WarehouseProductController::class);
