@@ -9,6 +9,7 @@
                         <th><abbr> Category </abbr></th>
                         <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
                         <th class="text-gold"><abbr> Level </abbr></th>
+                        <th><abbr> Actions </abbr></th>
                     </tr>
                 </thead>
                 <tbody class="list">
@@ -51,6 +52,18 @@
                                         </span>
                                     </span>
                                 @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('warehousesProducts', [$warehouse->id, $merchandise->product->id]) }}" data-title="Modify Supplier Data">
+                                    <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
+                                        <span class="icon">
+                                            <i class="fas fa-history"></i>
+                                        </span>
+                                        <span>
+                                            History
+                                        </span>
+                                    </span>
+                                </a>
                             </td>
                         </tr>
                     @endforeach
