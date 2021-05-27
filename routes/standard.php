@@ -9,6 +9,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductHistoryByWarehouseController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SaleController;
 use Illuminate\Support\Facades\Route;
@@ -50,3 +51,5 @@ Route::patch('/notifications/mark-all-read',
     ->name('notifications.markAllAsRead');
 
 Route::resource('notifications', NotificationController::class)->only("index");
+
+Route::get('/warehouses/{warehouse}/products/{product}/history', ProductHistoryByWarehouseController::class);
