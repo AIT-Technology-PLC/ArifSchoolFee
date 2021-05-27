@@ -310,6 +310,8 @@ class CoreV1 extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->unique(['product_id', 'warehouse_id']);
         });
 
         Schema::create('gdns', function (Blueprint $table) {
