@@ -6,7 +6,7 @@ use App\Models\Product;
 use App\Models\Warehouse;
 use App\Services\ProductMovementHistoryInWarehouseService;
 
-class ProductHistoryByWarehouseController extends Controller
+class WarehouseProductController extends Controller
 {
     public function __invoke(Warehouse $warehouse, Product $product)
     {
