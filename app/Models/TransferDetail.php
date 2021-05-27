@@ -30,4 +30,23 @@ class TransferDetail extends Model
     {
         return $this->belongsTo(Warehouse::class, 'to_warehouse_id');
     }
+
+    public function getByWarehouseAndProduct($warehouse, $product)
+    {
+        return $this->where('product_id', $product->id)
+            ->where(function ($query) use ($warehouse) {
+                $query->where('warehouse_id', $warehouse->id)
+                    ->orWhere('to_warehouse_id', $warehouse->id);
+            })
+            ->whereIn('transfer_id', function ($query) {
+                $query->select('id')
+                    ->from('transfers')
+                    ->where([
+                        ['company_id', userCompany()->id],
+                        ['status', 'Transferred'],
+                    ]);
+            })
+            ->get()
+            ->load(['transfer', 'product', 'toWarehouse', 'warehouse']);
+    }
 }

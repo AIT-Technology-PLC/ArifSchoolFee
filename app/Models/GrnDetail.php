@@ -25,4 +25,23 @@ class GrnDetail extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function getByWarehouseAndProduct($warehouse, $product)
+    {
+        return $this->where([
+            ['warehouse_id', $warehouse->id],
+            ['product_id', $product->id],
+        ])
+            ->whereIn('grn_id', function ($query) {
+                $query->select('id')
+                    ->from('grns')
+                    ->where([
+                        ['company_id', userCompany()->id],
+                        ['status', 'Added To Inventory'],
+                    ]);
+            })
+            ->get()
+            ->load(['grn.supplier', 'product']);
+    }
+
 }

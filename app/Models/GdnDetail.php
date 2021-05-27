@@ -25,4 +25,22 @@ class GdnDetail extends Model
     {
         return $this->belongsTo(Warehouse::class);
     }
+
+    public function getByWarehouseAndProduct($warehouse, $product)
+    {
+        return $this->where([
+            ['warehouse_id', $warehouse->id],
+            ['product_id', $product->id],
+        ])
+            ->whereIn('gdn_id', function ($query) {
+                $query->select('id')
+                    ->from('gdns')
+                    ->where([
+                        ['company_id', userCompany()->id],
+                        ['status', 'Subtracted From Inventory'],
+                    ]);
+            })
+            ->get()
+            ->load(['gdn.customer', 'product']);
+    }
 }
