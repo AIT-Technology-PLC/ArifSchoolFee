@@ -28,7 +28,7 @@ Route::get('/notifications/{notification}/mark-as-read',
     [NotificationController::class, 'markNotificationAsRead'])
     ->name('notifications.markAsRead');
 
-Route::get('/warehouses/{warehouse}/products/{product}', WarehouseProductController::class)->name('warehousesProducts');
+Route::get('/warehouses/{warehouse}/products/{product}', WarehouseProductController::class)->name('warehouses-products');
 
 Route::patch('/employees/{employee}/permissions', [PermissionController::class, 'update'])->name('permissions.update');
 

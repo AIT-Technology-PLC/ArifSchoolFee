@@ -28,19 +28,13 @@ class ProductMovementHistoryInWarehouseService
 
         $gdnDetails = (new GdnDetail())->getByWarehouseAndProduct($this->warehouse, $this->product);
 
-        $this->format(
-            $grnDetails, 'grn',
-            Str::of('Received from ')->append($grnDetails->first()->grn->supplier->company_name ?? 'Unknown'),
-            'add'
-        );
+        $this->formatGrn($grnDetails);
 
-        $this->format(
-            $gdnDetails, 'gdn',
-            Str::of('Submitted to ')->append($gdnDetails->first()->gdn->customer->company_name ?? 'Unknown'),
-            'subtract'
-        );
+        $this->formatTransfer($transferDetails);
 
-        $this->format($transferDetails, 'transfer', null, null);
+        $this->formatGdn($gdnDetails);
+
+        $this->history = $this->history->sortBy('date')->values()->all();
 
         for ($i = 0; $i < count($this->history); $i++) {
             $method = $this->history[$i]['function'];
@@ -53,26 +47,57 @@ class ProductMovementHistoryInWarehouseService
             $this->history[$i] = $this->$method($this->history[$i], $this->history[$i - 1]['balance']);
         }
 
-        return $this->history->sortBy('date');
+        return $this->history;
     }
 
-    private function format($details, $parent, $message = null, $function = null)
+    private function formatGrn($grnDetails)
     {
-        $details->map(function ($detail) use ($parent, $message, $function) {
+        $grnDetails->map(function ($grnDetail) {
             $this->history->push([
-                'type' => Str::upper($parent),
-                'code' => $detail->$parent->code,
-                'date' => $detail->$parent->issued_on,
-                'quantity' => $detail->quantity,
+                'type' => 'GRN',
+                'code' => $grnDetail->grn->code,
+                'date' => $grnDetail->grn->issued_on,
+                'quantity' => $grnDetail->quantity,
                 'balance' => 0.00,
-                'unit_of_measurement' => $detail->product->unit_of_measurement,
+                'unit_of_measurement' => $grnDetail->product->unit_of_measurement,
+                'details' => Str::of($grnDetail->grn->supplier->company_name ?? 'Unknown')->prepend('Purchased from '),
+                'function' => 'add',
+            ]);
+        });
+    }
 
-                'details' => $message ??
-                ($detail->warehouse_id == $this->warehouse->id
-                    ? Str::of('Transferred')->append(...[' to ', $detail->toWarehouse->name])
-                    : Str::of('Transferred')->append(...[' from ', $detail->warehouse->name])),
+    private function formatTransfer($transferDetails)
+    {
+        $transferDetails->map(function ($transferDetail) {
+            $this->history->push([
+                'type' => 'TRANSFER',
+                'code' => $transferDetail->transfer->code,
+                'date' => $transferDetail->transfer->issued_on,
+                'quantity' => $transferDetail->quantity,
+                'balance' => 0.00,
+                'unit_of_measurement' => $transferDetail->product->unit_of_measurement,
 
-                'function' => $function ?? ($detail->warehouse_id == $this->warehouse->id ? 'subtract' : 'add'),
+                'details' => $transferDetail->warehouse_id == $this->warehouse->id ?
+                Str::of('Transferred')->append(...[' to ', $transferDetail->toWarehouse->name]) :
+                Str::of('Transferred')->append(...[' from ', $transferDetail->warehouse->name]),
+
+                'function' => $transferDetail->warehouse_id == $this->warehouse->id ? 'subtract' : 'add',
+            ]);
+        });
+    }
+
+    private function formatGdn($gdnDetails)
+    {
+        $gdnDetails->map(function ($gdnDetail) {
+            $this->history->push([
+                'type' => 'GDN',
+                'code' => $gdnDetail->gdn->code,
+                'date' => $gdnDetail->gdn->issued_on,
+                'quantity' => $gdnDetail->quantity,
+                'balance' => 0.00,
+                'unit_of_measurement' => $gdnDetail->product->unit_of_measurement,
+                'details' => Str::of($gdnDetail->gdn->customer->company_name ?? 'Unknown')->prepend('Submitted to '),
+                'function' => 'subtract',
             ]);
         });
     }

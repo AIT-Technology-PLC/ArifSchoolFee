@@ -16,6 +16,6 @@ class WarehouseProductController extends Controller
 
         $history = (new ProductMovementHistoryInWarehouseService($warehouse, $product))->history();
 
-        return $history;
+        dd($history);
     }
 }
