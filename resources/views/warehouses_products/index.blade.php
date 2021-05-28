@@ -18,38 +18,41 @@
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
+                            <th class="has-text-right"><abbr> Date </abbr></th>
                             <th><abbr> Type </abbr></th>
                             <th><abbr> Ref N<u>o</u> </abbr></th>
-                            <th class="has-text-right"><abbr> Date </abbr></th>
                             <th class="has-text-right"><abbr> Quantity </abbr></th>
-                            <th class="has-text-right"><abbr> Balance </abbr></th=>
-                            <th><abbr> Details </abbr></th>
+                            <th><abbr> Description </abbr></th>
+                            <th class="has-text-right"><abbr> Balance </abbr></th>
                         </tr>
                     </thead>
                     <tbody class="list">
                         @foreach ($history as $item)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> 
+                                <td class="has-text-right"> {{ $item['date']->toFormattedDateString() }} </td>
+                                <td>
                                     <span class="tag is-small bg-purple has-text-white">
-                                        {{ $item['type'] }} 
+                                        {{ $item['type'] }}
                                     </span>
                                 </td>
                                 <td> {{ $item['code'] }} </td>
-                                <td class="has-text-right"> {{ $item['date']->toFormattedDateString() }} </td>
                                 <td class="has-text-right">
                                     <span class="tag is-small btn-green is-outline">
+                                        <span class="icon is-medium">
+                                            <i class="fas fa-{{ $item['function'] == 'add' ? 'plus' : 'minus' }}-circle"></i>
+                                        </span>
                                         {{ $item['quantity'] }}
                                         {{ $item['unit_of_measurement'] }}
                                     </span>
                                 </td>
+                                <td> {{ $item['details'] }} </td>
                                 <td class="has-text-right">
                                     <span class="tag is-small bg-green has-text-white">
                                         {{ $item['balance'] }}
                                         {{ $item['unit_of_measurement'] }}
                                     </span>
                                 </td>
-                                <td> {{ $item['details'] }} </td>
                             </tr>
                         @endforeach
                     </tbody>
