@@ -48,7 +48,7 @@ Route::resource('purchases', PurchaseController::class);
 
 Route::resource('sales', SaleController::class);
 
-Route::resource('merchandises', MerchandiseController::class);
+Route::get('merchandises', MerchandiseController::class)->name('merchandises.index');
 
 Route::resource('prices', PriceController::class);
 
