@@ -88,13 +88,13 @@ class Gdn extends Model
         return $this->companyGdn()->count();
     }
 
-    public function changeStatusToSubtractedFromInventory()
+    public function subtract()
     {
         $this->status = 'Subtracted From Inventory';
         $this->save();
     }
 
-    public function isGdnSubtracted()
+    public function isSubtracted()
     {
         return $this->status == 'Subtracted From Inventory';
     }

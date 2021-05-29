@@ -241,7 +241,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        @if ($gdn->isGdnSubtracted())
+                                        @if ($gdn->isSubtracted())
                                             <span class="tag is-small bg-purple has-text-white">
                                                 {{ $gdn->status ?? 'N/A' }}
                                             </span>

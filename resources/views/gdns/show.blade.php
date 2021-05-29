@@ -254,7 +254,7 @@
                     {{ session('successMessage') }}
                 </span>
             </div>
-            @if ($gdn->isApproved() && $gdn->isGdnSubtracted())
+            @if ($gdn->isApproved() && $gdn->isSubtracted())
                 <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
                     <p class="has-text-grey text-green is-size-6">
                         <span class="icon">
@@ -266,7 +266,7 @@
                     </p>
                 </div>
             @endif
-            @if ($gdn->isApproved() && !$gdn->isGdnSubtracted())
+            @if ($gdn->isApproved() && !$gdn->isSubtracted())
                 @can('Subtract GDN')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">

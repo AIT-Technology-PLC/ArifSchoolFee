@@ -129,7 +129,7 @@
                                         <span class="tag is-small has-background-grey-dark has-text-white">
                                             Waiting for Approval
                                         </span>
-                                    @elseif ($gdn->isGdnSubtracted())
+                                    @elseif ($gdn->isSubtracted())
                                         <span class="tag is-small bg-purple has-text-white">
                                             {{ $gdn->status ?? 'N/A' }}
                                         </span>

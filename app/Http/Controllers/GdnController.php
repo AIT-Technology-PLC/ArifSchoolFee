@@ -172,7 +172,7 @@ class GdnController extends Controller
                 return $result;
             }
 
-            $gdn->changeStatusToSubtractedFromInventory();
+            $gdn->subtract();
 
             Notification::send($this->notifiableUsers('Approve GDN'), new GdnSubtracted($gdn));
 
