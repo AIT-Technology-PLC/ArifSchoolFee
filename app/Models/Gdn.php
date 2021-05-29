@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Approvable;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,7 @@ use Illuminate\Support\Str;
 
 class Gdn extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Approvable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -25,11 +26,6 @@ class Gdn extends Model
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    public function approvedBy()
-    {
-        return $this->belongsTo(User::class, 'approved_by');
     }
 
     public function company()
@@ -101,22 +97,6 @@ class Gdn extends Model
     public function isGdnSubtracted()
     {
         return $this->status == 'Subtracted From Inventory';
-    }
-
-    public function approveGdn()
-    {
-        $this->approved_by = auth()->id();
-
-        $this->save();
-    }
-
-    public function isGdnApproved()
-    {
-        if ($this->approved_by) {
-            return true;
-        }
-
-        return false;
     }
 
     public function getPaymentInCash()

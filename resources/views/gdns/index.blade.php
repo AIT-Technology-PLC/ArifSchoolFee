@@ -125,7 +125,7 @@
                                     {{ is_null($gdn->sale) ? 'N/A' : $gdn->sale->receipt_no }}
                                 </td>
                                 <td class="is-capitalized">
-                                    @if (!$gdn->isGdnApproved())
+                                    @if (!$gdn->isApproved())
                                         <span class="tag is-small has-background-grey-dark has-text-white">
                                             Waiting for Approval
                                         </span>

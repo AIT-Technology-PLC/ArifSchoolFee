@@ -211,7 +211,7 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            @if ($gdn->isGdnApproved())
+                            @if ($gdn->isApproved())
                                 <button id="printGdn" class="button is-small bg-purple has-text-white is-hidden-mobile  " onclick="openInNewTab('/gdns/{{ $gdn->id }}/print')">
                                     <span class="icon">
                                         <i class="fas fa-print"></i>
@@ -254,7 +254,7 @@
                     {{ session('successMessage') }}
                 </span>
             </div>
-            @if ($gdn->isGdnApproved() && $gdn->isGdnSubtracted())
+            @if ($gdn->isApproved() && $gdn->isGdnSubtracted())
                 <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
                     <p class="has-text-grey text-green is-size-6">
                         <span class="icon">
@@ -266,7 +266,7 @@
                     </p>
                 </div>
             @endif
-            @if ($gdn->isGdnApproved() && !$gdn->isGdnSubtracted())
+            @if ($gdn->isApproved() && !$gdn->isGdnSubtracted())
                 @can('Subtract GDN')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
@@ -299,7 +299,7 @@
                     </div>
                 @endcan
             @endif
-            @if (!$gdn->isGdnApproved())
+            @if (!$gdn->isApproved())
                 @can('Approve GDN')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">

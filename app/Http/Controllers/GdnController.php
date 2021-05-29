@@ -11,11 +11,11 @@ use App\Models\Sale;
 use App\Models\Warehouse;
 use App\Notifications\GdnApproved;
 use App\Notifications\GdnPrepared;
+use App\Notifications\GdnSubtracted;
 use App\Services\InventoryOperationService;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\GdnSubtracted;
 
 class GdnController extends Controller
 {
@@ -97,7 +97,7 @@ class GdnController extends Controller
 
     public function update(UpdateGdnRequest $request, Gdn $gdn)
     {
-        if ($gdn->isGdnApproved()) {
+        if ($gdn->isApproved()) {
             $gdn->update($request->only('sale_id', 'updated_by'));
 
             return redirect()->route('gdns.show', $gdn->id);
@@ -116,7 +116,7 @@ class GdnController extends Controller
 
     public function destroy(Gdn $gdn)
     {
-        if ($gdn->isGdnApproved() && !auth()->user()->can('Delete Approved GDN')) {
+        if ($gdn->isApproved() && !auth()->user()->can('Delete Approved GDN')) {
             return view('errors.permission_denied');
         }
 
@@ -131,9 +131,9 @@ class GdnController extends Controller
 
         $message = 'This DO/GDN is already approved';
 
-        if (!$gdn->isGdnApproved()) {
+        if (!$gdn->isApproved()) {
             $message = DB::transaction(function () use ($gdn) {
-                $gdn->approveGdn();
+                $gdn->approve();
 
                 Notification::send($this->notifiableUsers('Subtract GDN'), new GdnApproved($gdn));
 
@@ -159,7 +159,7 @@ class GdnController extends Controller
     {
         $this->authorize('subtract', $gdn);
 
-        if (!$gdn->isGdnApproved()) {
+        if (!$gdn->isApproved()) {
             return redirect()->back()->with('failedMessage', 'This DO/GDN is not approved');
         }
 
