@@ -91,7 +91,7 @@
                                         <span class="tag is-small has-background-grey-dark has-text-white">
                                             Waiting for Approval
                                         </span>
-                                    @elseif ($grn->isAddedToInventory())
+                                    @elseif ($grn->isAdded())
                                         <span class="tag is-small bg-purple has-text-white">
                                             {{ $grn->status ?? 'N/A' }}
                                         </span>

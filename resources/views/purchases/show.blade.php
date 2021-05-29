@@ -254,7 +254,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        @if ($grn->isAddedToInventory())
+                                        @if ($grn->isAdded())
                                             <span class="tag is-small bg-purple has-text-white">
                                                 {{ $grn->status ?? 'N/A' }}
                                             </span>

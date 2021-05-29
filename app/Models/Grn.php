@@ -68,13 +68,13 @@ class Grn extends Model
         return $this->companyGrn()->count();
     }
 
-    public function changeStatusToAddedToInventory()
+    public function add()
     {
         $this->status = 'Added To Inventory';
         $this->save();
     }
 
-    public function isAddedToInventory()
+    public function isAdded()
     {
         return $this->status == 'Added To Inventory';
     }
