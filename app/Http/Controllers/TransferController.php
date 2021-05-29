@@ -7,17 +7,17 @@ use App\Http\Requests\UpdateTransferRequest;
 use App\Models\Product;
 use App\Models\Transfer;
 use App\Models\Warehouse;
-use App\Notifications\TransferApproved;
 use App\Notifications\TransferMade;
 use App\Notifications\TransferPrepared;
 use App\Services\InventoryOperationService;
+use App\Traits\InventoryActions;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class TransferController extends Controller
 {
-    use NotifiableUsers;
+    use NotifiableUsers, InventoryActions;
 
     private $transfer;
 
@@ -107,27 +107,6 @@ class TransferController extends Controller
         $transfer->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
-    }
-
-    public function approve(Transfer $transfer)
-    {
-        $this->authorize('approve', $transfer);
-
-        $message = 'This Transfer is already approved';
-
-        if (!$transfer->isApproved()) {
-            $message = DB::transaction(function () use ($transfer) {
-                $transfer->approve();
-
-                Notification::send($this->notifiableUsers('Make Transfer'), new TransferApproved($transfer));
-
-                Notification::send($this->notifyCreator($transfer, $this->notifiableUsers('Make Transfer')), new TransferApproved($transfer));
-
-                return 'You have approved this Transfer successfully';
-            });
-        }
-
-        return redirect()->back()->with('successMessage', $message);
     }
 
     public function transfer(Transfer $transfer)

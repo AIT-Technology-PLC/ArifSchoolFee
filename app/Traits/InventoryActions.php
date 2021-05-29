@@ -5,6 +5,7 @@ use App\Notifications\GdnApproved;
 use App\Notifications\GdnSubtracted;
 use App\Notifications\GrnAdded;
 use App\Notifications\GrnApproved;
+use App\Notifications\TransferApproved;
 use App\Services\InventoryOperationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -138,5 +139,12 @@ trait InventoryActions
         Notification::send($this->notifiableUsers('Approve GRN'), new GrnAdded($model));
 
         Notification::send($this->notifyCreator($model, $this->notifiableUsers('Approve GRN')), new GrnAdded($model));
+    }
+
+    public function transferApprovedNotification($model)
+    {
+        Notification::send($this->notifiableUsers('Make Transfer'), new TransferApproved($model));
+
+        Notification::send($this->notifyCreator($model, $this->notifiableUsers('Make Transfer')), new TransferApproved($model));
     }
 }
