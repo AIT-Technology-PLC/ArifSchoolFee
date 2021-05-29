@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Approvable;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,7 @@ use Illuminate\Support\Str;
 
 class Grn extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Approvable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -25,11 +26,6 @@ class Grn extends Model
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    public function approvedBy()
-    {
-        return $this->belongsTo(User::class, 'approved_by');
     }
 
     public function purchase()
@@ -81,21 +77,5 @@ class Grn extends Model
     public function isAddedToInventory()
     {
         return $this->status == 'Added To Inventory';
-    }
-
-    public function approveGrn()
-    {
-        $this->approved_by = auth()->id();
-
-        $this->save();
-    }
-
-    public function isGrnApproved()
-    {
-        if ($this->approved_by) {
-            return true;
-        }
-
-        return false;
     }
 }

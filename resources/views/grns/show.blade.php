@@ -136,7 +136,7 @@
                     {{ session('successMessage') }}
                 </span>
             </div>
-            @if ($grn->isGrnApproved() && $grn->isAddedToInventory())
+            @if ($grn->isApproved() && $grn->isAddedToInventory())
                 <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
                     <p class="has-text-grey text-green is-size-6">
                         <span class="icon">
@@ -148,7 +148,7 @@
                     </p>
                 </div>
             @endif
-            @if ($grn->isGrnApproved() && !$grn->isAddedToInventory())
+            @if ($grn->isApproved() && !$grn->isAddedToInventory())
                 @can('Add GRN')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
@@ -181,7 +181,7 @@
                     </div>
                 @endcan
             @endif
-            @if (!$grn->isGrnApproved())
+            @if (!$grn->isApproved())
                 @can('Approve GRN')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">

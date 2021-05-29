@@ -87,7 +87,7 @@
                                     </span>
                                 </td>
                                 <td class="is-capitalized">
-                                    @if (!$grn->isGrnApproved())
+                                    @if (!$grn->isApproved())
                                         <span class="tag is-small has-background-grey-dark has-text-white">
                                             Waiting for Approval
                                         </span>

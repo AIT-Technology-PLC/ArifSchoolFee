@@ -93,7 +93,7 @@ class GrnController extends Controller
 
     public function update(UpdateGrnRequest $request, Grn $grn)
     {
-        if ($grn->isGrnApproved()) {
+        if ($grn->isApproved()) {
             $grn->update($request->only(['purchase_id', 'updated_by']));
 
             return redirect()->route('grns.show', $grn->id);
@@ -112,7 +112,7 @@ class GrnController extends Controller
 
     public function destroy(Grn $grn)
     {
-        if ($grn->isGrnApproved() && !auth()->user()->can('Delete Approved GRN')) {
+        if ($grn->isApproved() && !auth()->user()->can('Delete Approved GRN')) {
             return view('errors.permission_denied');
         }
 
@@ -127,9 +127,9 @@ class GrnController extends Controller
 
         $message = 'This GRN is already approved';
 
-        if (!$grn->isGrnApproved()) {
+        if (!$grn->isApproved()) {
             $message = DB::transaction(function () use ($grn) {
-                $grn->approveGrn();
+                $grn->approve();
 
                 Notification::send($this->notifiableUsers('Add GRN'), new GrnApproved($grn));
 
@@ -146,7 +146,7 @@ class GrnController extends Controller
     {
         $this->authorize('add', $grn);
 
-        if (!$grn->isGrnApproved()) {
+        if (!$grn->isApproved()) {
             return redirect()->back()->with('failedMessage', 'This GRN is not approved.');
         }
 
