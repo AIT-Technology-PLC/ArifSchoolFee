@@ -2,19 +2,28 @@
 
 namespace App\Traits;
 
+use App\User;
+
 trait Approvable
 {
     public function approvedBy()
     {
-        $isApproved = request()->validate([
-            'is_approved' => 'sometimes|required|integer',
-        ]);
+        return $this->belongsTo(User::class, 'approved_by');
+    }
 
-        if (count($isApproved)) {
-            return $isApproved['is_approved'] ? auth()->id() : null;
+    public function approve()
+    {
+        $this->approved_by = auth()->id();
+
+        $this->save();
+    }
+
+    public function isApproved()
+    {
+        if (is_null($this->approved_by)) {
+            return false;
         }
 
-        return null;
-
+        return true;
     }
 }

@@ -2,13 +2,10 @@
 
 namespace App\Services;
 
-use App\Traits\Approvable;
 use Illuminate\Support\Arr;
 
 class SetDataOwnerService
 {
-    use Approvable;
-
     private $attributes;
 
     private static $instance = null;
@@ -19,7 +16,6 @@ class SetDataOwnerService
             'company_id' => userCompany()->id,
             'created_by' => auth()->id(),
             'updated_by' => auth()->id(),
-            'approved_by' => $this->approvedBy(),
         ];
     }
 
@@ -30,11 +26,6 @@ class SetDataOwnerService
         }
 
         return self::$instance;
-    }
-
-    public static function forTransaction()
-    {
-        return self::getInstance()->attributes;
     }
 
     public static function forUpdate()
