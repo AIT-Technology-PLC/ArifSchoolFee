@@ -9,17 +9,15 @@ use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Warehouse;
-use App\Notifications\GrnAdded;
-use App\Notifications\GrnApproved;
 use App\Notifications\GrnPrepared;
-use App\Services\InventoryOperationService;
+use App\Traits\InventoryActions;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class GrnController extends Controller
 {
-    use NotifiableUsers;
+    use NotifiableUsers, InventoryActions;
 
     private $grn;
 
@@ -119,47 +117,5 @@ class GrnController extends Controller
         $grn->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
-    }
-
-    public function approve(Grn $grn)
-    {
-        $this->authorize('approve', $grn);
-
-        $message = 'This GRN is already approved';
-
-        if (!$grn->isApproved()) {
-            $message = DB::transaction(function () use ($grn) {
-                $grn->approve();
-
-                Notification::send($this->notifiableUsers('Add GRN'), new GrnApproved($grn));
-
-                Notification::send($this->notifyCreator($grn, $this->notifiableUsers('Add GRN')), new GrnApproved($grn));
-
-                return 'You have approved this GRN successfully';
-            });
-        }
-
-        return redirect()->back()->with('successMessage', $message);
-    }
-
-    public function add(Grn $grn)
-    {
-        $this->authorize('add', $grn);
-
-        if (!$grn->isApproved()) {
-            return redirect()->back()->with('failedMessage', 'This GRN is not approved.');
-        }
-
-        DB::transaction(function () use ($grn) {
-            InventoryOperationService::add($grn->grnDetails);
-
-            $grn->add();
-
-            Notification::send($this->notifiableUsers('Approve GRN'), new GrnAdded($grn));
-
-            Notification::send($this->notifyCreator($grn, $this->notifiableUsers('Approve GRN')), new GrnAdded($grn));
-        });
-
-        return redirect()->back();
     }
 }

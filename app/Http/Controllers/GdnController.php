@@ -9,17 +9,15 @@ use App\Models\Gdn;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Warehouse;
-use App\Notifications\GdnApproved;
 use App\Notifications\GdnPrepared;
-use App\Notifications\GdnSubtracted;
-use App\Services\InventoryOperationService;
+use App\Traits\InventoryActions;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class GdnController extends Controller
 {
-    use NotifiableUsers;
+    use NotifiableUsers, InventoryActions;
 
     private $gdn;
 
@@ -125,27 +123,6 @@ class GdnController extends Controller
         return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 
-    public function approve(Gdn $gdn)
-    {
-        $this->authorize('approve', $gdn);
-
-        $message = 'This DO/GDN is already approved';
-
-        if (!$gdn->isApproved()) {
-            $message = DB::transaction(function () use ($gdn) {
-                $gdn->approve();
-
-                Notification::send($this->notifiableUsers('Subtract GDN'), new GdnApproved($gdn));
-
-                Notification::send($this->notifyCreator($gdn, $this->notifiableUsers('Subtract GDN')), new GdnApproved($gdn));
-
-                return 'You have approved this DO/GDN successfully';
-            });
-        }
-
-        return redirect()->back()->with('successMessage', $message);
-    }
-
     public function printed(Gdn $gdn)
     {
         $this->authorize('view', $gdn);
@@ -153,36 +130,5 @@ class GdnController extends Controller
         $gdn->load(['gdnDetails.product', 'customer', 'company', 'createdBy', 'approvedBy']);
 
         return view('gdns.print', compact('gdn'));
-    }
-
-    public function subtract(Gdn $gdn)
-    {
-        $this->authorize('subtract', $gdn);
-
-        if (!$gdn->isApproved()) {
-            return redirect()->back()->with('failedMessage', 'This DO/GDN is not approved');
-        }
-
-        $result = DB::transaction(function () use ($gdn) {
-            $result = InventoryOperationService::subtract($gdn->gdnDetails);
-
-            if (!$result['isSubtracted']) {
-                DB::rollBack();
-
-                return $result;
-            }
-
-            $gdn->subtract();
-
-            Notification::send($this->notifiableUsers('Approve GDN'), new GdnSubtracted($gdn));
-
-            Notification::send($this->notifyCreator($gdn, $this->notifiableUsers('Approve GDN')), new GdnSubtracted($gdn));
-
-            return $result;
-        });
-
-        return $result['isSubtracted'] ?
-        redirect()->back() :
-        redirect()->back()->with('failedMessage', $result['unavailableProducts']);
     }
 }
