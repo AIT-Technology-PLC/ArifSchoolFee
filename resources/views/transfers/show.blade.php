@@ -93,7 +93,7 @@
                     {{ session('successMessage') }}
                 </span>
             </div>
-            @if ($transfer->isTransferApproved() && $transfer->isTransferDone())
+            @if ($transfer->isApproved() && $transfer->isTransferDone())
                 <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
                     <p class="has-text-grey text-green is-size-6">
                         <span class="icon">
@@ -105,7 +105,7 @@
                     </p>
                 </div>
             @endif
-            @if ($transfer->isTransferApproved() && !$transfer->isTransferDone())
+            @if ($transfer->isApproved() && !$transfer->isTransferDone())
                 @can('Make Transfer')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
@@ -138,7 +138,7 @@
                     </div>
                 @endcan
             @endif
-            @if (!$transfer->isTransferApproved())
+            @if (!$transfer->isApproved())
                 @can('Approve Transfer')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">

@@ -80,7 +80,7 @@
                                     </span>
                                 </td>
                                 <td class="is-capitalized">
-                                    @if (!$transfer->isTransferApproved())
+                                    @if (!$transfer->isApproved())
                                         <span class="tag is-small has-background-grey-dark has-text-white">
                                             Waiting for Approval
                                         </span>

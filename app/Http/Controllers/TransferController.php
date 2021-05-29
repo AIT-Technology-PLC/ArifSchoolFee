@@ -83,7 +83,7 @@ class TransferController extends Controller
 
     public function update(UpdateTransferRequest $request, Transfer $transfer)
     {
-        if ($transfer->isTransferApproved()) {
+        if ($transfer->isApproved()) {
             return redirect()->route('transfers.show', $transfer->id);
         }
 
@@ -100,7 +100,7 @@ class TransferController extends Controller
 
     public function destroy(Transfer $transfer)
     {
-        if ($transfer->isTransferApproved() && !auth()->user()->can('Delete Approved Transfer')) {
+        if ($transfer->isApproved() && !auth()->user()->can('Delete Approved Transfer')) {
             return view('errors.permission_denied');
         }
 
@@ -115,9 +115,9 @@ class TransferController extends Controller
 
         $message = 'This Transfer is already approved';
 
-        if (!$transfer->isTransferApproved()) {
+        if (!$transfer->isApproved()) {
             $message = DB::transaction(function () use ($transfer) {
-                $transfer->approveTransfer();
+                $transfer->approve();
 
                 Notification::send($this->notifiableUsers('Make Transfer'), new TransferApproved($transfer));
 
@@ -134,7 +134,7 @@ class TransferController extends Controller
     {
         $this->authorize('transfer', $transfer);
 
-        if (!$transfer->isTransferApproved()) {
+        if (!$transfer->isApproved()) {
             return redirect()->back()->with('failedMessage', 'This Transfer is not approved');
         }
 
