@@ -141,13 +141,13 @@ class TransferController extends Controller
         $result = DB::transaction(function () use ($transfer) {
             $result = InventoryOperationService::transfer($transfer->transferDetails);
 
-            if (!$result['isTransffered']) {
+            if (!$result['isTransferred']) {
                 DB::rollBack();
 
                 return $result;
             }
 
-            $transfer->changeStatusToTransferred();
+            $transfer->transfer();
 
             Notification::send($this->notifiableUsers('Approve Transfer'), new TransferMade($transfer));
 
@@ -156,7 +156,7 @@ class TransferController extends Controller
             return $result;
         });
 
-        return $result['isTransffered'] ?
+        return $result['isTransferred'] ?
         redirect()->back() :
         redirect()->back()->with('failedMessage', $result['unavailableProducts']);
     }

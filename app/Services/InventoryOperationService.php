@@ -65,7 +65,7 @@ class InventoryOperationService
 
             if (count($unavailableProducts)) {
                 return [
-                    'isTransffered' => false,
+                    'isTransferred' => false,
                     'unavailableProducts' => $unavailableProducts,
                 ];
             }
@@ -76,7 +76,7 @@ class InventoryOperationService
                 $type->transfer($detail);
             }
 
-            return ['isTransffered' => true];
+            return ['isTransferred' => true];
         });
 
         return $result;

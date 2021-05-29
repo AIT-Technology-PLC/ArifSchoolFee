@@ -58,13 +58,13 @@ class Transfer extends Model
         return $this->companyTransfer()->count();
     }
 
-    public function changeStatusToTransferred()
+    public function transfer()
     {
         $this->status = 'Transferred';
         $this->save();
     }
 
-    public function isTransferDone()
+    public function isTransferred()
     {
         return $this->status == 'Transferred';
     }

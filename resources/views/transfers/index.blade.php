@@ -84,7 +84,7 @@
                                         <span class="tag is-small has-background-grey-dark has-text-white">
                                             Waiting for Approval
                                         </span>
-                                    @elseif ($transfer->isTransferDone())
+                                    @elseif ($transfer->isTransferred())
                                         <span class="tag is-small bg-purple has-text-white">
                                             {{ $transfer->status ?? 'N/A' }}
                                         </span>
