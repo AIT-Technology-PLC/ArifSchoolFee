@@ -47,4 +47,11 @@ class SivPolicy
 
         return $doesSivBelongToMyCompany && $user->can('Approve SIV');
     }
+
+    public function execute(User $user, Siv $siv)
+    {
+        $doesSivBelongToMyCompany = $user->employee->company_id == $siv->company_id;
+
+        return $doesSivBelongToMyCompany && $user->can('Execute SIV');
+    }
 }
