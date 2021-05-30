@@ -30,7 +30,15 @@ class SivController extends Controller
 
     public function index()
     {
-        return view('sivs.index');
+        $sivs = Siv::companySiv()->with(['createdBy', 'updatedBy', 'approvedBy', 'executedBy'])->get();
+
+        $totalSivs = Siv::companySiv()->count();
+
+        $totalNotApproved = SIV::companySiv()->whereNull('approved_by')->count();
+
+        $totalNotExecuted = SIV::companySiv()->whereNotNull('approved_by')->whereNull('executed_by')->count();
+
+        return view('sivs.index', compact('sivs', 'totalSivs', 'totalNotApproved', 'totalNotExecuted'));
     }
 
     public function create(Product $product, Warehouse $warehouse)
