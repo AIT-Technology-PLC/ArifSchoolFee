@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
 
                 $view->with([
                     'unreadNotifications' => auth()->user()->unreadNotifications,
+                    'readNotifications' => auth()->user()->readNotifications,
                 ]);
 
             }

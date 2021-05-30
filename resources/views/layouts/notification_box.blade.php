@@ -5,7 +5,7 @@
             <button id="closeNotificationButton" class="delete"></button>
         </div>
         <div id="notificationBody" class="message-body is-overflow has-background-white p-0" style="max-height: 300px !important">
-            @forelse ($unreadNotifications as $unreadNotification)
+            @foreach ($unreadNotifications as $unreadNotification)
                 <div class="columns is-marginless has-background-white-bis text-green py-3 is-size-6-5 is-mobile">
                     <div class="column is-1">
                         <span class="icon is-small">
@@ -23,15 +23,38 @@
                     </div>
                 </div>
                 <hr class="mt-0 mb-0">
-            @empty
-                <div class="columns is-marginless has-background-white has-text-black py-3 is-size-6-5 is-mobile">
-                    <div class="column is-12">
-                        <span>
-                            No new notifications
+            @endforeach
+            @foreach ($readNotifications as $readNotification)
+                @if ($loop->index == 5)
+                    @break
+                @endif
+                <div class="columns is-marginless has-background-white text-green py-3 is-size-6-5 is-mobile">
+                    <div class="column is-1">
+                        <span class="icon is-small">
+                            <i class="fas fa-{{ $readNotification->data['icon'] }}"></i>
+                        </span>
+                    </div>
+                    <div class="column is-11 pl-1">
+                        <a data-notification-id="{{ $readNotification->id }}" class="readNotifications is-not-underlined" href="{{ $readNotification->data['endpoint'] }}">
+                            {{ $readNotification->data['message'] }}
+                        </a>
+                        <br>
+                        <span class="is-size-7 has-text-weight-bold">
+                            {{ $readNotification->created_at->diffForHumans() }}
                         </span>
                     </div>
                 </div>
-            @endforelse
+                <hr class="mt-0 mb-0">
+            @endforeach
+            @if ($unreadNotifications->isEmpty() && $readNotifications->isEmpty())
+                <div class="columns is-marginless has-background-white has-text-black py-3 is-size-6-5 is-mobile">
+                    <div class="column is-12">
+                        <span>
+                            No notifications
+                        </span>
+                    </div>
+                </div>
+            @endif
         </div>
         <div class="box radius-top-0 has-background-white-ter has-text-centered p-3">
             <a href="{{ route('notifications.index') }}" class="is-size-7 text-green has-text-weight-bold is-not-underlined">
