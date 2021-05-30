@@ -151,7 +151,7 @@
                             @csrf
                             <button id="openExecuteSivModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
-                                    <i class="fas fa-"></i>
+                                    <i class="fas fa-file-export"></i>
                                 </span>
                                 <span>
                                     Execute SIV

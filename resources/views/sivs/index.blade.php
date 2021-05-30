@@ -125,7 +125,7 @@
                                         </span>
                                     @elseif (!$siv->isExecuted())
                                         <span class="tag is-small bg-blue has-text-white">
-                                            Approved but no Executed
+                                            Approved but not Executed
                                         </span>
                                     @else
                                         <span class="tag is-small bg-purple has-text-white">

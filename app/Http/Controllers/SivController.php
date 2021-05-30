@@ -12,6 +12,7 @@ use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\SivExecuted;
 
 class SivController extends Controller
 {
@@ -114,5 +115,29 @@ class SivController extends Controller
         $siv->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
+    }
+
+    public function execute(Siv $siv)
+    {
+        $this->authorize('execute', $siv);
+
+        if (!$siv->isApproved()) {
+            return redirect()->back()->with('failedMessage', 'This SIV is not approved');
+        }
+
+        if ($siv->isExecuted()) {
+            return redirect()->back()->with('failedMessage', 'This SIV is already executed');
+        }
+
+        DB::transaction(function () use ($siv) {
+            $siv->execute();
+
+            Notification::send(
+                $this->notifiableUsers('Approve SIV', $siv->createdBy),
+                new SivExecuted($siv)
+            );
+        });
+
+        return redirect()->back();
     }
 }
