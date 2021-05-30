@@ -66,9 +66,13 @@ class SivController extends Controller
         return view('sivs.show', compact('siv'));
     }
 
-    public function edit(Siv $siv)
+    public function edit(Siv $siv, Product $product, Warehouse $warehouse)
     {
-        return view('sivs.edit');
+        $products = $product->getProductNames();
+
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        return view('sivs.edit', compact('siv', 'products', 'warehouses'));
     }
 
     public function update(Request $request, Siv $siv)
