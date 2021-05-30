@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSivRequest;
 use App\Models\Product;
 use App\Models\Siv;
 use App\Models\Warehouse;
 use App\Traits\ApproveInventory;
+use App\Traits\NotifiableUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SivController extends Controller
 {
-    use ApproveInventory;
+    use NotifiableUsers, ApproveInventory;
 
     private $siv, $permission;
 
@@ -39,9 +42,19 @@ class SivController extends Controller
         return view('sivs.create', compact('products', 'warehouses', 'currentSivCode'));
     }
 
-    public function store(Request $request)
+    public function store(StoreSivRequest $request)
     {
-        //
+        $siv = DB::transaction(function () use ($request) {
+            $siv = $this->siv->create($request->except('siv'));
+
+            $siv->sivDetails()->createMany($request->siv);
+
+            Notification::send($this->notifiableUsers('Approve SIV'), new SivPrepared($siv));
+
+            return $siv;
+        });
+
+        return redirect()->route('sivs.show', $siv->id);
     }
 
     public function show(Siv $siv)
