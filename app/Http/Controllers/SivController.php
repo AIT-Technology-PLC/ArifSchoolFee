@@ -6,10 +6,12 @@ use App\Http\Requests\StoreSivRequest;
 use App\Models\Product;
 use App\Models\Siv;
 use App\Models\Warehouse;
+use App\Notifications\SivPrepared;
 use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class SivController extends Controller
 {
@@ -19,7 +21,7 @@ class SivController extends Controller
 
     public function __construct(Siv $siv)
     {
-        // $this->authorizeResource(Siv::class, 'siv');
+        $this->authorizeResource(Siv::class, 'siv');
 
         $this->siv = $siv;
 
