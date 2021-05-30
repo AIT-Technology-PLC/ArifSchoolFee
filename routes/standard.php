@@ -30,6 +30,8 @@ Route::get('/notifications/{notification}/mark-as-read',
 
 Route::get('/warehouses/{warehouse}/products/{product}', WarehouseProductController::class)->name('warehouses-products');
 
+Route::get('merchandises', MerchandiseController::class)->name('merchandises.index');
+
 Route::patch('/employees/{employee}/permissions', [PermissionController::class, 'update'])->name('permissions.update');
 
 Route::patch('/notifications/mark-all-read',
@@ -47,8 +49,6 @@ Route::resource('companies', CompanyController::class);
 Route::resource('purchases', PurchaseController::class);
 
 Route::resource('sales', SaleController::class);
-
-Route::get('merchandises', MerchandiseController::class)->name('merchandises.index');
 
 Route::resource('prices', PriceController::class);
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\MerchandiseLevelByWarehouseController;
 use App\Http\Controllers\PurchaseGrnController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SaleGdnController;
+use App\Http\Controllers\SivController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TenderChecklistController;
 use App\Http\Controllers\TenderController;
@@ -36,6 +37,8 @@ Route::post('/grns/{grn}/approve', [GrnController::class, 'approve'])->name('grn
 
 Route::post('/grns/{grn}/add', [GrnController::class, 'add'])->name('grns.add');
 
+Route::post('/sivs/{siv}/approve', [SivController::class, 'approve'])->name('sivs.approve');
+
 Route::resource('warehouses.merchandises', MerchandiseLevelByWarehouseController::class);
 
 Route::resource('suppliers', SupplierController::class);
@@ -59,3 +62,5 @@ Route::resource('tender-statuses', TenderStatusController::class);
 Route::resource('tenders', TenderController::class);
 
 Route::resource('tender-checklists', TenderChecklistController::class);
+
+Route::resource('sivs', SivController::class);
