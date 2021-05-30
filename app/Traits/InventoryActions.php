@@ -115,36 +115,41 @@ trait InventoryActions
 
     public function gdnSubtractedNotification($model)
     {
-        Notification::send($this->notifiableUsers('Approve GDN'), new GdnSubtracted($model));
-
-        Notification::send($this->notifyCreator($model, $this->notifiableUsers('Approve GDN')), new GdnSubtracted($model));
+        Notification::send(
+            $this->notifiableUsers('Approve GDN', $model->createdBy),
+            new GdnSubtracted($model)
+        );
     }
 
     public function gdnApprovedNotification($model)
     {
-        Notification::send($this->notifiableUsers('Subtract GDN'), new GdnApproved($model));
-
-        Notification::send($this->notifyCreator($model, $this->notifiableUsers('Subtract GDN')), new GdnApproved($model));
+        Notification::send(
+            $this->notifiableUsers('Subtract GDN', $model->createdBy),
+            new GdnApproved($model)
+        );
     }
 
     public function grnApprovedNotification($model)
     {
-        Notification::send($this->notifiableUsers('Add GRN'), new GrnApproved($model));
-
-        Notification::send($this->notifyCreator($model, $this->notifiableUsers('Add GRN')), new GrnApproved($model));
+        Notification::send(
+            $this->notifiableUsers('Add GRN', $model->createdBy),
+            new GrnApproved($model)
+        );
     }
 
     public function grnAddedNotification($model)
     {
-        Notification::send($this->notifiableUsers('Approve GRN'), new GrnAdded($model));
-
-        Notification::send($this->notifyCreator($model, $this->notifiableUsers('Approve GRN')), new GrnAdded($model));
+        Notification::send(
+            $this->notifiableUsers('Approve GRN', $model->createdBy),
+            new GrnAdded($model)
+        );
     }
 
     public function transferApprovedNotification($model)
     {
-        Notification::send($this->notifiableUsers('Make Transfer'), new TransferApproved($model));
-
-        Notification::send($this->notifyCreator($model, $this->notifiableUsers('Make Transfer')), new TransferApproved($model));
+        Notification::send(
+            $this->notifiableUsers('Make Transfer', $model->createdBy),
+            new TransferApproved($model)
+        );
     }
 }

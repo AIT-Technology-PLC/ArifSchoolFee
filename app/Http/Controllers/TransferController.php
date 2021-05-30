@@ -128,9 +128,10 @@ class TransferController extends Controller
 
             $transfer->transfer();
 
-            Notification::send($this->notifiableUsers('Approve Transfer'), new TransferMade($transfer));
-
-            Notification::send($this->notifyCreator($transfer, $this->notifiableUsers('Approve Transfer')), new TransferMade($transfer));
+            Notification::send(
+                $this->notifiableUsers('Approve Transfer', $transfer->createdBy),
+                new TransferMade($transfer)
+            );
 
             return $result;
         });
