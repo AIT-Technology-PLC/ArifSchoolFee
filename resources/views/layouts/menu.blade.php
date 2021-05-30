@@ -69,15 +69,9 @@
     </ul>
 
     @can('onlyPremiumOrProfessional', userCompany())
-        @if (auth()
-            ->user()
-            ->can('Read GDN') ||
-        auth()
-            ->user()
-            ->can('Read GRN') ||
-        auth()
-            ->user()
-            ->can('Read Transfer'))
+        @if (auth()->user()->can('Read GDN') ||
+        auth()->user()->can('Read GRN') ||
+        auth()->user()->can('Read Transfer'))
             <p class="menu-label has-text-weight-bold text-green">
                 Warehouse Operations
             </p>
@@ -166,19 +160,37 @@
                         </ul>
                     </li>
                 @endcan
+                <li>
+                    <a name="menuTitles" href="{{ route('sivs.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-file-export"></i>
+                        </span>
+                        <span>
+                            SIV Management
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <ul class="mt-0">
+                        <li>
+                            <a name="menuTitles" href="{{ route('sivs.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs/create') ? 'is-active' : '' }}">
+                                <span class="icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </span>
+                                <span>
+                                    New SIV
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         @endif
     @endcan
 
-    @if (auth()
-        ->user()
-        ->can('Read Sale') ||
-    auth()
-        ->user()
-        ->can('Read Price') ||
-    auth()
-        ->user()
-        ->can('Read Customer'))
+    @if (auth()->user()->can('Read Sale') ||
+    auth()->user()->can('Read Price') ||
+    auth()->user()->can('Read Customer'))
         <p class="menu-label has-text-weight-bold text-green">
             Sales & Customers
         </p>
@@ -398,12 +410,8 @@
         @endcan
     @endcan
 
-    @if (auth()
-        ->user()
-        ->can('Read Purchase') ||
-    auth()
-        ->user()
-        ->can('Read Supplier'))
+    @if (auth()->user()->can('Read Purchase') ||
+    auth()->user()->can('Read Supplier'))
         <p class="menu-label has-text-weight-bold text-green">
             Purchases & Suppliers
         </p>
@@ -565,12 +573,8 @@
         @endcan
     @endcan
 
-    @if (auth()
-        ->user()
-        ->can('Read Employee') ||
-    auth()
-        ->user()
-        ->can('Update Company'))
+    @if (auth()->user()->can('Read Employee') ||
+    auth()->user()->can('Update Company'))
         <p class="menu-label has-text-weight-bold text-green">
             Settings
         </p>

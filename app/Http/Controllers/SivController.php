@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Siv;
+use App\Models\Warehouse;
 use App\Traits\ApproveInventory;
 use Illuminate\Http\Request;
 
@@ -26,9 +28,15 @@ class SivController extends Controller
         return view('sivs.index');
     }
 
-    public function create()
+    public function create(Product $product, Warehouse $warehouse)
     {
-        return view('sivs.create');
+        $products = $product->getProductNames();
+
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        $currentSivCode = (Siv::select('code')->companySiv()->latest()->first()->code) ?? 0;
+
+        return view('sivs.create', compact('products', 'warehouses', 'currentSivCode'));
     }
 
     public function store(Request $request)
