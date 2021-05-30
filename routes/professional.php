@@ -39,6 +39,8 @@ Route::post('/grns/{grn}/add', [GrnController::class, 'add'])->name('grns.add');
 
 Route::post('/sivs/{siv}/approve', [SivController::class, 'approve'])->name('sivs.approve');
 
+Route::post('/sivs/{siv}/execute', [SivController::class, 'execute'])->name('sivs.execute');
+
 Route::resource('warehouses.merchandises', MerchandiseLevelByWarehouseController::class);
 
 Route::resource('suppliers', SupplierController::class);
