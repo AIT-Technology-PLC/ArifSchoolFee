@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSivRequest;
+use App\Http\Requests\UpdateSivRequest;
 use App\Models\Product;
 use App\Models\Siv;
 use App\Models\Warehouse;
 use App\Notifications\SivPrepared;
 use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -68,6 +68,7 @@ class SivController extends Controller
 
     public function edit(Siv $siv, Product $product, Warehouse $warehouse)
     {
+
         $products = $product->getProductNames();
 
         $warehouses = $warehouse->getAllWithoutRelations();
@@ -75,9 +76,25 @@ class SivController extends Controller
         return view('sivs.edit', compact('siv', 'products', 'warehouses'));
     }
 
-    public function update(Request $request, Siv $siv)
+    public function update(UpdateSivRequest $request, Siv $siv)
     {
-        //
+        $siv->load(['sivDetails.product', 'sivDetails.warehouse', 'company']);
+
+        if ($siv->isApproved()) {
+            $siv->update($request->only('desciption', 'updated_by'));
+
+            return redirect()->route('sivs.show', $siv->id);
+        }
+
+        DB::transaction(function () use ($request, $siv) {
+            $siv->update($request->except('siv'));
+
+            for ($i = 0; $i < count($request->siv); $i++) {
+                $siv->sivDetails[$i]->update($request->siv[$i]);
+            }
+        });
+
+        return redirect()->route('sivs.show', $siv->id);
     }
 
     public function destroy(Siv $siv)
