@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Models\Siv;
+use App\Models\Siv;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

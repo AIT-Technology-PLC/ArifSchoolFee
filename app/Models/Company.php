@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Models\Siv;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

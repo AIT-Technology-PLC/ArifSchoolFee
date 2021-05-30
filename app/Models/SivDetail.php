@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\Models;
+namespace App\Models;
 
-use App\Models\Models\Siv;
+use App\Models\Siv;
 use App\Models\Product;
 use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

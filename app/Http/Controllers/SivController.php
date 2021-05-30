@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Models\Siv;
+use App\Models\Siv;
 use App\Traits\ApproveInventory;
 use Illuminate\Http\Request;
 
