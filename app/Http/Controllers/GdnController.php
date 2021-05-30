@@ -21,11 +21,15 @@ class GdnController extends Controller
 
     private $gdn;
 
+    private $permission;
+
     public function __construct(Gdn $gdn)
     {
         $this->authorizeResource(Gdn::class, 'gdn');
 
         $this->gdn = $gdn;
+
+        $this->permission = 'Subtract GDN';
     }
 
     public function index(Gdn $gdn)

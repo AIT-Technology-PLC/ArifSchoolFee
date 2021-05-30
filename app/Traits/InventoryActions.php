@@ -1,11 +1,6 @@
 <?php
 namespace App\Traits;
 
-use App\Notifications\GdnApproved;
-use App\Notifications\GdnSubtracted;
-use App\Notifications\GrnAdded;
-use App\Notifications\GrnApproved;
-use App\Notifications\TransferApproved;
 use App\Services\InventoryOperationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -24,17 +19,20 @@ trait InventoryActions
 
         $this->authorize('approve', $model);
 
-        $notification = (string) Str::of($modelName)->lower()->append('ApprovedNotification');
+        $notificationClass = (string) Str::of($modelName)->append('Approved')->prepend('App\\Notifications\\');
 
         $modelName = $modelName == 'Gdn' ? 'Do/Gdn' : $modelName;
 
         $message = 'This ' . Str::upper($modelName) . ' is already approved';
 
         if (!$model->isApproved()) {
-            $message = DB::transaction(function () use ($model, $modelName, $notification) {
+            $message = DB::transaction(function () use ($model, $modelName, $notificationClass) {
                 $model->approve();
 
-                $this->$notification($model);
+                Notification::send(
+                    $this->notifiableUsers($this->permission, $model->createdBy),
+                    new $notificationClass($model)
+                );
 
                 return 'You have approved this ' . Str::upper($modelName) . ' successfully';
             });
@@ -55,7 +53,7 @@ trait InventoryActions
 
         $modelDetails = (string) Str::of($modelName)->lower()->append('Details');
 
-        $notification = (string) Str::of($modelName)->lower()->append('SubtractedNotification');
+        $notificationClass = (string) Str::of($modelName)->append('Subtracted')->prepend('App\\Notifications\\');
 
         $modelName = $modelName == 'Gdn' ? 'Do/Gdn' : $modelName;
 
@@ -63,7 +61,7 @@ trait InventoryActions
             return redirect()->back()->with('failedMessage', 'This ' . Str::upper($modelName) . ' is not approved');
         }
 
-        $result = DB::transaction(function () use ($model, $modelDetails, $notification) {
+        $result = DB::transaction(function () use ($model, $modelDetails, $modelName, $notificationClass) {
             $result = InventoryOperationService::subtract($model->$modelDetails);
 
             if (!$result['isSubtracted']) {
@@ -74,7 +72,10 @@ trait InventoryActions
 
             $model->subtract();
 
-            $this->$notification($model);
+            Notification::send(
+                $this->notifiableUsers('Approve ' . Str::of($modelName)->remove('Do/')->upper(), $model->createdBy),
+                new $notificationClass($model)
+            );
 
             return $result;
         });
@@ -96,60 +97,23 @@ trait InventoryActions
 
         $modelDetails = (string) Str::of($modelName)->lower()->append('Details');
 
-        $notification = (string) Str::of($modelName)->lower()->append('AddedNotification');
+        $notificationClass = (string) Str::of($modelName)->append('Added')->prepend('App\\Notifications\\');
 
         if (!$model->isApproved()) {
             return redirect()->back()->with('failedMessage', 'This ' . Str::upper($modelName) . ' is not approved.');
         }
 
-        DB::transaction(function () use ($model, $modelDetails, $notification) {
+        DB::transaction(function () use ($model, $modelDetails, $modelName, $notificationClass) {
             InventoryOperationService::add($model->$modelDetails);
 
             $model->add();
 
-            $this->$notification($model);
+            Notification::send(
+                $this->notifiableUsers('Approve ' . Str::upper($modelName), $model->createdBy),
+                new $notificationClass($model)
+            );
         });
 
         return redirect()->back();
-    }
-
-    public function gdnSubtractedNotification($model)
-    {
-        Notification::send(
-            $this->notifiableUsers('Approve GDN', $model->createdBy),
-            new GdnSubtracted($model)
-        );
-    }
-
-    public function gdnApprovedNotification($model)
-    {
-        Notification::send(
-            $this->notifiableUsers('Subtract GDN', $model->createdBy),
-            new GdnApproved($model)
-        );
-    }
-
-    public function grnApprovedNotification($model)
-    {
-        Notification::send(
-            $this->notifiableUsers('Add GRN', $model->createdBy),
-            new GrnApproved($model)
-        );
-    }
-
-    public function grnAddedNotification($model)
-    {
-        Notification::send(
-            $this->notifiableUsers('Approve GRN', $model->createdBy),
-            new GrnAdded($model)
-        );
-    }
-
-    public function transferApprovedNotification($model)
-    {
-        Notification::send(
-            $this->notifiableUsers('Make Transfer', $model->createdBy),
-            new TransferApproved($model)
-        );
     }
 }

@@ -21,11 +21,15 @@ class TransferController extends Controller
 
     private $transfer;
 
+    private $permission;
+
     public function __construct(transfer $transfer)
     {
         $this->authorizeResource(Transfer::class, 'transfer');
 
         $this->transfer = $transfer;
+
+        $this->permission = 'Make Transfer';
     }
 
     public function index(Transfer $transfer)

@@ -21,11 +21,15 @@ class GrnController extends Controller
 
     private $grn;
 
+    private $permission;
+
     public function __construct(Grn $grn)
     {
         $this->authorizeResource(Grn::class, 'grn');
 
         $this->grn = $grn;
+
+        $this->permission = 'Add GRN';
     }
 
     public function index(Grn $grn)
