@@ -10,14 +10,14 @@ use App\Models\Warehouse;
 use App\Notifications\TransferMade;
 use App\Notifications\TransferPrepared;
 use App\Services\InventoryOperationService;
-use App\Traits\InventoryActions;
+use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class TransferController extends Controller
 {
-    use NotifiableUsers, InventoryActions;
+    use NotifiableUsers, ApproveInventory;
 
     private $transfer;
 

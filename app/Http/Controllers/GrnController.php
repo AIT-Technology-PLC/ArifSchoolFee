@@ -10,14 +10,14 @@ use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Notifications\GrnPrepared;
-use App\Traits\InventoryActions;
+use App\Traits\AddInventory;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class GrnController extends Controller
 {
-    use NotifiableUsers, InventoryActions;
+    use NotifiableUsers, AddInventory;
 
     private $grn;
 

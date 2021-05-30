@@ -10,14 +10,14 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Warehouse;
 use App\Notifications\GdnPrepared;
-use App\Traits\InventoryActions;
 use App\Traits\NotifiableUsers;
+use App\Traits\SubtractInventory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class GdnController extends Controller
 {
-    use NotifiableUsers, InventoryActions;
+    use NotifiableUsers, SubtractInventory;
 
     private $gdn;
 
