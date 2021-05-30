@@ -1259,3 +1259,31 @@ const addSivForm = (function () {
         }
     };
 })();
+
+function openApproveSivModal(event) {
+    event.preventDefault();
+    swal({
+        title: "Do you want to approve this SIV?",
+        text: "By clicking 'Yes, Approve', you are going to approve this SIV.",
+        buttons: ["Not now", "Yes, Approve"],
+        dangerMode: true,
+    }).then((willApprove) => {
+        if (willApprove) {
+            d.getElementById("formOne").submit();
+        }
+    });
+}
+
+function openExecuteSivModal(event) {
+    event.preventDefault();
+    swal({
+        title: "Do you want to execute this SIV?",
+        text: "By clicking 'Yes, Execute', you are going to execute this SIV.",
+        buttons: ["Not now", "Yes, Execute"],
+        dangerMode: true,
+    }).then((willExecute) => {
+        if (willExecute) {
+            d.getElementById("formOne").submit();
+        }
+    });
+}

@@ -259,3 +259,17 @@ if (d.getElementsByClassName("summernote").length) {
 if (d.getElementById("addNewSivForm")) {
     d.getElementById("addNewSivForm").addEventListener("click", addSivForm);
 }
+
+if (d.getElementById("openApproveSivModal")) {
+    d.getElementById("openApproveSivModal").addEventListener(
+        "click",
+        openApproveSivModal
+    );
+}
+
+if (d.getElementById("openExecuteSivModal")) {
+    d.getElementById("openExecuteSivModal").addEventListener(
+        "click",
+        openExecuteSivModal
+    );
+}
