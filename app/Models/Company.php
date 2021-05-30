@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Models\Siv;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -103,6 +104,11 @@ class Company extends Model
     public function tenderStatuses()
     {
         return $this->hasMany(TenderStatus::class);
+    }
+
+    public function sivs()
+    {
+        return $this->hasMany(Siv::class);
     }
 
     public function scopeEnabled($query)

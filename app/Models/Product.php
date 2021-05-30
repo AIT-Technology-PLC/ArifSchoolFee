@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Models\SivDetail;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -84,6 +85,11 @@ class Product extends Model
     public function tenderDetails()
     {
         return $this->hasMany(TenderDetail::class);
+    }
+
+    public function sivDetails()
+    {
+        return $this->hasMany(SivDetail::class);
     }
 
     public function setPropertiesAttribute($array)

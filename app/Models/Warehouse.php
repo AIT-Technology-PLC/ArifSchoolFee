@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Models\Siv;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -50,6 +51,11 @@ class Warehouse extends Model
     public function grnDetails()
     {
         return $this->hasMany(GrnDetail::class);
+    }
+
+    public function sivDetails()
+    {
+        return $this->hasMany(Siv::class);
     }
 
     public function scopeCompanyWarehouses($query)

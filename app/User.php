@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Gdn;
 use App\Models\GeneralTenderChecklist;
 use App\Models\Grn;
+use App\Models\Models\Siv;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\ProductCategory;
@@ -219,5 +220,25 @@ class User extends Authenticatable
     public function tenderStatusesUpdated()
     {
         return $this->hasMany(TenderStatus::class, 'updated_by');
+    }
+
+    public function sivsCreated()
+    {
+        return $this->hasMany(Siv::class, 'created_by');
+    }
+
+    public function sivsUpdated()
+    {
+        return $this->hasMany(Siv::class, 'updated_by');
+    }
+
+    public function sivsApproved()
+    {
+        return $this->hasMany(Siv::class, 'approved_by');
+    }
+
+    public function sivsExecuted()
+    {
+        return $this->hasMany(Siv::class, 'executed_by');
     }
 }
