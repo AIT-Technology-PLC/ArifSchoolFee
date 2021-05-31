@@ -162,34 +162,36 @@
                         </ul>
                     </li>
                 @endcan
-                @can('Read SIV')
-                    <li>
-                        <a name="menuTitles" href="{{ route('sivs.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs') ? 'is-active' : '' }}">
-                            <span class="icon">
-                                <i class="fas fa-file-export"></i>
-                            </span>
-                            <span>
-                                SIV Management
-                            </span>
-                        </a>
-                    </li>
-                @endcan
-                @can('Create SIV')
-                    <li>
-                        <ul class="mt-0">
-                            <li>
-                                <a name="menuTitles" href="{{ route('sivs.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs/create') ? 'is-active' : '' }}">
-                                    <span class="icon">
-                                        <i class="fas fa-plus-circle"></i>
-                                    </span>
-                                    <span>
-                                        New SIV
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                @endcan
+                @if (userCompany()->name != 'AE Chemicals Trading PLC')
+                    @can('Read SIV')
+                        <li>
+                            <a name="menuTitles" href="{{ route('sivs.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs') ? 'is-active' : '' }}">
+                                <span class="icon">
+                                    <i class="fas fa-file-export"></i>
+                                </span>
+                                <span>
+                                    SIV Management
+                                </span>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('Create SIV')
+                        <li>
+                            <ul class="mt-0">
+                                <li>
+                                    <a name="menuTitles" href="{{ route('sivs.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs/create') ? 'is-active' : '' }}">
+                                        <span class="icon">
+                                            <i class="fas fa-plus-circle"></i>
+                                        </span>
+                                        <span>
+                                            New SIV
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endcan
+                @endif
             </ul>
         @endif
     @endcan

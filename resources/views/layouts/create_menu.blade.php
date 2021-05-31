@@ -38,16 +38,18 @@
                 Transfer
             </span>
         </div>
-        <div class="column is-3 has-text-centered text-gold">
-            <a href="{{ route('sivs.create') }}" class="button is-rounded text-gold" data-title="Create New SIV">
-                <span class="icon">
-                    <i class="fas fa-file-export"></i>
+        @if (userCompany()->name != 'AE Chemicals Trading PLC')
+            <div class="column is-3 has-text-centered text-gold">
+                <a href="{{ route('sivs.create') }}" class="button is-rounded text-gold" data-title="Create New SIV">
+                    <span class="icon">
+                        <i class="fas fa-file-export"></i>
+                    </span>
+                </a>
+                <span class="is-size-7">
+                    SIV
                 </span>
-            </a>
-            <span class="is-size-7">
-                SIV
-            </span>
-        </div>
+            </div>
+        @endif
         <div class="column is-3 has-text-centered text-gold">
             <a href="{{ route('tenders.create') }}" class="button is-rounded text-gold" data-title="Create New Tender">
                 <span class="icon">
