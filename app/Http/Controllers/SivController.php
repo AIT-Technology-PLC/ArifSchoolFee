@@ -7,12 +7,12 @@ use App\Http\Requests\UpdateSivRequest;
 use App\Models\Product;
 use App\Models\Siv;
 use App\Models\Warehouse;
+use App\Notifications\SivExecuted;
 use App\Notifications\SivPrepared;
 use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\SivExecuted;
 
 class SivController extends Controller
 {
@@ -139,5 +139,14 @@ class SivController extends Controller
         });
 
         return redirect()->back();
+    }
+
+    public function printed(Siv $siv)
+    {
+        $this->authorize('view', $siv);
+
+        $siv->load(['sivDetails.product', 'sivDetails.warehouse', 'company', 'createdBy', 'approvedBy']);
+
+        return view('sivs.print', compact('siv'));
     }
 }

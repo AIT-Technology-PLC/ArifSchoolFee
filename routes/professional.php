@@ -23,6 +23,8 @@ Route::get('/purchase/{purchase}/grn/create', [PurchaseGrnController::class, 'cr
 
 Route::get('/gdns/{gdn}/print', [GdnController::class, 'printed'])->name('gdns.print');
 
+Route::get('/sivs/{siv}/print', [SivController::class, 'printed'])->name('sivs.print');
+
 Route::post('purchase-orders/{purchaseOrder}/close', [PurchaseOrderController::class, 'close'])->name('purchase-orders.close');
 
 Route::post('/gdns/{gdn}/approve', [GdnController::class, 'approve'])->name('gdns.approve');
