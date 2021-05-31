@@ -18,13 +18,11 @@ class SivController extends Controller
 {
     use NotifiableUsers, ApproveInventory;
 
-    private $siv, $permission;
+    private $permission;
 
     public function __construct(Siv $siv)
     {
         $this->authorizeResource(Siv::class, 'siv');
-
-        $this->siv = $siv;
 
         $this->permission = 'Execute SIV';
     }
@@ -35,9 +33,9 @@ class SivController extends Controller
 
         $totalSivs = Siv::companySiv()->count();
 
-        $totalNotApproved = SIV::companySiv()->whereNull('approved_by')->count();
+        $totalNotApproved = Siv::companySiv()->whereNull('approved_by')->count();
 
-        $totalNotExecuted = SIV::companySiv()->whereNotNull('approved_by')->whereNull('executed_by')->count();
+        $totalNotExecuted = Siv::companySiv()->whereNotNull('approved_by')->whereNull('executed_by')->count();
 
         return view('sivs.index', compact('sivs', 'totalSivs', 'totalNotApproved', 'totalNotExecuted'));
     }
@@ -56,7 +54,7 @@ class SivController extends Controller
     public function store(StoreSivRequest $request)
     {
         $siv = DB::transaction(function () use ($request) {
-            $siv = $this->siv->create($request->except('siv'));
+            $siv = Siv::create($request->except('siv'));
 
             $siv->sivDetails()->createMany($request->siv);
 
@@ -70,13 +68,14 @@ class SivController extends Controller
 
     public function show(Siv $siv)
     {
-        $siv->load(['sivDetails.product', 'sivDetails.warehouse', 'company']);
+        $siv->load(['sivDetails.product', 'sivDetails.warehouse']);
 
         return view('sivs.show', compact('siv'));
     }
 
     public function edit(Siv $siv, Product $product, Warehouse $warehouse)
     {
+        $siv->load(['sivDetails.product', 'sivDetails.warehouse']);
 
         $products = $product->getProductNames();
 
@@ -87,8 +86,6 @@ class SivController extends Controller
 
     public function update(UpdateSivRequest $request, Siv $siv)
     {
-        $siv->load(['sivDetails.product', 'sivDetails.warehouse', 'company']);
-
         if ($siv->isApproved()) {
             $siv->update($request->only('desciption', 'updated_by'));
 
