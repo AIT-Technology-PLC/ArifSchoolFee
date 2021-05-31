@@ -14,17 +14,21 @@
             </div>
             <div class="box radius-top-0">
                 <div class="columns is-marginless is-multiline is-mobile">
-                    <div class="column is-4 has-text-centered has-text-grey">
-                        <a href="{{ route('merchandises.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
-                            <span class="icon is-size-5">
-                                <i class="fas fa-chart-bar"></i>
+
+                    @can('Read Merchandise')
+                        <div class="column is-4 has-text-centered has-text-grey">
+                            <a href="{{ route('merchandises.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
+                                <span class="icon is-size-5">
+                                    <i class="fas fa-chart-bar"></i>
+                                </span>
+                            </a>
+                            <br>
+                            <span class="is-size-6 is-size-7-mobile text-green">
+                                Merchandise Inventory
                             </span>
-                        </a>
-                        <br>
-                        <span class="is-size-6 is-size-7-mobile text-green">
-                            Merchandise Inventory
-                        </span>
-                    </div>
+                        </div>
+                    @endcan
+
                     @can('onlyPremiumOrProfessional', userCompany())
                         @can('Read GDN')
                             <div class="column is-4 has-text-centered has-text-grey">
@@ -79,6 +83,7 @@
                             </div>
                         @endcan
                     @endcan
+
                     @if (userCompany()->name != 'Scepto Import')
                         @can('Read Sale')
                             <div class="column is-4 has-text-centered has-text-grey">
@@ -94,6 +99,7 @@
                             </div>
                         @endcan
                     @endif
+
                     @can('Read Price')
                         <div class="column is-4 has-text-centered has-text-grey">
                             <a href="{{ route('prices.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
@@ -107,6 +113,7 @@
                             </span>
                         </div>
                     @endcan
+
                     @can('Read Tender')
                         <div class="column is-4 has-text-centered has-text-grey">
                             <a href="{{ route('tenders.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
@@ -120,8 +127,9 @@
                             </span>
                         </div>
                     @endcan
+
                     @can('onlyPremiumOrProfessional', userCompany())
-                        @can('Read Sale')
+                        @can('Read Customer')
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('customers.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -135,6 +143,7 @@
                             </div>
                         @endcan
                     @endcan
+
                     @can('onlyPremiumOrProfessional', userCompany())
                         @can('Read PO')
                             <div class="column is-4 has-text-centered has-text-grey">
@@ -150,6 +159,7 @@
                             </div>
                         @endcan
                     @endcan
+
                     @can('Read Purchase')
                         <div class="column is-4 has-text-centered has-text-grey">
                             <a href="{{ route('purchases.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
@@ -163,6 +173,7 @@
                             </span>
                         </div>
                     @endcan
+
                     @can('onlyPremiumOrProfessional', userCompany())
                         @can('Read Supplier')
                             <div class="column is-4 has-text-centered has-text-grey">
@@ -178,6 +189,7 @@
                             </div>
                         @endcan
                     @endcan
+
                     @can('Read Product')
                         <div class="column is-4 has-text-centered has-text-grey">
                             <a href="{{ route('categories.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
@@ -202,6 +214,7 @@
                             </span>
                         </div>
                     @endcan
+
                     @can('onlyPremiumOrProfessional', userCompany())
                         @can('Read Warehouse')
                             <div class="column is-4 has-text-centered has-text-grey">
@@ -217,6 +230,7 @@
                             </div>
                         @endcan
                     @endcan
+
                     @can('Read Employee')
                         <div class="column is-4 has-text-centered has-text-grey">
                             <a href="{{ route('employees.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
@@ -230,6 +244,7 @@
                             </span>
                         </div>
                     @endcan
+
                 </div>
             </div>
         </div>

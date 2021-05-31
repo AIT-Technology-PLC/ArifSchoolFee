@@ -52,21 +52,23 @@
         </li>
     </ul>
 
-    <p class="menu-label has-text-weight-bold text-green">
-        Merchandise Inventory
-    </p>
-    <ul class="menu-list mb-5">
-        <li>
-            <a name="menuTitles" href="{{ route('merchandises.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5  {{ request()->is('merchandises') ? 'is-active' : '' }}">
-                <span class="icon">
-                    <i class="fas fa-chart-bar"></i>
-                </span>
-                <span>
-                    Inventory Level
-                </span>
-            </a>
-        </li>
-    </ul>
+    @can('Read Merchandise')
+        <p class="menu-label has-text-weight-bold text-green">
+            Merchandise Inventory
+        </p>
+        <ul class="menu-list mb-5">
+            <li>
+                <a name="menuTitles" href="{{ route('merchandises.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5  {{ request()->is('merchandises') ? 'is-active' : '' }}">
+                    <span class="icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </span>
+                    <span>
+                        Inventory Level
+                    </span>
+                </a>
+            </li>
+        </ul>
+    @endcan
 
     @can('onlyPremiumOrProfessional', userCompany())
         @if (auth()->user()->can('Read GDN') ||
