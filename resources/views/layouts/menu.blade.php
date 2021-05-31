@@ -201,7 +201,7 @@
             Sales & Customers
         </p>
         <ul class="menu-list mb-5">
-            @if (userCompany()->name != 'Scepto Import')
+            @if (0)
                 @can('Read Sale')
                     <li>
                         <a name="menuTitles" href="{{ route('sales.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'is-active' : '' }}">

@@ -84,7 +84,7 @@
                         @endcan
                     @endcan
 
-                    @if (userCompany()->name != 'Scepto Import')
+                    @if (0)
                         @can('Read Sale')
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('sales.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">

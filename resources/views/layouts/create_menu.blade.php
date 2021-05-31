@@ -39,13 +39,13 @@
             </span>
         </div>
         <div class="column is-3 has-text-centered text-gold">
-            <a href="{{ route('sales.create') }}" class="button is-rounded text-gold" data-title="Create New Sale">
+            <a href="{{ route('sivs.create') }}" class="button is-rounded text-gold" data-title="Create New SIV">
                 <span class="icon">
-                    <i class="fas fa-tags"></i>
+                    <i class="fas fa-file-export"></i>
                 </span>
             </a>
             <span class="is-size-7">
-                Sale
+                SIV
             </span>
         </div>
         <div class="column is-3 has-text-centered text-gold">

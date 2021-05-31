@@ -48,7 +48,7 @@ Route::resource('companies', CompanyController::class);
 
 Route::resource('purchases', PurchaseController::class);
 
-Route::resource('sales', SaleController::class);
+// Route::resource('sales', SaleController::class);
 
 Route::resource('prices', PriceController::class);
 
