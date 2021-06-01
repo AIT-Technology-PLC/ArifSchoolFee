@@ -5,6 +5,7 @@ use App\Http\Controllers\GdnController;
 use App\Http\Controllers\GeneralTenderChecklistController;
 use App\Http\Controllers\GrnController;
 use App\Http\Controllers\MerchandiseLevelByWarehouseController;
+use App\Http\Controllers\ProformaInvoiceController;
 use App\Http\Controllers\PurchaseGrnController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SivController;
@@ -73,3 +74,5 @@ Route::resource('tenders', TenderController::class);
 Route::resource('tender-checklists', TenderChecklistController::class);
 
 Route::resource('sivs', SivController::class);
+
+Route::resource('proforma-invoices', ProformaInvoiceController::class);
