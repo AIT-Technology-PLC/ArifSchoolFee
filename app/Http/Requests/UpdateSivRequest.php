@@ -25,7 +25,7 @@ class UpdateSivRequest extends FormRequest
             'siv.*.quantity' => 'required|numeric|min:1',
             'siv.*.description' => 'nullable|string',
             'issued_on' => 'required|date',
-            'received_by' => 'required|string',
+            'received_by' => 'nullable|string',
             'description' => 'nullable|string',
         ];
     }

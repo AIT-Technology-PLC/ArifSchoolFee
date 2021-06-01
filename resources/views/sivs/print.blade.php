@@ -115,10 +115,15 @@
                     <div class="column py-0 is-4 is-offset-1 is-size-7">
                         <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-0 mt-5">
                             Received By
-                            <br>
-                            <span class="title is-size-6 is-uppercase">
-                                {{ $siv->received_by }}
-                            </span>
+                            @if (!$siv->received_by)
+                                : <span class="is-inline-block" style="border: 1px solid lightgrey; width: 154px"></span>
+                            @endif
+                            @if ($siv->received_by)
+                                <br>
+                                <span class="title is-size-6 is-uppercase">
+                                    {{ $siv->received_by }}
+                                </span>
+                            @endif
                         </h1>
                         <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-6 mt-5">
                             Signature
