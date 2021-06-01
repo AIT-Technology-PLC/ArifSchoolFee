@@ -91,6 +91,11 @@ class Product extends Model
         return $this->hasMany(SivDetail::class);
     }
 
+    public function proformaInvoiceDetails()
+    {
+        return $this->hasMany(ProformaInvoiceDetail::class);
+    }
+
     public function setPropertiesAttribute($array)
     {
         $properties = [];

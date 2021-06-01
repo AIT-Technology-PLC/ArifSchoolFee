@@ -14,4 +14,9 @@ class ProformaInvoiceDetail extends Model
     {
         return $this->belongsTo(ProformaInvoice::class);
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
