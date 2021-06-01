@@ -11,6 +11,7 @@ use App\Models\Siv;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProformaInvoice;
 use App\Models\Purchase;
 use App\Models\PurchaseOrder;
 use App\Models\Sale;
@@ -240,5 +241,25 @@ class User extends Authenticatable
     public function sivsExecuted()
     {
         return $this->hasMany(Siv::class, 'executed_by');
+    }
+
+    public function proformaInvoicesCreated()
+    {
+        return $this->hasMany(ProformaInvoice::class, 'created_by');
+    }
+
+    public function proformaInvoicesUpdated()
+    {
+        return $this->hasMany(ProformaInvoice::class, 'updated_by');
+    }
+
+    public function proformaInvoicesApproved()
+    {
+        return $this->hasMany(ProformaInvoice::class, 'approved_by');
+    }
+
+    public function proformaInvoicesExecuted()
+    {
+        return $this->hasMany(ProformaInvoice::class, 'executed_by');
     }
 }

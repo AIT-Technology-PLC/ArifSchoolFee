@@ -110,6 +110,11 @@ class Company extends Model
         return $this->hasMany(Siv::class);
     }
 
+    public function proformaInvoices()
+    {
+        return $this->hasMany(ProformaInvoice::clas);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
