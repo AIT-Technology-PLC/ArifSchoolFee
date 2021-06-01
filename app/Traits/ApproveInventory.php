@@ -10,7 +10,7 @@ trait ApproveInventory
 {
     public function approve(Request $request, $id)
     {
-        $modelName = (string) Str::of($request->path())->before('/')->singular()->ucfirst();
+        $modelName = (string) Str::of($request->path())->before('/')->singular()->studly();
 
         $modelNameWithPath = (string) Str::of($modelName)->prepend('App\\Models\\');
 
