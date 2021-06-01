@@ -10,85 +10,48 @@ class ProformaInvoicePolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
     public function viewAny(User $user)
     {
-        //
+        return $user->can('Read Proforma Invoice');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Models\ProformaInvoice  $proformaInvoice
-     * @return mixed
-     */
     public function view(User $user, ProformaInvoice $proformaInvoice)
     {
-        //
+        $doesProformaInvoiceBelongToMyCompany = $user->employee->company_id == $proformaInvoice->company_id;
+
+        return $doesProformaInvoiceBelongToMyCompany && $user->can('Read Proforma Invoice');
     }
 
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
     public function create(User $user)
     {
-        //
+        return $user->can('Create Proforma Invoice');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Models\ProformaInvoice  $proformaInvoice
-     * @return mixed
-     */
     public function update(User $user, ProformaInvoice $proformaInvoice)
     {
-        //
+        $doesProformaInvoiceBelongToMyCompany = $user->employee->company_id == $proformaInvoice->company_id;
+
+        return $doesProformaInvoiceBelongToMyCompany && $user->can('Update Proforma Invoice');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Models\ProformaInvoice  $proformaInvoice
-     * @return mixed
-     */
     public function delete(User $user, ProformaInvoice $proformaInvoice)
     {
-        //
+        $doesProformaInvoiceBelongToMyCompany = $user->employee->company_id == $proformaInvoice->company_id;
+
+        return $doesProformaInvoiceBelongToMyCompany && $user->can('Delete Proforma Invoice');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Models\ProformaInvoice  $proformaInvoice
-     * @return mixed
-     */
-    public function restore(User $user, ProformaInvoice $proformaInvoice)
+    public function approve(User $user, ProformaInvoice $proformaInvoice)
     {
-        //
+        $doesProformaInvoiceBelongToMyCompany = $user->employee->company_id == $proformaInvoice->company_id;
+
+        return $doesProformaInvoiceBelongToMyCompany && $user->can('Approve Proforma Invoice');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Models\ProformaInvoice  $proformaInvoice
-     * @return mixed
-     */
-    public function forceDelete(User $user, ProformaInvoice $proformaInvoice)
+    public function execute(User $user, ProformaInvoice $proformaInvoice)
     {
-        //
+        $doesProformaInvoiceBelongToMyCompany = $user->employee->company_id == $proformaInvoice->company_id;
+
+        return $doesProformaInvoiceBelongToMyCompany && $user->can('Execute Proforma Invoice');
     }
 }
