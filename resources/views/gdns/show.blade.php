@@ -222,7 +222,7 @@
                                 </button>
                             @endif
                             @if ($gdn->isSubtracted())
-                                <a href="{{ route('gdns.sivs.create', $gdn->id) }}" class="button is-small bg-purple has-text-white">
+                                <a href="{{ route('gdns.sivs.create', $gdn->id) }}" class="button is-small btn-green is-outlined has-text-white">
                                     <span class="icon">
                                         <i class="fas fa-file-export"></i>
                                     </span>

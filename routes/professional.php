@@ -16,12 +16,15 @@ use App\Http\Controllers\TransferController;
 use App\Http\Controllers\WarehouseController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GdnSivController;
+use App\Http\Controllers\TransferSivController;
 
 // Route::get('/sale/{sale}/gdn/create', SaleGdnController::class)->name('sales.gdns.create');
 
 Route::get('/purchases/{purchase}/grns/create', PurchaseGrnController::class)->name('purchases.grns.create');
 
 Route::get('/gdns/{gdn}/sivs/create', GdnSivController::class)->name('gdns.sivs.create');
+
+Route::get('/transfers/{transfer}/sivs/create', TransferSivController::class)->name('transfers.sivs.create');
 
 Route::get('/gdns/{gdn}/print', [GdnController::class, 'printed'])->name('gdns.print');
 
