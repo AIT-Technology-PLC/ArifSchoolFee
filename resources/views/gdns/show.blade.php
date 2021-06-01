@@ -221,6 +221,16 @@
                                     </span>
                                 </button>
                             @endif
+                            @if ($gdn->isSubtracted())
+                                <a href="{{ route('gdns.sivs.create', $gdn->id) }}" class="button is-small bg-purple has-text-white">
+                                    <span class="icon">
+                                        <i class="fas fa-file-export"></i>
+                                    </span>
+                                    <span>
+                                        Attach SIV
+                                    </span>
+                                </a>
+                            @endif
                             <a href="{{ route('gdns.edit', $gdn->id) }}" class="button is-small bg-green has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>

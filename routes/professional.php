@@ -15,10 +15,13 @@ use App\Http\Controllers\TenderStatusController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\WarehouseController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GdnSivController;
 
 // Route::get('/sale/{sale}/gdn/create', SaleGdnController::class)->name('sales.gdns.create');
 
-Route::get('/purchase/{purchase}/grn/create', PurchaseGrnController::class)->name('purchases.grns.create');
+Route::get('/purchases/{purchase}/grns/create', PurchaseGrnController::class)->name('purchases.grns.create');
+
+Route::get('/gdns/{gdn}/sivs/create', GdnSivController::class)->name('gdns.sivs.create');
 
 Route::get('/gdns/{gdn}/print', [GdnController::class, 'printed'])->name('gdns.print');
 
