@@ -15,6 +15,7 @@ use App\Http\Controllers\TenderController;
 use App\Http\Controllers\TenderStatusController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\WarehouseController;
+use App\Models\ProformaInvoice;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GdnSivController;
 use App\Http\Controllers\TransferSivController;
@@ -48,6 +49,10 @@ Route::post('/grns/{grn}/add', [GrnController::class, 'add'])->name('grns.add');
 Route::post('/sivs/{siv}/approve', [SivController::class, 'approve'])->name('sivs.approve');
 
 Route::post('/sivs/{siv}/execute', [SivController::class, 'execute'])->name('sivs.execute');
+
+Route::post('/proforma-invoices/{proforma-invoice}/approve', [ProformaInvoice::class, 'approve'])->name('proforma-invoices.approve');
+
+Route::post('/proforma-invoices/{proforma-invoice}/execute', [ProformaInvoice::class, 'execute'])->name('proforma-invoices.execute');
 
 Route::resource('warehouses.merchandises', MerchandiseLevelByWarehouseController::class);
 
