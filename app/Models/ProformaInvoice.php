@@ -50,7 +50,7 @@ class ProformaInvoice extends Model
         return $this->hasMany(ProformaInvoiceDetail::class);
     }
 
-    public function scopeCompanyProformaInvoice($query)
+    public function scopeCompanyProformaInvoices($query)
     {
         return $query->where('company_id', userCompany()->id);
     }
