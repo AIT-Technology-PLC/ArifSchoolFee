@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class PurchaseGrnController extends Controller
 {
-    public function create(Purchase $purchase, Request $request)
+    public function __invoke(Purchase $purchase, Request $request)
     {
         $this->authorize('view', $purchase);
 

@@ -10,7 +10,6 @@ use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
-use App\Http\Controllers\SaleController;
 use App\Http\Controllers\WarehouseProductController;
 use Illuminate\Support\Facades\Route;
 

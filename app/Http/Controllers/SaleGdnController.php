@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class SaleGdnController extends Controller
 {
-    public function create(Sale $sale, Request $request)
+    public function __invoke(Sale $sale, Request $request)
     {
         $this->authorize('view', $sale);
 
