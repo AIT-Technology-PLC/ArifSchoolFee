@@ -10,7 +10,6 @@ use Spatie\Permission\PermissionRegistrar;
 
 class AddSivPermissions extends Seeder
 {
-
     public function run()
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
