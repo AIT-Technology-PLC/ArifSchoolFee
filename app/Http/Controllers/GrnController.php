@@ -114,6 +114,10 @@ class GrnController extends Controller
 
     public function destroy(Grn $grn)
     {
+        if ($grn->isAdded()) {
+            return view('errors.permission_denied');
+        }
+
         if ($grn->isApproved() && !auth()->user()->can('Delete Approved GRN')) {
             return view('errors.permission_denied');
         }

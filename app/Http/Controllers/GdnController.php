@@ -118,6 +118,10 @@ class GdnController extends Controller
 
     public function destroy(Gdn $gdn)
     {
+        if ($gdn->isSubtracted()) {
+            return view('errors.permission_denied');
+        }
+
         if ($gdn->isApproved() && !auth()->user()->can('Delete Approved GDN')) {
             return view('errors.permission_denied');
         }
