@@ -12,6 +12,8 @@ class TransferSivController extends Controller
         $this->authorize('view', $transfer);
 
         $request->merge([
+            'purpose' => 'Transfer',
+            'ref_num' => $transfer->code,
             'siv' => $transfer->transferDetails->toArray(),
         ]);
 

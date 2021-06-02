@@ -12,6 +12,8 @@ class GdnSivController extends Controller
         $this->authorize('view', $gdn);
 
         $request->merge([
+            'purpose' => 'DO',
+            'ref_num' => $gdn->code,
             'siv' => $gdn->gdnDetails->toArray(),
         ]);
 
