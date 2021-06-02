@@ -55,7 +55,7 @@
                                 <div class="select is-fullwidth">
                                     <select id="purpose" name="purpose">
                                         <option disabled selected> Select Purpose </option>
-                                        <option value="DO/GDN" {{ $siv->purpose == 'DO/GDN' ? 'selected' : '' }}> DO/GDN </option>
+                                        <option value="DO" {{ $siv->purpose == 'DO' ? 'selected' : '' }}> DO/GDN </option>
                                         <option value="Transfer" {{ $siv->purpose == 'Transfer' ? 'selected' : '' }}> Transfer </option>
                                         <option value="Expo" {{ $siv->purpose == 'Expo' ? 'selected' : '' }}> Expo </option>
                                         <option value="">None</option>
