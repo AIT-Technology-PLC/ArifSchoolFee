@@ -54,9 +54,9 @@
                                 <div class="select is-fullwidth">
                                     <select id="purpose" name="purpose">
                                         <option disabled selected> Select Purpose </option>
-                                        <option value="DO/GDN" {{ old('purpose') == 'DO/GDN' ? 'selected' : '' }}>{{ 'DO/GDN' }}</option>
-                                        <option value="Transfer" {{ old('purpose') == 'Transfer' ? 'selected' : '' }}>{{ 'Transfer' }}</option>
-                                        <option value="Expo" {{ old('purpose') == 'Expo' ? 'selected' : '' }}>{{ 'Expo' }}</option>
+                                        <option value="DO/GDN" {{ old('purpose') == 'DO/GDN' ? 'selected' : '' }}> DO/GDN </option>
+                                        <option value="Transfer" {{ old('purpose') == 'Transfer' ? 'selected' : '' }}> Transfer </option>
+                                        <option value="Expo" {{ old('purpose') == 'Expo' ? 'selected' : '' }}> Expo </option>
                                         <option value="">None</option>
                                     </select>
                                 </div>
