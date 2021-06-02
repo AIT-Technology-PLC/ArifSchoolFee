@@ -31,11 +31,11 @@ class SivController extends Controller
     {
         $sivs = Siv::companySiv()->with(['createdBy', 'updatedBy', 'approvedBy', 'executedBy'])->latest()->get();
 
-        $totalSivs = Siv::companySiv()->count();
+        $totalSivs = $sivs->count();
 
-        $totalNotApproved = Siv::companySiv()->whereNull('approved_by')->count();
+        $totalNotApproved = $sivs->whereNull('approved_by')->count();
 
-        $totalNotExecuted = Siv::companySiv()->whereNotNull('approved_by')->whereNull('executed_by')->count();
+        $totalNotExecuted = $sivs->whereNotNull('approved_by')->whereNull('executed_by')->count();
 
         return view('sivs.index', compact('sivs', 'totalSivs', 'totalNotApproved', 'totalNotExecuted'));
     }
