@@ -66,6 +66,16 @@
                             {{ $siv->code }}
                         </span>
                     </h1>
+                    @if ($siv->purpose)
+                        <br>
+                        <h1 class="title is-size-7 is-uppercase has-text-grey-light">
+                            Purpose
+                            <br>
+                            <span class="title is-size-6 is-capitalized">
+                                {{ $siv->purpose }}{{ $siv->ref_num ? ' No: ' . $siv->ref_num : '' }}
+                            </span>
+                        </h1>
+                    @endif
                 </div>
                 <div class="column is-4 is-offset-2">
                     <h1 class="title is-size-7 is-uppercase has-text-grey-light">

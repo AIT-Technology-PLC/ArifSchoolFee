@@ -100,6 +100,7 @@
                             <th id="firstTarget"><abbr> # </abbr></th>
                             <th class="text-green"><abbr> SIV No </abbr></th>
                             <th class="text-purple"><abbr> Status </abbr></th>
+                            <th><abbr> Purpose </abbr></th>
                             <th><abbr> Receiver </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Issued On </abbr></th>
@@ -131,6 +132,13 @@
                                         <span class="tag is-small bg-purple has-text-white">
                                             Executed
                                         </span>
+                                    @endif
+                                </td>
+                                <td class="is-capitalized">
+                                    @if ($siv->purpose)
+                                        {{ $siv->purpose }}{{ $siv->ref_num ? ' No: ' . $siv->ref_num : '' }}
+                                    @else
+                                        {{ 'N/A' }}
                                     @endif
                                 </td>
                                 <td class="is-capitalized">
