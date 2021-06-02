@@ -19,6 +19,8 @@ class StoreSivRequest extends FormRequest
     {
         return [
             'code' => 'required|string|unique:sivs',
+            'purpose' => 'nullable|string',
+            'ref_num' => 'nullable|string',
             'siv' => 'required|array',
             'siv.*.product_id' => 'required|integer',
             'siv.*.warehouse_id' => 'required|integer',
