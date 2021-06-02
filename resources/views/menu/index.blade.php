@@ -102,6 +102,20 @@
                         @endcan
                     @endif
 
+                    @can('Read Proforma Invoice')
+                        <div class="column is-4 has-text-centered has-text-grey">
+                            <a href="{{ route('proforma-invoices.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
+                                <span class="icon is-size-5">
+                                    <i class="fas fa-receipt"></i>
+                                </span>
+                            </a>
+                            <br>
+                            <span class="is-size-6 is-size-7-mobile text-green">
+                                Proforma Invoices
+                            </span>
+                        </div>
+                    @endcan
+
                     @can('Read Price')
                         <div class="column is-4 has-text-centered has-text-grey">
                             <a href="{{ route('prices.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">

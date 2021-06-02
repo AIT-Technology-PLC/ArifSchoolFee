@@ -233,6 +233,34 @@
                     </li>
                 @endcan
             @endif
+            @can('Read Proforma Invoice')
+                <li>
+                    <a name="menuTitles" href="{{ route('proforma-invoices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('proforma-invoices') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-receipt"></i>
+                        </span>
+                        <span>
+                            Proforma Invoices
+                        </span>
+                    </a>
+                </li>
+            @endcan
+            @can('Create Proforma Invoice')
+                <li>
+                    <ul class="mt-0">
+                        <li>
+                            <a name="menuTitles" href="{{ route('proforma-invoices.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('proforma-invoices/create') ? 'is-active' : '' }}">
+                                <span class="icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </span>
+                                <span>
+                                    New Proforma Invoice
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
             @can('Read Price')
                 <li>
                     <a name="menuTitles" href="{{ route('prices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices') ? 'is-active' : '' }}">
