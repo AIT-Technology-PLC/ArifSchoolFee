@@ -20,7 +20,7 @@ class UpdateSivRequest extends FormRequest
         return [
             'code' => 'required|string|unique:sivs,code,' . $this->route('siv')->id,
             'purpose' => 'nullable|string',
-            'ref_num' => 'nullable|string',
+            'ref_num' => 'nullable|required_unless:purpose,null|prohibited_if:purpose,null|string',
             'siv' => 'required|array',
             'siv.*.product_id' => 'required|integer',
             'siv.*.warehouse_id' => 'required|integer',
@@ -29,6 +29,14 @@ class UpdateSivRequest extends FormRequest
             'issued_on' => 'required|date',
             'received_by' => 'nullable|string',
             'description' => 'nullable|string',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'ref_num.required_unless' => 'The Ref No is required for the purpose selected',
+            'ref_num.prohibited_if' => 'The Ref No field requires one of the purposes to be selected',
         ];
     }
 
