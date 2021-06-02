@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\ProformaInvoice;
 use App\Traits\NotifiableUsers;
@@ -37,7 +38,7 @@ class ProformaInvoiceController extends Controller
     {
         $products = Product::companyProducts()->orderBy('name')->get(['id', 'name']);
 
-        $customers = Customer::companyCustomers()->orderBy('name')->get(['id', 'name']);
+        $customers = Customer::companyCustomers()->orderBy('company_name')->get(['id', 'company_name']);
 
         return view('proforma_invoices.create', compact('products', 'customers'));
     }
@@ -61,7 +62,7 @@ class ProformaInvoiceController extends Controller
 
         $products = Product::companyProducts()->orderBy('name')->get(['id', 'name']);
 
-        $customers = Customer::companyCustomers()->orderBy('name')->get(['id', 'name']);
+        $customers = Customer::companyCustomers()->orderBy('company_name')->get(['id', 'company_name']);
 
         return view('proforma_invoices.edit', compact('proformaInvoice', 'products', 'customers'));
     }
