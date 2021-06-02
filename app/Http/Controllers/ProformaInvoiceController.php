@@ -6,7 +6,6 @@ use App\Models\Product;
 use App\Models\ProformaInvoice;
 use App\Traits\NotifiableUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
 
 class ProformaInvoiceController extends Controller
 {
@@ -62,7 +61,11 @@ class ProformaInvoiceController extends Controller
 
     public function destroy(ProformaInvoice $proformaInvoice)
     {
-        if ($proformaInvoice->isApproved() && !auth()->user()->can('Delete Approved SIV')) {
+        if ($proformaInvoice->isConverted()) {
+            return view('errors.permission_denied');
+        }
+
+        if ($proformaInvoice->isCancelled() && !auth()->user()->can('Delete Cancelled Proforma Invoice')) {
             return view('errors.permission_denied');
         }
 
@@ -83,7 +86,7 @@ class ProformaInvoiceController extends Controller
             return redirect()->back()->with('failedMessage', 'This Proforma Invoice is cancelled');
         }
 
-        // converting code here
+        $proformaInvoice->convert();
 
         return redirect()->back();
     }
@@ -100,14 +103,7 @@ class ProformaInvoiceController extends Controller
             return redirect()->back()->with('failedMessage', 'This Proforma Invoice is already cancelled');
         }
 
-        DB::transaction(function () use ($proformaInvoice) {
-            $proformaInvoice->cancel();
-
-            Notification::send(
-                $this->notifiableUsers(' Proforma Invoice', $proformaInvoice->createdBy),
-                new ProformaInvoiceCancelled($proformaInvoice)
-            );
-        });
+        $proformaInvoice->cancel();
 
         return redirect()->back();
     }

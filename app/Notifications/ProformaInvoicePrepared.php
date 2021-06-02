@@ -25,7 +25,11 @@ class ProformaInvoicePrepared extends Notification
     {
         return [
             'icon' => 'file-invoice-dollar',
-            'message' => 'Approval request for Proforma Invoice prepared by ' . ucfirst($this->proformaInvoice->createdBy->name),
+
+            'message' => 'New Proforma Invoice was prepared by ' .
+            ucfirst($this->proformaInvoice->createdBy->name) .
+            ' for ' . ucfirst($this->proformaInvoice->customer->name),
+
             'endpoint' => '/proforma-invoices/' . $this->proformaInvoice->id,
         ];
     }
