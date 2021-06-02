@@ -253,13 +253,8 @@ class User extends Authenticatable
         return $this->hasMany(ProformaInvoice::class, 'updated_by');
     }
 
-    public function proformaInvoicesApproved()
+    public function proformaInvoicesConverted()
     {
-        return $this->hasMany(ProformaInvoice::class, 'approved_by');
-    }
-
-    public function proformaInvoicesExecuted()
-    {
-        return $this->hasMany(ProformaInvoice::class, 'executed_by');
+        return $this->hasMany(ProformaInvoice::class, 'converted_by');
     }
 }

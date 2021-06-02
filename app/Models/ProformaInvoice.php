@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\Approvable;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProformaInvoice extends Model
 {
-    use HasFactory, SoftDeletes, Approvable;
+    use HasFactory, SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -30,9 +29,9 @@ class ProformaInvoice extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function executedBy()
+    public function convertedBy()
     {
-        return $this->belongsTo(User::class, 'executed_by');
+        return $this->belongsTo(User::class, 'converted_by');
     }
 
     public function company()
@@ -60,24 +59,36 @@ class ProformaInvoice extends Model
         return Str::after($value, userCompany()->id . '_');
     }
 
-    public function execute()
+    public function convert()
     {
-        $this->executed_by = auth()->id();
+        $this->converted_by = auth()->id();
+
+        $this->is_pending = 0;
 
         $this->save();
     }
 
-    public function isExecuted()
+    public function cancel()
     {
-        if (is_null($this->executed_by)) {
-            return false;
-        }
+        $this->converted_by = null;
 
-        return true;
+        $this->is_pending = 0;
+
+        $this->save();
+    }
+
+    public function isConverted()
+    {
+        return !$this->is_pending && $this->convertedBy;
     }
 
     public function isPending()
     {
-        return $this->is_pending;
+        return $this->is_pending && !$this->convertedBy;
+    }
+
+    public function isCancelled()
+    {
+        return !$this->is_pending && !$this->convertedBy;
     }
 }

@@ -41,17 +41,17 @@ class ProformaInvoicePolicy
         return $doesProformaInvoiceBelongToMyCompany && $user->can('Delete Proforma Invoice');
     }
 
-    public function approve(User $user, ProformaInvoice $proformaInvoice)
+    public function convert(User $user, ProformaInvoice $proformaInvoice)
     {
         $doesProformaInvoiceBelongToMyCompany = $user->employee->company_id == $proformaInvoice->company_id;
 
-        return $doesProformaInvoiceBelongToMyCompany && $user->can('Approve Proforma Invoice');
+        return $doesProformaInvoiceBelongToMyCompany && $user->can('Convert Proforma Invoice');
     }
 
-    public function execute(User $user, ProformaInvoice $proformaInvoice)
+    public function cancel(User $user, ProformaInvoice $proformaInvoice)
     {
         $doesProformaInvoiceBelongToMyCompany = $user->employee->company_id == $proformaInvoice->company_id;
 
-        return $doesProformaInvoiceBelongToMyCompany && $user->can('Execute Proforma Invoice');
+        return $doesProformaInvoiceBelongToMyCompany && $user->can('Cancel Proforma Invoice');
     }
 }

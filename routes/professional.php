@@ -50,9 +50,9 @@ Route::post('/sivs/{siv}/approve', [SivController::class, 'approve'])->name('siv
 
 Route::post('/sivs/{siv}/execute', [SivController::class, 'execute'])->name('sivs.execute');
 
-Route::post('/proforma-invoices/{proforma-invoice}/approve', [ProformaInvoice::class, 'approve'])->name('proforma-invoices.approve');
+Route::post('/proforma-invoices/{proforma-invoice}/cancel', [ProformaInvoice::class, 'cancel'])->name('proforma-invoices.cacnel');
 
-Route::post('/proforma-invoices/{proforma-invoice}/execute', [ProformaInvoice::class, 'execute'])->name('proforma-invoices.execute');
+Route::post('/proforma-invoices/{proforma-invoice}/convert', [ProformaInvoice::class, 'convert'])->name('proforma-invoices.convert');
 
 Route::resource('warehouses.merchandises', MerchandiseLevelByWarehouseController::class);
 

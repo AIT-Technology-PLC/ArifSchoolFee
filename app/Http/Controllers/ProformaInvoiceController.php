@@ -4,21 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProformaInvoice;
-use App\Notifications\ProformaInvoiceExecuted;
-use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 
 class ProformaInvoiceController extends Controller
 {
-    use NotifiableUsers, ApproveInventory;
+    use NotifiableUsers;
 
     public function __construct()
     {
         $this->authorizeResource(ProformaInvoice::class, 'proforma-invoice');
-
-        $this->permission = 'Execute Proforma Invoice';
     }
 
     public function index()
@@ -75,24 +71,41 @@ class ProformaInvoiceController extends Controller
         return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 
-    public function execute(ProformaInvoice $proformaInvoice)
+    public function convert(ProformaInvoice $proformaInvoice)
     {
-        $this->authorize('execute', $proformaInvoice);
+        $this->authorize('convert', $proformaInvoice);
 
-        if (!$proformaInvoice->isApproved()) {
-            return redirect()->back()->with('failedMessage', 'This Proforma Invoice is not approved');
+        if ($proformaInvoice->isConverted()) {
+            return redirect()->back()->with('failedMessage', 'This Proforma Invoice has already been converted to DO');
         }
 
-        if ($proformaInvoice->isExecuted()) {
-            return redirect()->back()->with('failedMessage', 'This Proforma Invoice is already executed');
+        if ($proformaInvoice->isCancelled()) {
+            return redirect()->back()->with('failedMessage', 'This Proforma Invoice is cancelled');
+        }
+
+        // converting code here
+
+        return redirect()->back();
+    }
+
+    public function cancel(ProformaInvoice $proformaInvoice)
+    {
+        $this->authorize('cancel', $proformaInvoice);
+
+        if ($proformaInvoice->isConverted()) {
+            return redirect()->back()->with('failedMessage', 'This Proforma Invoice has been converted to DO');
+        }
+
+        if ($proformaInvoice->isCancelled()) {
+            return redirect()->back()->with('failedMessage', 'This Proforma Invoice is already cancelled');
         }
 
         DB::transaction(function () use ($proformaInvoice) {
-            $proformaInvoice->execute();
+            $proformaInvoice->cancel();
 
             Notification::send(
-                $this->notifiableUsers('Approve Proforma Invoice', $proformaInvoice->createdBy),
-                new ProformaInvoiceExecuted($proformaInvoice)
+                $this->notifiableUsers(' Proforma Invoice', $proformaInvoice->createdBy),
+                new ProformaInvoiceCancelled($proformaInvoice)
             );
         });
 
