@@ -48,6 +48,46 @@
                         </div>
                     </div>
                     <div class="column is-6">
+                        <div class="field">
+                            <label for="purpose" class="label text-green has-text-weight-normal"> Purpose <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="purpose" name="purpose">
+                                        <option disabled selected> Select Purpose </option>
+                                        <option value="DO/GDN" {{ old('purpose') == 'DO/GDN' ? 'selected' : '' }}>{{ 'DO/GDN' }}</option>
+                                        <option value="Transfer" {{ old('purpose') == 'Transfer' ? 'selected' : '' }}>{{ 'Transfer' }}</option>
+                                        <option value="Expo" {{ old('purpose') == 'Expo' ? 'selected' : '' }}>{{ 'Expo' }}</option>
+                                        <option value="">None</option>
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-question"></i>
+                                </div>
+                                @error('purpose')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="ref_num" class="label text-green has-text-weight-normal">Ref N<u>o</u> <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="number" name="ref_num" id="ref_num" value="{{ old('ref_num') ?? '' }}">
+                                <span class="icon is-large is-left">
+                                    <i class="fas fa-hashtag"></i>
+                                </span>
+                                @error('ref_num')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
                         <label for="received_by" class="label text-green has-text-weight-normal">Received By <sup class="has-text-danger"></sup> </label>
                         <div class="field">
                             <div class="control has-icons-left is-expanded">
