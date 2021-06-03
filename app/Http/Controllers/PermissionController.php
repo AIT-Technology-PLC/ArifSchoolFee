@@ -55,12 +55,14 @@ class PermissionController extends Controller
         $permission['grnPermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'grn'))->pluck('name')->toArray();
 
         $permission['transferPermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'transfer'))->pluck('name')->toArray();
-        
+
         $permission['sivPermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'siv'))->pluck('name')->toArray();
 
         $permission['merchandisePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'merchandise'))->pluck('name')->toArray();
 
         $permission['salePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'sale'))->pluck('name')->toArray();
+
+        $permission['proformaInvoicePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'proforma invoice'))->pluck('name')->toArray();
 
         $permission['purchasePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'purchase'))->pluck('name')->toArray();
 
