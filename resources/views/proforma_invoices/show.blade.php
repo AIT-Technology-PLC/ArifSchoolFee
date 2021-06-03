@@ -112,7 +112,7 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ number_format($proformaInvoice->totalPriceWithVAT, 2) }}
+                                {{ number_format($proformaInvoice->totalPriceAfterVAT, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
                                 Total Price with VAT ({{ $proformaInvoice->company->currency }})
@@ -266,6 +266,7 @@
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Unit Price </abbr></th>
                             <th><abbr> Discount </abbr></th>
+                            <th><abbr> Total </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -284,7 +285,10 @@
                                     {{ number_format($proformaInvoiceDetail->unit_price, 2) }}
                                 </td>
                                 <td>
-                                    {{ $proformaInvoice->discount ?? 0 }}%
+                                    {{ number_format($proformaInvoiceDetail->discount * 100, 2) }}%
+                                </td>
+                                <td>
+                                    {{ number_format($proformaInvoiceDetail->unitPriceAfterDiscount, 2) }}
                                 </td>
                             </tr>
                         @endforeach

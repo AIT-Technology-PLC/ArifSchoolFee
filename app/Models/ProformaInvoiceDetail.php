@@ -21,4 +21,17 @@ class ProformaInvoiceDetail extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function getDiscountAttribute($value)
+    {
+        if ($value) {
+            return $value / 100;
+        }
+
+        return 0;
+    }
+    public function getUnitPriceAfterDiscountAttribute()
+    {
+        return ($this->unit_price * $this->quantity) / (1 + $this->discount);
+    }
 }

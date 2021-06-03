@@ -60,6 +60,16 @@ class ProformaInvoice extends Model
         return Str::after($value, userCompany()->id . '_');
     }
 
+    public function getTotalPriceAttribute()
+    {
+        return $this->proformaInvoiceDetails->sum->unitPriceAfterDiscount;
+    }
+
+    public function getTotalPriceAfterVATAttribute()
+    {
+        return $this->totalPrice * 1.15;
+    }
+
     public function convert()
     {
         $this->converted_by = auth()->id();
