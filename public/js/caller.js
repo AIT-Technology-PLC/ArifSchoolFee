@@ -280,3 +280,9 @@ if (d.getElementById("addNewProformaInvoiceForm")) {
         addProformaInvoiceForm
     );
 }
+
+if (d.getElementsByClassName("summernote").length) {
+    $(document).ready(function () {
+        $(".summernote").summernote();
+    });
+}

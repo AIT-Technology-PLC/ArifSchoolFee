@@ -86,11 +86,8 @@
                     <div class="column is-12">
                         <div class="field">
                             <label for="terms" class="label text-green has-text-weight-normal">Terms & Conditions <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <textarea name="terms" id="terms" cols="30" rows="5" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('terms') ?? '' }}</textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
+                            <div class="control">
+                                <textarea name="terms" id="terms" cols="30" rows="5" class="summernote textarea" placeholder="Description or note to be taken">{{ old('terms') ?? '' }}</textarea>
                                 @error('terms')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
