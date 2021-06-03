@@ -254,7 +254,7 @@
                                     </div>
                                 </div>
                                 <div class="column is-6">
-                                    <label for="proformaInvoice[{{ $i }}][discount]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
+                                    <label for="proformaInvoice[{{ $i }}][discount]" class="label text-green has-text-weight-normal">Discount<sup class="has-text-danger"></sup> </label>
                                     <div class="field">
                                         <div class="control has-icons-left is-expanded">
                                             <input id="proformaInvoice[{{ $i }}][discount]" name="proformaInvoice[{{ $i }}][discount]" type="number" class="input" placeholder="Discount in Percentage" value="{{ old('proformaInvoice.' . $i . '.discount') ?? '' }}">
