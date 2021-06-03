@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="columns is-marginless is-multiline">
-        <div class="column is-6">
+        <div class="column is-6 p-lr-0">
             <div class="box text-green">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <div class="column is-6">
+        <div class="column is-6 p-lr-0">
             <div class="box text-purple">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column is-paddingless has-text-centered">
@@ -46,8 +46,8 @@
                 </div>
             </div>
         </div>
-        <div class="column is-4">
-            <div class="box text-green has-text-centered">
+        <div class="column is-4 p-lr-0">
+            <div class="box text-green has-text-centered" style="border-left: 2px solid #3d8660;">
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalProformaInvoices }}
                 </div>
@@ -56,8 +56,8 @@
                 </div>
             </div>
         </div>
-        <div class="column is-4">
-            <div class="box text-green has-text-centered">
+        <div class="column is-4 p-lr-0">
+            <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalProformaInvoices }}
                 </div>
@@ -66,8 +66,8 @@
                 </div>
             </div>
         </div>
-        <div class="column is-4">
-            <div class="box text-green has-text-centered">
+        <div class="column is-4 p-lr-0">
+            <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalProformaInvoices }}
                 </div>
