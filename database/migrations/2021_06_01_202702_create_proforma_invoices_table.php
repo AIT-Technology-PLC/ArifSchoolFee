@@ -39,7 +39,7 @@ class CreateProformaInvoicesTable extends Migration
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22);
-            $table->decimal('discount', 22);
+            $table->decimal('discount', 22)->nullable();
             $table->timestamps();
             $table->softDeletes();
 
