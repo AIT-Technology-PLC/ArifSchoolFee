@@ -278,7 +278,7 @@
                 @endforeach
                 <div id="proformaInvoiceFormWrapper"></div>
                 <button id="addNewProformaInvoiceForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
-                    Add More Proforma Invoice
+                    Add More Item
                 </button>
             </div>
             <div class="box radius-top-0">

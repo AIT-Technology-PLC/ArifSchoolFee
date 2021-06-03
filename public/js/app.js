@@ -1287,3 +1287,86 @@ function openExecuteSivModal(event) {
         }
     });
 }
+
+const addProformaInvoiceForm = (function () {
+    const proformaInvoiceFormGroup = d.getElementsByName("proformaInvoiceFormGroup");
+    const proformaInvoiceFormWrapper = d.getElementById("proformaInvoiceFormWrapper");
+    let productList = d.getElementById("proformaInvoice[0][product_id]");
+
+    if (!proformaInvoiceFormWrapper) {
+        return false;
+    }
+
+    let index = proformaInvoiceFormGroup.length;
+
+    return function () {
+        const createProformaInvoiceForm = `
+            <div class="has-text-weight-medium has-text-left">
+                <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                    Item ${index + 1}
+                </span>
+            </div>
+            <div class="box has-background-white-bis radius-top-0 mb-5">
+                <div name="proformaInvoiceFormGroup" class="columns is-marginless is-multiline">
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="proformaInvoice[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="proformaInvoice[${index}][product_id]" name="proformaInvoice[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                        ${productList.innerHTML}
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-th"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <label for="proformaInvoice[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                        <div class="field has-addons">
+                            <div class="control has-icons-left is-expanded">
+                                <input id="proformaInvoice[${index}][quantity]" name="proformaInvoice[${index}][quantity]" type="number" class="input" placeholder="Product Quantity">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-balance-scale"></i>
+                                </span>
+                            </div>
+                            <div class="control">
+                                <button id="proformaInvoice[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <label for="proformaInvoice[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
+                        <div class="field has-addons">
+                            <div class="control has-icons-left is-expanded">
+                                <input id="proformaInvoice[${index}][unit_price]" name="proformaInvoice[${index}][unit_price]" type="number" class="input" placeholder="Unit Price">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-money-bill"></i>
+                                </span>
+                            </div>
+                            <div class="control">
+                                <button id="proformaInvoice[${index}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <label for="proformaInvoice[${index}][discount]" class="label text-green has-text-weight-normal">Discount <sup class="has-text-danger"></sup> </label>
+                        <div class="field has-addons">
+                            <div class="control has-icons-left is-expanded">
+                                <input id="proformaInvoice[${index}][discount]" name="proformaInvoice[${index}][discount]" type="number" class="input" placeholder="Discount in Percentage">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-percent"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+        proformaInvoiceFormWrapper.insertAdjacentHTML("beforeend", createProformaInvoiceForm);
+
+        index++;
+    };
+})();
