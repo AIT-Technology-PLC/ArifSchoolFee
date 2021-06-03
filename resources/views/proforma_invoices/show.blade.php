@@ -237,7 +237,7 @@
                                     <i class="fas fa-check-circle"></i>
                                 </span>
                                 <span>
-                                    Approve
+                                    Confirm
                                 </span>
                             </button>
                         </form>

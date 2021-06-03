@@ -49,7 +49,17 @@
         <div class="column is-4 p-lr-0">
             <div class="box text-green has-text-centered" style="border-left: 2px solid #3d8660;">
                 <div class="is-size-3 has-text-weight-bold">
-                    {{ $totalProformaInvoices }}
+                    {{ $totalConverted }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Confirmed
+                </div>
+            </div>
+        </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalPending }}
                 </div>
                 <div class="is-uppercase is-size-7">
                     Pending
@@ -57,19 +67,9 @@
             </div>
         </div>
         <div class="column is-4 p-lr-0">
-            <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
-                <div class="is-size-3 has-text-weight-bold">
-                    {{ $totalProformaInvoices }}
-                </div>
-                <div class="is-uppercase is-size-7">
-                    Converted
-                </div>
-            </div>
-        </div>
-        <div class="column is-4 p-lr-0">
             <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
                 <div class="is-size-3 has-text-weight-bold">
-                    {{ $totalProformaInvoices }}
+                    {{ $totalCancelled }}
                 </div>
                 <div class="is-uppercase is-size-7">
                     Cancelled
@@ -109,10 +109,39 @@
                                     {{ $proformaInvoice->code ?? 'N/A' }}
                                 </td>
                                 <td class="is-capitalized">
-                                    {{ $proformaInvoice->status }}
+                                    @if ($proformaInvoice->isPending())
+                                        <span class="tag bg-purple has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-exclamation-circle"></i>
+                                            </span>
+                                            <span>
+                                                Pending
+                                            </span>
+                                        </span>
+                                    @endif
+                                    @if ($proformaInvoice->isConverted())
+                                        <span class="tag bg-green has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-check-circle"></i>
+                                            </span>
+                                            <span>
+                                                Confirmed
+                                            </span>
+                                        </span>
+                                    @endif
+                                    @if ($proformaInvoice->isCancelled())
+                                        <span class="tag bg-green has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-times-circle"></i>
+                                            </span>
+                                            <span>
+                                                Cancelled
+                                            </span>
+                                        </span>
+                                    @endif
                                 </td>
                                 <td>
-                                    {{ $proformaInvoice->customer->name }}
+                                    {{ $proformaInvoice->customer->company_name }}
                                 </td>
                                 <td>
                                     {{ $proformaInvoice->issued_on->toFormattedDateString() }}
