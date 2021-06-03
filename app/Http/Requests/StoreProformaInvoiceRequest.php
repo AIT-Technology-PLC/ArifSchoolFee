@@ -30,6 +30,10 @@ class StoreProformaInvoiceRequest extends FormRequest
 
     public function passedValidation()
     {
+        $this->merge([
+            'is_pending' => 1,
+        ]);
+
         $this->merge(SetDataOwnerService::forNonTransaction());
     }
 }

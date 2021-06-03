@@ -10,6 +10,8 @@ class ProformaInvoiceDetail extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
+
     public function proformaInvoice()
     {
         return $this->belongsTo(ProformaInvoice::class);

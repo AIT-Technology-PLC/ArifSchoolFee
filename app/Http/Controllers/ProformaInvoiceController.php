@@ -6,8 +6,11 @@ use App\Http\Requests\StoreProformaInvoiceRequest;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\ProformaInvoice;
+use App\Notifications\ProformaInvoicePrepared;
 use App\Traits\NotifiableUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class ProformaInvoiceController extends Controller
 {
@@ -15,7 +18,7 @@ class ProformaInvoiceController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(ProformaInvoice::class, 'proforma-invoice');
+        $this->authorizeResource(ProformaInvoice::class);
     }
 
     public function index()
@@ -46,20 +49,31 @@ class ProformaInvoiceController extends Controller
 
     public function store(StoreProformaInvoiceRequest $request)
     {
-        //
+        $proformaInvoice = DB::transaction(function () use ($request) {
+            $proformaInvoice = ProformaInvoice::create($request->except('proformaInvoice'));
+
+            $proformaInvoice->proformaInvoiceDetails()->createMany($request->proformaInvoice);
+
+            Notification::send($this->notifiableUsers('Approve GDN'), new ProformaInvoicePrepared($proformaInvoice));
+
+            return $proformaInvoice;
+        });
+
+        return redirect()->route('proforma-invoices.show', $proformaInvoice->id);
     }
 
     public function show(ProformaInvoice $proformaInvoice)
     {
-        $proformaInvoice->load(['proformaInvoices.product', 'customer']);
+        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer']);
+
+        return $proformaInvoice;
 
         return view('proforma_invoices.show', compact('proformaInvoice'));
-
     }
 
     public function edit(ProformaInvoice $proformaInvoice)
     {
-        $proformaInvoice->load(['proformaInvoices.product', 'customer']);
+        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer']);
 
         $products = Product::companyProducts()->orderBy('name')->get(['id', 'name']);
 

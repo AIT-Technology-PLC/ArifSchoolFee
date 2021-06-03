@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class ProformaInvoice extends Model
 {
@@ -14,8 +15,8 @@ class ProformaInvoice extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
-        'issued_on' => 'dateime',
-        'expires_on' => 'dateime',
+        'issued_on' => 'datetime',
+        'expires_on' => 'datetime',
         'is_pending' => 'boolean',
     ];
 
