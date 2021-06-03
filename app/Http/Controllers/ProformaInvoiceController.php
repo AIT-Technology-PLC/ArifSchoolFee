@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProformaInvoiceRequest;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\ProformaInvoice;
@@ -43,7 +44,7 @@ class ProformaInvoiceController extends Controller
         return view('proforma_invoices.create', compact('products', 'customers'));
     }
 
-    public function store(Request $request)
+    public function store(StoreProformaInvoiceRequest $request)
     {
         //
     }

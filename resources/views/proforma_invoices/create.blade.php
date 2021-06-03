@@ -187,7 +187,7 @@
                     </div>
                 </div>
                 @foreach (range(1, 10) as $i)
-                    @if (old('proformaInvoice'))
+                    @if (old('proformaInvoice.' . $i . '.product_id') || old('proformaInvoice.' . $i . '.quantity') || old('proformaInvoice.' . $i . '.unit_price') || old('proformaInvoice.' . $i . '.discount'))
                         <div class="has-text-weight-medium has-text-left">
                             <span class="tag bg-green has-text-white is-medium radius-bottom-0">
                                 Item {{ $i + 1 }}
