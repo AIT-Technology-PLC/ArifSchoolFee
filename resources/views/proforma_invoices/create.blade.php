@@ -19,7 +19,7 @@
                         <div class="field">
                             <label for="code" class="label text-green has-text-weight-normal">PI No <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="number" name="code" id="code" value="{{ old('code') ?? '' }}">
+                                <input class="input" type="text" name="code" id="code" value="{{ old('code') ?? '' }}">
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-hashtag"></i>
                                 </span>
@@ -170,7 +170,7 @@
                         </div>
                         <div class="column is-6">
                             <label for="proformaInvoice[0][discount]" class="label text-green has-text-weight-normal">Discount <sup class="has-text-danger"></sup> </label>
-                            <div class="field has-addons">
+                            <div class="field">
                                 <div class="control has-icons-left is-expanded">
                                     <input id="proformaInvoice[0][discount]" name="proformaInvoice[0][discount]" type="number" class="input" placeholder="Discount in Percentage" value="{{ old('proformaInvoice.0.discount') ?? '' }}">
                                     <span class="icon is-small is-left">

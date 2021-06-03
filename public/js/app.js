@@ -1289,15 +1289,18 @@ function openExecuteSivModal(event) {
 }
 
 const addProformaInvoiceForm = (function () {
-    const proformaInvoiceFormGroup = d.getElementsByName("proformaInvoiceFormGroup");
-    const proformaInvoiceFormWrapper = d.getElementById("proformaInvoiceFormWrapper");
+    const proformaInvoiceFormGroup = d.getElementsByName(
+        "proformaInvoiceFormGroup"
+    );
+    const proformaInvoiceFormWrapper = d.getElementById(
+        "proformaInvoiceFormWrapper"
+    );
     let productList = d.getElementById("proformaInvoice[0][product_id]");
+    let index = proformaInvoiceFormGroup.length;
 
     if (!proformaInvoiceFormWrapper) {
         return false;
     }
-
-    let index = proformaInvoiceFormGroup.length;
 
     return function () {
         const createProformaInvoiceForm = `
@@ -1353,7 +1356,7 @@ const addProformaInvoiceForm = (function () {
                     </div>
                     <div class="column is-6">
                         <label for="proformaInvoice[${index}][discount]" class="label text-green has-text-weight-normal">Discount <sup class="has-text-danger"></sup> </label>
-                        <div class="field has-addons">
+                        <div class="field">
                             <div class="control has-icons-left is-expanded">
                                 <input id="proformaInvoice[${index}][discount]" name="proformaInvoice[${index}][discount]" type="number" class="input" placeholder="Discount in Percentage">
                                 <span class="icon is-small is-left">
@@ -1365,7 +1368,10 @@ const addProformaInvoiceForm = (function () {
                 </div>
             </div>`;
 
-        proformaInvoiceFormWrapper.insertAdjacentHTML("beforeend", createProformaInvoiceForm);
+        proformaInvoiceFormWrapper.insertAdjacentHTML(
+            "beforeend",
+            createProformaInvoiceForm
+        );
 
         index++;
     };
