@@ -197,6 +197,7 @@
     @endcan
 
     @if (auth()->user()->can('Read Sale') ||
+    auth()->user()->can('Read Proforma Invoice') ||
     auth()->user()->can('Read Price') ||
     auth()->user()->can('Read Customer'))
         <p class="menu-label has-text-weight-bold text-green">
