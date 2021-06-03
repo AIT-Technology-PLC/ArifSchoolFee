@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GdnController;
+use App\Http\Controllers\GdnSivController;
 use App\Http\Controllers\GeneralTenderChecklistController;
 use App\Http\Controllers\GrnController;
 use App\Http\Controllers\MerchandiseLevelByWarehouseController;
@@ -14,11 +15,10 @@ use App\Http\Controllers\TenderChecklistController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\TenderStatusController;
 use App\Http\Controllers\TransferController;
+use App\Http\Controllers\TransferSivController;
 use App\Http\Controllers\WarehouseController;
 use App\Models\ProformaInvoice;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GdnSivController;
-use App\Http\Controllers\TransferSivController;
 
 // Route::get('/sale/{sale}/gdn/create', SaleGdnController::class)->name('sales.gdns.create');
 
@@ -50,7 +50,7 @@ Route::post('/sivs/{siv}/approve', [SivController::class, 'approve'])->name('siv
 
 Route::post('/sivs/{siv}/execute', [SivController::class, 'execute'])->name('sivs.execute');
 
-Route::post('/proforma-invoices/{proforma-invoice}/cancel', [ProformaInvoice::class, 'cancel'])->name('proforma-invoices.cacnel');
+Route::post('/proforma-invoices/{proforma-invoice}/cancel', [ProformaInvoice::class, 'cancel'])->name('proforma-invoices.cancel');
 
 Route::post('/proforma-invoices/{proforma-invoice}/convert', [ProformaInvoice::class, 'convert'])->name('proforma-invoices.convert');
 

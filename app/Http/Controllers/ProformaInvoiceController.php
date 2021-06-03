@@ -64,9 +64,7 @@ class ProformaInvoiceController extends Controller
 
     public function show(ProformaInvoice $proformaInvoice)
     {
-        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer']);
-
-        return $proformaInvoice;
+        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'company']);
 
         return view('proforma_invoices.show', compact('proformaInvoice'));
     }
