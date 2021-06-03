@@ -110,7 +110,7 @@
                                 </td>
                                 <td class="is-capitalized">
                                     @if ($proformaInvoice->isPending())
-                                        <span class="tag bg-purple has-text-white">
+                                        <span class="tag bg-gold has-text-white">
                                             <span class="icon">
                                                 <i class="fas fa-exclamation-circle"></i>
                                             </span>
@@ -130,7 +130,7 @@
                                         </span>
                                     @endif
                                     @if ($proformaInvoice->isCancelled())
-                                        <span class="tag bg-green has-text-white">
+                                        <span class="tag bg-purple has-text-white">
                                             <span class="icon">
                                                 <i class="fas fa-times-circle"></i>
                                             </span>

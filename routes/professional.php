@@ -17,7 +17,6 @@ use App\Http\Controllers\TenderStatusController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\TransferSivController;
 use App\Http\Controllers\WarehouseController;
-use App\Models\ProformaInvoice;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/sale/{sale}/gdn/create', SaleGdnController::class)->name('sales.gdns.create');
@@ -50,9 +49,9 @@ Route::post('/sivs/{siv}/approve', [SivController::class, 'approve'])->name('siv
 
 Route::post('/sivs/{siv}/execute', [SivController::class, 'execute'])->name('sivs.execute');
 
-Route::post('/proforma-invoices/{proforma-invoice}/cancel', [ProformaInvoice::class, 'cancel'])->name('proforma-invoices.cancel');
+Route::post('/proforma-invoices/{proformaInvoice}/cancel', [ProformaInvoiceController::class, 'cancel'])->name('proforma-invoices.cancel');
 
-Route::post('/proforma-invoices/{proforma-invoice}/convert', [ProformaInvoice::class, 'convert'])->name('proforma-invoices.convert');
+Route::post('/proforma-invoices/{proformaInvoice}/convert', [ProformaInvoiceController::class, 'convert'])->name('proforma-invoices.convert');
 
 Route::resource('warehouses.merchandises', MerchandiseLevelByWarehouseController::class);
 

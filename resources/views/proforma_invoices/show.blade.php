@@ -202,19 +202,19 @@
                             <i class="fas fa-times-circle"></i>
                         </span>
                         <span>
-                            This Proforma Invoice is cancelled.
+                            This Proforma Invoice has been cancelled.
                         </span>
                     </p>
                 </div>
             @endif
             @if ($proformaInvoice->isConverted())
                 <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
-                    <p class="text-purple is-size-6">
+                    <p class="text-green is-size-6">
                         <span class="icon">
                             <i class="fas fa-check-circle"></i>
                         </span>
                         <span>
-                            This Proforma Invoice has been completed successfully.
+                            This Proforma Invoice has been confirmed.
                         </span>
                     </p>
                 </div>
@@ -232,7 +232,7 @@
                     @can('Convert Proforma Invoice')
                         <form id="formOne" action="{{ route('proforma-invoices.convert', $proformaInvoice->id) }}" method="post" novalidate class="is-inline">
                             @csrf
-                            <button id="openApproveGdnModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button id="openConfirmPIModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-check-circle"></i>
                                 </span>
@@ -245,7 +245,7 @@
                     @can('Cancel Proforma Invoice')
                         <form id="formOne" action="{{ route('proforma-invoices.cancel', $proformaInvoice->id) }}" method="post" novalidate class="is-inline">
                             @csrf
-                            <button id="openApproveGdnModal" class="button bg-lightpurple text-purple mt-5 is-size-7-mobile">
+                            <button id="openCancelPIModal" class="button bg-lightpurple text-purple mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-times"></i>
                                 </span>

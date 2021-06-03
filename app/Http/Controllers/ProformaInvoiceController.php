@@ -32,7 +32,7 @@ class ProformaInvoiceController extends Controller
 
         $totalPending = $proformaInvoices->where('is_pending', 1)->count();
 
-        $totalCancelled = $proformaInvoices->where('is_pending', 0)->whereNotNull('converted_by')->count();
+        $totalCancelled = $proformaInvoices->where('is_pending', 0)->whereNull('converted_by')->count();
 
         return view('proforma_invoices.index', compact('proformaInvoices', 'totalProformaInvoices',
             'totalConverted', 'totalPending', 'totalCancelled'));
