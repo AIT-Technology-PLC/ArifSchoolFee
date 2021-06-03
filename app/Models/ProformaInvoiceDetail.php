@@ -24,14 +24,15 @@ class ProformaInvoiceDetail extends Model
 
     public function getDiscountAttribute($value)
     {
-        if ($value) {
-            return $value / 100;
+        if (is_null($value)) {
+            return 0;
         }
 
-        return 0;
+        return $value / 100;
     }
     public function getUnitPriceAfterDiscountAttribute()
     {
-        return ($this->unit_price * $this->quantity) / (1 + $this->discount);
+        return ($this->unit_price * $this->quantity) -
+            (($this->unit_price * $this->quantity) * $this->discount);
     }
 }

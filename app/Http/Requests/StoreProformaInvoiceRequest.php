@@ -18,7 +18,7 @@ class StoreProformaInvoiceRequest extends FormRequest
             'code' => 'required|string|unique:proforma_invoices',
             'customer_id' => 'nullable|integer',
             'issued_on' => 'required|date',
-            'expires_on' => 'nullable|date',
+            'expires_on' => 'nullable|date|after_or_equal:issued_on',
             'terms' => 'nullable|string',
             'proformaInvoice' => 'required|array',
             'proformaInvoice.*.product_id' => 'required|integer',
