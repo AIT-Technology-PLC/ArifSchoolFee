@@ -282,7 +282,9 @@ if (d.getElementById("addNewProformaInvoiceForm")) {
 }
 
 if (d.getElementsByClassName("summernote").length) {
-    $(document).ready(function () {
-        $(".summernote").summernote();
-    });
+    initializeSummernote();
+}
+
+if (d.querySelectorAll(".table.table-bordered").length) {
+    summernoteAddBulma();
 }

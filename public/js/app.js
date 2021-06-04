@@ -1376,3 +1376,17 @@ const addProformaInvoiceForm = (function () {
         index++;
     };
 })();
+
+function initializeSummernote() {
+    $(document).ready(function () {
+        $(".summernote").summernote();
+    });
+}
+
+function summernoteAddBulma() {
+    elements = document.querySelectorAll(".table.table-bordered");
+
+    elements.forEach((element) => {
+        element.classList = "table is-bordered is-fullwidth";
+    });
+}
