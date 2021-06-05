@@ -13,6 +13,7 @@
         </div>
         <form id="formOne" action="{{ route('proforma-invoices.update', $proformaInvoice->id) }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
+            @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
@@ -169,7 +170,7 @@
                                 <label for="proformaInvoice[{{ $loop->index }}][discount]" class="label text-green has-text-weight-normal">Discount <sup class="has-text-danger"></sup> </label>
                                 <div class="field">
                                     <div class="control has-icons-left is-expanded">
-                                        <input id="proformaInvoice[{{ $loop->index }}][discount]" name="proformaInvoice[{{ $loop->index }}][discount]" type="number" class="input" placeholder="Discount in Percentage" value="{{ $proformaInvoiceDetail->discount ?? '' }}">
+                                        <input id="proformaInvoice[{{ $loop->index }}][discount]" name="proformaInvoice[{{ $loop->index }}][discount]" type="number" class="input" placeholder="Discount in Percentage" value="{{ $proformaInvoiceDetail->discount * 100 ?? '' }}">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-percent"></i>
                                         </span>

@@ -82,7 +82,21 @@ class ProformaInvoiceController extends Controller
 
     public function update(UpdateProformaInvoiceRequest $request, ProformaInvoice $proformaInvoice)
     {
-        //
+        if (!$proformaInvoice->isPending()) {
+            return redirect()->route('proforma-invoices.show', $proformaInvoice->id)
+                ->with('failedMessage', 'Confirmed/Cancelled Proforma Inovices can not be edited.');
+        }
+
+        DB::transaction(function () use ($request, $proformaInvoice) {
+            $proformaInvoice->update($request->except('proformaInvoice'));
+
+            $proformaInvoice->proformaInvoiceDetails
+                ->each(function ($proformaInvoiceDetail, $index) use ($request) {
+                    $proformaInvoiceDetail->update($request->proformaInvoice[$index]);
+                });
+        });
+
+        return redirect()->route('proforma-invoices.show', $proformaInvoice->id);
     }
 
     public function destroy(ProformaInvoice $proformaInvoice)

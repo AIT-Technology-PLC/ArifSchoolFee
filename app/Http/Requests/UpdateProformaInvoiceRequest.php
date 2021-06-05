@@ -9,13 +9,13 @@ class UpdateProformaInvoiceRequest extends FormRequest
 {
     public function authorize()
     {
-        return tru;
+        return true;
     }
 
     public function rules()
     {
         return [
-            'code' => 'required|string|unique:proforma_invoices,code,' . $this->route('proformaInvoice')->id,
+            'code' => 'required|string|unique:proforma_invoices,code,' . $this->route('proforma_invoice')->id,
             'customer_id' => 'nullable|integer',
             'issued_on' => 'required|date',
             'expires_on' => 'nullable|date|after_or_equal:issued_on',
