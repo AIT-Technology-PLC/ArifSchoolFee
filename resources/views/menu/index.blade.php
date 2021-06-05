@@ -116,19 +116,21 @@
                         </div>
                     @endcan
 
-                    @can('Read Price')
-                        <div class="column is-4 has-text-centered has-text-grey">
-                            <a href="{{ route('prices.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
-                                <span class="icon is-size-5">
-                                    <i class="fas fa-money-bill"></i>
+                    @if (0)
+                        @can('Read Price')
+                            <div class="column is-4 has-text-centered has-text-grey">
+                                <a href="{{ route('prices.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
+                                    <span class="icon is-size-5">
+                                        <i class="fas fa-money-bill"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile text-green">
+                                    Prices
                                 </span>
-                            </a>
-                            <br>
-                            <span class="is-size-6 is-size-7-mobile text-green">
-                                Prices
-                            </span>
-                        </div>
-                    @endcan
+                            </div>
+                        @endcan
+                    @endif
 
                     @can('Read Tender')
                         <div class="column is-4 has-text-centered has-text-grey">

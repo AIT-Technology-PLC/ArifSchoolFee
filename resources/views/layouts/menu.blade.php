@@ -262,34 +262,36 @@
                     </ul>
                 </li>
             @endcan
-            @can('Read Price')
-                <li>
-                    <a name="menuTitles" href="{{ route('prices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices') ? 'is-active' : '' }}">
-                        <span class="icon">
-                            <i class="fas fa-money-bill"></i>
-                        </span>
-                        <span>
-                            Price Management
-                        </span>
-                    </a>
-                </li>
-            @endcan
-            @can('Create Price')
-                <li>
-                    <ul class="mt-0">
-                        <li>
-                            <a name="menuTitles" href="{{ route('prices.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices/create') ? 'is-active' : '' }}">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    New Price
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            @endcan
+            @if (0)
+                @can('Read Price')
+                    <li>
+                        <a name="menuTitles" href="{{ route('prices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-money-bill"></i>
+                            </span>
+                            <span>
+                                Price Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Price')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('prices.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Price
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+            @endif
             @can('onlyPremiumOrProfessional', userCompany())
                 @can('Read Customer')
                     <li>

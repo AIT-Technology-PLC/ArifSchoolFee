@@ -49,6 +49,6 @@ Route::resource('purchases', PurchaseController::class);
 
 // Route::resource('sales', SaleController::class);
 
-Route::resource('prices', PriceController::class);
+// Route::resource('prices', PriceController::class);
 
 Route::resource('notifications', NotificationController::class)->only("index");
