@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProformaInvoiceRequest;
+use App\Http\Requests\UpdateProformaInvoiceRequest;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\ProformaInvoice;
 use App\Notifications\ProformaInvoicePrepared;
 use App\Traits\NotifiableUsers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -80,7 +80,7 @@ class ProformaInvoiceController extends Controller
         return view('proforma_invoices.edit', compact('proformaInvoice', 'products', 'customers'));
     }
 
-    public function update(Request $request, ProformaInvoice $proformaInvoice)
+    public function update(UpdateProformaInvoiceRequest $request, ProformaInvoice $proformaInvoice)
     {
         //
     }
