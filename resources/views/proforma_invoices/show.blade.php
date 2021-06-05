@@ -230,9 +230,9 @@
                         </span>
                     </p>
                     @can('Convert Proforma Invoice')
-                        <form id="formOne" action="{{ route('proforma-invoices.convert', $proformaInvoice->id) }}" method="post" novalidate class="is-inline">
+                        <form action="{{ route('proforma-invoices.convert', $proformaInvoice->id) }}" method="post" novalidate class="is-inline">
                             @csrf
-                            <button id="openConfirmPIModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button data-type="Proforma Invoice" data-action="confirm" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-check-circle"></i>
                                 </span>
@@ -243,9 +243,9 @@
                         </form>
                     @endcan
                     @can('Cancel Proforma Invoice')
-                        <form id="formOne" action="{{ route('proforma-invoices.cancel', $proformaInvoice->id) }}" method="post" novalidate class="is-inline">
+                        <form action="{{ route('proforma-invoices.cancel', $proformaInvoice->id) }}" method="post" novalidate class="is-inline">
                             @csrf
-                            <button id="openCancelPIModal" class="button bg-lightpurple text-purple mt-5 is-size-7-mobile">
+                            <button data-type="Proforma Invoice" data-action="cancel" data-description="" class="swal button bg-lightpurple text-purple mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-times"></i>
                                 </span>
