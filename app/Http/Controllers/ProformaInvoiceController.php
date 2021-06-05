@@ -147,4 +147,13 @@ class ProformaInvoiceController extends Controller
 
         return redirect()->back();
     }
+
+    public function printed(ProformaInvoice $proformaInvoice)
+    {
+        $this->authorize('view', $proformaInvoice);
+
+        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'company']);
+
+        return view('proforma_invoices.print', compact('proformaInvoice'));
+    }
 }

@@ -31,6 +31,8 @@ Route::get('/gdns/{gdn}/print', [GdnController::class, 'printed'])->name('gdns.p
 
 Route::get('/sivs/{siv}/print', [SivController::class, 'printed'])->name('sivs.print');
 
+Route::get('/proforma-invoices/{proformaInvoice}/print', [ProformaInvoiceController::class, 'printed'])->name('proforma-invoices.print');
+
 Route::post('purchase-orders/{purchaseOrder}/close', [PurchaseOrderController::class, 'close'])->name('purchase-orders.close');
 
 Route::post('/gdns/{gdn}/approve', [GdnController::class, 'approve'])->name('gdns.approve');
