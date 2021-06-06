@@ -154,6 +154,8 @@ class ProformaInvoiceController extends Controller
 
         $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'company']);
 
-        return view('proforma_invoices.print', compact('proformaInvoice'));
+        return \PDF::loadView('proforma_invoices.print', compact('proformaInvoice'))
+            ->setPaper('a4', 'portrait')
+            ->stream();
     }
 }
