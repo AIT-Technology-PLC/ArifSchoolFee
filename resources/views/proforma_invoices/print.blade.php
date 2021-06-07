@@ -20,6 +20,16 @@
             border-bottom-width: 1px
         }
 
+        .page-break {
+            page-break-inside: avoid;
+        }
+
+        @media print {
+            .table-breaked {
+                page-break-before: auto;
+            }
+        }
+
     </style>
 </head>
 
@@ -111,9 +121,15 @@
             </h1>
         </section>
 
-        <section class="py-5 px-6">
+        <section class="px-6 table-breaked">
             <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
                 <thead>
+                    <tr class="is-borderless">
+                        <td colspan="7" class="is-borderless">&nbsp;</td>
+                    </tr>
+                    <tr class="is-borderless">
+                        <td colspan="7" class="is-borderless">&nbsp;</td>
+                    </tr>
                     <tr>
                         <th>#</th>
                         <th>Product Description</th>
@@ -155,8 +171,8 @@
             </table>
         </section>
 
-        <section class="is-clearfix py-5 px-6">
-            <aside class="is-pulled-left">
+        <section class="page-break px-6">
+            <aside>
                 <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
                     Terms and Conditions
                 </h1>
@@ -167,7 +183,7 @@
         </section>
     </main>
 
-    <footer class="has-background-white-ter" style="position:absolute; bottom: 0%;left: 0;right: 0;">
+    <footer class="has-background-white-ter" style="position:absolute; bottom: 0%;left: 0;right: 0;margin-top: 180px;">
         <aside class="has-text-centered">
             <h1 class="is-size-7 is-uppercase has-text-grey-light mb-0 mt-6">
                 Prepared By
