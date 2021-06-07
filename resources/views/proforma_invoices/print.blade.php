@@ -171,7 +171,7 @@
             </table>
         </section>
 
-        <section class="page-break px-6">
+        <section class="page-break pt-3 px-6">
             <aside>
                 <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
                     Terms and Conditions
@@ -183,15 +183,15 @@
         </section>
     </main>
 
-    <footer class="has-background-white-ter" style="position:absolute; bottom: 0%;left: 0;right: 0;margin-top: 180px;">
+    <footer class="has-background-white-ter" style="position:absolute; bottom: 0%;left: 0;right: 0;">
         <aside class="has-text-centered">
-            <h1 class="is-size-7 is-uppercase has-text-grey-light mb-0 mt-6">
+            <h1 class="is-size-7 is-uppercase has-text-grey-light mb-0 mt-3">
                 Prepared By
             </h1>
             <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
                 {{ $proformaInvoice->createdBy->name }}
             </h1>
-            <h1 class="is-size-7 is-uppercase has-text-grey-light mb-6 mt-5">
+            <h1 class="is-size-7 is-uppercase has-text-grey-light mb-6 mt-3">
                 Signature
             </h1>
         </aside>
