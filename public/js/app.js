@@ -1378,22 +1378,7 @@ const addProformaInvoiceForm = (function () {
 })();
 
 function initializeSummernote() {
-    $(document).ready(function () {
-        $(".summernote").summernote({
-            tableClassName: function () {
-                this.className = "table table-bordered";
-                this.style.cssText = "";
-            },
-        });
-    });
-}
-
-function summernoteAddBulma() {
-    elements = document.querySelectorAll(".table.table-bordered");
-
-    elements.forEach((element) => {
-        element.classList = "table is-bordered is-fullwidth";
-    });
+    $(".summernote").summernote();
 }
 
 function openSwalModal(event) {

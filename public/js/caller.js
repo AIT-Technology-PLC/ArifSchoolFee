@@ -285,10 +285,6 @@ if (d.getElementsByClassName("summernote").length) {
     initializeSummernote();
 }
 
-if (d.querySelectorAll(".table.table-bordered").length) {
-    summernoteAddBulma();
-}
-
 if (d.querySelectorAll(".swal")) {
     d.querySelectorAll(".swal").forEach((element) => {
         element.addEventListener("click", openSwalModal);

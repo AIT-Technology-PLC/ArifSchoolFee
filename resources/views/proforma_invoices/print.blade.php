@@ -10,16 +10,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <style>
-        .table.table-bordered td,
-        .table.table-bordered th {
-            border-width: 1px
-        }
-
-        .table.table-bordered tr:last-child td,
-        .table.table-bordered tr:last-child th {
-            border-bottom-width: 1px
-        }
-
         .page-break {
             page-break-inside: avoid;
         }
@@ -171,19 +161,19 @@
             </table>
         </section>
 
-        <section class="page-break pt-3 px-6">
+        <section class="page-break mt-5 px-6">
             <aside>
                 <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
                     Terms and Conditions
                 </h1>
-                <div class="is-size-7 mt-3" style="margin-right: 33.33% !important">
+                <div class="is-size-7 mt-3">
                     {!! $proformaInvoice->terms !!}
                 </div>
             </aside>
         </section>
     </main>
 
-    <footer class="has-background-white-ter" style="position:absolute; bottom: 0%;left: 0;right: 0;">
+    <footer class="has-background-white-ter" style="position:absolute;bottom: 0%;left: 0;right: 0;margin-top: 132px">
         <aside class="has-text-centered">
             <h1 class="is-size-7 is-uppercase has-text-grey-light mb-0 mt-3">
                 Prepared By
