@@ -161,16 +161,18 @@
             </table>
         </section>
 
-        <section class="page-break mt-5 px-6">
-            <aside>
-                <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                    Terms and Conditions
-                </h1>
-                <div class="is-size-7 mt-3">
-                    {!! $proformaInvoice->terms !!}
-                </div>
-            </aside>
-        </section>
+        @if ($proformaInvoice->terms)
+            <section class="page-break mt-5 px-6">
+                <aside>
+                    <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
+                        Terms and Conditions
+                    </h1>
+                    <div class="is-size-7 mt-3">
+                        {!! $proformaInvoice->terms !!}
+                    </div>
+                </aside>
+            </section>
+        @endif
     </main>
 
     <footer class="has-background-white-ter" style="position:absolute;bottom: 0%;left: 0;right: 0;margin-top: 132px">
