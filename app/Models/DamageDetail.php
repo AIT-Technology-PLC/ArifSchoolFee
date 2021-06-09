@@ -42,6 +42,6 @@ class DamageDetail extends Model
                     ]);
             })
             ->get()
-            ->load(['damage.customer', 'product']);
+            ->load(['damage', 'warehouse', 'product']);
     }
 }
