@@ -290,3 +290,7 @@ if (d.querySelectorAll(".swal")) {
         element.addEventListener("click", openSwalModal);
     });
 }
+
+if (d.getElementById("addNewDamageForm")) {
+    d.getElementById("addNewDamageForm").addEventListener("click", addDamageForm);
+}
