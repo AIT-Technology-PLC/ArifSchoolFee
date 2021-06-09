@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreDamageRequest;
+use App\Http\Requests\UpdateDamageRequest;
 use App\Models\Damage;
 use App\Models\Product;
 use App\Models\Warehouse;
 use App\Traits\SubtractInventory;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DamageController extends Controller
@@ -37,7 +38,7 @@ class DamageController extends Controller
         return view('damages.create', compact('products', 'warehouses', 'currentDamageCode'));
     }
 
-    public function store(Request $request)
+    public function store(StoreDamageRequest $request)
     {
         $damage = DB::transaction(function () use ($request) {
             $damage = $this->damage->create($request->except('damage'));
@@ -68,7 +69,7 @@ class DamageController extends Controller
         return view('damages.edit', compact('damage', 'products', 'warehouses'));
     }
 
-    public function update(Request $request, Damage $damage)
+    public function update(UpdateDamageRequest $request, Damage $damage)
     {
         DB::transaction(function () use ($request, $damage) {
             $damage->update($request->except('damage'));
