@@ -7,12 +7,15 @@ use App\Http\Requests\UpdateDamageRequest;
 use App\Models\Damage;
 use App\Models\Product;
 use App\Models\Warehouse;
+use App\Notifications\DamagePrepared;
+use App\Traits\NotifiableUsers;
 use App\Traits\SubtractInventory;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class DamageController extends Controller
 {
-    use SubtractInventory;
+    use NotifiableUsers, SubtractInventory;
 
     public function __construct()
     {
@@ -51,6 +54,8 @@ class DamageController extends Controller
             $damage = Damage::create($request->except('damage'));
 
             $damage->damageDetails()->createMany($request->damage);
+
+            Notification::send($this->notifiableUsers('Approve GDN'), new DamagePrepared($damage));
 
             return $damage;
         });
