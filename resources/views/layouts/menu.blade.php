@@ -192,6 +192,30 @@
                         </li>
                     @endcan
                 @endif
+                <li>
+                    <a name="menuTitles" href="{{ route('damages.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-house-damage"></i>
+                        </span>
+                        <span>
+                            Damage Management
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <ul class="mt-0">
+                        <li>
+                            <a name="menuTitles" href="{{ route('damages.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages/create') ? 'is-active' : '' }}">
+                                <span class="icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </span>
+                                <span>
+                                    New Damage
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         @endif
     @endcan

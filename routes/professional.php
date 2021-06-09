@@ -88,4 +88,4 @@ Route::resource('sivs', SivController::class);
 
 Route::resource('proforma-invoices', ProformaInvoiceController::class);
 
-Route::resource('damage', DamageController::class);
+Route::resource('damages', DamageController::class);
