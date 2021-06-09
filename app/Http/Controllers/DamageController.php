@@ -14,6 +14,13 @@ class DamageController extends Controller
 {
     use SubtractInventory;
 
+    public function __construct()
+    {
+        $this->authorizeResource(Damage::class, 'damage');
+
+        $this->permission = 'Subtract Damage';
+    }
+
     public function index()
     {
         $damages = Damage::companyDamage()->with(['damageDetails', 'createdBy', 'updatedBy', 'approvedBy', 'company'])->get();
