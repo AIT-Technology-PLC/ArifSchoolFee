@@ -195,7 +195,7 @@
                 <li>
                     <a name="menuTitles" href="{{ route('damages.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages') ? 'is-active' : '' }}">
                         <span class="icon">
-                            <i class="fas fa-house-damage"></i>
+                            <i class="fas fa-bolt"></i>
                         </span>
                         <span>
                             Damage Management

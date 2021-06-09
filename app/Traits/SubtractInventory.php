@@ -42,8 +42,10 @@ trait SubtractInventory
 
             $model->subtract();
 
+            $modelName = $modelName == 'Do/Gdn' ? Str::of($modelName)->remove('Do/')->upper() : $modelName;
+
             Notification::send(
-                $this->notifiableUsers('Approve ' . Str::of($modelName)->remove('Do/')->upper(), $model->createdBy),
+                $this->notifiableUsers('Approve ' . $modelName, $model->createdBy),
                 new $notificationClass($model)
             );
 
