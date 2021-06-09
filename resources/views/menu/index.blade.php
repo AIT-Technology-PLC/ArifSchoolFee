@@ -69,6 +69,19 @@
                                 </span>
                             </div>
                         @endcan
+                        @can('Read Damage')
+                            <div class="column is-4 has-text-centered has-text-grey">
+                                <a href="{{ route('damages.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
+                                    <span class="icon is-size-5">
+                                        <i class="fas fa-bolt"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile text-green">
+                                    Damages
+                                </span>
+                            </div>
+                        @endcan
                         @if (userCompany()->name != 'AE Chemicals Trading PLC')
                             @can('Read SIV')
                                 <div class="column is-4 has-text-centered has-text-grey">
@@ -84,19 +97,6 @@
                                 </div>
                             @endcan
                         @endif
-                        @can('Read Damage')
-                            <div class="column is-4 has-text-centered has-text-grey">
-                                <a href="{{ route('damages.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
-                                    <span class="icon is-size-5">
-                                        <i class="fas fa-bolt"></i>
-                                    </span>
-                                </a>
-                                <br>
-                                <span class="is-size-6 is-size-7-mobile text-green">
-                                    Damages
-                                </span>
-                            </div>
-                        @endcan
                     @endcan
 
                     @if (0)

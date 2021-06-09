@@ -162,6 +162,34 @@
                         </ul>
                     </li>
                 @endcan
+                @can('Read Damage')
+                    <li>
+                        <a name="menuTitles" href="{{ route('damages.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-bolt"></i>
+                            </span>
+                            <span>
+                                Damage Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Damage')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('damages.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Damage
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
                 @if (userCompany()->name != 'AE Chemicals Trading PLC')
                     @can('Read SIV')
                         <li>
@@ -192,34 +220,6 @@
                         </li>
                     @endcan
                 @endif
-                @can('Read Damage')
-                    <li>
-                        <a name="menuTitles" href="{{ route('damages.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages') ? 'is-active' : '' }}">
-                            <span class="icon">
-                                <i class="fas fa-bolt"></i>
-                            </span>
-                            <span>
-                                Damage Management
-                            </span>
-                        </a>
-                    </li>
-                @endcan
-                @can('Create Damage')
-                    <li>
-                        <ul class="mt-0">
-                            <li>
-                                <a name="menuTitles" href="{{ route('damages.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages/create') ? 'is-active' : '' }}">
-                                    <span class="icon">
-                                        <i class="fas fa-plus-circle"></i>
-                                    </span>
-                                    <span>
-                                        New Damage
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                @endcan
             </ul>
         @endif
     @endcan
