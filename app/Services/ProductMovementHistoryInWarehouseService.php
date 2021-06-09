@@ -111,7 +111,7 @@ class ProductMovementHistoryInWarehouseService
     {
         $damageDetails->map(function ($damageDetail) {
             $this->history->push([
-                'type' => 'Damage',
+                'type' => 'DAMAGE',
                 'code' => $damageDetail->damage->code,
                 'date' => $damageDetail->damage->issued_on,
                 'quantity' => $damageDetail->quantity,
