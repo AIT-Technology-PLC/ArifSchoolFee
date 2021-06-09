@@ -57,6 +57,11 @@ class Warehouse extends Model
         return $this->hasMany(SivDetail::class);
     }
 
+    public function damageDetails()
+    {
+        return $this->hasMany(DamageDetail::class);
+    }
+
     public function scopeCompanyWarehouses($query)
     {
         return $query->where('company_id', userCompany()->id);

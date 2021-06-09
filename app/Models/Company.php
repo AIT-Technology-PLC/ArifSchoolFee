@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Damage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -113,6 +114,11 @@ class Company extends Model
     public function proformaInvoices()
     {
         return $this->hasMany(ProformaInvoice::clas);
+    }
+
+    public function damages()
+    {
+        return $this->hasMany(Damage::class);
     }
 
     public function scopeEnabled($query)
