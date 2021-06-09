@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DamageController;
 use App\Http\Controllers\GdnController;
 use App\Http\Controllers\GdnSivController;
 use App\Http\Controllers\GeneralTenderChecklistController;
@@ -55,6 +56,10 @@ Route::post('/proforma-invoices/{proformaInvoice}/cancel', [ProformaInvoiceContr
 
 Route::post('/proforma-invoices/{proformaInvoice}/convert', [ProformaInvoiceController::class, 'convert'])->name('proforma-invoices.convert');
 
+Route::post('/damages/{damage}/approve', [DamageController::class, 'approve'])->name('damages.approve');
+
+Route::post('/damages/{damage}/subtract', [DamageController::class, 'subtract'])->name('damages.subtract');
+
 Route::resource('warehouses.merchandises', MerchandiseLevelByWarehouseController::class);
 
 Route::resource('suppliers', SupplierController::class);
@@ -82,3 +87,5 @@ Route::resource('tender-checklists', TenderChecklistController::class);
 Route::resource('sivs', SivController::class);
 
 Route::resource('proforma-invoices', ProformaInvoiceController::class);
+
+Route::resource('damage', DamageController::class);
