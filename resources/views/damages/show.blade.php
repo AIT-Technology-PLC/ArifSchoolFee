@@ -131,7 +131,7 @@
                         </p>
                         <form id="formOne" action="{{ route('damages.subtract', $damage->id) }}" method="post" novalidate>
                             @csrf
-                            <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button data-type="Damage" data-action="subtract" data-description="the damaged products" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-minus-circle"></i>
                                 </span>
@@ -164,7 +164,7 @@
                         </p>
                         <form id="formOne" action="{{ route('damages.approve', $damage->id) }}" method="post" novalidate>
                             @csrf
-                            <button id="openApproveGdnModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button data-type="Damage" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>
