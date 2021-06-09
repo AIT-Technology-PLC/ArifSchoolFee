@@ -1402,3 +1402,93 @@ function openSwalModal(event) {
         }
     });
 }
+
+const addDamageForm = (function () {
+    const damageFormGroup = d.getElementsByName("damageFormGroup");
+    const damageFormWrapper = d.getElementById("damageFormWrapper");
+    const productList = d.getElementById("damage[0][product_id]");
+    const warehouseList = d.getElementById("damage[0][warehouse_id]");
+    const formLimit = 10;
+    let index = damageFormGroup.length;
+
+    if (!damageFormWrapper) {
+        return false;
+    }
+
+    return function () {
+        const createDamageForm = `
+        <div class="has-text-weight-medium has-text-left">
+            <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                Item ${index + 1}
+            </span>
+        </div>
+        <div class="box has-background-white-bis radius-top-0 mb-5">
+            <div name="damageFormGroup" class="columns is-marginless is-multiline">
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="damage[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="damage[${index}][product_id]" name="damage[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                    ${productList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-th"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="damage[${index}][warehouse_id]" class="label text-green has-text-weight-normal"> From <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="damage[${index}][warehouse_id]" name="damage[${index}][warehouse_id]">
+                                    ${warehouseList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-warehouse"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label for="damage[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left is-expanded">
+                            <input id="damage[${index}][quantity]" name="damage[${index}][quantity]" type="number" class="input" placeholder="Quantity">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-balance-scale"></i>
+                            </span>
+                        </div>
+                        <div class="control">
+                            <button id="damage[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="damage[${index}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
+                        <div class="control has-icons-left">
+                            <textarea name="damage[${index}][description]" id="damage[${index}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken"></textarea>
+                            <span class="icon is-large is-left">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+        damageFormWrapper.insertAdjacentHTML("beforeend", createDamageForm);
+
+        index++;
+
+        if (index == formLimit) {
+            d.getElementById("addNewDamageForm").remove();
+            return false;
+        }
+    };
+})();
