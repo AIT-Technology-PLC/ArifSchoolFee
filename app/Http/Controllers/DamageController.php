@@ -26,7 +26,9 @@ class DamageController extends Controller
 
     public function index()
     {
-        $damages = Damage::companyDamage()->with(['damageDetails', 'createdBy', 'updatedBy', 'approvedBy', 'company'])->get();
+        $damages = Damage::companyDamage()
+            ->with(['damageDetails', 'createdBy', 'updatedBy', 'approvedBy', 'company'])
+            ->latest()->get();
 
         $totalDamages = $damages->count();
 
