@@ -195,7 +195,6 @@
                             <th><abbr> From </abbr></th>
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
-                            <th><abbr> Unit Price </abbr></th>
                             <th><abbr> Description </abbr></th>
                         </tr>
                     </thead>
@@ -212,10 +211,6 @@
                                 <td>
                                     {{ number_format($damageDetail->quantity, 2) }}
                                     {{ $damageDetail->product->unit_of_measurement }}
-                                </td>
-                                <td>
-                                    {{ $damage->company->currency }}.
-                                    {{ number_format($damageDetail->unit_price, 2) }}
                                 </td>
                                 <td>
                                     {!! nl2br(e($damageDetail->description)) !!}

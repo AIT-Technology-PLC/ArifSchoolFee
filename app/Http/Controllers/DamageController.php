@@ -55,7 +55,7 @@ class DamageController extends Controller
 
             $damage->damageDetails()->createMany($request->damage);
 
-            Notification::send($this->notifiableUsers('Approve GDN'), new DamagePrepared($damage));
+            Notification::send($this->notifiableUsers('Approve Damage'), new DamagePrepared($damage));
 
             return $damage;
         });
@@ -65,7 +65,7 @@ class DamageController extends Controller
 
     public function show(Damage $damage)
     {
-        $damage->load(['damageDetails.product', 'damageDetails.warehouse', 'company']);
+        $damage->load(['damageDetails.product', 'damageDetails.warehouse']);
 
         return view('damages.show', compact('damage'));
     }
