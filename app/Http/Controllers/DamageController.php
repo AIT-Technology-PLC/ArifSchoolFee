@@ -16,7 +16,7 @@ class DamageController extends Controller
 
     public function index()
     {
-        $damages = Damage::companyDamage()->load(['damageDetails', 'createdBy', 'updatedBy', 'approvedBy', 'company']);
+        $damages = Damage::companyDamage()->with(['damageDetails', 'createdBy', 'updatedBy', 'approvedBy', 'company'])->get();
 
         $totalDamages = $damages->count();
 
@@ -41,7 +41,7 @@ class DamageController extends Controller
     public function store(StoreDamageRequest $request)
     {
         $damage = DB::transaction(function () use ($request) {
-            $damage = $this->damage->create($request->except('damage'));
+            $damage = Damage::create($request->except('damage'));
 
             $damage->damageDetails()->createMany($request->damage);
 
