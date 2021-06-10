@@ -44,12 +44,13 @@ class Install extends Command
 
         if (App::environment('local', 'staging')) {
 
+            if (!file_exists(__DIR__ . '/../../../.env')) {
+                $this->warn("Please run the following first: 'cp .env.example .env'");
+                return 0;
+            }
+
             $confirmationQuestion = "First you should create an empty, new database with any name and assign that name to the DB_DATABASE property
             in the .env file and you must also assign the DB_USERNAME and DB_PASSWORD fields then write 'yes' to continue! ";
-
-            if (!file_exists(__DIR__ . '/../../../.env')) {
-                shell_exec('cp .env.example .env');
-            }
 
             $this->call('key:generate');
 
