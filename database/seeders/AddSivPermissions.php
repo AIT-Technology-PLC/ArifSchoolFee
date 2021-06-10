@@ -16,7 +16,7 @@ class AddSivPermissions extends Seeder
 
         DB::transaction(function () {
             $systemManager = Role::where('name', 'System Manager')->first();
-            $storeKeeper = Role::where('name', 'Store Keeper')->first();
+            $analyst = Role::where('name', 'Analyst')->first();
 
             DB::table('permissions')->insert([
                 [
@@ -50,8 +50,8 @@ class AddSivPermissions extends Seeder
             ]);
 
             $systemManager->syncPermissions(Permission::all());
-
-            $storeKeeper->revokePermissionTo('Subtract GDN');
+            
+            $analyst->givePermissionTo('Read SIV');
         });
     }
 }

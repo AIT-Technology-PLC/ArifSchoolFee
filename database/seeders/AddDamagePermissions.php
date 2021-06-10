@@ -23,6 +23,7 @@ class AddDamagePermissions extends Seeder
             $systemManager = Role::findByName('System Manager');
             $storeKeeper = Role::findByName('Store Keeper');
             $analyst = Role::findByName('Analyst');
+            $purchaseManager = Role::findByName('Purchase Manager');
 
             Permission::create(['name' => 'Create Damage']);
             Permission::create(['name' => 'Read Damage']);
@@ -37,9 +38,10 @@ class AddDamagePermissions extends Seeder
             $storeKeeper->givePermissionTo('Create Damage');
             $storeKeeper->givePermissionTo('Read Damage');
             $storeKeeper->givePermissionTo('Update Damage');
-            $storeKeeper->givePermissionTo('Delete Damage');
 
             $analyst->givePermissionTo('Read Damage');
+
+            $purchaseManager->givePermissionTo('Read Damage');
         });
     }
 }

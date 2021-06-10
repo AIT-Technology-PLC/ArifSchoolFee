@@ -32,7 +32,6 @@ class AddProformaInvoicePermissions extends Seeder
             $salesOfficer->givePermissionTo('Create Proforma Invoice');
             $salesOfficer->givePermissionTo('Read Proforma Invoice');
             $salesOfficer->givePermissionTo('Update Proforma Invoice');
-            $salesOfficer->givePermissionTo('Delete Proforma Invoice');
             $salesOfficer->givePermissionTo('Convert Proforma Invoice');
 
             $analyst->givePermissionTo('Read Proforma Invoice');
