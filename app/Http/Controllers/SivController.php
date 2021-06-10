@@ -142,7 +142,7 @@ class SivController extends Controller
     {
         $this->authorize('view', $siv);
 
-        $siv->load(['sivDetails.product', 'sivDetails.warehouse', 'company', 'createdBy', 'approvedBy']);
+        $siv->load(['sivDetails.product', 'sivDetails.warehouse', 'company', 'approvedBy']);
 
         return view('sivs.print', compact('siv'));
     }
