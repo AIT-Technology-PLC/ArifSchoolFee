@@ -610,7 +610,10 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->bigInteger('approved_by')->nullable()->unsigned();
+            $table->bigInteger('executed_by')->nullable()->unsigned();
             $table->string('code')->unique();
+            $table->string('purpose')->nullable();
+            $table->string('ref_num')->nullable();
             $table->longText('description')->nullable();
             $table->string('received_by')->nullable();
             $table->dateTime('issued_on')->nullable();
@@ -623,6 +626,7 @@ class CoreV1 extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('executed_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('siv_details', function (Blueprint $table) {
@@ -638,6 +642,85 @@ class CoreV1 extends Migration
             $table->index('siv_id');
 
             $table->foreign('siv_id')->references('id')->on('sivs')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+        });
+
+        Schema::create('proforma_invoices', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->bigInteger('converted_by')->nullable()->unsigned();
+            $table->bigInteger('customer_id')->nullable()->unsigned();
+            $table->string('code')->unique();
+            $table->boolean('is_pending');
+            $table->longText('terms')->nullable();
+            $table->dateTime('expires_on')->nullable();
+            $table->dateTime('issued_on')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+            $table->index('customer_id');
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('converted_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
+        });
+
+        Schema::create('proforma_invoice_details', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('proforma_invoice_id')->nullable()->unsigned();
+            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->decimal('quantity', 22);
+            $table->decimal('unit_price', 22);
+            $table->decimal('discount', 22)->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('proforma_invoice_id');
+
+            $table->foreign('proforma_invoice_id')->references('id')->on('proforma_invoices')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+        });
+
+        Schema::create('damages', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->bigInteger('approved_by')->nullable()->unsigned();
+            $table->string('code')->unique();
+            $table->string('status');
+            $table->longText('description')->nullable();
+            $table->dateTime('issued_on')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+        });
+
+        Schema::create('damage_details', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('damage_id')->nullable()->unsigned();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
+            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->decimal('quantity', 22);
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('damage_id');
+
+            $table->foreign('damage_id')->references('id')->on('damages')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
@@ -685,5 +768,9 @@ class CoreV1 extends Migration
         Schema::drop('notifications');
         Schema::drop('sivs');
         Schema::drop('siv_details');
+        Schema::drop('proforma_invoice_details');
+        Schema::drop('proforma_invoices');
+        Schema::drop('damage_details');
+        Schema::drop('damages');
     }
 }
