@@ -47,7 +47,7 @@ class Install extends Command
             $confirmationQuestion = "First you should create an empty, new database with any name and assign that name to the DB_DATABASE property
             in the .env file and you must also assign the DB_USERNAME and DB_PASSWORD fields then write 'yes' to continue! ";
 
-            if (!file_exists(__DIR__ . '../../.env')) {
+            if (!file_exists(__DIR__ . '/../../../.env')) {
                 shell_exec('cp .env.example .env');
             }
 
