@@ -42,19 +42,18 @@ class Install extends Command
             $this->error('THIS COMMAND IS DESTRUCTIVE AND CAN NOT AND MUST NOT BE RUN ON PRODUCTION ENVIRONMENT');
         }
 
-        if (App::environment('local') || App::environment('staging')) {
+        if (App::environment('local', 'staging')) {
 
-            $confirmationQuestion = "First you should create an new database with any name and assign the namme to the DB_DATABASE property
-            in the .env file and you must also assign the DB_USERNAME and DB_PASSWORD fields. Write 'yes' to continue! ";
-
-            shell_exec('composer install');
+            $confirmationQuestion = "First you should create an empty, new database with any name and assign that name to the DB_DATABASE property
+            in the .env file and you must also assign the DB_USERNAME and DB_PASSWORD fields then write 'yes' to continue! ";
 
             if (!file_exists(__DIR__ . '../../.env')) {
                 shell_exec('cp .env.example .env');
             }
 
+            $this->call('key:generate');
+
             if ($this->confirm($confirmationQuestion)) {
-                $this->call('key:generate');
                 $this->call('migrate:fresh');
                 $this->call('db:seed');
             }
