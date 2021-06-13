@@ -6,7 +6,7 @@ use App\Services\SetDataOwnerService;
 use App\Traits\PrependCompanyId;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAdjustmentRequest extends FormRequest
+class UpdateAdjustmentRequest extends FormRequest
 {
     use PrependCompanyId;
 
@@ -18,7 +18,7 @@ class StoreAdjustmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|string|unique:adjustments',
+            'code' => 'required|string|unique:adjustments,code,' . $this->route('adjustment')->id,
             'adjustment' => 'required|array',
             'adjustment.*.warehouse_id' => 'required|integer',
             'adjustment.*.product_id' => 'required|integer',
@@ -39,6 +39,6 @@ class StoreAdjustmentRequest extends FormRequest
 
     public function passedValidation()
     {
-        $this->merge(SetDataOwnerService::forNonTransaction());
+        $this->merge(SetDataOwnerService::forUpdate());
     }
 }
