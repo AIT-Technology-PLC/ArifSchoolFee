@@ -81,4 +81,36 @@ class InventoryOperationService
 
         return $result;
     }
+
+    public static function adjust($details)
+    {
+        $result = DB::transaction(function () use ($details) {
+            $unavailableProducts = [];
+
+            foreach ($details as $detail) {
+                $type = InventoryTypeFactory::make($detail);
+
+                if ($detail->is_subtract && !$type->isAvailable($detail)) {
+                    array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
+                }
+            }
+
+            if (count($unavailableProducts)) {
+                return [
+                    'isAdjusted' => false,
+                    'unavailableProducts' => $unavailableProducts,
+                ];
+            }
+
+            foreach ($details as $detail) {
+                $type = InventoryTypeFactory::make($detail);
+
+                $type->adjust($detail);
+            }
+
+            return ['isAdjusted' => true];
+        });
+
+        return $result;
+    }
 }
