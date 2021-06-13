@@ -66,6 +66,15 @@ class PermissionSeeder extends Seeder
             Permission::create(['name' => 'Subtract Damage']);
             Permission::create(['name' => 'Delete Approved Damage']);
 
+            // Adjustment
+            Permission::create(['name' => 'Create Adjustment']);
+            Permission::create(['name' => 'Read Adjustment']);
+            Permission::create(['name' => 'Update Adjustment']);
+            Permission::create(['name' => 'Delete Adjustment']);
+            Permission::create(['name' => 'Approve Adjustment']);
+            Permission::create(['name' => 'Make Adjustment']);
+            Permission::create(['name' => 'Delete Approved Adjustment']);
+
             // SIV
             Permission::create(['name' => 'Create SIV']);
             Permission::create(['name' => 'Read SIV']);
@@ -169,6 +178,7 @@ class PermissionSeeder extends Seeder
                 'Read Proforma Invoice',
                 'Read Damage',
                 'Read SIV',
+                'Read Adjustment',
             ]);
 
             $purchaseManager->syncPermissions([
@@ -208,17 +218,21 @@ class PermissionSeeder extends Seeder
                 'Create Merchandise',
                 'Create Transfer',
                 'Create Damage',
-                'Make Transfer',
+                'Create Adjustment',
                 'Read GRN',
                 'Read Merchandise',
                 'Read Product',
                 'Read Transfer',
                 'Read Warehouse',
                 'Read Damage',
+                'Read Adjustment',
                 'Update GRN',
                 'Update Merchandise',
                 'Update Transfer',
                 'Update Damage',
+                'Update Adjustment',
+                'Make Transfer',
+                'Make Adjustment',
             ]);
 
             $systemManager->syncPermissions(Permission::all());
