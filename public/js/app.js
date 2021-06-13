@@ -1545,7 +1545,7 @@ const addAdjustmentForm = (function () {
                 </div>
                 <div class="column is-6">
                     <div class="field">
-                        <label for="adjustment[${index}][is_subtract]" class="label text-green has-text-weight-normal"> Type <sup class="has-text-danger">*</sup> </label>
+                        <label for="adjustment[${index}][is_subtract]" class="label text-green has-text-weight-normal"> Operation <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
                                 <select id="adjustment[${index}][is_subtract]" name="adjustment[${index}][is_subtract]">

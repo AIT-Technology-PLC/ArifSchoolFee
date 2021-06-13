@@ -192,21 +192,18 @@
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
-                            <th><abbr> Type </abbr></th>
-                            <th><abbr> Warehouse </abbr></th>
+                            <th><abbr> Operation </abbr></th>
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
-                            <th><abbr> Description </abbr></th>
+                            <th><abbr> Reason </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($adjustment->adjustmentDetails as $adjustmentDetail)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td>
-                                    {{ $adjustmentDetail->is_subtract ? 'Subtract From' : 'Add To' }}
-                                </td>
                                 <td class="is-capitalized">
+                                    {{ $adjustmentDetail->is_subtract ? 'Subtract From ' : 'Add To ' }}
                                     {{ $adjustmentDetail->warehouse->name }}
                                 </td>
                                 <td class="is-capitalized">
