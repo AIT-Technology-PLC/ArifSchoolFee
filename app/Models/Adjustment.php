@@ -42,4 +42,30 @@ class Adjustment extends Model
     {
         return $this->hasMany(AdjustmentDetail::class);
     }
+
+    public function scopeCompanyAdjustment($query)
+    {
+        return $query->where('company_id', userCompany()->id);
+    }
+
+    public function getCodeAttribute($value)
+    {
+        return Str::after($value, userCompany()->id . '_');
+    }
+
+    public function adjust()
+    {
+        $this->adjusted_by = auth()->id();
+
+        $this->save();
+    }
+
+    public function isAdjusted()
+    {
+        if (is_null($this->adjusted_by)) {
+            return false;
+        }
+
+        return true;
+    }
 }
