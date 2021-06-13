@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Adjustment;
 use App\Models\Customer;
 use App\Models\Damage;
 use App\Models\Employee;
@@ -272,5 +273,25 @@ class User extends Authenticatable
     public function damagesApproved()
     {
         return $this->hasMany(Damage::class, 'approved_by');
+    }
+
+    public function adjustmentsCreated()
+    {
+        return $this->hasMany(Adjustment::class, 'created_by');
+    }
+
+    public function adjustmentsUpdated()
+    {
+        return $this->hasMany(Adjustment::class, 'updated_by');
+    }
+
+    public function adjustmentsApproved()
+    {
+        return $this->hasMany(Adjustment::class, 'approved_by');
+    }
+
+    public function adjustmentsAdjusted()
+    {
+        return $this->hasMany(Adjustment::class, 'adjusted_by');
     }
 }

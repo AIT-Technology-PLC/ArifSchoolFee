@@ -121,6 +121,11 @@ class Company extends Model
         return $this->hasMany(Damage::class);
     }
 
+    public function adjustments()
+    {
+        return $this->hasMany(Adjustment::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);

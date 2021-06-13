@@ -101,6 +101,11 @@ class Product extends Model
         return $this->hasMany(ProformaInvoiceDetail::class);
     }
 
+    public function adjustmentDetails()
+    {
+        return $this->hasMany(AdjustmentDetail::class);
+    }
+
     public function setPropertiesAttribute($array)
     {
         $properties = [];
