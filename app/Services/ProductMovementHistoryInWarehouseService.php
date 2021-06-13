@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\AdjustmentDetail;
 use App\Models\DamageDetail;
 use App\Models\GdnDetail;
 use App\Models\GrnDetail;
@@ -31,6 +32,8 @@ class ProductMovementHistoryInWarehouseService
 
         $damageDetails = (new DamageDetail())->getByWarehouseAndProduct($this->warehouse, $this->product);
 
+        $adjustmentDetails = (new AdjustmentDetail())->getByWarehouseAndProduct($this->warehouse, $this->product);
+
         $this->formatGrn($grnDetails);
 
         $this->formatTransfer($transferDetails);
@@ -38,6 +41,8 @@ class ProductMovementHistoryInWarehouseService
         $this->formatGdn($gdnDetails);
 
         $this->formatDamage($damageDetails);
+
+        $this->formatAdjustMent($adjustmentDetails);
 
         $this->history = $this->history->sortBy('date')->values()->all();
 
@@ -119,6 +124,22 @@ class ProductMovementHistoryInWarehouseService
                 'unit_of_measurement' => $damageDetail->product->unit_of_measurement,
                 'details' => 'Damaged in ' . $damageDetail->warehouse->name,
                 'function' => 'subtract',
+            ]);
+        });
+    }
+
+    private function formatAdjustment($adjustmentDetails)
+    {
+        $adjustmentDetails->map(function ($adjustmentDetail) {
+            $this->history->push([
+                'type' => 'ADJUSTMENT',
+                'code' => $adjustmentDetail->adjustment->code,
+                'date' => $adjustmentDetail->adjustment->issued_on,
+                'quantity' => $adjustmentDetail->quantity,
+                'balance' => 0.00,
+                'unit_of_measurement' => $adjustmentDetail->product->unit_of_measurement,
+                'details' => ($adjustmentDetail->is_subtract ? 'Subtracted' : 'Added') . ' in ' . $adjustmentDetail->warehouse->name,
+                'function' => $adjustmentDetail->is_subtract ? 'subtract' : 'add',
             ]);
         });
     }
