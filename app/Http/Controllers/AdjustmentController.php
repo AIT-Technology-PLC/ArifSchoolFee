@@ -7,7 +7,9 @@ use App\Http\Requests\UpdateAdjustmentRequest;
 use App\Models\Adjustment;
 use App\Models\Product;
 use App\Models\Warehouse;
+use App\Notifications\AdjustmentMade;
 use App\Notifications\AdjustmentPrepared;
+use App\Services\InventoryOperationService;
 use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
@@ -113,5 +115,37 @@ class AdjustmentController extends Controller
         $adjustment->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
+    }
+
+    public function adjust(Adjustment $adjustment)
+    {
+        $this->authorize('adjust', $adjustment);
+
+        if (!$adjustment->isApproved()) {
+            return redirect()->back()->with('failedMessage', 'This Adjustment is not approved');
+        }
+
+        $result = DB::transaction(function () use ($adjustment) {
+            $result = InventoryOperationService::adjust($adjustment->adjustmentDetails);
+
+            if (!$result['isAdjusted']) {
+                DB::rollBack();
+
+                return $result;
+            }
+
+            $adjustment->adjust();
+
+            Notification::send(
+                $this->notifiableUsers('Approve Adjustment', $adjustment->createdBy),
+                new AdjustmentMade($adjustment)
+            );
+
+            return $result;
+        });
+
+        return $result['isAdjusted'] ?
+        redirect()->back() :
+        redirect()->back()->with('failedMessage', $result['unavailableProducts']);
     }
 }
