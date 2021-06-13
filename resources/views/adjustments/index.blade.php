@@ -11,7 +11,7 @@
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
                         <span class="icon is-large is-size-1">
-                            <i class="fas fa-exchange-alt"></i>
+                            <i class="fas fa-eraser"></i>
                         </span>
                     </div>
                     <div class="column is-paddingless">
@@ -86,7 +86,7 @@
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Adjustments'])
             <div>
-                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[5]" data-numeric="[]">
+                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[4]" data-numeric="[]">
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
@@ -113,15 +113,30 @@
                                 <td class="is-capitalized">
                                     @if (!$adjustment->isApproved())
                                         <span class="tag is-small bg-purple has-text-white">
-                                            Waiting for Approval
+                                            <span class="icon">
+                                                <i class="fas fa-pause-circle"></i>
+                                            </span>
+                                            <span>
+                                                Waiting for Approval
+                                            </span>
                                         </span>
                                     @elseif ($adjustment->isAdjusted())
                                         <span class="tag is-small bg-green has-text-white">
-                                            Adjusted
+                                            <span class="icon">
+                                                <i class="fas fa-check-circle"></i>
+                                            </span>
+                                            <span>
+                                                Adjusted
+                                            </span>
                                         </span>
                                     @else
                                         <span class="tag is-small bg-gold has-text-white">
-                                            Approved but not adjusted
+                                            <span class="icon">
+                                                <i class="fas fa-exclamation-circle"></i>
+                                            </span>
+                                            <span>
+                                                Approved but not adjusted
+                                            </span>
                                         </span>
                                     @endif
                                 </td>
