@@ -294,3 +294,7 @@ if (d.querySelectorAll(".swal")) {
 if (d.getElementById("addNewDamageForm")) {
     d.getElementById("addNewDamageForm").addEventListener("click", addDamageForm);
 }
+
+if (d.getElementById("addNewAdjustmentForm")) {
+    d.getElementById("addNewAdjustmentForm").addEventListener("click", addAdjustmentForm);
+}
