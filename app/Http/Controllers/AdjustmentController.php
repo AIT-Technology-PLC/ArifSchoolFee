@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAdjustmentRequest;
+use App\Http\Requests\UpdateAdjustmentRequest;
 use App\Models\Adjustment;
 use App\Models\Product;
 use App\Models\Warehouse;
@@ -71,5 +72,31 @@ class AdjustmentController extends Controller
         $adjustment->load(['adjustmentDetails.warehouse', 'adjustmentDetails.product']);
 
         return view('adjustments.show', compact('adjustment'));
+    }
+
+    public function edit(Adjustment $adjustment, Product $product, Warehouse $warehouse)
+    {
+        $products = $product->getProductNames();
+
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        return view('adjustments.edit', compact('adjustment', 'products', 'warehouses'));
+    }
+
+    public function update(UpdateAdjustmentRequest $request, Adjustment $adjustment)
+    {
+        if ($adjustment->isApproved()) {
+            return redirect()->back();
+        }
+
+        DB::transaction(function () use ($request, $adjustment) {
+            $adjustment->update($request->except('adjustment'));
+
+            for ($i = 0; $i < count($request->adjustment); $i++) {
+                $adjustment->adjustmentDetails[$i]->update($request->adjustment[$i]);
+            }
+        });
+
+        return redirect()->route('adjustments.show', $adjustment->id);
     }
 }
