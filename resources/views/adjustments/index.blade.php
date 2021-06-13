@@ -5,8 +5,8 @@
 @endsection
 
 @section('content')
-    <div class="columns is-marginless">
-        <div class="column is-6">
+    <div class="columns is-marginless is-multiline">
+        <div class="column is-6 p-lr-0">
             <div class="box text-green">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <div class="column is-6">
+        <div class="column is-6 p-lr-0">
             <div class="box text-purple">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column is-paddingless has-text-centered">
@@ -43,6 +43,36 @@
                             </a>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-green has-text-centered" style="border-left: 2px solid #3d8660;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalAdjusted }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Adjusted
+                </div>
+            </div>
+        </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalNotAdjusted }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Approved But Not Adjusted
+                </div>
+            </div>
+        </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalNotApproved }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Waiting For Approval
                 </div>
             </div>
         </div>
