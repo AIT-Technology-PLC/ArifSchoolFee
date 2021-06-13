@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdjustmentController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DamageController;
 use App\Http\Controllers\GdnController;
@@ -60,6 +61,10 @@ Route::post('/damages/{damage}/approve', [DamageController::class, 'approve'])->
 
 Route::post('/damages/{damage}/subtract', [DamageController::class, 'subtract'])->name('damages.subtract');
 
+Route::post('/adjustments/{adjustment}/approve', [AdjustmentController::class, 'approve'])->name('adjustments.approve');
+
+Route::post('/adjustments/{adjustment}/adjust', [AdjustmentController::class, 'adjust'])->name('adjustments.adjust');
+
 Route::resource('warehouses.merchandises', MerchandiseLevelByWarehouseController::class);
 
 Route::resource('suppliers', SupplierController::class);
@@ -89,3 +94,5 @@ Route::resource('sivs', SivController::class);
 Route::resource('proforma-invoices', ProformaInvoiceController::class);
 
 Route::resource('damages', DamageController::class);
+
+Route::resource('adjustments', AdjustmentController::class);
