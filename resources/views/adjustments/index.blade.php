@@ -112,15 +112,15 @@
                                 </td>
                                 <td class="is-capitalized">
                                     @if (!$adjustment->isApproved())
-                                        <span class="tag is-small has-background-grey-dark has-text-white">
+                                        <span class="tag is-small bg-purple has-text-white">
                                             Waiting for Approval
                                         </span>
                                     @elseif ($adjustment->isAdjusted())
-                                        <span class="tag is-small bg-purple has-text-white">
+                                        <span class="tag is-small bg-green has-text-white">
                                             Adjusted
                                         </span>
                                     @else
-                                        <span class="tag is-small bg-blue has-text-white">
+                                        <span class="tag is-small bg-gold has-text-white">
                                             Approved but not adjusted
                                         </span>
                                     @endif

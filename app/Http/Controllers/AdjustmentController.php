@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAdjustmentRequest;
 use App\Models\Adjustment;
 use App\Models\Product;
 use App\Models\Warehouse;
+use App\Notifications\AdjustmentPrepared;
 use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class AdjustmentController extends Controller
 {
@@ -45,5 +49,27 @@ class AdjustmentController extends Controller
         $currentAdjustmentCode = (Adjustment::select('code')->companyAdjustment()->latest()->first()->code) ?? 0;
 
         return view('adjustments.create', compact('products', 'warehouses', 'currentAdjustmentCode'));
+    }
+
+    public function store(StoreAdjustmentRequest $request)
+    {
+        $adjustment = DB::transaction(function () use ($request) {
+            $adjustment = Adjustment::create($request->except('adjustment'));
+
+            $adjustment->adjustmentDetails()->createMany($request->adjustment);
+
+            Notification::send($this->notifiableUsers('Approve Adjustment'), new AdjustmentPrepared($adjustment));
+
+            return $adjustment;
+        });
+
+        return redirect()->route('adjustments.show', $adjustment->id);
+    }
+
+    public function show(Adjustment $adjustment)
+    {
+        $adjustment->load(['adjustmentDetails.warehouse', 'adjustmentDetails.product']);
+
+        return view('adjustments.show', compact('adjustment'));
     }
 }
