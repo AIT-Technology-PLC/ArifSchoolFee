@@ -190,6 +190,34 @@
                         </ul>
                     </li>
                 @endcan
+                @can('Read Adjustment')
+                    <li>
+                        <a name="menuTitles" href="{{ route('adjustments.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('adjustments') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-eraser"></i>
+                            </span>
+                            <span>
+                                Inventory Adjustments
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Adjustment')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('adjustments.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('adjustments/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Adjustment
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
                 @if (userCompany()->name != 'AE Chemicals Trading PLC')
                     @can('Read SIV')
                         <li>

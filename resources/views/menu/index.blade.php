@@ -82,6 +82,19 @@
                                 </span>
                             </div>
                         @endcan
+                        @can('Read Adjustment')
+                            <div class="column is-4 has-text-centered has-text-grey">
+                                <a href="{{ route('adjustments.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
+                                    <span class="icon is-size-5">
+                                        <i class="fas fa-eraser"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile text-green">
+                                    Adjustments
+                                </span>
+                            </div>
+                        @endcan
                         @if (userCompany()->name != 'AE Chemicals Trading PLC')
                             @can('Read SIV')
                                 <div class="column is-4 has-text-centered has-text-grey">
