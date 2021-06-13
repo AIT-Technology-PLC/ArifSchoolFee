@@ -99,4 +99,19 @@ class AdjustmentController extends Controller
 
         return redirect()->route('adjustments.show', $adjustment->id);
     }
+
+    public function destroy(Adjustment $adjustment)
+    {
+        if ($adjustment->isAdjusted()) {
+            return view('errors.permission_denied');
+        }
+
+        if ($adjustment->isApproved() && !auth()->user()->can('Delete Approved Adjustment')) {
+            return view('errors.permission_denied');
+        }
+
+        $adjustment->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
+    }
 }
