@@ -15,37 +15,27 @@ class CreateLimitsTable extends Migration
     {
         Schema::table('plans', function (Blueprint $table) {
             $table->dropColumn(['description']);
-            $table->boolean('is_enabled');
+            $table->boolean('is_enabled')->after('name');
         });
 
         Schema::create('limits', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('plan_id')->nullable()->unsigned();
             $table->string('name');
-            $table->bigInteger('value');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->unique(['plan_id', 'name']);
-
-            $table->index('plan_id');
-
-            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade')->onUpdate('cascade');
         });
 
-        Schema::create('company_limit', function (Blueprint $table) {
+        Schema::create('limitables', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('company_id')->unsigned();
-            $table->bigInteger('limit_id')->unsigned();
-            $table->bigInteger('value');
+            $table->bigInteger('limit_id')->nullable()->unsigned();
+            $table->bigInteger('limitable_id');
+            $table->string('limitable_type');
+            $table->bigInteger('amount');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['company_id', 'limit_id']);
+            $table->index('limit_id');
 
-            $table->index('company_id');
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('limit_id')->references('id')->on('limits')->onDelete('cascade')->onUpdate('cascade');
         });
     }
@@ -58,11 +48,11 @@ class CreateLimitsTable extends Migration
     public function down()
     {
         Schema::table('plans', function (Blueprint $table) {
-            $table->longText('description')->nullable();
+            $table->longText('description')->nullable()->after('name');
             $table->dropColumn(['is_enabled']);
         });
 
-        Schema::drop('company_limit');
+        Schema::drop('limitables');
 
         Schema::drop('limits');
     }
