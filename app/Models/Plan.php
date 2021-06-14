@@ -15,4 +15,9 @@ class Plan extends Model
     {
         return $this->hasMany(Company::class);
     }
+
+    public function limits()
+    {
+        return $this->morphToMany(Limit::class, 'limitable');
+    }
 }

@@ -126,6 +126,11 @@ class Company extends Model
         return $this->hasMany(Adjustment::class);
     }
 
+    public function limits()
+    {
+        return $this->morphToMany(Limit::class, 'limitable');
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
