@@ -31,8 +31,6 @@ class CreateLimitsTable extends Migration
             $table->bigInteger('limitable_id');
             $table->string('limitable_type');
             $table->bigInteger('amount');
-            $table->timestamps();
-            $table->softDeletes();
 
             $table->index('limit_id');
 
