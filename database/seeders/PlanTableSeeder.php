@@ -10,27 +10,27 @@ class PlanTableSeeder extends Seeder
     public function run()
     {
         Plan::firstOrCreate([
-            'name' => 'Tender',
+            'name' => 'tender',
             'is_enabled' => 1,
         ]);
 
         Plan::firstOrCreate([
-            'name' => 'Professional',
+            'name' => 'professional',
             'is_enabled' => 1,
         ]);
 
         Plan::firstOrCreate([
-            'name' => 'Premium',
+            'name' => 'premium',
             'is_enabled' => 1,
         ]);
 
         Plan::firstOrCreate([
-            'name' => 'Enterpise',
+            'name' => 'enterprise',
             'is_enabled' => 1,
         ]);
 
         Plan::firstOrCreate([
-            'name' => 'Manufacture',
+            'name' => 'manufacture',
             'is_enabled' => 1,
         ]);
     }
