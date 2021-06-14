@@ -18,6 +18,6 @@ class Plan extends Model
 
     public function limits()
     {
-        return $this->morphToMany(Limit::class, 'limitable');
+        return $this->morphToMany(Limit::class, 'limitable')->withPivot('amount');
     }
 }

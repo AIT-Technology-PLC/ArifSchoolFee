@@ -14,6 +14,18 @@
         <form id="formOne" action="{{ route('warehouses.store') }}" method="post" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
+                @if (session('limitReachedMessage'))
+                    <div class="box is-shadowless bg-lightpurple has-text-left mb-0">
+                        <p class="has-text-grey text-purple is-size-6">
+                            <span class="icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </span>
+                            <span>
+                                {{ session('limitReachedMessage') }}
+                            </span>
+                        </p>
+                    </div>
+                @endif
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreWarehouseRequest;
 use App\Http\Requests\UpdateWarehouseRequest;
+use App\Models\Limit;
 use App\Models\Warehouse;
 
 class WarehouseController extends Controller
@@ -33,6 +34,11 @@ class WarehouseController extends Controller
 
     public function store(StoreWarehouseRequest $request)
     {
+        if ((new Limit())->isLimitReached('warehouse', Warehouse::companyWarehouses()->count())) {
+            return redirect()->back()
+                ->with('limitReachedMessage', 'You have reached the allowed number of warehouses in respect to your package.');
+        }
+
         $this->warehouse->firstOrCreate(
             $request->only(['name', 'company_id']),
             $request->except(['name', 'company_id']),
