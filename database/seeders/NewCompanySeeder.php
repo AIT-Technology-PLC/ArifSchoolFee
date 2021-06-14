@@ -20,7 +20,8 @@ class NewCompanySeeder extends Seeder
                 'name' => $faker->company,
                 'currency' => 'ETB',
                 'enabled' => 1,
-                'membership_plan' => 'Professional'
+                'membership_plan' => 'Professional',
+                'plan_id' => Plan::where('name', 'professional')->first()->id,
             ]);
 
             $user = User::create([
