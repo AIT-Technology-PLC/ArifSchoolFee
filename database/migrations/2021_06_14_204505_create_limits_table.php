@@ -38,11 +38,7 @@ class CreateLimitsTable extends Migration
             $table->string('limitable_type');
             $table->bigInteger('amount');
 
-            $table->index('limit_id');
-
             $table->unique(['limit_id', 'limitable_id', 'limitable_type']);
-
-            $table->foreign('limit_id')->references('id')->on('limits')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
