@@ -101,11 +101,11 @@ class Feature extends Model
         });
     }
 
-    public static function enableForPlan($featureName, $planId)
+    public static function enableForPlan($featureName, $planName)
     {
         $feature = (new self())->where('name', $featureName)->first();
 
-        $plan = Plan::find($planId);
+        $plan = Plan::firstWhere('name', $planName);
 
         DB::transaction(function () use ($feature, $plan) {
             $feature->plans()->detach($plan);
@@ -114,11 +114,11 @@ class Feature extends Model
         });
     }
 
-    public static function disableForPlan($featureName, $planId)
+    public static function disableForPlan($featureName, $planName)
     {
         $feature = (new self())->where('name', $featureName)->first();
 
-        $plan = Plan::find($planId);
+        $plan = Plan::firstWhere('name', $planName);
 
         DB::transaction(function () use ($feature, $plan) {
             $feature->plans()->detach($plan);
