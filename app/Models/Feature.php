@@ -26,17 +26,17 @@ class Feature extends Model
         return $this->morphedByMany(Plan::class, 'featurable');
     }
 
-    public function isFeatureAccessible($featureName)
+    public static function isFeatureAccessible($featureName)
     {
-        $feature = $this->where('name', $featureName)->first();
+        $feature = (new self())->where('name', $featureName)->first();
 
         if (!$feature->is_enabled) {
             return false;
         }
 
-        $featureByCompany = $feature->wherePivot('featurable_id', userCompany()->id)->exists();
+        $featureByCompany = $feature->companies()->wherePivot('featurable_id', userCompany()->id)->exists();
 
-        $featureByPlan = $feature->wherePivot('featurable_id', userCompany()->plan_id)->exists();
+        $featureByPlan = $feature->plans()->wherePivot('featurable_id', userCompany()->plan_id)->exists();
 
         if (!$featureByCompany && !$featureByPlan) {
             return false;

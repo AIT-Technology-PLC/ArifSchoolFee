@@ -15,6 +15,8 @@ class WarehouseController extends Controller
         $this->authorizeResource(Warehouse::class, 'warehouse');
 
         $this->warehouse = $warehouse;
+
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Warehouse Management');
     }
 
     public function index()

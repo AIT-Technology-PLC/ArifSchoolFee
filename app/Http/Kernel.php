@@ -55,6 +55,10 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\AllowOnlyStandardMembers::class,
         ],
 
+        'isFeatureAccessible' => [
+            \App\Http\Middleware\AllowOnlyEnabledFeatures::class,
+        ],
+
         'api' => [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
