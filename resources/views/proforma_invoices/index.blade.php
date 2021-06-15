@@ -141,7 +141,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{ $proformaInvoice->customer->company_name }}
+                                    {{ $proformaInvoice->customer->company_name ?? 'N/A' }}
                                 </td>
                                 <td>
                                     {{ $proformaInvoice->issued_on->toFormattedDateString() }}

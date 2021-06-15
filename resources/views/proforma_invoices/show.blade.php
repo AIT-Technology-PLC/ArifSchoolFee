@@ -152,6 +152,16 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
+                            @if ($proformaInvoice->isConverted())
+                                <a href="{{ route('proforma-invoices.gdns.create', $proformaInvoice->id) }}" class="button is-small btn-green is-outlined has-text-white">
+                                    <span class="icon">
+                                        <i class="fas fa-file-invoice"></i>
+                                    </span>
+                                    <span>
+                                        Convert to DO
+                                    </span>
+                                </a>
+                            @endif
                             @if (!$proformaInvoice->isCancelled())
                                 <button id="printGdn" class="button is-small bg-purple has-text-white is-hidden-mobile" onclick="openInNewTab('/proforma-invoices/{{ $proformaInvoice->id }}/print')">
                                     <span class="icon">

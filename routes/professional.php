@@ -9,6 +9,7 @@ use App\Http\Controllers\GeneralTenderChecklistController;
 use App\Http\Controllers\GrnController;
 use App\Http\Controllers\MerchandiseLevelByWarehouseController;
 use App\Http\Controllers\ProformaInvoiceController;
+use App\Http\Controllers\ProformaInvoiceGdnController;
 use App\Http\Controllers\PurchaseGrnController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SivController;
@@ -36,6 +37,10 @@ Route::get('/gdns/{gdn}/sivs/create', GdnSivController::class)
 Route::get('/transfers/{transfer}/sivs/create', TransferSivController::class)
     ->name('transfers.sivs.create')
     ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Siv');
+
+Route::get('/proforma-invoices/{proforma_invoice}/gdns/create', ProformaInvoiceGdnController::class)
+    ->name('proforma-invoices.gdns.create')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Proforma Invoices');
 
 Route::get('/gdns/{gdn}/print', [GdnController::class, 'printed'])->name('gdns.print');
 
