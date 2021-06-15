@@ -100,4 +100,30 @@ class Feature extends Model
             $feature->companies()->attach($company, ['is_enabled' => 0]);
         });
     }
+
+    public static function enableForPlan($featureName, $planId)
+    {
+        $feature = (new self())->where('name', $featureName)->first();
+
+        $plan = Plan::find($planId);
+
+        DB::transaction(function () use ($feature, $plan) {
+            $feature->plans()->detach($plan);
+
+            $feature->plans()->attach($plan, ['is_enabled' => 1]);
+        });
+    }
+
+    public static function disableForPlan($featureName, $planId)
+    {
+        $feature = (new self())->where('name', $featureName)->first();
+
+        $plan = Plan::find($planId);
+
+        DB::transaction(function () use ($feature, $plan) {
+            $feature->plans()->detach($plan);
+
+            $feature->plans()->attach($plan, ['is_enabled' => 0]);
+        });
+    }
 }
