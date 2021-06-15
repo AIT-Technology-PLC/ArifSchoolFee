@@ -20,4 +20,9 @@ class Plan extends Model
     {
         return $this->morphToMany(Limit::class, 'limitable')->withPivot('amount');
     }
+
+    public function features()
+    {
+        return $this->morphToMany(Feature::class, 'featurable');
+    }
 }

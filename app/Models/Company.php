@@ -131,6 +131,11 @@ class Company extends Model
         return $this->morphToMany(Limit::class, 'limitable')->withPivot('amount');
     }
 
+    public function features()
+    {
+        return $this->morphToMany(Feature::class, 'featurable');
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
