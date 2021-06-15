@@ -101,17 +101,22 @@ class Feature extends Model
         });
     }
 
+    public static function deleteForCompany($featureName, $companyId)
+    {
+        $feature = (new self())->where('name', $featureName)->first();
+
+        $company = Company::find($companyId);
+
+        $feature->companies()->detach($company);
+    }
+
     public static function enableForPlan($featureName, $planName)
     {
         $feature = (new self())->where('name', $featureName)->first();
 
         $plan = Plan::firstWhere('name', $planName);
 
-        DB::transaction(function () use ($feature, $plan) {
-            $feature->plans()->detach($plan);
-
-            $feature->plans()->attach($plan, ['is_enabled' => 1]);
-        });
+        $feature->plans()->updateExistingPivot($plan->id, ['is_enabled' => 1]);
     }
 
     public static function disableForPlan($featureName, $planName)
@@ -120,10 +125,6 @@ class Feature extends Model
 
         $plan = Plan::firstWhere('name', $planName);
 
-        DB::transaction(function () use ($feature, $plan) {
-            $feature->plans()->detach($plan);
-
-            $feature->plans()->attach($plan, ['is_enabled' => 0]);
-        });
+        $feature->plans()->updateExistingPivot($plan->id, ['is_enabled' => 0]);
     }
 }
