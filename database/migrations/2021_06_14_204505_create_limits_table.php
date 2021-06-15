@@ -26,7 +26,7 @@ class CreateLimitsTable extends Migration
 
         Schema::create('limits', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -39,6 +39,8 @@ class CreateLimitsTable extends Migration
             $table->bigInteger('amount');
 
             $table->index('limit_id');
+
+            $table->unique(['limit_id', 'limitable_id', 'limitable_type']);
 
             $table->foreign('limit_id')->references('id')->on('limits')->onDelete('cascade')->onUpdate('cascade');
         });
@@ -54,7 +56,7 @@ class CreateLimitsTable extends Migration
         Schema::table('companies', function (Blueprint $table) {
             $table->dropForeign(['plan_id']);
 
-            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::table('plans', function (Blueprint $table) {
