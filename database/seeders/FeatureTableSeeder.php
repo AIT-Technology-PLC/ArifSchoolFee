@@ -103,7 +103,7 @@ class FeatureTableSeeder extends Seeder
             ]);
 
             Feature::firstOrCreate([
-                'name' => 'User Mangement',
+                'name' => 'User Management',
                 'is_enabled' => 1,
             ]);
 
