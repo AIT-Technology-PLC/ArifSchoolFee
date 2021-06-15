@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Feature extends Model
 {
@@ -34,16 +35,16 @@ class Feature extends Model
             return false;
         }
 
-        $featureByPlan = $feature->plans()->wherePivot('featurable_id', userCompany()->plan_id)->first();
-
-        if ($featureByPlan) {
-            return $featureByPlan->pivot->is_enabled;
-        }
-
         $featureByCompany = $feature->companies()->wherePivot('featurable_id', userCompany()->id)->first();
 
         if ($featureByCompany) {
             return $featureByCompany->pivot->is_enabled;
+        }
+
+        $featureByPlan = $feature->plans()->wherePivot('featurable_id', userCompany()->plan_id)->first();
+
+        if ($featureByPlan) {
+            return $featureByPlan->pivot->is_enabled;
         }
 
         return false;
@@ -72,5 +73,31 @@ class Feature extends Model
         }
 
         return 'Disabled';
+    }
+
+    public static function enableForCompany($featureName, $companyId)
+    {
+        $feature = (new self())->where('name', $featureName)->first();
+
+        $company = Company::find($companyId);
+
+        DB::transaction(function () use ($feature, $company) {
+            $feature->companies()->detach($company);
+
+            $feature->companies()->attach($company, ['is_enabled' => 1]);
+        });
+    }
+
+    public static function disableForCompany($featureName, $companyId)
+    {
+        $feature = (new self())->where('name', $featureName)->first();
+
+        $company = Company::find($companyId);
+
+        DB::transaction(function () use ($feature, $company) {
+            $feature->companies()->detach($company);
+
+            $feature->companies()->attach($company, ['is_enabled' => 0]);
+        });
     }
 }
