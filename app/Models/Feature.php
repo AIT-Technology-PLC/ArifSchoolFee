@@ -18,12 +18,12 @@ class Feature extends Model
 
     public function companies()
     {
-        return $this->morphedByMany(Company::class, 'featurable');
+        return $this->morphedByMany(Company::class, 'featurable')->withPivot('is_enabled');
     }
 
     public function plans()
     {
-        return $this->morphedByMany(Plan::class, 'featurable');
+        return $this->morphedByMany(Plan::class, 'featurable')->withPivot('is_enabled');
     }
 
     public static function isFeatureAccessible($featureName)
@@ -34,15 +34,19 @@ class Feature extends Model
             return false;
         }
 
-        $featureByCompany = $feature->companies()->wherePivot('featurable_id', userCompany()->id)->exists();
+        $featureByPlan = $feature->plans()->wherePivot('featurable_id', userCompany()->plan_id)->first();
 
-        $featureByPlan = $feature->plans()->wherePivot('featurable_id', userCompany()->plan_id)->exists();
-
-        if (!$featureByCompany && !$featureByPlan) {
-            return false;
+        if ($featureByPlan) {
+            return $featureByPlan->pivot->is_enabled;
         }
 
-        return true;
+        $featureByCompany = $feature->companies()->wherePivot('featurable_id', userCompany()->id)->first();
+
+        if ($featureByCompany) {
+            return $featureByCompany->pivot->is_enabled;
+        }
+
+        return false;
     }
 
     public static function disable($featureName)

@@ -26,6 +26,7 @@ class CreateFeaturesTable extends Migration
             $table->bigInteger('feature_id')->nullable()->unsigned();
             $table->bigInteger('featurable_id');
             $table->string('featurable_type');
+            $table->boolean('is_enabled')->default(1);
 
             $table->unique(['feature_id', 'featurable_id', 'featurable_type']);
         });
