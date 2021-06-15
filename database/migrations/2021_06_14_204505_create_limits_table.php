@@ -13,9 +13,15 @@ class CreateLimitsTable extends Migration
      */
     public function up()
     {
+        Schema::table('companies', function (Blueprint $table) {
+            $table->dropForeign(['plan_id']);
+
+            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('set null')->onUpdate('cascade');
+        });
+
         Schema::table('plans', function (Blueprint $table) {
             $table->dropColumn(['description']);
-            $table->boolean('is_enabled')->after('name');
+            $table->boolean('is_enabled')->default(1)->after('name');
         });
 
         Schema::create('limits', function (Blueprint $table) {
@@ -45,6 +51,12 @@ class CreateLimitsTable extends Migration
      */
     public function down()
     {
+        Schema::table('companies', function (Blueprint $table) {
+            $table->dropForeign(['plan_id']);
+
+            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade')->onUpdate('cascade');
+        });
+
         Schema::table('plans', function (Blueprint $table) {
             $table->longText('description')->nullable()->after('name');
             $table->dropColumn(['is_enabled']);
