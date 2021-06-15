@@ -31,6 +31,10 @@ class Feature extends Model
     {
         $feature = (new self())->where('name', $featureName)->first();
 
+        if (!$feature) {
+            return false;
+        }
+
         if (!$feature->is_enabled) {
             return false;
         }
