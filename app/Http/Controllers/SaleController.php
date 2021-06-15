@@ -18,6 +18,8 @@ class SaleController extends Controller
 
     public function __construct(Sale $sale)
     {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Sales Invoice');
+
         $this->authorizeResource(Sale::class, 'sale');
 
         $this->sale = $sale;

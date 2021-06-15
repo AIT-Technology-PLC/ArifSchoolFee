@@ -12,6 +12,8 @@ class CustomerController extends Controller
 
     public function __construct(Customer $customer)
     {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Customer Management');
+
         $this->authorizeResource(Customer::class, 'customer');
 
         $this->customer = $customer;

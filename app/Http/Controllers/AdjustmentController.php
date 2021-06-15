@@ -23,6 +23,8 @@ class AdjustmentController extends Controller
 
     public function __construct()
     {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Inventory Adjustments');
+
         $this->authorizeResource(Adjustment::class, 'adjustment');
 
         $this->permission = 'Make Adjustment';

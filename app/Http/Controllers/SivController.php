@@ -22,6 +22,8 @@ class SivController extends Controller
 
     public function __construct(Siv $siv)
     {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Siv');
+
         $this->authorizeResource(Siv::class, 'siv');
 
         $this->permission = 'Execute SIV';

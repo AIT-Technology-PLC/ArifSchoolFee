@@ -18,6 +18,8 @@ class PurchaseController extends Controller
 
     public function __construct(Purchase $purchase)
     {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Purchase Management');
+
         $this->authorizeResource(Purchase::class, 'purchase');
 
         $this->purchase = $purchase;

@@ -8,6 +8,11 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:User Management');
+    }
+
     public function edit(Employee $employee, Permission $permission)
     {
         if ($employee->user->hasRole('System Manager')) {
@@ -55,9 +60,9 @@ class PermissionController extends Controller
         $permission['grnPermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'grn'))->pluck('name')->toArray();
 
         $permission['transferPermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'transfer'))->pluck('name')->toArray();
-        
+
         $permission['damagePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'damage'))->pluck('name')->toArray();
-        
+
         $permission['adjustmentPermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'adjustment'))->pluck('name')->toArray();
 
         $permission['sivPermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'siv'))->pluck('name')->toArray();

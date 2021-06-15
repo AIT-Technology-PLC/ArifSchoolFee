@@ -10,6 +10,8 @@ class CompanyController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:General Settings');
+
         $this->authorizeResource(Company::class, 'company');
     }
 

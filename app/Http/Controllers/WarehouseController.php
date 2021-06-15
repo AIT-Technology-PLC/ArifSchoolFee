@@ -12,11 +12,11 @@ class WarehouseController extends Controller
 
     public function __construct(Warehouse $warehouse)
     {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Warehouse Management');
+
         $this->authorizeResource(Warehouse::class, 'warehouse');
 
         $this->warehouse = $warehouse;
-
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Warehouse Management');
     }
 
     public function index()

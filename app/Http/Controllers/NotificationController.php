@@ -6,6 +6,11 @@ use Illuminate\Notifications\DatabaseNotification as Notification;
 
 class NotificationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Notification');
+    }
+
     public function index()
     {
         $notifications = auth()->user()->notifications;

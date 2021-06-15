@@ -12,6 +12,8 @@ class TenderStatusController extends Controller
 
     public function __construct(TenderStatus $tenderStatus)
     {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Tender Management');
+
         $this->authorizeResource(TenderStatus::class);
 
         $this->tenderStatus = $tenderStatus;

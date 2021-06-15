@@ -21,13 +21,21 @@ use App\Http\Controllers\TransferSivController;
 use App\Http\Controllers\WarehouseController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/sale/{sale}/gdn/create', SaleGdnController::class)->name('sales.gdns.create');
+// Route::get('/sale/{sale}/gdn/create', SaleGdnController::class)
+//     ->name('sales.gdns.create')
+//     ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Gdn');
 
-Route::get('/purchases/{purchase}/grns/create', PurchaseGrnController::class)->name('purchases.grns.create');
+Route::get('/purchases/{purchase}/grns/create', PurchaseGrnController::class)
+    ->name('purchases.grns.create')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Grn');
 
-Route::get('/gdns/{gdn}/sivs/create', GdnSivController::class)->name('gdns.sivs.create');
+Route::get('/gdns/{gdn}/sivs/create', GdnSivController::class)
+    ->name('gdns.sivs.create')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Siv');
 
-Route::get('/transfers/{transfer}/sivs/create', TransferSivController::class)->name('transfers.sivs.create');
+Route::get('/transfers/{transfer}/sivs/create', TransferSivController::class)
+    ->name('transfers.sivs.create')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Siv');
 
 Route::get('/gdns/{gdn}/print', [GdnController::class, 'printed'])->name('gdns.print');
 

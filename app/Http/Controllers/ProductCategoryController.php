@@ -12,6 +12,8 @@ class ProductCategoryController extends Controller
 
     public function __construct(ProductCategory $category)
     {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Product Management');
+
         $this->authorizeResource(ProductCategory::class, 'category');
 
         $this->category = $category;

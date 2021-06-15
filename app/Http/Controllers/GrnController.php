@@ -25,6 +25,8 @@ class GrnController extends Controller
 
     public function __construct(Grn $grn)
     {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Grn');
+
         $this->authorizeResource(Grn::class, 'grn');
 
         $this->grn = $grn;

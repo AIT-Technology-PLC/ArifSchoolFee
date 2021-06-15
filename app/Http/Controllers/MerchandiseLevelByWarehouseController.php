@@ -8,6 +8,11 @@ use App\Models\Warehouse;
 
 class MerchandiseLevelByWarehouseController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Merchandise Inventory Level');
+    }
+
     public function index(Warehouse $warehouse, Merchandise $merchandise, Product $product)
     {
         $this->authorize('view', $warehouse);

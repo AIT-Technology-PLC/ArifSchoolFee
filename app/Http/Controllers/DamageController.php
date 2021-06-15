@@ -19,6 +19,8 @@ class DamageController extends Controller
 
     public function __construct()
     {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Damage');
+
         $this->authorizeResource(Damage::class, 'damage');
 
         $this->permission = 'Subtract Damage';
