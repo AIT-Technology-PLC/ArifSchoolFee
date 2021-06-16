@@ -82,7 +82,7 @@ class FeatureTableSeeder extends Seeder
                 'is_enabled' => 1,
             ]);
 
-            $tenderFeature = Feature::firstOrCreate([
+            Feature::firstOrCreate([
                 'name' => 'Tender Management',
                 'is_enabled' => 1,
             ]);
@@ -122,21 +122,15 @@ class FeatureTableSeeder extends Seeder
                 'is_enabled' => 1,
             ]);
 
-            $tender = Plan::where('name', 'tender')->first();
             $professional = Plan::where('name', 'professional')->first();
             $premium = Plan::where('name', 'premium')->first();
             $enterprise = Plan::where('name', 'enterprise')->first();
-            $manufacture = Plan::where('name', 'manufacture')->first();
-
-            $tender->features()->save($tenderFeature);
 
             $professional->features()->saveMany(Feature::all());
 
             $premium->features()->saveMany(Feature::all());
 
             $enterprise->features()->saveMany(Feature::all());
-
-            $manufacture->features()->saveMany(Feature::all());
         });
     }
 }
