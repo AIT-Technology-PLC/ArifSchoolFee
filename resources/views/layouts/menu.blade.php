@@ -177,6 +177,7 @@
                             <span>
                                 Damage Management
                             </span>
+                            <sup class="text-purple has-text-weight-bold">NEW</sup>
                         </a>
                     </li>
                 @endcan
@@ -207,6 +208,7 @@
                             <span>
                                 Inventory Adjustments
                             </span>
+                            <sup class="text-purple has-text-weight-bold">NEW</sup>
                         </a>
                     </li>
                 @endcan
@@ -237,6 +239,7 @@
                             <span>
                                 SIV Management
                             </span>
+                            <sup class="text-purple has-text-weight-bold">NEW</sup>
                         </a>
                     </li>
                 @endcan
@@ -305,6 +308,7 @@
                             <span>
                                 Proforma Invoices
                             </span>
+                            <sup class="text-purple has-text-weight-bold">NEW</sup>
                         </a>
                     </li>
                 @endcan
