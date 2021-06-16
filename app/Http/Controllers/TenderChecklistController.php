@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 
 class TenderChecklistController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Tender Management');
+    }
+
     public function create(Tender $tender, GeneralTenderChecklist $generalTenderChecklist)
     {
         $tender = $tender->with('tenderChecklists')->find(request('tender'));

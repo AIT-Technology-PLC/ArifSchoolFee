@@ -273,3 +273,28 @@ if (d.getElementById("openExecuteSivModal")) {
         openExecuteSivModal
     );
 }
+
+if (d.getElementById("addNewProformaInvoiceForm")) {
+    d.getElementById("addNewProformaInvoiceForm").addEventListener(
+        "click",
+        addProformaInvoiceForm
+    );
+}
+
+if (d.getElementsByClassName("summernote").length) {
+    initializeSummernote();
+}
+
+if (d.querySelectorAll(".swal")) {
+    d.querySelectorAll(".swal").forEach((element) => {
+        element.addEventListener("click", openSwalModal);
+    });
+}
+
+if (d.getElementById("addNewDamageForm")) {
+    d.getElementById("addNewDamageForm").addEventListener("click", addDamageForm);
+}
+
+if (d.getElementById("addNewAdjustmentForm")) {
+    d.getElementById("addNewAdjustmentForm").addEventListener("click", addAdjustmentForm);
+}

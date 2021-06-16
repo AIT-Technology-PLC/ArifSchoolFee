@@ -2,18 +2,21 @@
 
 namespace App;
 
+use App\Models\Adjustment;
 use App\Models\Customer;
+use App\Models\Damage;
 use App\Models\Employee;
 use App\Models\Gdn;
 use App\Models\GeneralTenderChecklist;
 use App\Models\Grn;
-use App\Models\Siv;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProformaInvoice;
 use App\Models\Purchase;
 use App\Models\PurchaseOrder;
 use App\Models\Sale;
+use App\Models\Siv;
 use App\Models\Supplier;
 use App\Models\Tender;
 use App\Models\TenderStatus;
@@ -240,5 +243,55 @@ class User extends Authenticatable
     public function sivsExecuted()
     {
         return $this->hasMany(Siv::class, 'executed_by');
+    }
+
+    public function proformaInvoicesCreated()
+    {
+        return $this->hasMany(ProformaInvoice::class, 'created_by');
+    }
+
+    public function proformaInvoicesUpdated()
+    {
+        return $this->hasMany(ProformaInvoice::class, 'updated_by');
+    }
+
+    public function proformaInvoicesConverted()
+    {
+        return $this->hasMany(ProformaInvoice::class, 'converted_by');
+    }
+
+    public function damagesCreated()
+    {
+        return $this->hasMany(Damage::class, 'created_by');
+    }
+
+    public function damagesUpdated()
+    {
+        return $this->hasMany(Damage::class, 'updated_by');
+    }
+
+    public function damagesApproved()
+    {
+        return $this->hasMany(Damage::class, 'approved_by');
+    }
+
+    public function adjustmentsCreated()
+    {
+        return $this->hasMany(Adjustment::class, 'created_by');
+    }
+
+    public function adjustmentsUpdated()
+    {
+        return $this->hasMany(Adjustment::class, 'updated_by');
+    }
+
+    public function adjustmentsApproved()
+    {
+        return $this->hasMany(Adjustment::class, 'approved_by');
+    }
+
+    public function adjustmentsAdjusted()
+    {
+        return $this->hasMany(Adjustment::class, 'adjusted_by');
     }
 }

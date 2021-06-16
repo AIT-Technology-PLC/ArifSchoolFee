@@ -1287,3 +1287,308 @@ function openExecuteSivModal(event) {
         }
     });
 }
+
+const addProformaInvoiceForm = (function () {
+    const proformaInvoiceFormGroup = d.getElementsByName(
+        "proformaInvoiceFormGroup"
+    );
+    const proformaInvoiceFormWrapper = d.getElementById(
+        "proformaInvoiceFormWrapper"
+    );
+    let productList = d.getElementById("proformaInvoice[0][product_id]");
+    let index = proformaInvoiceFormGroup.length;
+
+    if (!proformaInvoiceFormWrapper) {
+        return false;
+    }
+
+    return function () {
+        const createProformaInvoiceForm = `
+            <div class="has-text-weight-medium has-text-left">
+                <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                    Item ${index + 1}
+                </span>
+            </div>
+            <div class="box has-background-white-bis radius-top-0 mb-5">
+                <div name="proformaInvoiceFormGroup" class="columns is-marginless is-multiline">
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="proformaInvoice[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="proformaInvoice[${index}][product_id]" name="proformaInvoice[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                        ${productList.innerHTML}
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-th"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <label for="proformaInvoice[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                        <div class="field has-addons">
+                            <div class="control has-icons-left is-expanded">
+                                <input id="proformaInvoice[${index}][quantity]" name="proformaInvoice[${index}][quantity]" type="number" class="input" placeholder="Product Quantity">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-balance-scale"></i>
+                                </span>
+                            </div>
+                            <div class="control">
+                                <button id="proformaInvoice[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <label for="proformaInvoice[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
+                        <div class="field has-addons">
+                            <div class="control has-icons-left is-expanded">
+                                <input id="proformaInvoice[${index}][unit_price]" name="proformaInvoice[${index}][unit_price]" type="number" class="input" placeholder="Unit Price">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-money-bill"></i>
+                                </span>
+                            </div>
+                            <div class="control">
+                                <button id="proformaInvoice[${index}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <label for="proformaInvoice[${index}][discount]" class="label text-green has-text-weight-normal">Discount <sup class="has-text-danger"></sup> </label>
+                        <div class="field">
+                            <div class="control has-icons-left is-expanded">
+                                <input id="proformaInvoice[${index}][discount]" name="proformaInvoice[${index}][discount]" type="number" class="input" placeholder="Discount in Percentage">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-percent"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+        proformaInvoiceFormWrapper.insertAdjacentHTML(
+            "beforeend",
+            createProformaInvoiceForm
+        );
+
+        index++;
+    };
+})();
+
+function initializeSummernote() {
+    $(".summernote").summernote();
+}
+
+function openSwalModal(event) {
+    let action = this.dataset.action;
+    let type = this.dataset.type;
+    let description = this.dataset.description
+        ? `${action} ${this.dataset.description}`
+        : action;
+    let form = this.parentElement;
+
+    event.preventDefault();
+
+    swal({
+        title: `Do you want to ${action} this ${type}?`,
+        text: `By clicking 'Yes, ${action}', you are going to ${description} this ${type}.`,
+        buttons: ["Not now", `Yes, ${action}`],
+        dangerMode: true,
+    }).then((willExecute) => {
+        if (willExecute) {
+            form.submit();
+        }
+    });
+}
+
+const addDamageForm = (function () {
+    const damageFormGroup = d.getElementsByName("damageFormGroup");
+    const damageFormWrapper = d.getElementById("damageFormWrapper");
+    const productList = d.getElementById("damage[0][product_id]");
+    const warehouseList = d.getElementById("damage[0][warehouse_id]");
+    const formLimit = 10;
+    let index = damageFormGroup.length;
+
+    if (!damageFormWrapper) {
+        return false;
+    }
+
+    return function () {
+        const createDamageForm = `
+        <div class="has-text-weight-medium has-text-left">
+            <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                Item ${index + 1}
+            </span>
+        </div>
+        <div class="box has-background-white-bis radius-top-0 mb-5">
+            <div name="damageFormGroup" class="columns is-marginless is-multiline">
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="damage[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="damage[${index}][product_id]" name="damage[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                    ${productList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-th"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="damage[${index}][warehouse_id]" class="label text-green has-text-weight-normal"> From <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="damage[${index}][warehouse_id]" name="damage[${index}][warehouse_id]">
+                                    ${warehouseList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-warehouse"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label for="damage[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left is-expanded">
+                            <input id="damage[${index}][quantity]" name="damage[${index}][quantity]" type="number" class="input" placeholder="Quantity">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-balance-scale"></i>
+                            </span>
+                        </div>
+                        <div class="control">
+                            <button id="damage[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="damage[${index}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
+                        <div class="control has-icons-left">
+                            <textarea name="damage[${index}][description]" id="damage[${index}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken"></textarea>
+                            <span class="icon is-large is-left">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+        damageFormWrapper.insertAdjacentHTML("beforeend", createDamageForm);
+
+        index++;
+
+        if (index == formLimit) {
+            d.getElementById("addNewDamageForm").remove();
+            return false;
+        }
+    };
+})();
+
+const addAdjustmentForm = (function () {
+    const adjustmentFormGroup = d.getElementsByName("adjustmentFormGroup");
+    const adjustmentFormWrapper = d.getElementById("adjustmentFormWrapper");
+    const productList = d.getElementById("adjustment[0][product_id]");
+    const warehouseList = d.getElementById("adjustment[0][warehouse_id]");
+    const typeList = d.getElementById("adjustment[0][is_subtract]");
+    let index = adjustmentFormGroup.length;
+
+    if (!adjustmentFormWrapper) {
+        return false;
+    }
+
+    return function () {
+        const createAdjustmentForm = `
+        <div class="has-text-weight-medium has-text-left">
+            <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                Item ${index + 1}
+            </span>
+        </div>
+        <div class="box has-background-white-bis radius-top-0 mb-5">
+            <div name="adjustmentFormGroup" class="columns is-marginless is-multiline">
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="adjustment[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="adjustment[${index}][product_id]" name="adjustment[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                    ${productList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-th"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label for="adjustment[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left is-expanded">
+                            <input id="adjustment[${index}][quantity]" name="adjustment[${index}][quantity]" type="number" class="input" placeholder="Quantity">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-balance-scale"></i>
+                            </span>
+                        </div>
+                        <div class="control">
+                            <button id="adjustment[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="adjustment[${index}][is_subtract]" class="label text-green has-text-weight-normal"> Operation <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="adjustment[${index}][is_subtract]" name="adjustment[${index}][is_subtract]">
+                                    ${typeList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-sort"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="adjustment[${index}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="adjustment[${index}][warehouse_id]" name="adjustment[${index}][warehouse_id]">
+                                    ${warehouseList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-warehouse"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="adjustment[${index}][reason]" class="label text-green has-text-weight-normal">Reason <sup class="has-text-danger">*</sup></label>
+                        <div class="control has-icons-left">
+                            <textarea name="adjustment[${index}][reason]" id="adjustment[${index}][reason]" cols="30" rows="3" class="textarea pl-6" placeholder="Describe reason for adjusting this product level"></textarea>
+                            <span class="icon is-large is-left">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+        adjustmentFormWrapper.insertAdjacentHTML("beforeend", createAdjustmentForm);
+
+        index++;
+    };
+})();

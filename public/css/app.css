@@ -351,6 +351,17 @@ td {
     border-color: none !important;
     color: none !important;
 }
+
+/* Override bootstrap table classes */
+.table.table-bordered {
+    width: 100% !important;
+}
+.table.table-bordered td,
+.table.table-bordered th {
+    border-width: 1px !important;
+}
+/* Override bootstrap table classes */
+
 /* DataTable Styles */
 table.dataTable.no-footer {
     border-bottom: none !important;

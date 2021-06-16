@@ -15,4 +15,14 @@ class Plan extends Model
     {
         return $this->hasMany(Company::class);
     }
+
+    public function limits()
+    {
+        return $this->morphToMany(Limit::class, 'limitable')->withPivot('amount');
+    }
+
+    public function features()
+    {
+        return $this->morphToMany(Feature::class, 'featurable')->withPivot('is_enabled');
+    }
 }

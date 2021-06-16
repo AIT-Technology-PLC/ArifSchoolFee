@@ -25,6 +25,8 @@ class GdnController extends Controller
 
     public function __construct(Gdn $gdn)
     {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Gdn Management');
+
         $this->authorizeResource(Gdn::class, 'gdn');
 
         $this->gdn = $gdn;
@@ -118,6 +120,10 @@ class GdnController extends Controller
 
     public function destroy(Gdn $gdn)
     {
+        if ($gdn->isSubtracted()) {
+            return view('errors.permission_denied');
+        }
+
         if ($gdn->isApproved() && !auth()->user()->can('Delete Approved GDN')) {
             return view('errors.permission_denied');
         }

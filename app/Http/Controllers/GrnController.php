@@ -25,6 +25,8 @@ class GrnController extends Controller
 
     public function __construct(Grn $grn)
     {
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Grn Management');
+
         $this->authorizeResource(Grn::class, 'grn');
 
         $this->grn = $grn;
@@ -114,6 +116,10 @@ class GrnController extends Controller
 
     public function destroy(Grn $grn)
     {
+        if ($grn->isAdded()) {
+            return view('errors.permission_denied');
+        }
+
         if ($grn->isApproved() && !auth()->user()->can('Delete Approved GRN')) {
             return view('errors.permission_denied');
         }

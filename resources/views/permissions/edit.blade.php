@@ -101,6 +101,52 @@
                     <div class="column is-6">
                         <div class="message">
                             <div class="message-header has-background-white-ter text-gold">
+                                Damage Permissions
+                            </div>
+                            <div class="message-body has-background-white-bis">
+                                <div class="columns is-marginless is-multiline">
+                                    @foreach ($permissionsByCategory['damagePermissions'] as $permission)
+                                        <div class="column is-one-third">
+                                            <div class="field">
+                                                <div class="control">
+                                                    <label class="checkbox text-green has-text-weight-normal is-size-7">
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        {{ $permission }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="message">
+                            <div class="message-header has-background-white-ter text-gold">
+                                Adjustment Permissions
+                            </div>
+                            <div class="message-body has-background-white-bis">
+                                <div class="columns is-marginless is-multiline">
+                                    @foreach ($permissionsByCategory['adjustmentPermissions'] as $permission)
+                                        <div class="column is-one-third">
+                                            <div class="field">
+                                                <div class="control">
+                                                    <label class="checkbox text-green has-text-weight-normal is-size-7">
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        {{ $permission }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="message">
+                            <div class="message-header has-background-white-ter text-gold">
                                 SIV Permissions
                             </div>
                             <div class="message-body has-background-white-bis">
@@ -152,6 +198,29 @@
                             <div class="message-body has-background-white-bis">
                                 <div class="columns is-marginless is-multiline">
                                     @foreach ($permissionsByCategory['salePermissions'] as $permission)
+                                        <div class="column is-one-third">
+                                            <div class="field">
+                                                <div class="control">
+                                                    <label class="checkbox text-green has-text-weight-normal is-size-7">
+                                                        <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                        {{ $permission }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="message">
+                            <div class="message-header has-background-white-ter text-gold">
+                                Proforma Invoice Permissions
+                            </div>
+                            <div class="message-body has-background-white-bis">
+                                <div class="columns is-marginless is-multiline">
+                                    @foreach ($permissionsByCategory['proformaInvoicePermissions'] as $permission)
                                         <div class="column is-one-third">
                                             <div class="field">
                                                 <div class="control">

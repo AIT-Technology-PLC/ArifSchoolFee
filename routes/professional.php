@@ -1,34 +1,53 @@
 <?php
 
+use App\Http\Controllers\AdjustmentController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DamageController;
 use App\Http\Controllers\GdnController;
+use App\Http\Controllers\GdnSivController;
 use App\Http\Controllers\GeneralTenderChecklistController;
 use App\Http\Controllers\GrnController;
 use App\Http\Controllers\MerchandiseLevelByWarehouseController;
+use App\Http\Controllers\ProformaInvoiceController;
+use App\Http\Controllers\ProformaInvoiceGdnController;
 use App\Http\Controllers\PurchaseGrnController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\SaleGdnController;
 use App\Http\Controllers\SivController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TenderChecklistController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\TenderStatusController;
 use App\Http\Controllers\TransferController;
+use App\Http\Controllers\TransferSivController;
 use App\Http\Controllers\WarehouseController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GdnSivController;
-use App\Http\Controllers\TransferSivController;
 
-// Route::get('/sale/{sale}/gdn/create', SaleGdnController::class)->name('sales.gdns.create');
+Route::get('/sale/{sale}/gdn/create', SaleGdnController::class)
+    ->name('sales.gdns.create')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Gdn Management');
 
-Route::get('/purchases/{purchase}/grns/create', PurchaseGrnController::class)->name('purchases.grns.create');
+Route::get('/purchases/{purchase}/grns/create', PurchaseGrnController::class)
+    ->name('purchases.grns.create')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Grn Management');
 
-Route::get('/gdns/{gdn}/sivs/create', GdnSivController::class)->name('gdns.sivs.create');
+Route::get('/gdns/{gdn}/sivs/create', GdnSivController::class)
+    ->name('gdns.sivs.create')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Siv Management');
 
-Route::get('/transfers/{transfer}/sivs/create', TransferSivController::class)->name('transfers.sivs.create');
+Route::get('/transfers/{transfer}/sivs/create', TransferSivController::class)
+    ->name('transfers.sivs.create')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Siv Management');
+
+Route::get('/proforma-invoices/{proforma_invoice}/gdns/create', ProformaInvoiceGdnController::class)
+    ->name('proforma-invoices.gdns.create')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Proforma Invoice');
 
 Route::get('/gdns/{gdn}/print', [GdnController::class, 'printed'])->name('gdns.print');
 
 Route::get('/sivs/{siv}/print', [SivController::class, 'printed'])->name('sivs.print');
+
+Route::get('/proforma-invoices/{proformaInvoice}/print', [ProformaInvoiceController::class, 'printed'])->name('proforma-invoices.print');
 
 Route::post('purchase-orders/{purchaseOrder}/close', [PurchaseOrderController::class, 'close'])->name('purchase-orders.close');
 
@@ -47,6 +66,18 @@ Route::post('/grns/{grn}/add', [GrnController::class, 'add'])->name('grns.add');
 Route::post('/sivs/{siv}/approve', [SivController::class, 'approve'])->name('sivs.approve');
 
 Route::post('/sivs/{siv}/execute', [SivController::class, 'execute'])->name('sivs.execute');
+
+Route::post('/proforma-invoices/{proformaInvoice}/cancel', [ProformaInvoiceController::class, 'cancel'])->name('proforma-invoices.cancel');
+
+Route::post('/proforma-invoices/{proformaInvoice}/convert', [ProformaInvoiceController::class, 'convert'])->name('proforma-invoices.convert');
+
+Route::post('/damages/{damage}/approve', [DamageController::class, 'approve'])->name('damages.approve');
+
+Route::post('/damages/{damage}/subtract', [DamageController::class, 'subtract'])->name('damages.subtract');
+
+Route::post('/adjustments/{adjustment}/approve', [AdjustmentController::class, 'approve'])->name('adjustments.approve');
+
+Route::post('/adjustments/{adjustment}/adjust', [AdjustmentController::class, 'adjust'])->name('adjustments.adjust');
 
 Route::resource('warehouses.merchandises', MerchandiseLevelByWarehouseController::class);
 
@@ -73,3 +104,9 @@ Route::resource('tenders', TenderController::class);
 Route::resource('tender-checklists', TenderChecklistController::class);
 
 Route::resource('sivs', SivController::class);
+
+Route::resource('proforma-invoices', ProformaInvoiceController::class);
+
+Route::resource('damages', DamageController::class);
+
+Route::resource('adjustments', AdjustmentController::class);

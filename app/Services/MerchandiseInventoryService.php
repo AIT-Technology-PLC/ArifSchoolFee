@@ -66,4 +66,17 @@ class MerchandiseInventoryService
             $this->add($detail);
         });
     }
+
+    public function adjust($detail)
+    {
+        DB::transaction(function () use ($detail) {
+            if ($detail->is_subtract) {
+                $this->subtract($detail);
+            }
+
+            if (!$detail->is_subtract) {
+                $this->add($detail);
+            }
+        });
+    }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\WarehouseProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,9 +28,13 @@ Route::get('/notifications/{notification}/mark-as-read',
     [NotificationController::class, 'markNotificationAsRead'])
     ->name('notifications.markAsRead');
 
-Route::get('/warehouses/{warehouse}/products/{product}', WarehouseProductController::class)->name('warehouses-products');
+Route::get('/warehouses/{warehouse}/products/{product}', WarehouseProductController::class)
+    ->name('warehouses-products')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Inventory History');
 
-Route::get('merchandises', MerchandiseController::class)->name('merchandises.index');
+Route::get('merchandises', MerchandiseController::class)
+    ->name('merchandises.index')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Merchandise Inventory');
 
 Route::patch('/employees/{employee}/permissions', [PermissionController::class, 'update'])->name('permissions.update');
 
@@ -47,7 +52,7 @@ Route::resource('companies', CompanyController::class);
 
 Route::resource('purchases', PurchaseController::class);
 
-// Route::resource('sales', SaleController::class);
+Route::resource('sales', SaleController::class);
 
 Route::resource('prices', PriceController::class);
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Damage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -108,6 +109,31 @@ class Company extends Model
     public function sivs()
     {
         return $this->hasMany(Siv::class);
+    }
+
+    public function proformaInvoices()
+    {
+        return $this->hasMany(ProformaInvoice::clas);
+    }
+
+    public function damages()
+    {
+        return $this->hasMany(Damage::class);
+    }
+
+    public function adjustments()
+    {
+        return $this->hasMany(Adjustment::class);
+    }
+
+    public function limits()
+    {
+        return $this->morphToMany(Limit::class, 'limitable')->withPivot('amount');
+    }
+
+    public function features()
+    {
+        return $this->morphToMany(Feature::class, 'featurable')->withPivot('is_enabled');
     }
 
     public function scopeEnabled($query)

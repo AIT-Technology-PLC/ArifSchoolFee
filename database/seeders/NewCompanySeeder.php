@@ -20,12 +20,13 @@ class NewCompanySeeder extends Seeder
                 'name' => $faker->company,
                 'currency' => 'ETB',
                 'enabled' => 1,
-                'membership_plan' => 'Professional'
+                'membership_plan' => 'Professional',
+                'plan_id' => Plan::where('name', 'professional')->first()->id,
             ]);
 
             $user = User::create([
-                'name' => $faker->name,
-                'email' => $faker->unique()->safeEmail,
+                'name' => 'Abebe Kebede',
+                'email' => 'abebe@onrica.com',
                 'password' => Hash::make('password'),
             ]);
 

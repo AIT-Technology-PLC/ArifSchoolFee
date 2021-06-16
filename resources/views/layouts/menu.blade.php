@@ -53,31 +53,31 @@
     </ul>
 
     @can('Read Merchandise')
-        <p class="menu-label has-text-weight-bold text-green">
-            Merchandise Inventory
-        </p>
-        <ul class="menu-list mb-5">
-            <li>
-                <a name="menuTitles" href="{{ route('merchandises.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5  {{ request()->is('merchandises') ? 'is-active' : '' }}">
-                    <span class="icon">
-                        <i class="fas fa-chart-bar"></i>
-                    </span>
-                    <span>
-                        Inventory Level
-                    </span>
-                </a>
-            </li>
-        </ul>
-    @endcan
-
-    @can('onlyPremiumOrProfessional', userCompany())
-        @if (auth()->user()->can('Read GDN') ||
-        auth()->user()->can('Read GRN') ||
-        auth()->user()->can('Read Transfer'))
+        @if ($enabledFeatures->contains('Merchandise Inventory'))
             <p class="menu-label has-text-weight-bold text-green">
-                Warehouse Operations
+                Merchandise Inventory
             </p>
             <ul class="menu-list mb-5">
+                <li>
+                    <a name="menuTitles" href="{{ route('merchandises.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5  {{ request()->is('merchandises') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </span>
+                        <span>
+                            Inventory Level
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        @endif
+    @endcan
+
+    @canany(['Read GDN', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
+        <p class="menu-label has-text-weight-bold text-green">
+            Warehouse Operations
+        </p>
+        <ul class="menu-list mb-5">
+            @if ($enabledFeatures->contains('Gdn Management'))
                 @can('Read GDN')
                     <li>
                         <a name="menuTitles" href="{{ route('gdns.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('gdns') ? 'is-active' : '' }}">
@@ -106,6 +106,8 @@
                         </ul>
                     </li>
                 @endcan
+            @endif
+            @if ($enabledFeatures->contains('Grn Management'))
                 @can('Read GRN')
                     <li>
                         <a name="menuTitles" href="{{ route('grns.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('grns') ? 'is-active' : '' }}">
@@ -134,6 +136,8 @@
                         </ul>
                     </li>
                 @endcan
+            @endif
+            @if ($enabledFeatures->contains('Transfer Management'))
                 @can('Read Transfer')
                     <li>
                         <a name="menuTitles" href="{{ route('transfers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('transfers') ? 'is-active' : '' }}">
@@ -162,48 +166,106 @@
                         </ul>
                     </li>
                 @endcan
-                @if (userCompany()->name != 'AE Chemicals Trading PLC')
-                    @can('Read SIV')
-                        <li>
-                            <a name="menuTitles" href="{{ route('sivs.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs') ? 'is-active' : '' }}">
-                                <span class="icon">
-                                    <i class="fas fa-file-export"></i>
-                                </span>
-                                <span>
-                                    SIV Management
-                                </span>
-                            </a>
-                        </li>
-                    @endcan
-                    @can('Create SIV')
-                        <li>
-                            <ul class="mt-0">
-                                <li>
-                                    <a name="menuTitles" href="{{ route('sivs.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs/create') ? 'is-active' : '' }}">
-                                        <span class="icon">
-                                            <i class="fas fa-plus-circle"></i>
-                                        </span>
-                                        <span>
-                                            New SIV
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    @endcan
-                @endif
-            </ul>
-        @endif
-    @endcan
+            @endif
+            @if ($enabledFeatures->contains('Damage Management'))
+                @can('Read Damage')
+                    <li>
+                        <a name="menuTitles" href="{{ route('damages.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-bolt"></i>
+                            </span>
+                            <span>
+                                Damage Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Damage')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('damages.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Damage
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+            @endif
+            @if ($enabledFeatures->contains('Inventory Adjustment'))
+                @can('Read Adjustment')
+                    <li>
+                        <a name="menuTitles" href="{{ route('adjustments.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('adjustments') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-eraser"></i>
+                            </span>
+                            <span>
+                                Inventory Adjustments
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Adjustment')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('adjustments.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('adjustments/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Adjustment
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+            @endif
+            @if ($enabledFeatures->contains('Siv Management'))
+                @can('Read SIV')
+                    <li>
+                        <a name="menuTitles" href="{{ route('sivs.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-file-export"></i>
+                            </span>
+                            <span>
+                                SIV Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create SIV')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('sivs.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New SIV
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+            @endif
+        </ul>
+    @endcanany
 
-    @if (auth()->user()->can('Read Sale') ||
-    auth()->user()->can('Read Price') ||
-    auth()->user()->can('Read Customer'))
+    @canany(['Read Sale', 'Read Proforma Invoice', 'Read Price', 'Read Customer'])
         <p class="menu-label has-text-weight-bold text-green">
             Sales & Customers
         </p>
         <ul class="menu-list mb-5">
-            @if (0)
+            @if ($enabledFeatures->contains('Sale Management'))
                 @can('Read Sale')
                     <li>
                         <a name="menuTitles" href="{{ route('sales.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'is-active' : '' }}">
@@ -233,35 +295,67 @@
                     </li>
                 @endcan
             @endif
-            @can('Read Price')
-                <li>
-                    <a name="menuTitles" href="{{ route('prices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices') ? 'is-active' : '' }}">
-                        <span class="icon">
-                            <i class="fas fa-money-bill"></i>
-                        </span>
-                        <span>
-                            Price Management
-                        </span>
-                    </a>
-                </li>
-            @endcan
-            @can('Create Price')
-                <li>
-                    <ul class="mt-0">
-                        <li>
-                            <a name="menuTitles" href="{{ route('prices.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices/create') ? 'is-active' : '' }}">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    New Price
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            @endcan
-            @can('onlyPremiumOrProfessional', userCompany())
+            @if ($enabledFeatures->contains('Proforma Invoice'))
+                @can('Read Proforma Invoice')
+                    <li>
+                        <a name="menuTitles" href="{{ route('proforma-invoices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('proforma-invoices') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-receipt"></i>
+                            </span>
+                            <span>
+                                Proforma Invoices
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Proforma Invoice')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('proforma-invoices.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('proforma-invoices/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Proforma Invoice
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+            @endif
+            @if ($enabledFeatures->contains('Price Management'))
+                @can('Read Price')
+                    <li>
+                        <a name="menuTitles" href="{{ route('prices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-money-bill"></i>
+                            </span>
+                            <span>
+                                Price Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Price')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('prices.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Price
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+            @endif
+            @if ($enabledFeatures->contains('Customer Management'))
                 @can('Read Customer')
                     <li>
                         <a name="menuTitles" href="{{ route('customers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('customers') ? 'is-active' : '' }}">
@@ -290,12 +384,12 @@
                         </ul>
                     </li>
                 @endcan
-            @endcan
+            @endif
         </ul>
-    @endif
+    @endcanany
 
-    @can('onlyPremiumOrProfessional', userCompany())
-        @can('Read Tender')
+    @can('Read Tender')
+        @if ($enabledFeatures->contains('Tender Management'))
             <p class="menu-label has-text-weight-bold text-green">
                 Tenders
             </p>
@@ -379,11 +473,11 @@
                     </li>
                 @endcan
             </ul>
-        @endcan
+        @endif
     @endcan
 
-    @can('onlyPremiumOrProfessional', userCompany())
-        @can('Read PO')
+    @can('Read PO')
+        @if ($enabledFeatures->contains('Purchase Order'))
             <p class="menu-label has-text-weight-bold text-green">
                 Purchase Orders
             </p>
@@ -415,44 +509,45 @@
                     </li>
                 @endcan
             </ul>
-        @endcan
+        @endif
     @endcan
 
-    @if (auth()->user()->can('Read Purchase') ||
-    auth()->user()->can('Read Supplier'))
+    @canany(['Read Purchase', 'Read Supplier'])
         <p class="menu-label has-text-weight-bold text-green">
             Purchases & Suppliers
         </p>
         <ul class="menu-list mb-5">
-            @can('Read Purchase')
-                <li>
-                    <a name="menuTitles" href="{{ route('purchases.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases') ? 'is-active' : '' }}">
-                        <span class="icon">
-                            <i class="fas fa-shopping-bag"></i>
-                        </span>
-                        <span>
-                            Purchase Management
-                        </span>
-                    </a>
-                </li>
-            @endcan
-            @can('Create Purchase')
-                <li>
-                    <ul class="mt-0">
-                        <li>
-                            <a name="menuTitles" href="{{ route('purchases.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases/create') ? 'is-active' : '' }}">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    New Purchase
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            @endcan
-            @can('onlyPremiumOrProfessional', userCompany())
+            @if ($enabledFeatures->contains('Purchase Management'))
+                @can('Read Purchase')
+                    <li>
+                        <a name="menuTitles" href="{{ route('purchases.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-shopping-bag"></i>
+                            </span>
+                            <span>
+                                Purchase Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Purchase')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('purchases.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Purchase
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+            @endif
+            @if ($enabledFeatures->contains('Supplier Management'))
                 @can('Read Supplier')
                     <li>
                         <a name="menuTitles" href="{{ route('suppliers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'is-active' : '' }}">
@@ -481,72 +576,74 @@
                         </ul>
                     </li>
                 @endcan
-            @endcan
+            @endif
         </ul>
-    @endif
+    @endcanany
 
     @can('Read Product')
-        <p class="menu-label has-text-weight-bold text-green">
-            Category & Products
-        </p>
-        <ul class="menu-list mb-5">
-            <li>
-                <a name="menuTitles" href="{{ route('categories.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories') ? 'is-active' : '' }}">
-                    <span class="icon">
-                        <i class="fas fa-layer-group"></i>
-                    </span>
-                    <span>
-                        Categories Management
-                    </span>
-                </a>
-            </li>
-            @can('Create Product')
+        @if ($enabledFeatures->contains('Product Management'))
+            <p class="menu-label has-text-weight-bold text-green">
+                Category & Products
+            </p>
+            <ul class="menu-list mb-5">
                 <li>
-                    <ul class="mt-0">
-                        <li>
-                            <a name="menuTitles" href="{{ route('categories.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories/create') ? 'is-active' : '' }}">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    New Category
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
+                    <a name="menuTitles" href="{{ route('categories.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-layer-group"></i>
+                        </span>
+                        <span>
+                            Categories Management
+                        </span>
+                    </a>
                 </li>
-            @endcan
-            <li>
-                <a name="menuTitles" href="{{ route('products.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('products') ? 'is-active' : '' }}">
-                    <span class="icon">
-                        <i class="fas fa-th"></i>
-                    </span>
-                    <span>
-                        Products Management
-                    </span>
-                </a>
-            </li>
-            @can('Create Product')
+                @can('Create Product')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('categories.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Category
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
                 <li>
-                    <ul class="mt-0">
-                        <li>
-                            <a name="menuTitles" href="/products/create" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('products/create') ? 'is-active' : '' }}">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    New Product
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
+                    <a name="menuTitles" href="{{ route('products.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('products') ? 'is-active' : '' }}">
+                        <span class="icon">
+                            <i class="fas fa-th"></i>
+                        </span>
+                        <span>
+                            Products Management
+                        </span>
+                    </a>
                 </li>
-            @endcan
-        </ul>
+                @can('Create Product')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="/products/create" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('products/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Product
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+            </ul>
+        @endif
     @endcan
 
-    @can('onlyPremiumOrProfessional', userCompany())
-        @can('Read Warehouse')
+    @can('Read Warehouse')
+        @if ($enabledFeatures->contains('Warehouse Management'))
             <p class="menu-label has-text-weight-bold text-green">
                 Warehouse
             </p>
@@ -578,55 +675,58 @@
                     </li>
                 @endcan
             </ul>
-        @endcan
+        @endif
     @endcan
 
-    @if (auth()->user()->can('Read Employee') ||
-    auth()->user()->can('Update Company'))
+    @canany(['Read Employee', 'Update Company'])
         <p class="menu-label has-text-weight-bold text-green">
             Settings
         </p>
         <ul class="menu-list mb-5">
-            @can('Read Employee')
-                <li>
-                    <a name="menuTitles" href="{{ route('employees.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees') ? 'is-active' : '' }}">
-                        <span class="icon">
-                            <i class="fas fa-users"></i>
-                        </span>
-                        <span>
-                            Employee Management
-                        </span>
-                    </a>
-                </li>
-            @endcan
-            @can('Create Employee')
-                <li>
-                    <ul class="mt-0">
-                        <li>
-                            <a name="menuTitles" href="{{ route('employees.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees/create') ? 'is-active' : '' }}">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    New Employee
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            @endcan
-            @can('Update Company')
-                <li>
-                    <a name="menuTitles" href="{{ route('companies.edit', userCompany()->id) }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('companies/' . userCompany()->id . '/edit') ? 'is-active' : '' }}">
-                        <span class="icon">
-                            <i class="fas fa-cog"></i>
-                        </span>
-                        <span>
-                            General Settings
-                        </span>
-                    </a>
-                </li>
-            @endcan
+            @if ($enabledFeatures->contains('User Management'))
+                @can('Read Employee')
+                    <li>
+                        <a name="menuTitles" href="{{ route('employees.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-users"></i>
+                            </span>
+                            <span>
+                                Employee Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Employee')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('employees.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Employee
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+            @endif
+            @if ($enabledFeatures->contains('General Settings'))
+                @can('Update Company')
+                    <li>
+                        <a name="menuTitles" href="{{ route('companies.edit', userCompany()->id) }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('companies/' . userCompany()->id . '/edit') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-cog"></i>
+                            </span>
+                            <span>
+                                General Settings
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+            @endif
         </ul>
-    @endif
+    @endcanany
 </aside>
