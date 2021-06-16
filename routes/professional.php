@@ -12,6 +12,7 @@ use App\Http\Controllers\ProformaInvoiceController;
 use App\Http\Controllers\ProformaInvoiceGdnController;
 use App\Http\Controllers\PurchaseGrnController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\SaleGdnController;
 use App\Http\Controllers\SivController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TenderChecklistController;
@@ -22,9 +23,9 @@ use App\Http\Controllers\TransferSivController;
 use App\Http\Controllers\WarehouseController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/sale/{sale}/gdn/create', SaleGdnController::class)
-//     ->name('sales.gdns.create')
-//     ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Gdn');
+Route::get('/sale/{sale}/gdn/create', SaleGdnController::class)
+    ->name('sales.gdns.create')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Gdn');
 
 Route::get('/purchases/{purchase}/grns/create', PurchaseGrnController::class)
     ->name('purchases.grns.create')

@@ -6,9 +6,11 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MerchandiseController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PriceController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\WarehouseProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,8 +52,8 @@ Route::resource('companies', CompanyController::class);
 
 Route::resource('purchases', PurchaseController::class);
 
-// Route::resource('sales', SaleController::class);
+Route::resource('sales', SaleController::class);
 
-// Route::resource('prices', PriceController::class);
+Route::resource('prices', PriceController::class);
 
 Route::resource('notifications', NotificationController::class)->only("index");
