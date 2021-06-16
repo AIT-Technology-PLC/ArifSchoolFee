@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Feature;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,17 +24,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('*', function ($view) {
-
+        view()->composer('layouts.app', function ($view) {
             if (auth()->check()) {
-
                 $view->with([
                     'unreadNotifications' => auth()->user()->unreadNotifications,
                     'readNotifications' => auth()->user()->readNotifications,
+                    'enabledFeatures' => Feature::getAllEnabledFeaturesOfCompany(),
                 ]);
-
             }
-
         });
     }
 }

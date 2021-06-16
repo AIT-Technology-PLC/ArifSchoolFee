@@ -131,4 +131,28 @@ class Feature extends Model
 
         $feature->plans()->updateExistingPivot($plan->id, ['is_enabled' => 0]);
     }
+
+    public static function getAllEnabledFeaturesOfCompany()
+    {
+        $planFeatures = userCompany()
+            ->plan
+            ->features()
+            ->wherePivot('is_enabled', 1)
+            ->pluck('name');
+
+        $companyFeatures = userCompany()
+            ->features()
+            ->wherePivot('is_enabled', 1)
+            ->pluck('name');
+
+        $disabledCompanyFeatures = userCompany()
+            ->features()
+            ->wherePivot('is_enabled', 0)
+            ->pluck('name');
+
+        return $planFeatures
+            ->merge($companyFeatures)
+            ->unique()
+            ->diff($disabledCompanyFeatures);
+    }
 }
