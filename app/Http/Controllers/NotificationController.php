@@ -8,7 +8,7 @@ class NotificationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Notification');
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Notification Management');
     }
 
     public function index()

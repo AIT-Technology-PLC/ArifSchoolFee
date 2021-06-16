@@ -19,7 +19,7 @@ class DamageController extends Controller
 
     public function __construct()
     {
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Damage');
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Damage Management');
 
         $this->authorizeResource(Damage::class, 'damage');
 

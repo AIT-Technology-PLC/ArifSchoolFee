@@ -25,7 +25,7 @@ class GdnController extends Controller
 
     public function __construct(Gdn $gdn)
     {
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Gdn');
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Gdn Management');
 
         $this->authorizeResource(Gdn::class, 'gdn');
 

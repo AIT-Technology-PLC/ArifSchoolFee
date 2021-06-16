@@ -34,7 +34,7 @@ Route::get('/warehouses/{warehouse}/products/{product}', WarehouseProductControl
 
 Route::get('merchandises', MerchandiseController::class)
     ->name('merchandises.index')
-    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Merchandise Inventory Level');
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Merchandise Inventory');
 
 Route::patch('/employees/{employee}/permissions', [PermissionController::class, 'update'])->name('permissions.update');
 

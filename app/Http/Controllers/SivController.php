@@ -22,7 +22,7 @@ class SivController extends Controller
 
     public function __construct(Siv $siv)
     {
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Siv');
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Siv Management');
 
         $this->authorizeResource(Siv::class, 'siv');
 

@@ -18,7 +18,7 @@ class ProformaInvoiceController extends Controller
 
     public function __construct()
     {
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Proforma Invoices');
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Proforma Invoice');
 
         $this->authorizeResource(ProformaInvoice::class);
     }

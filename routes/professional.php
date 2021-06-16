@@ -25,23 +25,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/sale/{sale}/gdn/create', SaleGdnController::class)
     ->name('sales.gdns.create')
-    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Gdn');
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Gdn Management');
 
 Route::get('/purchases/{purchase}/grns/create', PurchaseGrnController::class)
     ->name('purchases.grns.create')
-    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Grn');
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Grn Management');
 
 Route::get('/gdns/{gdn}/sivs/create', GdnSivController::class)
     ->name('gdns.sivs.create')
-    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Siv');
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Siv Management');
 
 Route::get('/transfers/{transfer}/sivs/create', TransferSivController::class)
     ->name('transfers.sivs.create')
-    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Siv');
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Siv Management');
 
 Route::get('/proforma-invoices/{proforma_invoice}/gdns/create', ProformaInvoiceGdnController::class)
     ->name('proforma-invoices.gdns.create')
-    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Proforma Invoices');
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Proforma Invoice');
 
 Route::get('/gdns/{gdn}/print', [GdnController::class, 'printed'])->name('gdns.print');
 

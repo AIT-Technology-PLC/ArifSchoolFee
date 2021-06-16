@@ -18,7 +18,7 @@ class FeatureTableSeeder extends Seeder
     {
         DB::transaction(function () {
             Feature::firstOrCreate([
-                'name' => 'Merchandise Inventory Level',
+                'name' => 'Merchandise Inventory',
                 'is_enabled' => 1,
             ]);
 
@@ -28,42 +28,47 @@ class FeatureTableSeeder extends Seeder
             ]);
 
             Feature::firstOrCreate([
-                'name' => 'Gdn',
+                'name' => 'Gdn Management',
                 'is_enabled' => 1,
             ]);
 
             Feature::firstOrCreate([
-                'name' => 'Grn',
+                'name' => 'Grn Management',
                 'is_enabled' => 1,
             ]);
 
             Feature::firstOrCreate([
-                'name' => 'Transfer',
+                'name' => 'Transfer Management',
                 'is_enabled' => 1,
             ]);
 
             Feature::firstOrCreate([
-                'name' => 'Damage',
+                'name' => 'Damage Management',
                 'is_enabled' => 1,
             ]);
 
             Feature::firstOrCreate([
-                'name' => 'Inventory Adjustments',
+                'name' => 'Inventory Adjustment',
                 'is_enabled' => 1,
             ]);
 
             Feature::firstOrCreate([
-                'name' => 'Siv',
+                'name' => 'Siv Management',
                 'is_enabled' => 1,
             ]);
 
             Feature::firstOrCreate([
-                'name' => 'Sales Invoice',
+                'name' => 'Sale Management',
                 'is_enabled' => 1,
             ]);
 
             Feature::firstOrCreate([
-                'name' => 'Proforma Invoices',
+                'name' => 'Price Management',
+                'is_enabled' => 1,
+            ]);
+
+            Feature::firstOrCreate([
+                'name' => 'Proforma Invoice',
                 'is_enabled' => 1,
             ]);
 
@@ -109,6 +114,11 @@ class FeatureTableSeeder extends Seeder
 
             Feature::firstOrCreate([
                 'name' => 'General Settings',
+                'is_enabled' => 1,
+            ]);
+
+            Feature::firstOrCreate([
+                'name' => 'Notification Management',
                 'is_enabled' => 1,
             ]);
 

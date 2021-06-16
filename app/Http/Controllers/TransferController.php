@@ -25,7 +25,7 @@ class TransferController extends Controller
 
     public function __construct(transfer $transfer)
     {
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Transfer');
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Transfer Management');
 
         $this->authorizeResource(Transfer::class, 'transfer');
 

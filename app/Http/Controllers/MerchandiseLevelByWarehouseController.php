@@ -10,7 +10,7 @@ class MerchandiseLevelByWarehouseController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Merchandise Inventory Level');
+        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Merchandise Inventory');
     }
 
     public function index(Warehouse $warehouse, Merchandise $merchandise, Product $product)

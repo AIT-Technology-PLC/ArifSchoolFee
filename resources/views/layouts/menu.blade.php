@@ -53,7 +53,7 @@
     </ul>
 
     @can('Read Merchandise')
-        @if ($enabledFeatures->contains('Merchandise Inventory Level'))
+        @if ($enabledFeatures->contains('Merchandise Inventory'))
             <p class="menu-label has-text-weight-bold text-green">
                 Merchandise Inventory
             </p>
@@ -77,7 +77,7 @@
             Warehouse Operations
         </p>
         <ul class="menu-list mb-5">
-            @if ($enabledFeatures->contains('Gdn'))
+            @if ($enabledFeatures->contains('Gdn Management'))
                 @can('Read GDN')
                     <li>
                         <a name="menuTitles" href="{{ route('gdns.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('gdns') ? 'is-active' : '' }}">
@@ -107,7 +107,7 @@
                     </li>
                 @endcan
             @endif
-            @if ($enabledFeatures->contains('Grn'))
+            @if ($enabledFeatures->contains('Grn Management'))
                 @can('Read GRN')
                     <li>
                         <a name="menuTitles" href="{{ route('grns.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('grns') ? 'is-active' : '' }}">
@@ -137,7 +137,7 @@
                     </li>
                 @endcan
             @endif
-            @if ($enabledFeatures->contains('Transfer'))
+            @if ($enabledFeatures->contains('Transfer Management'))
                 @can('Read Transfer')
                     <li>
                         <a name="menuTitles" href="{{ route('transfers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('transfers') ? 'is-active' : '' }}">
@@ -167,7 +167,7 @@
                     </li>
                 @endcan
             @endif
-            @if ($enabledFeatures->contains('Damage'))
+            @if ($enabledFeatures->contains('Damage Management'))
                 @can('Read Damage')
                     <li>
                         <a name="menuTitles" href="{{ route('damages.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages') ? 'is-active' : '' }}">
@@ -197,7 +197,7 @@
                     </li>
                 @endcan
             @endif
-            @if ($enabledFeatures->contains('Inventory Adjustments'))
+            @if ($enabledFeatures->contains('Inventory Adjustment'))
                 @can('Read Adjustment')
                     <li>
                         <a name="menuTitles" href="{{ route('adjustments.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('adjustments') ? 'is-active' : '' }}">
@@ -227,7 +227,7 @@
                     </li>
                 @endcan
             @endif
-            @if ($enabledFeatures->contains('Siv'))
+            @if ($enabledFeatures->contains('Siv Management'))
                 @can('Read SIV')
                     <li>
                         <a name="menuTitles" href="{{ route('sivs.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs') ? 'is-active' : '' }}">
@@ -265,7 +265,7 @@
             Sales & Customers
         </p>
         <ul class="menu-list mb-5">
-            @if ($enabledFeatures->contains('Sales Invoice'))
+            @if ($enabledFeatures->contains('Sale Management'))
                 @can('Read Sale')
                     <li>
                         <a name="menuTitles" href="{{ route('sales.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'is-active' : '' }}">
@@ -295,7 +295,7 @@
                     </li>
                 @endcan
             @endif
-            @if ($enabledFeatures->contains('Proforma Invoices'))
+            @if ($enabledFeatures->contains('Proforma Invoice'))
                 @can('Read Proforma Invoice')
                     <li>
                         <a name="menuTitles" href="{{ route('proforma-invoices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('proforma-invoices') ? 'is-active' : '' }}">
