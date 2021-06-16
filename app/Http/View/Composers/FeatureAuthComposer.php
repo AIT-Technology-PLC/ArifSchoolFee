@@ -9,10 +9,28 @@ class FeatureAuthComposer
 {
     public function compose(View $view)
     {
-        if (auth()->check()) {
-            $view->with([
-                'enabledFeatures' => Feature::getAllEnabledFeaturesOfCompany(),
-            ]);
+        $excludedViews = collect([
+            'layouts.app',
+            'assets.css',
+            'pwa.tags',
+            'layouts.header',
+            'layouts.create_menu',
+            'layouts.notification_box',
+            'layouts.menu',
+            'layouts.footer',
+            'assets.js',
+        ]);
+
+        if ($excludedViews->contains($view->getName())) {
+            return false;
         }
+
+        if (!auth()->check()) {
+            return false;
+        }
+
+        $view->with([
+            'enabledFeatures' => Feature::getAllEnabledFeaturesOfCompany(),
+        ]);
     }
 }
