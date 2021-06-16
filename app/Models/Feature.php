@@ -134,6 +134,8 @@ class Feature extends Model
 
     public static function getAllEnabledFeaturesOfCompany()
     {
+        $globallyDisabledfeatures = (new self())->where('is_enabled', 0)->pluck('name');
+
         $planFeatures = userCompany()
             ->plan
             ->features()
@@ -153,6 +155,7 @@ class Feature extends Model
         return $planFeatures
             ->merge($companyFeatures)
             ->unique()
-            ->diff($disabledCompanyFeatures);
+            ->diff($disabledCompanyFeatures)
+            ->diff($globallyDisabledfeatures);
     }
 }
