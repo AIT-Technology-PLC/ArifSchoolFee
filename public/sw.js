@@ -12,7 +12,7 @@ clientsClaim();
 
 const PRECACHE = "precache-v4";
 const RUNTIME = "runtime-v4";
-const VERSION = 25;
+const VERSION = 26;
 
 setCacheNameDetails({
     prefix: "",
@@ -37,8 +37,7 @@ precacheAndRoute([
         revision: null,
     },
     {
-        url:
-            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css",
+        url: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css",
         revision: null,
     },
     {
@@ -46,13 +45,11 @@ precacheAndRoute([
         revision: null,
     },
     {
-        url:
-            "https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css",
+        url: "https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css",
         revision: null,
     },
     {
-        url:
-            "https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css",
+        url: "https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css",
         revision: null,
     },
     {
@@ -72,13 +69,11 @@ precacheAndRoute([
         revision: null,
     },
     {
-        url:
-            "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js",
+        url: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js",
         revision: null,
     },
     {
-        url:
-            "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js",
+        url: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js",
         revision: null,
     },
     {
@@ -86,8 +81,7 @@ precacheAndRoute([
         revision: null,
     },
     {
-        url:
-            "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js",
+        url: "https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js",
         revision: null,
     },
     {
@@ -95,8 +89,7 @@ precacheAndRoute([
         revision: null,
     },
     {
-        url:
-            "https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js",
+        url: "https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js",
         revision: null,
     },
 ]);
