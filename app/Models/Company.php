@@ -140,24 +140,4 @@ class Company extends Model
     {
         return $query->where('enabled', 1);
     }
-
-    public function isCompanyStandardMember()
-    {
-        return $this->membership_plan == "Standard";
-    }
-
-    public function isCompanyPremiumMember()
-    {
-        return $this->membership_plan == "Premium";
-    }
-
-    public function isCompanyProfessionalMember()
-    {
-        return $this->membership_plan == "Professional";
-    }
-
-    public function isCompanyPremiumOrProfessionalMember()
-    {
-        return $this->membership_plan == "Premium" || $this->membership_plan == "Professional";
-    }
 }

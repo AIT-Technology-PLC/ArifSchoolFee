@@ -98,7 +98,6 @@ class CoreV1 extends Migration
             $table->string('address')->nullable();
             $table->string('logo')->nullable();
             $table->string('sector')->nullable();
-            $table->string('membership_plan')->nullable();
             $table->boolean('enabled');
             $table->string('currency');
             $table->timestamps();

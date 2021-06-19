@@ -16,14 +16,4 @@ class CompanyPolicy
 
         return $doesAdminBelongsToCompany && $user->can('Update Company');
     }
-
-    public function onlyPremiumOrProfessional(User $user)
-    {
-        return $user->employee->company->isCompanyPremiumOrProfessionalMember();
-    }
-
-    public function onlyPremium(User $user)
-    {
-        return $user->employee->company->isCompanyPremiumMember();
-    }
 }
