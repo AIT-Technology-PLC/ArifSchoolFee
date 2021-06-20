@@ -26,9 +26,13 @@ class PurchaseOrderController extends Controller
     {
         $purchaseOrders = $purchaseOrder->getAll()->load(['customer', 'createdBy', 'updatedBy']);
 
-        $totalPurchaseOrders = $purchaseOrder->countPurchaseOrdersOfCompany();
+        $totalPurchaseOrders = $purchaseOrders->count();
 
-        return view('purchase_orders.index', compact('purchaseOrders', 'totalPurchaseOrders'));
+        $totalClosed = $purchaseOrders->where('is_closed', 1)->count();
+
+        $totalOpen = $purchaseOrders->where('is_closed', 0)->count();
+
+        return view('purchase_orders.index', compact('purchaseOrders', 'totalPurchaseOrders', 'totalClosed', 'totalOpen'));
     }
 
     public function create(Product $product, Customer $customer)
