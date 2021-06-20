@@ -1,49 +1,62 @@
 @extends('layouts.app')
 
+@section('title')
+    Confirm Password
+@endsection
+
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Confirm Password') }}</div>
-
-                <div class="card-body">
-                    {{ __('Please confirm your password before continuing.') }}
-
-                    <form method="POST" action="{{ route('password.confirm') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
+    <section class="mt-3 mx-3 m-lr-0">
+        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
+            <h1 class="title text-green has-text-weight-medium is-size-5">
+                Confirm Password
+            </h1>
+        </div>
+        <form id="formOne" action="{{ route('password.confirm') }}" method="post" enctype="multipart/form-data" novalidate>
+            @csrf
+            <div class="box radius-bottom-0 mb-0 radius-top-0">
+                <div class="columns is-marginless is-multiline is-centered">
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="name" class="label text-green has-text-weight-normal">Password <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <input id="password" type="password" class="input @error('password') is-danger @enderror" name="password" autocomplete="current-password">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </span>
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
                                     </span>
                                 @enderror
                             </div>
                         </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Confirm Password') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+            <div class="box radius-top-0">
+                <div class="columns is-marginless">
+                    <div class="column is-paddingless">
+                        <div class="buttons is-centered">
+                            <button class="button is-white text-green" type="reset">
+                                <span class="icon">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                                <span>
+                                    Cancel
+                                </span>
+                            </button>
+                            <button id="saveButton" class="button bg-green has-text-white">
+                                <span class="icon">
+                                    <i class="fas fa-save"></i>
+                                </span>
+                                <span>
+                                    Confirm Password
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
 @endsection
