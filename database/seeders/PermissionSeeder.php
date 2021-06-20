@@ -81,7 +81,6 @@ class PermissionSeeder extends Seeder
             Permission::create(['name' => 'Update SIV']);
             Permission::create(['name' => 'Delete SIV']);
             Permission::create(['name' => 'Approve SIV']);
-            Permission::create(['name' => 'Execute SIV']);
             Permission::create(['name' => 'Delete Approved SIV']);
 
             // Merchandise
