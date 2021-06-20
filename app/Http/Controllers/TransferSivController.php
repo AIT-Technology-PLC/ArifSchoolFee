@@ -24,6 +24,7 @@ class TransferSivController extends Controller
                 'issued_on' => today(),
                 'created_by' => auth()->user()->id,
                 'updated_by' => auth()->user()->id,
+                'approved_by' => $transfer->approvedBy->id,
                 'company_id' => userCompany()->id,
             ]);
 
