@@ -73,8 +73,6 @@ Route::post('/grns/{grn}/add', [Controllers\GrnController::class, 'add'])->name(
 
 Route::post('/sivs/{siv}/approve', [Controllers\SivController::class, 'approve'])->name('sivs.approve');
 
-Route::post('/sivs/{siv}/execute', [Controllers\SivController::class, 'execute'])->name('sivs.execute');
-
 Route::post('/proforma-invoices/{proformaInvoice}/cancel', [Controllers\ProformaInvoiceController::class, 'cancel'])->name('proforma-invoices.cancel');
 
 Route::post('/proforma-invoices/{proformaInvoice}/convert', [Controllers\ProformaInvoiceController::class, 'convert'])->name('proforma-invoices.convert');

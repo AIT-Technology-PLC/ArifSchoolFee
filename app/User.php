@@ -240,11 +240,6 @@ class User extends Authenticatable
         return $this->hasMany(Siv::class, 'approved_by');
     }
 
-    public function sivsExecuted()
-    {
-        return $this->hasMany(Siv::class, 'executed_by');
-    }
-
     public function proformaInvoicesCreated()
     {
         return $this->hasMany(ProformaInvoice::class, 'created_by');

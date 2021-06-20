@@ -165,50 +165,17 @@
                     {{ session('successMessage') }}
                 </span>
             </div>
-            @if ($siv->isApproved() && $siv->isExecuted())
+            @if ($siv->isApproved())
                 <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
                     <p class="has-text-grey text-green is-size-6">
                         <span class="icon">
                             <i class="fas fa-check-circle"></i>
                         </span>
                         <span>
-                            This SIV has been executed successfully.
+                            This SIV has been approved successfully.
                         </span>
                     </p>
                 </div>
-            @endif
-            @if ($siv->isApproved() && !$siv->isExecuted())
-                @can('Execute SIV')
-                    <div class="box has-background-white-ter has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-7">
-                            This SIV is not executed.
-                            <br>
-                            Click on the button below to execute this SIV.
-                        </p>
-                        <form id="formOne" action="{{ route('sivs.execute', $siv->id) }}" method="post" novalidate>
-                            @csrf
-                            <button id="openExecuteSivModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
-                                <span class="icon">
-                                    <i class="fas fa-file-export"></i>
-                                </span>
-                                <span>
-                                    Execute SIV
-                                </span>
-                            </button>
-                        </form>
-                    </div>
-                @else
-                    <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-6">
-                            <span class="icon">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </span>
-                            <span>
-                                This SIV is approved but not executed.
-                            </span>
-                        </p>
-                    </div>
-                @endcan
             @endif
             @if (!$siv->isApproved())
                 @can('Approve SIV')

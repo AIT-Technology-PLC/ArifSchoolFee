@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateSivRequest;
 use App\Models\Product;
 use App\Models\Siv;
 use App\Models\Warehouse;
-use App\Notifications\SivExecuted;
 use App\Notifications\SivPrepared;
 use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
@@ -114,30 +113,6 @@ class SivController extends Controller
         $siv->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
-    }
-
-    public function execute(Siv $siv)
-    {
-        $this->authorize('execute', $siv);
-
-        if (!$siv->isApproved()) {
-            return redirect()->back()->with('failedMessage', 'This SIV is not approved');
-        }
-
-        if ($siv->isExecuted()) {
-            return redirect()->back()->with('failedMessage', 'This SIV is already executed');
-        }
-
-        DB::transaction(function () use ($siv) {
-            $siv->execute();
-
-            Notification::send(
-                $this->notifiableUsers('Approve SIV', $siv->createdBy),
-                new SivExecuted($siv)
-            );
-        });
-
-        return redirect()->back();
     }
 
     public function printed(Siv $siv)

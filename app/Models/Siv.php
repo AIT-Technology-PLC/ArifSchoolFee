@@ -30,11 +30,6 @@ class Siv extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function executedBy()
-    {
-        return $this->belongsTo(User::class, 'executed_by');
-    }
-
     public function company()
     {
         return $this->belongsTo(Company::class);
@@ -53,21 +48,5 @@ class Siv extends Model
     public function getCodeAttribute($value)
     {
         return Str::after($value, userCompany()->id . '_');
-    }
-
-    public function execute()
-    {
-        $this->executed_by = auth()->id();
-
-        $this->save();
-    }
-
-    public function isExecuted()
-    {
-        if (is_null($this->executed_by)) {
-            return false;
-        }
-
-        return true;
     }
 }
