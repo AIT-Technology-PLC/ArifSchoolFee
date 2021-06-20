@@ -50,25 +50,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="sale_id" class="label text-green has-text-weight-normal"> Receipt No <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="sale_id" name="sale_id">
-                                        <option selected disabled>Select Sale</option>
-                                        @foreach ($sales as $sale)
-                                            <option value="{{ $sale->id }}" {{ old('sale_id') == $sale->id ? 'selected' : '' }}>{{ $sale->receipt_no ?? '' }}</option>
-                                        @endforeach
-                                        <option value="">None</option>
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-tags"></i>
+                    @if ($enabledFeatures->contains('Sale Management'))                        
+                        <div class="column is-6">
+                            <div class="field">
+                                <label for="sale_id" class="label text-green has-text-weight-normal"> Receipt No <sup class="has-text-danger"></sup> </label>
+                                <div class="control has-icons-left">
+                                    <div class="select is-fullwidth">
+                                        <select id="sale_id" name="sale_id">
+                                            <option selected disabled>Select Sale</option>
+                                            @foreach ($sales as $sale)
+                                                <option value="{{ $sale->id }}" {{ old('sale_id') == $sale->id ? 'selected' : '' }}>{{ $sale->receipt_no ?? '' }}</option>
+                                            @endforeach
+                                            <option value="">None</option>
+                                        </select>
+                                    </div>
+                                    <div class="icon is-small is-left">
+                                        <i class="fas fa-tags"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                     <div class="column is-6">
                         <div class="field">
                             <label for="issued_on" class="label text-green has-text-weight-normal"> Issued On <sup class="has-text-danger">*</sup> </label>

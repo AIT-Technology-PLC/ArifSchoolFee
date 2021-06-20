@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="columns is-marginless is-multiline">
-        <div class="column is-6">
+        <div class="column is-6 p-lr-0">
             <div class="box text-green">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <div class="column is-6">
+        <div class="column is-6 p-lr-0">
             <div class="box text-purple">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column is-paddingless has-text-centered">
@@ -46,41 +46,33 @@
                 </div>
             </div>
         </div>
-        <div class="column is-6">
-            <div class="box">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-file-invoice"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalNotApproved }}
-                        </div>
-                        <div class="is-uppercase is-size-7">
-                            Waiting For Approval
-                        </div>
-                    </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-green has-text-centered" style="border-left: 2px solid #3d8660;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalSubtracted }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Subtracted
                 </div>
             </div>
         </div>
-        <div class="column is-6">
-            <div class="box text-blue">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-file-invoice"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalNotSubtracted }}
-                        </div>
-                        <div class="is-uppercase is-size-7">
-                            Not Subtracted From Inventory
-                        </div>
-                    </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalNotSubtracted }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Approved (not Subtracted)
+                </div>
+            </div>
+        </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalNotApproved }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Waiting Approval
                 </div>
             </div>
         </div>
@@ -98,10 +90,12 @@
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
-                            <th class="text-green"><abbr> DO/GDN No </abbr></th>
-                            <th><abbr> Receipt No </abbr></th>
-                            <th class="text-purple"><abbr> Status </abbr></th>
-                            <th class="text-gold"><abbr> Payment Method </abbr></th>
+                            <th><abbr> DO/GDN No </abbr></th>
+                            @if ($enabledFeatures->contains('Sale Management'))
+                                <th><abbr> Receipt No </abbr></th>
+                            @endif
+                            <th><abbr> Status </abbr></th>
+                            <th><abbr> Payment Method </abbr></th>
                             <th class="has-text-right"><abbr> Total Price </abbr></th>
                             <th><abbr> Customer </abbr></th>
                             <th><abbr> Description </abbr></th>
@@ -116,33 +110,46 @@
                         @foreach ($gdns as $gdn)
                             <tr class="showRowDetails is-clickable" data-id="{{ route('gdns.show', $gdn->id) }}">
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    <span class="tag is-small bg-green has-text-white gdn">
-                                        {{ $gdn->code }}
-                                    </span>
+                                <td class="is-capitalized has-text-centered">
+                                    {{ $gdn->code }}
                                 </td>
-                                <td class="is-capitalized">
-                                    {{ is_null($gdn->sale) ? 'N/A' : $gdn->sale->receipt_no }}
-                                </td>
+                                @if ($enabledFeatures->contains('Sale Management'))
+                                    <td class="is-capitalized">
+                                        {{ is_null($gdn->sale) ? 'N/A' : $gdn->sale->receipt_no }}
+                                    </td>
+                                @endif
                                 <td class="is-capitalized">
                                     @if (!$gdn->isApproved())
-                                        <span class="tag is-small has-background-grey-dark has-text-white">
-                                            Waiting for Approval
+                                        <span class="tag is-small bg-purple has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-clock"></i>
+                                            </span>
+                                            <span>
+                                                Waiting Approval
+                                            </span>
                                         </span>
                                     @elseif ($gdn->isSubtracted())
-                                        <span class="tag is-small bg-purple has-text-white">
-                                            {{ $gdn->status ?? 'N/A' }}
+                                        <span class="tag is-small bg-green has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-check-circle"></i>
+                                            </span>
+                                            <span>
+                                                Subtracted
+                                            </span>
                                         </span>
                                     @else
-                                        <span class="tag is-small bg-blue has-text-white">
-                                            {{ $gdn->status ?? 'N/A' }}
+                                        <span class="tag is-small bg-gold has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-exclamation-circle"></i>
+                                            </span>
+                                            <span>
+                                                Approved (not Subtracted)
+                                            </span>
                                         </span>
                                     @endif
                                 </td>
                                 <td class="is-capitalized">
-                                    <span class="tag bg-gold has-text-white">
-                                        {{ $gdn->payment_type ?? 'N/A' }}
-                                    </span>
+                                    {{ $gdn->payment_type ?? 'N/A' }}
                                 </td>
                                 <td class="has-text-right">
                                     {{ $gdn->company->currency }}.

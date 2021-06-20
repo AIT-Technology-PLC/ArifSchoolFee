@@ -44,7 +44,9 @@ class GdnController extends Controller
 
         $totalNotSubtracted = $gdns->where('status', 'Not Subtracted From Inventory')->whereNotNull('approved_by')->count();
 
-        return view('gdns.index', compact('gdns', 'totalGdns', 'totalNotApproved', 'totalNotSubtracted'));
+        $totalSubtracted = $gdns->where('status', 'Subtracted From Inventory')->count();
+
+        return view('gdns.index', compact('gdns', 'totalGdns', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }
 
     public function create(Product $product, Customer $customer, Sale $sale, Warehouse $warehouse)
