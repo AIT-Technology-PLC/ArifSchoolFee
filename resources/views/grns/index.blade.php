@@ -93,7 +93,7 @@
                             @if ($enabledFeatures->contains('Purchase Management'))
                                 <th><abbr> Purchase No </abbr></th>
                             @endif
-                            <th><abbr> GRN No </abbr></th>
+                            <th class="has-text-centered"><abbr> GRN No </abbr></th>
                             <th><abbr> Status </abbr></th>
                             <th><abbr> Supplier </abbr></th>
                             <th><abbr> Description </abbr></th>
@@ -113,7 +113,7 @@
                                         {{ is_null($grn->purchase) ? 'N/A' : $grn->purchase->purchase_no }}
                                     </td>
                                 @endif
-                                <td class="is-capitalized">
+                                <td class="is-capitalized has-text-centered">
                                     {{ $grn->code }}
                                 </td>
                                 <td class="is-capitalized">

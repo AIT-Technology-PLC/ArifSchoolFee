@@ -5,8 +5,8 @@
 @endsection
 
 @section('content')
-    <div class="columns is-marginless">
-        <div class="column is-6">
+    <div class="columns is-marginless is-multiline">
+        <div class="column is-6 p-lr-0">
             <div class="box text-green">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <div class="column is-6">
+        <div class="column is-6 p-lr-0">
             <div class="box text-purple">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column is-paddingless has-text-centered">
@@ -46,6 +46,36 @@
                 </div>
             </div>
         </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-green has-text-centered" style="border-left: 2px solid #3d8660;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalTransferred }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Transferred
+                </div>
+            </div>
+        </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalNotTransferred }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Approved (not Transferred)
+                </div>
+            </div>
+        </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalNotApproved }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Waiting Approval
+                </div>
+            </div>
+        </div>
     </div>
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
@@ -60,8 +90,8 @@
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
-                            <th class="text-gold"><abbr> Transfer No </abbr></th>
-                            <th class="text-purple"><abbr> Status </abbr></th>
+                            <th class="has-text-centered"><abbr> Transfer No </abbr></th>
+                            <th><abbr> Status </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Issued On </abbr></th>
                             <th><abbr> Prepared By </abbr></th>
@@ -74,23 +104,36 @@
                         @foreach ($transfers as $transfer)
                             <tr class="showRowDetails is-clickable" data-id="{{ route('transfers.show', $transfer->id) }}">
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    <span class="tag is-small bg-gold has-text-white">
-                                        {{ $transfer->code }}
-                                    </span>
+                                <td class="is-capitalized has-text-centered">
+                                    {{ $transfer->code }}
                                 </td>
                                 <td class="is-capitalized">
                                     @if (!$transfer->isApproved())
-                                        <span class="tag is-small has-background-grey-dark has-text-white">
-                                            Waiting for Approval
+                                        <span class="tag is-small bg-purple has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-clock"></i>
+                                            </span>
+                                            <span>
+                                                Waiting Approval
+                                            </span>
                                         </span>
                                     @elseif ($transfer->isTransferred())
-                                        <span class="tag is-small bg-purple has-text-white">
-                                            {{ $transfer->status ?? 'N/A' }}
+                                        <span class="tag is-small bg-green has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-check-circle"></i>
+                                            </span>
+                                            <span>
+                                                Transferred
+                                            </span>
                                         </span>
                                     @else
-                                        <span class="tag is-small bg-blue has-text-white">
-                                            {{ $transfer->status ?? 'N/A' }}
+                                        <span class="tag is-small bg-gold has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-exclamation-circle"></i>
+                                            </span>
+                                            <span>
+                                                Approved (not Transferred)
+                                            </span>
                                         </span>
                                     @endif
                                 </td>

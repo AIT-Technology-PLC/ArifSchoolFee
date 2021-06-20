@@ -38,9 +38,15 @@ class TransferController extends Controller
     {
         $transfers = $transfer->getAll()->load(['createdBy', 'updatedBy', 'approvedBy']);
 
-        $totalTransfers = $transfer->countTransfersOfCompany();
+        $totalTransferred = $transfers->where('status', 'Transferred')->count();
 
-        return view('transfers.index', compact('transfers', 'totalTransfers'));
+        $totalNotApproved = $transfers->whereNull('approved_by')->count();
+
+        $totalNotTransferred = $transfers->whereNotNull('approved_by')->where('status', 'Not Transferred')->count();
+
+        $totalTransfers = $transfers->count();
+
+        return view('transfers.index', compact('transfers', 'totalTransfers', 'totalTransferred', 'totalNotApproved', 'totalNotTransferred'));
     }
 
     public function create(Product $product, Warehouse $warehouse)
