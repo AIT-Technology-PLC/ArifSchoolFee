@@ -24,13 +24,11 @@ class SivController extends Controller
         $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Siv Management');
 
         $this->authorizeResource(Siv::class, 'siv');
-
-        $this->permission = 'Execute SIV';
     }
 
     public function index()
     {
-        $sivs = Siv::companySiv()->with(['createdBy', 'updatedBy', 'approvedBy', 'executedBy'])->latest()->get();
+        $sivs = Siv::companySiv()->with(['createdBy', 'updatedBy', 'approvedBy'])->latest()->get();
 
         $totalSivs = $sivs->count();
 
