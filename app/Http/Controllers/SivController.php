@@ -35,11 +35,11 @@ class SivController extends Controller
 
         $totalSivs = $sivs->count();
 
+        $totalApproved = $sivs->whereNotNull('approved_by')->count();
+
         $totalNotApproved = $sivs->whereNull('approved_by')->count();
 
-        $totalNotExecuted = $sivs->whereNotNull('approved_by')->whereNull('executed_by')->count();
-
-        return view('sivs.index', compact('sivs', 'totalSivs', 'totalNotApproved', 'totalNotExecuted'));
+        return view('sivs.index', compact('sivs', 'totalSivs', 'totalApproved', 'totalNotApproved'));
     }
 
     public function create(Product $product, Warehouse $warehouse)
