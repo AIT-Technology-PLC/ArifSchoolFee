@@ -28,10 +28,12 @@ trait ApproveInventory
             $message = DB::transaction(function () use ($model, $modelName, $notificationClass) {
                 $model->approve();
 
-                Notification::send(
-                    $this->notifiableUsers($this->permission, $model->createdBy),
-                    new $notificationClass($model)
-                );
+                if ($this->permission) {
+                    Notification::send(
+                        $this->notifiableUsers($this->permission, $model->createdBy),
+                        new $notificationClass($model)
+                    );
+                }
 
                 return 'You have approved this ' . Str::upper($modelName) . ' successfully';
             });
