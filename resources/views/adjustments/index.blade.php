@@ -62,7 +62,7 @@
                     {{ $totalNotAdjusted }}
                 </div>
                 <div class="is-uppercase is-size-7">
-                    Approved But Not Adjusted
+                    Approved (Not Adjusted)
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
                     {{ $totalNotApproved }}
                 </div>
                 <div class="is-uppercase is-size-7">
-                    Waiting For Approval
+                    Waiting Approval
                 </div>
             </div>
         </div>
@@ -114,10 +114,10 @@
                                     @if (!$adjustment->isApproved())
                                         <span class="tag is-small bg-purple has-text-white">
                                             <span class="icon">
-                                                <i class="fas fa-pause-circle"></i>
+                                                <i class="fas fa-clock"></i>
                                             </span>
                                             <span>
-                                                Waiting for Approval
+                                                Waiting Approval
                                             </span>
                                         </span>
                                     @elseif ($adjustment->isAdjusted())
@@ -135,7 +135,7 @@
                                                 <i class="fas fa-exclamation-circle"></i>
                                             </span>
                                             <span>
-                                                Approved but not adjusted
+                                                Approved (Not Adjusted)
                                             </span>
                                         </span>
                                     @endif
