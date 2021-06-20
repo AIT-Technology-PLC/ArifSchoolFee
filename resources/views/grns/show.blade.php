@@ -26,25 +26,27 @@
                     </div>
                 </div>
             </div>
-            <div class="column is-6">
-                <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-green">
-                        <div class="column is-1">
-                            <span class="icon is-size-3">
-                                <i class="fas fa-hashtag"></i>
-                            </span>
-                        </div>
-                        <div class="column m-lr-20">
-                            <div class="is-size- has-text-weight-bold">
-                                {{ $grn->purchase->purchase_no ?? 'N/A' }}
+            @if ($enabledFeatures->contains('Purchase Management'))
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-hashtag"></i>
+                                </span>
                             </div>
-                            <div class="is-uppercase is-size-7">
-                                Purchase No
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ $grn->purchase->purchase_no ?? 'N/A' }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Purchase No
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
             <div class="column is-6">
                 <div>
                     <div class="columns is-marginless is-vcentered is-mobile text-green">

@@ -38,9 +38,15 @@ class GrnController extends Controller
     {
         $grns = $grn->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'supplier', 'purchase']);
 
-        $totalGrns = $grn->countGrnsOfCompany();
+        $totalAdded = $grns->where('status', 'Added To Inventory')->count();
 
-        return view('grns.index', compact('grns', 'totalGrns'));
+        $totalNotApproved = $grns->whereNull('approved_by')->count();
+
+        $totalNotAdded = $grns->whereNotNull('approved_by')->where('status', 'Not Added To Inventory')->count();
+
+        $totalGrns = $grns->count();
+
+        return view('grns.index', compact('grns', 'totalGrns', 'totalAdded', 'totalNotApproved', 'totalNotAdded'));
     }
 
     public function create(Product $product, Warehouse $warehouse, Supplier $supplier, Purchase $purchase)

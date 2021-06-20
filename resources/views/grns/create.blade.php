@@ -50,25 +50,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="purchase_id" class="label text-green has-text-weight-normal"> Purchase No <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="purchase_id" name="purchase_id">
-                                        <option selected disabled>Select Purchase</option>
-                                        @foreach ($purchases as $purchase)
-                                            <option value="{{ $purchase->id }}" {{ old('purchase_id') == $purchase->id ? 'selected' : '' }}>{{ $purchase->purchase_no ?? '' }}</option>
-                                        @endforeach
-                                        <option value="">None</option>
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-shopping-bag"></i>
+                    @if ($enabledFeatures->contains('Purchase Management'))    
+                        <div class="column is-6">
+                            <div class="field">
+                                <label for="purchase_id" class="label text-green has-text-weight-normal"> Purchase No <sup class="has-text-danger"></sup> </label>
+                                <div class="control has-icons-left">
+                                    <div class="select is-fullwidth">
+                                        <select id="purchase_id" name="purchase_id">
+                                            <option selected disabled>Select Purchase</option>
+                                            @foreach ($purchases as $purchase)
+                                                <option value="{{ $purchase->id }}" {{ old('purchase_id') == $purchase->id ? 'selected' : '' }}>{{ $purchase->purchase_no ?? '' }}</option>
+                                            @endforeach
+                                            <option value="">None</option>
+                                        </select>
+                                    </div>
+                                    <div class="icon is-small is-left">
+                                        <i class="fas fa-shopping-bag"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                     <div class="column is-6">
                         <div class="field">
                             <label for="issued_on" class="label text-green has-text-weight-normal"> Issued On <sup class="has-text-danger">*</sup> </label>

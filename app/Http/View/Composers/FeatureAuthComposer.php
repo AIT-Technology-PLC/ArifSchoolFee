@@ -19,6 +19,8 @@ class FeatureAuthComposer
             'layouts.menu',
             'layouts.footer',
             'assets.js',
+            'components.delete_button',
+            'components.deleted_message',
         ]);
 
         if ($excludedViews->contains($view->getName())) {

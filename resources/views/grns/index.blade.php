@@ -5,8 +5,8 @@
 @endsection
 
 @section('content')
-    <div class="columns is-marginless">
-        <div class="column is-6">
+    <div class="columns is-marginless is-multiline">
+        <div class="column is-6 p-lr-0">
             <div class="box text-green">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <div class="column is-6">
+        <div class="column is-6 p-lr-0">
             <div class="box text-purple">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column is-paddingless has-text-centered">
@@ -46,6 +46,36 @@
                 </div>
             </div>
         </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-green has-text-centered" style="border-left: 2px solid #3d8660;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalAdded }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Added
+                </div>
+            </div>
+        </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalNotAdded }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Approved (not Added)
+                </div>
+            </div>
+        </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalNotApproved }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Waiting Approval
+                </div>
+            </div>
+        </div>
     </div>
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
@@ -60,9 +90,11 @@
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
-                            <th class="text-green"><abbr> Purchase No </abbr></th>
-                            <th class="text-gold"><abbr> GRN No </abbr></th>
-                            <th class="text-purple"><abbr> Status </abbr></th>
+                            @if ($enabledFeatures->contains('Purchase Management'))
+                                <th><abbr> Purchase No </abbr></th>
+                            @endif
+                            <th><abbr> GRN No </abbr></th>
+                            <th><abbr> Status </abbr></th>
                             <th><abbr> Supplier </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Issued On </abbr></th>
@@ -76,28 +108,41 @@
                         @foreach ($grns as $grn)
                             <tr class="showRowDetails is-clickable" data-id="{{ route('grns.show', $grn->id) }}">
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    <span class="tag is-small bg-green has-text-white receipt">
+                                @if ($enabledFeatures->contains('Purchase Management'))
+                                    <td class="is-capitalized">
                                         {{ is_null($grn->purchase) ? 'N/A' : $grn->purchase->purchase_no }}
-                                    </span>
-                                </td>
+                                    </td>
+                                @endif
                                 <td class="is-capitalized">
-                                    <span class="tag is-small bg-gold has-text-white grn">
-                                        {{ $grn->code }}
-                                    </span>
+                                    {{ $grn->code }}
                                 </td>
                                 <td class="is-capitalized">
                                     @if (!$grn->isApproved())
-                                        <span class="tag is-small has-background-grey-dark has-text-white">
-                                            Waiting for Approval
+                                        <span class="tag is-small bg-purple has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-clock"></i>
+                                            </span>
+                                            <span>
+                                                Waiting Approval
+                                            </span>
                                         </span>
                                     @elseif ($grn->isAdded())
-                                        <span class="tag is-small bg-purple has-text-white">
-                                            {{ $grn->status ?? 'N/A' }}
+                                        <span class="tag is-small bg-green has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-check-circle"></i>
+                                            </span>
+                                            <span>
+                                                Added
+                                            </span>
                                         </span>
                                     @else
-                                        <span class="tag is-small bg-blue has-text-white">
-                                            {{ $grn->status ?? 'N/A' }}
+                                        <span class="tag is-small bg-gold has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-exclamation-circle"></i>
+                                            </span>
+                                            <span>
+                                                Approved (not Added)
+                                            </span>
                                         </span>
                                     @endif
                                 </td>
