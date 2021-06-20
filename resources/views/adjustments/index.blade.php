@@ -90,8 +90,8 @@
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
-                            <th class="text-gold"><abbr> Adjustment No </abbr></th>
-                            <th class="text-purple"><abbr> Status </abbr></th>
+                            <th class="has-text-centered"><abbr> Adjustment No </abbr></th>
+                            <th><abbr> Status </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Issued On </abbr></th>
                             <th><abbr> Prepared By </abbr></th>
@@ -105,10 +105,8 @@
                         @foreach ($adjustments as $adjustment)
                             <tr class="showRowDetails is-clickable" data-id="{{ route('adjustments.show', $adjustment->id) }}">
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    <span class="tag is-small bg-gold has-text-white">
-                                        {{ $adjustment->code }}
-                                    </span>
+                                <td class="is-capitalized has-text-centered">
+                                    {{ $adjustment->code }}
                                 </td>
                                 <td class="is-capitalized">
                                     @if (!$adjustment->isApproved())
