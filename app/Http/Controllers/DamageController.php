@@ -38,7 +38,9 @@ class DamageController extends Controller
 
         $totalNotSubtracted = $damages->where('status', 'Not Subtracted From Inventory')->whereNotNull('approved_by')->count();
 
-        return view('damages.index', compact('damages', 'totalDamages', 'totalNotApproved', 'totalNotSubtracted'));
+        $totalSubtracted = $damages->where('status', 'Subtracted From Inventory')->count();
+
+        return view('damages.index', compact('damages', 'totalDamages', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }
 
     public function create(Product $product, Warehouse $warehouse)
