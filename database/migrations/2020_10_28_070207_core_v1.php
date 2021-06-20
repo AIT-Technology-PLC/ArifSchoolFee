@@ -644,7 +644,6 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->bigInteger('approved_by')->nullable()->unsigned();
-            $table->bigInteger('executed_by')->nullable()->unsigned();
             $table->string('code')->unique();
             $table->string('purpose')->nullable();
             $table->string('ref_num')->nullable();
@@ -660,7 +659,6 @@ class CoreV1 extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('executed_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('siv_details', function (Blueprint $table) {
