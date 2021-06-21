@@ -75,6 +75,15 @@ class PermissionSeeder extends Seeder
             Permission::firstOrCreate(['name' => 'Make Adjustment']);
             Permission::firstOrCreate(['name' => 'Delete Approved Adjustment']);
 
+            // Return
+            Permission::firstOrCreate(['name' => 'Create Return']);
+            Permission::firstOrCreate(['name' => 'Read Return']);
+            Permission::firstOrCreate(['name' => 'Update Return']);
+            Permission::firstOrCreate(['name' => 'Delete Return']);
+            Permission::firstOrCreate(['name' => 'Approve Return']);
+            Permission::firstOrCreate(['name' => 'Make Return']);
+            Permission::firstOrCreate(['name' => 'Delete Approved Return']);
+
             // SIV
             Permission::firstOrCreate(['name' => 'Create SIV']);
             Permission::firstOrCreate(['name' => 'Read SIV']);
@@ -178,6 +187,7 @@ class PermissionSeeder extends Seeder
                 'Read Damage',
                 'Read SIV',
                 'Read Adjustment',
+                'Read Return',
                 'Read Merchandise',
                 'Read Product',
                 'Read Supplier',
@@ -200,17 +210,20 @@ class PermissionSeeder extends Seeder
                 'Create Proforma Invoice',
                 'Create Customer',
                 'Create PO',
+                'Create Return',
                 'Read GDN',
                 'Read Sale',
                 'Read Proforma Invoice',
                 'Read Customer',
                 'Read PO',
+                'Read Return',
                 'Read Product',
                 'Update GDN',
                 'Update Sale',
                 'Update Proforma Invoice',
                 'Update Customer',
                 'Update PO',
+                'Update Return',
                 'Convert Proforma Invoice',
             ]);
 
@@ -226,6 +239,7 @@ class PermissionSeeder extends Seeder
                 'Read Transfer',
                 'Read Damage',
                 'Read Adjustment',
+                'Read Return',
                 'Read SIV',
                 'Read Product',
                 'Read Warehouse',
