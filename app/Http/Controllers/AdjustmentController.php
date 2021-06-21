@@ -32,7 +32,8 @@ class AdjustmentController extends Controller
 
     public function index()
     {
-        $adjustments = Adjustment::with(['createdBy', 'updatedBy', 'approvedBy', 'adjustedBy'])
+        $adjustments = Adjustment::companyAdjustment()
+            ->with(['createdBy', 'updatedBy', 'approvedBy', 'adjustedBy'])
             ->latest()->get();
 
         $totalAdjustments = $adjustments->count();
