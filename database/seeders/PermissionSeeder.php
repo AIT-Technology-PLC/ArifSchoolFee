@@ -22,150 +22,150 @@ class PermissionSeeder extends Seeder
         DB::transaction(function () {
 
             // Roles
-            $analyst = Role::create(['name' => 'Analyst']);
-            $purchaseManager = Role::create(['name' => 'Purchase Manager']);
-            $salesOfficer = Role::create(['name' => 'Sales Officer']);
-            $storeKeeper = Role::create(['name' => 'Store Keeper']);
-            $systemManager = Role::create(['name' => 'System Manager']);
-            $tenderOfficer = Role::create(['name' => 'Tender Officer']);
-            $userManager = Role::create(['name' => 'User Manager']);
+            $analyst = Role::firstOrCreate(['name' => 'Analyst']);
+            $purchaseManager = Role::firstOrCreate(['name' => 'Purchase Manager']);
+            $salesOfficer = Role::firstOrCreate(['name' => 'Sales Officer']);
+            $storeKeeper = Role::firstOrCreate(['name' => 'Store Keeper']);
+            $systemManager = Role::firstOrCreate(['name' => 'System Manager']);
+            $tenderOfficer = Role::firstOrCreate(['name' => 'Tender Officer']);
+            $userManager = Role::firstOrCreate(['name' => 'User Manager']);
 
             // GDN
-            Permission::create(['name' => 'Create GDN']);
-            Permission::create(['name' => 'Read GDN']);
-            Permission::create(['name' => 'Update GDN']);
-            Permission::create(['name' => 'Delete GDN']);
-            Permission::create(['name' => 'Approve GDN']);
-            Permission::create(['name' => 'Subtract GDN']);
-            Permission::create(['name' => 'Delete Approved GDN']);
+            Permission::firstOrCreate(['name' => 'Create GDN']);
+            Permission::firstOrCreate(['name' => 'Read GDN']);
+            Permission::firstOrCreate(['name' => 'Update GDN']);
+            Permission::firstOrCreate(['name' => 'Delete GDN']);
+            Permission::firstOrCreate(['name' => 'Approve GDN']);
+            Permission::firstOrCreate(['name' => 'Subtract GDN']);
+            Permission::firstOrCreate(['name' => 'Delete Approved GDN']);
 
             // GRN
-            Permission::create(['name' => 'Create GRN']);
-            Permission::create(['name' => 'Read GRN']);
-            Permission::create(['name' => 'Update GRN']);
-            Permission::create(['name' => 'Delete GRN']);
-            Permission::create(['name' => 'Approve GRN']);
-            Permission::create(['name' => 'Add GRN']);
-            Permission::create(['name' => 'Delete Approved GRN']);
+            Permission::firstOrCreate(['name' => 'Create GRN']);
+            Permission::firstOrCreate(['name' => 'Read GRN']);
+            Permission::firstOrCreate(['name' => 'Update GRN']);
+            Permission::firstOrCreate(['name' => 'Delete GRN']);
+            Permission::firstOrCreate(['name' => 'Approve GRN']);
+            Permission::firstOrCreate(['name' => 'Add GRN']);
+            Permission::firstOrCreate(['name' => 'Delete Approved GRN']);
 
             // Transfer
-            Permission::create(['name' => 'Create Transfer']);
-            Permission::create(['name' => 'Read Transfer']);
-            Permission::create(['name' => 'Update Transfer']);
-            Permission::create(['name' => 'Delete Transfer']);
-            Permission::create(['name' => 'Approve Transfer']);
-            Permission::create(['name' => 'Make Transfer']);
-            Permission::create(['name' => 'Delete Approved Transfer']);
+            Permission::firstOrCreate(['name' => 'Create Transfer']);
+            Permission::firstOrCreate(['name' => 'Read Transfer']);
+            Permission::firstOrCreate(['name' => 'Update Transfer']);
+            Permission::firstOrCreate(['name' => 'Delete Transfer']);
+            Permission::firstOrCreate(['name' => 'Approve Transfer']);
+            Permission::firstOrCreate(['name' => 'Make Transfer']);
+            Permission::firstOrCreate(['name' => 'Delete Approved Transfer']);
 
             // Damage
-            Permission::create(['name' => 'Create Damage']);
-            Permission::create(['name' => 'Read Damage']);
-            Permission::create(['name' => 'Update Damage']);
-            Permission::create(['name' => 'Delete Damage']);
-            Permission::create(['name' => 'Approve Damage']);
-            Permission::create(['name' => 'Subtract Damage']);
-            Permission::create(['name' => 'Delete Approved Damage']);
+            Permission::firstOrCreate(['name' => 'Create Damage']);
+            Permission::firstOrCreate(['name' => 'Read Damage']);
+            Permission::firstOrCreate(['name' => 'Update Damage']);
+            Permission::firstOrCreate(['name' => 'Delete Damage']);
+            Permission::firstOrCreate(['name' => 'Approve Damage']);
+            Permission::firstOrCreate(['name' => 'Subtract Damage']);
+            Permission::firstOrCreate(['name' => 'Delete Approved Damage']);
 
             // Adjustment
-            Permission::create(['name' => 'Create Adjustment']);
-            Permission::create(['name' => 'Read Adjustment']);
-            Permission::create(['name' => 'Update Adjustment']);
-            Permission::create(['name' => 'Delete Adjustment']);
-            Permission::create(['name' => 'Approve Adjustment']);
-            Permission::create(['name' => 'Make Adjustment']);
-            Permission::create(['name' => 'Delete Approved Adjustment']);
+            Permission::firstOrCreate(['name' => 'Create Adjustment']);
+            Permission::firstOrCreate(['name' => 'Read Adjustment']);
+            Permission::firstOrCreate(['name' => 'Update Adjustment']);
+            Permission::firstOrCreate(['name' => 'Delete Adjustment']);
+            Permission::firstOrCreate(['name' => 'Approve Adjustment']);
+            Permission::firstOrCreate(['name' => 'Make Adjustment']);
+            Permission::firstOrCreate(['name' => 'Delete Approved Adjustment']);
 
             // SIV
-            Permission::create(['name' => 'Create SIV']);
-            Permission::create(['name' => 'Read SIV']);
-            Permission::create(['name' => 'Update SIV']);
-            Permission::create(['name' => 'Delete SIV']);
-            Permission::create(['name' => 'Approve SIV']);
-            Permission::create(['name' => 'Delete Approved SIV']);
+            Permission::firstOrCreate(['name' => 'Create SIV']);
+            Permission::firstOrCreate(['name' => 'Read SIV']);
+            Permission::firstOrCreate(['name' => 'Update SIV']);
+            Permission::firstOrCreate(['name' => 'Delete SIV']);
+            Permission::firstOrCreate(['name' => 'Approve SIV']);
+            Permission::firstOrCreate(['name' => 'Delete Approved SIV']);
 
             // Merchandise
-            Permission::create(['name' => 'Create Merchandise']);
-            Permission::create(['name' => 'Read Merchandise']);
-            Permission::create(['name' => 'Update Merchandise']);
-            Permission::create(['name' => 'Delete Merchandise']);
+            Permission::firstOrCreate(['name' => 'Create Merchandise']);
+            Permission::firstOrCreate(['name' => 'Read Merchandise']);
+            Permission::firstOrCreate(['name' => 'Update Merchandise']);
+            Permission::firstOrCreate(['name' => 'Delete Merchandise']);
 
             // Sale
-            Permission::create(['name' => 'Create Sale']);
-            Permission::create(['name' => 'Read Sale']);
-            Permission::create(['name' => 'Update Sale']);
-            Permission::create(['name' => 'Delete Sale']);
-            Permission::create(['name' => 'Approve Sale']);
-            Permission::create(['name' => 'Delete Approved Sale']);
+            Permission::firstOrCreate(['name' => 'Create Sale']);
+            Permission::firstOrCreate(['name' => 'Read Sale']);
+            Permission::firstOrCreate(['name' => 'Update Sale']);
+            Permission::firstOrCreate(['name' => 'Delete Sale']);
+            Permission::firstOrCreate(['name' => 'Approve Sale']);
+            Permission::firstOrCreate(['name' => 'Delete Approved Sale']);
 
             // Proforma Invoice
-            Permission::create(['name' => 'Create Proforma Invoice']);
-            Permission::create(['name' => 'Read Proforma Invoice']);
-            Permission::create(['name' => 'Update Proforma Invoice']);
-            Permission::create(['name' => 'Delete Proforma Invoice']);
-            Permission::create(['name' => 'Convert Proforma Invoice']);
-            Permission::create(['name' => 'Cancel Proforma Invoice']);
-            Permission::create(['name' => 'Delete Cancelled Proforma Invoice']);
+            Permission::firstOrCreate(['name' => 'Create Proforma Invoice']);
+            Permission::firstOrCreate(['name' => 'Read Proforma Invoice']);
+            Permission::firstOrCreate(['name' => 'Update Proforma Invoice']);
+            Permission::firstOrCreate(['name' => 'Delete Proforma Invoice']);
+            Permission::firstOrCreate(['name' => 'Convert Proforma Invoice']);
+            Permission::firstOrCreate(['name' => 'Cancel Proforma Invoice']);
+            Permission::firstOrCreate(['name' => 'Delete Cancelled Proforma Invoice']);
 
             // Purchase
-            Permission::create(['name' => 'Create Purchase']);
-            Permission::create(['name' => 'Read Purchase']);
-            Permission::create(['name' => 'Update Purchase']);
-            Permission::create(['name' => 'Delete Purchase']);
-            Permission::create(['name' => 'Approve Purchase']);
-            Permission::create(['name' => 'Delete Approved Purchase']);
+            Permission::firstOrCreate(['name' => 'Create Purchase']);
+            Permission::firstOrCreate(['name' => 'Read Purchase']);
+            Permission::firstOrCreate(['name' => 'Update Purchase']);
+            Permission::firstOrCreate(['name' => 'Delete Purchase']);
+            Permission::firstOrCreate(['name' => 'Approve Purchase']);
+            Permission::firstOrCreate(['name' => 'Delete Approved Purchase']);
 
             // PO
-            Permission::create(['name' => 'Create PO']);
-            Permission::create(['name' => 'Read PO']);
-            Permission::create(['name' => 'Update PO']);
-            Permission::create(['name' => 'Delete PO']);
-            Permission::create(['name' => 'Approve PO']);
-            Permission::create(['name' => 'Delete Approved PO']);
+            Permission::firstOrCreate(['name' => 'Create PO']);
+            Permission::firstOrCreate(['name' => 'Read PO']);
+            Permission::firstOrCreate(['name' => 'Update PO']);
+            Permission::firstOrCreate(['name' => 'Delete PO']);
+            Permission::firstOrCreate(['name' => 'Approve PO']);
+            Permission::firstOrCreate(['name' => 'Delete Approved PO']);
 
             // Product
-            Permission::create(['name' => 'Create Product']);
-            Permission::create(['name' => 'Read Product']);
-            Permission::create(['name' => 'Update Product']);
-            Permission::create(['name' => 'Delete Product']);
+            Permission::firstOrCreate(['name' => 'Create Product']);
+            Permission::firstOrCreate(['name' => 'Read Product']);
+            Permission::firstOrCreate(['name' => 'Update Product']);
+            Permission::firstOrCreate(['name' => 'Delete Product']);
 
             // Warehouse
-            Permission::create(['name' => 'Create Warehouse']);
-            Permission::create(['name' => 'Read Warehouse']);
-            Permission::create(['name' => 'Update Warehouse']);
-            Permission::create(['name' => 'Delete Warehouse']);
+            Permission::firstOrCreate(['name' => 'Create Warehouse']);
+            Permission::firstOrCreate(['name' => 'Read Warehouse']);
+            Permission::firstOrCreate(['name' => 'Update Warehouse']);
+            Permission::firstOrCreate(['name' => 'Delete Warehouse']);
 
             // Employee
-            Permission::create(['name' => 'Create Employee']);
-            Permission::create(['name' => 'Read Employee']);
-            Permission::create(['name' => 'Update Employee']);
-            Permission::create(['name' => 'Delete Employee']);
+            Permission::firstOrCreate(['name' => 'Create Employee']);
+            Permission::firstOrCreate(['name' => 'Read Employee']);
+            Permission::firstOrCreate(['name' => 'Update Employee']);
+            Permission::firstOrCreate(['name' => 'Delete Employee']);
 
             // Supplier
-            Permission::create(['name' => 'Create Supplier']);
-            Permission::create(['name' => 'Read Supplier']);
-            Permission::create(['name' => 'Update Supplier']);
-            Permission::create(['name' => 'Delete Supplier']);
+            Permission::firstOrCreate(['name' => 'Create Supplier']);
+            Permission::firstOrCreate(['name' => 'Read Supplier']);
+            Permission::firstOrCreate(['name' => 'Update Supplier']);
+            Permission::firstOrCreate(['name' => 'Delete Supplier']);
 
             // Customer
-            Permission::create(['name' => 'Create Customer']);
-            Permission::create(['name' => 'Read Customer']);
-            Permission::create(['name' => 'Update Customer']);
-            Permission::create(['name' => 'Delete Customer']);
+            Permission::firstOrCreate(['name' => 'Create Customer']);
+            Permission::firstOrCreate(['name' => 'Read Customer']);
+            Permission::firstOrCreate(['name' => 'Update Customer']);
+            Permission::firstOrCreate(['name' => 'Delete Customer']);
 
             // Tender
-            Permission::create(['name' => 'Create Tender']);
-            Permission::create(['name' => 'Read Tender']);
-            Permission::create(['name' => 'Update Tender']);
-            Permission::create(['name' => 'Delete Tender']);
+            Permission::firstOrCreate(['name' => 'Create Tender']);
+            Permission::firstOrCreate(['name' => 'Read Tender']);
+            Permission::firstOrCreate(['name' => 'Update Tender']);
+            Permission::firstOrCreate(['name' => 'Delete Tender']);
 
             // Price
-            Permission::create(['name' => 'Create Price']);
-            Permission::create(['name' => 'Read Price']);
-            Permission::create(['name' => 'Update Price']);
-            Permission::create(['name' => 'Delete Price']);
+            Permission::firstOrCreate(['name' => 'Create Price']);
+            Permission::firstOrCreate(['name' => 'Read Price']);
+            Permission::firstOrCreate(['name' => 'Update Price']);
+            Permission::firstOrCreate(['name' => 'Delete Price']);
 
             // Company
-            Permission::create(['name' => 'Update Company']);
+            Permission::firstOrCreate(['name' => 'Update Company']);
 
             // Assign permissions to role
             $analyst->syncPermissions([
@@ -178,60 +178,64 @@ class PermissionSeeder extends Seeder
                 'Read Damage',
                 'Read SIV',
                 'Read Adjustment',
+                'Read Merchandise',
+                'Read Product',
+                'Read Supplier',
+                'Read Customer',
             ]);
 
             $purchaseManager->syncPermissions([
                 'Create Purchase',
                 'Create Supplier',
-                'Read Product',
                 'Read Purchase',
                 'Read Supplier',
-                'Read Damage',
+                'Read Product',
                 'Update Purchase',
                 'Update Supplier',
             ]);
 
             $salesOfficer->syncPermissions([
-                'Create Customer',
                 'Create GDN',
-                'Create PO',
                 'Create Sale',
                 'Create Proforma Invoice',
-                'Read Customer',
+                'Create Customer',
+                'Create PO',
                 'Read GDN',
-                'Read PO',
-                'Read Product',
                 'Read Sale',
                 'Read Proforma Invoice',
-                'Update Customer',
+                'Read Customer',
+                'Read PO',
+                'Read Product',
                 'Update GDN',
-                'Update PO',
                 'Update Sale',
                 'Update Proforma Invoice',
+                'Update Customer',
+                'Update PO',
                 'Convert Proforma Invoice',
             ]);
 
             $storeKeeper->syncPermissions([
-                'Add GRN',
                 'Create GRN',
                 'Create Merchandise',
                 'Create Transfer',
                 'Create Damage',
                 'Create Adjustment',
+                'Create SIV',
                 'Read GRN',
                 'Read Merchandise',
-                'Read Product',
                 'Read Transfer',
-                'Read Warehouse',
                 'Read Damage',
                 'Read Adjustment',
+                'Read SIV',
+                'Read Product',
+                'Read Warehouse',
+                'Read GDN',
                 'Update GRN',
                 'Update Merchandise',
                 'Update Transfer',
                 'Update Damage',
                 'Update Adjustment',
-                'Make Transfer',
-                'Make Adjustment',
+                'Update SIV',
             ]);
 
             $systemManager->syncPermissions(Permission::all());
