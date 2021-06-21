@@ -48,10 +48,10 @@ class ReturnPolicy
         return $doesReturnnBelongToMyCompany && $user->can('Approve Return');
     }
 
-    public function add(User $user, Returnn $returnn)
+    public function returnn(User $user, Returnn $returnn)
     {
         $doesReturnnBelongToMyCompany = $user->employee->company_id == $returnn->company_id;
 
-        return $doesReturnnBelongToMyCompany && $user->can('Add Return');
+        return $doesReturnnBelongToMyCompany && $user->can('Make Return');
     }
 }
