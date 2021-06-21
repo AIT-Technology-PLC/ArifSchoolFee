@@ -67,6 +67,11 @@ class Warehouse extends Model
         return $this->hasMany(AdjustmentDetail::class);
     }
 
+    public function returnDetails()
+    {
+        return $this->hasMany(ReturnDetail::class);
+    }
+
     public function scopeCompanyWarehouses($query)
     {
         return $query->where('company_id', userCompany()->id);

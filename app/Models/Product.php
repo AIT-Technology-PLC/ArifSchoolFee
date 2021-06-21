@@ -106,6 +106,11 @@ class Product extends Model
         return $this->hasMany(AdjustmentDetail::class);
     }
 
+    public function returnDetails()
+    {
+        return $this->hasMany(ReturnDetail::class);
+    }
+
     public function setPropertiesAttribute($array)
     {
         $properties = [];
