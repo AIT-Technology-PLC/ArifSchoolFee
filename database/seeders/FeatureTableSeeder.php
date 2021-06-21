@@ -126,11 +126,17 @@ class FeatureTableSeeder extends Seeder
             $premium = Plan::where('name', 'premium')->first();
             $enterprise = Plan::where('name', 'enterprise')->first();
 
-            $professional->features()->saveMany(Feature::all());
+            $professional->features()->sync(
+                Feature::all()->pluck('id')->toArray()
+            );
 
-            $premium->features()->saveMany(Feature::all());
+            $premium->features()->sync(
+                Feature::all()->pluck('id')->toArray()
+            );
 
-            $enterprise->features()->saveMany(Feature::all());
+            $enterprise->features()->sync(
+                Feature::all()->pluck('id')->toArray()
+            );
         });
     }
 }
