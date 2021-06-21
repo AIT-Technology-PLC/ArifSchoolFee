@@ -15,6 +15,7 @@ use App\Models\ProductCategory;
 use App\Models\ProformaInvoice;
 use App\Models\Purchase;
 use App\Models\PurchaseOrder;
+use App\Models\Returnn;
 use App\Models\Sale;
 use App\Models\Siv;
 use App\Models\Supplier;
@@ -288,5 +289,25 @@ class User extends Authenticatable
     public function adjustmentsAdjusted()
     {
         return $this->hasMany(Adjustment::class, 'adjusted_by');
+    }
+
+    public function returnsCreated()
+    {
+        return $this->hasMany(Returnn::class, 'created_by');
+    }
+
+    public function returnsUpdated()
+    {
+        return $this->hasMany(Returnn::class, 'updated_by');
+    }
+
+    public function returnsApproved()
+    {
+        return $this->hasMany(Returnn::class, 'approved_by');
+    }
+
+    public function returnsReturned()
+    {
+        return $this->hasMany(Returnn::class, 'returned_by');
     }
 }

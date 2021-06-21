@@ -52,6 +52,11 @@ class Customer extends Model
         return $this->hasMany(ProformaInvoice::class);
     }
 
+    public function returns()
+    {
+        return $this->hasMany(Returnn::class);
+    }
+
     public function scopeCompanyCustomers($query)
     {
         return $query->where('company_id', userCompany()->id);

@@ -136,6 +136,11 @@ class Company extends Model
         return $this->morphToMany(Feature::class, 'featurable')->withPivot('is_enabled');
     }
 
+    public function returns()
+    {
+        return $this->hasMany(Returnn::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);

@@ -12,7 +12,7 @@ class ReturnDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
-    public function returns()
+    public function returnn()
     {
         return $this->belongsTo(Returnn::class);
     }
