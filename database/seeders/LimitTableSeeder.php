@@ -24,12 +24,11 @@ class LimitTableSeeder extends Seeder
             $premium = Plan::where('name', 'premium')->first();
             $enterprise = Plan::where('name', 'enterprise')->first();
 
-            $warehouseLimit->plans()->save($professional, ['amount' => 2]);
-
-            $warehouseLimit->plans()->save($premium, ['amount' => 5]);
-
-            $warehouseLimit->plans()->save($enterprise, ['amount' => 10]);
-
+            $warehouseLimit->plans()->sync([
+                $professional->id => ['amount' => 2],
+                $premium->id => ['amount' => 5],
+                $enterprise->id => ['amount' => 10],
+            ]);
         });
     }
 }
