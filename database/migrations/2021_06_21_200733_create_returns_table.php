@@ -22,7 +22,6 @@ class CreateReturnsTable extends Migration
             $table->bigInteger('approved_by')->nullable()->unsigned();
             $table->bigInteger('returned_by')->nullable()->unsigned();
             $table->string('code')->unique();
-            $table->string('status');
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->timestamps();
