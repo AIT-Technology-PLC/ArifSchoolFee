@@ -122,6 +122,11 @@ class FeatureTableSeeder extends Seeder
                 'is_enabled' => 1,
             ]);
 
+            Feature::firstOrCreate([
+                'name' => 'Return Management',
+                'is_enabled' => 1,
+            ]);
+
             $professional = Plan::where('name', 'professional')->first();
             $premium = Plan::where('name', 'premium')->first();
             $enterprise = Plan::where('name', 'enterprise')->first();
