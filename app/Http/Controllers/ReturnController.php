@@ -78,9 +78,17 @@ class ReturnController extends Controller
         return view('returns.show', compact('return'));
     }
 
-    public function edit($id)
+    public function edit(Returnn $return, Product $product, Customer $customer, Warehouse $warehouse)
     {
-        //
+        $products = $product->getProductNames();
+
+        $customers = $customer->getCustomerNames();
+
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        $return->load(['returnDetails.product', 'returnDetails.warehouse']);
+
+        return view('returns.edit', compact('return', 'products', 'customers', 'warehouses'));
     }
 
     public function update(Request $request, $id)
