@@ -12,4 +12,7 @@ Route::post('/register', [Auth\RegisterController::class, 'register']);
 Route::get('/login', [Auth\LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/auth/login', [Auth\LoginController::class, 'login'])->name('post.login');
 
+Route::get('/password/confirm', [Auth\ConfirmPasswordController::class, 'showConfirmForm'])->name('password.confirm');
+Route::post('/password/confirm', [Auth\ConfirmPasswordController::class, 'confirm']);
+
 Route::post('logout', [Auth\LoginController::class, 'logout'])->name('logout');
