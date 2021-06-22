@@ -14,6 +14,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Purchase;
 use App\Models\PurchaseOrder;
+use App\Models\Returnn;
 use App\Models\Sale;
 use App\Models\Supplier;
 use App\Models\Tender;
@@ -32,6 +33,7 @@ use App\Policies\ProductCategoryPolicy;
 use App\Policies\ProductPolicy;
 use App\Policies\PurchaseOrderPolicy;
 use App\Policies\PurchasePolicy;
+use App\Policies\ReturnPolicy;
 use App\Policies\SalePolicy;
 use App\Policies\SupplierPolicy;
 use App\Policies\TenderPolicy;
@@ -66,6 +68,7 @@ class AuthServiceProvider extends ServiceProvider
         GeneralTenderChecklist::class => GeneralTenderChecklistPolicy::class,
         Tender::class => TenderPolicy::class,
         TenderStatus::class => TenderStatusPolicy::class,
+        Returnn::class => ReturnPolicy::class,
     ];
 
     /**
