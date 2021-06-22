@@ -51,6 +51,8 @@ Route::get('/sivs/{siv}/print', [Controllers\SivController::class, 'printed'])->
 
 Route::get('/proforma-invoices/{proformaInvoice}/print', [Controllers\ProformaInvoiceController::class, 'printed'])->name('proforma-invoices.print');
 
+Route::get('/returns/{return}/print', [Controllers\ReturnController::class, 'printed'])->name('returns.print');
+
 Route::patch('/employees/{employee}/permissions', [Controllers\PermissionController::class, 'update'])->name('permissions.update');
 
 Route::patch('/notifications/mark-all-read',
@@ -84,6 +86,10 @@ Route::post('/damages/{damage}/subtract', [Controllers\DamageController::class, 
 Route::post('/adjustments/{adjustment}/approve', [Controllers\AdjustmentController::class, 'approve'])->name('adjustments.approve');
 
 Route::post('/adjustments/{adjustment}/adjust', [Controllers\AdjustmentController::class, 'adjust'])->name('adjustments.adjust');
+
+Route::post('/returns/{return}/approve', [Controllers\ReturnController::class, 'approve'])->name('returns.approve');
+
+Route::post('/returns/{return}/return', [Controllers\ReturnController::class, 'add'])->name('returns.return');
 
 Route::resource('products', Controllers\ProductController::class);
 
@@ -132,3 +138,5 @@ Route::resource('proforma-invoices', Controllers\ProformaInvoiceController::clas
 Route::resource('damages', Controllers\DamageController::class);
 
 Route::resource('adjustments', Controllers\AdjustmentController::class);
+
+Route::resource('returns', Controllers\ReturnController::class);
