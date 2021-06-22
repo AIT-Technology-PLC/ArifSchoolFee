@@ -298,3 +298,7 @@ if (d.getElementById("addNewDamageForm")) {
 if (d.getElementById("addNewAdjustmentForm")) {
     d.getElementById("addNewAdjustmentForm").addEventListener("click", addAdjustmentForm);
 }
+
+if (d.getElementById("addNewReturnForm")) {
+    d.getElementById("addNewReturnForm").addEventListener("click", addReturnForm);
+}
