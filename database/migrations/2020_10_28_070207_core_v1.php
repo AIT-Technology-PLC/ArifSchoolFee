@@ -26,13 +26,6 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
-        // Password Resets
-        Schema::create('password_resets', function (Blueprint $table) {
-            $table->string('email')->index();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
-        });
-
         // Failed Jobs - Queue
         Schema::create('failed_jobs', function (Blueprint $table) {
             $table->id();
@@ -851,7 +844,6 @@ class CoreV1 extends Migration
     public function down()
     {
         Schema::drop('users');
-        Schema::drop('password_resets');
         Schema::drop('failed_jobs');
         Schema::drop('plans');
         Schema::drop('limitables');
