@@ -71,9 +71,11 @@ class ReturnController extends Controller
         return redirect()->route('returns.show', $return->id);
     }
 
-    public function show($id)
+    public function show(Returnn $return)
     {
-        //
+        $return->load(['returnDetails.product', 'returnDetails.warehouse', 'customer', 'company']);
+
+        return view('returns.show', compact('return'));
     }
 
     public function edit($id)
