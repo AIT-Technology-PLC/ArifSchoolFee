@@ -23,7 +23,7 @@ class UpdateMerchandiseRequest extends FormRequest
     public function passedValidation()
     {
         $this->merge([
-            'total_returns' => $this->route('merchandise')->isReturnedQuantityValueValid($this->total_returns),
+            'total_returns' => $this->route('merchandise')->isAddedQuantityValueValid($this->total_returns),
             'total_broken' => $this->route('merchandise')->isBrokenQuantityValueValid($this->total_broken),
         ]);
 

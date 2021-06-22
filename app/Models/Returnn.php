@@ -83,7 +83,7 @@ class Returnn extends Model
         $this->save();
     }
 
-    public function isReturned()
+    public function isAdded()
     {
         if (is_null($this->returned_by)) {
             return false;

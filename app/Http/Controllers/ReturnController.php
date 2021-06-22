@@ -110,7 +110,7 @@ class ReturnController extends Controller
 
     public function destroy(Returnn $return)
     {
-        if ($return->isReturned()) {
+        if ($return->isAdded()) {
             return view('errors.permission_denied');
         }
 

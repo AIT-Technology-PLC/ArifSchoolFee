@@ -119,7 +119,7 @@
                                                 Waiting Approval
                                             </span>
                                         </span>
-                                    @elseif ($return->isReturned())
+                                    @elseif ($return->isAdded())
                                         <span class="tag is-small bg-green has-text-white">
                                             <span class="icon">
                                                 <i class="fas fa-check-circle"></i>

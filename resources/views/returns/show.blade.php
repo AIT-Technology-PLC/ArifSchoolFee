@@ -165,7 +165,7 @@
                     {{ session('successMessage') }}
                 </span>
             </div>
-            @if ($return->isApproved() && $return->isReturned())
+            @if ($return->isApproved() && $return->isAdded())
                 <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
                     <p class="has-text-grey text-green is-size-6">
                         <span class="icon">
@@ -177,7 +177,7 @@
                     </p>
                 </div>
             @endif
-            @if ($return->isApproved() && !$return->isReturned())
+            @if ($return->isApproved() && !$return->isAdded())
                 @can('Make Return')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
