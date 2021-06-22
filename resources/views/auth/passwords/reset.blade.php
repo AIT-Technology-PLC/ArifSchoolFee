@@ -44,7 +44,7 @@
                         <div class="field">
                             <label for="password" class="label text-green has-text-weight-normal">New Password <sup class="has-text-danger">*</sup> </label>
                             <div class="control">
-                                <input id="password" name="password" type="password" class="input" placeholder="********">
+                                <input id="password" name="password" type="password" class="input" placeholder="********" autofocus>
                                 @error('password')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}

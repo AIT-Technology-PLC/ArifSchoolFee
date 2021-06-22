@@ -19,7 +19,7 @@
                         <div class="field">
                             <label for="name" class="label text-green has-text-weight-normal">Password <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input id="password" type="password" class="input @error('password') is-danger @enderror" name="password" autocomplete="current-password">
+                                <input id="password" type="password" class="input @error('password') is-danger @enderror" name="password" autocomplete="current-password" autofocus>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>

@@ -32,6 +32,6 @@ class PasswordResetController extends Controller
 
         $user->save();
 
-        return redirect()->back()->with('successMessage', 'Your password has changed successfully!');
+        return redirect()->back()->with('successMessage', 'Your password was changed successfully!');
     }
 }
