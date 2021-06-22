@@ -76,7 +76,7 @@ class Returnn extends Model
         return $this->totalCredit * 1.15;
     }
 
-    public function returnn()
+    public function add()
     {
         $this->returned_by = auth()->id();
 

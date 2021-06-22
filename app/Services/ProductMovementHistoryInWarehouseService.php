@@ -7,6 +7,7 @@ use App\Models\DamageDetail;
 use App\Models\GdnDetail;
 use App\Models\GrnDetail;
 use App\Models\Product;
+use App\Models\ReturnDetail;
 use App\Models\TransferDetail;
 use App\Models\Warehouse;
 use Illuminate\Support\Str;
@@ -34,6 +35,8 @@ class ProductMovementHistoryInWarehouseService
 
         $adjustmentDetails = (new AdjustmentDetail())->getByWarehouseAndProduct($this->warehouse, $this->product);
 
+        $returnDetails = (new ReturnDetail())->getByWarehouseAndProduct($this->warehouse, $this->product);
+
         $this->formatGrn($grnDetails);
 
         $this->formatTransfer($transferDetails);
@@ -43,6 +46,8 @@ class ProductMovementHistoryInWarehouseService
         $this->formatDamage($damageDetails);
 
         $this->formatAdjustMent($adjustmentDetails);
+
+        $this->formatReturn($returnDetails);
 
         $this->history = $this->history->sortBy('date')->values()->all();
 
@@ -140,6 +145,22 @@ class ProductMovementHistoryInWarehouseService
                 'unit_of_measurement' => $adjustmentDetail->product->unit_of_measurement,
                 'details' => ($adjustmentDetail->is_subtract ? 'Subtracted' : 'Added') . ' in ' . $adjustmentDetail->warehouse->name,
                 'function' => $adjustmentDetail->is_subtract ? 'subtract' : 'add',
+            ]);
+        });
+    }
+
+    private function formatReturn($returnDetails)
+    {
+        $returnDetails->map(function ($returnDetail) {
+            $this->history->push([
+                'type' => 'RETURN',
+                'code' => $returnDetail->returnn->code,
+                'date' => $returnDetail->returnn->issued_on,
+                'quantity' => $returnDetail->quantity,
+                'balance' => 0.00,
+                'unit_of_measurement' => $returnDetail->product->unit_of_measurement,
+                'details' => 'Added in ' . $returnDetail->warehouse->name,
+                'function' => 'add',
             ]);
         });
     }
