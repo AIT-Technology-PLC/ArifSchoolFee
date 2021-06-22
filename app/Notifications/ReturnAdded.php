@@ -5,7 +5,7 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
-class ReturnReturned extends Notification
+class ReturnAdded extends Notification
 {
     use Queueable;
 

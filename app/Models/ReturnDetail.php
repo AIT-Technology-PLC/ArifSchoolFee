@@ -40,6 +40,6 @@ class ReturnDetail extends Model
                     ->whereNotNull('returned_by');
             })
             ->get()
-            ->load(['return', 'product', 'warehouse']);
+            ->load(['returnn', 'product', 'warehouse']);
     }
 }
