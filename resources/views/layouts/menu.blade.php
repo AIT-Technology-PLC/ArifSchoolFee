@@ -369,6 +369,7 @@
                             <span>
                                 Returns Management
                             </span>
+                            <sup class="text-purple has-text-weight-bold">NEW</sup>
                         </a>
                     </li>
                 @endcan
