@@ -36,8 +36,10 @@ trait AddInventory
 
             $model->add();
 
+            $modelName = $modelName == 'Grn' ? Str::of($modelName)->upper() : $modelName;
+
             Notification::send(
-                $this->notifiableUsers('Approve ' . Str::upper($modelName), $model->createdBy),
+                $this->notifiableUsers('Approve ' . $modelName, $model->createdBy),
                 new $notificationClass($model)
             );
         });
