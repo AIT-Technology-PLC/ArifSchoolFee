@@ -14,7 +14,7 @@ class ReturnDetail extends Model
 
     public function returnn()
     {
-        return $this->belongsTo(Returnn::class);
+        return $this->belongsTo(Returnn::class, 'return_id');
     }
 
     public function product()

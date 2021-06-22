@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreReturnRequest;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Returnn;
 use App\Models\Warehouse;
+use App\Notifications\ReturnPrepared;
 use App\Traits\AddInventory;
 use App\Traits\NotifiableUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class ReturnController extends Controller
 {
@@ -52,9 +56,19 @@ class ReturnController extends Controller
         return view('returns.create', compact('products', 'customers', 'warehouses', 'currentReturnCode'));
     }
 
-    public function store(Request $request)
+    public function store(StoreReturnRequest $request)
     {
-        //
+        $return = DB::transaction(function () use ($request) {
+            $return = Returnn::create($request->except('return'));
+
+            $return->returnDetails()->createMany($request->return);
+
+            Notification::send($this->notifiableUsers('Approve Return'), new ReturnPrepared($return));
+
+            return $return;
+        });
+
+        return redirect()->route('returns.show', $return->id);
     }
 
     public function show($id)

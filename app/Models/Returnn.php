@@ -48,7 +48,7 @@ class Returnn extends Model
 
     public function returnDetails()
     {
-        return $this->hasMany(ReturnDetail::class);
+        return $this->hasMany(ReturnDetail::class, 'return_id');
     }
 
     public function scopeCompanyReturn($query)
