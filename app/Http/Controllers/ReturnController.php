@@ -109,8 +109,18 @@ class ReturnController extends Controller
         return redirect()->route('returns.show', $return->id);
     }
 
-    public function destroy($id)
+    public function destroy(Returnn $return)
     {
-        //
+        if ($return->isReturned()) {
+            return view('errors.permission_denied');
+        }
+
+        if ($return->isApproved() && !auth()->user()->can('Delete Approved Return')) {
+            return view('errors.permission_denied');
+        }
+
+        $return->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }
