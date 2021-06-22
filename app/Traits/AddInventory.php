@@ -21,6 +21,8 @@ trait AddInventory
 
         $this->authorize('add', $model);
 
+        $modelName = $modelName == 'Returnn' ? 'Return' : $modelName;
+
         $modelDetails = (string) Str::of($modelName)->lower()->append('Details');
 
         $notificationClass = (string) Str::of($modelName)->append('Added')->prepend('App\\Notifications\\');

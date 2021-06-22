@@ -18,6 +18,8 @@ trait ApproveInventory
 
         $this->authorize('approve', $model);
 
+        $modelName = $modelName == 'Returnn' ? 'Return' : $modelName;
+
         $notificationClass = (string) Str::of($modelName)->append('Approved')->prepend('App\\Notifications\\');
 
         $modelName = $modelName == 'Gdn' ? 'Do/Gdn' : $modelName;

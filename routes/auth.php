@@ -89,7 +89,7 @@ Route::post('/adjustments/{adjustment}/adjust', [Controllers\AdjustmentControlle
 
 Route::post('/returnns/{return}/approve', [Controllers\ReturnController::class, 'approve'])->name('returns.approve');
 
-Route::post('/returnns/{return}/return', [Controllers\ReturnController::class, 'add'])->name('returns.return');
+Route::post('/returnns/{return}/return', [Controllers\ReturnController::class, 'add'])->name('returns.add');
 
 Route::resource('products', Controllers\ProductController::class);
 
