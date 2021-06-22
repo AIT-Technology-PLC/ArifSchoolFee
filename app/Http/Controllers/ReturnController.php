@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReturnRequest;
+use App\Http\Requests\UpdateReturnRequest;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Returnn;
@@ -91,9 +92,21 @@ class ReturnController extends Controller
         return view('returns.edit', compact('return', 'products', 'customers', 'warehouses'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateReturnRequest $request, Returnn $return)
     {
-        //
+        if ($return->isApproved()) {
+            return redirect()->route('returns.show', $return->id);
+        }
+
+        DB::transaction(function () use ($request, $return) {
+            $return->update($request->except('return'));
+
+            for ($i = 0; $i < count($request->return); $i++) {
+                $return->returnDetails[$i]->update($request->return[$i]);
+            }
+        });
+
+        return redirect()->route('returns.show', $return->id);
     }
 
     public function destroy($id)
