@@ -15,9 +15,9 @@
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline is-centered">
-                    <div class="column is-6">
+                    <div class="column is-5">
                         <div class="field">
-                            <label for="name" class="label text-green has-text-weight-normal">Password <sup class="has-text-danger">*</sup> </label>
+                            <label for="name" class="label text-green has-text-weight-normal">Current Password <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <input id="password" type="password" class="input @error('password') is-danger @enderror" name="password" autocomplete="current-password" autofocus>
                                 <span class="icon is-small is-left">

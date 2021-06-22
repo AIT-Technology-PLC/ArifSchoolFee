@@ -86,13 +86,22 @@
                             <i class="fas fa-angle-down"></i>
                         </span>
                     </a>
-                    <div class="navbar-dropdown is-boxed">
+                    <div class="navbar-dropdown is-boxed" style="left: -68px !important">
                         <a href="{{ route('employees.show', auth()->user()->employee->id) }}" class="navbar-item text-green">
                             <span class="icon is-medium">
                                 <i class="fas fa-address-card"></i>
                             </span>
                             <span>
                                 My Profile
+                            </span>
+                        </a>
+                        <hr class="navbar-divider">
+                        <a href="{{ route('password.edit') }}" class="navbar-item text-green">
+                            <span class="icon is-medium">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            <span>
+                                Change Password
                             </span>
                         </a>
                         <hr class="navbar-divider">
