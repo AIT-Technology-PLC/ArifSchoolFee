@@ -175,6 +175,22 @@
                         @endif
                     @endcan
 
+                    @can('Read Return')
+                        @if ($enabledFeatures->contains('Return Management'))
+                            <div class="column is-4 has-text-centered has-text-grey">
+                                <a href="{{ route('returns.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
+                                    <span class="icon is-size-5">
+                                        <i class="fas fa-arrow-alt-circle-left"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile text-green">
+                                    Returns
+                                </span>
+                            </div>
+                        @endif
+                    @endcan
+
                     @can('Read Tender')
                         @if ($enabledFeatures->contains('Tender Management'))
                             <div class="column is-4 has-text-centered has-text-grey">

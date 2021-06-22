@@ -359,6 +359,36 @@
                     </li>
                 @endcan
             @endif
+            @if ($enabledFeatures->contains('Return Management'))
+                @can('Read Return')
+                    <li>
+                        <a name="menuTitles" href="{{ route('returns.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('returns') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-arrow-alt-circle-left"></i>
+                            </span>
+                            <span>
+                                Returns Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Return')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('returns.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('returns/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Return
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+            @endif
             @if ($enabledFeatures->contains('Customer Management'))
                 @can('Read Customer')
                     <li>
