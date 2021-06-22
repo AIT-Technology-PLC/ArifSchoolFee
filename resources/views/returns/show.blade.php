@@ -187,7 +187,7 @@
                         </p>
                         <form id="formOne" action="{{ route('returns.add', $return->id) }}" method="post" novalidate>
                             @csrf
-                            <button data-type="Return" data-action="add" data-description="" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button data-type="Return" data-action="add" data-description="the returned products" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
@@ -220,7 +220,7 @@
                         </p>
                         <form id="formOne" action="{{ route('returns.approve', $return->id) }}" method="post" novalidate>
                             @csrf
-                            <button data-type="Return" data-action="approve" data-description="" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button data-type="Return" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>

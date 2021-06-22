@@ -11,7 +11,6 @@ use App\Models\Warehouse;
 use App\Notifications\ReturnPrepared;
 use App\Traits\AddInventory;
 use App\Traits\NotifiableUsers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
