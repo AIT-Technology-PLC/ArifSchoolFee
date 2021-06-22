@@ -53,11 +53,15 @@ Route::get('/proforma-invoices/{proformaInvoice}/print', [Controllers\ProformaIn
 
 Route::get('/returns/{return}/print', [Controllers\ReturnController::class, 'printed'])->name('returns.print');
 
+Route::get('/password/edit', [Controllers\Auth\PasswordResetController::class, 'edit'])->name('password.edit');
+
 Route::patch('/employees/{employee}/permissions', [Controllers\PermissionController::class, 'update'])->name('permissions.update');
 
 Route::patch('/notifications/mark-all-read',
     [Controllers\NotificationController::class, 'markAllNotificationsAsRead'])
     ->name('notifications.markAllAsRead');
+
+Route::patch('/password/update', [Controllers\Auth\PasswordResetController::class, 'update'])->name('password.update');
 
 Route::post('purchase-orders/{purchaseOrder}/close', [Controllers\PurchaseOrderController::class, 'close'])->name('purchase-orders.close');
 

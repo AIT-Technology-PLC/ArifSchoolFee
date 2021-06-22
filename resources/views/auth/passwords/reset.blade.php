@@ -1,65 +1,90 @@
 @extends('layouts.app')
 
+@section('title')
+    Password Reset
+@endsection
+
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
-
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
+    <section class="mt-3 mx-3 m-lr-0">
+        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
+            <h1 class="title text-green has-text-weight-medium is-size-5">
+                Password Reset
+            </h1>
+        </div>
+        <form id="formOne" action="{{ route('password.update') }}" method="post" enctype="multipart/form-data" novalidate>
+            @csrf
+            @method('PATCH')
+            <div class="box radius-bottom-0 mb-0 radius-top-0">
+                @if (session('failedMessage'))
+                    <div class="box is-shadowless bg-lightpurple has-text-left mb-0">
+                        <p class="has-text-grey text-purple is-size-6">
+                            <span class="icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </span>
+                            <span>
+                                {{ session('failedMessage') }}
+                            </span>
+                        </p>
+                    </div>
+                @endif
+                @if (session('successMessage'))
+                    <div class="box is-shadowless bg-lightgreen has-text-left mb-0">
+                        <p class="has-text-grey text-green is-size-6">
+                            <span class="icon">
+                                <i class="fas fa-check-circle"></i>
+                            </span>
+                            <span>
+                                {{ session('successMessage') }}
+                            </span>
+                        </p>
+                    </div>
+                @endif
+                <div class="columns is-marginless is-multiline is-centered">
+                    <div class="column is-5">
+                        <div class="field">
+                            <label for="password" class="label text-green has-text-weight-normal">New Password <sup class="has-text-danger">*</sup> </label>
+                            <div class="control">
+                                <input id="password" name="password" type="password" class="input" placeholder="********">
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
                                     </span>
                                 @enderror
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                        <div class="field">
+                            <label for="password-confirm" class="label text-green has-text-weight-normal">Confirm New Password<sup class="has-text-danger">*</sup> </label>
+                            <div class="control">
+                                <input id="password-confirm" name="password_confirmation" type="password" class="input" placeholder="********">
                             </div>
                         </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+            <div class="box radius-top-0">
+                <div class="columns is-marginless">
+                    <div class="column is-paddingless">
+                        <div class="buttons is-centered">
+                            <button class="button is-white text-green" type="reset">
+                                <span class="icon">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                                <span>
+                                    Cancel
+                                </span>
+                            </button>
+                            <button id="saveButton" class="button bg-green has-text-white">
+                                <span class="icon">
+                                    <i class="fas fa-save"></i>
+                                </span>
+                                <span>
+                                    Change Password
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
 @endsection
