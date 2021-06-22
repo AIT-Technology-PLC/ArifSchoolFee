@@ -122,4 +122,13 @@ class ReturnController extends Controller
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
+
+    public function printed(Returnn $return)
+    {
+        $this->authorize('view', $return);
+
+        $return->load(['returnDetails.product', 'customer', 'company', 'createdBy', 'approvedBy']);
+
+        return view('returns.print', compact('return'));
+    }
 }

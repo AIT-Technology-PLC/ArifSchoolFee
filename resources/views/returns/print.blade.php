@@ -26,7 +26,7 @@
 <body class="A4">
     <section class="sheet">
         <article>
-            <div class="columns is-marginless has-background-white-ter">
+            <div class="columns is-marginless has-background-white-ter is-vcentered">
                 <div class="column is-3 is-offset-1">
                     <img class="" src="{{ asset('storage/' . $return->company->logo) }}" style="width: 170px !important; height: 72px !important">
                 </div>
@@ -88,7 +88,7 @@
                         </span>
                     </h1>
                 </div>
-                <div class="column is-4">
+                <div class="column is-4 is-offset-4">
                     <h1 class="title is-size-7 is-uppercase has-text-grey-light">
                         Issued On
                         <br>
@@ -132,7 +132,7 @@
                 </div>
             </div>
             <div class="columns is-marginless">
-                <div class="column mx-6 pt-0">
+                <div class="column is-5 mx-6 pt-0">
                     <div class="table-container">
                         <table class="table is-bordered is-striped is-hoverable is-fullwidth is-size-7">
                             <tbody>
