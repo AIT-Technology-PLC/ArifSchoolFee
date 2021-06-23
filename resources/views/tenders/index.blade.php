@@ -56,7 +56,7 @@
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Tenders'])
             <div>
-                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[12,13,14]" data-numeric="[]">
+                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[14,15,16]" data-numeric="[]">
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>

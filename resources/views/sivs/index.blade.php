@@ -76,7 +76,7 @@
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'SIV'])
             <div>
-                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[9]" data-numeric="[6]">
+                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[6]" data-numeric="[]">
                     <thead>
                         <tr>
                             <th id="firstTarget"><abbr> # </abbr></th>
