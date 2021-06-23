@@ -59,15 +59,16 @@
             </div>
             <div class="columns is-marginless has-background-white-bis">
                 <div class="column is-5 is-offset-1">
-                    <h1 class="title is-size-7 is-uppercase has-text-grey-light">
-                        SIV No
-                        <br>
-                        <span class="title is-size-6 is-uppercase">
-                            {{ $siv->code }}
-                        </span>
-                    </h1>
+                    @if ($siv->issued_to)
+                        <h1 class="title is-size-7 is-uppercase has-text-grey-light">
+                            Issued To
+                            <br>
+                            <span class="title is-size-6 is-uppercase">
+                                {{ $siv->issued_to }}
+                            </span>
+                        </h1>
+                    @endif
                     @if ($siv->purpose)
-                        <br>
                         <h1 class="title is-size-7 is-uppercase has-text-grey-light">
                             Purpose
                             <br>
@@ -78,6 +79,13 @@
                     @endif
                 </div>
                 <div class="column is-4 is-offset-2">
+                    <h1 class="title is-size-7 is-uppercase has-text-grey-light">
+                        SIV No
+                        <br>
+                        <span class="title is-size-6 is-uppercase">
+                            {{ $siv->code }}
+                        </span>
+                    </h1>
                     <h1 class="title is-size-7 is-uppercase has-text-grey-light">
                         Issued On
                         <br>
