@@ -861,7 +861,7 @@ function initiateDataTables() {
         scrollY: "500px",
         scrollX: true,
         columnDefs: [
-            { type: "natural", targets: numericTargets },
+            { type: "natural-nohtml", targets: numericTargets },
             { type: "date", targets: dateTargets },
         ],
         lengthMenu: [
