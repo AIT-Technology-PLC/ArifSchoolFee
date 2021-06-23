@@ -34,6 +34,25 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
+                            <label for="issued_to" class="label text-green has-text-weight-normal"> Customer <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="issued_to" name="issued_to">
+                                        <option selected disabled>Select Customer</option>
+                                        @foreach ($customers as $customer)
+                                            <option value="{{ $customer->company_name }}" {{ $siv->issued_to == $customer->company_name ? 'selected' : '' }}>{{ $customer->company_name }}</option>
+                                        @endforeach
+                                        <option value="">None</option>
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
                             <label for="issued_on" class="label text-green has-text-weight-normal"> Issued On <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <input class="input" type="date" name="issued_on" id="issued_on" placeholder="mm/dd/yyyy" value="{{ $siv->issued_on->toDateString() }}">
@@ -97,6 +116,22 @@
                                     <i class="fas fa-user"></i>
                                 </span>
                                 @error('received_by')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <label for="delivered_by" class="label text-green has-text-weight-normal">Delivered By <sup class="has-text-danger"></sup> </label>
+                        <div class="field">
+                            <div class="control has-icons-left is-expanded">
+                                <input class="input" type="text" name="delivered_by" id="delivered_by" placeholder="Delivered By" value="{{ $siv->delivered_by ?? '' }}">
+                                <span class="icon is-large is-left">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                @error('delivered_by')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>

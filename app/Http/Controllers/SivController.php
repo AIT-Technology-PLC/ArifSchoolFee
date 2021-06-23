@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSivRequest;
 use App\Http\Requests\UpdateSivRequest;
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Siv;
 use App\Models\Warehouse;
@@ -39,15 +40,17 @@ class SivController extends Controller
         return view('sivs.index', compact('sivs', 'totalSivs', 'totalApproved', 'totalNotApproved'));
     }
 
-    public function create(Product $product, Warehouse $warehouse)
+    public function create(Product $product, Warehouse $warehouse, Customer $customer)
     {
         $products = $product->getProductNames();
 
         $warehouses = $warehouse->getAllWithoutRelations();
 
+        $customers = $customer->getCustomerNames();
+
         $currentSivCode = (Siv::select('code')->companySiv()->latest()->first()->code) ?? 0;
 
-        return view('sivs.create', compact('products', 'warehouses', 'currentSivCode'));
+        return view('sivs.create', compact('products', 'warehouses', 'customers', 'currentSivCode'));
     }
 
     public function store(StoreSivRequest $request)
@@ -72,7 +75,7 @@ class SivController extends Controller
         return view('sivs.show', compact('siv'));
     }
 
-    public function edit(Siv $siv, Product $product, Warehouse $warehouse)
+    public function edit(Siv $siv, Product $product, Warehouse $warehouse, Customer $customer)
     {
         $siv->load(['sivDetails.product', 'sivDetails.warehouse']);
 
@@ -80,7 +83,9 @@ class SivController extends Controller
 
         $warehouses = $warehouse->getAllWithoutRelations();
 
-        return view('sivs.edit', compact('siv', 'products', 'warehouses'));
+        $customers = $customer->getCustomerNames();
+
+        return view('sivs.edit', compact('siv', 'products', 'warehouses', 'customers'));
     }
 
     public function update(UpdateSivRequest $request, Siv $siv)

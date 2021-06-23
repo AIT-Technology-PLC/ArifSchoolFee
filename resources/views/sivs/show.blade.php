@@ -31,6 +31,25 @@
                     <div class="columns is-marginless is-vcentered is-mobile text-green">
                         <div class="column is-1">
                             <span class="icon is-size-3">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $siv->issued_to ?? 'N/A' }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Issued To
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
                                 <i class="fas fa-calendar-day"></i>
                             </span>
                         </div>
@@ -97,6 +116,25 @@
                             </div>
                             <div class="is-uppercase is-size-7">
                                 Receiver Name
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $siv->delivered_by ?? 'N/A' }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Delivered By
                             </div>
                         </div>
                     </div>

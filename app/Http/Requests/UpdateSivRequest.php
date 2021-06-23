@@ -28,6 +28,8 @@ class UpdateSivRequest extends FormRequest
             'siv.*.description' => 'nullable|string',
             'issued_on' => 'required|date',
             'received_by' => 'nullable|string',
+            'delivered_by' => 'nullable|string',
+            'issued_to' => 'nullable|string',
             'description' => 'nullable|string',
         ];
     }
