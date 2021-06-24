@@ -641,6 +641,8 @@ class CoreV1 extends Migration
             $table->string('purpose')->nullable();
             $table->string('ref_num')->nullable();
             $table->longText('description')->nullable();
+            $table->string('issued_to')->nullable();
+            $table->string('delivered_by')->nullable();
             $table->string('received_by')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->timestamps();
