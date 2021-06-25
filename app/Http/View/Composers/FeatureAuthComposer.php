@@ -22,7 +22,9 @@ class FeatureAuthComposer
             'components.delete_button',
             'components.deleted_message',
             'warehouses.merchandises.on-hand',
-            'warehouses.merchandises.out-of'
+            'warehouses.merchandises.out-of',
+            'merchandises.on-hand',
+            'merchandises.out-of',
         ]);
 
         if ($excludedViews->contains($view->getName())) {
