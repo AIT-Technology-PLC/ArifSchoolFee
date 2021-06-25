@@ -82,7 +82,7 @@ class Merchandise extends Model
 
     public function getProductAvailableTotalBalance($availableMerchandises, $productId)
     {
-        return $availableMerchandises->where('product_id', $productId)->sum('on_hand');
+        return number_format($availableMerchandises->where('product_id', $productId)->sum('on_hand'), 2, '.', '');
     }
 
     public function getProductReservedInWarehouse($reservedMerchandises, $productId, $warehouseId)
@@ -95,7 +95,7 @@ class Merchandise extends Model
 
     public function getProductReservedTotalBalance($reservedMerchandises, $productId)
     {
-        return $reservedMerchandises->where('product_id', $productId)->sum('reserved');
+        return number_format($reservedMerchandises->where('product_id', $productId)->sum('reserved'), 2, '.', '');
     }
 
     public function getProductOnHandInWarehouse($onHandMerchandises, $productId, $warehouseId)
@@ -110,7 +110,7 @@ class Merchandise extends Model
             ->first()
             ->on_hand ?? 0.00;
 
-        return $reserved + $onHand;
+        return number_format($reserved + $onHand, 2, '.', '');
     }
 
     public function getProductOnHandTotalBalance($onHandMerchandises, $productId)
@@ -119,6 +119,6 @@ class Merchandise extends Model
 
         $onHand = $onHandMerchandises->where('product_id', $productId)->sum('on_hand');
 
-        return $reserved + $onHand;
+        return number_format($reserved + $onHand, 2, '.', '');
     }
 }
