@@ -72,10 +72,17 @@ if (d.getElementById("onHandTab")) {
     );
 }
 
-if (d.getElementById("historyTab")) {
-    d.getElementById("historyTab").addEventListener(
+if (d.getElementById("availableTab")) {
+    d.getElementById("availableTab").addEventListener(
         "click",
-        showHistoryMerchandise
+        showAvailableMerchandise
+    );
+}
+
+if (d.getElementById("reservedTab")) {
+    d.getElementById("reservedTab").addEventListener(
+        "click",
+        showReservedMerchandise
     );
 }
 
@@ -292,13 +299,22 @@ if (d.querySelectorAll(".swal")) {
 }
 
 if (d.getElementById("addNewDamageForm")) {
-    d.getElementById("addNewDamageForm").addEventListener("click", addDamageForm);
+    d.getElementById("addNewDamageForm").addEventListener(
+        "click",
+        addDamageForm
+    );
 }
 
 if (d.getElementById("addNewAdjustmentForm")) {
-    d.getElementById("addNewAdjustmentForm").addEventListener("click", addAdjustmentForm);
+    d.getElementById("addNewAdjustmentForm").addEventListener(
+        "click",
+        addAdjustmentForm
+    );
 }
 
 if (d.getElementById("addNewReturnForm")) {
-    d.getElementById("addNewReturnForm").addEventListener("click", addReturnForm);
+    d.getElementById("addNewReturnForm").addEventListener(
+        "click",
+        addReturnForm
+    );
 }

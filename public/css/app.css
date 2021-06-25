@@ -246,13 +246,25 @@ td {
     color: #fafafa;
     z-index: 1;
 }
-.limited a {
+.available a {
+    background-color: #fafafa;
+    border-color: #fafafa;
+    color: #3d6386;
+    z-index: 1;
+}
+.tabs.is-toggle li.available.is-active a {
+    background-color: #3d6386;
+    border-color: #3d6386;
+    color: #fafafa;
+    z-index: 1;
+}
+.reserved a {
     background-color: #fafafa;
     border-color: #fafafa;
     color: #86843d;
     z-index: 1;
 }
-.tabs.is-toggle li.limited.is-active a {
+.tabs.is-toggle li.reserved.is-active a {
     background-color: #86843d;
     border-color: #86843d;
     color: #fafafa;

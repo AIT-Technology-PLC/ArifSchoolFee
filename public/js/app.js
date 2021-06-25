@@ -290,15 +290,27 @@ function showOnHandMerchandise() {
     this.classList.add("is-active");
     d.getElementById("onHand").classList.remove("is-hidden");
 
-    hideHistoryMerchandise();
+    hideAvailableMerchandise();
+    hideReservedMerchandise();
     hideOutofMerchandise();
 }
 
-function showHistoryMerchandise() {
+function showAvailableMerchandise() {
     this.classList.add("is-active");
-    d.getElementById("historyMerchandise").classList.remove("is-hidden");
+    d.getElementById("available").classList.remove("is-hidden");
 
     hideOnHandMerchandise();
+    hideReservedMerchandise();
+    hideOutofMerchandise();
+}
+
+function showReservedMerchandise() {
+    this.classList.add("is-active");
+    d.getElementById("reserved").classList.remove("is-hidden");
+
+    hideOnHandMerchandise();
+    hideAvailableMerchandise();
+    hideOutofMerchandise();
 }
 
 function showOutofMerchandise() {
@@ -306,6 +318,8 @@ function showOutofMerchandise() {
     d.getElementById("outOf").classList.remove("is-hidden");
 
     hideOnHandMerchandise();
+    hideAvailableMerchandise();
+    hideReservedMerchandise();
 }
 
 function hideOnHandMerchandise() {
@@ -316,11 +330,19 @@ function hideOnHandMerchandise() {
     }
 }
 
-function hideHistoryMerchandise() {
-    let historyTab = d.getElementById("historyTab");
-    if (historyTab) {
-        historyTab.classList.remove("is-active");
-        d.getElementById("historyMerchandise").classList.add("is-hidden");
+function hideAvailableMerchandise() {
+    let availableTab = d.getElementById("availableTab");
+    if (availableTab) {
+        availableTab.classList.remove("is-active");
+        d.getElementById("available").classList.add("is-hidden");
+    }
+}
+
+function hideReservedMerchandise() {
+    let reservedTab = d.getElementById("reservedTab");
+    if (reservedTab) {
+        reservedTab.classList.remove("is-active");
+        d.getElementById("reserved").classList.add("is-hidden");
     }
 }
 
@@ -1587,7 +1609,10 @@ const addAdjustmentForm = (function () {
             </div>
         </div>`;
 
-        adjustmentFormWrapper.insertAdjacentHTML("beforeend", createAdjustmentForm);
+        adjustmentFormWrapper.insertAdjacentHTML(
+            "beforeend",
+            createAdjustmentForm
+        );
 
         index++;
     };
