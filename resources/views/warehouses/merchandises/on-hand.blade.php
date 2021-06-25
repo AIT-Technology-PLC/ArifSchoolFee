@@ -7,7 +7,7 @@
                         <th id="firstTarget"><abbr> # </abbr></th>
                         <th><abbr> Product </abbr></th>
                         <th><abbr> Category </abbr></th>
-                        <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
+                        <th class="has-text-right text-green"><abbr> Available </abbr></th>
                         <th class="has-text-right text-green"><abbr> Reserved </abbr></th>
                         <th class="has-text-right text-green"><abbr> Total </abbr></th>
                         <th><abbr> Level </abbr></th>
