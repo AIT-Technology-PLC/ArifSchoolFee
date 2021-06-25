@@ -26,6 +26,11 @@ class Merchandise extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
+    public function getTotalAttribute()
+    {
+        return $this->on_hand + $this->reserved;
+    }
+
     public function scopeCompanyMerchandises($query)
     {
         return $query->where('company_id', userCompany()->id);

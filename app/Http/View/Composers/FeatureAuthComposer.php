@@ -21,6 +21,8 @@ class FeatureAuthComposer
             'assets.js',
             'components.delete_button',
             'components.deleted_message',
+            'warehouses.merchandises.on-hand',
+            'warehouses.merchandises.out-of'
         ]);
 
         if ($excludedViews->contains($view->getName())) {

@@ -1,14 +1,16 @@
 <section id="onHand" class="mx-3 m-lr-0">
     <div class="box radius-top-0">
         <div>
-            <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[]" data-numeric="[3]">
+            <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[]" data-numeric="[3,4,5]">
                 <thead>
                     <tr>
                         <th id="firstTarget"><abbr> # </abbr></th>
                         <th><abbr> Product </abbr></th>
                         <th><abbr> Category </abbr></th>
                         <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
-                        <th class="text-gold"><abbr> Level </abbr></th>
+                        <th class="has-text-right text-green"><abbr> Reserved </abbr></th>
+                        <th class="has-text-right text-green"><abbr> Total </abbr></th>
+                        <th><abbr> Level </abbr></th>
                         <th><abbr> Actions </abbr></th>
                     </tr>
                 </thead>
@@ -27,8 +29,20 @@
                             </td>
                             <td class="is-capitalized"> {{ $merchandise->product->productCategory->name ?? 'N/A' }} </td>
                             <td class="has-text-right">
-                                <span class="tag is-small bg-green has-text-white onHand">
+                                <span class="tag is-small btn-green is-outlined has-text-white">
                                     {{ $merchandise->on_hand }}
+                                    {{ $merchandise->product->unit_of_measurement }}
+                                </span>
+                            </td>
+                            <td class="has-text-right">
+                                <span class="tag is-small btn-green is-outlined has-text-white">
+                                    {{ $merchandise->reserved }}
+                                    {{ $merchandise->product->unit_of_measurement }}
+                                </span>
+                            </td>
+                            <td class="has-text-right">
+                                <span class="tag is-small btn-green is-outlined has-text-white">
+                                    {{ number_format($merchandise->total, 2, '.', '') }}
                                     {{ $merchandise->product->unit_of_measurement }}
                                 </span>
                             </td>
