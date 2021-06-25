@@ -28,19 +28,22 @@ class MerchandiseController extends Controller
 
         $totalWarehouseInUse = $warehouse->getTotalWarehousesUsed($onHandMerchandises);
 
-        return view('merchandises.index', compact('merchandise', 'onHandMerchandises', 'onHandMerchandiseProducts', 'outOfStockMerchandiseProducts', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'totalWarehouseInUse', 'warehouses'));
-    }
-
-    public function reserved(Merchandise $merchandise, Warehouse $warehouse)
-    {
-        $this->authorize('viewAny', $merchandise);
-
         $reservedMerchandises = $merchandise->getAllReserved()->load('product.productCategory');
 
         $reservedMerchandiseProducts = $reservedMerchandises->pluck('product')->unique();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
-
-        return view('merchandises.index', compact('merchandise', 'reservedMerchandises', 'reservedMerchandiseProducts', 'warehouses'));
+        return view('merchandises.index', compact(
+            'merchandise',
+            'onHandMerchandises',
+            'onHandMerchandiseProducts',
+            'outOfStockMerchandiseProducts',
+            'totalDistinctOnHandMerchandises',
+            'totalOutOfStockMerchandises',
+            'totalDistinctLimitedMerchandises',
+            'totalWarehouseInUse',
+            'warehouses',
+            'reservedMerchandises',
+            'reservedMerchandiseProducts'
+        ));
     }
 }

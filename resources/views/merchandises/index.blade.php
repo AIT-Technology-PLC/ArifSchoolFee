@@ -112,7 +112,7 @@
                             </h1>
                             <div></div>
                             <h2 class="subtitle has-text-grey is-size-7">
-                                On hand, Limited, and Out of Stock
+                                On hand, Available, Reserved, Limited and Out of Stock
                             </h2>
                         </div>
                     </div>
@@ -142,13 +142,21 @@
             <ul>
                 <li id="onHandTab" class="on-hand is-active">
                     <a class="">
-                        <span class="icon is-small"><i class="fas fa-check-circle"></i></span>
                         <span>On Hand</span>
+                    </a>
+                </li>
+                <li id="availableTab" class="available">
+                    <a class="">
+                        <span>Available</span>
+                    </a>
+                </li>
+                <li id="reservedTab" class="reserved">
+                    <a class="">
+                        <span>Reserved</span>
                     </a>
                 </li>
                 <li id="outOfTab" class="out-of-stock">
                     <a>
-                        <span class="icon is-small"><i class="fas fa-times-circle"></i></span>
                         <span>Out of Stock</span>
                     </a>
                 </li>
@@ -157,6 +165,10 @@
     </section>
 
     @include('merchandises.on-hand')
+
+    @include('merchandises.available')
+
+    @include('merchandises.reserved')
 
     @include('merchandises.out-of')
 
