@@ -86,7 +86,7 @@
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Transfers'])
             <div>
-                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[4]" data-numeric="[]">
+                <table class="is-hoverable is-size-7 display nowrap" data-date="[4]" data-numeric="[]">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>

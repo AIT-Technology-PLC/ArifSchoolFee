@@ -1,7 +1,7 @@
 <section id="onHand" class="mx-3 m-lr-0">
     <div class="box radius-top-0">
         <div>
-            <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[]" data-numeric="[{{ implode(',', range(3, $warehouses->count() + 3)) }}]">
+            <table class="is-hoverable is-size-7 display nowrap" data-date="[]" data-numeric="[{{ implode(',', range(3, $warehouses->count() + 3)) }}]">
                 <thead>
                     <tr>
                         <th><abbr> # </abbr></th>

@@ -13,7 +13,7 @@
         </div>
         <div class="box radius-top-0">
             <div>
-                <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[3]" data-numeric="[]">
+                <table class="is-hoverable is-size-7 display nowrap" data-date="[3]" data-numeric="[]">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
