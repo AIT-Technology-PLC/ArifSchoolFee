@@ -21,8 +21,12 @@ Route::get('/warehouses/{warehouse}/products/{product}', Controllers\WarehousePr
     ->name('warehouses-products')
     ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Inventory History');
 
-Route::get('merchandises', Controllers\MerchandiseController::class)
+Route::get('merchandises', [Controllers\MerchandiseController::class, 'index'])
     ->name('merchandises.index')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Merchandise Inventory');
+
+Route::get('merchandises/reserved', [Controllers\MerchandiseController::class, 'reserved'])
+    ->name('merchandises.reserved')
     ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Merchandise Inventory');
 
 Route::get('/sale/{sale}/gdn/create', Controllers\SaleGdnController::class)

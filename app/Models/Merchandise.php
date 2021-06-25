@@ -31,10 +31,17 @@ class Merchandise extends Model
         return $query->where('company_id', userCompany()->id);
     }
 
-    public function getAll()
+    public function getAllOnHand()
     {
         return $this->companyMerchandises()
             ->where('on_hand', '>', 0)
+            ->get();
+    }
+
+    public function getAllReserved()
+    {
+        return $this->companyMerchandises()
+            ->where('reserved', '>', 0)
             ->get();
     }
 
@@ -63,5 +70,18 @@ class Merchandise extends Model
     public function getProductOnHandTotalBalance($onHandMerchandises, $productId)
     {
         return $onHandMerchandises->where('product_id', $productId)->sum('on_hand');
+    }
+
+    public function getProductReservedInWarehouse($reservedMerchandises, $productId, $warehouseId)
+    {
+        return $reservedMerchandises->where('product_id', $productId)
+            ->where('warehouse_id', $warehouseId)
+            ->first()
+            ->reserved ?? 0.00;
+    }
+
+    public function getProductReservedTotalBalance($reservedMerchandises, $productId)
+    {
+        return $reservedMerchandises->where('product_id', $productId)->sum('reserved');
     }
 }

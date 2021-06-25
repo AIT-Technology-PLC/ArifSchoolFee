@@ -8,11 +8,11 @@ use App\Models\Warehouse;
 
 class MerchandiseController extends Controller
 {
-    public function __invoke(Merchandise $merchandise, Product $product, Warehouse $warehouse)
+    public function index(Merchandise $merchandise, Product $product, Warehouse $warehouse)
     {
         $this->authorize('viewAny', $merchandise);
 
-        $onHandMerchandises = $merchandise->getAll()->load('product.productCategory');
+        $onHandMerchandises = $merchandise->getAllOnHand()->load('product.productCategory');
 
         $onHandMerchandiseProducts = $onHandMerchandises->pluck('product')->unique();
 
@@ -29,5 +29,18 @@ class MerchandiseController extends Controller
         $totalWarehouseInUse = $warehouse->getTotalWarehousesUsed($onHandMerchandises);
 
         return view('merchandises.index', compact('merchandise', 'onHandMerchandises', 'onHandMerchandiseProducts', 'outOfStockMerchandiseProducts', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'totalWarehouseInUse', 'warehouses'));
+    }
+
+    public function reserved(Merchandise $merchandise, Warehouse $warehouse)
+    {
+        $this->authorize('viewAny', $merchandise);
+
+        $reservedMerchandises = $merchandise->getAllReserved()->load('product.productCategory');
+
+        $reservedMerchandiseProducts = $reservedMerchandises->pluck('product')->unique();
+
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        return view('merchandises.index', compact('merchandise', 'reservedMerchandises', 'reservedMerchandiseProducts', 'warehouses'));
     }
 }

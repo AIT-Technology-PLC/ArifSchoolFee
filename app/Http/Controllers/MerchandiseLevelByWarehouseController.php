@@ -17,7 +17,7 @@ class MerchandiseLevelByWarehouseController extends Controller
     {
         $this->authorize('view', $warehouse);
 
-        $onHandMerchandises = $merchandise->getAll()->where('warehouse_id', $warehouse->id)->load('product.productCategory');
+        $onHandMerchandises = $merchandise->getAllOnHand()->where('warehouse_id', $warehouse->id)->load('product.productCategory');
 
         $onHandMerchandiseProducts = $onHandMerchandises->pluck('product')->unique();
 
