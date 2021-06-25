@@ -40,6 +40,14 @@ class Merchandise extends Model
     {
         return $this->companyMerchandises()
             ->where('on_hand', '>', 0)
+            ->orWhere('reserved', '>', 0)
+            ->get();
+    }
+
+    public function getAllAvailable()
+    {
+        return $this->companyMerchandises()
+            ->where('on_hand', '>', 0)
             ->get();
     }
 
@@ -55,7 +63,7 @@ class Merchandise extends Model
         $distinctTotalLimitedMerchandises = $onHandMerchandises
             ->filter(
                 function ($onHandMerchandise) {
-                    return $onHandMerchandise->product->isProductLimited($onHandMerchandise->on_hand);
+                    return $onHandMerchandise->product->isProductLimited($onHandMerchandise->total);
                 }
             )
             ->groupBy('product_id')
@@ -64,17 +72,17 @@ class Merchandise extends Model
         return $distinctTotalLimitedMerchandises;
     }
 
-    public function getProductOnHandInWarehouse($onHandMerchandises, $productId, $warehouseId)
+    public function getProductAvailableInWarehouse($availableMerchandises, $productId, $warehouseId)
     {
-        return $onHandMerchandises->where('product_id', $productId)
+        return $availableMerchandises->where('product_id', $productId)
             ->where('warehouse_id', $warehouseId)
             ->first()
             ->on_hand ?? 0.00;
     }
 
-    public function getProductOnHandTotalBalance($onHandMerchandises, $productId)
+    public function getProductAvailableTotalBalance($availableMerchandises, $productId)
     {
-        return $onHandMerchandises->where('product_id', $productId)->sum('on_hand');
+        return $availableMerchandises->where('product_id', $productId)->sum('on_hand');
     }
 
     public function getProductReservedInWarehouse($reservedMerchandises, $productId, $warehouseId)
@@ -88,5 +96,29 @@ class Merchandise extends Model
     public function getProductReservedTotalBalance($reservedMerchandises, $productId)
     {
         return $reservedMerchandises->where('product_id', $productId)->sum('reserved');
+    }
+
+    public function getProductOnHandInWarehouse($onHandMerchandises, $productId, $warehouseId)
+    {
+        $reserved = $onHandMerchandises->where('product_id', $productId)
+            ->where('warehouse_id', $warehouseId)
+            ->first()
+            ->reserved ?? 0.00;
+
+        $onHand = $onHandMerchandises->where('product_id', $productId)
+            ->where('warehouse_id', $warehouseId)
+            ->first()
+            ->on_hand ?? 0.00;
+
+        return $reserved + $onHand;
+    }
+
+    public function getProductOnHandTotalBalance($onHandMerchandises, $productId)
+    {
+        $reserved = $onHandMerchandises->where('product_id', $productId)->sum('reserved');
+
+        $onHand = $onHandMerchandises->where('product_id', $productId)->sum('on_hand');
+
+        return $reserved + $onHand;
     }
 }

@@ -12,38 +12,44 @@ class MerchandiseController extends Controller
     {
         $this->authorize('viewAny', $merchandise);
 
+        // On Hand Merchandise Prooducts
         $onHandMerchandises = $merchandise->getAllOnHand()->load('product.productCategory');
-
         $onHandMerchandiseProducts = $onHandMerchandises->pluck('product')->unique();
 
-        $totalDistinctOnHandMerchandises = $onHandMerchandiseProducts->count();
+        // Available Merchandise Products
+        $availableMerchandises = $merchandise->getAllAvailable()->load('product.productCategory');
+        $availableMerchandiseProducts = $availableMerchandises->pluck('product')->unique();
 
-        $totalDistinctLimitedMerchandises = $merchandise->getTotalDistinctLimitedMerchandises($onHandMerchandises);
+        // Reserved Merchandise Products
+        $reservedMerchandises = $merchandise->getAllReserved()->load('product.productCategory');
+        $reservedMerchandiseProducts = $reservedMerchandises->pluck('product')->unique();
 
+        // Out Of Stock Merchandise Products
         $outOfStockMerchandiseProducts = $product->getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)->load('productCategory');
 
-        $totalOutOfStockMerchandises = $outOfStockMerchandiseProducts->count();
-
+        // Warehouses
         $warehouses = $warehouse->getAllWithoutRelations();
 
+        // Merchandise Inventory Insights
+        $totalDistinctOnHandMerchandises = $onHandMerchandiseProducts->count();
+        $totalDistinctLimitedMerchandises = $merchandise->getTotalDistinctLimitedMerchandises($onHandMerchandises);
+        $totalOutOfStockMerchandises = $outOfStockMerchandiseProducts->count();
         $totalWarehouseInUse = $warehouse->getTotalWarehousesUsed($onHandMerchandises);
-
-        $reservedMerchandises = $merchandise->getAllReserved()->load('product.productCategory');
-
-        $reservedMerchandiseProducts = $reservedMerchandises->pluck('product')->unique();
 
         return view('merchandises.index', compact(
             'merchandise',
             'onHandMerchandises',
             'onHandMerchandiseProducts',
-            'outOfStockMerchandiseProducts',
-            'totalDistinctOnHandMerchandises',
-            'totalOutOfStockMerchandises',
-            'totalDistinctLimitedMerchandises',
-            'totalWarehouseInUse',
-            'warehouses',
+            'availableMerchandises',
+            'availableMerchandiseProducts',
             'reservedMerchandises',
-            'reservedMerchandiseProducts'
+            'reservedMerchandiseProducts',
+            'outOfStockMerchandiseProducts',
+            'warehouses',
+            'totalDistinctOnHandMerchandises',
+            'totalDistinctLimitedMerchandises',
+            'totalOutOfStockMerchandises',
+            'totalWarehouseInUse',
         ));
     }
 }
