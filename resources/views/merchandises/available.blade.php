@@ -14,7 +14,7 @@
                     </tr>
                 </thead>
                 <tbody class="list">
-                    @foreach ($onHandMerchandiseProducts as $product)
+                    @foreach ($availableMerchandiseProducts as $product)
                         <tr>
                             <td> {{ $loop->index + 1 }} </td>
                             <td class="is-capitalized name">
@@ -31,7 +31,7 @@
                                 <td class="has-text-right">
                                     <a href="{{ route('warehouses-products', [$warehouse->id, $product->id]) }}" data-title="View Product History">
                                         <span class="tag is-small btn-green is-outline">
-                                            {{ $merchandise->getProductOnHandInWarehouse($onHandMerchandises, $product->id, $warehouse->id) }}
+                                            {{ $merchandise->getProductAvailableInWarehouse($availableMerchandises, $product->id, $warehouse->id) }}
                                             {{ $product->unit_of_measurement }}
                                         </span>
                                     </a>
@@ -39,7 +39,7 @@
                             @endforeach
                             <td class="has-text-right">
                                 <span class="tag is-small bg-green has-text-white">
-                                    {{ $merchandise->getProductOnHandTotalBalance($onHandMerchandises, $product->id) }}
+                                    {{ $merchandise->getProductAvailableTotalBalance($availableMerchandises, $product->id) }}
                                     {{ $product->unit_of_measurement }}
                                 </span>
                             </td>

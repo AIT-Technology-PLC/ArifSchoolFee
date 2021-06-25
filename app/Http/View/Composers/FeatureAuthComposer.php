@@ -24,6 +24,8 @@ class FeatureAuthComposer
             'warehouses.merchandises.on-hand',
             'warehouses.merchandises.out-of',
             'merchandises.on-hand',
+            'merchandises.available',
+            'merchandises.reserved',
             'merchandises.out-of',
         ]);
 
