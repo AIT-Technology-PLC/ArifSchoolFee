@@ -59,7 +59,7 @@
                 <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[]" data-numeric="[8]">
                     <thead>
                         <tr>
-                            <th id="firstTarget"><abbr> # </abbr></th>
+                            <th><abbr> # </abbr></th>
                             <th class="text-green"><abbr> Name </abbr></th>
                             <th><abbr> Category </abbr></th>
                             <th><abbr> Type </abbr></th>

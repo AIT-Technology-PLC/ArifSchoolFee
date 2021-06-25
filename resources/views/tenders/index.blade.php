@@ -59,7 +59,7 @@
                 <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[14,15,16]" data-numeric="[]">
                     <thead>
                         <tr>
-                            <th id="firstTarget"><abbr> # </abbr></th>
+                            <th><abbr> # </abbr></th>
                             <th><abbr> Tender No </abbr></th>
                             <th><abbr> Type </abbr></th>
                             <th class="text-blue"><abbr> Status </abbr></th>

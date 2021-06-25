@@ -17,7 +17,7 @@
                 <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[3]" data-numeric="[]">
                     <thead>
                         <tr>
-                            <th id="firstTarget"><abbr> # </abbr></th>
+                            <th><abbr> # </abbr></th>
                             <th class="text-green"><abbr> Item </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th><abbr> Added On </abbr></th>
@@ -30,13 +30,13 @@
                         @foreach ($generalTenderChecklists as $generalTenderChecklist)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized"> 
+                                <td class="is-capitalized">
                                     <span class="tag bg-green has-text-white">
-                                        {{ $generalTenderChecklist->item }} 
+                                        {{ $generalTenderChecklist->item }}
                                     </span>
                                 </td>
-                                <td> 
-                                    {{ $generalTenderChecklist->description ?? 'N/A' }} 
+                                <td>
+                                    {{ $generalTenderChecklist->description ?? 'N/A' }}
                                 </td>
                                 <td> {{ $generalTenderChecklist->created_at->toDayDateTimeString() }} </td>
                                 <td> {{ $generalTenderChecklist->createdBy->name ?? 'N/A' }} </td>

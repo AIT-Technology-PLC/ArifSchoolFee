@@ -83,7 +83,7 @@
                 <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[3,4]" data-numeric="[]">
                     <thead>
                         <tr>
-                            <th id="firstTarget"><abbr> # </abbr></th>
+                            <th><abbr> # </abbr></th>
                             <th><abbr> Notification </abbr></th>
                             <th><abbr> Status </abbr></th>
                             <th class="has-text-right"><abbr> Read at </abbr></th>

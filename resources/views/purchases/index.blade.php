@@ -59,7 +59,7 @@
                 <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[5]" data-numeric="[]">
                     <thead>
                         <tr>
-                            <th id="firstTarget"><abbr> # </abbr></th>
+                            <th><abbr> # </abbr></th>
                             <th class="text-gold"><abbr> Purchase No </abbr></th>
                             <th class="text-blue"><abbr> Purchase Type</abbr></th>
                             <th class="text-purple"><abbr> Payment Method </abbr></th>

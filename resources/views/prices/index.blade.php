@@ -16,7 +16,7 @@
                 <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[3]" data-numeric="[]">
                     <thead>
                         <tr>
-                            <th id="firstTarget"><abbr> # </abbr></th>
+                            <th><abbr> # </abbr></th>
                             <th class="text-green"><abbr> Product </abbr></th>
                             <th class="has-text-right text-purple"><abbr> Min Price </abbr></th>
                             <th class="has-text-right"><abbr> Last Modified</abbr></th>
@@ -29,14 +29,14 @@
                         @foreach ($prices as $price)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized"> 
+                                <td class="is-capitalized">
                                     <span class="tag bg-green has-text-white">
-                                        {{ $price->product->name }} 
+                                        {{ $price->product->name }}
                                     </span>
                                 </td>
-                                <td class="has-text-right"> 
+                                <td class="has-text-right">
                                     <span class="tag bg-purple has-text-white">
-                                        {{ $price->price }} 
+                                        {{ $price->price }}
                                     </span>
                                 </td>
                                 <td class="has-text-right"> {{ $price->updated_at->toFormattedDateString() }} </td>

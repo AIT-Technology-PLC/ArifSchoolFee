@@ -4,7 +4,7 @@
             <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[]" data-numeric="[{{ implode(',', range(3, $warehouses->count() + 3)) }}]">
                 <thead>
                     <tr>
-                        <th id="firstTarget"><abbr> # </abbr></th>
+                        <th><abbr> # </abbr></th>
                         <th><abbr> Product </abbr></th>
                         <th><abbr> Category </abbr></th>
                         @foreach ($warehouses as $warehouse)

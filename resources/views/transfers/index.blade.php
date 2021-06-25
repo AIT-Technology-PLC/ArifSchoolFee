@@ -89,7 +89,7 @@
                 <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[4]" data-numeric="[]">
                     <thead>
                         <tr>
-                            <th id="firstTarget"><abbr> # </abbr></th>
+                            <th><abbr> # </abbr></th>
                             <th class="has-text-centered"><abbr> Transfer No </abbr></th>
                             <th><abbr> Status </abbr></th>
                             <th><abbr> Description </abbr></th>

@@ -76,7 +76,7 @@
                 <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[7]" data-numeric="[]">
                     <thead>
                         <tr>
-                            <th id="firstTarget"><abbr> # </abbr></th>
+                            <th><abbr> # </abbr></th>
                             <th><abbr> Name </abbr></th>
                             <th><abbr> Email </abbr></th>
                             <th class="text-green"><abbr> Job Title </abbr></th>

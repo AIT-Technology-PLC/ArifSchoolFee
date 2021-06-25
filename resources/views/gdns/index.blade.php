@@ -89,7 +89,7 @@
                 <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[{{ $enabledFeatures->contains('Sale Management') ? 8 : 7 }}]" data-numeric="[]">
                     <thead>
                         <tr>
-                            <th id="firstTarget"><abbr> # </abbr></th>
+                            <th><abbr> # </abbr></th>
                             <th><abbr> DO/GDN No </abbr></th>
                             @if ($enabledFeatures->contains('Sale Management'))
                                 <th><abbr> Receipt No </abbr></th>

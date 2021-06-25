@@ -17,7 +17,7 @@
                 <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[1]" data-numeric="[4,6]">
                     <thead>
                         <tr>
-                            <th id="firstTarget"><abbr> # </abbr></th>
+                            <th><abbr> # </abbr></th>
                             <th class="has-text-right"><abbr> Date </abbr></th>
                             <th><abbr> Type </abbr></th>
                             <th><abbr> Ref N<u>o</u> </abbr></th>

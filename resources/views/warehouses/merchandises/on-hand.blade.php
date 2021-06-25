@@ -4,7 +4,7 @@
             <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[]" data-numeric="[3,4,5]">
                 <thead>
                     <tr>
-                        <th id="firstTarget"><abbr> # </abbr></th>
+                        <th><abbr> # </abbr></th>
                         <th><abbr> Product </abbr></th>
                         <th><abbr> Category </abbr></th>
                         <th class="has-text-right text-green"><abbr> Available </abbr></th>
@@ -18,8 +18,8 @@
                     @foreach ($onHandMerchandises as $merchandise)
                         <tr>
                             <td> {{ $loop->index + 1 }} </td>
-                            <td class="is-capitalized name"> 
-                                {{ $merchandise->product->name ?? 'N/A' }} 
+                            <td class="is-capitalized name">
+                                {{ $merchandise->product->name ?? 'N/A' }}
                                 @if ($merchandise->product->code)
                                     <span class="has-text-grey has-has-text-weight-bold">
                                         -

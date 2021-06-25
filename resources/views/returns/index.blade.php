@@ -89,7 +89,7 @@
                 <table id="table_id" class="is-hoverable is-size-7 display nowrap" data-date="[6]" data-numeric="[]">
                     <thead>
                         <tr>
-                            <th id="firstTarget"><abbr> # </abbr></th>
+                            <th><abbr> # </abbr></th>
                             <th><abbr> Return No </abbr></th>
                             <th><abbr> Status </abbr></th>
                             <th class="has-text-right"><abbr> Total Credit </abbr></th>
