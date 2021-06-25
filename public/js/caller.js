@@ -165,7 +165,7 @@ if (d.getElementById("addNewGrnForm")) {
     d.getElementById("addNewGrnForm").addEventListener("click", addGrnForm);
 }
 
-if (d.getElementById("table_id")) {
+if (d.querySelectorAll("table.display")) {
     window.addEventListener("load", initiateDataTables);
 }
 

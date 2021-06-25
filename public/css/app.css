@@ -441,7 +441,7 @@ div.dataTables_wrapper {
     width: 100%;
     margin: 0 auto;
 }
-#table_id {
+table.display {
     width: 100% !important;
     display: none;
 }

@@ -289,6 +289,7 @@ function openAddToInventoryModal() {
 function showOnHandMerchandise() {
     this.classList.add("is-active");
     d.getElementById("onHand").classList.remove("is-hidden");
+    adjustDataTablesColumns();
 
     hideAvailableMerchandise();
     hideReservedMerchandise();
@@ -298,6 +299,7 @@ function showOnHandMerchandise() {
 function showAvailableMerchandise() {
     this.classList.add("is-active");
     d.getElementById("available").classList.remove("is-hidden");
+    adjustDataTablesColumns();
 
     hideOnHandMerchandise();
     hideReservedMerchandise();
@@ -307,6 +309,7 @@ function showAvailableMerchandise() {
 function showReservedMerchandise() {
     this.classList.add("is-active");
     d.getElementById("reserved").classList.remove("is-hidden");
+    adjustDataTablesColumns();
 
     hideOnHandMerchandise();
     hideAvailableMerchandise();
@@ -865,26 +868,42 @@ const addGrnForm = (function () {
 })();
 
 function showTablesAfterCompleteLoad() {
-    let table = d.getElementById("table_id");
-    table.style.display = "table";
-    d.getElementById("firstTarget").click();
+    $("table.display").css("display", "table");
+    $("table.display").DataTable().columns.adjust().draw();
     changeDtButton();
     removeDtSearchLabel();
 }
 
+function changeDtButton() {
+    $(".buttons-print").attr("class", "button is-small btn-green is-outlined");
+    $(".buttons-pdf").attr("class", "button is-small btn-purple is-outlined");
+    $(".buttons-excel").attr("class", "button is-small btn-blue is-outlined");
+    $(".buttons-colvis:first-child").text("Hide Columns");
+    $(".buttons-colvis").attr("class", "button is-small btn-gold is-outlined");
+}
+
+function removeDtSearchLabel() {
+    $(".dataTables_filter label input").attr("placeholder", "Search");
+}
+
+function adjustDataTablesColumns() {
+    $("table.display").DataTable().columns.adjust().draw();
+}
+
 function initiateDataTables() {
-    const table = d.getElementById("table_id");
-    let dateTargets = JSON.parse(table.dataset.date);
-    let numericTargets = JSON.parse(table.dataset.numeric);
-    $("#table_id").DataTable({
-        order: [[0, "desc"]],
+    const table = $("table.display");
+
+    table.DataTable({
         responsive: true,
         scrollCollapse: true,
         scrollY: "500px",
         scrollX: true,
         columnDefs: [
-            { type: "natural-nohtml", targets: numericTargets },
-            { type: "date", targets: dateTargets },
+            {
+                type: "natural-nohtml",
+                targets: JSON.parse(table.attr("data-numeric")),
+            },
+            { type: "date", targets: JSON.parse(table.attr("data-date")) },
         ],
         lengthMenu: [
             [10, 25, 50, 75, 100, -1],
@@ -1037,19 +1056,6 @@ const addTenderForm = (function () {
     };
 })();
 
-function changeDtButton() {
-    d.getElementsByClassName("buttons-print")[0].classList =
-        "button is-small btn-green is-outlined";
-    d.getElementsByClassName("buttons-pdf")[0].classList =
-        "button is-small btn-purple is-outlined";
-    d.getElementsByClassName("buttons-excel")[0].classList =
-        "button is-small btn-blue is-outlined";
-    d.getElementsByClassName("buttons-colvis")[0].firstChild.innerText =
-        "Hide Columns";
-    d.getElementsByClassName("buttons-colvis")[0].classList =
-        "button is-small btn-gold is-outlined";
-}
-
 function showOnlineBox() {
     let backOffline = d.getElementById("backOffline");
     backOffline.classList.add("is-hidden");
@@ -1076,12 +1082,6 @@ function showOfflineBoxPermanent() {
     if (!navigator.onLine) {
         showOfflineBox();
     }
-}
-
-function removeDtSearchLabel() {
-    let tableFilter = d.getElementById("table_id_filter");
-    tableFilter.firstElementChild.childNodes[1].placeholder = "Search";
-    tableFilter.firstElementChild.firstChild.remove();
 }
 
 function toggleNotificationBox() {
