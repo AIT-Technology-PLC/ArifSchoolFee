@@ -876,7 +876,7 @@ function initiateDataTables() {
     const table = d.getElementById("table_id");
     let dateTargets = JSON.parse(table.dataset.date);
     let numericTargets = JSON.parse(table.dataset.numeric);
-    $("#table_id, #table2, #table3").DataTable({
+    $("#table_id").DataTable({
         order: [[0, "desc"]],
         responsive: true,
         scrollCollapse: true,
