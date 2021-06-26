@@ -28,7 +28,10 @@ class Merchandise extends Model
 
     public function getOnHandAttribute()
     {
-        return $this->available + $this->reserved;
+        return number_format(
+            $this->available + $this->reserved,
+            2, '.', ''
+        );
     }
 
     public function scopeCompanyMerchandises($query)
@@ -106,13 +109,10 @@ class Merchandise extends Model
 
     public function getProductOnHandInWarehouse($onHandMerchandises, $productId, $warehouseId)
     {
-        return number_format(
-            $onHandMerchandises->where('product_id', $productId)
-                ->where('warehouse_id', $warehouseId)
-                ->first()
-                ->on_hand ?? 0.00,
-            2, '.', ''
-        );
+        return $onHandMerchandises->where('product_id', $productId)
+            ->where('warehouse_id', $warehouseId)
+            ->first()
+            ->on_hand ?? 0.00;
     }
 
     public function getProductOnHandTotalBalance($onHandMerchandises, $productId)

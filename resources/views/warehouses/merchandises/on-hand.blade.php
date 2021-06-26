@@ -42,7 +42,7 @@
                             </td>
                             <td class="has-text-right">
                                 <span class="tag is-small btn-green is-outlined has-text-white">
-                                    {{ number_format($merchandise->on_hand, 2, '.', '') }}
+                                    {{ $merchandise->on_hand }}
                                     {{ $merchandise->product->unit_of_measurement }}
                                 </span>
                             </td>
