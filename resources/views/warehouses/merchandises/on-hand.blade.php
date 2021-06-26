@@ -42,12 +42,12 @@
                             </td>
                             <td class="has-text-right">
                                 <span class="tag is-small btn-green is-outlined has-text-white">
-                                    {{ number_format($merchandise->t, 2, '.', '') }}
+                                    {{ number_format($merchandise->on_hand, 2, '.', '') }}
                                     {{ $merchandise->product->unit_of_measurement }}
                                 </span>
                             </td>
                             <td class="is-capitalized">
-                                @if ($merchandise->product->isProductLimited($merchandise->t))
+                                @if ($merchandise->product->isProductLimited($merchandise->on_hand))
                                     <span class="tag is-small bg-gold has-text-white">
                                         <span class="icon">
                                             <i class="fas fa-exclamation-circle"></i>
