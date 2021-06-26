@@ -23,12 +23,12 @@ class MerchandiseInventoryService
                     'warehouse_id' => $detail->warehouse_id,
                 ],
                 [
-                    'on_hand' => 0.00,
+                    'available' => 0.00,
                     'company_id' => SetDataOwnerService::forNonTransaction()['company_id'],
                 ]
             );
 
-            $merchandise->on_hand = $merchandise->on_hand + $detail->quantity;
+            $merchandise->available = $merchandise->available + $detail->quantity;
 
             $merchandise->save();
         });
@@ -39,7 +39,7 @@ class MerchandiseInventoryService
         return $this->merchandise->where([
             ['product_id', $detail->product_id],
             ['warehouse_id', $detail->warehouse_id],
-            ['on_hand', '>=', $detail->quantity],
+            ['available', '>=', $detail->quantity],
         ])->exists();
     }
 
@@ -48,10 +48,10 @@ class MerchandiseInventoryService
         $merchandise = $this->merchandise->where([
             ['product_id', $detail->product_id],
             ['warehouse_id', $detail->warehouse_id],
-            ['on_hand', '>=', $detail->quantity],
+            ['available', '>=', $detail->quantity],
         ])->first();
 
-        $merchandise->on_hand = $merchandise->on_hand - $detail->quantity;
+        $merchandise->available = $merchandise->available - $detail->quantity;
 
         $merchandise->save();
     }

@@ -9,7 +9,7 @@
                         <th><abbr> Category </abbr></th>
                         <th class="has-text-right text-green"><abbr> Available </abbr></th>
                         <th class="has-text-right text-green"><abbr> Reserved </abbr></th>
-                        <th class="has-text-right text-green"><abbr> Total </abbr></th>
+                        <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
                         <th><abbr> Level </abbr></th>
                         <th><abbr> Actions </abbr></th>
                     </tr>
@@ -30,7 +30,7 @@
                             <td class="is-capitalized"> {{ $merchandise->product->productCategory->name ?? 'N/A' }} </td>
                             <td class="has-text-right">
                                 <span class="tag is-small btn-green is-outlined has-text-white">
-                                    {{ $merchandise->on_hand }}
+                                    {{ $merchandise->available }}
                                     {{ $merchandise->product->unit_of_measurement }}
                                 </span>
                             </td>
@@ -42,12 +42,12 @@
                             </td>
                             <td class="has-text-right">
                                 <span class="tag is-small btn-green is-outlined has-text-white">
-                                    {{ number_format($merchandise->total, 2, '.', '') }}
+                                    {{ number_format($merchandise->t, 2, '.', '') }}
                                     {{ $merchandise->product->unit_of_measurement }}
                                 </span>
                             </td>
                             <td class="is-capitalized">
-                                @if ($merchandise->product->isProductLimited($merchandise->on_hand))
+                                @if ($merchandise->product->isProductLimited($merchandise->t))
                                     <span class="tag is-small bg-gold has-text-white">
                                         <span class="icon">
                                             <i class="fas fa-exclamation-circle"></i>
