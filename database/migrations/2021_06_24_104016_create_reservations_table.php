@@ -15,6 +15,7 @@ class CreateReservationsTable extends Migration
     {
         Schema::table('merchandises', function (Blueprint $table) {
             $table->decimal('reserved', 22)->default(0.00)->after('on_hand');
+            $table->renameColumn('on_hand', 'available');
         });
 
         Schema::create('reservations', function (Blueprint $table) {
@@ -76,6 +77,7 @@ class CreateReservationsTable extends Migration
     public function down()
     {
         Schema::table('merchandises', function (Blueprint $table) {
+            $table->renameColumn('available', 'on_hand');
             $table->dropColumn(['reserved']);
         });
 
