@@ -57,6 +57,11 @@ class Customer extends Model
         return $this->hasMany(Returnn::class);
     }
 
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
     public function scopeCompanyCustomers($query)
     {
         return $query->where('company_id', userCompany()->id);

@@ -48,6 +48,11 @@ class Gdn extends Model
         return $this->hasMany(GdnDetail::class);
     }
 
+    public function reservation()
+    {
+        return $this->morphOne(Reservation::class, 'reservable');
+    }
+
     public function scopeCompanyGdn($query)
     {
         return $query->where('company_id', userCompany()->id);

@@ -141,6 +141,11 @@ class Company extends Model
         return $this->hasMany(Returnn::class);
     }
 
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
