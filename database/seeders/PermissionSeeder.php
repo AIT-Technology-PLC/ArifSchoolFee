@@ -106,6 +106,17 @@ class PermissionSeeder extends Seeder
             Permission::firstOrCreate(['name' => 'Approve Sale']);
             Permission::firstOrCreate(['name' => 'Delete Approved Sale']);
 
+            // Reservation
+            Permission::firstOrCreate(['name' => 'Create Reservation']);
+            Permission::firstOrCreate(['name' => 'Read Reservation']);
+            Permission::firstOrCreate(['name' => 'Update Reservation']);
+            Permission::firstOrCreate(['name' => 'Delete Reservation']);
+            Permission::firstOrCreate(['name' => 'Approve Reservation']);
+            Permission::firstOrCreate(['name' => 'Cancel Reservation']);
+            Permission::firstOrCreate(['name' => 'Convert Reservation']);
+            Permission::firstOrCreate(['name' => 'Make Reservation']);
+            Permission::firstOrCreate(['name' => 'Delete Approved Reservation']);
+
             // Proforma Invoice
             Permission::firstOrCreate(['name' => 'Create Proforma Invoice']);
             Permission::firstOrCreate(['name' => 'Read Proforma Invoice']);
