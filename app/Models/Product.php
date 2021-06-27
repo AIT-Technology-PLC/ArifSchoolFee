@@ -111,6 +111,11 @@ class Product extends Model
         return $this->hasMany(ReturnDetail::class);
     }
 
+    public function reservationDetails()
+    {
+        return $this->hasMany(ReservationDetail::class);
+    }
+
     public function setPropertiesAttribute($array)
     {
         $properties = [];
