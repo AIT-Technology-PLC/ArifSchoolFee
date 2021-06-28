@@ -69,7 +69,7 @@
         <div class="column is-3 p-lr-0">
             <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
                 <div class="is-size-3 has-text-weight-bold">
-                    {{ $totalApproved }}
+                    {{ $totalNotApproved }}
                 </div>
                 <div class="is-uppercase is-size-7">
                     Waiting Approval

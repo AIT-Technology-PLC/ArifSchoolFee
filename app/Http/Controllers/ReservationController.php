@@ -41,9 +41,9 @@ class ReservationController extends Controller
 
         $totalCancelled = $reservations->whereNotNull('cancelled_By')->count();
 
-        $totalApproved = $reservations->whereNotNull('approved_By')->whereNull('converted_by', 'reserved_by')->count();
+        $totalNotApproved = $reservations->whereNull('approved_By')->count();
 
-        return view('reservations.index', compact('reservations', 'totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalApproved'));
+        return view('reservations.index', compact('reservations', 'totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalNotApproved'));
     }
 
     public function create(Product $product, Customer $customer, Warehouse $warehouse)
