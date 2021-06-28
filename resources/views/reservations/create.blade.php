@@ -19,7 +19,7 @@
                         <div class="field">
                             <label for="code" class="label text-green has-text-weight-normal">Reservation Number <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="number" name="code" id="code" value="{{ $currentReservationnCode + 1 }}">
+                                <input class="input" type="number" name="code" id="code" value="{{ $currentReservationCode + 1 }}">
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-hashtag"></i>
                                 </span>
@@ -363,7 +363,7 @@
                     @endif
                 @endfor
                 <div id="reservationFormWrapper"></div>
-                <button id="addNewReservationnForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
+                <button id="addNewReservationForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
                     Add More Item
                 </button>
             </div>

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\Product;
 use App\Models\Reservation;
+use App\Models\Warehouse;
 use App\Traits\NotifiableUsers;
 use App\Traits\SubtractInventory;
 use Illuminate\Http\Request;
@@ -39,9 +42,17 @@ class ReservationController extends Controller
         return view('reservations.index', compact('reservations', 'totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalApproved'));
     }
 
-    public function create()
+    public function create(Product $product, Customer $customer, Warehouse $warehouse)
     {
-        //
+        $products = $product->getProductNames();
+
+        $customers = $customer->getCustomerNames();
+
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        $currentReservationCode = (Reservation::select('code')->companyReservation()->latest()->first()->code) ?? 0;
+
+        return view('reservations.create', compact('products', 'customers', 'warehouses', 'currentReservationCode'));
     }
 
     public function store(Request $request)
