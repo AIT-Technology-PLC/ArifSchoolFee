@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Reservation;
 use App\Models\Warehouse;
+use App\Notifications\ReservationCancelled;
 use App\Notifications\ReservationMade;
 use App\Notifications\ReservationPrepared;
 use App\Services\InventoryOperationService;
@@ -158,5 +159,33 @@ class ReservationController extends Controller
         return $result['isReserved'] ?
         redirect()->back() :
         redirect()->back()->with('failedMessage', $result['unavailableProducts']);
+    }
+
+    public function cancel(Reservation $reservation)
+    {
+        $this->authorize('cancel', $reservation);
+
+        if (!$reservation->isApproved()) {
+            return redirect()->back()->with('failedMessage', 'This reservation is not approved yet');
+        }
+
+        if (!$reservation->isConverted() && !$reservation->isReserved()) {
+            $reservation->cancel();
+
+            return redirect()->back()->with('successMessage', 'This reservation is cancelled successfully');
+        }
+
+        DB::transaction(function () use ($reservation) {
+            InventoryOperationService::cancelReservation($reservation->reservationDetails);
+
+            $reservation->cancel();
+
+            Notification::send(
+                $this->notifiableUsers('Approve Reservation', $reservation->createdBy),
+                new ReservationCancelled($reservation)
+            );
+        });
+
+        return redirect()->back()->with('successMessage', 'This reservation is cancelled successfully');
     }
 }
