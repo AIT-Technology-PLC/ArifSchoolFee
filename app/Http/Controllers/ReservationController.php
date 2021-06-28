@@ -76,7 +76,9 @@ class ReservationController extends Controller
 
     public function show(Reservation $reservation)
     {
-        //
+        $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse', 'customer', 'company']);
+
+        return view('reservations.show', compact('reservation'));
     }
 
     public function edit(Reservation $reservation)
