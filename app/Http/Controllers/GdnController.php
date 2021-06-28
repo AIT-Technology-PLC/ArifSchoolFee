@@ -88,6 +88,10 @@ class GdnController extends Controller
 
     public function edit(Gdn $gdn, Product $product, Customer $customer, Sale $sale, Warehouse $warehouse)
     {
+        if ($gdn->reservation) {
+            return redirect()->back()->with('failedMessage', 'You cannot edit a DO that belongs to a reservation.');
+        }
+
         $products = $product->getProductNames();
 
         $customers = $customer->getCustomerNames();
@@ -103,6 +107,11 @@ class GdnController extends Controller
 
     public function update(UpdateGdnRequest $request, Gdn $gdn)
     {
+        if ($gdn->reservation) {
+            return redirect()->route('gdns.show', $gdn->id)
+                ->with('failedMessage', 'You cannot edit a DO that belongs to a reservation.');
+        }
+
         if ($gdn->isApproved()) {
             $gdn->update($request->only('sale_id', 'updated_by'));
 

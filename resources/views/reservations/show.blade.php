@@ -265,19 +265,21 @@
                             This reservation is successfully converted to Delivery Order
                         </span>
                     </p>
-                    @can('Cancel Reservation')
-                        <form id="formOne" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate>
-                            @csrf
-                            <button data-type="Reservation" data-action="cancel" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
-                                <span class="icon">
-                                    <i class="fas fa-times-circle"></i>
-                                </span>
-                                <span>
-                                    Cancel Reservation
-                                </span>
-                            </button>
-                        </form>
-                    @endcan
+                    @if (!$reservation->reservable()->isSubtracted())
+                        @can('Cancel Reservation')
+                            <form id="formOne" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate>
+                                @csrf
+                                <button data-type="Reservation" data-action="cancel" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                                    <span class="icon">
+                                        <i class="fas fa-times-circle"></i>
+                                    </span>
+                                    <span>
+                                        Cancel Reservation
+                                    </span>
+                                </button>
+                            </form>
+                        @endcan
+                    @endif
                 </div>
             @elseif ($reservation->isReserved())
                 <div class="box has-background-white-ter has-text-left mb-6">
