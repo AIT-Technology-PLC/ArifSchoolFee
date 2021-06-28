@@ -132,13 +132,13 @@
                                     {{ $reservation->code }}
                                 </td>
                                 <td class="is-capitalized">
-                                    @if (!$reservation->isApproved() && !$reservation->isCancelled())
-                                        <span class="tag is-small bg-purple has-text-white">
+                                    @if ($reservation->isCancelled())
+                                        <span class="tag is-small bg-gold has-text-white">
                                             <span class="icon">
-                                                <i class="fas fa-clock"></i>
+                                                <i class="fas fa-times-circle"></i>
                                             </span>
                                             <span>
-                                                Waiting Approval
+                                                Cancelled
                                             </span>
                                         </span>
                                     @elseif ($reservation->isConverted())
@@ -150,15 +150,6 @@
                                                 Converted
                                             </span>
                                         </span>
-                                    @elseif ($reservation->isCancelled())
-                                        <span class="tag is-small bg-gold has-text-white">
-                                            <span class="icon">
-                                                <i class="fas fa-times-circle"></i>
-                                            </span>
-                                            <span>
-                                                Cancelled
-                                            </span>
-                                        </span>
                                     @elseif ($reservation->isReserved())
                                         <span class="tag is-small bg-blue has-text-white">
                                             <span class="icon">
@@ -168,13 +159,22 @@
                                                 Reserved
                                             </span>
                                         </span>
-                                    @else
+                                    @elseif($reservation->isApproved())
                                         <span class="tag is-small bg-purple has-text-white">
                                             <span class="icon">
                                                 <i class="fas fa-exclamation-circle"></i>
                                             </span>
                                             <span>
                                                 Approved (Not Reserved)
+                                            </span>
+                                        </span>
+                                    @else
+                                        <span class="tag is-small bg-purple has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-clock"></i>
+                                            </span>
+                                            <span>
+                                                Waiting Approval
                                             </span>
                                         </span>
                                     @endif
