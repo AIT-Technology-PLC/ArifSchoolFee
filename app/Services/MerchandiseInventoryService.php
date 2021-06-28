@@ -14,44 +14,44 @@ class MerchandiseInventoryService
         $this->merchandise = new Merchandise();
     }
 
-    public function add($detail)
+    public function add($detail, $to = 'available')
     {
-        DB::transaction(function () use ($detail) {
+        DB::transaction(function () use ($detail, $to) {
             $merchandise = $this->merchandise->firstOrCreate(
                 [
                     'product_id' => $detail->product_id,
                     'warehouse_id' => $detail->warehouse_id,
                 ],
                 [
-                    'available' => 0.00,
+                    $to => 0.00,
                     'company_id' => SetDataOwnerService::forNonTransaction()['company_id'],
                 ]
             );
 
-            $merchandise->available = $merchandise->available + $detail->quantity;
+            $merchandise->$to = $merchandise->$to + $detail->quantity;
 
             $merchandise->save();
         });
     }
 
-    public function isAvailable($detail)
+    public function isAvailable($detail, $in = 'available')
     {
         return $this->merchandise->where([
             ['product_id', $detail->product_id],
             ['warehouse_id', $detail->warehouse_id],
-            ['available', '>=', $detail->quantity],
+            [$in, '>=', $detail->quantity],
         ])->exists();
     }
 
-    public function subtract($detail)
+    public function subtract($detail, $from = 'available')
     {
         $merchandise = $this->merchandise->where([
             ['product_id', $detail->product_id],
             ['warehouse_id', $detail->warehouse_id],
-            ['available', '>=', $detail->quantity],
+            [$from, '>=', $detail->quantity],
         ])->first();
 
-        $merchandise->available = $merchandise->available - $detail->quantity;
+        $merchandise->$from = $merchandise->$from - $detail->quantity;
 
         $merchandise->save();
     }
