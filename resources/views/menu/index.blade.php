@@ -159,17 +159,17 @@
                         @endif
                     @endcan
 
-                    @can('Read Price')
-                        @if ($enabledFeatures->contains('Price Management'))
+                    @can('Read Reservation')
+                        @if ($enabledFeatures->contains('Reservation Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
-                                <a href="{{ route('prices.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
+                                <a href="{{ route('reservations.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
-                                        <i class="fas fa-money-bill"></i>
+                                        <i class="fas fa-archive"></i>
                                     </span>
                                 </a>
                                 <br>
                                 <span class="is-size-6 is-size-7-mobile text-green">
-                                    Prices
+                                    Reservations
                                 </span>
                             </div>
                         @endif
@@ -186,6 +186,22 @@
                                 <br>
                                 <span class="is-size-6 is-size-7-mobile text-green">
                                     Returns
+                                </span>
+                            </div>
+                        @endif
+                    @endcan
+
+                    @can('Read Price')
+                        @if ($enabledFeatures->contains('Price Management'))
+                            <div class="column is-4 has-text-centered has-text-grey">
+                                <a href="{{ route('prices.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
+                                    <span class="icon is-size-5">
+                                        <i class="fas fa-money-bill"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile text-green">
+                                    Prices
                                 </span>
                             </div>
                         @endif

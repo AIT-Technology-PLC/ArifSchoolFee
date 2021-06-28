@@ -263,7 +263,7 @@
         </ul>
     @endcanany
 
-    @canany(['Read Sale', 'Read Proforma Invoice', 'Read Price', 'Read Customer'])
+    @canany(['Read Sale', 'Read Proforma Invoice', 'Read Price', 'Read Customer', 'Read Reservation'])
         <p class="menu-label has-text-weight-bold text-green">
             Sales & Customers
         </p>
@@ -329,29 +329,29 @@
                     </li>
                 @endcan
             @endif
-            @if ($enabledFeatures->contains('Price Management'))
-                @can('Read Price')
+            @if ($enabledFeatures->contains('Reservation Management'))
+                @can('Read Reservation')
                     <li>
-                        <a name="menuTitles" href="{{ route('prices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices') ? 'is-active' : '' }}">
+                        <a name="menuTitles" href="{{ route('reservations.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('reservations') ? 'is-active' : '' }}">
                             <span class="icon">
-                                <i class="fas fa-money-bill"></i>
+                                <i class="fas fa-archive"></i>
                             </span>
                             <span>
-                                Price Management
+                                Reservation Management
                             </span>
                         </a>
                     </li>
                 @endcan
-                @can('Create Price')
+                @can('Create Reservation')
                     <li>
                         <ul class="mt-0">
                             <li>
-                                <a name="menuTitles" href="{{ route('prices.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices/create') ? 'is-active' : '' }}">
+                                <a name="menuTitles" href="{{ route('reservations.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('reservations/create') ? 'is-active' : '' }}">
                                     <span class="icon">
                                         <i class="fas fa-plus-circle"></i>
                                     </span>
                                     <span>
-                                        New Price
+                                        New Reservation
                                     </span>
                                 </a>
                             </li>
@@ -413,6 +413,36 @@
                                     </span>
                                     <span>
                                         New Customer
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+            @endif
+            @if ($enabledFeatures->contains('Price Management'))
+                @can('Read Price')
+                    <li>
+                        <a name="menuTitles" href="{{ route('prices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices') ? 'is-active' : '' }}">
+                            <span class="icon">
+                                <i class="fas fa-money-bill"></i>
+                            </span>
+                            <span>
+                                Price Management
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Create Price')
+                    <li>
+                        <ul class="mt-0">
+                            <li>
+                                <a name="menuTitles" href="{{ route('prices.create') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices/create') ? 'is-active' : '' }}">
+                                    <span class="icon">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </span>
+                                    <span>
+                                        New Price
                                     </span>
                                 </a>
                             </li>
