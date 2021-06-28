@@ -186,6 +186,10 @@ class ReservationController extends Controller
         }
 
         DB::transaction(function () use ($reservation) {
+            if ($reservation->isConverted()) {
+                $reservation->reservable()->delete();
+            }
+
             InventoryOperationService::cancelReservation($reservation->reservationDetails);
 
             $reservation->cancel();

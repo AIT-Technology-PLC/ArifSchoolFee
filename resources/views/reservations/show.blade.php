@@ -265,7 +265,7 @@
                             This reservation is successfully converted to Delivery Order
                         </span>
                     </p>
-                    @if (!$reservation->reservable()->isSubtracted())
+                    @if (!$reservation->reservable->isSubtracted())
                         @can('Cancel Reservation')
                             <form id="formOne" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate>
                                 @csrf
