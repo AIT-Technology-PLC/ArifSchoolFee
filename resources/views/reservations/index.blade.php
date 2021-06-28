@@ -140,6 +140,15 @@
                                                 Converted
                                             </span>
                                         </span>
+                                    @elseif ($reservation->isCancelled())
+                                        <span class="tag is-small bg-purple has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-times-circle"></i>
+                                            </span>
+                                            <span>
+                                                Cancelled
+                                            </span>
+                                        </span>
                                     @elseif ($reservation->isReserved())
                                         <span class="tag is-small bg-gold has-text-white">
                                             <span class="icon">
@@ -147,15 +156,6 @@
                                             </span>
                                             <span>
                                                 Reserved
-                                            </span>
-                                        </span>
-                                    @else
-                                        <span class="tag is-small bg-purple has-text-white">
-                                            <span class="icon">
-                                                <i class="fas fa-times-circle"></i>
-                                            </span>
-                                            <span>
-                                                Cancelled
                                             </span>
                                         </span>
                                     @endif
