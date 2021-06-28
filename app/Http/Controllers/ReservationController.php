@@ -179,6 +179,10 @@ class ReservationController extends Controller
             return redirect()->back()->with('failedMessage', 'This reservation is not approved yet.');
         }
 
+        if ($reservation->isConverted() && $reservation->reservable->isSubtracted()) {
+            return redirect()->back()->with('failedMessage', 'This reservation cannot be cancelled, it has been converted to sales.');
+        }
+
         if (!$reservation->isConverted() && !$reservation->isReserved()) {
             $reservation->cancel();
 
@@ -186,7 +190,7 @@ class ReservationController extends Controller
         }
 
         DB::transaction(function () use ($reservation) {
-            if ($reservation->isConverted()) {
+            if ($reservation->isConverted() && !$reservation->reservable->isSubtracted()) {
                 $reservation->reservable()->delete();
             }
 
