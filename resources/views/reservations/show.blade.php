@@ -244,32 +244,71 @@
                     {{ session('successMessage') }}
                 </span>
             </div>
-            @if ($reservation->isCancelled())
-                <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
+            @if (!$reservation->isApproved())
+                <div class="box has-background-white-ter has-text-left mb-6">
                     <p class="has-text-grey text-purple is-size-6">
                         <span class="icon">
-                            <i class="fas fa-times-circle"></i>
+                            <i class="fas fa-exclamation-circle"></i>
                         </span>
                         <span>
-                            This reservation is cancelled
+                            This Reservation has not been approved.
                         </span>
                     </p>
+                    @can('Approve Reservation')
+                        <form id="formOne" action="{{ route('reservations.approve', $reservation->id) }}" method="post" novalidate class="is-inline">
+                            @csrf
+                            <button data-type="Reservation" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                                <span class="icon">
+                                    <i class="fas fa-signature"></i>
+                                </span>
+                                <span>
+                                    Approve Reservation
+                                </span>
+                            </button>
+                        </form>
+                    @endcan
+                    @can('Cancel Reservation')
+                        <form id="formOne" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate class="is-inline">
+                            @csrf
+                            <button data-type="Reservation" data-action="cancel" data-description="" class="swal button btn-purple is-outlined mt-5 is-size-7-mobile">
+                                <span class="icon">
+                                    <i class="fas fa-times-circle"></i>
+                                </span>
+                                <span>
+                                    Cancel Reservation
+                                </span>
+                            </button>
+                        </form>
+                    @endcan
                 </div>
             @endif
-            @if ($reservation->isConverted())
-                <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
-                    <p class="has-text-grey text-green is-size-6">
+            @if ($reservation->isApproved() && !$reservation->isConverted() && !$reservation->isReserved())
+                <div class="box has-background-white-ter has-text-left mb-6">
+                    <p class="has-text-grey text-purple is-size-6">
                         <span class="icon">
-                            <i class="fas fa-check-circle"></i>
+                            <i class="fas fa-exclamation-circle"></i>
                         </span>
                         <span>
-                            This reservation is successfully converted to Delivery Order
+                            This Reservation is approved but products are not yet reserved.
                         </span>
                     </p>
-                    @can('Cancel Reservation')
-                        <form id="formOne" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate>
+                    @can('Make Reservation')
+                        <form id="formOne" action="{{ route('reservations.reserve', $reservation->id) }}" method="post" novalidate class="is-inline">
                             @csrf
-                            <button data-type="Reservation" data-action="cancel" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button data-type="Reservation" data-action="reserve" data-description="products of" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                                <span class="icon">
+                                    <i class="fas fa-signature"></i>
+                                </span>
+                                <span>
+                                    Make Reservation
+                                </span>
+                            </button>
+                        </form>
+                    @endcan
+                    @can('Cancel Reservation')
+                        <form id="formOne" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate class="is-inline">
+                            @csrf
+                            <button data-type="Reservation" data-action="cancel" data-description="" class="swal button btn-purple is-outlined mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-times-circle"></i>
                                 </span>
@@ -319,71 +358,32 @@
                     @endcan
                 </div>
             @endif
-            @if (!$reservation->isApproved())
-                <div class="box has-background-white-ter has-text-left mb-6">
+            @if ($reservation->isCancelled())
+                <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
                     <p class="has-text-grey text-purple is-size-6">
                         <span class="icon">
-                            <i class="fas fa-exclamation-circle"></i>
+                            <i class="fas fa-times-circle"></i>
                         </span>
                         <span>
-                            This Reservation has not been approved.
+                            This reservation is cancelled
                         </span>
                     </p>
-                    @can('Approve Reservation')
-                        <form id="formOne" action="{{ route('reservations.approve', $reservation->id) }}" method="post" novalidate class="is-inline">
-                            @csrf
-                            <button data-type="Reservation" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
-                                <span class="icon">
-                                    <i class="fas fa-signature"></i>
-                                </span>
-                                <span>
-                                    Approve Reservation
-                                </span>
-                            </button>
-                        </form>
-                    @endcan
-                    @can('Cancel Reservation')
-                        <form id="formOne" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate class="is-inline">
-                            @csrf
-                            <button data-type="Reservation" data-action="cancel" data-description="" class="swal button btn-purple is-outlined mt-5 is-size-7-mobile">
-                                <span class="icon">
-                                    <i class="fas fa-times-circle"></i>
-                                </span>
-                                <span>
-                                    Cancel Reservation
-                                </span>
-                            </button>
-                        </form>
-                    @endcan
                 </div>
             @endif
-            @if ($reservation->isApproved() && (!$reservation->isConverted() && !$reservation->isReserved()))
-                <div class="box has-background-white-ter has-text-left mb-6">
-                    <p class="has-text-grey text-purple is-size-6">
+            @if ($reservation->isConverted())
+                <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
+                    <p class="has-text-grey text-green is-size-6">
                         <span class="icon">
-                            <i class="fas fa-exclamation-circle"></i>
+                            <i class="fas fa-check-circle"></i>
                         </span>
                         <span>
-                            This Reservation is approved but products are not yet reserved.
+                            This reservation is successfully converted to Delivery Order
                         </span>
                     </p>
-                    @can('Make Reservation')
-                        <form id="formOne" action="{{ route('reservations.reserve', $reservation->id) }}" method="post" novalidate class="is-inline">
-                            @csrf
-                            <button data-type="Reservation" data-action="reserve" data-description="products of" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
-                                <span class="icon">
-                                    <i class="fas fa-signature"></i>
-                                </span>
-                                <span>
-                                    Make Reservation
-                                </span>
-                            </button>
-                        </form>
-                    @endcan
                     @can('Cancel Reservation')
-                        <form id="formOne" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate class="is-inline">
+                        <form id="formOne" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate>
                             @csrf
-                            <button data-type="Reservation" data-action="cancel" data-description="" class="swal button btn-purple is-outlined mt-5 is-size-7-mobile">
+                            <button data-type="Reservation" data-action="cancel" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-times-circle"></i>
                                 </span>
