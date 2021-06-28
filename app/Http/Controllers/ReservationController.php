@@ -8,10 +8,11 @@ use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Reservation;
 use App\Models\Warehouse;
+use App\Notifications\ReservationMade;
 use App\Notifications\ReservationPrepared;
+use App\Services\InventoryOperationService;
 use App\Traits\NotifiableUsers;
 use App\Traits\SubtractInventory;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -125,5 +126,37 @@ class ReservationController extends Controller
         $reservation->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
+    }
+
+    public function reserve(Reservation $reservation)
+    {
+        $this->authorize('reserve', $reservation);
+
+        if (!$reservation->isApproved()) {
+            return redirect()->back()->with('failedMessage', 'This reservation is not approved yet');
+        }
+
+        $result = DB::transaction(function () use ($reservation) {
+            $result = InventoryOperationService::reserve($reservation->reservationDetails);
+
+            if (!$result['isReserved']) {
+                DB::rollBack();
+
+                return $result;
+            }
+
+            $reservation->reserve();
+
+            Notification::send(
+                $this->notifiableUsers('Approve Reservation', $reservation->createdBy),
+                new ReservationMade($reservation)
+            );
+
+            return $result;
+        });
+
+        return $result['isReserved'] ?
+        redirect()->back() :
+        redirect()->back()->with('failedMessage', $result['unavailableProducts']);
     }
 }

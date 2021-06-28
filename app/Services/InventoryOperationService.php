@@ -113,4 +113,36 @@ class InventoryOperationService
 
         return $result;
     }
+
+    public static function reserve($details)
+    {
+        $result = DB::transaction(function () use ($details) {
+            $unavailableProducts = [];
+
+            foreach ($details as $detail) {
+                $type = InventoryTypeFactory::make($detail);
+
+                if (!$type->isAvailable($detail)) {
+                    array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
+                }
+            }
+
+            if (count($unavailableProducts)) {
+                return [
+                    'isReserved' => false,
+                    'unavailableProducts' => $unavailableProducts,
+                ];
+            }
+
+            foreach ($details as $detail) {
+                $type = InventoryTypeFactory::make($detail);
+
+                $type->reserve($detail);
+            }
+
+            return ['isReserved' => true];
+        });
+
+        return $result;
+    }
 }

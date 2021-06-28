@@ -79,4 +79,12 @@ class MerchandiseInventoryService
             }
         });
     }
+
+    public function reserve($detail)
+    {
+        DB::transaction(function () use ($detail) {
+            $this->subtract($detail);
+            $this->add($detail, 'reserve');
+        });
+    }
 }
