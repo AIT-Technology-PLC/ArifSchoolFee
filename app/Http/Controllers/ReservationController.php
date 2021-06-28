@@ -126,7 +126,7 @@ class ReservationController extends Controller
 
     public function destroy(Reservation $reservation)
     {
-        if ($reservation->isConverted() || $reservation->isReserved()) {
+        if (($reservation->isConverted() || $reservation->isReserved()) && !$reservation->isCancelled()) {
             return view('errors.permission_denied');
         }
 
