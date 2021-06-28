@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="column is-3 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <div class="box text-green has-text-centered" style="border-left: 2px solid #3d8660;">
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalConverted }}
@@ -56,7 +56,7 @@
                 </div>
             </div>
         </div>
-        <div class="column is-3 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <div class="box text-blue has-text-centered" style="border-left: 2px solid #3d6386;">
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalReserved }}
@@ -66,23 +66,33 @@
                 </div>
             </div>
         </div>
-        <div class="column is-3 p-lr-0">
-            <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
-                <div class="is-size-3 has-text-weight-bold">
-                    {{ $totalNotApproved }}
-                </div>
-                <div class="is-uppercase is-size-7">
-                    Waiting Approval
-                </div>
-            </div>
-        </div>
-        <div class="column is-3 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalCancelled }}
                 </div>
                 <div class="is-uppercase is-size-7">
                     Cancelled
+                </div>
+            </div>
+        </div>
+        <div class="column is-4 is-offset-2 p-lr-0">
+            <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalApproved }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Approved
+                </div>
+            </div>
+        </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalNotApproved }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Waiting Approval
                 </div>
             </div>
         </div>
@@ -159,7 +169,7 @@
                                             </span>
                                         </span>
                                     @else
-                                        <span class="tag is-small bg-gold has-text-white">
+                                        <span class="tag is-small bg-purple has-text-white">
                                             <span class="icon">
                                                 <i class="fas fa-exclamation-circle"></i>
                                             </span>

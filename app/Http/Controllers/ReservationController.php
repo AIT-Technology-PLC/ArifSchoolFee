@@ -46,7 +46,9 @@ class ReservationController extends Controller
 
         $totalNotApproved = $reservations->whereNull('approved_by')->whereNull('cancelled_by')->count();
 
-        return view('reservations.index', compact('reservations', 'totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalNotApproved'));
+        $totalApproved = $reservations->whereNotNull('approved_by')->whereNull('reserved_by')->whereNull('converted_by')->count();
+
+        return view('reservations.index', compact('reservations', 'totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalNotApproved', 'totalApproved'));
     }
 
     public function create(Product $product, Customer $customer, Warehouse $warehouse)
@@ -172,7 +174,7 @@ class ReservationController extends Controller
         if (!$reservation->isConverted() && !$reservation->isReserved()) {
             $reservation->cancel();
 
-            return redirect()->back()->with('successMessage', 'This reservation is cancelled successfully.');
+            return redirect()->back();
         }
 
         DB::transaction(function () use ($reservation) {
@@ -186,6 +188,6 @@ class ReservationController extends Controller
             );
         });
 
-        return redirect()->back()->with('successMessage', 'This reservation is cancelled successfully.');
+        return redirect()->back();
     }
 }
