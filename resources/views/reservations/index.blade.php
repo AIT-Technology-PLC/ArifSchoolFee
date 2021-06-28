@@ -122,7 +122,7 @@
                                     {{ $reservation->code }}
                                 </td>
                                 <td class="is-capitalized">
-                                    @if (!$reservation->isApproved())
+                                    @if (!$reservation->isApproved() && !$reservation->isCancelled())
                                         <span class="tag is-small bg-purple has-text-white">
                                             <span class="icon">
                                                 <i class="fas fa-clock"></i>
@@ -156,6 +156,15 @@
                                             </span>
                                             <span>
                                                 Reserved
+                                            </span>
+                                        </span>
+                                    @else
+                                        <span class="tag is-small bg-gold has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-exclamation-circle"></i>
+                                            </span>
+                                            <span>
+                                                Approved (Not Reserved)
                                             </span>
                                         </span>
                                     @endif

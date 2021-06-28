@@ -40,11 +40,11 @@ class ReservationController extends Controller
 
         $totalConverted = $reservations->whereNotNull('converted_by')->count();
 
-        $totalReserved = $reservations->whereNotNull('reserved_By')->whereNull('converted_by')->count();
+        $totalReserved = $reservations->whereNotNull('reserved_by')->whereNull('converted_by')->count();
 
-        $totalCancelled = $reservations->whereNotNull('cancelled_By')->count();
+        $totalCancelled = $reservations->whereNotNull('cancelled_by')->count();
 
-        $totalNotApproved = $reservations->whereNull('approved_By')->count();
+        $totalNotApproved = $reservations->whereNull('approved_by')->whereNull('cancelled_by')->count();
 
         return view('reservations.index', compact('reservations', 'totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalNotApproved'));
     }
@@ -134,7 +134,7 @@ class ReservationController extends Controller
         $this->authorize('reserve', $reservation);
 
         if (!$reservation->isApproved()) {
-            return redirect()->back()->with('failedMessage', 'This reservation is not approved yet');
+            return redirect()->back()->with('failedMessage', 'This reservation is not approved yet.');
         }
 
         $result = DB::transaction(function () use ($reservation) {
@@ -166,13 +166,13 @@ class ReservationController extends Controller
         $this->authorize('cancel', $reservation);
 
         if (!$reservation->isApproved()) {
-            return redirect()->back()->with('failedMessage', 'This reservation is not approved yet');
+            return redirect()->back()->with('failedMessage', 'This reservation is not approved yet.');
         }
 
         if (!$reservation->isConverted() && !$reservation->isReserved()) {
             $reservation->cancel();
 
-            return redirect()->back()->with('successMessage', 'This reservation is cancelled successfully');
+            return redirect()->back()->with('successMessage', 'This reservation is cancelled successfully.');
         }
 
         DB::transaction(function () use ($reservation) {
@@ -186,6 +186,6 @@ class ReservationController extends Controller
             );
         });
 
-        return redirect()->back()->with('successMessage', 'This reservation is cancelled successfully');
+        return redirect()->back()->with('successMessage', 'This reservation is cancelled successfully.');
     }
 }

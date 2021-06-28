@@ -255,7 +255,7 @@
                         </span>
                     </p>
                     @can('Approve Reservation')
-                        <form id="formOne" action="{{ route('reservations.approve', $reservation->id) }}" method="post" novalidate class="is-inline">
+                        <form id="formOne" action="{{ route('reservations.approve', $reservation->id) }}" method="post" novalidate>
                             @csrf
                             <button data-type="Reservation" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
@@ -263,19 +263,6 @@
                                 </span>
                                 <span>
                                     Approve Reservation
-                                </span>
-                            </button>
-                        </form>
-                    @endcan
-                    @can('Cancel Reservation')
-                        <form id="formOne" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate class="is-inline">
-                            @csrf
-                            <button data-type="Reservation" data-action="cancel" data-description="" class="swal button btn-purple is-outlined mt-5 is-size-7-mobile">
-                                <span class="icon">
-                                    <i class="fas fa-times-circle"></i>
-                                </span>
-                                <span>
-                                    Cancel Reservation
                                 </span>
                             </button>
                         </form>
