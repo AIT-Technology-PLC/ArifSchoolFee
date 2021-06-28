@@ -145,4 +145,15 @@ class InventoryOperationService
 
         return $result;
     }
+
+    public static function cancelReservation($details)
+    {
+        DB::transaction(function () use ($details) {
+            foreach ($details as $detail) {
+                $type = InventoryTypeFactory::make($detail);
+
+                $type->cancelReservation($detail);
+            }
+        });
+    }
 }

@@ -87,4 +87,12 @@ class MerchandiseInventoryService
             $this->add($detail, 'reserved');
         });
     }
+
+    public function cancelReservation($detail)
+    {
+        DB::transaction(function () use ($detail) {
+            $this->subtract($detail, 'reserved');
+            $this->add($detail);
+        });
+    }
 }
