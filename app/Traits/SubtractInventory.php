@@ -32,7 +32,9 @@ trait SubtractInventory
         }
 
         $result = DB::transaction(function () use ($model, $modelDetails, $modelName, $notificationClass) {
-            $result = InventoryOperationService::subtract($model->$modelDetails);
+            $from = $model->reservation ? 'reserved' : 'available';
+
+            $result = InventoryOperationService::subtract($model->$modelDetails, $from);
 
             if (!$result['isSubtracted']) {
                 DB::rollBack();

@@ -18,15 +18,15 @@ class InventoryOperationService
         });
     }
 
-    public static function subtract($details)
+    public static function subtract($details, $from)
     {
-        $result = DB::transaction(function () use ($details) {
+        $result = DB::transaction(function () use ($details, $from) {
             $unavailableProducts = [];
 
             foreach ($details as $detail) {
                 $type = InventoryTypeFactory::make($detail);
 
-                if (!$type->isAvailable($detail)) {
+                if (!$type->isAvailable($detail, $from)) {
                     array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
                 }
             }
@@ -41,7 +41,7 @@ class InventoryOperationService
             foreach ($details as $detail) {
                 $type = InventoryTypeFactory::make($detail);
 
-                $type->subtract($detail);
+                $type->subtract($detail, $from);
             }
 
             return ['isSubtracted' => true];
