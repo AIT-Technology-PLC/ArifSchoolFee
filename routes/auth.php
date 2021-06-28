@@ -95,6 +95,14 @@ Route::post('/returnns/{return}/approve', [Controllers\ReturnController::class, 
 
 Route::post('/returnns/{return}/return', [Controllers\ReturnController::class, 'add'])->name('returns.add');
 
+Route::post('/reservations/{reservation}/approve', [Controllers\ReservationController::class, 'approve'])->name('reservations.approve');
+
+Route::post('/reservations/{reservation}/convert', [Controllers\ReservationController::class, 'convert'])->name('reservations.convert');
+
+Route::post('/reservations/{reservation}/cancel', [Controllers\ReservationController::class, 'cancel'])->name('reservations.cancel');
+
+Route::post('/reservations/{reservation}/reserve', [Controllers\ReservationController::class, 'reserve'])->name('reservations.reserve');
+
 Route::resource('products', Controllers\ProductController::class);
 
 Route::resource('categories', Controllers\ProductCategoryController::class);
@@ -144,3 +152,5 @@ Route::resource('damages', Controllers\DamageController::class);
 Route::resource('adjustments', Controllers\AdjustmentController::class);
 
 Route::resource('returns', Controllers\ReturnController::class);
+
+Route::resource('reservations', Controllers\ReservationController::class);
