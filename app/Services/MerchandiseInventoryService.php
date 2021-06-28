@@ -84,7 +84,7 @@ class MerchandiseInventoryService
     {
         DB::transaction(function () use ($detail) {
             $this->subtract($detail);
-            $this->add($detail, 'reserve');
+            $this->add($detail, 'reserved');
         });
     }
 }
