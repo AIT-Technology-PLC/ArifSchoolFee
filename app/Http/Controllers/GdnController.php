@@ -131,6 +131,10 @@ class GdnController extends Controller
 
     public function destroy(Gdn $gdn)
     {
+        if ($gdn->reservation) {
+            return redirect()->back()->with('failedMessage', "You cannot delete a DO that belongs to a reservation, instead cancel the reservation.");
+        }
+
         if ($gdn->isSubtracted()) {
             return view('errors.permission_denied');
         }

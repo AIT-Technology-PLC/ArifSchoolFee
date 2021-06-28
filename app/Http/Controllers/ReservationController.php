@@ -126,11 +126,11 @@ class ReservationController extends Controller
 
     public function destroy(Reservation $reservation)
     {
-        if ($reservation->isConverted() || $reservation->isCancelled()) {
+        if ($reservation->isConverted() || $reservation->isReserved()) {
             return view('errors.permission_denied');
         }
 
-        if ($reservation->isApproved() && !auth()->user()->can('Delete Approved Reservation')) {
+        if (($reservation->isApproved() || $reservation->isCancelled()) && !auth()->user()->can('Delete Approved Reservation')) {
             return view('errors.permission_denied');
         }
 
