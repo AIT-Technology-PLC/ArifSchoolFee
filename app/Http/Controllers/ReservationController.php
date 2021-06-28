@@ -81,9 +81,17 @@ class ReservationController extends Controller
         return view('reservations.show', compact('reservation'));
     }
 
-    public function edit(Reservation $reservation)
+    public function edit(Reservation $reservation, Product $product, Customer $customer, Warehouse $warehouse)
     {
-        //
+        $products = $product->getProductNames();
+
+        $customers = $customer->getCustomerNames();
+
+        $warehouses = $warehouse->getAllWithoutRelations();
+
+        $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse']);
+
+        return view('reservations.edit', compact('reservation', 'products', 'customers', 'warehouses'));
     }
 
     public function update(Request $request, Reservation $reservation)
