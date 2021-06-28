@@ -27,6 +27,7 @@ class StoreReservationRequest extends FormRequest
             'reservation.*.description' => 'nullable|string',
             'customer_id' => 'nullable|integer',
             'issued_on' => 'required|date',
+            'expires_on' => 'required|date|after_or_equal:issued_on',
             'payment_type' => 'required|string',
             'description' => 'nullable|string',
             'cash_received_in_percentage' => 'required|numeric|between:0,100',

@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreReservationRequest;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Reservation;
 use App\Models\Warehouse;
+use App\Notifications\ReservationPrepared;
 use App\Traits\NotifiableUsers;
 use App\Traits\SubtractInventory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class ReservationController extends Controller
 {
@@ -55,9 +59,19 @@ class ReservationController extends Controller
         return view('reservations.create', compact('products', 'customers', 'warehouses', 'currentReservationCode'));
     }
 
-    public function store(Request $request)
+    public function store(StoreReservationRequest $request)
     {
-        //
+        $reservation = DB::transaction(function () use ($request) {
+            $reservation = Reservation::create($request->except('reservation'));
+
+            $reservation->reservationDetails()->createMany($request->reservation);
+
+            Notification::send($this->notifiableUsers('Approve Reservation'), new ReservationPrepared($reservation));
+
+            return $reservation;
+        });
+
+        return redirect()->route('reservations.show', $reservation->id);
     }
 
     public function show(Reservation $reservation)

@@ -68,7 +68,7 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="expires_on" class="label text-green has-text-weight-normal"> Issued On <sup class="has-text-danger">*</sup> </label>
+                            <label for="expires_on" class="label text-green has-text-weight-normal"> Expires On <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <input class="input" type="date" name="expires_on" id="expires_on" placeholder="mm/dd/yyyy" value="{{ old('expires_on') ?? now()->addDays(10)->toDateString() }}">
                                 <div class="icon is-small is-left">
