@@ -114,6 +114,16 @@ class ReservationController extends Controller
 
     public function destroy(Reservation $reservation)
     {
-        //
+        if ($reservation->isSubtracted()) {
+            return view('errors.permission_denied');
+        }
+
+        if ($reservation->isApproved() && !auth()->user()->can('Delete Approved Reservation')) {
+            return view('errors.permission_denied');
+        }
+
+        $reservation->forceDelete();
+
+        return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
 }
