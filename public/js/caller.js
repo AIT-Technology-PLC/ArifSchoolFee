@@ -318,3 +318,10 @@ if (d.getElementById("addNewReturnForm")) {
         addReturnForm
     );
 }
+
+if (d.getElementById("addNewReservationForm")) {
+    d.getElementById("addNewReservationForm").addEventListener(
+        "click",
+        addReservationForm
+    );
+}

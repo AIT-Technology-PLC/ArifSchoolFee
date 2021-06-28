@@ -1715,3 +1715,110 @@ const addReturnForm = (function () {
         index++;
     };
 })();
+
+const addReservationForm = (function () {
+    const reservationFormGroup = d.getElementsByName("reservationFormGroup");
+    const reservationFormWrapper = d.getElementById("reservationFormWrapper");
+    const productList = d.getElementById("reservation[0][product_id]");
+    const warehouseList = d.getElementById("reservation[0][warehouse_id]");
+    const formLimit = 10;
+    let index = reservationFormGroup.length;
+
+    if (!reservationFormWrapper) {
+        return false;
+    }
+
+    return function () {
+        const createReservationForm = `
+        <div class="has-text-weight-medium has-text-left">
+            <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                Item ${index + 1}
+            </span>
+        </div>
+        <div class="box has-background-white-bis radius-top-0 mb-5">
+            <div name="reservationFormGroup" class="columns is-marginless is-multiline">
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="reservation[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="reservation[${index}][product_id]" name="reservation[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                    ${productList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-th"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="reservation[${index}][warehouse_id]" class="label text-green has-text-weight-normal"> From <sup class="has-text-danger">*</sup> </label>
+                        <div class="control has-icons-left">
+                            <div class="select is-fullwidth">
+                                <select id="reservation[${index}][warehouse_id]" name="reservation[${index}][warehouse_id]">
+                                    ${warehouseList.innerHTML}
+                                </select>
+                            </div>
+                            <div class="icon is-small is-left">
+                                <i class="fas fa-warehouse"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <label for="reservation[${index}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left is-expanded">
+                            <input id="reservation[${index}][quantity]" name="reservation[${index}][quantity]" type="number" class="input" placeholder="Quantity">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-balance-scale"></i>
+                            </span>
+                        </div>
+                        <div class="control">
+                            <button id="reservation[${index}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                        <label for="reservation[${index}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger"></sup> </label>
+                        <div class="field has-addons">
+                            <div class="control has-icons-left is-expanded">
+                                <input id="reservation[${index}][unit_price]" name="reservation[${index}][unit_price]" type="number" class="input" placeholder="Sale Price" value="0.00">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-money-bill"></i>
+                                </span>
+                            </div>
+                            <div class="control">
+                                <button id="reservation[${index}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                            </div>
+                        </div>
+                    </div>
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="reservation[${index}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
+                        <div class="control has-icons-left">
+                            <textarea name="reservation[${index}][description]" id="reservation[${index}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken"></textarea>
+                            <span class="icon is-large is-left">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+        reservationFormWrapper.insertAdjacentHTML(
+            "beforeend",
+            createReservationForm
+        );
+
+        index++;
+
+        if (index == formLimit) {
+            d.getElementById("addNewReservationForm").remove();
+            return false;
+        }
+    };
+})();
