@@ -244,7 +244,7 @@
                     {{ session('successMessage') }}
                 </span>
             </div>
-            @if (!$reservation->isApproved())
+            @if (!$reservation->isApproved() && !$reservation->isCancelled())
                 <div class="box has-background-white-ter has-text-left mb-6">
                     <p class="has-text-grey text-purple is-size-6">
                         <span class="icon">
