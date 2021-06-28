@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="column is-3 p-lr-0">
-            <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
+            <div class="box text-blue has-text-centered" style="border-left: 2px solid #3d6386;">
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalReserved }}
                 </div>
@@ -72,12 +72,12 @@
                     {{ $totalApproved }}
                 </div>
                 <div class="is-uppercase is-size-7">
-                    Approved (Not Reserved)
+                    Waiting Approval
                 </div>
             </div>
         </div>
         <div class="column is-3 p-lr-0">
-            <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
+            <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalCancelled }}
                 </div>
@@ -141,7 +141,7 @@
                                             </span>
                                         </span>
                                     @elseif ($reservation->isCancelled())
-                                        <span class="tag is-small bg-purple has-text-white">
+                                        <span class="tag is-small bg-gold has-text-white">
                                             <span class="icon">
                                                 <i class="fas fa-times-circle"></i>
                                             </span>
@@ -150,7 +150,7 @@
                                             </span>
                                         </span>
                                     @elseif ($reservation->isReserved())
-                                        <span class="tag is-small bg-gold has-text-white">
+                                        <span class="tag is-small bg-blue has-text-white">
                                             <span class="icon">
                                                 <i class="fas fa-check-circle"></i>
                                             </span>
