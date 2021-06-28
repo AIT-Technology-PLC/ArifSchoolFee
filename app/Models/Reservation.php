@@ -7,7 +7,6 @@ use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class Reservation extends Model
@@ -143,24 +142,14 @@ class Reservation extends Model
             return false;
         }
 
-        if ($this->converted_by) {
-            return false;
-        }
-
         return true;
     }
 
     public function cancel()
     {
-        DB::transaction(function () {
-            $this->reserved_By = null;
-            $this->converted_By = null;
-            $this->approved_By = null;
+        $this->cancelled_By = auth()->id();
 
-            $this->cancelled_By = auth()->id();
-
-            $this->save();
-        });
+        $this->save();
     }
 
     public function isCancelled()
