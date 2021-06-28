@@ -44,5 +44,10 @@ class UpdateReservationRequest extends FormRequest
     public function passedValidation()
     {
         $this->merge(SetDataOwnerService::forUpdate());
+
+        $this->merge([
+            'approved_by' => null,
+            'reserved_by' => null,
+        ]);
     }
 }

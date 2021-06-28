@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReservationRequest;
+use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Reservation;
@@ -94,9 +95,21 @@ class ReservationController extends Controller
         return view('reservations.edit', compact('reservation', 'products', 'customers', 'warehouses'));
     }
 
-    public function update(Request $request, Reservation $reservation)
+    public function update(UpdateReservationRequest $request, Reservation $reservation)
     {
-        //
+        if ($reservation->isCancelled() || $reservation->isConverted()) {
+            return redirect()->route('reservations.show', $reservation->id);
+        }
+
+        DB::transaction(function () use ($request, $reservation) {
+            $reservation->update($request->except('reservation'));
+
+            for ($i = 0; $i < count($request->reservation); $i++) {
+                $reservation->reservationDetails[$i]->update($request->reservation[$i]);
+            }
+        });
+
+        return redirect()->route('reservations.show', $reservation->id);
     }
 
     public function destroy(Reservation $reservation)
