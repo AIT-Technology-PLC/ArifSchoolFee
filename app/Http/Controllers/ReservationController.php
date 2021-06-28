@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Customer;
+use App\Models\Gdn;
 use App\Models\Product;
 use App\Models\Reservation;
 use App\Models\Warehouse;
+use App\Notifications\GdnPrepared;
 use App\Notifications\ReservationCancelled;
+use App\Notifications\ReservationConverted;
 use App\Notifications\ReservationMade;
 use App\Notifications\ReservationPrepared;
 use App\Services\InventoryOperationService;
@@ -190,6 +193,50 @@ class ReservationController extends Controller
             Notification::send(
                 $this->notifiableUsers('Approve Reservation', $reservation->createdBy),
                 new ReservationCancelled($reservation)
+            );
+        });
+
+        return redirect()->back();
+    }
+
+    public function convert(Reservation $reservation)
+    {
+        $this->authorize('convert', $reservation);
+
+        $this->authorize('create', Gdn::class);
+
+        if (!$reservation->isReserved()) {
+            return redirect()->back()->with('failedMessage', 'This reservation is not reserved yet.');
+        }
+
+        DB::transaction(function () use ($reservation) {
+            $gdn = Gdn::create([
+                'status' => 'Not Subtracted From Inventory',
+                'code' => (Gdn::select('code')->companyGdn()->latest()->first()->code + 1) ?? 0,
+                'customer_id' => $reservation->customer->id ?? '',
+                'issued_on' => today(),
+                'payment_type' => $reservation->payment_type,
+                'description' => $reservation->description ?? '',
+                'cash_received_in_percentage' => $reservation->cash_received_in_percentage,
+                'created_by' => auth()->id(),
+                'updated_by' => auth()->id(),
+                'company_id' => userCompany()->id,
+            ]);
+
+            $gdn->gdnDetails()->createMany($reservation->reservationDetails->toArray());
+
+            $gdn->reservation()->save($reservation);
+
+            Notification::send(
+                $this->notifiableUsers('Approve GDN', $gdn->createdBy),
+                new GdnPrepared($gdn)
+            );
+
+            $reservation->convert();
+
+            Notification::send(
+                $this->notifiableUsers('Approve Reservation', $reservation->createdBy),
+                new ReservationConverted($reservation)
             );
         });
 
