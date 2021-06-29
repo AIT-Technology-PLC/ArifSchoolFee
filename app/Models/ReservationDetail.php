@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -29,19 +30,28 @@ class ReservationDetail extends Model
 
     public function getByWarehouseAndProduct($warehouse, $product)
     {
-        return $this->where([
-            ['warehouse_id', $warehouse->id],
-            ['product_id', $product->id],
-        ])
+        return $this
+            ->where([
+                ['warehouse_id', $warehouse->id],
+                ['product_id', $product->id],
+            ])
             ->whereIn('reservation_id', function ($query) {
                 $query->select('id')
                     ->from('reservations')
-                    ->where([
-                        ['company_id', userCompany()->id],
-                        ['status', 'Subtracted From Inventory'],
-                    ]);
+                    ->where('company_id', userCompany()->id)
+                    ->whereNotNull('reserved_by')
+                    ->whereNull('cancelled_by')
+                    ->whereNotIn('id',
+                        Reservation::whereHasMorph(
+                            'reservable',
+                            [Gdn::class],
+                            function (Builder $query) {
+                                $query->where('status', 'Subtracted From Inventory');
+                            })
+                            ->pluck('id')
+                    );
             })
             ->get()
-            ->load(['reservation.customer', 'product']);
+            ->load(['reservation.customer', 'product', 'warehouse']);
     }
 }

@@ -7,6 +7,7 @@ use App\Models\DamageDetail;
 use App\Models\GdnDetail;
 use App\Models\GrnDetail;
 use App\Models\Product;
+use App\Models\ReservationDetail;
 use App\Models\ReturnDetail;
 use App\Models\TransferDetail;
 use App\Models\Warehouse;
@@ -37,6 +38,8 @@ class ProductMovementHistoryInWarehouseService
 
         $returnDetails = (new ReturnDetail())->getByWarehouseAndProduct($this->warehouse, $this->product);
 
+        $reservationDetails = (new ReservationDetail())->getByWarehouseAndProduct($this->warehouse, $this->product);
+
         $this->formatGrn($grnDetails);
 
         $this->formatTransfer($transferDetails);
@@ -48,6 +51,8 @@ class ProductMovementHistoryInWarehouseService
         $this->formatAdjustMent($adjustmentDetails);
 
         $this->formatReturn($returnDetails);
+
+        $this->formatReservations($reservationDetails);
 
         $this->history = $this->history->sortBy('date')->values()->all();
 
@@ -159,8 +164,24 @@ class ProductMovementHistoryInWarehouseService
                 'quantity' => $returnDetail->quantity,
                 'balance' => 0.00,
                 'unit_of_measurement' => $returnDetail->product->unit_of_measurement,
-                'details' => 'Added in ' . $returnDetail->warehouse->name,
+                'details' => 'Returned to ' . $returnDetail->warehouse->name,
                 'function' => 'add',
+            ]);
+        });
+    }
+
+    private function formatReservations($reservationDetails)
+    {
+        $reservationDetails->map(function ($reservationDetail) {
+            $this->history->push([
+                'type' => 'RESERVED',
+                'code' => $reservationDetail->reservation->code,
+                'date' => $reservationDetail->reservation->issued_on,
+                'quantity' => $reservationDetail->quantity,
+                'balance' => 0.00,
+                'unit_of_measurement' => $reservationDetail->product->unit_of_measurement,
+                'details' => 'Reserved for ' . $reservationDetail->reservation->customer->company_name ?? 'Unknown',
+                'function' => 'subtract',
             ]);
         });
     }

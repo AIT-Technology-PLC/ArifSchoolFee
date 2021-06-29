@@ -131,7 +131,7 @@ class Reservation extends Model
 
     public function reserve()
     {
-        $this->reserved_By = auth()->id();
+        $this->reserved_by = auth()->id();
 
         $this->save();
     }
@@ -147,7 +147,7 @@ class Reservation extends Model
 
     public function cancel()
     {
-        $this->cancelled_By = auth()->id();
+        $this->cancelled_by = auth()->id();
 
         $this->save();
     }
