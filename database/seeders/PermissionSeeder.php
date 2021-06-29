@@ -203,6 +203,7 @@ class PermissionSeeder extends Seeder
                 'Read Product',
                 'Read Supplier',
                 'Read Customer',
+                'Read Reservation',
             ]);
 
             $purchaseManager->syncPermissions([
@@ -222,6 +223,7 @@ class PermissionSeeder extends Seeder
                 'Create Customer',
                 'Create PO',
                 'Create Return',
+                'Create Reservation',
                 'Read GDN',
                 'Read Sale',
                 'Read Proforma Invoice',
@@ -229,13 +231,16 @@ class PermissionSeeder extends Seeder
                 'Read PO',
                 'Read Return',
                 'Read Product',
+                'Read Reservation',
                 'Update GDN',
                 'Update Sale',
                 'Update Proforma Invoice',
                 'Update Customer',
                 'Update PO',
                 'Update Return',
+                'Update Reservation',
                 'Convert Proforma Invoice',
+                'Convert Reservation',
             ]);
 
             $storeKeeper->syncPermissions([
@@ -255,6 +260,7 @@ class PermissionSeeder extends Seeder
                 'Read Product',
                 'Read Warehouse',
                 'Read GDN',
+                'Read Reservation',
                 'Update GRN',
                 'Update Merchandise',
                 'Update Transfer',
