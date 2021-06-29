@@ -27,7 +27,7 @@ class PermissionController extends Controller
 
         $userRolePermissions = $employee->user->getPermissionsViaRoles()->pluck('name')->toArray();
 
-        $permissions = $permission->whereNotIn('name', $userRolePermissions)->orderBy('name', 'asc')->get();
+        $permissions = $permission->whereNotIn('name', $userRolePermissions)->oldest()->get();
 
         $permissionsByCategory = $this->permissionsByCategory($permissions);
 
@@ -72,6 +72,8 @@ class PermissionController extends Controller
         $permission['salePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'sale'))->pluck('name')->toArray();
 
         $permission['proformaInvoicePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'proforma invoice'))->pluck('name')->toArray();
+        
+        $permission['reservationPermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'reservation'))->pluck('name')->toArray();
 
         $permission['purchasePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'purchase'))->pluck('name')->toArray();
 
