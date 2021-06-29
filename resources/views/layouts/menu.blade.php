@@ -177,7 +177,11 @@
                             <span>
                                 Damage Management
                             </span>
-                            <sup class="text-purple has-text-weight-bold">NEW</sup>
+                            <sup class="text-purple has-text-weight-bold">
+                                <span class="icon is-small">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </sup>
                         </a>
                     </li>
                 @endcan
@@ -208,7 +212,11 @@
                             <span>
                                 Inventory Adjustments
                             </span>
-                            <sup class="text-purple has-text-weight-bold">NEW</sup>
+                            <sup class="text-purple has-text-weight-bold">
+                                <span class="icon is-small">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </sup>
                         </a>
                     </li>
                 @endcan
@@ -239,7 +247,11 @@
                             <span>
                                 SIV Management
                             </span>
-                            <sup class="text-purple has-text-weight-bold">NEW</sup>
+                            <sup class="text-purple has-text-weight-bold">
+                                <span class="icon is-small">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </sup>
                         </a>
                     </li>
                 @endcan
@@ -308,7 +320,11 @@
                             <span>
                                 Proforma Invoices
                             </span>
-                            <sup class="text-purple has-text-weight-bold">NEW</sup>
+                            <sup class="text-purple has-text-weight-bold">
+                                <span class="icon is-small">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </sup>
                         </a>
                     </li>
                 @endcan
@@ -339,6 +355,11 @@
                             <span>
                                 Reservation Management
                             </span>
+                            <sup class="text-purple has-text-weight-bold">
+                                <span class="icon is-small">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </sup>
                         </a>
                     </li>
                 @endcan
@@ -369,7 +390,11 @@
                             <span>
                                 Returns Management
                             </span>
-                            <sup class="text-purple has-text-weight-bold">NEW</sup>
+                            <sup class="text-purple has-text-weight-bold">
+                                <span class="icon is-small">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </sup>
                         </a>
                     </li>
                 @endcan
