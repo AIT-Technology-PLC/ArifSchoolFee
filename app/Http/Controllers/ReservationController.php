@@ -226,6 +226,13 @@ class ReservationController extends Controller
         }
 
         DB::transaction(function () use ($reservation) {
+            $reservation->convert();
+
+            Notification::send(
+                $this->notifiableUsers('Approve Reservation', $reservation->createdBy),
+                new ReservationConverted($reservation)
+            );
+
             $currentGdnCode = (Gdn::select('code')->companyGdn()->latest()->first()->code) ?? 0;
 
             $gdn = Gdn::create([
@@ -248,13 +255,6 @@ class ReservationController extends Controller
             Notification::send(
                 $this->notifiableUsers('Approve GDN', $gdn->createdBy),
                 new GdnPrepared($gdn)
-            );
-
-            $reservation->convert();
-
-            Notification::send(
-                $this->notifiableUsers('Approve Reservation', $reservation->createdBy),
-                new ReservationConverted($reservation)
             );
         });
 
