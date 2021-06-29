@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Siv;
 use App\Models\Transfer;
+use App\Notifications\SivPrepared;
+use App\Traits\PrependCompanyId;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class TransferSivController extends Controller
 {
+    use PrependCompanyId;
+
     public function __invoke(Transfer $transfer)
     {
         $this->authorize('view', $transfer);
@@ -18,7 +23,7 @@ class TransferSivController extends Controller
             $currentSivCode = (Siv::select('code')->companySiv()->latest()->first()->code) ?? 0;
 
             $siv = Siv::create([
-                'code' => $currentSivCode + 1,
+                'code' => $this->prependCompanyId($currentSivCode + 1),
                 'purpose' => 'Transfer',
                 'ref_num' => $transfer->code,
                 'issued_on' => today(),
@@ -33,6 +38,8 @@ class TransferSivController extends Controller
                 ->toArray();
 
             $siv->sivDetails()->createMany($sivDetails);
+
+            Notification::send($this->notifiableUsers('Approve SIV'), new SivPrepared($siv));
 
             return $siv;
         });
