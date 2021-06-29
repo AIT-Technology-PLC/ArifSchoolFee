@@ -76,7 +76,7 @@
                 </div>
             </div>
         </div>
-        <div class="column is-4 is-offset-2 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalApproved }}
@@ -93,6 +93,16 @@
                 </div>
                 <div class="is-uppercase is-size-7">
                     Waiting Approval
+                </div>
+            </div>
+        </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box bg-blue has-text-white" style="border-left: 2px solid #3d6386;">
+                <div class="is-size-3 has-text-weight-bold">
+                    ETB. {{ number_format($totalReservedInMoney, 2) }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Reservations in Birr
                 </div>
             </div>
         </div>
