@@ -37,7 +37,7 @@ class ReservationController extends Controller
     public function index()
     {
         $reservations = Reservation::companyReservation()
-            ->with(['reservationDetails', 'createdBy', 'updatedBy', 'approvedBy', 'company', 'customer'])
+            ->with(['reservationDetails', 'reservable', 'createdBy', 'updatedBy', 'approvedBy', 'company', 'customer'])
             ->latest()->get();
 
         $totalReservations = $reservations->count();
@@ -199,7 +199,7 @@ class ReservationController extends Controller
 
         DB::transaction(function () use ($reservation) {
             if ($reservation->isConverted() && !$reservation->reservable->isSubtracted()) {
-                $reservation->reservable()->delete();
+                $reservation->reservable()->forceDelete();
             }
 
             InventoryOperationService::cancelReservation($reservation->reservationDetails);

@@ -157,7 +157,11 @@
                                                 <i class="fas fa-check-circle"></i>
                                             </span>
                                             <span>
-                                                Converted
+                                                @if ($reservation->reservable->isSubtracted())
+                                                    Converted (Sold)
+                                                @else
+                                                    Converted (Not Sold)
+                                                @endif
                                             </span>
                                         </span>
                                     @elseif ($reservation->isReserved())
