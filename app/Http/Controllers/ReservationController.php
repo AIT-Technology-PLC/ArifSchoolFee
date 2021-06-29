@@ -56,10 +56,10 @@ class ReservationController extends Controller
 
         $totalCancelled = $reservations->whereNotNull('cancelled_by')->count();
 
-        $totalReservedInMoney = $reservations->whereNotNull('reserved_by')->whereNull('converted_by')
+        $totalReservedInBirr = $reservations->whereNotNull('reserved_by')->whereNull('converted_by')
             ->whereNull('cancelled_by')->sum('total_price_with_vat');
 
-        return view('reservations.index', compact('reservations', 'totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalNotApproved', 'totalApproved', 'totalReservedInMoney'));
+        return view('reservations.index', compact('reservations', 'totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalNotApproved', 'totalApproved', 'totalReservedInBirr'));
     }
 
     public function create(Product $product, Customer $customer, Warehouse $warehouse)
