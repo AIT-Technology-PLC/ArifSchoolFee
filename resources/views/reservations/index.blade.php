@@ -97,7 +97,7 @@
             </div>
         </div>
         <div class="column is-4 p-lr-0">
-            <div class="box bg-blue has-text-white">
+            <div class="box bg-blue has-text-white" style="border: 1px !important;">
                 <div class="is-size-3 has-text-weight-bold">
                     {{ userCompany()->currency }} {{ number_format($totalReservedInBirr, 2) }}
                 </div>
