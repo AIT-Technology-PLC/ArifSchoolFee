@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Siv;
 use App\Models\Transfer;
 use App\Notifications\SivPrepared;
+use App\Traits\NotifiableUsers;
 use App\Traits\PrependCompanyId;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class TransferSivController extends Controller
 {
-    use PrependCompanyId;
+    use PrependCompanyId, NotifiableUsers;
 
     public function __invoke(Transfer $transfer)
     {
