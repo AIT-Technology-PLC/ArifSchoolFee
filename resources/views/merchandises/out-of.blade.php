@@ -7,6 +7,9 @@
                         <th><abbr> # </abbr></th>
                         <th><abbr> Product </abbr></th>
                         <th><abbr> Category </abbr></th>
+                        @foreach ($warehouses as $warehouse)
+                            <th class="has-text-right text-green is-capitalized"><abbr> {{ $warehouse->name }} </abbr></th>
+                        @endforeach
                     </tr>
                 </thead>
                 <tbody>
@@ -23,6 +26,15 @@
                                 @endif
                             </td>
                             <td class="is-capitalized"> {{ $product->productCategory->name ?? 'N/A' }} </td>
+                            @foreach ($warehouses as $warehouse)
+                                <td class="has-text-right">
+                                    <a href="{{ route('warehouses-products', [$warehouse->id, $product->id]) }}" data-title="View Product History">
+                                        <span class="tag is-small btn-green is-outlined">
+                                            Track History
+                                        </span>
+                                    </a>
+                                </td>
+                            @endforeach
                         </tr>
                     @endforeach
                 </tbody>
