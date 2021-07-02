@@ -30,7 +30,7 @@
                             @foreach ($warehouses as $warehouse)
                                 <td class="has-text-right">
                                     <a href="{{ route('warehouses-products', [$warehouse->id, $product->id]) }}" data-title="View Product History">
-                                        <span class="tag is-small btn-green is-outline">
+                                        <span class="tag is-small btn-green is-outlined">
                                             {{ $merchandise->getProductAvailableInWarehouse($availableMerchandises, $product->id, $warehouse->id) }}
                                             {{ $product->unit_of_measurement }}
                                         </span>

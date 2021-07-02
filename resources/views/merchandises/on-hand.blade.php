@@ -29,7 +29,7 @@
                             <td class="is-capitalized"> {{ $product->productCategory->name ?? 'N/A' }} </td>
                             @foreach ($warehouses as $warehouse)
                                 <td class="has-text-right">
-                                    <span class="tag is-small btn-green is-outline">
+                                    <span class="tag is-small btn-green is-outlined">
                                         {{ $merchandise->getProductOnHandInWarehouse($onHandMerchandises, $product->id, $warehouse->id) }}
                                         {{ $product->unit_of_measurement }}
                                     </span>
