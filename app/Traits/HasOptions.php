@@ -12,6 +12,19 @@ trait HasOptions
 
     public function getMeasurementUnits()
     {
-        return ['Metric Ton', 'Quintal', 'Piece', 'Kilogram', 'Box', 'Meter', 'Centimeter'];
+        $collection = collect([
+            'Metric Ton', 
+            'Quintal', 
+            'Piece', 
+            'Kilogram', 
+            'Box', 
+            'Meter', 
+            'Centimeter',
+            'Square Meter',
+            'Packet',
+            'Liter'
+        ]);
+
+        return $collection->sort();
     }
 }
