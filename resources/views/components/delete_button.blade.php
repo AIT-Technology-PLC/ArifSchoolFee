@@ -1,4 +1,4 @@
-<form id="deleteForm{{ $id }}" class="is-inline" action="{{ route($model . '.destroy', $id) }}" method="post" data-delete="{{ $id }}">
+<form class="is-inline delete-form" action="{{ route($model . '.destroy', $id) }}" method="post">
     @csrf
     @method('DELETE')
     <button class="tag bg-brown has-text-white is-small has-text-weight-medium is-pointer" data-title="Delete Permanently" style="border: none">

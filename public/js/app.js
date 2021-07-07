@@ -504,35 +504,22 @@ const addGdnForm = (function () {
 })();
 
 function disableDeleteForm(event) {
-    let target = event.target;
-    let deleteId = target.dataset.delete;
+    event.preventDefault();
 
-    while (!deleteId) {
-        if (target.tagName == "TABLE") {
-            return;
+    swal({
+        title: "Delete Permanently??",
+        text: "The selected element will be deleted permanently!",
+        icon: "error",
+        buttons: ["Not now", "Yes, Delete Forever"],
+        dangerMode: true,
+    }).then((willDelete) => {
+        if (willDelete) {
+            let deleteButton = this.querySelector("button");
+            deleteButton.innerText = "Deleting ...";
+            deleteButton.disabled = true;
+            this.submit();
         }
-        deleteId = target.dataset.delete;
-        target = target.parentElement;
-    }
-
-    if (deleteId) {
-        event.preventDefault();
-        swal({
-            title: "Delete Permanently??",
-            text: "The selected element will be deleted permanently!",
-            icon: "error",
-            buttons: ["Not now", "Yes, Delete Forever"],
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-                let deleteForm = d.getElementById(`deleteForm${deleteId}`);
-                let deleteButton = deleteForm.querySelector("button");
-                deleteButton.innerText = "Deleting ...";
-                deleteButton.disabled = true;
-                deleteForm.submit();
-            }
-        });
-    }
+    });
 }
 
 const addTransferForm = (function () {

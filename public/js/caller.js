@@ -119,11 +119,10 @@ if (d.getElementById("addNewGdnForm")) {
     d.getElementById("addNewGdnForm").addEventListener("click", addGdnForm);
 }
 
-if (d.getElementsByTagName("table").length) {
-    d.getElementsByTagName("table")[0].addEventListener(
-        "click",
-        disableDeleteForm
-    );
+if (d.getElementsByClassName("delete-form").length) {
+    for (const element of d.getElementsByClassName("delete-form")) {
+        element.addEventListener("submit", disableDeleteForm);
+    }
 }
 
 if (d.getElementById("addNewTransferForm")) {
