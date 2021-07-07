@@ -164,7 +164,7 @@ if (d.getElementById("addNewGrnForm")) {
     d.getElementById("addNewGrnForm").addEventListener("click", addGrnForm);
 }
 
-if (d.querySelectorAll("table.display")) {
+if (d.querySelectorAll("table.display").length) {
     window.addEventListener("load", initiateDataTables);
 }
 
@@ -291,7 +291,7 @@ if (d.getElementsByClassName("summernote").length) {
     initializeSummernote();
 }
 
-if (d.querySelectorAll(".swal")) {
+if (d.querySelectorAll(".swal").length) {
     d.querySelectorAll(".swal").forEach((element) => {
         element.addEventListener("click", openSwalModal);
     });
