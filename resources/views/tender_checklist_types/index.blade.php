@@ -46,7 +46,7 @@
                                 <td> {{ $tenderChecklistType->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $tenderChecklistType->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
-                                    <a href="{{ route('general-tender-checklists.edit', $tenderChecklistType->id) }}" data-title="Modify Tender Checklist Type Data">
+                                    <a href="{{ route('tender-checklist-types.edit', $tenderChecklistType->id) }}" data-title="Modify Tender Checklist Type Data">
                                         <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
@@ -57,7 +57,7 @@
                                         </span>
                                     </a>
                                     <span>
-                                        @include('components.delete_button', ['model' => 'general-tender-checklists',
+                                        @include('components.delete_button', ['model' => 'tender-checklist-types',
                                         'id' => $tenderChecklistType->id])
                                     </span>
                                 </td>

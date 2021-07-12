@@ -19,9 +19,9 @@
                         <div class="field">
                             <label for="name" class="label text-green has-text-weight-normal">Name <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input id="name" name="name" type="text" class="input" placeholder="Checklist Name" value="{{ old('name') ?? '' }}">
+                                <input id="name" name="name" type="text" class="input" placeholder="Tender Checklist Type Name" value="{{ old('name') ?? '' }}">
                                 <span class="icon is-small is-left">
-                                    <i class="fas fa-check"></i>
+                                    <i class="fas fa-layer-group"></i>
                                 </span>
                                 @error('name')
                                     <span class="help has-text-danger" role="alert">
