@@ -137,6 +137,8 @@ Route::resource('grns', Controllers\GrnController::class);
 
 Route::resource('general-tender-checklists', Controllers\GeneralTenderChecklistController::class);
 
+Route::resource('tender-checklist-types', Controllers\TenderChecklistTypeController::class);
+
 Route::resource('tender-statuses', Controllers\TenderStatusController::class);
 
 Route::resource('tenders', Controllers\TenderController::class);
