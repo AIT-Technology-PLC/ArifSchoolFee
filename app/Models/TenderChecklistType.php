@@ -28,6 +28,11 @@ class TenderChecklistType extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function generalTenderChecklists()
+    {
+        return $this->hasMany(GeneralTenderChecklist::class);
+    }
+
     public function scopeCompanyTenderChecklistType($query)
     {
         return $query->where('company_id', userCompany()->id);
