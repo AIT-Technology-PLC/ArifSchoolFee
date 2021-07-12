@@ -29,6 +29,12 @@ class CreateTenderChecklistTypesTable extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
+
+        Schema::table('general_tender_checklists', function (Blueprint $table) {
+            $table->bigInteger('tender_checklist_type_id')->nullable()->unsigned();
+
+            $table->foreign('tender_checklist_type_id')->references('id')->on('tender_checklist_types')->onDelete('set null')->onUpdate('cascade');
+        });
     }
 
     /**
@@ -38,6 +44,10 @@ class CreateTenderChecklistTypesTable extends Migration
      */
     public function down()
     {
+        Schema::table('general_tender_checklists', function (Blueprint $table) {
+            $table->dropForeign(['tender_checklist_type_id']);
+            $table->dropColumn(['tender_checklist_type_id']);
+        });
         Schema::drop('tender_checklist_types');
     }
 }
