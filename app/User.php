@@ -320,4 +320,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Models\Reservation::class, 'converted_by');
     }
+
+    public function tenderChecklistTypesCreated()
+    {
+        return $this->hasMany(Models\TenderChecklistType::class, 'created_by');
+    }
+
+    public function tenderChecklistTypesUpdated()
+    {
+        return $this->hasMany(Models\TenderChecklistType::class, 'updated_by');
+    }
 }

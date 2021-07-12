@@ -146,6 +146,11 @@ class Company extends Model
         return $this->hasMany(Reservation::class);
     }
 
+    public function tenderChecklists()
+    {
+        return $this->hasMany(TenderChecklistType::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
