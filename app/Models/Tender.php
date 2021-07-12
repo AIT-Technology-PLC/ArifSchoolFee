@@ -16,6 +16,9 @@ class Tender extends Model
         'published_on' => 'datetime',
         'closing_date' => 'datetime',
         'opening_date' => 'datetime',
+        'clarify_on' => 'datetime',
+        'visit_on' => 'datetime',
+        'premeet_on' => 'datetime',
     ];
 
     public function createdBy()
