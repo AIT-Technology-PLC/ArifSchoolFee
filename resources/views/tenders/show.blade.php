@@ -147,63 +147,6 @@
                     <div class="columns is-marginless is-vcentered is-mobile text-green">
                         <div class="column is-1">
                             <span class="icon is-size-3">
-                                <i class="fas fa-calendar-day"></i>
-                            </span>
-                        </div>
-                        <div class="column m-lr-20">
-                            <div class="is-size- has-text-weight-bold">
-                                {{ $tender->published_on->toFormattedDateString() ?? 'N/A' }}
-                            </div>
-                            <div class="is-uppercase is-size-7">
-                                Publishing Date
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="column is-6">
-                <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-green {{ $tender->closing_date->isPast() ? '' : 'text-purple' }}">
-                        <div class="column is-1">
-                            <span class="icon is-size-3">
-                                <i class="fas fa-calendar-day"></i>
-                            </span>
-                        </div>
-                        <div class="column m-lr-20">
-                            <div class="is-size- has-text-weight-bold">
-                                {{ $tender->closing_date->toDayDateTimeString() ?? 'N/A' }}
-                            </div>
-                            <div class="is-uppercase is-size-7">
-                                Closing Date
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="column is-6">
-                <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-green">
-                        <div class="column is-1">
-                            <span class="icon is-size-3">
-                                <i class="fas fa-calendar-day"></i>
-                            </span>
-                        </div>
-                        <div class="column m-lr-20">
-                            <div class="is-size- has-text-weight-bold">
-                                {{ $tender->opening_date->toDayDateTimeString() ?? 'N/A' }}
-                            </div>
-                            <div class="is-uppercase is-size-7">
-                                Opening Date
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="column is-6">
-                <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-green">
-                        <div class="column is-1">
-                            <span class="icon is-size-3">
                                 <i class="fas fa-money-bill-wave"></i>
                             </span>
                         </div>
@@ -248,6 +191,129 @@
                             </div>
                             <div class="is-size-7 mt-3">
                                 {!! nl2br(e($tender->description)) ?? 'N/A' !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3">
+            <h1 class="text-green is-size-5 is-uppercase has-text-weight-semibold has-text-centered">
+                Tender Schedules
+            </h1>
+        </div>
+        <div class="box is-radiusless">
+            <div class="columns is-marginless is-multiline">
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-calendar-day"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ $tender->published_on->toFormattedDateString() ?? 'N/A' }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Publishing Date
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green {{ $tender->closing_date->isPast() ? '' : 'text-purple' }}">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-calendar-day"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ $tender->closing_date->toDayDateTimeString() ?? 'N/A' }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Closing Date
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-calendar-day"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ $tender->opening_date->toDayDateTimeString() ?? 'N/A' }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Opening Date
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-calendar-day"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ $tender->clarify_on ? $tender->clarify_on->toFormattedDateString() : 'N/A' }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Clarification Date
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-calendar-day"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ $tender->visit_on ? $tender->visit_on->toFormattedDateString() : 'N/A' }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Visiting Date
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-calendar-day"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ $tender->premeet_on ? $tender->premeet_on->toFormattedDateString() : 'N/A' }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Pre-meeting Date
+                                </div>
                             </div>
                         </div>
                     </div>
