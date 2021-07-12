@@ -8,10 +8,15 @@ use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Tender;
 use App\Models\TenderStatus;
+use App\Notifications\TenderStatusChanged;
+use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class TenderController extends Controller
 {
+    use NotifiableUsers;
+
     private $tender;
 
     public function __construct(Tender $tender)
@@ -77,10 +82,16 @@ class TenderController extends Controller
     public function update(UpdateTenderRequest $request, Tender $tender)
     {
         DB::transaction(function () use ($request, $tender) {
+            $originalStatus = $tender->status;
+
             $tender->update($request->except('tender'));
 
             for ($i = 0; $i < count($request->tender); $i++) {
                 $tender->tenderDetails[$i]->update($request->tender[$i]);
+            }
+
+            if ($tender->wasChanged('status')) {
+                Notification::send($this->notifiableUsers('Read Tender'), new TenderStatusChanged($originalStatus, $tender));
             }
         });
 
