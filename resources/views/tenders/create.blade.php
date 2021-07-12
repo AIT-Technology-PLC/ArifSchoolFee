@@ -182,12 +182,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3">
+                <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3 mx-3 mt-5">
                     <h1 class="text-green is-size-5 is-uppercase has-text-weight-semibold has-text-centered">
                         Tender Schedules
                     </h1>
                 </div>
-                <div class="box is-radiusless">
+                <div class="box is-radiusless mx-3">
                     <div class="columns is-marginless is-multiline">
                         <div class="column is-6">
                             <div class="field">
