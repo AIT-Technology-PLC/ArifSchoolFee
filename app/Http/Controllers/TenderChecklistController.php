@@ -40,6 +40,11 @@ class TenderChecklistController extends Controller
 
     public function edit(TenderChecklist $tenderChecklist)
     {
+        if ($tenderChecklist->generalTenderChecklist->tenderChecklistType->isSensitive()
+            && !auth()->user()->can('Read Tender Sensitive Data')) {
+            abort(403);
+        }
+
         $this->authorize('update', $tenderChecklist->tender);
 
         return view('tender_checklists.edit', compact('tenderChecklist'));
@@ -49,6 +54,11 @@ class TenderChecklistController extends Controller
     {
         $this->authorize('update', $tenderChecklist->tender);
 
+        if ($tenderChecklist->generalTenderChecklist->tenderChecklistType->isSensitive()
+            && !auth()->user()->can('Read Tender Sensitive Data')) {
+            abort(403);
+        }
+
         $tenderChecklist->update($request->all());
 
         return redirect()->route('tenders.show', $tenderChecklist->tender_id);
@@ -57,6 +67,11 @@ class TenderChecklistController extends Controller
     public function destroy(TenderChecklist $tenderChecklist)
     {
         $this->authorize('delete', $tenderChecklist->tender);
+
+        if ($tenderChecklist->generalTenderChecklist->tenderChecklistType->isSensitive()
+            && !auth()->user()->can('Read Tender Sensitive Data')) {
+            abort(403);
+        }
 
         $tenderChecklist->forceDelete();
 
