@@ -15,4 +15,9 @@ class TenderChecklist extends Model
     {
         return $this->belongsTo(Tender::class);
     }
+
+    public function generalTenderChecklist()
+    {
+        return $this->belongsTo(GeneralTenderChecklist::class);
+    }
 }

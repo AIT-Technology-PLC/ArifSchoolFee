@@ -32,9 +32,17 @@ class CreateTenderChecklistTypesTable extends Migration
         });
 
         Schema::table('general_tender_checklists', function (Blueprint $table) {
-            $table->bigInteger('tender_checklist_type_id')->nullable()->unsigned();
+            $table->bigInteger('tender_checklist_type_id')->nullable()->unsigned()->after('id');
 
             $table->foreign('tender_checklist_type_id')->references('id')->on('tender_checklist_types')->onDelete('set null')->onUpdate('cascade');
+        });
+
+        Schema::table('tender_checklists', function (Blueprint $table) {
+            $table->dropColumn(['item']);
+
+            $table->bigInteger('general_tender_checklist_id')->nullable()->unsigned()->after('tender_id');
+
+            $table->foreign('general_tender_checklist_id')->references('id')->on('general_tender_checklists')->onDelete('set null')->onUpdate('cascade');
         });
     }
 
@@ -45,10 +53,18 @@ class CreateTenderChecklistTypesTable extends Migration
      */
     public function down()
     {
+        Schema::table('tender_checklists', function (Blueprint $table) {
+            $table->string('item')->after('tender_id');
+
+            $table->dropForeign(['general_tender_checklist_id']);
+            $table->dropColumn(['general_tender_checklist_id']);
+        });
+
         Schema::table('general_tender_checklists', function (Blueprint $table) {
             $table->dropForeign(['tender_checklist_type_id']);
             $table->dropColumn(['tender_checklist_type_id']);
         });
+
         Schema::drop('tender_checklist_types');
     }
 }
