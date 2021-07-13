@@ -22,7 +22,8 @@ class GeneralTenderChecklistController extends Controller
 
     public function index()
     {
-        $generalTenderChecklists = $this->generalTenderChecklist->getAll()->load(['createdBy', 'updatedBy']);
+        $generalTenderChecklists = $this->generalTenderChecklist->getAll()
+            ->load(['tenderChecklistType', 'createdBy', 'updatedBy']);
 
         return view('general_tender_checklists.index', compact('generalTenderChecklists'));
     }

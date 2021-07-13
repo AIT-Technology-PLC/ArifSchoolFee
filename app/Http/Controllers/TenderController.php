@@ -30,7 +30,8 @@ class TenderController extends Controller
 
     public function index()
     {
-        $tenders = $this->tender->getAll()->load(['customer', 'tenderDetails', 'createdBy', 'updatedBy']);
+        $tenders = $this->tender->getAll()
+            ->load(['customer', 'tenderDetails', 'tenderChecklists', 'createdBy', 'updatedBy']);
 
         $totalTenders = $this->tender->countTendersOfCompany();
 
@@ -63,13 +64,15 @@ class TenderController extends Controller
 
     public function show(Tender $tender)
     {
-        $tender->load(['customer', 'tenderDetails.product', 'tenderChecklists']);
+        $tender->load(['customer', 'tenderDetails.product', 'tenderChecklists.generalTenderChecklist.tenderChecklistType']);
 
         return view('tenders.show', compact('tender'));
     }
 
     public function edit(Tender $tender, Customer $customer, TenderStatus $tenderStatus, Product $product)
     {
+        $tender->load(['tenderDetails.product']);
+
         $customers = $customer->getAll();
 
         $tenderStatuses = $tenderStatus->getAll();
