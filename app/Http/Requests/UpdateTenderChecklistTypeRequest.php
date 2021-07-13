@@ -16,6 +16,7 @@ class UpdateTenderChecklistTypeRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
+            'is_sensitive' => 'required|boolean',
             'description' => 'nullable|string',
         ];
     }

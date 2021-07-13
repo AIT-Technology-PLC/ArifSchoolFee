@@ -33,6 +33,27 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
+                            <label for="is_sensitive" class="label text-green has-text-weight-normal"> Confidential <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="is_sensitive" name="is_sensitive">
+                                        <option value="1" {{ old('is_sensitive') ? 'selected' : '' }}> Yes, confidential </option>
+                                        <option value="0" {{ old('is_sensitive') ? '' : 'selected' }}> Not confidential </option>
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                @error('is_sensitive')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Description</label>
                             <div class="control has-icons-left">
                                 <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note about the new checklist">{{ old('description') ?? '' }}</textarea>
