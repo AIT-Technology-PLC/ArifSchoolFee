@@ -177,6 +177,7 @@ class PermissionSeeder extends Seeder
             Permission::firstOrCreate(['name' => 'Read Tender']);
             Permission::firstOrCreate(['name' => 'Update Tender']);
             Permission::firstOrCreate(['name' => 'Delete Tender']);
+            Permission::firstOrCreate(['name' => 'Read Tender Sensitive Data']);
 
             // Price
             Permission::firstOrCreate(['name' => 'Create Price']);
