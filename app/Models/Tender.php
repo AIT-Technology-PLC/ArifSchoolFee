@@ -69,13 +69,19 @@ class Tender extends Model
     public function getTenderChecklistsCompletionRate()
     {
         $completedChecklists = $this->tenderChecklists->where('status', 'Completed')->count();
+        $inProcessChecklists = $this->tenderChecklists->where('status', 'In Process')->count();
+        $totalChecklists = $this->tenderChecklists->count();
 
-        if ($completedChecklists) {
-            $totalChecklists = $this->tenderChecklists->count();
-            $checklistCompletionRate = ($completedChecklists / $totalChecklists) * 100;
-            return number_format($checklistCompletionRate, 2);
+        if (!$totalChecklists) {
+            return 0;
         }
 
-        return 0;
+        if ($completedChecklists == $totalChecklists) {
+            return 100.00;
+        }
+
+        $checklistCompletionRate = ($completedChecklists + ($inProcessChecklists * 0.33)) / $totalChecklists;
+
+        return number_format($checklistCompletionRate * 100, 2);
     }
 }
