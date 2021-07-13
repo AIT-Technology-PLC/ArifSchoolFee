@@ -8,6 +8,7 @@ use App\Models\GeneralTenderChecklist;
 use App\Models\Tender;
 use App\Models\TenderChecklist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TenderChecklistController extends Controller
 {
@@ -33,7 +34,11 @@ class TenderChecklistController extends Controller
 
         $this->authorize('create', $tender);
 
-        $tender->tenderChecklists()->createMany($request->checklists);
+        DB::transaction(function () use ($request, $tender) {
+            $tender->tenderChecklists()->createMany($request->checklists);
+
+            $tender->tenderChecklists->each->update(['status' => 'Not Started']);
+        });
 
         return redirect()->route('tenders.show', $tender->id);
     }

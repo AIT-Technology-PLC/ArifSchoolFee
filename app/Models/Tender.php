@@ -80,7 +80,8 @@ class Tender extends Model
             return 100.00;
         }
 
-        $checklistCompletionRate = ($completedChecklists + ($inProcessChecklists * 0.33)) / $totalChecklists;
+        $inProcessChecklists = $inProcessChecklists * 0.5;
+        $checklistCompletionRate = ($completedChecklists + $inProcessChecklists) / $totalChecklists;
 
         return number_format($checklistCompletionRate * 100, 2);
     }

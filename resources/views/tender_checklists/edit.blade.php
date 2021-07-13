@@ -20,7 +20,7 @@
                         <div class="field">
                             <label class="label text-green has-text-weight-normal">Item <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input name="item" type="text" class="input" value="{{ $tenderChecklist->item }}" disabled>
+                                <input name="item" type="text" class="input" value="{{ $tenderChecklist->generalTenderChecklist->item }}" disabled>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-tasks"></i>
                                 </span>
@@ -41,8 +41,12 @@
                                     Completed
                                 </label>
                                 <label class="radio">
-                                    <input type="radio" name="status" value="Not Yet" {{ $tenderChecklist->status == 'Not Yet' ? 'checked' : '' }}>
-                                    Not Yet
+                                    <input type="radio" name="status" value="In Process" {{ $tenderChecklist->status == 'In Process' ? 'checked' : '' }}>
+                                    In Process
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="status" value="Not Started" {{ $tenderChecklist->status == 'Not Started' ? 'checked' : '' }}>
+                                    Not Started
                                 </label>
                                 @error('status')
                                     <span class="help has-text-danger" role="alert">
