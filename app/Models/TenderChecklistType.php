@@ -3,15 +3,19 @@
 namespace App\Models;
 
 use App\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TenderChecklistType extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
+
+    protected $casts = [
+        'is_sensitive' => 'boolean',
+    ];
 
     public function createdBy()
     {
@@ -36,5 +40,10 @@ class TenderChecklistType extends Model
     public function scopeCompanyTenderChecklistType($query)
     {
         return $query->where('company_id', userCompany()->id);
+    }
+
+    public function isSensitive()
+    {
+        return $this->is_sensitive;
     }
 }

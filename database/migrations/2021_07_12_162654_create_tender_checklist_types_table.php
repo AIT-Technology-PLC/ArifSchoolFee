@@ -19,6 +19,7 @@ class CreateTenderChecklistTypesTable extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name')->unique();
+            $table->boolean('is_sensitive');
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
