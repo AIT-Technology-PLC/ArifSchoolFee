@@ -30,7 +30,7 @@
                 </p>
                 <div class="columns is-marginless is-multiline">
                     @foreach ($generalTenderChecklists as $generalTenderChecklist)
-                        @if ($tender->tenderChecklists->where('item', $generalTenderChecklist->item)->count())
+                        @if ($tender->tenderChecklists->where('general_tender_checklist_id', $generalTenderChecklist->id)->count())
                             @continue
                         @endif
 
@@ -38,7 +38,7 @@
                             <div class="field">
                                 <div class="control">
                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                        <input type="checkbox" name="checklists[{{ $loop->index }}][item]" value="{{ $generalTenderChecklist->item }}" {{ old('checklists.' . $loop->index . '.item') == $generalTenderChecklist->item ? 'checked' : '' }}>
+                                        <input type="checkbox" name="checklists[{{ $loop->index }}][general_tender_checklist_id]" value="{{ $generalTenderChecklist->id }}" {{ old('checklists.' . $loop->index . '.general_tender_checklist_id') == $generalTenderChecklist->id ? 'checked' : '' }}>
                                         {{ $generalTenderChecklist->item }}
                                     </label>
                                 </div>

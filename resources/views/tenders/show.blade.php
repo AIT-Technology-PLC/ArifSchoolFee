@@ -424,17 +424,17 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
-                                    {{ $tenderChecklist->item }}
+                                    {{ $tenderChecklist->generalTenderChecklist->item }}
                                 </td>
                                 <td class="is-capitalized">
                                     {{ $tenderChecklist->status ?? 'N/A' }}
                                 </td>
                                 <td>
-                                    @if (!$tenderChecklist->tenderChecklistType->isSensitive())
-                                        {!! nl2br(e($tenderChecklist->comment)) ?? 'N/A' !!}
-                                    @elseif ($tenderChecklist->tenderChecklistType->isSensitive() &&
+                                    @if (!$tenderChecklist->generalTenderChecklist->tenderChecklistType->isSensitive())
+                                        {!! $tenderChecklist->comment ? nl2br(e($tenderChecklist->comment)) : 'N/A' !!}
+                                    @elseif ($tenderChecklist->generalTenderChecklist->tenderChecklistType->isSensitive() &&
                                         auth()->user()->can('Read Tender Sensitive Data'))
-                                        {!! nl2br(e($tenderChecklist->comment)) ?? 'N/A' !!}
+                                        {!! $tenderChecklist->comment ? nl2br(e($tenderChecklist->comment)) : 'N/A' !!}
                                     @else
                                         <span class="tag text-purple">
                                             <span class="icon">
