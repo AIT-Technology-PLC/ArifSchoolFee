@@ -430,7 +430,21 @@
                                     {{ $tenderChecklist->status ?? 'N/A' }}
                                 </td>
                                 <td>
-                                    {!! nl2br(e($tenderChecklist->comment)) ?? 'N/A' !!}
+                                    @if (!$tenderChecklist->tenderChecklistType->isSensitive())
+                                        {!! nl2br(e($tenderChecklist->comment)) ?? 'N/A' !!}
+                                    @elseif ($tenderChecklist->tenderChecklistType->isSensitive() &&
+                                        auth()->user()->can('Read Tender Sensitive Data'))
+                                        {!! nl2br(e($tenderChecklist->comment)) ?? 'N/A' !!}
+                                    @else
+                                        <span class="tag text-purple">
+                                            <span class="icon">
+                                                <i class="fas fa-times-circle"></i>
+                                            </span>
+                                            <span>
+                                                You don't have permission to see this checklist
+                                            </span>
+                                        </span>
+                                    @endif
                                 </td>
                                 <td>
                                     <a href="{{ route('tender-checklists.edit', $tenderChecklist->id) }}" data-title="Update Checklist">
