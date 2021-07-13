@@ -16,6 +16,7 @@ class UpdateGeneralTenderChecklistRequest extends FormRequest
     {
         return [
             'item' => 'required|string',
+            'tender_checklist_type_id' => 'required|integer',
             'description' => 'nullable|string',
         ];
     }

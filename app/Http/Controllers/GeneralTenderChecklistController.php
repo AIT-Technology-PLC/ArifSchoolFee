@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreGeneralTenderChecklistRequest;
 use App\Http\Requests\UpdateGeneralTenderChecklistRequest;
 use App\Models\GeneralTenderChecklist;
+use App\Models\TenderChecklistType;
 
 class GeneralTenderChecklistController extends Controller
 {
@@ -28,7 +29,9 @@ class GeneralTenderChecklistController extends Controller
 
     public function create()
     {
-        return view('general_tender_checklists.create');
+        $tenderChecklistTypes = TenderChecklistType::companyTenderChecklistType()->get();
+
+        return view('general_tender_checklists.create', compact('tenderChecklistTypes'));
     }
 
     public function store(StoreGeneralTenderChecklistRequest $request)
@@ -43,7 +46,9 @@ class GeneralTenderChecklistController extends Controller
 
     public function edit(GeneralTenderChecklist $generalTenderChecklist)
     {
-        return view('general_tender_checklists.edit', compact('generalTenderChecklist'));
+        $tenderChecklistTypes = TenderChecklistType::companyTenderChecklistType()->get();
+
+        return view('general_tender_checklists.edit', compact('generalTenderChecklist', 'tenderChecklistTypes'));
     }
 
     public function update(UpdateGeneralTenderChecklistRequest $request, GeneralTenderChecklist $generalTenderChecklist)

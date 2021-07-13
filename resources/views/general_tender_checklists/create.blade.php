@@ -33,6 +33,29 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
+                            <label for="tender_checklist_type_id" class="label text-green has-text-weight-normal"> Checklist Type <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="tender_checklist_type_id" name="tender_checklist_type_id">
+                                        <option selected disabled>Select Checklist Type</option>
+                                        @foreach ($tenderChecklistTypes as $tenderChecklistType)
+                                            <option value="{{ $tenderChecklistType->id }}" {{ old('tender_checklist_type_id') == $tenderChecklistType->id ? 'selected' : '' }}>{{ $tenderChecklistType->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-layer-group"></i>
+                                </span>
+                                @error('tender_checklist_type_id')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Description</label>
                             <div class="control has-icons-left">
                                 <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note about the new checklist">{{ old('description') ?? '' }}</textarea>

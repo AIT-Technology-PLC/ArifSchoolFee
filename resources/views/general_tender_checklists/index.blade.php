@@ -19,6 +19,7 @@
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th class="text-green"><abbr> Item </abbr></th>
+                            <th><abbr> Type </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th><abbr> Added On </abbr></th>
                             <th><abbr> Added By </abbr></th>
@@ -34,6 +35,9 @@
                                     <span class="tag bg-green has-text-white">
                                         {{ $generalTenderChecklist->item }}
                                     </span>
+                                </td>
+                                <td>
+                                    {{ $generalTenderChecklist->tenderChecklistType->name ?? 'N/A' }}
                                 </td>
                                 <td>
                                     {{ $generalTenderChecklist->description ?? 'N/A' }}
