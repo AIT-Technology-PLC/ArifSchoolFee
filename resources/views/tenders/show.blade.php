@@ -449,7 +449,7 @@
                                                 <i class="fas fa-times-circle"></i>
                                             </span>
                                             <span>
-                                                You don't have permission to see this checklist
+                                                You don't have permission to see this checklist information
                                             </span>
                                         </span>
                                     @endif

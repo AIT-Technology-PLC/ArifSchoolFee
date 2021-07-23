@@ -516,7 +516,7 @@
                             <i class="fas fa-layer-group"></i>
                         </span>
                         <span>
-                            Tender Checklist Categories
+                            Checklist Categories
                         </span>
                     </a>
                 </li>
@@ -542,7 +542,7 @@
                             <i class="fas fa-tasks"></i>
                         </span>
                         <span>
-                            Tender Checklist
+                            Available Checklists
                         </span>
                     </a>
                 </li>
@@ -568,7 +568,7 @@
                             <i class="fas fa-info"></i>
                         </span>
                         <span>
-                            Tender Status
+                            Available Statuses
                         </span>
                     </a>
                 </li>
