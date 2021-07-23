@@ -107,4 +107,11 @@ class TenderController extends Controller
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
+
+    public function printed(Tender $tender)
+    {
+        $this->authorize('view', $tender);
+
+        return view('tenders.print', compact('tender'));
+    }
 }

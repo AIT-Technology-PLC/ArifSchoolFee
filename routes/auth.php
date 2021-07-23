@@ -55,6 +55,8 @@ Route::get('/returns/{return}/print', [Controllers\ReturnController::class, 'pri
 
 Route::get('/password/edit', [Controllers\PasswordResetController::class, 'edit'])->name('password.edit');
 
+Route::get('/tenders/{tender}/print', [Controllers\TenderController::class, 'printed'])->name('tenders.print');
+
 Route::patch('/employees/{employee}/permissions', [Controllers\PermissionController::class, 'update'])->name('permissions.update');
 
 Route::patch('/notifications/mark-all-read',

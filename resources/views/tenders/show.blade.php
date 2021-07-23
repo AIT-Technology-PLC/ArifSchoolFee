@@ -394,7 +394,7 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('tender-checklists.create', 'tender=' . $tender->id) }}" class="button is-small bg-purple has-text-white">
+                            <a href="{{ route('tender-checklists.create', 'tender=' . $tender->id) }}" class="button is-small btn-purple is-outlined has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
@@ -402,6 +402,14 @@
                                     Add New Checklist
                                 </span>
                             </a>
+                            <button id="printTender" class="button is-small bg-purple has-text-white is-hidden-mobile" onclick="openInNewTab('/tenders/{{ $tender->id }}/print')">
+                                <span class="icon">
+                                    <i class="fas fa-print"></i>
+                                </span>
+                                <span>
+                                    Print
+                                </span>
+                            </button>
                         </div>
                     </div>
                 </div>
