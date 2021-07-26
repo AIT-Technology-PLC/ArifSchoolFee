@@ -336,6 +336,14 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
+                            <a href="{{ route('tenders.reading.edit', $tender->id) }}" class="button is-small btn-green is-outlined has-text-white">
+                                <span class="icon">
+                                    <i class="fas fa-table"></i>
+                                </span>
+                                <span>
+                                    View Readings
+                                </span>
+                            </a>
                             <a href="{{ route('tenders.edit', $tender->id) }}" class="button is-small bg-green has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
