@@ -420,12 +420,16 @@
             </div>
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <h1 class="is-size-5 text-green is-uppercase has-text-weight-medium has-text-centered mb-3"> Financial Reading </h1>
-                {!! $tender->financial_reading !!}
+                <div class="summernote-table">
+                    {!! $tender->financial_reading ?? '' !!}
+                </div>
 
                 <hr class="mt-0 mx-6">
 
                 <h1 class="is-size-5 text-green is-uppercase has-text-weight-medium has-text-centered mb-3"> Technical Reading </h1>
-                {!! $tender->technical_reading !!}
+                <div class="summernote-table">
+                    {!! $tender->technical_reading ?? '' !!}
+                </div>
             </div>
         @endif
         <div class="box radius-bottom-0 mb-0 has-background-white-bis mt-5">

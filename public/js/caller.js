@@ -324,3 +324,7 @@ if (d.getElementById("addNewReservationForm")) {
         addReservationForm
     );
 }
+
+if (d.getElementsByClassName("summernote-table").length) {
+    modifySummernoteTableClass();
+}

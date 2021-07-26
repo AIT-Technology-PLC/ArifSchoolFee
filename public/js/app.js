@@ -1809,3 +1809,19 @@ const addReservationForm = (function () {
         }
     };
 })();
+
+function modifySummernoteTableClass() {
+    for (let element of d.querySelectorAll(".summernote-table table")) {
+        element.classList =
+            "table is-fullwidth is-bordered is-narrow is-size-7";
+
+        element.removeAttribute("style");
+
+        element.firstElementChild.firstElementChild.classList =
+            "has-text-centered has-text-weight-bold is-capitalized";
+    }
+
+    for (let element of d.querySelectorAll(".summernote-table td")) {
+        element.classList = "p-1";
+    }
+}
