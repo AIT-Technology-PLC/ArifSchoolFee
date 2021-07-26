@@ -112,6 +112,10 @@ class TenderController extends Controller
     {
         $this->authorize('view', $tender);
 
-        return view('tenders.print', compact('tender'));
+        $tender->load(['tenderChecklists.generalTenderChecklist']);
+
+        return \PDF::loadView('tenders.print', compact('tender'))
+            ->setPaper('a4', 'portrait')
+            ->stream();
     }
 }
