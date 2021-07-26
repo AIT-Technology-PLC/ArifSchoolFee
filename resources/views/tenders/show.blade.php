@@ -336,14 +336,16 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('tenders.reading.edit', $tender->id) }}" class="button is-small btn-green is-outlined has-text-white">
-                                <span class="icon">
-                                    <i class="fas fa-table"></i>
-                                </span>
-                                <span>
-                                    View Readings
-                                </span>
-                            </a>
+                            @if (!$tender->financial_reading && !$tender->technical_reading)
+                                <a href="{{ route('tenders.reading.edit', $tender->id) }}" class="button is-small btn-green is-outlined has-text-white">
+                                    <span class="icon">
+                                        <i class="fas fa-table"></i>
+                                    </span>
+                                    <span>
+                                        Create Readings
+                                    </span>
+                                </a>
+                            @endif
                             <a href="{{ route('tenders.edit', $tender->id) }}" class="button is-small bg-green has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
@@ -388,6 +390,44 @@
                 </table>
             </div>
         </div>
+        @if ($tender->financial_reading || $tender->technical_reading)
+            <div class="box radius-bottom-0 mb-0 has-background-white-bis mt-5">
+                <div class="level">
+                    <div class="level-left">
+                        <div class="level-item is-justify-content-left">
+                            <div>
+                                <h1 class="title text-green has-text-weight-medium is-size-5">
+                                    Tender Readings
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <div class="level-item is-justify-content-left">
+                            <div>
+                                <a href="{{ route('tenders.reading.edit', $tender->id) }}" class="button is-small bg-green has-text-white">
+                                    <span class="icon">
+                                        <i class="fas fa-table"></i>
+                                    </span>
+                                    <span>
+                                        Edit Readings
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box radius-bottom-0 mb-0 radius-top-0">
+                <h1 class="is-size-5 text-green is-uppercase has-text-weight-medium has-text-centered mb-3"> Financial Reading </h1>
+                {!! $tender->financial_reading !!}
+
+                <hr class="mt-0 mx-6">
+
+                <h1 class="is-size-5 text-green is-uppercase has-text-weight-medium has-text-centered mb-3"> Technical Reading </h1>
+                {!! $tender->technical_reading !!}
+            </div>
+        @endif
         <div class="box radius-bottom-0 mb-0 has-background-white-bis mt-5">
             <div class="level">
                 <div class="level-left">
