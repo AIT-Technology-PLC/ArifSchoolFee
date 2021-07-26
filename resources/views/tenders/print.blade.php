@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title> @yield('title') - {{ userCompany()->name }} </title>
+    <title> Tender "{{ $tender->code }}" - {{ userCompany()->name }} </title>
     <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
