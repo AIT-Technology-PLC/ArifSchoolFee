@@ -197,12 +197,22 @@
                 </div>
             </div>
         </div>
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3">
-            <h1 class="text-green is-size-5 is-uppercase has-text-weight-semibold has-text-centered">
-                Tender Schedules
-            </h1>
+    </div>
+    <section class="mt-3 mx-3 m-lr-0">
+        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item is-justify-content-left">
+                        <div>
+                            <h1 class="title text-green has-text-weight-medium is-size-5">
+                                Tender Schedules
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="box is-radiusless">
+        <div class="box radius-bottom-0 mb-0 radius-top-0">
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <div>
@@ -320,9 +330,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
+        <div class="box radius-bottom-0 mb-0 has-background-white-bis mt-5">
             <div class="level">
                 <div class="level-left">
                     <div class="level-item is-justify-content-left">
