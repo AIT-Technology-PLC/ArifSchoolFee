@@ -1,13 +1,13 @@
 <aside class="menu">
     <ul class="menu-list">
         <li>
-            <div class="columns is-marginless is-vcentered is-mobile">
-                <div class="column is-3-mobile is-4-tablet">
+            <div class="columns is-marginless is-mobile">
+                <div class="column is-3-mobile is-4-tablet p-0">
                     <figure class="image is-64x64" style="margin: auto !important">
                         <img class="is-rounded" src="{{ asset('img/user.jpg') }}">
                     </figure>
                 </div>
-                <div class="column">
+                <div class="column p-0">
                     <div class="has-text-weight-medium has-text-black mt-3 is-capitalized">
                         {{ auth()->user()->name }}
                     </div>
