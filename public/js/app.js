@@ -248,26 +248,48 @@ const addSaleForm = (function () {
 })();
 
 function jumpToCurrentPageMenuTitle() {
-    let menuTitles = d.getElementsByName("menuTitles");
+    let menuTitles = d.querySelector(".menu .is-active");
 
-    let currentMenuTitle = Object.values(menuTitles).filter((menuTitle) =>
-        menuTitle.href.includes(location.pathname.split("/")[1])
-    );
-
-    if (location.pathname.endsWith("/") || !currentMenuTitle.length) {
+    if (location.pathname.endsWith("/")) {
         return;
     }
 
-    currentMenuTitle = currentMenuTitle.pop();
-    currentMenuTitle = currentMenuTitle.parentElement.parentElement;
-
-    if (currentMenuTitle.previousElementSibling) {
-        currentMenuTitle.previousElementSibling.scrollIntoView();
+    if (!menuTitles) {
+        d.getElementsByName("menuTitles").forEach((element) => {
+            if (element.href.includes(location.pathname.split("/")[1])) {
+                menuTitles = element;
+                return;
+            }
+        });
     }
 
-    if (!currentMenuTitle.previousElementSibling) {
-        currentMenuTitle.parentElement.parentElement.previousElementSibling.scrollIntoView();
+    if (!menuTitles) {
+        return;
     }
+
+    let targetMenu =
+        menuTitles.parentElement.parentElement.parentElement
+            .previousElementSibling.firstElementChild;
+
+    let menuAccordion = menuTitles.parentElement.parentElement;
+
+    menuAccordion.classList.remove("is-hidden");
+
+    targetMenu.classList.add("is-active");
+
+    menuTitles.classList.remove("is-active");
+
+    menuTitles.classList.add("has-text-weight-bold", "text-green");
+
+    targetMenu.scrollIntoView();
+}
+
+function toggleMenu() {
+    let targetElement = this;
+
+    targetElement.parentElement.nextElementSibling.firstElementChild.classList.toggle(
+        "is-hidden"
+    );
 }
 
 function goToPreviousPage() {

@@ -34,7 +34,7 @@ if (d.getElementById("addNewSaleForm")) {
     d.getElementById("addNewSaleForm").addEventListener("click", addSaleForm);
 }
 
-d.addEventListener("readystatechange", jumpToCurrentPageMenuTitle);
+window.addEventListener("load", jumpToCurrentPageMenuTitle);
 
 if (d.getElementById("backButton")) {
     d.getElementById("backButton").addEventListener("click", goToPreviousPage);
@@ -327,4 +327,10 @@ if (d.getElementById("addNewReservationForm")) {
 
 if (d.getElementsByClassName("summernote-table").length) {
     modifySummernoteTableClass();
+}
+
+if (d.getElementsByName("menu-accordion").length) {
+    for (let element of d.getElementsByName("menu-accordion")) {
+        element.addEventListener("click", toggleMenu);
+    }
 }
