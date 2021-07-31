@@ -58,7 +58,7 @@
     @canany(['Read Merchandise', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
         <ul class="menu-list mb-2">
             <li>
-                <button name="menu-accordion" class="button is-borderless text-green is-size-6-5 ml-0">
+                <button name="menu-accordion" class="button is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0">
                     <span class="icon m-0">
                         <i class="fas fa-warehouse"></i>
                     </span>
@@ -140,7 +140,7 @@
     @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read PO', 'Read Customer', 'Read Price'])
         <ul class="menu-list mb-2">
             <li>
-                <button name="menu-accordion" class="button is-borderless text-green is-size-6-5 ml-0">
+                <button name="menu-accordion" class="button is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0">
                     <span class="icon m-0">
                         <i class="fas fa-tags"></i>
                     </span>
@@ -232,7 +232,7 @@
         @if ($enabledFeatures->contains('Tender Management'))
             <ul class="menu-list mb-2">
                 <li>
-                    <button name="menu-accordion" class="button is-borderless text-green is-size-6-5 ml-0">
+                    <button name="menu-accordion" class="button is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0">
                         <span class="icon m-0">
                             <i class="fas fa-project-diagram"></i>
                         </span>
@@ -272,7 +272,7 @@
     @canany(['Read Purchase', 'Read Supplier'])
         <ul class="menu-list mb-2">
             <li>
-                <button name="menu-accordion" class="button is-borderless text-green is-size-6-5 ml-0">
+                <button name="menu-accordion" class="button is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0">
                     <span class="icon m-0">
                         <i class="fas fa-shopping-bag"></i>
                     </span>
@@ -310,7 +310,7 @@
         @if ($enabledFeatures->contains('Product Management'))
             <ul class="menu-list mb-2">
                 <li>
-                    <button name="menu-accordion" class="button is-borderless text-green is-size-6-5 ml-0">
+                    <button name="menu-accordion" class="button is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0">
                         <span class="icon m-0">
                             <i class="fas fa-th"></i>
                         </span>
@@ -340,7 +340,7 @@
     @canany(['Read Employee', 'Update Company'])
         <ul class="menu-list mb-2">
             <li>
-                <button name="menu-accordion" class="button is-borderless text-green is-size-6-5 ml-0">
+                <button name="menu-accordion" class="button is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0">
                     <span class="icon m-0">
                         <i class="fas fa-cog"></i>
                     </span>

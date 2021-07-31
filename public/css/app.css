@@ -104,9 +104,10 @@ textarea {
 }
 .menu-list a.is-active,
 .menu-list button.is-active {
-    background-color: #3d8660 !important;
-    color: #fff !important;
+    background-color: #edf7f2 !important;
+    color: #3d8660 !important;
     border-radius: 8px !important;
+    font-weight: bold;
 }
 nav {
     max-height: 52.5px !important;
