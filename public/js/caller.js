@@ -9,18 +9,10 @@ if (d.getElementById("addNewForm")) {
     );
 }
 
-if (d.getElementById("createMenuButton")) {
-    d.getElementById("createMenuButton").addEventListener(
-        "click",
-        toggleCreateMenu
-    );
-}
-
-if (d.getElementById("createMenu")) {
-    d.getElementById("createMenu").addEventListener(
-        "mouseleave",
-        toggleCreateMenu
-    );
+if (d.getElementsByName("createMenuModal").length) {
+    for (let element of d.getElementsByName("createMenuModal")) {
+        element.addEventListener("click", toggleCreateMenu);
+    }
 }
 
 if (d.getElementById("addNewPurchaseForm")) {

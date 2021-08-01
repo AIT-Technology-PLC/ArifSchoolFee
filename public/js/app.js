@@ -36,7 +36,7 @@ const addKeyValueInputFields = (function () {
 })();
 
 function toggleCreateMenu() {
-    d.getElementById("createMenu").classList.toggle("is-hidden");
+    d.getElementById("menuModal").classList.toggle("is-active");
 }
 
 async function getProductSelected(elementId, productId) {

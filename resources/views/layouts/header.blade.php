@@ -13,7 +13,12 @@
                     SmartWork
                 </span>
             </a>
-            <a id="notificationButtonMobile" class="navbar-item has-text-white is-size-5 is-hidden-desktop to-the-right">
+            <a name="createMenuModal" class="navbar-item has-text-white is-size-5 is-hidden-desktop to-the-right" data-title="Add new product, supplier, purchase ...">
+                <span class="icon">
+                    <i class="fas fa-plus"></i>
+                </span>
+            </a>
+            <a id="notificationButtonMobile" class="navbar-item has-text-white is-size-5 is-hidden-desktop">
                 <span class="icon">
                     <i class="fas fa-bell"></i>
                 </span>
@@ -61,7 +66,7 @@
                         <i class="fas fa-redo-alt"></i>
                     </span>
                 </a>
-                <a id="createMenuButton" class="navbar-item has-text-white link-text" data-title="Add new product, supplier, purchase ...">
+                <a name="createMenuModal" class="navbar-item has-text-white link-text" data-title="Create New ...">
                     <span class="icon">
                         <i class="fas fa-plus"></i>
                     </span>
