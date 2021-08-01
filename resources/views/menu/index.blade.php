@@ -25,7 +25,7 @@
                                 </a>
                                 <br>
                                 <span class="is-size-6 is-size-7-mobile text-green">
-                                    Merchandise Inventory
+                                    Inventory Level
                                 </span>
                             </div>
                         @endif
@@ -41,7 +41,7 @@
                                 </a>
                                 <br>
                                 <span class="is-size-6 is-size-7-mobile text-green">
-                                    DO/GDN
+                                    Delivery Orders
                                 </span>
                             </div>
                         @endif
@@ -137,7 +137,7 @@
                                 </a>
                                 <br>
                                 <span class="is-size-6 is-size-7-mobile text-green">
-                                    Sales
+                                    Invoices
                                 </span>
                             </div>
                         @endif

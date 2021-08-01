@@ -1,14 +1,14 @@
 <aside class="menu">
     <ul class="menu-list">
         <li>
-            <div class="columns is-marginless is-mobile">
-                <div class="column is-3-mobile is-4-tablet p-0">
-                    <figure class="image is-64x64" style="margin: auto !important">
+            <div class="columns is-marginless is-mobile is-vcentered">
+                <div class="column is-3-mobile is-4-tablet is-paddingless">
+                    <figure class="image is-48x48 m-auto">
                         <img class="is-rounded" src="{{ asset('img/user.jpg') }}">
                     </figure>
                 </div>
-                <div class="column p-0">
-                    <div class="has-text-weight-medium has-text-black mt-3 is-capitalized">
+                <div class="column is-paddingless">
+                    <div class="has-text-weight-bold has-text-black is-capitalized is-size-7">
                         {{ auth()->user()->name }}
                     </div>
                     <div class="has-text-grey is-size-7 is-capitalized">
@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </div>
-            <div class="buttons is-hidden-tablet ml-3 mt-3">
+            <div class="buttons is-hidden-tablet ml-3 mt-5">
                 <a class="button bg-green has-text-white is-small" href="{{ route('employees.show', auth()->user()->employee->id) }}">
                     <span class="icon">
                         <i class="fas fa-address-card"></i>
