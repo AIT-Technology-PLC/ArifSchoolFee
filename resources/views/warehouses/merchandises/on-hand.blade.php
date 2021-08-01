@@ -1,7 +1,7 @@
 <section id="onHand" class="mx-3 m-lr-0">
     <div class="box radius-top-0">
         <div>
-            <table class="is-hoverable is-size-7 display nowrap" data-date="[]" data-numeric="[3,4,5]">
+            <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[]" data-numeric="[3,4,5]">
                 <thead>
                     <tr>
                         <th><abbr> # </abbr></th>

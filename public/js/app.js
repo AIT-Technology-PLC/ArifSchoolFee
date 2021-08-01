@@ -313,7 +313,7 @@ function openAddToInventoryModal() {
 function showOnHandMerchandise() {
     this.classList.add("is-active");
     d.getElementById("onHand").classList.remove("is-hidden");
-    adjustDataTablesColumns();
+    adjustDataTablesColumns("table.regular-datatable");
 
     hideAvailableMerchandise();
     hideReservedMerchandise();
@@ -323,7 +323,7 @@ function showOnHandMerchandise() {
 function showAvailableMerchandise() {
     this.classList.add("is-active");
     d.getElementById("available").classList.remove("is-hidden");
-    adjustDataTablesColumns();
+    adjustDataTablesColumns("table.regular-datatable");
 
     hideOnHandMerchandise();
     hideReservedMerchandise();
@@ -333,7 +333,7 @@ function showAvailableMerchandise() {
 function showReservedMerchandise() {
     this.classList.add("is-active");
     d.getElementById("reserved").classList.remove("is-hidden");
-    adjustDataTablesColumns();
+    adjustDataTablesColumns("table.regular-datatable");
 
     hideOnHandMerchandise();
     hideAvailableMerchandise();
@@ -878,9 +878,9 @@ const addGrnForm = (function () {
     };
 })();
 
-function showTablesAfterCompleteLoad() {
-    $("table.display").css("display", "table");
-    $("table.display").DataTable().columns.adjust().draw();
+function showTablesAfterCompleteLoad(className) {
+    $(className).css("display", "table");
+    $(className).DataTable().columns.adjust().draw();
     changeDtButton();
     removeDtSearchLabel();
 }
@@ -897,12 +897,12 @@ function removeDtSearchLabel() {
     $(".dataTables_filter label input").attr("placeholder", "Search");
 }
 
-function adjustDataTablesColumns() {
-    $("table.display").DataTable().columns.adjust().draw();
+function adjustDataTablesColumns(className) {
+    $(className).DataTable().columns.adjust().draw();
 }
 
 function initiateDataTables() {
-    const table = $("table.display");
+    const table = $("table.regular-datatable");
 
     table.DataTable({
         responsive: true,
@@ -948,7 +948,7 @@ function initiateDataTables() {
         ],
     });
 
-    showTablesAfterCompleteLoad();
+    showTablesAfterCompleteLoad("table.regular-datatable");
 }
 
 function openApproveGdnModal(event) {

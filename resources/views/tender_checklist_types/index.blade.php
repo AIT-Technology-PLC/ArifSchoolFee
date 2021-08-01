@@ -14,7 +14,7 @@
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Tender checklist type'])
             <div>
-                <table class="is-hoverable is-size-7 display nowrap" data-date="[3]" data-numeric="[]">
+                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[3]" data-numeric="[]">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
