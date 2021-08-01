@@ -287,6 +287,8 @@ function jumpToCurrentPageMenuTitle() {
 function toggleMenu() {
     let targetElement = this;
 
+    this.children[2].firstElementChild.classList.toggle("fa-caret-up");
+
     targetElement.parentElement.nextElementSibling.firstElementChild.classList.toggle(
         "is-hidden"
     );

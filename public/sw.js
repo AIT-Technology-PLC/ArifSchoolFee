@@ -33,7 +33,7 @@ precacheAndRoute([
     { url: "/js/datatables-plugins.js", revision: VERSION },
     { url: "/css/app.css", revision: VERSION },
     {
-        url: "https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css",
+        url: "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css",
         revision: null,
     },
     {

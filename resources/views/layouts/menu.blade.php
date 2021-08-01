@@ -65,7 +65,7 @@
                     <span class="ml-2">
                         Warehouse & Inventory
                     </span>
-                    <span class="icon" style="margin-left: auto !important">
+                    <span class="icon ml-auto">
                         <i class="fas fa-caret-down"></i>
                     </span>
                 </button>
@@ -150,7 +150,7 @@
                     <span class="ml-2">
                         Sales & Cutomers
                     </span>
-                    <span class="icon" style="margin-left: auto !important">
+                    <span class="icon ml-auto">
                         <i class="fas fa-caret-down"></i>
                     </span>
                 </button>
@@ -245,7 +245,7 @@
                         <span class="ml-2">
                             Tenders
                         </span>
-                        <span class="icon" style="margin-left: auto !important">
+                        <span class="icon ml-auto">
                             <i class="fas fa-caret-down"></i>
                         </span>
                     </button>
@@ -288,7 +288,7 @@
                     <span class="ml-2">
                         Purchases & Supplier
                     </span>
-                    <span class="icon" style="margin-left: auto !important">
+                    <span class="icon ml-auto">
                         <i class="fas fa-caret-down"></i>
                     </span>
                 </button>
@@ -329,7 +329,7 @@
                         <span class="ml-2">
                             Products & Categories
                         </span>
-                        <span class="icon" style="margin-left: auto !important">
+                        <span class="icon ml-auto">
                             <i class="fas fa-caret-down"></i>
                         </span>
                     </button>
@@ -362,7 +362,7 @@
                     <span class="ml-2">
                         Settings
                     </span>
-                    <span class="icon" style="margin-left: auto !important">
+                    <span class="icon ml-auto">
                         <i class="fas fa-caret-down"></i>
                     </span>
                 </button>
