@@ -277,6 +277,8 @@ function jumpToCurrentPageMenuTitle() {
 
     targetMenu.classList.add("is-active");
 
+    targetMenu.children[2].firstElementChild.classList.toggle("fa-caret-up");
+
     menuTitles.classList.remove("is-active");
 
     menuTitles.classList.add("has-text-weight-bold", "text-green");
@@ -285,11 +287,9 @@ function jumpToCurrentPageMenuTitle() {
 }
 
 function toggleMenu() {
-    let targetElement = this;
-
     this.children[2].firstElementChild.classList.toggle("fa-caret-up");
 
-    targetElement.parentElement.nextElementSibling.firstElementChild.classList.toggle(
+    this.parentElement.nextElementSibling.firstElementChild.classList.toggle(
         "is-hidden"
     );
 }
