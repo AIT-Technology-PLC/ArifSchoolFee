@@ -49,8 +49,8 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $this->product->firstOrCreate(
-            $request->only(['name', 'company_id']),
-            $request->except(['name', 'company_id'])
+            $request->only(['name', 'product_category_id', 'company_id']),
+            $request->except(['name', 'product_category_id', 'company_id'])
         );
 
         return redirect()->route('products.index');

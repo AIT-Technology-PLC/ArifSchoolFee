@@ -148,7 +148,7 @@
                         <i class="fas fa-tags"></i>
                     </span>
                     <span class="ml-2">
-                        Sales & Cutomers
+                        Sales & Customers
                     </span>
                     <span class="icon ml-auto">
                         <i class="fas fa-caret-down"></i>
