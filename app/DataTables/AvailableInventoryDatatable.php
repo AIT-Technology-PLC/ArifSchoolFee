@@ -50,7 +50,7 @@ class AvailableInventoryDatatable extends DataTable
 
     public function query()
     {
-        $onHandMerchandises = DB::table('merchandises')
+        $availableMerchandises = DB::table('merchandises')
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
@@ -66,11 +66,11 @@ class AvailableInventoryDatatable extends DataTable
             ])
             ->get();
 
-        $onHandMerchandises = $onHandMerchandises->groupBy('product')->map->keyBy('warehouse');
+        $availableMerchandises = $availableMerchandises->groupBy('product')->map->keyBy('warehouse');
 
-        $organizedOnHandMerchandise = collect();
+        $organizedAvailableMerchandise = collect();
 
-        foreach ($onHandMerchandises as $merchandiseKey => $merchandiseValue) {
+        foreach ($availableMerchandises as $merchandiseKey => $merchandiseValue) {
             $currentMerchandiseItem = [
                 'product' => $merchandiseKey,
                 'product_id' => $merchandiseValue->first()->product_id,
@@ -84,10 +84,10 @@ class AvailableInventoryDatatable extends DataTable
                 $currentMerchandiseItem = Arr::add($currentMerchandiseItem, $key, $value->available);
             }
 
-            $organizedOnHandMerchandise->push($currentMerchandiseItem);
+            $organizedAvailableMerchandise->push($currentMerchandiseItem);
         }
 
-        return $organizedOnHandMerchandise;
+        return $organizedAvailableMerchandise;
     }
 
     public function html()

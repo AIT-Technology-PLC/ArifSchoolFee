@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 
-class InventoryLevelDatatable extends DataTable
+class OnHandInventoryDatatable extends DataTable
 {
     public function __construct()
     {

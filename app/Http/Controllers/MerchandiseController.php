@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\AvailableInventoryDatatable;
-use App\DataTables\InventoryLevelDatatable;
-use App\DataTables\OutOfStockInventoryDatatable;
-use App\DataTables\ReservedInventoryDatatable;
-use App\Models\Merchandise;
 use App\Models\Warehouse;
+use App\Models\Merchandise;
+use App\DataTables\OnHandInventoryDatatable;
+use App\DataTables\ReservedInventoryDatatable;
+use App\DataTables\AvailableInventoryDatatable;
+use App\DataTables\OutOfStockInventoryDatatable;
 
 class MerchandiseController extends Controller
 {
-    public function index(InventoryLevelDatatable $datatable, Warehouse $warehouse)
+    public function index(OnHandInventoryDatatable $datatable, Warehouse $warehouse)
     {
         $this->authorize('viewAny', Merchandise::class);
 
