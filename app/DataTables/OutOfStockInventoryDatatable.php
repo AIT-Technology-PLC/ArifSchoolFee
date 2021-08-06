@@ -2,8 +2,9 @@
 
 namespace App\DataTables;
 
+use App\Models\Merchandise;
+use App\Models\Product;
 use App\Models\Warehouse;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 
 class OutOfStockInventoryDatatable extends DataTable
@@ -38,33 +39,21 @@ class OutOfStockInventoryDatatable extends DataTable
 
     public function query()
     {
-        $outOfStockMerchandises = DB::table('merchandises')
-            ->join('products', 'merchandises.product_id', '=', 'products.id')
-            ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
-            ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
-            ->where('merchandises.company_id', '=', userCompany()->id)
-            ->where('merchandises.reserved', '=', 0)
-            ->where('merchandises.available', '=', 0)
-            ->select([
-                'products.id as product_id',
-                'products.name as product',
-                'product_categories.name as category',
-                'warehouses.name as warehouse',
-            ])
-            ->get()
-            ->unique();
+        $onHandMerchandises = (new Merchandise())->getAllOnHand()->unique('product_id');
 
-        $organizedoutOfStockMerchandise = collect();
+        $outOfStockProducts = (new Product())->getOutOfStockMerchandiseProducts($onHandMerchandises)->load('productCategory');
 
-        foreach ($outOfStockMerchandises as $outOfStockMerchandise) {
-            $organizedoutOfStockMerchandise->push([
-                'product' => $outOfStockMerchandise->product,
-                'product_id' => $outOfStockMerchandise->product_id,
-                'category' => $outOfStockMerchandise->category,
+        $organizedoutOfStockProducts = collect();
+
+        foreach ($outOfStockProducts as $outOfStockProduct) {
+            $organizedoutOfStockProducts->push([
+                'product' => $outOfStockProduct->name,
+                'product_id' => $outOfStockProduct->id,
+                'category' => $outOfStockProduct->productCategory->name,
             ]);
         }
 
-        return $organizedoutOfStockMerchandise;
+        return $organizedoutOfStockProducts;
     }
 
     public function html()
