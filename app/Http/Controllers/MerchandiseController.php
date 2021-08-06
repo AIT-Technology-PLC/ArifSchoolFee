@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Warehouse;
-use App\Models\Merchandise;
-use App\DataTables\OnHandInventoryDatatable;
-use App\DataTables\ReservedInventoryDatatable;
 use App\DataTables\AvailableInventoryDatatable;
+use App\DataTables\OnHandInventoryDatatable;
 use App\DataTables\OutOfStockInventoryDatatable;
+use App\DataTables\ReservedInventoryDatatable;
+use App\Models\Merchandise;
+use App\Models\Product;
+use App\Models\Warehouse;
 
 class MerchandiseController extends Controller
 {
@@ -15,11 +16,15 @@ class MerchandiseController extends Controller
     {
         $this->authorize('viewAny', Merchandise::class);
 
+        $insights = $this->insights();
+
+        data_set($insights, 'totalWarehousesInUse', $warehouse->getTotalWarehousesUsed($insights['onHandMerchandises']));
+
         $warehouses = $warehouse->getAllWithoutRelations();
 
         $view = 'merchandises.on-hand';
 
-        return $datatable->render('merchandises.index', compact('warehouses', 'view'));
+        return $datatable->render('merchandises.index', compact('insights', 'warehouses', 'view'));
     }
 
     public function available(AvailableInventoryDatatable $datatable, Warehouse $warehouse)
@@ -53,5 +58,20 @@ class MerchandiseController extends Controller
         $view = 'merchandises.out-of';
 
         return $datatable->render('merchandises.index', compact('warehouses', 'view'));
+    }
+
+    public function insights()
+    {
+        $onHandMerchandises = (new Merchandise())->getAllOnHand()->load(['product'])->unique('product_id');
+
+        $outOfStockMerchandises = (new Product())->getOutOfStockMerchandiseProducts($onHandMerchandises->pluck('product'));
+
+        $totalDistinctLimitedMerchandises = (new Merchandise())->getTotalDistinctLimitedMerchandises($onHandMerchandises);
+
+        $totalDistinctOnHandMerchandises = $onHandMerchandises->count();
+
+        $totalOutOfStockMerchandises = $outOfStockMerchandises->count();
+
+        return compact('onHandMerchandises', 'totalDistinctOnHandMerchandises', 'totalDistinctLimitedMerchandises', 'totalOutOfStockMerchandises');
     }
 }

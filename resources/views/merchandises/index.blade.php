@@ -16,7 +16,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalDistinctOnHandMerchandises ?? 0.0 }}
+                            {{ $insights['totalDistinctOnHandMerchandises'] ?? 0.0 }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Product Types
@@ -39,7 +39,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalDistinctLimitedMerchandises ?? 0.0 }}
+                            {{ $insights['totalDistinctLimitedMerchandises'] ?? 0.0 }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Product Types
@@ -62,7 +62,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalOutOfStockMerchandises ?? 0.0 }}
+                            {{ $insights['totalOutOfStockMerchandises'] ?? 0.0 }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Product Types
@@ -86,7 +86,7 @@
                         </div>
                         <div class="column is-paddingless">
                             <div class="is-size-3 has-text-weight-bold">
-                                {{ $totalWarehouseInUse ?? 0.0 }}
+                                {{ $insights['totalWarehousesInUse'] ?? 0.0 }}
                             </div>
                             <div class="is-uppercase is-size-7">
                                 Warehouses
