@@ -150,8 +150,8 @@
                         <span>Available</span>
                     </a>
                 </li>
-                <li class="reserved">
-                    <a href="{{ route('merchandises.index') }}">
+                <li class="reserved {{ request()->is('merchandises/reserved') ? 'is-active' : '' }}">
+                    <a href="{{ route('merchandises.reserved') }}">
                         <span>Reserved</span>
                     </a>
                 </li>
