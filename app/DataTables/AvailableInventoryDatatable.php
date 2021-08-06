@@ -52,7 +52,7 @@ class AvailableInventoryDatatable extends DataTable
             ->rawColumns([
                 ...$this->warehouses->pluck('name')->toArray(),
                 'total balance',
-                'product'
+                'product',
             ])
             ->addIndexColumn();
     }
@@ -123,7 +123,8 @@ class AvailableInventoryDatatable extends DataTable
             ->preDrawCallback("
                 function(settings){
                     changeDtButton();
-                    $('table').css('display', 'table')
+                    $('table').css('display', 'table');
+                    removeDtSearchLabel();
                 }
             ")
             ->orderBy(1, 'asc');

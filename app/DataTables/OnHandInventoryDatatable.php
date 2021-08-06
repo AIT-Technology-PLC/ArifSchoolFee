@@ -118,7 +118,8 @@ class OnHandInventoryDatatable extends DataTable
             ->preDrawCallback("
                 function(settings){
                     changeDtButton();
-                    $('table').css('display', 'table')
+                    $('table').css('display', 'table');
+                    removeDtSearchLabel();
                 }
             ")
             ->orderBy(1, 'asc');
