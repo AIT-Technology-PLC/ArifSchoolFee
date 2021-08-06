@@ -66,13 +66,13 @@ class AvailableInventoryDatatable extends DataTable
             ])
             ->get();
 
-        $availableMerchandises = $availableMerchandises->groupBy('product')->map->keyBy('warehouse');
+        $availableMerchandises = $availableMerchandises->groupBy('product_id')->map->keyBy('warehouse');
 
         $organizedAvailableMerchandise = collect();
 
         foreach ($availableMerchandises as $merchandiseKey => $merchandiseValue) {
             $currentMerchandiseItem = [
-                'product' => $merchandiseKey,
+                'product' => $merchandiseValue->first()->product,
                 'product_id' => $merchandiseValue->first()->product_id,
                 'unit' => $merchandiseValue->first()->unit,
                 'category' => $merchandiseValue->first()->category,

@@ -61,13 +61,13 @@ class ReservedInventoryDatatable extends DataTable
             ])
             ->get();
 
-        $reservedMerchandises = $reservedMerchandises->groupBy('product')->map->keyBy('warehouse');
+        $reservedMerchandises = $reservedMerchandises->groupBy('product_id')->map->keyBy('warehouse');
 
         $organizedReservedMerchandise = collect();
 
         foreach ($reservedMerchandises as $merchandiseKey => $merchandiseValue) {
             $currentMerchandiseItem = [
-                'product' => $merchandiseKey,
+                'product' => $merchandiseValue->first()->product,
                 'product_id' => $merchandiseValue->first()->product_id,
                 'unit' => $merchandiseValue->first()->unit,
                 'category' => $merchandiseValue->first()->category,

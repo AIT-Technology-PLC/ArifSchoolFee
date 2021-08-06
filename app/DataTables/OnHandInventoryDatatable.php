@@ -49,9 +49,12 @@ class OnHandInventoryDatatable extends DataTable
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
             ->where('merchandises.company_id', '=', userCompany()->id)
-            ->where('merchandises.available', '>', 0)
-            ->orWhere('merchandises.reserved', '>', 0)
+            ->where(function ($query) {
+                $query->where('merchandises.available', '>', 0)
+                    ->orWhere('merchandises.reserved', '>', 0);
+            })
             ->select([
+                'products.id as id',
                 'products.name as product',
                 'products.unit_of_measurement as unit',
                 'product_categories.name as category',
@@ -60,13 +63,13 @@ class OnHandInventoryDatatable extends DataTable
             ->selectRaw('merchandises.available + merchandises.reserved as on_hand')
             ->get();
 
-        $onHandMerchandises = $onHandMerchandises->groupBy('product')->map->keyBy('warehouse');
+        $onHandMerchandises = $onHandMerchandises->groupBy('id')->map->keyBy('warehouse');
 
         $organizedOnHandMerchandise = collect();
 
         foreach ($onHandMerchandises as $merchandiseKey => $merchandiseValue) {
             $currentMerchandiseItem = [
-                'product' => $merchandiseKey,
+                'product' => $merchandiseValue->first()->product,
                 'unit' => $merchandiseValue->first()->unit,
                 'category' => $merchandiseValue->first()->category,
                 'total balance' => $merchandiseValue->sum('on_hand'),

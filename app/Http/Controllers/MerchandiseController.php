@@ -62,13 +62,13 @@ class MerchandiseController extends Controller
 
     public function insights()
     {
-        $onHandMerchandises = (new Merchandise())->getAllOnHand()->load(['product'])->unique('product_id');
+        $onHandMerchandises = (new Merchandise())->getAllOnHand()->load(['product']);
 
-        $outOfStockMerchandises = (new Product())->getOutOfStockMerchandiseProducts($onHandMerchandises->pluck('product'));
+        $outOfStockMerchandises = (new Product())->getOutOfStockMerchandiseProducts($onHandMerchandises->unique('product_id')->pluck('product'));
 
         $totalDistinctLimitedMerchandises = (new Merchandise())->getTotalDistinctLimitedMerchandises($onHandMerchandises);
 
-        $totalDistinctOnHandMerchandises = $onHandMerchandises->count();
+        $totalDistinctOnHandMerchandises = $onHandMerchandises->unique('product_id')->count();
 
         $totalOutOfStockMerchandises = $outOfStockMerchandises->count();
 

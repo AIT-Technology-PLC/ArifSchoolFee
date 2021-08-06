@@ -42,8 +42,10 @@ class Merchandise extends Model
     public function getAllOnHand()
     {
         return $this->companyMerchandises()
-            ->where('available', '>', 0)
-            ->orWhere('reserved', '>', 0)
+            ->where(function ($query) {
+                $query->where('merchandises.available', '>', 0)
+                    ->orWhere('merchandises.reserved', '>', 0);
+            })
             ->get();
     }
 
