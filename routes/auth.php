@@ -25,6 +25,10 @@ Route::get('merchandises', [Controllers\MerchandiseController::class, 'index'])
     ->name('merchandises.index')
     ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Merchandise Inventory');
 
+Route::get('merchandises/available', [Controllers\MerchandiseController::class, 'available'])
+    ->name('merchandises.available')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Merchandise Inventory');
+
 Route::get('/sale/{sale}/gdn/create', Controllers\SaleGdnController::class)
     ->name('sales.gdns.create')
     ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Gdn Management');

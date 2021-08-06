@@ -145,8 +145,8 @@
                         <span>On Hand</span>
                     </a>
                 </li>
-                <li class="available">
-                    <a href="{{ route('merchandises.index') }}">
+                <li class="available {{ request()->is('merchandises/available') ? 'is-active' : '' }}">
+                    <a href="{{ route('merchandises.available') }}">
                         <span>Available</span>
                     </a>
                 </li>

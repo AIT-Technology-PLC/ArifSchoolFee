@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 
-class InventoryLevelDatatable extends DataTable
+class AvailableInventoryDatatable extends DataTable
 {
     public function __construct()
     {
@@ -23,7 +23,13 @@ class InventoryLevelDatatable extends DataTable
             $datatable->editColumn($warehouse->name, function ($row) use ($warehouse) {
                 $content = Arr::has($row, $warehouse->name) ? $row[$warehouse->name] : 0.00;
 
-                return "<span class='tag is-small btn-green is-outlined'>" . number_format($content, 2, '.', '') . ' ' . $row['unit'] . '</span>';
+                return "
+                    <span class='is-hidden'>" . number_format($content, 2, '.', '') . "</span>" . "
+                    <a href='/warehouses/" . $warehouse->id . "/products/" . $row['product_id'] . "'" . "data-title='View Product History'>
+                        <span class='tag is-small btn-green is-outlined'>" . number_format($content, 2, '.', '') . ' ' . $row['unit'] .
+                    '</span>' .
+                    '</a>';
+
             });
 
             $datatable->editColumn('total balance', function ($row) {
@@ -50,14 +56,14 @@ class InventoryLevelDatatable extends DataTable
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
             ->where('merchandises.company_id', '=', userCompany()->id)
             ->where('merchandises.available', '>', 0)
-            ->orWhere('merchandises.reserved', '>', 0)
             ->select([
+                'merchandises.available as available',
+                'products.id as product_id',
                 'products.name as product',
                 'products.unit_of_measurement as unit',
                 'product_categories.name as category',
                 'warehouses.name as warehouse',
             ])
-            ->selectRaw('merchandises.available + merchandises.reserved as on_hand')
             ->get();
 
         $onHandMerchandises = $onHandMerchandises->groupBy('product')->map->keyBy('warehouse');
@@ -67,13 +73,15 @@ class InventoryLevelDatatable extends DataTable
         foreach ($onHandMerchandises as $merchandiseKey => $merchandiseValue) {
             $currentMerchandiseItem = [
                 'product' => $merchandiseKey,
+                'product_id' => $merchandiseValue->first()->product_id,
                 'unit' => $merchandiseValue->first()->unit,
                 'category' => $merchandiseValue->first()->category,
-                'total balance' => $merchandiseValue->sum('on_hand'),
+                'total balance' => $merchandiseValue->sum('available'),
             ];
 
             foreach ($merchandiseValue as $key => $value) {
-                $currentMerchandiseItem = Arr::add($currentMerchandiseItem, $key, $value->on_hand);
+
+                $currentMerchandiseItem = Arr::add($currentMerchandiseItem, $key, $value->available);
             }
 
             $organizedOnHandMerchandise->push($currentMerchandiseItem);
