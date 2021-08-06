@@ -27,6 +27,7 @@ class FeatureAuthComposer
             'merchandises.available',
             'merchandises.reserved',
             'merchandises.out-of',
+            'datatables::script'
         ]);
 
         if ($excludedViews->contains($view->getName())) {

@@ -16,7 +16,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalDistinctOnHandMerchandises }}
+                            {{ $totalDistinctOnHandMerchandises ?? 0.0 }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Product Types
@@ -39,7 +39,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalDistinctLimitedMerchandises }}
+                            {{ $totalDistinctLimitedMerchandises ?? 0.0 }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Product Types
@@ -62,7 +62,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalOutOfStockMerchandises }}
+                            {{ $totalOutOfStockMerchandises ?? 0.0 }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Product Types
@@ -86,7 +86,7 @@
                         </div>
                         <div class="column is-paddingless">
                             <div class="is-size-3 has-text-weight-bold">
-                                {{ $totalWarehouseInUse }}
+                                {{ $totalWarehouseInUse ?? 0.0 }}
                             </div>
                             <div class="is-uppercase is-size-7">
                                 Warehouses
@@ -140,23 +140,23 @@
         </div>
         <div class="tabs is-toggle is-fullwidth has-background-white-bis">
             <ul>
-                <li id="onHandTab" class="on-hand is-active">
-                    <a class="">
+                <li class="on-hand {{ request()->is('merchandises') ? 'is-active' : '' }}">
+                    <a href="{{ route('merchandises.index') }}">
                         <span>On Hand</span>
                     </a>
                 </li>
-                <li id="availableTab" class="available">
-                    <a class="">
+                <li class="available">
+                    <a href="{{ route('merchandises.index') }}">
                         <span>Available</span>
                     </a>
                 </li>
-                <li id="reservedTab" class="reserved">
-                    <a class="">
+                <li class="reserved">
+                    <a href="{{ route('merchandises.index') }}">
                         <span>Reserved</span>
                     </a>
                 </li>
-                <li id="outOfTab" class="out-of-stock">
-                    <a>
+                <li class="out-of-stock">
+                    <a href="{{ route('merchandises.index') }}">
                         <span>Out of Stock</span>
                     </a>
                 </li>
@@ -164,12 +164,5 @@
         </div>
     </section>
 
-    @include('merchandises.on-hand')
-
-    @include('merchandises.available')
-
-    @include('merchandises.reserved')
-
-    @include('merchandises.out-of')
-
+    @include($view)
 @endsection
