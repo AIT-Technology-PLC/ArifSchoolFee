@@ -18,8 +18,6 @@ class MerchandiseController extends Controller
 
         $insights = $this->insights();
 
-        data_set($insights, 'totalWarehousesInUse', $warehouse->getTotalWarehousesUsed($insights['onHandMerchandises']));
-
         $warehouses = $warehouse->getAllWithoutRelations();
 
         $view = 'merchandises.on-hand';
@@ -31,33 +29,39 @@ class MerchandiseController extends Controller
     {
         $this->authorize('viewAny', Merchandise::class);
 
+        $insights = $this->insights();
+
         $warehouses = $warehouse->getAllWithoutRelations();
 
         $view = 'merchandises.on-hand';
 
-        return $datatable->render('merchandises.index', compact('warehouses', 'view'));
+        return $datatable->render('merchandises.index', compact('insights', 'warehouses', 'view'));
     }
 
     public function reserved(ReservedInventoryDatatable $datatable, Warehouse $warehouse)
     {
         $this->authorize('viewAny', Merchandise::class);
 
+        $insights = $this->insights();
+
         $warehouses = $warehouse->getAllWithoutRelations();
 
         $view = 'merchandises.reserved';
 
-        return $datatable->render('merchandises.index', compact('warehouses', 'view'));
+        return $datatable->render('merchandises.index', compact('insights', 'warehouses', 'view'));
     }
 
     public function outOfStock(OutOfStockInventoryDatatable $datatable, Warehouse $warehouse)
     {
         $this->authorize('viewAny', Merchandise::class);
 
+        $insights = $this->insights();
+
         $warehouses = $warehouse->getAllWithoutRelations();
 
         $view = 'merchandises.out-of';
 
-        return $datatable->render('merchandises.index', compact('warehouses', 'view'));
+        return $datatable->render('merchandises.index', compact('insights', 'warehouses', 'view'));
     }
 
     public function insights()
@@ -72,6 +76,8 @@ class MerchandiseController extends Controller
 
         $totalOutOfStockMerchandises = $outOfStockMerchandises->count();
 
-        return compact('onHandMerchandises', 'totalDistinctOnHandMerchandises', 'totalDistinctLimitedMerchandises', 'totalOutOfStockMerchandises');
+        $totalWarehousesInUse = (new Warehouse())->getTotalWarehousesUsed($onHandMerchandises);
+
+        return compact('totalDistinctOnHandMerchandises', 'totalDistinctLimitedMerchandises', 'totalOutOfStockMerchandises', 'totalWarehousesInUse');
     }
 }

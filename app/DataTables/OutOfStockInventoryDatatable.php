@@ -39,9 +39,9 @@ class OutOfStockInventoryDatatable extends DataTable
 
     public function query()
     {
-        $onHandMerchandises = (new Merchandise())->getAllOnHand()->unique('product_id');
+        $onHandMerchandiseProducts = (new Merchandise())->getAllOnHand()->load('product')->pluck('product')->unique();
 
-        $outOfStockProducts = (new Product())->getOutOfStockMerchandiseProducts($onHandMerchandises)->load('productCategory');
+        $outOfStockProducts = (new Product())->getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)->load('productCategory');
 
         $organizedoutOfStockProducts = collect();
 
