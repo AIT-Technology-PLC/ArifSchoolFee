@@ -155,8 +155,8 @@
                         <span>Reserved</span>
                     </a>
                 </li>
-                <li class="out-of-stock">
-                    <a href="{{ route('merchandises.index') }}">
+                <li class="out-of-stock {{ request()->is('merchandises/out-of-stock') ? 'is-active' : '' }}">
+                    <a href="{{ route('merchandises.out-of-stock') }}">
                         <span>Out of Stock</span>
                     </a>
                 </li>

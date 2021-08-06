@@ -33,6 +33,10 @@ Route::get('merchandises/reserved', [Controllers\MerchandiseController::class, '
     ->name('merchandises.reserved')
     ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Merchandise Inventory');
 
+Route::get('merchandises/out-of-stock', [Controllers\MerchandiseController::class, 'outOfStock'])
+    ->name('merchandises.out-of-stock')
+    ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Merchandise Inventory');
+
 Route::get('/sale/{sale}/gdn/create', Controllers\SaleGdnController::class)
     ->name('sales.gdns.create')
     ->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Gdn Management');
