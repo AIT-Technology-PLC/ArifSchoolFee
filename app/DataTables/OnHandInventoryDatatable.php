@@ -18,6 +18,14 @@ class OnHandInventoryDatatable extends DataTable
     {
         $datatable = datatables()->collection($query->all());
 
+        $datatable->editColumn('product', function ($row) {
+            if ($row['code']) {
+                return $row['product'] . "<span class='has-text-grey has-has-text-weight-bold'> - " . $row['code'] . "</span>";
+            }
+
+            return $row['product'];
+        });
+
         $this->warehouses->each(function ($warehouse) use ($datatable) {
 
             $datatable->editColumn($warehouse->name, function ($row) use ($warehouse) {
@@ -38,6 +46,7 @@ class OnHandInventoryDatatable extends DataTable
             ->rawColumns([
                 ...$this->warehouses->pluck('name')->toArray(),
                 'total balance',
+                'product',
             ])
             ->addIndexColumn();
     }
@@ -56,6 +65,7 @@ class OnHandInventoryDatatable extends DataTable
             ->select([
                 'products.id as id',
                 'products.name as product',
+                'products.code as code',
                 'products.unit_of_measurement as unit',
                 'product_categories.name as category',
                 'warehouses.name as warehouse',
@@ -70,6 +80,7 @@ class OnHandInventoryDatatable extends DataTable
         foreach ($onHandMerchandises as $merchandiseKey => $merchandiseValue) {
             $currentMerchandiseItem = [
                 'product' => $merchandiseValue->first()->product,
+                'code' => $merchandiseValue->first()->code ?? '',
                 'unit' => $merchandiseValue->first()->unit,
                 'category' => $merchandiseValue->first()->category,
                 'total balance' => $merchandiseValue->sum('on_hand'),

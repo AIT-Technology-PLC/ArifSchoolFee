@@ -18,6 +18,14 @@ class OutOfStockInventoryDatatable extends DataTable
     {
         $datatable = datatables()->collection($query->all());
 
+        $datatable->editColumn('product', function ($row) {
+            if ($row['code']) {
+                return $row['product'] . "<span class='has-text-grey has-has-text-weight-bold'> - " . $row['code'] . "</span>";
+            }
+
+            return $row['product'];
+        });
+
         $this->warehouses->each(function ($warehouse) use ($datatable) {
 
             $datatable->addColumn($warehouse->name, function ($row) use ($warehouse) {
@@ -33,6 +41,7 @@ class OutOfStockInventoryDatatable extends DataTable
         return $datatable
             ->rawColumns([
                 ...$this->warehouses->pluck('name')->toArray(),
+                'product',
             ])
             ->addIndexColumn();
     }
@@ -48,6 +57,7 @@ class OutOfStockInventoryDatatable extends DataTable
         foreach ($outOfStockProducts as $outOfStockProduct) {
             $organizedoutOfStockProducts->push([
                 'product' => $outOfStockProduct->name,
+                'code' => $outOfStockProduct->code ?? '',
                 'product_id' => $outOfStockProduct->id,
                 'category' => $outOfStockProduct->productCategory->name,
             ]);

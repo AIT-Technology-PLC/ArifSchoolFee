@@ -18,6 +18,14 @@ class ReservedInventoryDatatable extends DataTable
     {
         $datatable = datatables()->collection($query->all());
 
+        $datatable->editColumn('product', function ($row) {
+            if ($row['code']) {
+                return $row['product'] . "<span class='has-text-grey has-has-text-weight-bold'> - " . $row['code'] . "</span>";
+            }
+
+            return $row['product'];
+        });
+
         $this->warehouses->each(function ($warehouse) use ($datatable) {
 
             $datatable->editColumn($warehouse->name, function ($row) use ($warehouse) {
@@ -39,6 +47,7 @@ class ReservedInventoryDatatable extends DataTable
             ->rawColumns([
                 ...$this->warehouses->pluck('name')->toArray(),
                 'total balance',
+                'product',
             ])
             ->addIndexColumn();
     }
@@ -55,6 +64,7 @@ class ReservedInventoryDatatable extends DataTable
                 'merchandises.reserved as reserved',
                 'products.id as product_id',
                 'products.name as product',
+                'products.code as code',
                 'products.unit_of_measurement as unit',
                 'product_categories.name as category',
                 'warehouses.name as warehouse',
@@ -68,6 +78,7 @@ class ReservedInventoryDatatable extends DataTable
         foreach ($reservedMerchandises as $merchandiseKey => $merchandiseValue) {
             $currentMerchandiseItem = [
                 'product' => $merchandiseValue->first()->product,
+                'code' => $merchandiseValue->first()->code ?? '',
                 'product_id' => $merchandiseValue->first()->product_id,
                 'unit' => $merchandiseValue->first()->unit,
                 'category' => $merchandiseValue->first()->category,
