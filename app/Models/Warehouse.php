@@ -89,6 +89,17 @@ class Warehouse extends Model
 
     public function getAllWithoutRelations()
     {
+        /*
+        This is temporary solution
+        Dont allow sales officer of Dejene Lemessa to see the main warehouse stock level
+         */
+        // ONLY FOR DEJENE
+        if (userCompany()->id == 12 && auth()->user()->roles[0]->name == 'Sales Officer'
+            && (request()->routeIs('merchandises.*') || request()->routeIs('warehouses.merchandises.*'))) {
+            return $this->companyWarehouses()->where('name', '<>', 'Main Warehouse')->orderBy('name')->get();
+        }
+        // ONLY FOR DEJENE
+
         return $this->companyWarehouses()->orderBy('name')->get();
     }
 
