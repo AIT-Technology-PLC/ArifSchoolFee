@@ -69,6 +69,8 @@ class PermissionController extends Controller
 
         $permission['merchandisePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'merchandise'))->pluck('name')->toArray();
 
+        $permission['returnPermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'return'))->pluck('name')->toArray();
+        
         $permission['salePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'sale'))->pluck('name')->toArray();
 
         $permission['proformaInvoicePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'proforma invoice'))->pluck('name')->toArray();
