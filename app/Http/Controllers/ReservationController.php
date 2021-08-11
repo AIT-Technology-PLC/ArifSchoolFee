@@ -238,7 +238,7 @@ class ReservationController extends Controller
             $gdn = Gdn::create([
                 'status' => 'Not Subtracted From Inventory',
                 'code' => $this->prependCompanyId($currentGdnCode + 1),
-                'customer_id' => $reservation->customer->id ?? '',
+                'customer_id' => $reservation->customer_id ?? null,
                 'issued_on' => today(),
                 'payment_type' => $reservation->payment_type,
                 'description' => $reservation->description ?? '',

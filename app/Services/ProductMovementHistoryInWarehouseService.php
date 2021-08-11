@@ -180,7 +180,7 @@ class ProductMovementHistoryInWarehouseService
                 'quantity' => $reservationDetail->quantity,
                 'balance' => 0.00,
                 'unit_of_measurement' => $reservationDetail->product->unit_of_measurement,
-                'details' => 'Reserved for ' . $reservationDetail->reservation->customer->company_name ?? 'Unknown',
+                'details' => Str::of($reservationDetail->reservation->customer->company_name ?? 'Unknown')->prepend('Reserved for '),
                 'function' => 'subtract',
             ]);
         });
