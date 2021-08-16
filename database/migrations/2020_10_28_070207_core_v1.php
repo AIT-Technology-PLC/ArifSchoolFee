@@ -527,8 +527,27 @@ class CoreV1 extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
+        Schema::create('tender_checklist_types', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('company_id')->nullable()->unsigned();
+            $table->bigInteger('created_by')->nullable()->unsigned();
+            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->string('name')->unique();
+            $table->boolean('is_sensitive');
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+        });
+
         Schema::create('general_tender_checklists', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('tender_checklist_type_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
@@ -539,6 +558,7 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
 
+            $table->foreign('tender_checklist_type_id')->references('id')->on('tender_checklist_types')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
@@ -579,6 +599,11 @@ class CoreV1 extends Migration
             $table->dateTime('published_on')->nullable();
             $table->dateTime('closing_date')->nullable();
             $table->dateTime('opening_date')->nullable();
+            $table->longText('financial_reading')->nullable();
+            $table->longText('technical_reading')->nullable();
+            $table->dateTime('clarify_on')->nullable();
+            $table->dateTime('visit_on')->nullable();
+            $table->dateTime('premeet_on')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -612,7 +637,7 @@ class CoreV1 extends Migration
         Schema::create('tender_checklists', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('tender_id')->nullable()->unsigned();
-            $table->string('item');
+            $table->bigInteger('general_tender_checklist_id')->nullable()->unsigned();
             $table->string('status')->nullable();
             $table->string('comment')->nullable();
             $table->timestamps();
@@ -620,6 +645,7 @@ class CoreV1 extends Migration
 
             $table->index('tender_id');
 
+            $table->foreign('general_tender_checklist_id')->references('id')->on('general_tender_checklists')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('tender_id')->references('id')->on('tenders')->onDelete('cascade')->onUpdate('cascade');
         });
 
