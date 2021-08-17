@@ -21,13 +21,14 @@ class FeatureAuthComposer
             'assets.js',
             'components.delete_button',
             'components.deleted_message',
+            'components.product-list',
             'warehouses.merchandises.on-hand',
             'warehouses.merchandises.out-of',
             'merchandises.on-hand',
             'merchandises.available',
             'merchandises.reserved',
             'merchandises.out-of',
-            'datatables::script'
+            'datatables::script',
         ]);
 
         if ($excludedViews->contains($view->getName())) {

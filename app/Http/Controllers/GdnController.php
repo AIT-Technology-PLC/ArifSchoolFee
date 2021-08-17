@@ -6,7 +6,6 @@ use App\Http\Requests\StoreGdnRequest;
 use App\Http\Requests\UpdateGdnRequest;
 use App\Models\Customer;
 use App\Models\Gdn;
-use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Warehouse;
 use App\Notifications\GdnPrepared;
@@ -49,10 +48,8 @@ class GdnController extends Controller
         return view('gdns.index', compact('gdns', 'totalGdns', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }
 
-    public function create(Product $product, Customer $customer, Sale $sale, Warehouse $warehouse)
+    public function create(Customer $customer, Sale $sale, Warehouse $warehouse)
     {
-        $products = $product->getProductNames();
-
         $customers = $customer->getCustomerNames();
 
         $sales = $sale->getAll();
@@ -61,7 +58,7 @@ class GdnController extends Controller
 
         $currentGdnCode = (Gdn::select('code')->companyGdn()->latest()->first()->code) ?? 0;
 
-        return view('gdns.create', compact('products', 'customers', 'sales', 'warehouses', 'currentGdnCode'));
+        return view('gdns.create', compact('customers', 'sales', 'warehouses', 'currentGdnCode'));
     }
 
     public function store(StoreGdnRequest $request)
@@ -86,13 +83,11 @@ class GdnController extends Controller
         return view('gdns.show', compact('gdn'));
     }
 
-    public function edit(Gdn $gdn, Product $product, Customer $customer, Sale $sale, Warehouse $warehouse)
+    public function edit(Gdn $gdn, Customer $customer, Sale $sale, Warehouse $warehouse)
     {
         if ($gdn->reservation) {
             return redirect()->back()->with('failedMessage', 'You cannot edit a DO that belongs to a reservation.');
         }
-
-        $products = $product->getProductNames();
 
         $customers = $customer->getCustomerNames();
 
@@ -102,7 +97,7 @@ class GdnController extends Controller
 
         $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse']);
 
-        return view('gdns.edit', compact('gdn', 'products', 'customers', 'sales', 'warehouses'));
+        return view('gdns.edit', compact('gdn', 'customers', 'sales', 'warehouses'));
     }
 
     public function update(UpdateGdnRequest $request, Gdn $gdn)
