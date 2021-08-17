@@ -449,7 +449,7 @@ const addGdnForm = (function () {
                         <label for="gdn[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
-                                <select id="gdn[${index}][product_id]" name="gdn[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                <select id="gdn[${index}][product_id]" name="gdn[${index}][product_id]" class="select2-products" onchange="getProductSelected(this.id, this.value)">
                                     ${productList.innerHTML}
                                 </select>
                             </div>
@@ -519,6 +519,8 @@ const addGdnForm = (function () {
         gdnFormWrapper.insertAdjacentHTML("beforeend", createGdnForm);
 
         index++;
+
+        initializeSelect2Products();
 
         if (index == formLimit) {
             d.getElementById("addNewGdnForm").remove();
