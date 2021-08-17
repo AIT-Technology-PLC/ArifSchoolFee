@@ -46,7 +46,9 @@ class ProformaInvoiceController extends Controller
 
         $customers = Customer::companyCustomers()->orderBy('company_name')->get(['id', 'company_name']);
 
-        return view('proforma_invoices.create', compact('products', 'customers'));
+        $currentProformaInvoiceCode = (ProformaInvoice::select('code')->companyProformaInvoices()->latest()->first()->code) ?? 0;
+
+        return view('proforma_invoices.create', compact('products', 'customers', 'currentProformaInvoiceCode'));
     }
 
     public function store(StoreProformaInvoiceRequest $request)

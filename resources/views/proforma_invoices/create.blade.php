@@ -19,7 +19,7 @@
                         <div class="field">
                             <label for="code" class="label text-green has-text-weight-normal">PI No <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="text" name="code" id="code" value="{{ old('code') ?? '' }}">
+                                <input class="input" type="text" name="code" id="code" value="{{ $currentProformaInvoiceCode + 1 }}">
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-hashtag"></i>
                                 </span>

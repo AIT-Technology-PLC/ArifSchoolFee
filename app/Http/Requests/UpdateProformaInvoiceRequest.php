@@ -3,10 +3,13 @@
 namespace App\Http\Requests;
 
 use App\Services\SetDataOwnerService;
+use App\Traits\PrependCompanyId;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProformaInvoiceRequest extends FormRequest
 {
+    use PrependCompanyId;
+
     public function authorize()
     {
         return true;
@@ -26,6 +29,13 @@ class UpdateProformaInvoiceRequest extends FormRequest
             'proformaInvoice.*.unit_price' => 'required|numeric',
             'proformaInvoice.*.discount' => 'nullable|numeric|min:0|max:100',
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'code' => $this->prependCompanyId($this->code),
+        ]);
     }
 
     public function passedValidation()
