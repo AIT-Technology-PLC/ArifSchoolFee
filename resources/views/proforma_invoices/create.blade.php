@@ -181,6 +181,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="column is-12">
+                            <div class="field">
+                                <label for="specification" class="label text-green has-text-weight-normal">Specifications <sup class="has-text-danger"></sup> </label>
+                                <div class="control">
+                                    <textarea name="specification" id="specification" cols="30" rows="5" class="summernote textarea" placeholder="Description or note to be taken">{{ old('specification') ?? '' }}</textarea>
+                                    @error('specification')
+                                        <span class="help has-text-danger" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 @foreach (range(1, 10) as $i)
@@ -262,6 +275,20 @@
                                                 <i class="fas fa-percent"></i>
                                             </span>
                                             @error('proformaInvoice.' . $i . '.discount')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-12">
+                                    <div class="field">
+                                        <label for="proformaInvoice[{{ $i }}][specification]" class="label text-green has-text-weight-normal">Specifications <sup class="has-text-danger"></sup> </label>
+                                        <div class="control">
+                                            <textarea name="proformaInvoice[{{ $i }}][specification]" id="proformaInvoice[{{ $i }}][specification]" cols="30" rows="5" class="summernote textarea"
+                                                placeholder="Specification about the product"> {{ old('proformaInvoice.' . $i . '.specification') ?? '' }} </textarea>
+                                            @error('proformaInvoice.' . $i . '.specification')
                                                 <span class="help has-text-danger" role="alert">
                                                     {{ $message }}
                                                 </span>

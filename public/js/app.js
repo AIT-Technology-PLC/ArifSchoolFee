@@ -1398,6 +1398,14 @@ const addProformaInvoiceForm = (function () {
                             </div>
                         </div>
                     </div>
+                    <div class="column is-12">
+                        <div class="field">
+                            <label for="proformaInvoice[${index}][specification]" class="label text-green has-text-weight-normal">Specifications <sup class="has-text-danger"></sup> </label>
+                            <div class="control">
+                                <textarea name="proformaInvoice[${index}][specification]" id="proformaInvoice[${index}][specification]" cols="30" rows="5" class="summernote textarea" placeholder="Specification about the product"></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>`;
 
@@ -1407,11 +1415,23 @@ const addProformaInvoiceForm = (function () {
         );
 
         index++;
+
+        initializeSummernote();
     };
 })();
 
 function initializeSummernote() {
-    $(".summernote").summernote();
+    $(".summernote").summernote({
+        placeholder: "Write description or other notes here",
+        tabsize: 2,
+        minHeight: 90,
+        tabDisable: true,
+        toolbar: [
+            ["font", ["bold"]],
+            ["table", ["table"]],
+            ["forecolor", ["forecolor"]],
+        ],
+    });
 }
 
 function openSwalModal(event) {

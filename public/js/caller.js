@@ -241,17 +241,7 @@ if (d.getElementById("selectAllCheckboxes")) {
 }
 
 if (d.getElementsByClassName("summernote").length) {
-    $(".summernote").summernote({
-        placeholder: "Write description or other notes here",
-        tabsize: 2,
-        minHeight: 90,
-        tabDisable: true,
-        toolbar: [
-            ["font", ["bold"]],
-            ["table", ["table"]],
-            ["forecolor", ["forecolor"]],
-        ],
-    });
+    initializeSummernote();
 }
 
 if (d.getElementById("addNewSivForm")) {
@@ -277,10 +267,6 @@ if (d.getElementById("addNewProformaInvoiceForm")) {
         "click",
         addProformaInvoiceForm
     );
-}
-
-if (d.getElementsByClassName("summernote").length) {
-    initializeSummernote();
 }
 
 if (d.querySelectorAll(".swal").length) {
