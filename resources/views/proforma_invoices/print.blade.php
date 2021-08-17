@@ -20,6 +20,12 @@
             }
         }
 
+        .summernote-table table td,
+        .summernote-table table th {
+            border-width: 1px !important;
+            padding: 0 !important;
+        }
+
     </style>
 </head>
 
@@ -134,7 +140,12 @@
                     @foreach ($proformaInvoice->proformaInvoiceDetails as $proformaInvoiceDetail)
                         <tr>
                             <td class="has-text-centered"> {{ $loop->index + 1 }} </td>
-                            <td> {{ $proformaInvoiceDetail->product->name }} </td>
+                            <td>
+                                {{ $proformaInvoiceDetail->product->name }}
+                                <span class="summernote-table">
+                                    {!! $proformaInvoiceDetail->specification ?? '' !!}
+                                </span>
+                            </td>
                             <td> {{ $proformaInvoiceDetail->product->productCategory->name }} </td>
                             <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->quantity, 2) }} {{ $proformaInvoiceDetail->product->unit_of_measurement }} </td>
                             <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->unit_price, 2) }} </td>
@@ -162,12 +173,12 @@
         </section>
 
         @if ($proformaInvoice->terms)
-            <section class="page-break mt-5 px-6">
+            <section class="page-break mt-5 px-6" style="width: 60% !important">
                 <aside>
                     <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
                         Terms and Conditions
                     </h1>
-                    <div class="is-size-7 mt-3">
+                    <div class="is-size-7 summernote-table">
                         {!! $proformaInvoice->terms !!}
                     </div>
                 </aside>

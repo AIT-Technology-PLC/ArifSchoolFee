@@ -28,6 +28,7 @@ class StoreProformaInvoiceRequest extends FormRequest
             'proformaInvoice.*.quantity' => 'required|numeric|min:1',
             'proformaInvoice.*.unit_price' => 'required|numeric',
             'proformaInvoice.*.discount' => 'nullable|numeric|min:0|max:100',
+            'proformaInvoice.*.specification' => 'nullable|string',
         ];
     }
 
