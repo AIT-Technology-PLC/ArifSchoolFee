@@ -182,6 +182,20 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="column is-12">
+                                <div class="field">
+                                    <label for="proformaInvoice[{{ $loop->index }}][specification]" class="label text-green has-text-weight-normal">Specifications <sup class="has-text-danger"></sup> </label>
+                                    <div class="control">
+                                        <textarea name="proformaInvoice[{{ $loop->index }}][specification]" id="proformaInvoice[{{ $loop->index }}][specification]" cols="30" rows="5" class="summernote textarea"
+                                            placeholder="Specification about the product"> {{ $proformaInvoiceDetail->specification }} </textarea>
+                                        @error('proformaInvoice.' . $loop->index . '.specification')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endforeach
