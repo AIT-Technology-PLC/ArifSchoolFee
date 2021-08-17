@@ -19,6 +19,7 @@ class UpdateCompanyRequest extends FormRequest
             'email' => 'nullable|string|email|',
             'phone' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
+            'proforma_invoice_prefix' => 'nullable|string|max:255',
             'logo' => 'sometimes|file',
         ];
     }
