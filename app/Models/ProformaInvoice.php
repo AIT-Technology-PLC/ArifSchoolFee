@@ -60,6 +60,13 @@ class ProformaInvoice extends Model
         return Str::after($value, userCompany()->id . '_');
     }
 
+    public function getReferenceAttribute()
+    {
+        return Str::of(userCompany()->proforma_invoice_prefix)
+            ->replaceLast('/', '')
+            ->append('/', $this->code);
+    }
+
     public function getTotalPriceAttribute()
     {
         return $this->proformaInvoiceDetails->sum->unitPriceAfterDiscount;

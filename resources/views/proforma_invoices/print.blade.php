@@ -86,7 +86,7 @@
                     PI N<u>o</u>
                 </h1>
                 <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                    {{ $proformaInvoice->code }}
+                    {{ $proformaInvoice->reference }}
                 </h1>
                 <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
                     Date

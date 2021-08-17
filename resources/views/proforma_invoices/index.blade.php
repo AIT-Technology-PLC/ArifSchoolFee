@@ -106,7 +106,7 @@
                             <tr class="showRowDetails is-clickable" data-id="{{ route('proforma-invoices.show', $proformaInvoice->id) }}">
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
-                                    {{ $proformaInvoice->code ?? 'N/A' }}
+                                    {{ $proformaInvoice->reference ?? 'N/A' }}
                                 </td>
                                 <td class="is-capitalized">
                                     @if ($proformaInvoice->isPending())
