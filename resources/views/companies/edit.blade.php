@@ -120,6 +120,22 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
+                            <label for="proforma_invoice_prefix" class="label text-green has-text-weight-normal">Proforma Invoice Prefix <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <input id="proforma_invoice_prefix" name="proforma_invoice_prefix" type="text" class="input" placeholder="eg. AB/21" value="{{ $company->proforma_invoice_prefix ?? '' }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-font"></i>
+                                </span>
+                                @error('proforma_invoice_prefix')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
                             <label for="logo" class="label text-green has-text-weight-normal"> Logo <sup class="has-text-danger"></sup> </label>
                             <div class="file has-name">
                                 <label class="file-label">
