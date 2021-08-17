@@ -31,6 +31,7 @@ precacheAndRoute([
     { url: "/js/caller.js", revision: VERSION },
     { url: "/js/app.js", revision: VERSION },
     { url: "/js/datatables-plugins.js", revision: VERSION },
+    { url: "/css/bulma-select2.css", revision: VERSION },
     { url: "/css/app.css", revision: VERSION },
     {
         url: "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css",
@@ -50,6 +51,10 @@ precacheAndRoute([
     },
     {
         url: "https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css",
+        revision: null,
+    },
+    {
+        url: "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css",
         revision: null,
     },
     {
@@ -90,6 +95,10 @@ precacheAndRoute([
     },
     {
         url: "https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js",
+        revision: null,
+    },
+    {
+        url: "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js",
         revision: null,
     },
 ]);

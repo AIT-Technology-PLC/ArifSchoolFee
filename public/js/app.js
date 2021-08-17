@@ -1869,3 +1869,46 @@ function modifySummernoteTableClass() {
         element.classList = "p-1";
     }
 }
+
+function initializeSelect2Products() {
+    $(document).ready(function () {
+        $(".select2-products").select2({
+            placeholder: "Select a product",
+            allowClear: true,
+            matcher: (params, data) => {
+                if ($.trim(params.term) === "") {
+                    return data;
+                }
+
+                if (typeof data.text === "undefined") {
+                    return null;
+                }
+
+                if (
+                    data.text.toLowerCase().indexOf(params.term.toLowerCase()) >
+                    -1
+                ) {
+                    return data;
+                }
+
+                if (
+                    data.element.dataset.code
+                        .toLowerCase()
+                        .indexOf(params.term.toLowerCase()) > -1
+                ) {
+                    return data;
+                }
+
+                if (
+                    data.element.dataset.category
+                        .toLowerCase()
+                        .indexOf(params.term.toLowerCase()) > -1
+                ) {
+                    return data;
+                }
+
+                return null;
+            },
+        });
+    });
+}

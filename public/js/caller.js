@@ -312,3 +312,7 @@ if (d.getElementsByName("menu-accordion").length) {
         element.addEventListener("click", toggleMenu);
     }
 }
+
+if (d.getElementsByClassName("select2-products").length) {
+    initializeSelect2Products();
+}
