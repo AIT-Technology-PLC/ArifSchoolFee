@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTransferRequest;
 use App\Http\Requests\UpdateTransferRequest;
-use App\Models\Product;
 use App\Models\Transfer;
 use App\Models\Warehouse;
 use App\Notifications\TransferMade;
@@ -49,15 +48,13 @@ class TransferController extends Controller
         return view('transfers.index', compact('transfers', 'totalTransfers', 'totalTransferred', 'totalNotApproved', 'totalNotTransferred'));
     }
 
-    public function create(Product $product, Warehouse $warehouse)
+    public function create(Warehouse $warehouse)
     {
-        $products = $product->getProductNames();
-
         $warehouses = $warehouse->getAllWithoutRelations();
 
         $currentTransferCode = (Transfer::select('code')->companyTransfer()->latest()->first()->code) ?? 0;
 
-        return view('transfers.create', compact('products', 'warehouses', 'currentTransferCode'));
+        return view('transfers.create', compact('warehouses', 'currentTransferCode'));
     }
 
     public function store(StoreTransferRequest $request)
@@ -82,15 +79,13 @@ class TransferController extends Controller
         return view('transfers.show', compact('transfer'));
     }
 
-    public function edit(Transfer $transfer, Product $product, Warehouse $warehouse)
+    public function edit(Transfer $transfer, Warehouse $warehouse)
     {
         $transfer->load(['transferDetails.product', 'transferDetails.warehouse', 'transferDetails.toWarehouse']);
 
-        $products = $product->getProductNames();
-
         $warehouses = $warehouse->getAllWithoutRelations();
 
-        return view('transfers.edit', compact('transfer', 'products', 'warehouses'));
+        return view('transfers.edit', compact('transfer', 'warehouses'));
     }
 
     public function update(UpdateTransferRequest $request, Transfer $transfer)

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProformaInvoiceRequest;
 use App\Http\Requests\UpdateProformaInvoiceRequest;
 use App\Models\Customer;
-use App\Models\Product;
 use App\Models\ProformaInvoice;
 use App\Notifications\ProformaInvoicePrepared;
 use App\Traits\NotifiableUsers;
@@ -42,13 +41,11 @@ class ProformaInvoiceController extends Controller
 
     public function create()
     {
-        $products = Product::companyProducts()->orderBy('name')->get(['id', 'name']);
-
         $customers = Customer::companyCustomers()->orderBy('company_name')->get(['id', 'company_name']);
 
         $currentProformaInvoiceCode = (ProformaInvoice::select('code')->companyProformaInvoices()->latest()->first()->code) ?? 0;
 
-        return view('proforma_invoices.create', compact('products', 'customers', 'currentProformaInvoiceCode'));
+        return view('proforma_invoices.create', compact('customers', 'currentProformaInvoiceCode'));
     }
 
     public function store(StoreProformaInvoiceRequest $request)
@@ -77,11 +74,9 @@ class ProformaInvoiceController extends Controller
     {
         $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer']);
 
-        $products = Product::companyProducts()->orderBy('name')->get(['id', 'name']);
-
         $customers = Customer::companyCustomers()->orderBy('company_name')->get(['id', 'company_name']);
 
-        return view('proforma_invoices.edit', compact('proformaInvoice', 'products', 'customers'));
+        return view('proforma_invoices.edit', compact('proformaInvoice', 'customers'));
     }
 
     public function update(UpdateProformaInvoiceRequest $request, ProformaInvoice $proformaInvoice)

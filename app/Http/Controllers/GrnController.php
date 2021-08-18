@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreGrnRequest;
 use App\Http\Requests\UpdateGrnRequest;
 use App\Models\Grn;
-use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Warehouse;
@@ -49,10 +48,8 @@ class GrnController extends Controller
         return view('grns.index', compact('grns', 'totalGrns', 'totalAdded', 'totalNotApproved', 'totalNotAdded'));
     }
 
-    public function create(Product $product, Warehouse $warehouse, Supplier $supplier, Purchase $purchase)
+    public function create(Warehouse $warehouse, Supplier $supplier, Purchase $purchase)
     {
-        $products = $product->getProductNames();
-
         $warehouses = $warehouse->getAllWithoutRelations();
 
         $suppliers = $supplier->getSupplierNames();
@@ -61,7 +58,7 @@ class GrnController extends Controller
 
         $currentGrnCode = (Grn::select('code')->companyGrn()->latest()->first()->code) ?? 0;
 
-        return view('grns.create', compact('products', 'warehouses', 'suppliers', 'purchases', 'currentGrnCode'));
+        return view('grns.create', compact('warehouses', 'suppliers', 'purchases', 'currentGrnCode'));
     }
 
     public function store(StoreGrnRequest $request)
@@ -86,11 +83,9 @@ class GrnController extends Controller
         return view('grns.show', compact('grn'));
     }
 
-    public function edit(Grn $grn, Product $product, Warehouse $warehouse, Supplier $supplier, Purchase $purchase)
+    public function edit(Grn $grn, Warehouse $warehouse, Supplier $supplier, Purchase $purchase)
     {
         $grn->load(['grnDetails.product', 'grnDetails.warehouse', 'supplier', 'purchase']);
-
-        $products = $product->getProductNames();
 
         $warehouses = $warehouse->getAllWithoutRelations();
 
@@ -98,7 +93,7 @@ class GrnController extends Controller
 
         $purchases = $purchase->getAll();
 
-        return view('grns.edit', compact('grn', 'products', 'warehouses', 'suppliers', 'purchases'));
+        return view('grns.edit', compact('grn', 'warehouses', 'suppliers', 'purchases'));
     }
 
     public function update(UpdateGrnRequest $request, Grn $grn)

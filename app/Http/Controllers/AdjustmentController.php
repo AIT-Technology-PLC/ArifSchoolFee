@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAdjustmentRequest;
 use App\Http\Requests\UpdateAdjustmentRequest;
 use App\Models\Adjustment;
-use App\Models\Product;
 use App\Models\Warehouse;
 use App\Notifications\AdjustmentMade;
 use App\Notifications\AdjustmentPrepared;
@@ -47,15 +46,13 @@ class AdjustmentController extends Controller
         return view('adjustments.index', compact('adjustments', 'totalAdjustments', 'totalNotApproved', 'totalNotAdjusted', 'totalAdjusted'));
     }
 
-    public function create(Product $product, Warehouse $warehouse)
+    public function create(Warehouse $warehouse)
     {
-        $products = $product->getProductNames();
-
         $warehouses = $warehouse->getAllWithoutRelations();
 
         $currentAdjustmentCode = (Adjustment::select('code')->companyAdjustment()->latest()->first()->code) ?? 0;
 
-        return view('adjustments.create', compact('products', 'warehouses', 'currentAdjustmentCode'));
+        return view('adjustments.create', compact('warehouses', 'currentAdjustmentCode'));
     }
 
     public function store(StoreAdjustmentRequest $request)
@@ -80,13 +77,11 @@ class AdjustmentController extends Controller
         return view('adjustments.show', compact('adjustment'));
     }
 
-    public function edit(Adjustment $adjustment, Product $product, Warehouse $warehouse)
+    public function edit(Adjustment $adjustment, Warehouse $warehouse)
     {
-        $products = $product->getProductNames();
-
         $warehouses = $warehouse->getAllWithoutRelations();
 
-        return view('adjustments.edit', compact('adjustment', 'products', 'warehouses'));
+        return view('adjustments.edit', compact('adjustment', 'warehouses'));
     }
 
     public function update(UpdateAdjustmentRequest $request, Adjustment $adjustment)

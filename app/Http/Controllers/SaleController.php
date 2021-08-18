@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
 use App\Models\Customer;
-use App\Models\Product;
 use App\Models\Sale;
 use App\Traits\PrependCompanyId;
 use Illuminate\Support\Facades\DB;
@@ -34,15 +33,13 @@ class SaleController extends Controller
         return view('sales.index', compact('sales', 'totalSales'));
     }
 
-    public function create(Product $product, Customer $customer)
+    public function create(Customer $customer)
     {
-        $products = $product->getSaleableProducts();
-
         $customers = $customer->getCustomerNames();
 
         $currentReceiptNo = (Sale::select('receipt_no')->companySales()->latest()->first()->receipt_no) ?? 0;
 
-        return view('sales.create', compact('products', 'customers', 'currentReceiptNo'));
+        return view('sales.create', compact('customers', 'currentReceiptNo'));
     }
 
     public function store(StoreSaleRequest $request)
@@ -65,15 +62,13 @@ class SaleController extends Controller
         return view('sales.show', compact('sale'));
     }
 
-    public function edit(Sale $sale, Product $product, Customer $customer)
+    public function edit(Sale $sale, Customer $customer)
     {
         $sale->load('saleDetails.product');
 
-        $products = $product->getSaleableProducts();
-
         $customers = $customer->getCustomerNames();
 
-        return view('sales.edit', compact('sale', 'products', 'customers'));
+        return view('sales.edit', compact('sale', 'customers'));
     }
 
     public function update(UpdateSaleRequest $request, Sale $sale)

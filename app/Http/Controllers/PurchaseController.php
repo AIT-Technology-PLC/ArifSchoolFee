@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
-use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Traits\PrependCompanyId;
@@ -34,15 +33,13 @@ class PurchaseController extends Controller
         return view('purchases.index', compact('purchases', 'totalPurchases'));
     }
 
-    public function create(Product $product, Supplier $supplier)
+    public function create(Supplier $supplier)
     {
-        $products = $product->getProductNames();
-
         $suppliers = $supplier->getSupplierNames();
 
         $currentPurchaseNo = (Purchase::select('purchase_no')->companyPurchases()->latest()->first()->purchase_no) ?? 0;
 
-        return view('purchases.create', compact('products', 'suppliers', 'currentPurchaseNo'));
+        return view('purchases.create', compact('suppliers', 'currentPurchaseNo'));
     }
 
     public function store(StorePurchaseRequest $request)
@@ -65,15 +62,13 @@ class PurchaseController extends Controller
         return view('purchases.show', compact('purchase'));
     }
 
-    public function edit(Purchase $purchase, Product $product, Supplier $supplier)
+    public function edit(Purchase $purchase, Supplier $supplier)
     {
         $purchase->load('purchaseDetails.product');
 
-        $products = $product->getProductNames();
-
         $suppliers = $supplier->getSupplierNames();
 
-        return view('purchases.edit', compact('purchase', 'products', 'suppliers'));
+        return view('purchases.edit', compact('purchase', 'suppliers'));
     }
 
     public function update(UpdatePurchaseRequest $request, Purchase $purchase)

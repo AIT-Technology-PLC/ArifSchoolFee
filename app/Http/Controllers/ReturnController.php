@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreReturnRequest;
 use App\Http\Requests\UpdateReturnRequest;
 use App\Models\Customer;
-use App\Models\Product;
 use App\Models\Returnn;
 use App\Models\Warehouse;
 use App\Notifications\ReturnPrepared;
@@ -43,17 +42,15 @@ class ReturnController extends Controller
         return view('returns.index', compact('returns', 'totalReturns', 'totalNotApproved', 'totalNotAdded', 'totalAdded'));
     }
 
-    public function create(Product $product, Customer $customer, Warehouse $warehouse)
+    public function create(Customer $customer, Warehouse $warehouse)
     {
-        $products = $product->getProductNames();
-
         $customers = $customer->getCustomerNames();
 
         $warehouses = $warehouse->getAllWithoutRelations();
 
         $currentReturnCode = (Returnn::select('code')->companyReturn()->latest()->first()->code) ?? 0;
 
-        return view('returns.create', compact('products', 'customers', 'warehouses', 'currentReturnCode'));
+        return view('returns.create', compact('customers', 'warehouses', 'currentReturnCode'));
     }
 
     public function store(StoreReturnRequest $request)
@@ -78,17 +75,15 @@ class ReturnController extends Controller
         return view('returns.show', compact('return'));
     }
 
-    public function edit(Returnn $return, Product $product, Customer $customer, Warehouse $warehouse)
+    public function edit(Returnn $return, Customer $customer, Warehouse $warehouse)
     {
-        $products = $product->getProductNames();
-
         $customers = $customer->getCustomerNames();
 
         $warehouses = $warehouse->getAllWithoutRelations();
 
         $return->load(['returnDetails.product', 'returnDetails.warehouse']);
 
-        return view('returns.edit', compact('return', 'products', 'customers', 'warehouses'));
+        return view('returns.edit', compact('return', 'customers', 'warehouses'));
     }
 
     public function update(UpdateReturnRequest $request, Returnn $return)

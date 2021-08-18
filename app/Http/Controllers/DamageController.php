@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDamageRequest;
 use App\Http\Requests\UpdateDamageRequest;
 use App\Models\Damage;
-use App\Models\Product;
 use App\Models\Warehouse;
 use App\Notifications\DamagePrepared;
 use App\Traits\NotifiableUsers;
@@ -43,15 +42,13 @@ class DamageController extends Controller
         return view('damages.index', compact('damages', 'totalDamages', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }
 
-    public function create(Product $product, Warehouse $warehouse)
+    public function create(Warehouse $warehouse)
     {
-        $products = $product->getProductNames();
-
         $warehouses = $warehouse->getAllWithoutRelations();
 
         $currentDamageCode = (Damage::select('code')->companyDamage()->latest()->first()->code) ?? 0;
 
-        return view('damages.create', compact('products', 'warehouses', 'currentDamageCode'));
+        return view('damages.create', compact('warehouses', 'currentDamageCode'));
     }
 
     public function store(StoreDamageRequest $request)
@@ -76,15 +73,13 @@ class DamageController extends Controller
         return view('damages.show', compact('damage'));
     }
 
-    public function edit(Damage $damage, Product $product, Warehouse $warehouse)
+    public function edit(Damage $damage, Warehouse $warehouse)
     {
-        $products = $product->getProductNames();
-
         $warehouses = $warehouse->getAllWithoutRelations();
 
         $damage->load(['damageDetails.product', 'damageDetails.warehouse']);
 
-        return view('damages.edit', compact('damage', 'products', 'warehouses'));
+        return view('damages.edit', compact('damage', 'warehouses'));
     }
 
     public function update(UpdateDamageRequest $request, Damage $damage)

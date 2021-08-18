@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePurchaseOrderRequest;
 use App\Http\Requests\UpdatePurchaseOrderRequest;
 use App\Models\Customer;
-use App\Models\Product;
 use App\Models\PurchaseOrder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +15,7 @@ class PurchaseOrderController extends Controller
     public function __construct(PurchaseOrder $purchaseOrder)
     {
         $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Purchase Order');
-        
+
         $this->authorizeResource(PurchaseOrder::class);
 
         $this->purchaseOrder = $purchaseOrder;
@@ -35,13 +34,11 @@ class PurchaseOrderController extends Controller
         return view('purchase_orders.index', compact('purchaseOrders', 'totalPurchaseOrders', 'totalClosed', 'totalOpen'));
     }
 
-    public function create(Product $product, Customer $customer)
+    public function create(Customer $customer)
     {
-        $products = $product->getSaleableProducts();
-
         $customers = $customer->getCustomerNames();
 
-        return view('purchase_orders.create', compact('products', 'customers'));
+        return view('purchase_orders.create', compact('customers'));
     }
 
     public function store(StorePurchaseOrderRequest $request)
@@ -78,15 +75,13 @@ class PurchaseOrderController extends Controller
         return view('purchase_orders.show', compact('purchaseOrder'));
     }
 
-    public function edit(PurchaseOrder $purchaseOrder, Product $product, Customer $customer)
+    public function edit(PurchaseOrder $purchaseOrder, Customer $customer)
     {
         $purchaseOrder->load(['purchaseOrderDetails.product', 'customer']);
 
-        $products = $product->getSaleableProducts();
-
         $customers = $customer->getCustomerNames();
 
-        return view('purchase_orders.edit', compact('purchaseOrder', 'products', 'customers'));
+        return view('purchase_orders.edit', compact('purchaseOrder', 'customers'));
     }
 
     public function update(UpdatePurchaseOrderRequest $request, PurchaseOrder $purchaseOrder)

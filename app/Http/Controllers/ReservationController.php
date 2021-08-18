@@ -6,7 +6,6 @@ use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Customer;
 use App\Models\Gdn;
-use App\Models\Product;
 use App\Models\Reservation;
 use App\Models\Warehouse;
 use App\Notifications\GdnPrepared;
@@ -62,17 +61,15 @@ class ReservationController extends Controller
         return view('reservations.index', compact('reservations', 'totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalNotApproved', 'totalApproved', 'totalReservedInBirr'));
     }
 
-    public function create(Product $product, Customer $customer, Warehouse $warehouse)
+    public function create(Customer $customer, Warehouse $warehouse)
     {
-        $products = $product->getProductNames();
-
         $customers = $customer->getCustomerNames();
 
         $warehouses = $warehouse->getAllWithoutRelations();
 
         $currentReservationCode = (Reservation::select('code')->companyReservation()->latest()->first()->code) ?? 0;
 
-        return view('reservations.create', compact('products', 'customers', 'warehouses', 'currentReservationCode'));
+        return view('reservations.create', compact('customers', 'warehouses', 'currentReservationCode'));
     }
 
     public function store(StoreReservationRequest $request)
@@ -97,17 +94,15 @@ class ReservationController extends Controller
         return view('reservations.show', compact('reservation'));
     }
 
-    public function edit(Reservation $reservation, Product $product, Customer $customer, Warehouse $warehouse)
+    public function edit(Reservation $reservation, Customer $customer, Warehouse $warehouse)
     {
-        $products = $product->getProductNames();
-
         $customers = $customer->getCustomerNames();
 
         $warehouses = $warehouse->getAllWithoutRelations();
 
         $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse']);
 
-        return view('reservations.edit', compact('reservation', 'products', 'customers', 'warehouses'));
+        return view('reservations.edit', compact('reservation', 'customers', 'warehouses'));
     }
 
     public function update(UpdateReservationRequest $request, Reservation $reservation)

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTenderRequest;
 use App\Http\Requests\UpdateTenderRequest;
 use App\Models\Customer;
-use App\Models\Product;
 use App\Models\Tender;
 use App\Models\TenderStatus;
 use App\Notifications\TenderStatusChanged;
@@ -38,15 +37,13 @@ class TenderController extends Controller
         return view('tenders.index', compact('tenders', 'totalTenders'));
     }
 
-    public function create(Customer $customer, TenderStatus $tenderStatus, Product $product)
+    public function create(Customer $customer, TenderStatus $tenderStatus)
     {
         $customers = $customer->getAll();
 
         $tenderStatuses = $tenderStatus->getAll();
 
-        $products = $product->getProductNames();
-
-        return view('tenders.create', compact('customers', 'tenderStatuses', 'products'));
+        return view('tenders.create', compact('customers', 'tenderStatuses'));
     }
 
     public function store(StoreTenderRequest $request)
@@ -69,7 +66,7 @@ class TenderController extends Controller
         return view('tenders.show', compact('tender'));
     }
 
-    public function edit(Tender $tender, Customer $customer, TenderStatus $tenderStatus, Product $product)
+    public function edit(Tender $tender, Customer $customer, TenderStatus $tenderStatus)
     {
         $tender->load(['tenderDetails.product']);
 
@@ -77,9 +74,7 @@ class TenderController extends Controller
 
         $tenderStatuses = $tenderStatus->getAll();
 
-        $products = $product->getProductNames();
-
-        return view('tenders.edit', compact('tender', 'customers', 'tenderStatuses', 'products'));
+        return view('tenders.edit', compact('tender', 'customers', 'tenderStatuses'));
     }
 
     public function update(UpdateTenderRequest $request, Tender $tender)
