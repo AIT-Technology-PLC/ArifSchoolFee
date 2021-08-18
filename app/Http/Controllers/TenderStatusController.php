@@ -23,7 +23,9 @@ class TenderStatusController extends Controller
     {
         $tenderStatuses = $this->tenderStatus->getAll()->load(['createdBy', 'updatedBy']);
 
-        return view('tender_statuses.index', compact('tenderStatuses'));
+        $totalTenderStatuses = $tenderStatuses->count();
+
+        return view('tender_statuses.index', compact('tenderStatuses', 'totalTenderStatuses'));
     }
 
     public function create()
