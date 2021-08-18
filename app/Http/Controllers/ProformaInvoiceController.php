@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\ProformaInvoice;
 use App\Notifications\ProformaInvoicePrepared;
 use App\Traits\NotifiableUsers;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -53,7 +54,18 @@ class ProformaInvoiceController extends Controller
         $proformaInvoice = DB::transaction(function () use ($request) {
             $proformaInvoice = ProformaInvoice::create($request->except('proformaInvoice'));
 
-            $proformaInvoice->proformaInvoiceDetails()->createMany($request->proformaInvoice);
+            $proformaInvoiceDetails = collect($request->proformaInvoice);
+
+            $proformaInvoiceDetails = $proformaInvoiceDetails->map(function ($proformaInvoiceDetail) {
+                if (!is_numeric($proformaInvoiceDetail['product_id'])) {
+                    $proformaInvoiceDetail['custom_product'] = $proformaInvoiceDetail['product_id'];
+                    Arr::forget($proformaInvoiceDetail, 'product_id');
+                }
+
+                return $proformaInvoiceDetail;
+            });
+
+            $proformaInvoice->proformaInvoiceDetails()->createMany($proformaInvoiceDetails);
 
             Notification::send($this->notifiableUsers('Approve GDN'), new ProformaInvoicePrepared($proformaInvoice));
 
@@ -89,9 +101,20 @@ class ProformaInvoiceController extends Controller
         DB::transaction(function () use ($request, $proformaInvoice) {
             $proformaInvoice->update($request->except('proformaInvoice'));
 
+            $proformaInvoiceDetails = collect($request->proformaInvoice);
+
+            $proformaInvoiceDetails = $proformaInvoiceDetails->map(function ($proformaInvoiceDetail) {
+                if (!is_numeric($proformaInvoiceDetail['product_id'])) {
+                    $proformaInvoiceDetail['custom_product'] = $proformaInvoiceDetail['product_id'];
+                    Arr::forget($proformaInvoiceDetail, 'product_id');
+                }
+
+                return $proformaInvoiceDetail;
+            });
+
             $proformaInvoice->proformaInvoiceDetails
-                ->each(function ($proformaInvoiceDetail, $index) use ($request) {
-                    $proformaInvoiceDetail->update($request->proformaInvoice[$index]);
+                ->each(function ($proformaInvoiceDetail, $index) use ($proformaInvoiceDetails) {
+                    $proformaInvoiceDetail->update($proformaInvoiceDetails[$index]);
                 });
         });
 
