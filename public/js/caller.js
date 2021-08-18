@@ -316,3 +316,7 @@ if (d.getElementsByName("menu-accordion").length) {
 if (d.getElementsByClassName("select2-products").length) {
     initializeSelect2Products();
 }
+
+if (d.querySelectorAll("input[type=number]").length) {
+    document.addEventListener("wheel", disableInputTypeNumberMouseWheel);
+}

@@ -1938,3 +1938,9 @@ function initializeSelect2Products() {
         });
     });
 }
+
+function disableInputTypeNumberMouseWheel() {
+    if (d.activeElement.type === "number") {
+        d.activeElement.blur();
+    }
+}
