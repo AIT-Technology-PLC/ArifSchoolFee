@@ -154,34 +154,52 @@
                 </div>
             </div>
             <div style="position:absolute; bottom: 0%;left: 0;right: 0;">
-                <div class="columns is-marginless has-background-white-ter">
-                    <div class="column py-0 is-4 is-offset-1 is-size-7">
-                        <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-0 mt-6">
-                            Prepared By
-                            <br>
-                            <span class="title is-size-6 is-uppercase">
-                                {{ $return->createdBy->name }}
-                            </span>
-                        </h1>
-                        <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-6 mt-5">
-                            Signature
-                        </h1>
-                        <div class="mb-3" style="border: 1px solid lightgrey"></div>
+                @if ($return->created_by == $return->approved_by)
+                    <div class="columns is-marginless has-background-white-ter">
+                        <div class="column py-0 is-4 is-offset-1 is-size-7">
+                            <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-0 mt-6">
+                                Prepared & Approved By
+                                <br>
+                                <span class="title is-size-6 is-uppercase">
+                                    {{ $return->createdBy->name }}
+                                </span>
+                            </h1>
+                            <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-6 mt-5">
+                                Signature
+                            </h1>
+                            <div class="mb-3" style="border: 1px solid lightgrey"></div>
+                        </div>
                     </div>
-                    <div class="column py-0 is-4 is-offset-2">
-                        <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-0 mt-6">
-                            Approved By
-                            <br>
-                            <span class="title is-size-6 is-uppercase">
-                                {{ $return->approvedBy->name ?? 'Still Not Approved' }}
-                            </span>
-                        </h1>
-                        <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-6 mt-5">
-                            Signature
-                        </h1>
-                        <div class="mb-3" style="border: 1px solid lightgrey"></div>
+                @else
+                    <div class="columns is-marginless has-background-white-ter">
+                        <div class="column py-0 is-4 is-offset-1 is-size-7">
+                            <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-0 mt-6">
+                                Prepared By
+                                <br>
+                                <span class="title is-size-6 is-uppercase">
+                                    {{ $return->createdBy->name }}
+                                </span>
+                            </h1>
+                            <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-6 mt-5">
+                                Signature
+                            </h1>
+                            <div class="mb-3" style="border: 1px solid lightgrey"></div>
+                        </div>
+                        <div class="column py-0 is-4 is-offset-2">
+                            <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-0 mt-6">
+                                Approved By
+                                <br>
+                                <span class="title is-size-6 is-uppercase">
+                                    {{ $return->approvedBy->name ?? 'Still Not Approved' }}
+                                </span>
+                            </h1>
+                            <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-6 mt-5">
+                                Signature
+                            </h1>
+                            <div class="mb-3" style="border: 1px solid lightgrey"></div>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         </article>
     </section>
@@ -195,7 +213,6 @@
             event.preventDefault();
             window.close();
         }
-
     </script>
 </body>
 
