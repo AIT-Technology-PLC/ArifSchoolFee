@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TenderChecklistType;
 use App\Http\Requests\StoreTenderChecklistTypeRequest;
 use App\Http\Requests\UpdateTenderChecklistTypeRequest;
+use App\Models\TenderChecklistType;
 
 class TenderChecklistTypeController extends Controller
 {
@@ -18,9 +18,11 @@ class TenderChecklistTypeController extends Controller
     public function index()
     {
         $tenderChecklistTypes = TenderChecklistType::companyTenderChecklistType()
-        ->withCount('generalTenderChecklists')->with(['createdBy', 'updatedBy'])->get();
+            ->withCount('generalTenderChecklists')->with(['createdBy', 'updatedBy'])->get();
 
-        return view('tender_checklist_types.index', compact('tenderChecklistTypes'));
+        $totalTenderChecklistTypes = $tenderChecklistTypes->count();
+
+        return view('tender_checklist_types.index', compact('tenderChecklistTypes', 'totalTenderChecklistTypes'));
     }
 
     public function create()
