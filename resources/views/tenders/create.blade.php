@@ -298,14 +298,7 @@
                             <div class="field">
                                 <label for="tender[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
-                                    <div class="select is-fullwidth">
-                                        <select id="tender[0][product_id]" name="tender[0][product_id]" onchange="getProductSelected(this.id, this.value)">
-                                            <option selected disabled>Select Product</option>
-                                            @foreach ($products as $product)
-                                                <option value="{{ $product->id }}" {{ old('tender.0.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                                    <x-product-list model="tender" selected-product_id="{{ old('tender.0.product_id') }}" />
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-th"></i>
                                     </div>
@@ -355,80 +348,75 @@
                     </div>
                 </div>
                 @for ($i = 1; $i < 10; $i++)
-                    @if (old('tender.' . $i . '.product_id') || old('tender.' . $i . '.quantity')) <div class="has-text-weight-medium has-text-left">
-                    <span class="tag bg-green has-text-white is-medium radius-bottom-0">
-                    Item {{ $i + 1 }}
-                    </span>
-                    </div>
-                    <div class="box has-background-white-bis radius-top-0">
-                    <div name="tenderFormGroup" class="columns is-marginless is-multiline">
-                    <div class="column is-6">
-                    <div class="field">
-                    <label for="tender[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-                    <div class="control has-icons-left">
-                    <div class="select is-fullwidth">
-                    <select id="tender[{{ $i }}][product_id]" name="tender[{{ $i }}][product_id]" onchange="getProductSelected(this.id, this.value)">
-                    <option selected disabled>Select Product</option>
-                    @foreach ($products as $product)
-                        <option value="{{ $product->id }}" {{ old('tender.' . $i . '.product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option> @endforeach
-                        </select>
-            </div>
-            <div class="icon is-small is-left">
-                <i class="fas fa-th"></i>
-            </div>
-            @error('tender.' . $i . '.product_id')
-                <span class="help has-text-danger" role="alert">
-                    {{ $message }}
-                </span>
-            @enderror
-            </div>
-            </div>
-            </div>
-            <div class="column is-6">
-                <label for="tender[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                <div class="field has-addons">
-                    <div class="control has-icons-left is-expanded">
-                        <input id="tender[{{ $i }}][quantity]" name="tender[{{ $i }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('tender.' . $i . '.quantity') ?? '0.00' }}">
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-balance-scale"></i>
-                        </span>
-                        @error('tender.' . $i . '.quantity')
-                            <span class="help has-text-danger" role="alert">
-                                {{ $message }}
+                    @if (old('tender.' . $i . '.product_id') || old('tender.' . $i . '.quantity')) 
+                        <div class="has-text-weight-medium has-text-left">
+                            <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                            Item {{ $i + 1 }}
                             </span>
-                        @enderror
-                    </div>
-                    <div class="control">
-                        <button id="tender[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
-                    </div>
-                </div>
-            </div>
-            <div class="column is-6">
-                <div class="field">
-                    <label for="tender[{{ $i }}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
-                    <div class="control has-icons-left">
-                        <textarea name="tender[{{ $i }}][description]" id="tender[{{ $i }}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('tender.' . $i . '.description') ?? '' }}</textarea>
-                        <span class="icon is-large is-left">
-                            <i class="fas fa-edit"></i>
-                        </span>
-                        @error('tender.' . $i . '.description')
-                            <span class="help has-text-danger" role="alert">
-                                {{ $message }}
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-            </div>
-            </div>
-        @else
-            @break
-            @endif
-            @endfor
-            <div id="tenderFormWrapper"></div>
-            <button id="addNewTenderForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
-                Add More Item
-            </button>
+                        </div>
+                        <div class="box has-background-white-bis radius-top-0">
+                            <div name="tenderFormGroup" class="columns is-marginless is-multiline">
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label for="tender[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                                        <div class="control has-icons-left">
+                                            <x-product-list model="tender" selected-product_id="{{ old('tender.' . $i . '.product_id') }}" />
+                                            <div class="icon is-small is-left">
+                                                <i class="fas fa-th"></i>
+                                            </div>
+                                            @error('tender.' . $i . '.product_id')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-6">
+                                    <label for="tender[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                                    <div class="field has-addons">
+                                        <div class="control has-icons-left is-expanded">
+                                            <input id="tender[{{ $i }}][quantity]" name="tender[{{ $i }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('tender.' . $i . '.quantity') ?? '0.00' }}">
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-balance-scale"></i>
+                                            </span>
+                                            @error('tender.' . $i . '.quantity')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="control">
+                                            <button id="tender[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label for="tender[{{ $i }}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
+                                        <div class="control has-icons-left">
+                                            <textarea name="tender[{{ $i }}][description]" id="tender[{{ $i }}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('tender.' . $i . '.description') ?? '' }}</textarea>
+                                            <span class="icon is-large is-left">
+                                                <i class="fas fa-edit"></i>
+                                            </span>
+                                            @error('tender.' . $i . '.description')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        @break
+                    @endif
+                @endfor
+                <div id="tenderFormWrapper"></div>
+                <button id="addNewTenderForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
+                    Add More Item
+                </button>
             </div>
             <div class="box radius-top-0">
                 <div class="columns is-marginless">

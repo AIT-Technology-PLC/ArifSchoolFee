@@ -77,14 +77,7 @@
                                 <div class="field">
                                     <label for="transfer[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
-                                        <div class="select is-fullwidth">
-                                            <select id="transfer[{{ $loop->index }}][product_id]" name="transfer[{{ $loop->index }}][product_id]" onchange="getProductSelected(this.id, this.value)">
-                                                <option selected disabled>Select Product</option>
-                                                @foreach ($products as $product)
-                                                    <option value="{{ $product->id }}" {{ $transferDetail->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                        <x-product-list model="transfer" selected-product_id="{{ $transferDetail->product_id }}" />
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-th"></i>
                                         </div>

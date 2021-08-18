@@ -80,14 +80,7 @@
                                 <div class="field">
                                     <label for="purchaseOrder[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
-                                        <div class="select is-fullwidth">
-                                            <select id="purchaseOrder[{{ $loop->index }}][product_id]" name="purchaseOrder[{{ $loop->index }}][product_id]" onchange="getProductSelected(this.id, this.value)">
-                                                <option selected disabled>Select Product</option>
-                                                @foreach ($products as $product)
-                                                    <option value="{{ $product->id }}" {{ $purchaseOrderDetail->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                        <x-product-list model="purchaseOrder" selected-product_id="{{ $purchaseOrderDetail->product_id }}" />
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-th"></i>
                                         </div>
@@ -160,7 +153,8 @@
                                 <div class="field">
                                     <label for="purchaseOrder[{{ $loop->index }}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
                                     <div class="control has-icons-left">
-                                        <textarea name="purchaseOrder[{{ $loop->index }}][description]" id="purchaseOrder[{{ $loop->index }}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ $purchaseOrderDetail->description ?? '' }}</textarea>
+                                        <textarea name="purchaseOrder[{{ $loop->index }}][description]" id="purchaseOrder[{{ $loop->index }}][description]" cols="30" rows="3" class="textarea pl-6"
+                                            placeholder="Description or note to be taken">{{ $purchaseOrderDetail->description ?? '' }}</textarea>
                                         <span class="icon is-large is-left">
                                             <i class="fas fa-edit"></i>
                                         </span>
