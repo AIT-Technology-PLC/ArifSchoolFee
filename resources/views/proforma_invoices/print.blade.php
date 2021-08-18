@@ -141,13 +141,13 @@
                         <tr>
                             <td class="has-text-centered"> {{ $loop->index + 1 }} </td>
                             <td>
-                                {{ $proformaInvoiceDetail->product->name }}
+                                {{ $proformaInvoiceDetail->product->name ?? $proformaInvoiceDetail->custom_product }}
                                 <span class="summernote-table">
                                     {!! $proformaInvoiceDetail->specification ?? '' !!}
                                 </span>
                             </td>
-                            <td> {{ $proformaInvoiceDetail->product->productCategory->name }} </td>
-                            <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->quantity, 2) }} {{ $proformaInvoiceDetail->product->unit_of_measurement }} </td>
+                            <td> {{ $proformaInvoiceDetail->product->productCategory->name ?? '' }} </td>
+                            <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->quantity, 2) }} {{ $proformaInvoiceDetail->product->unit_of_measurement ?? '' }} </td>
                             <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->unit_price, 2) }} </td>
                             <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->discount * 100, 2) }}% </td>
                             <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->unitPriceAfterDiscount, 2) }} </td>

@@ -284,11 +284,11 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
-                                    {{ $proformaInvoiceDetail->product->name }}
+                                    {{ $proformaInvoiceDetail->product->name ?? $proformaInvoiceDetail->custom_product }}
                                 </td>
                                 <td>
                                     {{ number_format($proformaInvoiceDetail->quantity, 2) }}
-                                    {{ $proformaInvoiceDetail->product->unit_of_measurement }}
+                                    {{ $proformaInvoiceDetail->product->unit_of_measurement ?? '' }}
                                 </td>
                                 <td>
                                     {{ $proformaInvoice->company->currency }}.

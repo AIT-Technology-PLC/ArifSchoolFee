@@ -4,5 +4,8 @@
         @foreach ($products as $product)
             <option value="{{ $product->id }}" {{ $selectedProductId == $product->id ? 'selected' : '' }} data-code="{{ $product->code ?? '' }}" data-category="{{ $product->productCategory->name }}">{{ $product->name }}</option>
         @endforeach
+        @if (!is_numeric($selectedProductId))
+            <option value="{{ $selectedProductId }}" selected data-code="{{ $selectedProductId }}" data-category="{{ $selectedProductId }}">{{ $selectedProductId }}</option>
+        @endif
     </select>
 </div>

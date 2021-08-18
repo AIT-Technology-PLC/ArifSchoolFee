@@ -112,7 +112,7 @@
                                 <div class="field">
                                     <label for="proformaInvoice[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
-                                        <x-product-list name="proformaInvoice[{{ $loop->index }}]" selected-product-id="{{ $proformaInvoiceDetail->product_id }}"/>
+                                        <x-product-list name="proformaInvoice[{{ $loop->index }}]" selected-product-id="{{ $proformaInvoiceDetail->product_id ?? $proformaInvoiceDetail->custom_product }}"/>
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-th"></i>
                                         </div>
@@ -139,7 +139,7 @@
                                         @enderror
                                     </div>
                                     <div class="control">
-                                        <button id="proformaInvoice[{{ $loop->index }}][product_id]Quantity" class="button bg-green has-text-white" type="button">{{ $proformaInvoiceDetail->product->unit_of_measurement }}</button>
+                                        <button id="proformaInvoice[{{ $loop->index }}][product_id]Quantity" class="button bg-green has-text-white" type="button">{{ $proformaInvoiceDetail->product->unit_of_measurement ?? '' }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +158,7 @@
                                         @enderror
                                     </div>
                                     <div class="control">
-                                        <button id="proformaInvoice[{{ $loop->index }}][product_id]Price" class="button bg-green has-text-white" type="button">{{ $proformaInvoiceDetail->product->unit_of_measurement }}</button>
+                                        <button id="proformaInvoice[{{ $loop->index }}][product_id]Price" class="button bg-green has-text-white" type="button">{{ $proformaInvoiceDetail->product->unit_of_measurement ?? '' }}</button>
                                     </div>
                                 </div>
                             </div>
