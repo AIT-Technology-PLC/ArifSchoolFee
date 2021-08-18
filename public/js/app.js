@@ -80,7 +80,7 @@ const addPurchaseForm = (function () {
                             <label for="purchase[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select id="purchase[${index}][product_id]" name="purchase[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                    <select id="purchase[${index}][product_id]" name="purchase[${index}][product_id]" class="select2-products" onchange="getProductSelected(this.id, this.value)">
                                         ${productList.innerHTML}
                                     </select>
                                 </div>
@@ -142,6 +142,8 @@ const addPurchaseForm = (function () {
 
         index++;
 
+        initializeSelect2Products();
+
         if (index == formLimit) {
             d.getElementById("addNewPurchaseForm").remove();
             return false;
@@ -180,7 +182,7 @@ const addSaleForm = (function () {
                             <label for="sale[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select id="sale[${index}][product_id]" name="sale[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                    <select id="sale[${index}][product_id]" name="sale[${index}][product_id]" class="select2-products" onchange="getProductSelected(this.id, this.value)">
                                         ${productList.innerHTML}
                                     </select>
                                 </div>
@@ -239,6 +241,8 @@ const addSaleForm = (function () {
         productList = currentSelect;
 
         index++;
+
+        initializeSelect2Products();
 
         if (index == formLimit) {
             d.getElementById("addNewSaleForm").remove();
@@ -574,7 +578,7 @@ const addTransferForm = (function () {
                         <label for="transfer[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
-                                <select id="transfer[${index}][product_id]" name="transfer[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                <select id="transfer[${index}][product_id]" name="transfer[${index}][product_id]" class="select2-products" onchange="getProductSelected(this.id, this.value)">
                                     ${productList.innerHTML}
                                 </select>
                             </div>
@@ -646,6 +650,8 @@ const addTransferForm = (function () {
 
         index++;
 
+        initializeSelect2Products();
+
         if (index == formLimit) {
             d.getElementById("addNewTransferForm").remove();
             return false;
@@ -696,7 +702,7 @@ const addPurchaseOrderForm = (function () {
                         <label for="purchaseOrder[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
-                                <select id="purchaseOrder[${index}][product_id]" name="purchaseOrder[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                <select id="purchaseOrder[${index}][product_id]" name="purchaseOrder[${index}][product_id]" class="select2-products" onchange="getProductSelected(this.id, this.value)">
                                     ${productList.innerHTML}
                                 </select>
                             </div>
@@ -754,6 +760,8 @@ const addPurchaseOrderForm = (function () {
         );
 
         index++;
+
+        initializeSelect2Products();
 
         if (index == formLimit) {
             d.getElementById("addNewPurchaseOrderForm").remove();
@@ -816,7 +824,7 @@ const addGrnForm = (function () {
                         <label for="grn[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
-                                <select id="grn[${index}][product_id]" name="grn[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                <select id="grn[${index}][product_id]" name="grn[${index}][product_id]" class="select2-products" onchange="getProductSelected(this.id, this.value)">
                                     ${productList.innerHTML}
                                 </select>
                             </div>
@@ -872,6 +880,8 @@ const addGrnForm = (function () {
         grnFormWrapper.insertAdjacentHTML("beforeend", createGrnForm);
 
         index++;
+
+        initializeSelect2Products();
 
         if (index == formLimit) {
             d.getElementById("addNewGrnForm").remove();
@@ -1020,7 +1030,7 @@ const addTenderForm = (function () {
                         <label for="tender[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
-                                <select id="tender[${index}][product_id]" name="tender[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                <select id="tender[${index}][product_id]" name="tender[${index}][product_id]" class="select2-products" onchange="getProductSelected(this.id, this.value)">
                                     ${productList.innerHTML}
                                 </select>
                             </div>
@@ -1061,6 +1071,8 @@ const addTenderForm = (function () {
         tenderFormWrapper.insertAdjacentHTML("beforeend", createTenderForm);
 
         index++;
+
+        initializeSelect2Products();
 
         if (index == formLimit) {
             d.getElementById("addNewTenderForm").remove();
@@ -1231,7 +1243,7 @@ const addSivForm = (function () {
                         <label for="siv[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
-                                <select id="siv[${index}][product_id]" name="siv[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                <select id="siv[${index}][product_id]" name="siv[${index}][product_id]" class="select2-products" onchange="getProductSelected(this.id, this.value)">
                                     ${productList.innerHTML}
                                 </select>
                             </div>
@@ -1287,6 +1299,8 @@ const addSivForm = (function () {
         sivFormWrapper.insertAdjacentHTML("beforeend", createSivForm);
 
         index++;
+
+        initializeSelect2Products();
 
         if (index == formLimit) {
             d.getElementById("addNewSivForm").remove();
@@ -1351,7 +1365,7 @@ const addProformaInvoiceForm = (function () {
                             <label for="proformaInvoice[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select id="proformaInvoice[${index}][product_id]" name="proformaInvoice[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                    <select id="proformaInvoice[${index}][product_id]" name="proformaInvoice[${index}][product_id]" class="select2-products" onchange="getProductSelected(this.id, this.value)">
                                         ${productList.innerHTML}
                                     </select>
                                 </div>
@@ -1417,6 +1431,8 @@ const addProformaInvoiceForm = (function () {
         );
 
         index++;
+
+        initializeSelect2Products();
 
         initializeSummernote();
     };
@@ -1484,7 +1500,7 @@ const addDamageForm = (function () {
                         <label for="damage[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
-                                <select id="damage[${index}][product_id]" name="damage[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                <select id="damage[${index}][product_id]" name="damage[${index}][product_id]" class="select2-products" onchange="getProductSelected(this.id, this.value)">
                                     ${productList.innerHTML}
                                 </select>
                             </div>
@@ -1541,6 +1557,8 @@ const addDamageForm = (function () {
 
         index++;
 
+        initializeSelect2Products();
+
         if (index == formLimit) {
             d.getElementById("addNewDamageForm").remove();
             return false;
@@ -1574,7 +1592,7 @@ const addAdjustmentForm = (function () {
                         <label for="adjustment[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
-                                <select id="adjustment[${index}][product_id]" name="adjustment[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                <select id="adjustment[${index}][product_id]" name="adjustment[${index}][product_id]" class="select2-products" onchange="getProductSelected(this.id, this.value)">
                                     ${productList.innerHTML}
                                 </select>
                             </div>
@@ -1648,6 +1666,8 @@ const addAdjustmentForm = (function () {
         );
 
         index++;
+
+        initializeSelect2Products();
     };
 })();
 
@@ -1676,7 +1696,7 @@ const addReturnForm = (function () {
                         <label for="return[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
-                                <select id="return[${index}][product_id]" name="return[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                <select id="return[${index}][product_id]" name="return[${index}][product_id]" class="select2-products" onchange="getProductSelected(this.id, this.value)">
                                     ${productList.innerHTML}
                                 </select>
                             </div>
@@ -1746,6 +1766,8 @@ const addReturnForm = (function () {
         returnFormWrapper.insertAdjacentHTML("beforeend", createReturnForm);
 
         index++;
+
+        initializeSelect2Products();
     };
 })();
 
@@ -1775,7 +1797,7 @@ const addReservationForm = (function () {
                         <label for="reservation[${index}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                         <div class="control has-icons-left">
                             <div class="select is-fullwidth">
-                                <select id="reservation[${index}][product_id]" name="reservation[${index}][product_id]" onchange="getProductSelected(this.id, this.value)">
+                                <select id="reservation[${index}][product_id]" name="reservation[${index}][product_id]" class="select2-products" onchange="getProductSelected(this.id, this.value)">
                                     ${productList.innerHTML}
                                 </select>
                             </div>
@@ -1848,6 +1870,8 @@ const addReservationForm = (function () {
         );
 
         index++;
+
+        initializeSelect2Products();
 
         if (index == formLimit) {
             d.getElementById("addNewReservationForm").remove();
