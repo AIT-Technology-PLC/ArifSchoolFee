@@ -169,7 +169,7 @@
                                 <div class="field">
                                     <label for="siv[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
-                                        <x-product-list model="siv" selected-product_id="{{ $sivDetail->product_id }}" />
+                                        <x-product-list name="siv[{{ $loop->index }}]" selected-product-id="{{ $sivDetail->product_id }}" />
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-th"></i>
                                         </div>

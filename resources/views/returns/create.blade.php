@@ -94,7 +94,7 @@
                             <div class="field">
                                 <label for="return[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
-                                    <x-product-list model="return" selected-product_id="{{ old('return.0.product_id') }}" />
+                                    <x-product-list name="return[0]" selected-product-id="{{ old('return.0.product_id') }}" />
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-th"></i>
                                     </div>
@@ -197,7 +197,7 @@
                                     <div class="field">
                                         <label for="return[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                         <div class="control has-icons-left">
-                                            <x-product-list model="return" selected-product_id="{{ old('return.' . $i . '.product_id') }}" />
+                                            <x-product-list name="return[{{ $i }}]" selected-product-id="{{ old('return.' . $i . '.product_id') }}" />
                                             <div class="icon is-small is-left">
                                                 <i class="fas fa-th"></i>
                                             </div>

@@ -117,7 +117,7 @@
                                 <div class="field">
                                     <label for="grn[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
-                                        <x-product-list model="grn" selected-product_id="{{ $grnDetail->product_id }}"/>
+                                        <x-product-list name="grn[{{ $loop->index }}]" selected-product-id="{{ $grnDetail->product_id }}"/>
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-th"></i>
                                         </div>

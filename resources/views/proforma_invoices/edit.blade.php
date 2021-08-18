@@ -112,7 +112,7 @@
                                 <div class="field">
                                     <label for="proformaInvoice[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
-                                        <x-product-list model="proformaInvoice" selected-product_id="{{ $proformaInvoiceDetail->product_id }}"/>
+                                        <x-product-list name="proformaInvoice[{{ $loop->index }}]" selected-product-id="{{ $proformaInvoiceDetail->product_id }}"/>
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-th"></i>
                                         </div>

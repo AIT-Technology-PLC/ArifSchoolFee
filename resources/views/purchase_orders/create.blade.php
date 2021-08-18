@@ -102,7 +102,7 @@
                             <div class="field">
                                 <label for="purchaseOrder[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
-                                    <x-product-list model="purchaseOrder" selected-product_id="{{ old('purchaseOrder.0.product_id') }}"/>
+                                    <x-product-list name="purchaseOrder[0]" selected-product-id="{{ old('purchaseOrder.0.product_id') }}"/>
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-th"></i>
                                     </div>
@@ -183,7 +183,7 @@
                                     <div class="field">
                                         <label for="purchaseOrder[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                         <div class="control has-icons-left">
-                                            <x-product-list model="purchaseOrder" selected-product_id="{{ old('purchaseOrder.' . $i . '.product_id') }}"/>
+                                            <x-product-list name="purchaseOrder[{{ $i }}]" selected-product-id="{{ old('purchaseOrder.' . $i . '.product_id') }}"/>
                                             <div class="icon is-small is-left">
                                                 <i class="fas fa-th"></i>
                                             </div>

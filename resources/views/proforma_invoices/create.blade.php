@@ -111,7 +111,7 @@
                             <div class="field">
                                 <label for="proformaInvoice[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
-                                    <x-product-list model="proformaInvoice" selected-product_id="{{ old('proformaInvoice.0.product_id') }}" />
+                                    <x-product-list name="proformaInvoice[0]" selected-product-id="{{ old('proformaInvoice.0.product_id') }}" />
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-th"></i>
                                     </div>
@@ -205,7 +205,7 @@
                                     <div class="field">
                                         <label for="proformaInvoice[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                         <div class="control has-icons-left">
-                                            <x-product-list model="proformaInvoice" selected-product_id="{{ old('proformaInvoice.' . $i . '.product_id') }}" />
+                                            <x-product-list name="proformaInvoice[{{ $i }}]" selected-product-id="{{ old('proformaInvoice.' . $i . '.product_id') }}" />
                                             <div class="icon is-small is-left">
                                                 <i class="fas fa-th"></i>
                                             </div>

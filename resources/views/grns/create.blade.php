@@ -115,7 +115,7 @@
                             <div class="field">
                                 <label for="grn[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
-                                    <x-product-list model="grn" selected-product_id="{{ old('grn.0.product_id') }}"/>
+                                    <x-product-list name="grn[0]" selected-product-id="{{ old('grn.0.product_id') }}"/>
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-th"></i>
                                     </div>
@@ -199,7 +199,7 @@
                                     <div class="field">
                                         <label for="grn[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                         <div class="control has-icons-left">
-                                            <x-product-list model="grn" selected-product_id="{{ old('grn.' . $i . '.product_id') }}"/>
+                                            <x-product-list name="grn[{{ $i }}]" selected-product-id="{{ old('grn.' . $i . '.product_id') }}"/>
                                             <div class="icon is-small is-left">
                                                 <i class="fas fa-th"></i>
                                             </div>
