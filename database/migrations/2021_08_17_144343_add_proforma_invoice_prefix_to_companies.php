@@ -16,6 +16,10 @@ class AddProformaInvoicePrefixToCompanies extends Migration
         Schema::table('companies', function (Blueprint $table) {
             $table->string('proforma_invoice_prefix')->nullable()->after('currency');
         });
+
+        Schema::table('proforma_invoices', function (Blueprint $table) {
+            $table->string('prefix')->nullable()->after('customer_id');
+        });
     }
 
     /**
@@ -27,6 +31,10 @@ class AddProformaInvoicePrefixToCompanies extends Migration
     {
         Schema::table('companies', function (Blueprint $table) {
             $table->dropColumn(['proforma_invoice_prefix']);
+        });
+
+        Schema::table('proforma_invoices', function (Blueprint $table) {
+            $table->dropColumn(['prefix']);
         });
     }
 }
