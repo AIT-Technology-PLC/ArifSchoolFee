@@ -16,8 +16,11 @@
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <div class="field">
-                            <label for="code" class="label text-green has-text-weight-normal">PI No <sup class="has-text-danger">*</sup> </label>
+                        <label for="code" class="label text-green has-text-weight-normal">PI No <sup class="has-text-danger">*</sup> </label>
+                        <div class="field has-addons">
+                            <div class="control">
+                                <input name="prefix" class="input" type="text" placeholder="Prefix" value="{{ userCompany()->proforma_invoice_prefix ?? '' }}">
+                            </div>
                             <div class="control has-icons-left">
                                 <input class="input" type="text" name="code" id="code" value="{{ $currentProformaInvoiceCode + 1 }}">
                                 <span class="icon is-large is-left">
@@ -108,7 +111,7 @@
                             <div class="field">
                                 <label for="proformaInvoice[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
-                                    <x-product-list model="proformaInvoice" selected-product_id="{{ old('proformaInvoice.0.product_id') }}"/>
+                                    <x-product-list model="proformaInvoice" selected-product_id="{{ old('proformaInvoice.0.product_id') }}" />
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-th"></i>
                                     </div>
@@ -202,7 +205,7 @@
                                     <div class="field">
                                         <label for="proformaInvoice[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                         <div class="control has-icons-left">
-                                            <x-product-list model="proformaInvoice" selected-product_id="{{ old('proformaInvoice.' . $i . '.product_id') }}"/>
+                                            <x-product-list model="proformaInvoice" selected-product_id="{{ old('proformaInvoice.' . $i . '.product_id') }}" />
                                             <div class="icon is-small is-left">
                                                 <i class="fas fa-th"></i>
                                             </div>

@@ -18,6 +18,7 @@ class UpdateProformaInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
+            'prefix' => 'nullable|string',
             'code' => 'required|string|unique:proforma_invoices,code,' . $this->route('proforma_invoice')->id,
             'customer_id' => 'nullable|integer',
             'issued_on' => 'required|date',

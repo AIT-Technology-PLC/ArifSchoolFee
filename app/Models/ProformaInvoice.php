@@ -62,9 +62,17 @@ class ProformaInvoice extends Model
 
     public function getReferenceAttribute()
     {
-        return Str::of(userCompany()->proforma_invoice_prefix)
-            ->replaceLast('/', '')
-            ->append('/', $this->code);
+        $prefix = $this->prefix;
+
+        if (!$prefix) {
+            return $this->code;
+        }
+
+        if (Str::endsWith($prefix, '/')) {
+            $prefix = Str::of($prefix)->replaceLast('/', '');
+        }
+
+        return Str::of($prefix)->append('/', $this->code);
     }
 
     public function getTotalPriceAttribute()

@@ -17,8 +17,11 @@
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <div class="field">
-                            <label for="code" class="label text-green has-text-weight-normal">PI No <sup class="has-text-danger">*</sup> </label>
+                        <label for="code" class="label text-green has-text-weight-normal">PI No <sup class="has-text-danger">*</sup> </label>
+                        <div class="field has-addons">
+                            <div class="control">
+                                <input name="prefix" class="input" type="text" placeholder="Prefix" value="{{ $proformaInvoice->prefix ?? '' }}">
+                            </div>
                             <div class="control has-icons-left">
                                 <input class="input" type="text" name="code" id="code" value="{{ $proformaInvoice->code ?? '' }}">
                                 <span class="icon is-large is-left">

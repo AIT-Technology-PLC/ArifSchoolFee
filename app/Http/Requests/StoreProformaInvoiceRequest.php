@@ -18,6 +18,7 @@ class StoreProformaInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
+            'prefix' => 'nullable|string',
             'code' => 'required|string|unique:proforma_invoices',
             'customer_id' => 'nullable|integer',
             'issued_on' => 'required|date',
