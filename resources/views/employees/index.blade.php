@@ -5,8 +5,8 @@
 @endsection
 
 @section('content')
-    <div class="columns is-marginless">
-        <div class="column is-4">
+    <div class="columns is-marginless is-multiline is-centered">
+        <div class="column is-6">
             <div class="box text-green">
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
@@ -20,6 +20,27 @@
                         </div>
                         <div class="is-uppercase is-size-7">
                             Total Employees
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-6">
+            <div class="box text-purple">
+                <div class="columns is-marginless is-vcentered is-mobile">
+                    <div class="column is-paddingless has-text-centered">
+                        <div class="is-uppercase is-size-7">
+                            Create new accounts for employees and managers
+                        </div>
+                        <div class="is-size-3">
+                            <a href="{{ route('employees.create') }}" class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3">
+                                <span class="icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </span>
+                                <span>
+                                    Create New Account
+                                </span>
+                            </a>
                         </div>
                     </div>
                 </div>
