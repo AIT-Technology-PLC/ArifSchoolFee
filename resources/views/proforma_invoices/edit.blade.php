@@ -147,7 +147,7 @@
                                 <label for="proformaInvoice[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
                                 <div class="field has-addons">
                                     <div class="control has-icons-left is-expanded">
-                                        <input id="proformaInvoice[{{ $loop->index }}][unit_price]" name="proformaInvoice[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ $proformaInvoiceDetail->unit_price ?? '' }}">
+                                        <input id="proformaInvoice[{{ $loop->index }}][unit_price]" name="proformaInvoice[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ $proformaInvoiceDetail->originalUnitPrice ?? '' }}">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-money-bill"></i>
                                         </span>

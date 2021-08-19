@@ -93,10 +93,10 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ number_format($proformaInvoice->totalPrice, 2) }}
+                                {{ number_format($proformaInvoice->subtotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Total Price ({{ $proformaInvoice->company->currency }})
+                                SubTotal Price ({{ $proformaInvoice->company->currency }})
                             </div>
                         </div>
                     </div>
@@ -112,15 +112,55 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ number_format($proformaInvoice->totalPriceAfterVAT, 2) }}
+                                {{ number_format($proformaInvoice->grandTotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Total Price with VAT ({{ $proformaInvoice->company->currency }})
+                                Grand Total Price ({{ $proformaInvoice->company->currency }})
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            @if (!userCompany()->is_discount_before_vat)
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-percentage"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ number_format($proformaInvoice->discount, 2) }}%
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Discount
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ number_format($proformaInvoice->grandTotalPriceAfterDiscount, 2) }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Grand Total Price (After Discount)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="column is-12">
                 <div>
                     <div class="columns is-marginless is-vcentered text-green">
@@ -275,7 +315,9 @@
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Unit Price </abbr></th>
-                            <th><abbr> Discount </abbr></th>
+                            @if (userCompany()->is_discount_before_vat)
+                                <th><abbr> Discount </abbr></th>
+                            @endif
                             <th><abbr> Total </abbr></th>
                         </tr>
                     </thead>
@@ -294,11 +336,13 @@
                                     {{ $proformaInvoice->company->currency }}.
                                     {{ number_format($proformaInvoiceDetail->unit_price, 2) }}
                                 </td>
+                                @if (userCompany()->is_discount_before_vat)
+                                    <td>
+                                        {{ number_format($proformaInvoiceDetail->discount * 100, 2) }}%
+                                    </td>
+                                @endif
                                 <td>
-                                    {{ number_format($proformaInvoiceDetail->discount * 100, 2) }}%
-                                </td>
-                                <td>
-                                    {{ number_format($proformaInvoiceDetail->unitPriceAfterDiscount, 2) }}
+                                    {{ number_format($proformaInvoiceDetail->totalPrice, 2) }}
                                 </td>
                             </tr>
                         @endforeach

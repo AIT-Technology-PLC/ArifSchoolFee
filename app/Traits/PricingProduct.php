@@ -3,6 +3,11 @@ namespace App\Traits;
 
 trait PricingProduct
 {
+    public function getOriginalUnitPriceAttribute()
+    {
+        return $this->unit_price * 1.15;
+    }
+
     public function getUnitPriceAttribute($value)
     {
         if (userCompany()->is_price_before_vat) {
