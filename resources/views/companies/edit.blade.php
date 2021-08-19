@@ -120,22 +120,6 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="proforma_invoice_prefix" class="label text-green has-text-weight-normal">Proforma Invoice Prefix <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input id="proforma_invoice_prefix" name="proforma_invoice_prefix" type="text" class="input" placeholder="eg. AB/21" value="{{ $company->proforma_invoice_prefix ?? '' }}">
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-font"></i>
-                                </span>
-                                @error('proforma_invoice_prefix')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
                             <label for="logo" class="label text-green has-text-weight-normal"> Logo <sup class="has-text-danger"></sup> </label>
                             <div class="file has-name">
                                 <label class="file-label">
@@ -152,6 +136,63 @@
                                         {{ $company->logo ?? '' }}
                                     </span>
                                 </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="proforma_invoice_prefix" class="label text-green has-text-weight-normal">Proforma Invoice Prefix <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <input id="proforma_invoice_prefix" name="proforma_invoice_prefix" type="text" class="input" placeholder="eg. AB/21" value="{{ $company->proforma_invoice_prefix ?? '' }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-font"></i>
+                                </span>
+                                @error('proforma_invoice_prefix')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="is_price_before_vat" class="label text-green has-text-weight-normal"> Unit Price Method <sup class="has-text-danger">*</sup> </label>
+                            <div class="control">
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input type="radio" name="is_price_before_vat" value="1" class="mt-3" {{ $company->is_price_before_vat ? 'checked' : '' }}>
+                                    Before VAT
+                                </label>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                    <input type="radio" name="is_price_before_vat" value="0" {{ $company->is_price_before_vat ? '' : 'checked' }}>
+                                    After VAT
+                                </label>
+                                @error('is_price_before_vat')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="is_discount_before_vat" class="label text-green has-text-weight-normal"> Discount Method <sup class="has-text-danger">*</sup> </label>
+                            <div class="control">
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input type="radio" name="is_discount_before_vat" value="1" class="mt-3" {{ $company->is_discount_before_vat ? 'checked' : '' }}>
+                                    Before VAT & Per Product
+                                </label>
+                                <br>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                    <input type="radio" name="is_discount_before_vat" value="0" {{ $company->is_discount_before_vat ? '' : 'checked' }}>
+                                    After Grand Total Price
+                                </label>
+                                @error('is_discount_before_vat')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
