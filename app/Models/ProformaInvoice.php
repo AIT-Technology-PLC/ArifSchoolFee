@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Traits\Discountable;
+use App\Traits\PricingTicket;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +12,7 @@ use Illuminate\Support\Str;
 
 class ProformaInvoice extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, PricingTicket, Discountable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -75,14 +77,9 @@ class ProformaInvoice extends Model
         return Str::of($prefix)->append('/', $this->code);
     }
 
-    public function getTotalPriceAttribute()
+    public function details()
     {
-        return $this->proformaInvoiceDetails->sum->unitPriceAfterDiscount;
-    }
-
-    public function getTotalPriceAfterVATAttribute()
-    {
-        return $this->totalPrice * 1.15;
+        return $this->proformaInvoiceDetails;
     }
 
     public function convert()

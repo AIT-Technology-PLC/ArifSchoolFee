@@ -121,10 +121,10 @@
             <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
                 <thead>
                     <tr class="is-borderless">
-                        <td colspan="7" class="is-borderless">&nbsp;</td>
+                        <td colspan="{{ userCompany()->is_discount_before_vat ? 7 : 6 }}" class="is-borderless">&nbsp;</td>
                     </tr>
                     <tr class="is-borderless">
-                        <td colspan="7" class="is-borderless">&nbsp;</td>
+                        <td colspan="{{ userCompany()->is_discount_before_vat ? 7 : 6 }}" class="is-borderless">&nbsp;</td>
                     </tr>
                     <tr>
                         <th>#</th>
@@ -132,7 +132,9 @@
                         <th>Category</th>
                         <th>Quantity</th>
                         <th>Unit Price</th>
-                        <th>Discount</th>
+                        @if (userCompany()->is_discount_before_vat)
+                            <th>Discount</th>
+                        @endif
                         <th>Total</th>
                     </tr>
                 </thead>
@@ -149,25 +151,45 @@
                             <td> {{ $proformaInvoiceDetail->product->productCategory->name ?? '' }} </td>
                             <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->quantity, 2) }} {{ $proformaInvoiceDetail->product->unit_of_measurement ?? '' }} </td>
                             <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->unit_price, 2) }} </td>
-                            <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->discount * 100, 2) }}% </td>
-                            <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->unitPriceAfterDiscount, 2) }} </td>
+                            @if (userCompany()->is_discount_before_vat)
+                                <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->discount * 100, 2) }}% </td>
+                            @endif
+                            <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->totalPrice, 2) }} </td>
                         </tr>
                     @endforeach
                     <tr>
-                        <td colspan="5" class="is-borderless"></td>
+                        <td colspan="{{ userCompany()->is_discount_before_vat ? 5 : 4 }}" class="is-borderless"></td>
                         <td class="has-text-weight-bold">Sub-Total</td>
-                        <td class="has-text-right">{{ number_format($proformaInvoice->totalPrice, 2) }}</td>
+                        <td class="has-text-right">{{ number_format($proformaInvoice->subtotalPrice, 2) }}</td>
                     </tr>
                     <tr>
-                        <td colspan="5" class="is-borderless"></td>
+                        <td colspan="{{ userCompany()->is_discount_before_vat ? 5 : 4 }}" class="is-borderless"></td>
                         <td class="has-text-weight-bold">VAT 15%</td>
-                        <td class="has-text-right">{{ number_format($proformaInvoice->totalPrice * 0.15, 2) }}</td>
+                        <td class="has-text-right">{{ number_format($proformaInvoice->vat, 2) }}</td>
                     </tr>
                     <tr>
-                        <td colspan="5" class="is-borderless"></td>
+                        <td colspan="{{ userCompany()->is_discount_before_vat ? 5 : 4 }}" class="is-borderless"></td>
                         <td class="has-text-weight-bold">Grand Total</td>
-                        <td class="has-text-right has-text-weight-bold">{{ number_format($proformaInvoice->totalPriceAfterVAT, 2) }}</td>
+                        <td class="has-text-right has-text-weight-bold">{{ number_format($proformaInvoice->grandTotalPrice, 2) }}</td>
                     </tr>
+                    @if (!userCompany()->is_discount_before_vat)
+                        <tr>
+                            <td colspan="4" class="is-borderless"></td>
+                            <td class="has-text-weight-bold">Discount</td>
+                            <td class="has-text-right has-text-weight-bold">{{ number_format($proformaInvoice->discount, 2) }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="is-borderless"></td>
+                            <td class="has-text-weight-bold">
+                                Grand Total
+                                <br>
+                                <span class="has-text-grey">
+                                    After Discount
+                                </span>
+                            </td>
+                            <td class="has-text-right has-text-weight-bold">{{ number_format($proformaInvoice->grandTotalPriceAfterDiscount, 2) }}</td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
         </section>
