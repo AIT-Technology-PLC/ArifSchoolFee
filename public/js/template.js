@@ -76,9 +76,17 @@ function addProformaInvoiceDetail() {
 
     proformaInvoiceDetail
         .querySelectorAll(".column")[1]
+        .querySelector("input").value = "";
+
+    proformaInvoiceDetail
+        .querySelectorAll(".column")[1]
         .querySelector(
             "button"
         ).id = `proformaInvoice[${totalProformaInvoiceDetails}][product_id]Quantity`;
+
+    proformaInvoiceDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("button").innerText = "";
 
     proformaInvoiceDetail
         .querySelectorAll(".column")[2]
@@ -102,9 +110,17 @@ function addProformaInvoiceDetail() {
 
     proformaInvoiceDetail
         .querySelectorAll(".column")[2]
+        .querySelector("input").value = "";
+
+    proformaInvoiceDetail
+        .querySelectorAll(".column")[2]
         .querySelector(
             "button"
         ).id = `proformaInvoice[${totalProformaInvoiceDetails}][product_id]Price`;
+
+    proformaInvoiceDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("button").innerText = "";
 
     proformaInvoiceDetail
         .querySelectorAll(".column")[3]
@@ -127,6 +143,10 @@ function addProformaInvoiceDetail() {
         ).name = `proformaInvoice[${totalProformaInvoiceDetails}][discount]`;
 
     proformaInvoiceDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("input").value = "";
+
+    proformaInvoiceDetail
         .querySelectorAll(".column")[4]
         .querySelector("label")
         .setAttribute(
@@ -146,6 +166,18 @@ function addProformaInvoiceDetail() {
             "textarea"
         ).name = `proformaInvoice[${totalProformaInvoiceDetails}][specification]`;
 
+    proformaInvoiceDetail
+        .querySelectorAll(".column")[4]
+        .querySelector(".control .note-editor.note-frame")
+        .remove();
+
     proformaInvoiceDetailsWrapper.appendChild(proformaInvoiceDetail);
+
     initializeSelect2Products();
+
+    initializeSummernote();
+
+    $(
+        `[name='proformaInvoice[${totalProformaInvoiceDetails}][specification]']`
+    ).summernote("reset");
 }
