@@ -265,7 +265,7 @@ if (d.getElementById("openExecuteSivModal")) {
 if (d.getElementById("addNewProformaInvoiceForm")) {
     d.getElementById("addNewProformaInvoiceForm").addEventListener(
         "click",
-        addProformaInvoiceForm
+        addProformaInvoiceDetail
     );
 }
 

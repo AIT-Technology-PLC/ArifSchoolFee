@@ -9,3 +9,10 @@
         @endif
     </select>
 </div>
+
+<select id="original-select" class="is-hidden" onchange="getProductSelected(this.id, this.value)">
+    <option data-code="" data-category=""></option>
+    @foreach ($products as $product)
+        <option value="{{ $product->id }}" data-code="{{ $product->code ?? '' }}" data-category="{{ Str::of($product->productCategory->name)->replace('  ', ' ') }}">{{ $product->name }}</option>
+    @endforeach
+</select>

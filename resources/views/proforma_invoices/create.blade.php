@@ -100,93 +100,97 @@
                         </div>
                     </div>
                 </div>
-                <div class="has-text-weight-medium has-text-left mt-5">
-                    <span class="tag bg-green has-text-white is-medium radius-bottom-0">
-                        Item 1
-                    </span>
-                </div>
-                <div class="box has-background-white-bis radius-top-0">
-                    <div name="proformaInvoiceFormGroup" class="columns is-marginless is-multiline">
-                        <div class="column is-6">
-                            <div class="field">
-                                <label for="proformaInvoice[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-                                <div class="control has-icons-left">
-                                    <x-product-list name="proformaInvoice[0]" selected-product-id="{{ old('proformaInvoice.0.product_id') }}" />
-                                    <div class="icon is-small is-left">
-                                        <i class="fas fa-th"></i>
+                <div id="proforma-invoice-details">
+                    <div class="proforma-invoice-detail">
+                        <div class="has-text-weight-medium has-text-left mt-5">
+                            <span name="item-number" class="tag bg-green has-text-white is-medium radius-bottom-0">
+                                Item 1
+                            </span>
+                        </div>
+                        <div class="box has-background-white-bis radius-top-0">
+                            <div class="columns is-marginless is-multiline">
+                                <div class="column is-6">
+                                    <div class="field">
+                                        <label for="proformaInvoice[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                                        <div class="control has-icons-left">
+                                            <x-product-list name="proformaInvoice[0]" selected-product-id="{{ old('proformaInvoice.0.product_id') }}" />
+                                            <div class="icon is-small is-left">
+                                                <i class="fas fa-th"></i>
+                                            </div>
+                                            @error('proformaInvoice.0.product_id')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                    @error('proformaInvoice.0.product_id')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
                                 </div>
-                            </div>
-                        </div>
-                        <div class="column is-6">
-                            <label for="proformaInvoice[0][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                            <div class="field has-addons">
-                                <div class="control has-icons-left is-expanded">
-                                    <input id="proformaInvoice[0][quantity]" name="proformaInvoice[0][quantity]" type="number" class="input" placeholder="Product Quantity" value="{{ old('proformaInvoice.0.quantity') ?? '' }}">
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-balance-scale"></i>
-                                    </span>
-                                    @error('proformaInvoice.0.quantity')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
+                                <div class="column is-6">
+                                    <label for="proformaInvoice[0][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                                    <div class="field has-addons">
+                                        <div class="control has-icons-left is-expanded">
+                                            <input id="proformaInvoice[0][quantity]" name="proformaInvoice[0][quantity]" type="number" class="input" placeholder="Product Quantity" value="{{ old('proformaInvoice.0.quantity') ?? '' }}">
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-balance-scale"></i>
+                                            </span>
+                                            @error('proformaInvoice.0.quantity')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="control">
+                                            <button id="proformaInvoice[0][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="control">
-                                    <button id="proformaInvoice[0][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                <div class="column is-6">
+                                    <label for="proformaInvoice[0][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> {{ userCompany()->is_price_before_vat ? '(Before VAT)' : '(After VAT)' }}</sup> <sup class="has-text-danger">*</sup> </label>
+                                    <div class="field has-addons">
+                                        <div class="control has-icons-left is-expanded">
+                                            <input id="proformaInvoice[0][unit_price]" name="proformaInvoice[0][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ old('proformaInvoice.0.unit_price') ?? '' }}">
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-money-bill"></i>
+                                            </span>
+                                            @error('proformaInvoice.0.unit_price')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="control">
+                                            <button id="proformaInvoice[0][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="column is-6">
-                            <label for="proformaInvoice[0][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
-                            <div class="field has-addons">
-                                <div class="control has-icons-left is-expanded">
-                                    <input id="proformaInvoice[0][unit_price]" name="proformaInvoice[0][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ old('proformaInvoice.0.unit_price') ?? '' }}">
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-money-bill"></i>
-                                    </span>
-                                    @error('proformaInvoice.0.unit_price')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
+                                <div class="column is-6 {{ userCompany()->is_discount_before_vat ? '' : 'is-hidden' }}">
+                                    <label for="proformaInvoice[0][discount]" class="label text-green has-text-weight-normal">Discount <sup class="has-text-danger"></sup> </label>
+                                    <div class="field">
+                                        <div class="control has-icons-left is-expanded">
+                                            <input id="proformaInvoice[0][discount]" name="proformaInvoice[0][discount]" type="number" class="input" placeholder="Discount in Percentage" value="{{ old('proformaInvoice.0.discount') ?? '' }}">
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-percent"></i>
+                                            </span>
+                                            @error('proformaInvoice.0.discount')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="control">
-                                    <button id="proformaInvoice[0][product_id]Price" class="button bg-green has-text-white" type="button"></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column is-6">
-                            <label for="proformaInvoice[0][discount]" class="label text-green has-text-weight-normal">Discount <sup class="has-text-danger"></sup> </label>
-                            <div class="field">
-                                <div class="control has-icons-left is-expanded">
-                                    <input id="proformaInvoice[0][discount]" name="proformaInvoice[0][discount]" type="number" class="input" placeholder="Discount in Percentage" value="{{ old('proformaInvoice.0.discount') ?? '' }}">
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-percent"></i>
-                                    </span>
-                                    @error('proformaInvoice.0.discount')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column is-12">
-                            <div class="field">
-                                <label for="specification" class="label text-green has-text-weight-normal">Specifications <sup class="has-text-danger"></sup> </label>
-                                <div class="control">
-                                    <textarea name="specification" id="specification" cols="30" rows="5" class="summernote textarea" placeholder="Description or note to be taken">{{ old('specification') ?? '' }}</textarea>
-                                    @error('specification')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
+                                <div class="column is-12">
+                                    <div class="field">
+                                        <label for="proformaInvoice[0][specification]" class="label text-green has-text-weight-normal">Specifications <sup class="has-text-danger"></sup> </label>
+                                        <div class="control">
+                                            <textarea name="proformaInvoice[0][specification]" id="proformaInvoice[0][specification]" cols="30" rows="5" class="summernote textarea" placeholder="Description or note to be taken">{{ old('proformaInvoice.0.specification') ?? '' }}</textarea>
+                                            @error('proformaInvoice.0.specification')
+                                                <span class="help has-text-danger" role="alert">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
