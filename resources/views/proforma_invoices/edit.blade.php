@@ -101,94 +101,98 @@
                     </div>
                 </div>
                 @foreach ($proformaInvoice->proformaInvoiceDetails as $proformaInvoiceDetail)
-                    <div class="has-text-weight-medium has-text-left">
-                        <span class="tag bg-green has-text-white is-medium radius-bottom-0">
-                            Item {{ $loop->index + 1 }}
-                        </span>
-                    </div>
-                    <div class="box has-background-white-bis radius-top-0">
-                        <div name="proformaInvoiceFormGroup" class="columns is-marginless is-multiline">
-                            <div class="column is-6">
-                                <div class="field">
-                                    <label for="proformaInvoice[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-                                    <div class="control has-icons-left">
-                                        <x-product-list name="proformaInvoice[{{ $loop->index }}]" selected-product-id="{{ $proformaInvoiceDetail->product_id ?? $proformaInvoiceDetail->custom_product }}"/>
-                                        <div class="icon is-small is-left">
-                                            <i class="fas fa-th"></i>
+                    <div id="proforma-invoice-details">
+                        <div class="proforma-invoice-detail mx-3">
+                            <div class="has-text-weight-medium has-text-left mt-5">
+                                <span name="item-number" class="tag bg-green has-text-white is-medium radius-bottom-0">
+                                    Item {{ $loop->index + 1 }}
+                                </span>
+                            </div>
+                            <div class="box has-background-white-bis radius-top-0">
+                                <div name="proformaInvoiceFormGroup" class="columns is-marginless is-multiline">
+                                    <div class="column is-6">
+                                        <div class="field">
+                                            <label for="proformaInvoice[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                                            <div class="control has-icons-left">
+                                                <x-product-list name="proformaInvoice[{{ $loop->index }}]" selected-product-id="{{ $proformaInvoiceDetail->product_id ?? $proformaInvoiceDetail->custom_product }}" />
+                                                <div class="icon is-small is-left">
+                                                    <i class="fas fa-th"></i>
+                                                </div>
+                                                @error('proformaInvoice.' . $loop->index . '.product_id')
+                                                    <span class="help has-text-danger" role="alert">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
                                         </div>
-                                        @error('proformaInvoice.' . $loop->index . '.product_id')
-                                            <span class="help has-text-danger" role="alert">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
                                     </div>
-                                </div>
-                            </div>
-                            <div class="column is-6">
-                                <label for="proformaInvoice[{{ $loop->index }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                                <div class="field has-addons">
-                                    <div class="control has-icons-left is-expanded">
-                                        <input id="proformaInvoice[{{ $loop->index }}][quantity]" name="proformaInvoice[{{ $loop->index }}][quantity]" type="number" class="input" placeholder="Product Quantity" value="{{ $proformaInvoiceDetail->quantity ?? '' }}">
-                                        <span class="icon is-small is-left">
-                                            <i class="fas fa-balance-scale"></i>
-                                        </span>
-                                        @error('proformaInvoice.' . $loop->index . '.quantity')
-                                            <span class="help has-text-danger" role="alert">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
+                                    <div class="column is-6">
+                                        <label for="proformaInvoice[{{ $loop->index }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                                        <div class="field has-addons">
+                                            <div class="control has-icons-left is-expanded">
+                                                <input id="proformaInvoice[{{ $loop->index }}][quantity]" name="proformaInvoice[{{ $loop->index }}][quantity]" type="number" class="input" placeholder="Product Quantity" value="{{ $proformaInvoiceDetail->quantity ?? '' }}">
+                                                <span class="icon is-small is-left">
+                                                    <i class="fas fa-balance-scale"></i>
+                                                </span>
+                                                @error('proformaInvoice.' . $loop->index . '.quantity')
+                                                    <span class="help has-text-danger" role="alert">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="control">
+                                                <button id="proformaInvoice[{{ $loop->index }}][product_id]Quantity" class="button bg-green has-text-white" type="button">{{ $proformaInvoiceDetail->product->unit_of_measurement ?? '' }}</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="control">
-                                        <button id="proformaInvoice[{{ $loop->index }}][product_id]Quantity" class="button bg-green has-text-white" type="button">{{ $proformaInvoiceDetail->product->unit_of_measurement ?? '' }}</button>
+                                    <div class="column is-6">
+                                        <label for="proformaInvoice[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
+                                        <div class="field has-addons">
+                                            <div class="control has-icons-left is-expanded">
+                                                <input id="proformaInvoice[{{ $loop->index }}][unit_price]" name="proformaInvoice[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ $proformaInvoiceDetail->originalUnitPrice ?? '' }}">
+                                                <span class="icon is-small is-left">
+                                                    <i class="fas fa-money-bill"></i>
+                                                </span>
+                                                @error('proformaInvoice.' . $loop->index . '.unit_price')
+                                                    <span class="help has-text-danger" role="alert">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="control">
+                                                <button id="proformaInvoice[{{ $loop->index }}][product_id]Price" class="button bg-green has-text-white" type="button">{{ $proformaInvoiceDetail->product->unit_of_measurement ?? '' }}</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="column is-6">
-                                <label for="proformaInvoice[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
-                                <div class="field has-addons">
-                                    <div class="control has-icons-left is-expanded">
-                                        <input id="proformaInvoice[{{ $loop->index }}][unit_price]" name="proformaInvoice[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ $proformaInvoiceDetail->originalUnitPrice ?? '' }}">
-                                        <span class="icon is-small is-left">
-                                            <i class="fas fa-money-bill"></i>
-                                        </span>
-                                        @error('proformaInvoice.' . $loop->index . '.unit_price')
-                                            <span class="help has-text-danger" role="alert">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
+                                    <div class="column is-6 {{ userCompany()->is_discount_before_vat ? '' : 'is-hidden' }}">
+                                        <label for="proformaInvoice[{{ $loop->index }}][discount]" class="label text-green has-text-weight-normal">Discount <sup class="has-text-danger"></sup> </label>
+                                        <div class="field">
+                                            <div class="control has-icons-left is-expanded">
+                                                <input id="proformaInvoice[{{ $loop->index }}][discount]" name="proformaInvoice[{{ $loop->index }}][discount]" type="number" class="input" placeholder="Discount in Percentage" value="{{ $proformaInvoiceDetail->discount * 100 ?? '' }}">
+                                                <span class="icon is-small is-left">
+                                                    <i class="fas fa-percent"></i>
+                                                </span>
+                                                @error('proformaInvoice.' . $loop->index . '.discount')
+                                                    <span class="help has-text-danger" role="alert">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="control">
-                                        <button id="proformaInvoice[{{ $loop->index }}][product_id]Price" class="button bg-green has-text-white" type="button">{{ $proformaInvoiceDetail->product->unit_of_measurement ?? '' }}</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-6">
-                                <label for="proformaInvoice[{{ $loop->index }}][discount]" class="label text-green has-text-weight-normal">Discount <sup class="has-text-danger"></sup> </label>
-                                <div class="field">
-                                    <div class="control has-icons-left is-expanded">
-                                        <input id="proformaInvoice[{{ $loop->index }}][discount]" name="proformaInvoice[{{ $loop->index }}][discount]" type="number" class="input" placeholder="Discount in Percentage" value="{{ $proformaInvoiceDetail->discount * 100 ?? '' }}">
-                                        <span class="icon is-small is-left">
-                                            <i class="fas fa-percent"></i>
-                                        </span>
-                                        @error('proformaInvoice.' . $loop->index . '.discount')
-                                            <span class="help has-text-danger" role="alert">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-12">
-                                <div class="field">
-                                    <label for="proformaInvoice[{{ $loop->index }}][specification]" class="label text-green has-text-weight-normal">Specifications <sup class="has-text-danger"></sup> </label>
-                                    <div class="control">
-                                        <textarea name="proformaInvoice[{{ $loop->index }}][specification]" id="proformaInvoice[{{ $loop->index }}][specification]" cols="30" rows="5" class="summernote textarea"
-                                            placeholder="Specification about the product"> {{ $proformaInvoiceDetail->specification }} </textarea>
-                                        @error('proformaInvoice.' . $loop->index . '.specification')
-                                            <span class="help has-text-danger" role="alert">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
+                                    <div class="column is-12">
+                                        <div class="field">
+                                            <label for="proformaInvoice[{{ $loop->index }}][specification]" class="label text-green has-text-weight-normal">Specifications <sup class="has-text-danger"></sup> </label>
+                                            <div class="control">
+                                                <textarea name="proformaInvoice[{{ $loop->index }}][specification]" id="proformaInvoice[{{ $loop->index }}][specification]" cols="30" rows="5" class="summernote textarea"
+                                                    placeholder="Specification about the product"> {{ $proformaInvoiceDetail->specification }} </textarea>
+                                                @error('proformaInvoice.' . $loop->index . '.specification')
+                                                    <span class="help has-text-danger" role="alert">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
