@@ -29,6 +29,7 @@ precacheAndRoute([
     { url: "/pwa/pwa-192x192.png", revision: null },
     { url: "/pwa/pwa-512x512.png", revision: null },
     { url: "/js/caller.js", revision: VERSION },
+    { url: "/js/template.js", revision: VERSION },
     { url: "/js/app.js", revision: VERSION },
     { url: "/js/datatables-plugins.js", revision: VERSION },
     { url: "/css/bulma-select2.css", revision: VERSION },
