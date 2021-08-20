@@ -176,7 +176,7 @@
                         <tr>
                             <td colspan="4" class="is-borderless"></td>
                             <td class="has-text-weight-bold">Discount</td>
-                            <td class="has-text-right has-text-weight-bold">{{ number_format($proformaInvoice->discount, 2) }}</td>
+                            <td class="has-text-right has-text-weight-bold">{{ number_format($proformaInvoice->discount * 100, 2) }}%</td>
                         </tr>
                         <tr>
                             <td colspan="4" class="is-borderless"></td>

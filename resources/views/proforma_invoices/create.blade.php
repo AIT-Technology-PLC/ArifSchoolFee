@@ -86,6 +86,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="column is-6 {{ userCompany()->is_discount_before_vat ? 'is-hidden' : '' }}">
+                        <label for="discount" class="label text-green has-text-weight-normal">Discount<sup class="has-text-danger"></sup> </label>
+                        <div class="field">
+                            <div class="control has-icons-left is-expanded">
+                                <input id="discount" name="discount" type="number" class="input" placeholder="Discount in Percentage" value="{{ old('discount') ?? '' }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-percent"></i>
+                                </span>
+                                @error('discount')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                     <div class="column is-12">
                         <div class="field">
                             <label for="terms" class="label text-green has-text-weight-normal">Terms & Conditions <sup class="has-text-danger"></sup> </label>

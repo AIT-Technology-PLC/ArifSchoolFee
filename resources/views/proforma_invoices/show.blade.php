@@ -132,7 +132,7 @@
                             </div>
                             <div class="column m-lr-20">
                                 <div class="is-size- has-text-weight-bold">
-                                    {{ number_format($proformaInvoice->discount, 2) }}%
+                                    {{ number_format($proformaInvoice->discount * 100, 2) }}%
                                 </div>
                                 <div class="is-uppercase is-size-7">
                                     Discount
