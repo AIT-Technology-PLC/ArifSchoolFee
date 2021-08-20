@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div id="proforma-invoice-details">
-                    <div class="proforma-invoice-detail">
+                    <div class="proforma-invoice-detail mx-3">
                         <div class="has-text-weight-medium has-text-left mt-5">
                             <span name="item-number" class="tag bg-green has-text-white is-medium radius-bottom-0">
                                 Item 1
@@ -195,106 +195,107 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                @foreach (range(1, 10) as $i)
-                    @if (old('proformaInvoice.' . $i . '.product_id') || old('proformaInvoice.' . $i . '.quantity') || old('proformaInvoice.' . $i . '.unit_price') || old('proformaInvoice.' . $i . '.discount'))
-                        <div class="has-text-weight-medium has-text-left">
-                            <span class="tag bg-green has-text-white is-medium radius-bottom-0">
-                                Item {{ $i + 1 }}
-                            </span>
-                        </div>
-                        <div class="box has-background-white-bis radius-top-0">
-                            <div name="proformaInvoiceFormGroup" class="columns is-marginless is-multiline">
-                                <div class="column is-6">
-                                    <div class="field">
-                                        <label for="proformaInvoice[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-                                        <div class="control has-icons-left">
-                                            <x-product-list name="proformaInvoice[{{ $i }}]" selected-product-id="{{ old('proformaInvoice.' . $i . '.product_id') }}" />
-                                            <div class="icon is-small is-left">
-                                                <i class="fas fa-th"></i>
+                    @foreach (range(1, 10) as $i)
+                        @if (old('proformaInvoice.' . $i . '.product_id') || old('proformaInvoice.' . $i . '.quantity') || old('proformaInvoice.' . $i . '.unit_price') || old('proformaInvoice.' . $i . '.discount'))
+                            <div class="proforma-invoice-detail mx-3">
+                                <div class="has-text-weight-medium has-text-left mt-5">
+                                    <span name="item-number" class="tag bg-green has-text-white is-medium radius-bottom-0">
+                                        Item {{ $i + 1 }}
+                                    </span>
+                                </div>
+                                <div class="box has-background-white-bis radius-top-0">
+                                    <div class="columns is-marginless is-multiline">
+                                        <div class="column is-6">
+                                            <div class="field">
+                                                <label for="proformaInvoice[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                                                <div class="control has-icons-left">
+                                                    <x-product-list name="proformaInvoice[{{ $i }}]" selected-product-id="{{ old('proformaInvoice.' . $i . '.product_id') }}" />
+                                                    <div class="icon is-small is-left">
+                                                        <i class="fas fa-th"></i>
+                                                    </div>
+                                                    @error('proformaInvoice.' . $i . '.product_id')
+                                                        <span class="help has-text-danger" role="alert">
+                                                            {{ $message }}
+                                                        </span>
+                                                    @enderror
+                                                </div>
                                             </div>
-                                            @error('proformaInvoice.' . $i . '.product_id')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="column is-6">
-                                    <label for="proformaInvoice[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                                    <div class="field has-addons">
-                                        <div class="control has-icons-left is-expanded">
-                                            <input id="proformaInvoice[{{ $i }}][quantity]" name="proformaInvoice[{{ $i }}][quantity]" type="number" class="input" placeholder="Product Quantity" value="{{ old('proformaInvoice.' . $i . '.quantity') ?? '' }}">
-                                            <span class="icon is-small is-left">
-                                                <i class="fas fa-balance-scale"></i>
-                                            </span>
-                                            @error('proformaInvoice.' . $i . '.quantity')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
+                                        <div class="column is-6">
+                                            <label for="proformaInvoice[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                                            <div class="field has-addons">
+                                                <div class="control has-icons-left is-expanded">
+                                                    <input id="proformaInvoice[{{ $i }}][quantity]" name="proformaInvoice[{{ $i }}][quantity]" type="number" class="input" placeholder="Product Quantity" value="{{ old('proformaInvoice.' . $i . '.quantity') ?? '' }}">
+                                                    <span class="icon is-small is-left">
+                                                        <i class="fas fa-balance-scale"></i>
+                                                    </span>
+                                                    @error('proformaInvoice.' . $i . '.quantity')
+                                                        <span class="help has-text-danger" role="alert">
+                                                            {{ $message }}
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                                <div class="control">
+                                                    <button id="proformaInvoice[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="control">
-                                            <button id="proformaInvoice[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                        <div class="column is-6">
+                                            <label for="proformaInvoice[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
+                                            <div class="field has-addons">
+                                                <div class="control has-icons-left is-expanded">
+                                                    <input id="proformaInvoice[{{ $i }}][unit_price]" name="proformaInvoice[{{ $i }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ old('proformaInvoice.' . $i . '.unit_price') ?? '' }}">
+                                                    <span class="icon is-small is-left">
+                                                        <i class="fas fa-money-bill"></i>
+                                                    </span>
+                                                    @error('proformaInvoice.' . $i . '.unit_price')
+                                                        <span class="help has-text-danger" role="alert">
+                                                            {{ $message }}
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                                <div class="control">
+                                                    <button id="proformaInvoice[{{ $i }}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="column is-6">
-                                    <label for="proformaInvoice[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
-                                    <div class="field has-addons">
-                                        <div class="control has-icons-left is-expanded">
-                                            <input id="proformaInvoice[{{ $i }}][unit_price]" name="proformaInvoice[{{ $i }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ old('proformaInvoice.' . $i . '.unit_price') ?? '' }}">
-                                            <span class="icon is-small is-left">
-                                                <i class="fas fa-money-bill"></i>
-                                            </span>
-                                            @error('proformaInvoice.' . $i . '.unit_price')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
+                                        <div class="column is-6 {{ userCompany()->is_discount_before_vat ? '' : 'is-hidden' }}">
+                                            <label for="proformaInvoice[{{ $i }}][discount]" class="label text-green has-text-weight-normal">Discount<sup class="has-text-danger"></sup> </label>
+                                            <div class="field">
+                                                <div class="control has-icons-left is-expanded">
+                                                    <input id="proformaInvoice[{{ $i }}][discount]" name="proformaInvoice[{{ $i }}][discount]" type="number" class="input" placeholder="Discount in Percentage" value="{{ old('proformaInvoice.' . $i . '.discount') ?? '' }}">
+                                                    <span class="icon is-small is-left">
+                                                        <i class="fas fa-percent"></i>
+                                                    </span>
+                                                    @error('proformaInvoice.' . $i . '.discount')
+                                                        <span class="help has-text-danger" role="alert">
+                                                            {{ $message }}
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="control">
-                                            <button id="proformaInvoice[{{ $i }}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="column is-6">
-                                    <label for="proformaInvoice[{{ $i }}][discount]" class="label text-green has-text-weight-normal">Discount<sup class="has-text-danger"></sup> </label>
-                                    <div class="field">
-                                        <div class="control has-icons-left is-expanded">
-                                            <input id="proformaInvoice[{{ $i }}][discount]" name="proformaInvoice[{{ $i }}][discount]" type="number" class="input" placeholder="Discount in Percentage" value="{{ old('proformaInvoice.' . $i . '.discount') ?? '' }}">
-                                            <span class="icon is-small is-left">
-                                                <i class="fas fa-percent"></i>
-                                            </span>
-                                            @error('proformaInvoice.' . $i . '.discount')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="column is-12">
-                                    <div class="field">
-                                        <label for="proformaInvoice[{{ $i }}][specification]" class="label text-green has-text-weight-normal">Specifications <sup class="has-text-danger"></sup> </label>
-                                        <div class="control">
-                                            <textarea name="proformaInvoice[{{ $i }}][specification]" id="proformaInvoice[{{ $i }}][specification]" cols="30" rows="5" class="summernote textarea"
-                                                placeholder="Specification about the product"> {{ old('proformaInvoice.' . $i . '.specification') ?? '' }} </textarea>
-                                            @error('proformaInvoice.' . $i . '.specification')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
+                                        <div class="column is-12">
+                                            <div class="field">
+                                                <label for="proformaInvoice[{{ $i }}][specification]" class="label text-green has-text-weight-normal">Specifications <sup class="has-text-danger"></sup> </label>
+                                                <div class="control">
+                                                    <textarea name="proformaInvoice[{{ $i }}][specification]" id="proformaInvoice[{{ $i }}][specification]" cols="30" rows="5" class="summernote textarea"
+                                                        placeholder="Specification about the product"> {{ old('proformaInvoice.' . $i . '.specification') ?? '' }} </textarea>
+                                                    @error('proformaInvoice.' . $i . '.specification')
+                                                        <span class="help has-text-danger" role="alert">
+                                                            {{ $message }}
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endif
-                @endforeach
-                <div id="proformaInvoiceFormWrapper"></div>
-                <button id="addNewProformaInvoiceForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
+                        @endif
+                    @endforeach
+                </div>
+                <button id="addNewProformaInvoiceForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-6">
                     Add More Item
                 </button>
             </div>
