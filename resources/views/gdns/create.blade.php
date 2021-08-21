@@ -164,8 +164,8 @@
                 <div id="gdn-details">
                     @foreach (old('gdn', [0]) as $gdnDetail)
                         <div class="gdn-detail mx-3">
-                            <div class="has-text-weight-medium has-text-left">
-                                <span class="tag bg-green has-text-white is-medium radius-bottom-0">
+                            <div class="has-text-weight-medium has-text-left mt-5">
+                                <span name="item-number" class="tag bg-green has-text-white is-medium radius-bottom-0">
                                     Item {{ $loop->iteration }}
                                 </span>
                             </div>

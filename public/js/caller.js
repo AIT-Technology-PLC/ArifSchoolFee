@@ -108,7 +108,7 @@ if (d.getElementById("burger-menu")) {
 }
 
 if (d.getElementById("addNewGdnForm")) {
-    d.getElementById("addNewGdnForm").addEventListener("click", addGdnForm);
+    d.getElementById("addNewGdnForm").addEventListener("click", addGdnDetail);
 }
 
 if (d.getElementsByClassName("delete-form").length) {
