@@ -10,7 +10,7 @@ trait PricingProduct
 
     public function getUnitPriceAttribute($value)
     {
-        if (userCompany()->is_price_before_vat) {
+        if (userCompany()->isPriceBeforeVAT()) {
             return $value;
         }
 
@@ -19,7 +19,7 @@ trait PricingProduct
 
     public function getTotalPriceAttribute()
     {
-        if (userCompany()->is_discount_before_vat) {
+        if (userCompany()->isDiscountBeforeVAT()) {
             return ($this->unit_price * $this->quantity) -
                 (($this->unit_price * $this->quantity) * $this->discount);
         }

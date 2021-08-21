@@ -121,7 +121,7 @@
                     </div>
                 </div>
             </div>
-            @if (!userCompany()->is_discount_before_vat)
+            @if (!userCompany()->isDiscountBeforeVAT())
                 <div class="column is-6">
                     <div>
                         <div class="columns is-marginless is-vcentered is-mobile text-green">
@@ -315,7 +315,7 @@
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Unit Price </abbr></th>
-                            @if (userCompany()->is_discount_before_vat)
+                            @if (userCompany()->isDiscountBeforeVAT())
                                 <th><abbr> Discount </abbr></th>
                             @endif
                             <th><abbr> Total </abbr></th>
@@ -336,7 +336,7 @@
                                     {{ $proformaInvoice->company->currency }}.
                                     {{ number_format($proformaInvoiceDetail->unit_price, 2) }}
                                 </td>
-                                @if (userCompany()->is_discount_before_vat)
+                                @if (userCompany()->isDiscountBeforeVAT())
                                     <td>
                                         {{ number_format($proformaInvoiceDetail->discount * 100, 2) }}%
                                     </td>

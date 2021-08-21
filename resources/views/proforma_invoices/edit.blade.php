@@ -86,7 +86,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6 {{ userCompany()->is_discount_before_vat ? 'is-hidden' : '' }}">
+                    <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
                         <label for="discount" class="label text-green has-text-weight-normal">Discount<sup class="has-text-danger"></sup> </label>
                         <div class="field">
                             <div class="control has-icons-left is-expanded">
@@ -180,7 +180,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="column is-6 {{ userCompany()->is_discount_before_vat ? '' : 'is-hidden' }}">
+                                    <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? '' : 'is-hidden' }}">
                                         <label for="proformaInvoice[{{ $loop->index }}][discount]" class="label text-green has-text-weight-normal">Discount <sup class="has-text-danger"></sup> </label>
                                         <div class="field">
                                             <div class="control has-icons-left is-expanded">
