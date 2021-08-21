@@ -98,19 +98,35 @@ class Gdn extends Model
 
     public function getPaymentInCash()
     {
-        if ($this->cash_received_in_percentage < 0) {
-            return $this->grandTotalPrice;
+        if (userCompany()->isDiscountBeforeVAT()) {
+            $price = $this->grandTotalPrice;
         }
 
-        return $this->grandTotalPrice * ($this->cash_received_in_percentage / 100);
+        if (!userCompany()->isDiscountBeforeVAT()) {
+            $price = $this->grandTotalPriceAfterDiscount;
+        }
+
+        if ($this->cash_received_in_percentage < 0) {
+            return $price;
+        }
+
+        return $price * ($this->cash_received_in_percentage / 100);
     }
 
     public function getPaymentInCredit()
     {
-        if ($this->credit_payable_in_percentage < 0) {
-            return $this->grandTotalPrice;
+        if (userCompany()->isDiscountBeforeVAT()) {
+            $price = $this->grandTotalPrice;
         }
 
-        return $this->grandTotalPrice * ($this->credit_payable_in_percentage / 100);
+        if (!userCompany()->isDiscountBeforeVAT()) {
+            $price = $this->grandTotalPriceAfterDiscount;
+        }
+
+        if ($this->credit_payable_in_percentage < 0) {
+            return $price;
+        }
+
+        return $price * ($this->credit_payable_in_percentage / 100);
     }
 }
