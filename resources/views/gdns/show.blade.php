@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    DO/GDN Details
+    Delivery Order Details
 @endsection
 
 @section('content')
@@ -20,7 +20,7 @@
                                 {{ $gdn->code ?? 'N/A' }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                DO/GDN No
+                                DO No
                             </div>
                         </div>
                     </div>
@@ -109,25 +109,6 @@
                     <div class="columns is-marginless is-vcentered is-mobile text-green">
                         <div class="column is-1">
                             <span class="icon is-size-3">
-                                <i class="fas fa-dollar-sign"></i>
-                            </span>
-                        </div>
-                        <div class="column m-lr-20">
-                            <div class="is-size- has-text-weight-bold">
-                                {{ number_format($gdn->totalGdnPrice, 2) }}
-                            </div>
-                            <div class="is-uppercase is-size-7">
-                                Total Price ({{ $gdn->company->currency }})
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="column is-6">
-                <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-green">
-                        <div class="column is-1">
-                            <span class="icon is-size-3">
                                 <i class="fas fa-hand-holding-usd"></i>
                             </span>
                         </div>
@@ -165,6 +146,25 @@
             </div>
             <div class="column is-6">
                 <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-dollar-sign"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ number_format($gdn->subtotalPrice, 2) }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                SubTotal Price ({{ $gdn->company->currency }})
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
                     <div class="columns is-marginless is-vcentered is-mobile text-purple">
                         <div class="column is-1">
                             <span class="icon is-size-3">
@@ -173,15 +173,55 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ number_format($gdn->totalGdnPriceWithVAT, 2) }}
+                                {{ number_format($gdn->grandTotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Total Price with VAT ({{ $gdn->company->currency }})
+                                Grand Total Price ({{ $gdn->company->currency }})
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            @if (!userCompany()->isDiscountBeforeVAT())
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-percentage"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ number_format($gdn->discount * 100, 2) }}%
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Discount
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ number_format($gdn->grandTotalPriceAfterDiscount, 2) }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Grand Total Price (After Discount)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="column is-12">
                 <div>
                     <div class="columns is-marginless is-vcentered text-green">
@@ -205,7 +245,7 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             <h1 class="title text-green has-text-weight-medium is-size-5">
-                                DO/GDN Details
+                                Delivery Order Details
                             </h1>
                         </div>
                     </div>
@@ -315,9 +355,9 @@
                 @can('Approve GDN')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
-                            This DO/GDN has not been approved.
+                            This Delivery Order has not been approved.
                             <br>
-                            Click on the button below to approve this DO/GDN.
+                            Click on the button below to approve this Delivery Order.
                         </p>
                         <form id="formOne" action="{{ route('gdns.approve', $gdn->id) }}" method="post" novalidate>
                             @csrf
@@ -326,7 +366,7 @@
                                     <i class="fas fa-signature"></i>
                                 </span>
                                 <span>
-                                    Approve DO/GDN
+                                    Approve
                                 </span>
                             </button>
                         </form>
@@ -338,7 +378,7 @@
                                 <i class="fas fa-exclamation-circle"></i>
                             </span>
                             <span>
-                                This DO/GDN has not been approved.
+                                This Delivery Order has not been approved.
                             </span>
                         </p>
                     </div>
