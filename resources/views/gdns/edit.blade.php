@@ -88,6 +88,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
+                        <label for="discount" class="label text-green has-text-weight-normal">Discount<sup class="has-text-danger"></sup> </label>
+                        <div class="field">
+                            <div class="control has-icons-left is-expanded">
+                                <input id="discount" name="discount" type="number" class="input" placeholder="Discount in Percentage" value="{{ $gdn->discount * 100 ?? '' }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-percent"></i>
+                                </span>
+                                @error('discount')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                     <div class="column is-6">
                         <div class="field">
                             <label for="payment_type" class="label text-green has-text-weight-normal">Payment Method <sup class="has-text-danger">*</sup> </label>
@@ -162,7 +178,7 @@
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-th"></i>
                                         </div>
-                                        @error('gdn.0.product_id')
+                                        @error('gdn.' . $loop->index . '.product_id')
                                             <span class="help has-text-danger" role="alert">
                                                 {{ $message }}
                                             </span>
@@ -184,7 +200,7 @@
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-warehouse"></i>
                                         </div>
-                                        @error('gdn.0.warehouse_id')
+                                        @error('gdn.' . $loop->index . '.warehouse_id')
                                             <span class="help has-text-danger" role="alert">
                                                 {{ $message }}
                                             </span>
@@ -200,7 +216,7 @@
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-balance-scale"></i>
                                         </span>
-                                        @error('gdn.0.quantity')
+                                        @error('gdn.' . $loop->index . '.quantity')
                                             <span class="help has-text-danger" role="alert">
                                                 {{ $message }}
                                             </span>
@@ -215,11 +231,11 @@
                                 <label for="gdn[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger"></sup> </label>
                                 <div class="field has-addons">
                                     <div class="control has-icons-left is-expanded">
-                                        <input id="gdn[{{ $loop->index }}][unit_price]" name="gdn[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Sale Price" value="{{ $gdnDetail->unit_price ?? '0.00' }}">
+                                        <input id="gdn[{{ $loop->index }}][unit_price]" name="gdn[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Sale Price" value="{{ $gdnDetail->originalUnitPrice ?? '0.00' }}">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-money-bill"></i>
                                         </span>
-                                        @error('gdn.0.unit_price')
+                                        @error('gdn.' . $loop->index . '.unit_price')
                                             <span class="help has-text-danger" role="alert">
                                                 {{ $message }}
                                             </span>
@@ -227,6 +243,22 @@
                                     </div>
                                     <div class="control">
                                         <button id="gdn[{{ $loop->index }}][product_id]Price" class="button bg-green has-text-white" type="button">{{ $gdnDetail->product->unit_of_measurement }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? '' : 'is-hidden' }}">
+                                <label for="gdn[{{ $loop->index }}][discount]" class="label text-green has-text-weight-normal">Discount <sup class="has-text-danger"></sup> </label>
+                                <div class="field">
+                                    <div class="control has-icons-left is-expanded">
+                                        <input id="gdn[{{ $loop->index }}][discount]" name="gdn[{{ $loop->index }}][discount]" type="number" class="input" placeholder="Discount in Percentage" value="{{ $gdnDetail->discount * 100 ?? '' }}">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-percent"></i>
+                                        </span>
+                                        @error('gdn.' . $loop->index . '.discount')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +270,7 @@
                                         <span class="icon is-large is-left">
                                             <i class="fas fa-edit"></i>
                                         </span>
-                                        @error('gdn.0.description')
+                                        @error('gdn.' . $loop->index . '.description')
                                             <span class="help has-text-danger" role="alert">
                                                 {{ $message }}
                                             </span>
