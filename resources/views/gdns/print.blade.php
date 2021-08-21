@@ -123,6 +123,10 @@
                                     <th>Category</th>
                                     <th>Quantity</th>
                                     <th>Unit Price</th>
+                                    @if (userCompany()->isDiscountBeforeVAT())
+                                        <th>Discount</th>
+                                    @endif
+                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -133,6 +137,10 @@
                                         <td> {{ $gdnDetail->product->productCategory->name }} </td>
                                         <td> {{ number_format($gdnDetail->quantity, 2) }} {{ $gdnDetail->product->unit_of_measurement }} </td>
                                         <td> {{ number_format($gdnDetail->unit_price, 2) }} </td>
+                                        @if (userCompany()->isDiscountBeforeVAT())
+                                            <td class="has-text-right"> {{ number_format($gdnDetail->discount * 100, 2) }}% </td>
+                                        @endif
+                                        <td class="has-text-right"> {{ number_format($gdnDetail->totalPrice, 2) }} </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -182,16 +190,34 @@
                             <tbody>
                                 <tr>
                                     <td class="has-text-weight-bold">Sub-Total</td>
-                                    <td class="has-text-right">{{ number_format($gdn->totalGdnPrice, 2) }}</td>
+                                    <td class="has-text-right">{{ number_format($gdn->subtotalPrice, 2) }}</td>
                                 </tr>
                                 <tr>
                                     <td class="has-text-weight-bold">VAT 15%</td>
-                                    <td class="has-text-right">{{ number_format($gdn->totalGdnPrice * 0.15, 2) }}</td>
+                                    <td class="has-text-right">{{ number_format($gdn->vat, 2) }}</td>
                                 </tr>
                                 <tr>
                                     <td class="has-text-weight-bold">Grand Total</td>
-                                    <td class="has-text-right has-text-weight-bold">{{ number_format($gdn->totalGdnPriceWithVAT, 2) }}</td>
+                                    <td class="has-text-right has-text-weight-bold">{{ number_format($gdn->grandTotalPrice, 2) }}</td>
                                 </tr>
+                                @if (!userCompany()->isDiscountBeforeVAT())
+                                    <tr>
+                                        <td colspan="4" class="is-borderless"></td>
+                                        <td class="has-text-weight-bold">Discount</td>
+                                        <td class="has-text-right has-text-weight-bold">{{ number_format($gdn->discount * 100, 2) }}%</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="is-borderless"></td>
+                                        <td class="has-text-weight-bold">
+                                            Grand Total
+                                            <br>
+                                            <span class="has-text-grey">
+                                                After Discount
+                                            </span>
+                                        </td>
+                                        <td class="has-text-right has-text-weight-bold">{{ number_format($gdn->grandTotalPriceAfterDiscount, 2) }}</td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>
