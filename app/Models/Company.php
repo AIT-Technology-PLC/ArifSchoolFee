@@ -14,6 +14,8 @@ class Company extends Model
 
     protected $casts = [
         'enabled' => 'boolean',
+        'is_discount_before_vat' => 'boolean',
+        'is_price_before_vat' => 'boolean',
     ];
 
     public function plan()
@@ -154,5 +156,25 @@ class Company extends Model
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
+    }
+
+    public function getPriceMethod()
+    {
+        return $this->is_price_before_vat ? 'Before VAT' : 'After VAT';
+    }
+
+    public function getDiscountMethod()
+    {
+        return $this->is_discount_before_vat ? 'Before VAT' : 'After VAT';
+    }
+
+    public function isDiscountBeforeVAT()
+    {
+        return $this->is_discount_before_vat;
+    }
+
+    public function isPriceBeforeVAT()
+    {
+        return $this->is_price_before_vat;
     }
 }
