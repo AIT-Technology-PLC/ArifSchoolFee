@@ -153,7 +153,7 @@
                                 </td>
                                 <td class="has-text-right">
                                     {{ $gdn->company->currency }}.
-                                    {{ number_format($gdn->totalGdnPriceWithVAT, 2) }}
+                                    {{ number_format($gdn->grandTotalPrice, 2) }}
                                 </td>
                                 <td>
                                     {{ $gdn->customer->company_name ?? 'N/A' }}

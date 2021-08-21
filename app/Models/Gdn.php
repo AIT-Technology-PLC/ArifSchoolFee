@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Traits\Approvable;
+use App\Traits\Discountable;
+use App\Traits\PricingTicket;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,7 +12,7 @@ use Illuminate\Support\Str;
 
 class Gdn extends Model
 {
-    use SoftDeletes, Approvable;
+    use SoftDeletes, Approvable, PricingTicket, Discountable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -63,24 +65,14 @@ class Gdn extends Model
         return Str::after($value, userCompany()->id . '_');
     }
 
-    public function getTotalGdnPriceAttribute()
-    {
-        $totalPrice = $this->gdnDetails
-            ->reduce(function ($carry, $item) {
-                return $carry + ($item->unit_price * $item->quantity);
-            }, 0);
-
-        return $totalPrice;
-    }
-
-    public function getTotalGdnPriceWithVATAttribute()
-    {
-        return $this->totalGdnPrice * 1.15;
-    }
-
     public function getCreditPayableInPercentageAttribute()
     {
         return 100.00 - $this->cash_received_in_percentage;
+    }
+
+    public function details()
+    {
+        return $this->gdnDetails;
     }
 
     public function getAll()
@@ -107,18 +99,18 @@ class Gdn extends Model
     public function getPaymentInCash()
     {
         if ($this->cash_received_in_percentage < 0) {
-            return $this->totalGdnPriceWithVAT;
+            return $this->grandTotalPrice;
         }
 
-        return $this->totalGdnPriceWithVAT * ($this->cash_received_in_percentage / 100);
+        return $this->grandTotalPrice * ($this->cash_received_in_percentage / 100);
     }
 
     public function getPaymentInCredit()
     {
         if ($this->credit_payable_in_percentage < 0) {
-            return $this->totalGdnPriceWithVAT;
+            return $this->grandTotalPrice;
         }
 
-        return $this->totalGdnPriceWithVAT * ($this->credit_payable_in_percentage / 100);
+        return $this->grandTotalPrice * ($this->credit_payable_in_percentage / 100);
     }
 }

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\Discountable;
+use App\Traits\PricingProduct;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GdnDetail extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, PricingProduct, Discountable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
