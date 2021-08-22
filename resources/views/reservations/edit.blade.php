@@ -69,13 +69,29 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="expires_on" class="label text-green has-text-weight-normal"> Issued On <sup class="has-text-danger">*</sup> </label>
+                            <label for="expires_on" class="label text-green has-text-weight-normal"> Expires On <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <input class="input" type="date" name="expires_on" id="expires_on" placeholder="mm/dd/yyyy" value="{{ $reservation->expires_on->toDateString() }}">
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
                                 @error('expires_on')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
+                        <label for="discount" class="label text-green has-text-weight-normal">Discount<sup class="has-text-danger"></sup> </label>
+                        <div class="field">
+                            <div class="control has-icons-left is-expanded">
+                                <input id="discount" name="discount" type="number" class="input" placeholder="Discount in Percentage" value="{{ $reservation->discount * 100 ?? '' }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-percent"></i>
+                                </span>
+                                @error('discount')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>
@@ -207,10 +223,10 @@
                                 </div>
                             </div>
                             <div class="column is-6">
-                                <label for="reservation[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger"></sup> </label>
+                                <label for="reservation[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup> <sup class="has-text-danger"></sup> </label>
                                 <div class="field has-addons">
                                     <div class="control has-icons-left is-expanded">
-                                        <input id="reservation[{{ $loop->index }}][unit_price]" name="reservation[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Sale Price" value="{{ $reservationDetail->unit_price ?? '0.00' }}">
+                                        <input id="reservation[{{ $loop->index }}][unit_price]" name="reservation[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Sale Price" value="{{ $reservationDetail->originalUnitPrice ?? '0.00' }}">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-money-bill"></i>
                                         </span>
@@ -222,6 +238,22 @@
                                     </div>
                                     <div class="control">
                                         <button id="reservation[{{ $loop->index }}][product_id]Price" class="button bg-green has-text-white" type="button">{{ $reservationDetail->product->unit_of_measurement }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? '' : 'is-hidden' }}">
+                                <label for="reservation[{{ $loop->index }}][discount]" class="label text-green has-text-weight-normal">Discount <sup class="has-text-danger"></sup> </label>
+                                <div class="field">
+                                    <div class="control has-icons-left is-expanded">
+                                        <input id="reservation[{{ $loop->index }}][discount]" name="reservation[{{ $loop->index }}][discount]" type="number" class="input" placeholder="Discount in Percentage" value="{{ $reservationDetail->discount * 100 ?? '' }}">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-percent"></i>
+                                        </span>
+                                        @error('reservation.' . $loop->index . '.discount')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>

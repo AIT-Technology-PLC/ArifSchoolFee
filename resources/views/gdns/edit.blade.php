@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('title')
-    Edit DO/GDN
+    Edit Delivery Order
 @endsection
 
 @section('content')
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-green has-text-weight-medium is-size-5">
-                Edit DO/GDN
+                Edit Delivery Order
             </h1>
         </div>
         <form id="formOne" action="{{ route('gdns.update', $gdn->id) }}" method="POST" enctype="multipart/form-data" novalidate>
@@ -18,7 +18,7 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
-                            <label for="code" class="label text-green has-text-weight-normal">DO/GDN Number <sup class="has-text-danger">*</sup> </label>
+                            <label for="code" class="label text-green has-text-weight-normal">DO Number <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <input class="input" type="number" name="code" id="code" value="{{ $gdn->code }}">
                                 <span class="icon is-large is-left">
