@@ -153,7 +153,11 @@
                                 </td>
                                 <td class="has-text-right">
                                     {{ $gdn->company->currency }}.
-                                    {{ number_format($gdn->grandTotalPrice, 2) }}
+                                    @if (userCompany()->isDiscountBeforeVAT())
+                                        {{ number_format($gdn->grandTotalPrice, 2) }}
+                                    @else
+                                        {{ number_format($gdn->grandTotalPriceAfterDiscount, 2) }}
+                                    @endif
                                 </td>
                                 <td>
                                     {{ $gdn->customer->company_name ?? 'N/A' }}

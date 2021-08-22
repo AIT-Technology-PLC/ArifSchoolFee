@@ -198,7 +198,11 @@
                                 </td>
                                 <td class="has-text-right">
                                     {{ $reservation->company->currency }}.
-                                    {{ number_format($reservation->totalPriceWithVAT, 2) }}
+                                    @if (userCompany()->isDiscountBeforeVAT())
+                                        {{ number_format($reservation->grandTotalPrice, 2) }}
+                                    @else
+                                        {{ number_format($reservation->grandTotalPriceAfterDiscount, 2) }}
+                                    @endif
                                 </td>
                                 <td>
                                     {{ $reservation->customer->company_name ?? 'N/A' }}
