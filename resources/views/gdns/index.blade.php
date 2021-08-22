@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    DO/GDN Management
+    Delivery Order Management
 @endsection
 
 @section('content')
@@ -19,7 +19,7 @@
                             {{ $totalGdns }}
                         </div>
                         <div class="is-size-7">
-                            TOTAL DOs/GDNs
+                            TOTAL DELIVERY ORDERS
                         </div>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column is-paddingless has-text-centered">
                         <div class="is-uppercase is-size-7">
-                            Create new DO/GDN for delivery and moving products out
+                            Create new Delivery Order for new sales
                         </div>
                         <div class="is-size-3">
                             <a href="{{ route('gdns.create') }}" class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3">
@@ -38,7 +38,7 @@
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
                                 <span>
-                                    Create New DO/GDN
+                                    Create New DO
                                 </span>
                             </a>
                         </div>
@@ -80,17 +80,17 @@
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-green has-text-weight-medium is-size-5">
-                DO/GDN Management
+                Delivery Order Management
             </h1>
         </div>
         <div class="box radius-top-0">
-            @include('components.deleted_message', ['model' => 'DO/GDN'])
+            @include('components.deleted_message', ['model' => 'DO'])
             <div>
                 <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[{{ $enabledFeatures->contains('Sale Management') ? 8 : 7 }}]" data-numeric="[]">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
-                            <th><abbr> DO/GDN No </abbr></th>
+                            <th><abbr> DO No </abbr></th>
                             @if ($enabledFeatures->contains('Sale Management'))
                                 <th><abbr> Receipt No </abbr></th>
                             @endif
@@ -163,7 +163,7 @@
                                     {{ $gdn->customer->company_name ?? 'N/A' }}
                                 </td>
                                 <td class="description">
-                                    {{ is_null($gdn->description) ? 'N/A' : substr(strip_tags($gdn->description), 0, 20) . '...' }}
+                                    {!! is_null($gdn->description) ? 'N/A' : substr(strip_tags($gdn->description), 0, 20) . '...' !!}
                                     <span class="is-hidden">
                                         {!! $gdn->description ?? '' !!}
                                     </span>
@@ -185,7 +185,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <a href="{{ route('gdns.edit', $gdn->id) }}" data-title="Modify DO/GDN Data">
+                                    <a href="{{ route('gdns.edit', $gdn->id) }}" data-title="Modify DO Data">
                                         <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>

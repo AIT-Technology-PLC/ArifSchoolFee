@@ -150,7 +150,7 @@
                                     {{ $grn->supplier->company_name ?? 'N/A' }}
                                 </td>
                                 <td class="description">
-                                    {{ is_null($grn->description) ? 'N/A' : substr(strip_tags($grn->description), 0, 20) . '...' }}
+                                    {!! is_null($grn->description) ? 'N/A' : substr(strip_tags($grn->description), 0, 20) . '...' !!}
                                     <span class="is-hidden">
                                         {!! $grn->description ?? '' !!}
                                     </span>

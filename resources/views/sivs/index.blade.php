@@ -131,7 +131,7 @@
                                     {{ $siv->received_by ?? 'N/A' }}
                                 </td>
                                 <td class="description">
-                                    {{ is_null($siv->description) ? 'N/A' : substr(strip_tags($siv->description), 0, 20) . '...' }}
+                                    {!! is_null($siv->description) ? 'N/A' : substr(strip_tags($siv->description), 0, 20) . '...' !!}
                                     <span class="is-hidden">
                                         {!! $siv->description ?? '' !!}
                                     </span>
