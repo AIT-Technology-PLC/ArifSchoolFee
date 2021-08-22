@@ -5,6 +5,10 @@ trait PricingProduct
 {
     public function getOriginalUnitPriceAttribute()
     {
+        if (userCompany()->isPriceBeforeVAT()) {
+            return $this->unit_price;
+        }
+
         return $this->unit_price * 1.15;
     }
 
