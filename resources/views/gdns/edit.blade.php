@@ -145,14 +145,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-12">
                         <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ $gdn->description ?? '' }}</textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
+                                <textarea name="description" id="description" cols="30" rows="3" class="summernote textarea" placeholder="Description or note to be taken">{{ $gdn->description ?? '' }}</textarea>
                                 @error('description')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}

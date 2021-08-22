@@ -148,7 +148,7 @@
                                 Details
                             </div>
                             <div class="is-size-7 mt-3">
-                                {!! $grn->description !!}
+                                {!! $siv->description !!}
                             </div>
                         </div>
                     </div>
