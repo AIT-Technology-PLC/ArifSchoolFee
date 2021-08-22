@@ -107,25 +107,6 @@
                     <div class="columns is-marginless is-vcentered is-mobile text-green">
                         <div class="column is-1">
                             <span class="icon is-size-3">
-                                <i class="fas fa-dollar-sign"></i>
-                            </span>
-                        </div>
-                        <div class="column m-lr-20">
-                            <div class="is-size- has-text-weight-bold">
-                                {{ number_format($reservation->totalPrice, 2) }}
-                            </div>
-                            <div class="is-uppercase is-size-7">
-                                Total Price ({{ $reservation->company->currency }})
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="column is-6">
-                <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-green">
-                        <div class="column is-1">
-                            <span class="icon is-size-3">
                                 <i class="fas fa-hand-holding-usd"></i>
                             </span>
                         </div>
@@ -163,6 +144,25 @@
             </div>
             <div class="column is-6">
                 <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-dollar-sign"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ number_format($reservation->subtotalPrice, 2) }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                SubTotal Price ({{ $reservation->company->currency }})
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
                     <div class="columns is-marginless is-vcentered is-mobile text-purple">
                         <div class="column is-1">
                             <span class="icon is-size-3">
@@ -171,15 +171,55 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ number_format($reservation->totalPriceWithVAT, 2) }}
+                                {{ number_format($reservation->grandTotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Total Price with VAT ({{ $reservation->company->currency }})
+                                Grand Total Price ({{ $reservation->company->currency }})
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            @if (!userCompany()->isDiscountBeforeVAT())
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-percentage"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ number_format($reservation->discount * 100, 2) }}%
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Discount
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ number_format($reservation->grandTotalPriceAfterDiscount, 2) }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Grand Total Price (After Discount)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="column is-12">
                 <div>
                     <div class="columns is-marginless is-vcentered text-green">
@@ -389,6 +429,10 @@
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Unit Price </abbr></th>
+                            @if (userCompany()->isDiscountBeforeVAT())
+                                <th><abbr> Discount </abbr></th>
+                            @endif
+                            <th><abbr> Total </abbr></th>
                             <th><abbr> Description </abbr></th>
                         </tr>
                     </thead>
@@ -409,6 +453,14 @@
                                 <td>
                                     {{ $reservation->company->currency }}.
                                     {{ number_format($reservationDetail->unit_price, 2) }}
+                                </td>
+                                @if (userCompany()->isDiscountBeforeVAT())
+                                    <td>
+                                        {{ number_format($reservationDetail->discount * 100, 2) }}%
+                                    </td>
+                                @endif
+                                <td>
+                                    {{ number_format($reservationDetail->totalPrice, 2) }}
                                 </td>
                                 <td>
                                     {!! nl2br(e($reservationDetail->description)) !!}

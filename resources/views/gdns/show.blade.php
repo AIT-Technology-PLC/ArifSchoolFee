@@ -393,6 +393,10 @@
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Unit Price </abbr></th>
+                            @if (userCompany()->isDiscountBeforeVAT())
+                                <th><abbr> Discount </abbr></th>
+                            @endif
+                            <th><abbr> Total </abbr></th>
                             <th><abbr> Description </abbr></th>
                         </tr>
                     </thead>
@@ -413,6 +417,14 @@
                                 <td>
                                     {{ $gdn->company->currency }}.
                                     {{ number_format($gdnDetail->unit_price, 2) }}
+                                </td>
+                                @if (userCompany()->isDiscountBeforeVAT())
+                                    <td>
+                                        {{ number_format($gdnDetail->discount * 100, 2) }}%
+                                    </td>
+                                @endif
+                                <td>
+                                    {{ number_format($gdnDetail->totalPrice, 2) }}
                                 </td>
                                 <td>
                                     {!! nl2br(e($gdnDetail->description)) !!}
