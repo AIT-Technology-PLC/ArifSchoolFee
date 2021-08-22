@@ -163,7 +163,7 @@
                                     {{ $gdn->customer->company_name ?? 'N/A' }}
                                 </td>
                                 <td class="description">
-                                    {!! nl2br(e(substr($gdn->description, 0, 40))) ?? 'N/A' !!}
+                                    {{ is_null($gdn->description) ? 'N/A' : substr(strip_tags($gdn->description), 0, 20) . '...' }}
                                     <span class="is-hidden">
                                         {!! $gdn->description ?? '' !!}
                                     </span>
