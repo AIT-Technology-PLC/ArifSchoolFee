@@ -84,7 +84,7 @@ class Reservation extends Model
 
     public function details()
     {
-        $this->reservationDetails;
+        return $this->reservationDetails;
     }
 
     public function getPaymentInCash()
