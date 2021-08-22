@@ -57,34 +57,6 @@ if (d.getElementById("addToInventoryModal")) {
     );
 }
 
-if (d.getElementById("onHandTab")) {
-    d.getElementById("onHandTab").addEventListener(
-        "click",
-        showOnHandMerchandise
-    );
-}
-
-if (d.getElementById("availableTab")) {
-    d.getElementById("availableTab").addEventListener(
-        "click",
-        showAvailableMerchandise
-    );
-}
-
-if (d.getElementById("reservedTab")) {
-    d.getElementById("reservedTab").addEventListener(
-        "click",
-        showReservedMerchandise
-    );
-}
-
-if (d.getElementById("outOfTab")) {
-    d.getElementById("outOfTab").addEventListener(
-        "click",
-        showOutofMerchandise
-    );
-}
-
 if (d.getElementById("formOne")) {
     d.getElementById("formOne").addEventListener("submit", disableSaveButton);
 }
@@ -299,7 +271,7 @@ if (d.getElementById("addNewReturnForm")) {
 if (d.getElementById("addNewReservationForm")) {
     d.getElementById("addNewReservationForm").addEventListener(
         "click",
-        addReservationForm
+        addReservationDetail
     );
 }
 

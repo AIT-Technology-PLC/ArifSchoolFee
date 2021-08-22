@@ -352,3 +352,196 @@ function addGdnDetail() {
 
     initializeSelect2Products();
 }
+
+function addReservationDetail() {
+    let reservationDetailsWrapper = d.getElementById("reservation-details");
+
+    let reservationDetails = d.getElementsByClassName("reservation-detail");
+    let totalProformaInvoiceDetails = reservationDetails.length;
+
+    let reservationDetail = reservationDetails[0].cloneNode(true);
+
+    let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    reservationDetail.querySelector("[name=item-number]").innerText = `Item ${
+        totalProformaInvoiceDetails + 1
+    }`;
+
+    reservationDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("label")
+        .setAttribute(
+            "for",
+            `reservation[${totalProformaInvoiceDetails}][product_id]`
+        );
+
+    reservationDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select").innerHTML = "";
+
+    reservationDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select")
+        .appendChild(originalSelect);
+
+    reservationDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).id = `reservation[${totalProformaInvoiceDetails}][product_id]`;
+
+    reservationDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).name = `reservation[${totalProformaInvoiceDetails}][product_id]`;
+
+    reservationDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("select").classList = "select2-products";
+
+    reservationDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".control > select")
+        .remove();
+
+    reservationDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("label")
+        .setAttribute(
+            "for",
+            `reservation[${totalProformaInvoiceDetails}][warehouse_id]`
+        );
+
+    reservationDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "select"
+        ).id = `reservation[${totalProformaInvoiceDetails}][warehouse_id]`;
+
+    reservationDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "select"
+        ).name = `reservation[${totalProformaInvoiceDetails}][warehouse_id]`;
+
+    reservationDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("label")
+        .setAttribute(
+            "for",
+            `reservation[${totalProformaInvoiceDetails}][quantity]`
+        );
+
+    reservationDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "input"
+        ).id = `reservation[${totalProformaInvoiceDetails}][quantity]`;
+
+    reservationDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "input"
+        ).name = `reservation[${totalProformaInvoiceDetails}][quantity]`;
+
+    reservationDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("input").value = "";
+
+    reservationDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "button"
+        ).id = `reservation[${totalProformaInvoiceDetails}][product_id]Quantity`;
+
+    reservationDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("button").innerText = "";
+
+    reservationDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("label")
+        .setAttribute(
+            "for",
+            `reservation[${totalProformaInvoiceDetails}][unit_price]`
+        );
+
+    reservationDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "input"
+        ).id = `reservation[${totalProformaInvoiceDetails}][unit_price]`;
+
+    reservationDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "input"
+        ).name = `reservation[${totalProformaInvoiceDetails}][unit_price]`;
+
+    reservationDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("input").value = "";
+
+    reservationDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "button"
+        ).id = `reservation[${totalProformaInvoiceDetails}][product_id]Price`;
+
+    reservationDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("button").innerText = "";
+
+    reservationDetail
+        .querySelectorAll(".column")[4]
+        .querySelector("label")
+        .setAttribute(
+            "for",
+            `reservation[${totalProformaInvoiceDetails}][discount]`
+        );
+
+    reservationDetail
+        .querySelectorAll(".column")[4]
+        .querySelector(
+            "input"
+        ).id = `reservation[${totalProformaInvoiceDetails}][discount]`;
+
+    reservationDetail
+        .querySelectorAll(".column")[4]
+        .querySelector(
+            "input"
+        ).name = `reservation[${totalProformaInvoiceDetails}][discount]`;
+
+    reservationDetail
+        .querySelectorAll(".column")[4]
+        .querySelector("input").value = "";
+
+    reservationDetail
+        .querySelectorAll(".column")[5]
+        .querySelector("label")
+        .setAttribute(
+            "for",
+            `reservation[${totalProformaInvoiceDetails}][description]`
+        );
+
+    reservationDetail
+        .querySelectorAll(".column")[5]
+        .querySelector(
+            "textarea"
+        ).id = `reservation[${totalProformaInvoiceDetails}][description]`;
+
+    reservationDetail
+        .querySelectorAll(".column")[5]
+        .querySelector(
+            "textarea"
+        ).name = `reservation[${totalProformaInvoiceDetails}][description]`;
+
+    reservationDetail
+        .querySelectorAll(".column")[5]
+        .querySelector("textarea").value = "";
+
+    reservationDetailsWrapper.appendChild(reservationDetail);
+
+    initializeSelect2Products();
+}
