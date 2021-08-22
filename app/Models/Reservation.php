@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Traits\Approvable;
+use App\Traits\Discountable;
+use App\Traits\PricingTicket;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +13,7 @@ use Illuminate\Support\Str;
 
 class Reservation extends Model
 {
-    use HasFactory, SoftDeletes, Approvable;
+    use HasFactory, SoftDeletes, Approvable, PricingTicket, Discountable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -75,42 +77,48 @@ class Reservation extends Model
         return Str::after($value, userCompany()->id . '_');
     }
 
-    public function getTotalPriceAttribute()
-    {
-        $totalPrice = $this->reservationDetails
-            ->reduce(function ($carry, $item) {
-                return $carry + ($item->unit_price * $item->quantity);
-            }, 0);
-
-        return $totalPrice;
-    }
-
-    public function getTotalPriceWithVATAttribute()
-    {
-        return $this->totalPrice * 1.15;
-    }
-
     public function getCreditPayableInPercentageAttribute()
     {
         return 100.00 - $this->cash_received_in_percentage;
     }
 
+    public function details()
+    {
+        $this->reservationDetails;
+    }
+
     public function getPaymentInCash()
     {
-        if ($this->cash_received_in_percentage < 0) {
-            return $this->totalPriceWithVAT;
+        if (userCompany()->isDiscountBeforeVAT()) {
+            $price = $this->grandTotalPrice;
         }
 
-        return $this->totalPriceWithVAT * ($this->cash_received_in_percentage / 100);
+        if (!userCompany()->isDiscountBeforeVAT()) {
+            $price = $this->grandTotalPriceAfterDiscount;
+        }
+
+        if ($this->cash_received_in_percentage < 0) {
+            return $price;
+        }
+
+        return $price * ($this->cash_received_in_percentage / 100);
     }
 
     public function getPaymentInCredit()
     {
-        if ($this->credit_payable_in_percentage < 0) {
-            return $this->totalPriceWithVAT;
+        if (userCompany()->isDiscountBeforeVAT()) {
+            $price = $this->grandTotalPrice;
         }
 
-        return $this->totalPriceWithVAT * ($this->credit_payable_in_percentage / 100);
+        if (!userCompany()->isDiscountBeforeVAT()) {
+            $price = $this->grandTotalPriceAfterDiscount;
+        }
+
+        if ($this->credit_payable_in_percentage < 0) {
+            return $price;
+        }
+
+        return $price * ($this->credit_payable_in_percentage / 100);
     }
 
     public function convert()
