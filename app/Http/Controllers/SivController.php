@@ -86,7 +86,7 @@ class SivController extends Controller
     public function update(UpdateSivRequest $request, Siv $siv)
     {
         if ($siv->isApproved()) {
-            $siv->update($request->only('desciption', 'updated_by'));
+            $siv->update($request->only('description', 'updated_by'));
 
             return redirect()->route('sivs.show', $siv->id);
         }

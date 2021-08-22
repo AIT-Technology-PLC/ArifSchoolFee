@@ -230,7 +230,7 @@
                                 Details
                             </div>
                             <div class="is-size-7 mt-3">
-                                {!! is_null($gdn->description) ? 'N/A' : nl2br(e($gdn->description)) !!}
+                                {!! $gdn->description !!}
                             </div>
                         </div>
                     </div>

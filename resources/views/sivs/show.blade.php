@@ -148,7 +148,7 @@
                                 Details
                             </div>
                             <div class="is-size-7 mt-3">
-                                {!! is_null($siv->description) ? 'N/A' : nl2br(e($siv->description)) !!}
+                                {!! $grn->description !!}
                             </div>
                         </div>
                     </div>

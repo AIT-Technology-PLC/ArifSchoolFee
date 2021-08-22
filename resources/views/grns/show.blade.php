@@ -93,7 +93,7 @@
                                 Details
                             </div>
                             <div class="is-size-7 mt-3">
-                                {!! is_null($grn->description) ? 'N/A' : nl2br(e($grn->description)) !!}
+                                {!! $grn->description !!}
                             </div>
                         </div>
                     </div>
