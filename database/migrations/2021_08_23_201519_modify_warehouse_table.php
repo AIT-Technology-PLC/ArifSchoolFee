@@ -18,7 +18,6 @@ class ModifyWarehouseTable extends Migration
             $table->boolean('can_be_sold_from')->default(1)->after('is_sales_store');
             $table->string('email')->nullable()->after('can_be_sold_from');
             $table->string('phone')->nullable()->after('email');
-            $table->string('address')->nullable()->after('phone');
         });
     }
 
@@ -35,7 +34,6 @@ class ModifyWarehouseTable extends Migration
                 'can_be_sold_from',
                 'email',
                 'phone',
-                'address',
             ]);
         });
     }

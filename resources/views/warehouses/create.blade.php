@@ -131,22 +131,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="address" class="label text-green has-text-weight-normal">Address <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input id="address" name="address" type="text" class="input" placeholder="Address" value="{{ old('address') ?? '' }}">
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </span>
-                                @error('address')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
                     <div class="column is-12">
                         <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Description</label>
