@@ -56,12 +56,16 @@
         <div class="box radius-top-0">
             @include('components.deleted_message', ['model' => 'Warehouse'])
             <div>
-                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[4]" data-numeric="[]">
+                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[8]" data-numeric="[]">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th><abbr> Warehouse Name </abbr></th>
-                            <th class="text-purple"><abbr> Location </abbr></th>
+                            <th><abbr> Location </abbr></th>
+                            <th><abbr> Type </abbr></th>
+                            <th><abbr> Can Be Sold From </abbr></th>
+                            <th><abbr> Email </abbr></th>
+                            <th><abbr> Phone </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Created On </abbr></th>
                             <th><abbr> Added By </abbr></th>
@@ -79,6 +83,32 @@
                                         {{ $warehouse->location ?? 'N/A' }}
                                     </span>
                                 </td>
+                                <td>
+                                    @if ($warehouse->is_sales_store)
+                                        Sales Store
+                                    @else
+                                        Main Store
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($warehouse->can_be_sold_from)
+                                        <span class="tag btn-green is-outlined has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-lock-open"></i>
+                                            </span>
+                                            <span> Yes </span>
+                                        </span>
+                                    @else
+                                        <span class="tag btn-purple is-outlined has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                            <span> No </span>
+                                        </span>
+                                    @endif
+                                </td>
+                                <td>{{ $warehouse->email ?? 'N/A' }}</td>
+                                <td>{{ $warehouse->phone ?? 'N/A' }}</td>
                                 <td> {!! nl2br(e(substr($warehouse->description, 0, 40))) ?? 'N/A' !!} </td>
                                 <td class="has-text-right"> {{ $warehouse->created_at->toFormattedDateString() }} </td>
                                 <td> {{ $warehouse->createdBy->name ?? 'N/A' }} </td>
