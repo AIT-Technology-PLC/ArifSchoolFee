@@ -257,7 +257,7 @@ if (d.getElementById("addNewDamageForm")) {
 if (d.getElementById("addNewAdjustmentForm")) {
     d.getElementById("addNewAdjustmentForm").addEventListener(
         "click",
-        addAdjustmentForm
+        addAdjustmentDetail
     );
 }
 
