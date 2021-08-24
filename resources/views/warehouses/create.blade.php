@@ -59,6 +59,94 @@
                             </div>
                         </div>
                     </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="is_sales_store" class="label text-green has-text-weight-normal"> Store Type <sup class="has-text-danger">*</sup> </label>
+                            <div class="control">
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input type="radio" name="is_sales_store" value="1" class="mt-3" {{ old('is_sales_store') ? 'checked' : '' }}>
+                                    Sales Store
+                                </label>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                    <input type="radio" name="is_sales_store" value="0" {{ old('is_sales_store') ? '' : 'checked' }}>
+                                    Main Store
+                                </label>
+                                @error('is_sales_store')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="can_be_sold_from" class="label text-green has-text-weight-normal"> Can be sold from? <sup class="has-text-danger">*</sup> </label>
+                            <div class="control">
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input type="radio" name="can_be_sold_from" value="1" class="mt-3" {{ old('can_be_sold_from') ? 'checked' : '' }}>
+                                    Yes
+                                </label>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                    <input type="radio" name="can_be_sold_from" value="0" {{ old('can_be_sold_from') ? '' : 'checked' }}>
+                                    No
+                                </label>
+                                @error('can_be_sold_from')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="email" class="label text-green has-text-weight-normal">Email <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <input id="email" name="email" type="text" class="input" placeholder="Email Address" value="{{ old('email') ?? '' }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-at"></i>
+                                </span>
+                                @error('email')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="phone" class="label text-green has-text-weight-normal">Phone <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <input id="phone" name="phone" type="text" class="input" placeholder="Phone/Telephone" value="{{ old('phone') ?? '' }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-phone"></i>
+                                </span>
+                                @error('phone')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="address" class="label text-green has-text-weight-normal">Address <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <input id="address" name="address" type="text" class="input" placeholder="Address" value="{{ old('address') ?? '' }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </span>
+                                @error('address')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                     <div class="column is-12">
                         <div class="field">
                             <label for="description" class="label text-green has-text-weight-normal">Description</label>
