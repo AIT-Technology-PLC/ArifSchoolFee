@@ -106,7 +106,7 @@ if (d.getElementById("transferButton")) {
 if (d.getElementById("addNewPurchaseOrderForm")) {
     d.getElementById("addNewPurchaseOrderForm").addEventListener(
         "click",
-        addPurchaseOrderForm
+        addPurchaseOrderDetail
     );
 }
 

@@ -545,3 +545,157 @@ function addReservationDetail() {
 
     initializeSelect2Products();
 }
+
+function addPurchaseOrderDetail() {
+    let purchaseOrderDetailsWrapper = d.getElementById(
+        "purchase-order-details"
+    );
+
+    let purchaseOrderDetails = d.getElementsByClassName(
+        "purchase-order-detail"
+    );
+
+    let totalProformaInvoiceDetails = purchaseOrderDetails.length;
+
+    let purchaseOrderDetail = purchaseOrderDetails[0].cloneNode(true);
+
+    let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    purchaseOrderDetail.querySelector("[name=item-number]").innerText = `Item ${
+        totalProformaInvoiceDetails + 1
+    }`;
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("label")
+        .setAttribute(
+            "for",
+            `purchaseOrder[${totalProformaInvoiceDetails}][product_id]`
+        );
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select").innerHTML = "";
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select")
+        .appendChild(originalSelect);
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).id = `purchaseOrder[${totalProformaInvoiceDetails}][product_id]`;
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).name = `purchaseOrder[${totalProformaInvoiceDetails}][product_id]`;
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("select").classList = "select2-products";
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".control > select")
+        .remove();
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("label")
+        .setAttribute(
+            "for",
+            `purchaseOrder[${totalProformaInvoiceDetails}][quantity]`
+        );
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "input"
+        ).id = `purchaseOrder[${totalProformaInvoiceDetails}][quantity]`;
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "input"
+        ).name = `purchaseOrder[${totalProformaInvoiceDetails}][quantity]`;
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("input").value = "";
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "button"
+        ).id = `purchaseOrder[${totalProformaInvoiceDetails}][product_id]Quantity`;
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("button").innerText = "";
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("label")
+        .setAttribute(
+            "for",
+            `purchaseOrder[${totalProformaInvoiceDetails}][unit_price]`
+        );
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "input"
+        ).id = `purchaseOrder[${totalProformaInvoiceDetails}][unit_price]`;
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "input"
+        ).name = `purchaseOrder[${totalProformaInvoiceDetails}][unit_price]`;
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("input").value = "";
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "button"
+        ).id = `purchaseOrder[${totalProformaInvoiceDetails}][product_id]Price`;
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("button").innerText = "";
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("label")
+        .setAttribute(
+            "for",
+            `purchaseOrder[${totalProformaInvoiceDetails}][description]`
+        );
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "textarea"
+        ).id = `purchaseOrder[${totalProformaInvoiceDetails}][description]`;
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "textarea"
+        ).name = `purchaseOrder[${totalProformaInvoiceDetails}][description]`;
+
+    purchaseOrderDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("textarea").value = "";
+
+    purchaseOrderDetailsWrapper.appendChild(purchaseOrderDetail);
+
+    initializeSelect2Products();
+}

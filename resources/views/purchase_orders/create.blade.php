@@ -11,7 +11,7 @@
                 New Purchase Order
             </h1>
         </div>
-        <form id="formOne" action="{{ route('purchase-orders.store')}}" method="POST" enctype="multipart/form-data" novalidate>
+        <form id="formOne" action="{{ route('purchase-orders.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="notification bg-gold has-text-white has-text-weight-medium {{ session('message') ? '' : 'is-hidden' }}">
@@ -91,172 +91,93 @@
                         </div>
                     </div>
                 </div>
-                <div class="has-text-weight-medium has-text-left mt-5">
-                    <span class="tag bg-green has-text-white is-medium radius-bottom-0">
-                        Item 1
-                    </span>
-                </div>
-                <div class="box has-background-white-bis radius-top-0">
-                    <div name="purchaseOrderFormGroup" class="columns is-marginless is-multiline">
-                        <div class="column is-6">
-                            <div class="field">
-                                <label for="purchaseOrder[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-                                <div class="control has-icons-left">
-                                    <x-product-list name="purchaseOrder[0]" selected-product-id="{{ old('purchaseOrder.0.product_id') }}"/>
-                                    <div class="icon is-small is-left">
-                                        <i class="fas fa-th"></i>
-                                    </div>
-                                    @error('purchaseOrder.0.product_id')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
+                <div id="purchase-order-details">
+                    @foreach (old('purchaseOrder', [0]) as $purchaseOrder)
+                        <div class="purchase-order-detail mx-3">
+                            <div class="has-text-weight-medium has-text-left mt-5">
+                                <span name="item-number" class="tag bg-green has-text-white is-medium radius-bottom-0">
+                                    Item {{ $loop->iteration }}
+                                </span>
                             </div>
-                        </div>
-                        <div class="column is-6">
-                            <label for="purchaseOrder[0][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                            <div class="field has-addons">
-                                <div class="control has-icons-left is-expanded">
-                                    <input id="purchaseOrder[0][quantity]" name="purchaseOrder[0][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('purchaseOrder.0.quantity') ?? '' }}">
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-balance-scale"></i>
-                                    </span>
-                                    @error('purchaseOrder.0.quantity')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="control">
-                                    <button id="purchaseOrder[0][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column is-6">
-                            <label for="purchaseOrder[0][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
-                            <div class="field has-addons">
-                                <div class="control has-icons-left is-expanded">
-                                    <input id="purchaseOrder[0][unit_price]" name="purchaseOrder[0][unit_price]" type="number" class="input" placeholder="Quantity" value="{{ old('purchaseOrder.0.unit_price') ?? '' }}">
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-balance-scale"></i>
-                                    </span>
-                                    @error('purchaseOrder.0.unit_price')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="control">
-                                    <button id="purchaseOrder[0][product_id]Price" class="button bg-green has-text-white" type="button"></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column is-6">
-                            <div class="field">
-                                <label for="purchaseOrder[0][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
-                                <div class="control has-icons-left">
-                                    <textarea name="purchaseOrder[0][description]" id="purchaseOrder[0][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('purchaseOrder.0.description') ?? '' }}</textarea>
-                                    <span class="icon is-large is-left">
-                                        <i class="fas fa-edit"></i>
-                                    </span>
-                                    @error('purchaseOrder.0.description')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @for ($i = 1; $i < 10; $i++)
-                    @if (old('purchaseOrder.' . $i . '.product_id') || old('purchaseOrder.' . $i . '.quantity'))
-                        <div class="has-text-weight-medium has-text-left">
-                            <span class="tag bg-green has-text-white is-medium radius-bottom-0">
-                                Item {{ $i + 1 }}
-                            </span>
-                        </div>
-                        <div class="box has-background-white-bis radius-top-0">
-                            <div name="purchaseOrderFormGroup" class="columns is-marginless is-multiline">
-                                <div class="column is-6">
-                                    <div class="field">
-                                        <label for="purchaseOrder[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-                                        <div class="control has-icons-left">
-                                            <x-product-list name="purchaseOrder[{{ $i }}]" selected-product-id="{{ old('purchaseOrder.' . $i . '.product_id') }}"/>
-                                            <div class="icon is-small is-left">
-                                                <i class="fas fa-th"></i>
+                            <div class="box has-background-white-bis radius-top-0">
+                                <div class="columns is-marginless is-multiline">
+                                    <div class="column is-6">
+                                        <div class="field">
+                                            <label for="purchaseOrder[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                                            <div class="control has-icons-left">
+                                                <x-product-list name="purchaseOrder[{{ $loop->index }}]" selected-product-id="{{ $purchaseOrder['product_id'] ?? '' }}" />
+                                                <div class="icon is-small is-left">
+                                                    <i class="fas fa-th"></i>
+                                                </div>
+                                                @error('purchaseOrder.' . $loop->index . '.product_id')
+                                                    <span class="help has-text-danger" role="alert">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
                                             </div>
-                                            @error('purchaseOrder.' . $i . '.product_id')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
                                         </div>
                                     </div>
-                                </div>
-                                <div class="column is-6">
-                                    <label for="purchaseOrder[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                                    <div class="field has-addons">
-                                        <div class="control has-icons-left is-expanded">
-                                            <input id="purchaseOrder[{{ $i }}][quantity]" name="purchaseOrder[{{ $i }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('purchaseOrder.' . $i . '.quantity') ?? '' }}">
-                                            <span class="icon is-small is-left">
-                                                <i class="fas fa-balance-scale"></i>
-                                            </span>
-                                            @error('purchaseOrder.' . $i . '.quantity')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
+                                    <div class="column is-6">
+                                        <label for="purchaseOrder[{{ $loop->index }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                                        <div class="field has-addons">
+                                            <div class="control has-icons-left is-expanded">
+                                                <input id="purchaseOrder[{{ $loop->index }}][quantity]" name="purchaseOrder[{{ $loop->index }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ $purchaseOrder['quantity'] ?? '' }}">
+                                                <span class="icon is-small is-left">
+                                                    <i class="fas fa-balance-scale"></i>
                                                 </span>
-                                            @enderror
-                                        </div>
-                                        <div class="control">
-                                            <button id="purchaseOrder[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                                @error('purchaseOrder.' . $loop->index . '.quantity')
+                                                    <span class="help has-text-danger" role="alert">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="control">
+                                                <button id="purchaseOrder[{{ $loop->index }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="column is-6">
-                                    <label for="purchaseOrder[{{ $i }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
-                                    <div class="field has-addons">
-                                        <div class="control has-icons-left is-expanded">
-                                            <input id="purchaseOrder[{{ $i }}][unit_price]" name="purchaseOrder[{{ $i }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ old('purchaseOrder.' . $i . '.unit_price') ?? '' }}">
-                                            <span class="icon is-small is-left">
-                                                <i class="fas fa-balance-scale"></i>
-                                            </span>
-                                            @error('purchaseOrder.' . $i . '.unit_price')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
+                                    <div class="column is-6">
+                                        <label for="purchaseOrder[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup> <sup class="has-text-danger">*</sup> </label>
+                                        <div class="field has-addons">
+                                            <div class="control has-icons-left is-expanded">
+                                                <input id="purchaseOrder[{{ $loop->index }}][unit_price]" name="purchaseOrder[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Unit Price" value="{{ $purchaseOrder['unit_price'] ?? '' }}">
+                                                <span class="icon is-small is-left">
+                                                    <i class="fas fa-balance-scale"></i>
                                                 </span>
-                                            @enderror
-                                        </div>
-                                        <div class="control">
-                                            <button id="purchaseOrder[{{ $i }}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                                                @error('purchaseOrder.' . $loop->index . '.unit_price')
+                                                    <span class="help has-text-danger" role="alert">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="control">
+                                                <button id="purchaseOrder[{{ $loop->index }}][product_id]Price" class="button bg-green has-text-white" type="button"></button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="column is-6">
-                                    <div class="field">
-                                        <label for="purchaseOrder[{{ $i }}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
-                                        <div class="control has-icons-left">
-                                            <textarea name="purchaseOrder[{{ $i }}][description]" id="purchaseOrder[{{ $i }}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('purchaseOrder.' . $i . '.description') ?? '' }}</textarea>
-                                            <span class="icon is-large is-left">
-                                                <i class="fas fa-edit"></i>
-                                            </span>
-                                            @error('purchaseOrder.' . $i . '.description')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
+                                    <div class="column is-6">
+                                        <div class="field">
+                                            <label for="purchaseOrder[{{ $loop->index }}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
+                                            <div class="control has-icons-left">
+                                                <textarea name="purchaseOrder[{{ $loop->index }}][description]" id="purchaseOrder[{{ $loop->index }}][description]" cols="30" rows="3" class="textarea pl-6"
+                                                    placeholder="Description or note to be taken">{{ $purchaseOrder['description'] ?? '' }}</textarea>
+                                                <span class="icon is-large is-left">
+                                                    <i class="fas fa-edit"></i>
                                                 </span>
-                                            @enderror
+                                                @error('purchaseOrder.' . $loop->index . '.description')
+                                                    <span class="help has-text-danger" role="alert">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    @else
-                        @break
-                    @endif
-                @endfor
-                <div id="purchaseOrderFormWrapper"></div>
-                <button id="addNewPurchaseOrderForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
+                    @endforeach
+                </div>
+                <button id="addNewPurchaseOrderForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-6">
                     Add More Item
                 </button>
             </div>
