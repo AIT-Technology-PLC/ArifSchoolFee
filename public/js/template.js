@@ -6,6 +6,7 @@ function addProformaInvoiceDetail() {
     let proformaInvoiceDetails = d.getElementsByClassName(
         "proforma-invoice-detail"
     );
+
     let totalProformaInvoiceDetails = proformaInvoiceDetails.length;
 
     let proformaInvoiceDetail = proformaInvoiceDetails[0].cloneNode(true);
@@ -186,20 +187,21 @@ function addGdnDetail() {
     let gdnDetailsWrapper = d.getElementById("gdn-details");
 
     let gdnDetails = d.getElementsByClassName("gdn-detail");
-    let totalProformaInvoiceDetails = gdnDetails.length;
+
+    let totalGdnDetails = gdnDetails.length;
 
     let gdnDetail = gdnDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
     gdnDetail.querySelector("[name=item-number]").innerText = `Item ${
-        totalProformaInvoiceDetails + 1
+        totalGdnDetails + 1
     }`;
 
     gdnDetail
         .querySelectorAll(".column")[0]
         .querySelector("label")
-        .setAttribute("for", `gdn[${totalProformaInvoiceDetails}][product_id]`);
+        .setAttribute("for", `gdn[${totalGdnDetails}][product_id]`);
 
     gdnDetail
         .querySelectorAll(".column")[0]
@@ -212,15 +214,11 @@ function addGdnDetail() {
 
     gdnDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
-            "select"
-        ).id = `gdn[${totalProformaInvoiceDetails}][product_id]`;
+        .querySelector("select").id = `gdn[${totalGdnDetails}][product_id]`;
 
     gdnDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
-            "select"
-        ).name = `gdn[${totalProformaInvoiceDetails}][product_id]`;
+        .querySelector("select").name = `gdn[${totalGdnDetails}][product_id]`;
 
     gdnDetail.querySelectorAll(".column")[0].querySelector("select").classList =
         "select2-products";
@@ -233,39 +231,28 @@ function addGdnDetail() {
     gdnDetail
         .querySelectorAll(".column")[1]
         .querySelector("label")
-        .setAttribute(
-            "for",
-            `gdn[${totalProformaInvoiceDetails}][warehouse_id]`
-        );
+        .setAttribute("for", `gdn[${totalGdnDetails}][warehouse_id]`);
 
     gdnDetail
         .querySelectorAll(".column")[1]
-        .querySelector(
-            "select"
-        ).id = `gdn[${totalProformaInvoiceDetails}][warehouse_id]`;
+        .querySelector("select").id = `gdn[${totalGdnDetails}][warehouse_id]`;
 
     gdnDetail
         .querySelectorAll(".column")[1]
-        .querySelector(
-            "select"
-        ).name = `gdn[${totalProformaInvoiceDetails}][warehouse_id]`;
+        .querySelector("select").name = `gdn[${totalGdnDetails}][warehouse_id]`;
 
     gdnDetail
         .querySelectorAll(".column")[2]
         .querySelector("label")
-        .setAttribute("for", `gdn[${totalProformaInvoiceDetails}][quantity]`);
+        .setAttribute("for", `gdn[${totalGdnDetails}][quantity]`);
 
     gdnDetail
         .querySelectorAll(".column")[2]
-        .querySelector(
-            "input"
-        ).id = `gdn[${totalProformaInvoiceDetails}][quantity]`;
+        .querySelector("input").id = `gdn[${totalGdnDetails}][quantity]`;
 
     gdnDetail
         .querySelectorAll(".column")[2]
-        .querySelector(
-            "input"
-        ).name = `gdn[${totalProformaInvoiceDetails}][quantity]`;
+        .querySelector("input").name = `gdn[${totalGdnDetails}][quantity]`;
 
     gdnDetail.querySelectorAll(".column")[2].querySelector("input").value = "";
 
@@ -273,7 +260,7 @@ function addGdnDetail() {
         .querySelectorAll(".column")[2]
         .querySelector(
             "button"
-        ).id = `gdn[${totalProformaInvoiceDetails}][product_id]Quantity`;
+        ).id = `gdn[${totalGdnDetails}][product_id]Quantity`;
 
     gdnDetail.querySelectorAll(".column")[2].querySelector("button").innerText =
         "";
@@ -281,19 +268,15 @@ function addGdnDetail() {
     gdnDetail
         .querySelectorAll(".column")[3]
         .querySelector("label")
-        .setAttribute("for", `gdn[${totalProformaInvoiceDetails}][unit_price]`);
+        .setAttribute("for", `gdn[${totalGdnDetails}][unit_price]`);
 
     gdnDetail
         .querySelectorAll(".column")[3]
-        .querySelector(
-            "input"
-        ).id = `gdn[${totalProformaInvoiceDetails}][unit_price]`;
+        .querySelector("input").id = `gdn[${totalGdnDetails}][unit_price]`;
 
     gdnDetail
         .querySelectorAll(".column")[3]
-        .querySelector(
-            "input"
-        ).name = `gdn[${totalProformaInvoiceDetails}][unit_price]`;
+        .querySelector("input").name = `gdn[${totalGdnDetails}][unit_price]`;
 
     gdnDetail.querySelectorAll(".column")[3].querySelector("input").value = "";
 
@@ -301,7 +284,7 @@ function addGdnDetail() {
         .querySelectorAll(".column")[3]
         .querySelector(
             "button"
-        ).id = `gdn[${totalProformaInvoiceDetails}][product_id]Price`;
+        ).id = `gdn[${totalGdnDetails}][product_id]Price`;
 
     gdnDetail.querySelectorAll(".column")[3].querySelector("button").innerText =
         "";
@@ -309,41 +292,32 @@ function addGdnDetail() {
     gdnDetail
         .querySelectorAll(".column")[4]
         .querySelector("label")
-        .setAttribute("for", `gdn[${totalProformaInvoiceDetails}][discount]`);
+        .setAttribute("for", `gdn[${totalGdnDetails}][discount]`);
 
     gdnDetail
         .querySelectorAll(".column")[4]
-        .querySelector(
-            "input"
-        ).id = `gdn[${totalProformaInvoiceDetails}][discount]`;
+        .querySelector("input").id = `gdn[${totalGdnDetails}][discount]`;
 
     gdnDetail
         .querySelectorAll(".column")[4]
-        .querySelector(
-            "input"
-        ).name = `gdn[${totalProformaInvoiceDetails}][discount]`;
+        .querySelector("input").name = `gdn[${totalGdnDetails}][discount]`;
 
     gdnDetail.querySelectorAll(".column")[4].querySelector("input").value = "";
 
     gdnDetail
         .querySelectorAll(".column")[5]
         .querySelector("label")
-        .setAttribute(
-            "for",
-            `gdn[${totalProformaInvoiceDetails}][description]`
-        );
+        .setAttribute("for", `gdn[${totalGdnDetails}][description]`);
+
+    gdnDetail
+        .querySelectorAll(".column")[5]
+        .querySelector("textarea").id = `gdn[${totalGdnDetails}][description]`;
 
     gdnDetail
         .querySelectorAll(".column")[5]
         .querySelector(
             "textarea"
-        ).id = `gdn[${totalProformaInvoiceDetails}][description]`;
-
-    gdnDetail
-        .querySelectorAll(".column")[5]
-        .querySelector(
-            "textarea"
-        ).name = `gdn[${totalProformaInvoiceDetails}][description]`;
+        ).name = `gdn[${totalGdnDetails}][description]`;
 
     gdnDetail.querySelectorAll(".column")[5].querySelector("textarea").value =
         "";
@@ -357,14 +331,15 @@ function addReservationDetail() {
     let reservationDetailsWrapper = d.getElementById("reservation-details");
 
     let reservationDetails = d.getElementsByClassName("reservation-detail");
-    let totalProformaInvoiceDetails = reservationDetails.length;
+
+    let totalReservationDetails = reservationDetails.length;
 
     let reservationDetail = reservationDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
     reservationDetail.querySelector("[name=item-number]").innerText = `Item ${
-        totalProformaInvoiceDetails + 1
+        totalReservationDetails + 1
     }`;
 
     reservationDetail
@@ -372,7 +347,7 @@ function addReservationDetail() {
         .querySelector("label")
         .setAttribute(
             "for",
-            `reservation[${totalProformaInvoiceDetails}][product_id]`
+            `reservation[${totalReservationDetails}][product_id]`
         );
 
     reservationDetail
@@ -388,13 +363,13 @@ function addReservationDetail() {
         .querySelectorAll(".column")[0]
         .querySelector(
             "select"
-        ).id = `reservation[${totalProformaInvoiceDetails}][product_id]`;
+        ).id = `reservation[${totalReservationDetails}][product_id]`;
 
     reservationDetail
         .querySelectorAll(".column")[0]
         .querySelector(
             "select"
-        ).name = `reservation[${totalProformaInvoiceDetails}][product_id]`;
+        ).name = `reservation[${totalReservationDetails}][product_id]`;
 
     reservationDetail
         .querySelectorAll(".column")[0]
@@ -410,40 +385,40 @@ function addReservationDetail() {
         .querySelector("label")
         .setAttribute(
             "for",
-            `reservation[${totalProformaInvoiceDetails}][warehouse_id]`
+            `reservation[${totalReservationDetails}][warehouse_id]`
         );
 
     reservationDetail
         .querySelectorAll(".column")[1]
         .querySelector(
             "select"
-        ).id = `reservation[${totalProformaInvoiceDetails}][warehouse_id]`;
+        ).id = `reservation[${totalReservationDetails}][warehouse_id]`;
 
     reservationDetail
         .querySelectorAll(".column")[1]
         .querySelector(
             "select"
-        ).name = `reservation[${totalProformaInvoiceDetails}][warehouse_id]`;
+        ).name = `reservation[${totalReservationDetails}][warehouse_id]`;
 
     reservationDetail
         .querySelectorAll(".column")[2]
         .querySelector("label")
         .setAttribute(
             "for",
-            `reservation[${totalProformaInvoiceDetails}][quantity]`
+            `reservation[${totalReservationDetails}][quantity]`
         );
 
     reservationDetail
         .querySelectorAll(".column")[2]
         .querySelector(
             "input"
-        ).id = `reservation[${totalProformaInvoiceDetails}][quantity]`;
+        ).id = `reservation[${totalReservationDetails}][quantity]`;
 
     reservationDetail
         .querySelectorAll(".column")[2]
         .querySelector(
             "input"
-        ).name = `reservation[${totalProformaInvoiceDetails}][quantity]`;
+        ).name = `reservation[${totalReservationDetails}][quantity]`;
 
     reservationDetail
         .querySelectorAll(".column")[2]
@@ -453,7 +428,7 @@ function addReservationDetail() {
         .querySelectorAll(".column")[2]
         .querySelector(
             "button"
-        ).id = `reservation[${totalProformaInvoiceDetails}][product_id]Quantity`;
+        ).id = `reservation[${totalReservationDetails}][product_id]Quantity`;
 
     reservationDetail
         .querySelectorAll(".column")[2]
@@ -464,20 +439,20 @@ function addReservationDetail() {
         .querySelector("label")
         .setAttribute(
             "for",
-            `reservation[${totalProformaInvoiceDetails}][unit_price]`
+            `reservation[${totalReservationDetails}][unit_price]`
         );
 
     reservationDetail
         .querySelectorAll(".column")[3]
         .querySelector(
             "input"
-        ).id = `reservation[${totalProformaInvoiceDetails}][unit_price]`;
+        ).id = `reservation[${totalReservationDetails}][unit_price]`;
 
     reservationDetail
         .querySelectorAll(".column")[3]
         .querySelector(
             "input"
-        ).name = `reservation[${totalProformaInvoiceDetails}][unit_price]`;
+        ).name = `reservation[${totalReservationDetails}][unit_price]`;
 
     reservationDetail
         .querySelectorAll(".column")[3]
@@ -487,7 +462,7 @@ function addReservationDetail() {
         .querySelectorAll(".column")[3]
         .querySelector(
             "button"
-        ).id = `reservation[${totalProformaInvoiceDetails}][product_id]Price`;
+        ).id = `reservation[${totalReservationDetails}][product_id]Price`;
 
     reservationDetail
         .querySelectorAll(".column")[3]
@@ -498,20 +473,20 @@ function addReservationDetail() {
         .querySelector("label")
         .setAttribute(
             "for",
-            `reservation[${totalProformaInvoiceDetails}][discount]`
+            `reservation[${totalReservationDetails}][discount]`
         );
 
     reservationDetail
         .querySelectorAll(".column")[4]
         .querySelector(
             "input"
-        ).id = `reservation[${totalProformaInvoiceDetails}][discount]`;
+        ).id = `reservation[${totalReservationDetails}][discount]`;
 
     reservationDetail
         .querySelectorAll(".column")[4]
         .querySelector(
             "input"
-        ).name = `reservation[${totalProformaInvoiceDetails}][discount]`;
+        ).name = `reservation[${totalReservationDetails}][discount]`;
 
     reservationDetail
         .querySelectorAll(".column")[4]
@@ -522,20 +497,20 @@ function addReservationDetail() {
         .querySelector("label")
         .setAttribute(
             "for",
-            `reservation[${totalProformaInvoiceDetails}][description]`
+            `reservation[${totalReservationDetails}][description]`
         );
 
     reservationDetail
         .querySelectorAll(".column")[5]
         .querySelector(
             "textarea"
-        ).id = `reservation[${totalProformaInvoiceDetails}][description]`;
+        ).id = `reservation[${totalReservationDetails}][description]`;
 
     reservationDetail
         .querySelectorAll(".column")[5]
         .querySelector(
             "textarea"
-        ).name = `reservation[${totalProformaInvoiceDetails}][description]`;
+        ).name = `reservation[${totalReservationDetails}][description]`;
 
     reservationDetail
         .querySelectorAll(".column")[5]
@@ -555,14 +530,14 @@ function addPurchaseOrderDetail() {
         "purchase-order-detail"
     );
 
-    let totalProformaInvoiceDetails = purchaseOrderDetails.length;
+    let totalPurchaseOrderDetails = purchaseOrderDetails.length;
 
     let purchaseOrderDetail = purchaseOrderDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
     purchaseOrderDetail.querySelector("[name=item-number]").innerText = `Item ${
-        totalProformaInvoiceDetails + 1
+        totalPurchaseOrderDetails + 1
     }`;
 
     purchaseOrderDetail
@@ -570,7 +545,7 @@ function addPurchaseOrderDetail() {
         .querySelector("label")
         .setAttribute(
             "for",
-            `purchaseOrder[${totalProformaInvoiceDetails}][product_id]`
+            `purchaseOrder[${totalPurchaseOrderDetails}][product_id]`
         );
 
     purchaseOrderDetail
@@ -586,13 +561,13 @@ function addPurchaseOrderDetail() {
         .querySelectorAll(".column")[0]
         .querySelector(
             "select"
-        ).id = `purchaseOrder[${totalProformaInvoiceDetails}][product_id]`;
+        ).id = `purchaseOrder[${totalPurchaseOrderDetails}][product_id]`;
 
     purchaseOrderDetail
         .querySelectorAll(".column")[0]
         .querySelector(
             "select"
-        ).name = `purchaseOrder[${totalProformaInvoiceDetails}][product_id]`;
+        ).name = `purchaseOrder[${totalPurchaseOrderDetails}][product_id]`;
 
     purchaseOrderDetail
         .querySelectorAll(".column")[0]
@@ -608,20 +583,20 @@ function addPurchaseOrderDetail() {
         .querySelector("label")
         .setAttribute(
             "for",
-            `purchaseOrder[${totalProformaInvoiceDetails}][quantity]`
+            `purchaseOrder[${totalPurchaseOrderDetails}][quantity]`
         );
 
     purchaseOrderDetail
         .querySelectorAll(".column")[1]
         .querySelector(
             "input"
-        ).id = `purchaseOrder[${totalProformaInvoiceDetails}][quantity]`;
+        ).id = `purchaseOrder[${totalPurchaseOrderDetails}][quantity]`;
 
     purchaseOrderDetail
         .querySelectorAll(".column")[1]
         .querySelector(
             "input"
-        ).name = `purchaseOrder[${totalProformaInvoiceDetails}][quantity]`;
+        ).name = `purchaseOrder[${totalPurchaseOrderDetails}][quantity]`;
 
     purchaseOrderDetail
         .querySelectorAll(".column")[1]
@@ -631,7 +606,7 @@ function addPurchaseOrderDetail() {
         .querySelectorAll(".column")[1]
         .querySelector(
             "button"
-        ).id = `purchaseOrder[${totalProformaInvoiceDetails}][product_id]Quantity`;
+        ).id = `purchaseOrder[${totalPurchaseOrderDetails}][product_id]Quantity`;
 
     purchaseOrderDetail
         .querySelectorAll(".column")[1]
@@ -642,20 +617,20 @@ function addPurchaseOrderDetail() {
         .querySelector("label")
         .setAttribute(
             "for",
-            `purchaseOrder[${totalProformaInvoiceDetails}][unit_price]`
+            `purchaseOrder[${totalPurchaseOrderDetails}][unit_price]`
         );
 
     purchaseOrderDetail
         .querySelectorAll(".column")[2]
         .querySelector(
             "input"
-        ).id = `purchaseOrder[${totalProformaInvoiceDetails}][unit_price]`;
+        ).id = `purchaseOrder[${totalPurchaseOrderDetails}][unit_price]`;
 
     purchaseOrderDetail
         .querySelectorAll(".column")[2]
         .querySelector(
             "input"
-        ).name = `purchaseOrder[${totalProformaInvoiceDetails}][unit_price]`;
+        ).name = `purchaseOrder[${totalPurchaseOrderDetails}][unit_price]`;
 
     purchaseOrderDetail
         .querySelectorAll(".column")[2]
@@ -665,7 +640,7 @@ function addPurchaseOrderDetail() {
         .querySelectorAll(".column")[2]
         .querySelector(
             "button"
-        ).id = `purchaseOrder[${totalProformaInvoiceDetails}][product_id]Price`;
+        ).id = `purchaseOrder[${totalPurchaseOrderDetails}][product_id]Price`;
 
     purchaseOrderDetail
         .querySelectorAll(".column")[2]
@@ -676,20 +651,20 @@ function addPurchaseOrderDetail() {
         .querySelector("label")
         .setAttribute(
             "for",
-            `purchaseOrder[${totalProformaInvoiceDetails}][description]`
+            `purchaseOrder[${totalPurchaseOrderDetails}][description]`
         );
 
     purchaseOrderDetail
         .querySelectorAll(".column")[3]
         .querySelector(
             "textarea"
-        ).id = `purchaseOrder[${totalProformaInvoiceDetails}][description]`;
+        ).id = `purchaseOrder[${totalPurchaseOrderDetails}][description]`;
 
     purchaseOrderDetail
         .querySelectorAll(".column")[3]
         .querySelector(
             "textarea"
-        ).name = `purchaseOrder[${totalProformaInvoiceDetails}][description]`;
+        ).name = `purchaseOrder[${totalPurchaseOrderDetails}][description]`;
 
     purchaseOrderDetail
         .querySelectorAll(".column")[3]
