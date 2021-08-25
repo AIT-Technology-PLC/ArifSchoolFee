@@ -81,6 +81,44 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
+                            <label for="position" class="label text-green has-text-weight-normal">Job Title/Position <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <input id="position" name="position" type="text" class="input" placeholder="Job Title" value="{{ old('position') ?? '' }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-user-tie"></i>
+                                </span>
+                                @error('position')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="warehouse_id" class="label text-green has-text-weight-normal"> Assign To <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="warehouse_id" name="warehouse_id">
+                                        @foreach ($warehouses as $warehouse)
+                                            <option value="{{ $warehouse->id }}" {{ old('warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-warehouse"></i>
+                                </div>
+                                @error('warehouse_id')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
                             <label for="enabled" class="label text-green has-text-weight-normal"> Can this employee access the system? <sup class="has-text-danger">*</sup> </label>
                             <div class="control">
                                 <label class="radio has-text-grey has-text-weight-normal">
@@ -93,22 +131,6 @@
                                     No, this employee can't access the system
                                 </label>
                                 @error('enabled')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label for="position" class="label text-green has-text-weight-normal">Job Title/Position <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input id="position" name="position" type="text" class="input" placeholder="Job Title" value="{{ old('position') ?? '' }}">
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-user-tie"></i>
-                                </span>
-                                @error('position')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>

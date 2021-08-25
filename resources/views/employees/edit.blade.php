@@ -64,8 +64,28 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="columns is-marginless is-multiline">
+                    <div class="column is-6">
+                        <div class="field">
+                            <label for="warehouse_id" class="label text-green has-text-weight-normal"> Assign To <sup class="has-text-danger">*</sup> </label>
+                            <div class="control has-icons-left">
+                                <div class="select is-fullwidth">
+                                    <select id="warehouse_id" name="warehouse_id">
+                                        @foreach ($warehouses as $warehouse)
+                                            <option value="{{ $warehouse->id }}" {{ $employee->warehouse_id == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="icon is-small is-left">
+                                    <i class="fas fa-warehouse"></i>
+                                </div>
+                                @error('warehouse_id')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                     @if (auth()->id() != $employee->user->id && !$employee->user->hasRole('System Manager'))
                         <div class="column is-6">
                             <div class="field">

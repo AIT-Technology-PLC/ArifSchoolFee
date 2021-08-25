@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Employee;
+use App\Models\Warehouse;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -40,7 +41,9 @@ class EmployeeController extends Controller
     {
         $roles = Role::all()->where('name', '<>', 'System Manager');
 
-        return view('employees.create', compact('roles'));
+        $warehouses = (new Warehouse())->getAllWithoutRelations();
+
+        return view('employees.create', compact('roles', 'warehouses'));
     }
 
     public function store(StoreEmployeeRequest $request)
@@ -79,7 +82,9 @@ class EmployeeController extends Controller
 
         $roles = Role::all()->where('name', '<>', 'System Manager');
 
-        return view('employees.edit', compact('employee', 'roles'));
+        $warehouses = (new Warehouse())->getAllWithoutRelations();
+
+        return view('employees.edit', compact('employee', 'roles', 'warehouses'));
     }
 
     public function update(UpdateEmployeeRequest $request, Employee $employee)
