@@ -77,6 +77,11 @@ class Warehouse extends Model
         return $this->hasMany(ReservationDetail::class);
     }
 
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
+
     public function scopeCompanyWarehouses($query)
     {
         return $query->where('company_id', userCompany()->id);

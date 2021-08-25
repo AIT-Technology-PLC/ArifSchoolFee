@@ -26,7 +26,7 @@ class EmployeeController extends Controller
 
     public function index()
     {
-        $employees = $this->employee->getAll();
+        $employees = $this->employee->getAll()->load(['warehouse']);
 
         $totalEmployees = $this->employee->countAllEmployees();
 

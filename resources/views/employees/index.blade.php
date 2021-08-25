@@ -99,6 +99,7 @@
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th><abbr> Name </abbr></th>
+                            <th><abbr> Branch </abbr></th>
                             <th><abbr> Email </abbr></th>
                             <th class="text-green"><abbr> Job Title </abbr></th>
                             <th class="text-gold"><abbr> Role </abbr></th>
@@ -115,6 +116,7 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized"> {{ $employee->user->name }} </td>
+                                <td class="is-capitalized"> {{ $employee->warehouse->name ?? 'N/A' }} </td>
                                 <td> {{ $employee->user->email }} </td>
                                 <td class="is-capitalized">
                                     <span class="tag is-small bg-green has-text-white">

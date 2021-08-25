@@ -37,6 +37,11 @@ class Employee extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     public function scopeCompanyEmployees($query)
     {
         return $query->where('company_id', userCompany()->id);
