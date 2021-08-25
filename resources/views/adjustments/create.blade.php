@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div id="adjustment-details">
-                    @foreach (old('adjustment', [0]) as $adjustment)
+                    @foreach (old('adjustment', [0]) as $adjustmentDetail)
                         <div class="adjustment-detail mx-3">
                             <div class="has-text-weight-medium has-text-left mt-5">
                                 <span name="item-number" class="tag bg-green has-text-white is-medium radius-bottom-0">
@@ -78,7 +78,7 @@
                                         <div class="field">
                                             <label for="adjustment[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                             <div class="control has-icons-left">
-                                                <x-product-list name="adjustment[{{ $loop->index }}]" selected-product-id="{{ $adjustment['product_id'] ?? '' }}" />
+                                                <x-product-list name="adjustment[{{ $loop->index }}]" selected-product-id="{{ $adjustmentDetail['product_id'] ?? '' }}" />
                                                 <div class="icon is-small is-left">
                                                     <i class="fas fa-th"></i>
                                                 </div>
@@ -94,7 +94,7 @@
                                         <label for="adjustment[{{ $loop->index }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
                                         <div class="field has-addons">
                                             <div class="control has-icons-left is-expanded">
-                                                <input id="adjustment[{{ $loop->index }}][quantity]" name="adjustment[{{ $loop->index }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ $adjustment['quantity'] ?? '' }}">
+                                                <input id="adjustment[{{ $loop->index }}][quantity]" name="adjustment[{{ $loop->index }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ $adjustmentDetail['quantity'] ?? '' }}">
                                                 <span class="icon is-small is-left">
                                                     <i class="fas fa-balance-scale"></i>
                                                 </span>
@@ -115,8 +115,8 @@
                                             <div class="control has-icons-left">
                                                 <div class="select is-fullwidth">
                                                     <select id="adjustment[{{ $loop->index }}][is_subtract]" name="adjustment[{{ $loop->index }}][is_subtract]">
-                                                        <option value="0" {{ ($adjustment['is_subtract'] ?? '') == 0 ? 'selected' : '' }}> Add </option>
-                                                        <option value="1" {{ ($adjustment['is_subtract'] ?? '') == 1 ? 'selected' : '' }}> Subtract </option>
+                                                        <option value="0" {{ ($adjustmentDetail['is_subtract'] ?? '') == 0 ? 'selected' : '' }}> Add </option>
+                                                        <option value="1" {{ ($adjustmentDetail['is_subtract'] ?? '') == 1 ? 'selected' : '' }}> Subtract </option>
                                                     </select>
                                                 </div>
                                                 <div class="icon is-small is-left">
@@ -137,7 +137,7 @@
                                                 <div class="select is-fullwidth">
                                                     <select id="adjustment[{{ $loop->index }}][warehouse_id]" name="adjustment[{{ $loop->index }}][warehouse_id]">
                                                         @foreach ($warehouses as $warehouse)
-                                                            <option value="{{ $warehouse->id }}" {{ ($adjustment['warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                                            <option value="{{ $warehouse->id }}" {{ ($adjustmentDetail['warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -157,7 +157,7 @@
                                             <label for="adjustment[{{ $loop->index }}][reason]" class="label text-green has-text-weight-normal">Reason <sup class="has-text-danger">*</sup></label>
                                             <div class="control has-icons-left">
                                                 <textarea name="adjustment[{{ $loop->index }}][reason]" id="adjustment[{{ $loop->index }}][reason]" cols="30" rows="3" class="textarea pl-6"
-                                                    placeholder="Describe reason for adjusting this product level">{{ $adjustment['reason'] ?? '' }}</textarea>
+                                                    placeholder="Describe reason for adjusting this product level">{{ $adjustmentDetail['reason'] ?? '' }}</textarea>
                                                 <span class="icon is-large is-left">
                                                     <i class="fas fa-edit"></i>
                                                 </span>

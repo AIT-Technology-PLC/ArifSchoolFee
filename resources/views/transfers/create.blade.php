@@ -11,7 +11,7 @@
                 New Transfer
             </h1>
         </div>
-        <form id="formOne" action="{{ route('transfers.store')}}" method="POST" enctype="multipart/form-data" novalidate>
+        <form id="formOne" action="{{ route('transfers.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">
@@ -64,222 +64,117 @@
                         </div>
                     </div>
                 </div>
-                <div class="has-text-weight-medium has-text-left mt-5">
-                    <span class="tag bg-green has-text-white is-medium radius-bottom-0">
-                        Item 1
-                    </span>
+                <div id="transfer-details">
+                    @foreach (old('transfer', [0]) as $transferDetail)
+                        <div class="transfer-detail mx-3">
+                            <div class="has-text-weight-medium has-text-left mt-5">
+                                <span name="item-number" class="tag bg-green has-text-white is-medium radius-bottom-0">
+                                    Item {{ $loop->iteration }}
+                                </span>
+                            </div>
+                            <div class="box has-background-white-bis radius-top-0">
+                                <div class="columns is-marginless is-multiline">
+                                    <div class="column is-6">
+                                        <div class="field">
+                                            <label for="transfer[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                                            <div class="control has-icons-left">
+                                                <x-product-list name="transfer[{{ $loop->index }}]" selected-product-id="{{ $transferDetail['product_id'] ?? '' }}" />
+                                                <div class="icon is-small is-left">
+                                                    <i class="fas fa-th"></i>
+                                                </div>
+                                                @error('transfer.' . $loop->index . '.product_id')
+                                                    <span class="help has-text-danger" role="alert">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column is-6">
+                                        <label for="transfer[{{ $loop->index }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                                        <div class="field has-addons">
+                                            <div class="control has-icons-left is-expanded">
+                                                <input id="transfer[{{ $loop->index }}][quantity]" name="transfer[{{ $loop->index }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ $transferDetail['quantity'] ?? '' }}">
+                                                <span class="icon is-small is-left">
+                                                    <i class="fas fa-balance-scale"></i>
+                                                </span>
+                                                @error('transfer.' . $loop->index . '.quantity')
+                                                    <span class="help has-text-danger" role="alert">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="control">
+                                                <button id="transfer[{{ $loop->index }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column is-6">
+                                        <div class="field">
+                                            <label for="transfer[{{ $loop->index }}][warehouse_id]" class="label text-green has-text-weight-normal"> From <sup class="has-text-danger">*</sup> </label>
+                                            <div class="control has-icons-left">
+                                                <div class="select is-fullwidth">
+                                                    <select id="transfer[{{ $loop->index }}][warehouse_id]" name="transfer[{{ $loop->index }}][warehouse_id]">
+                                                        @foreach ($warehouses as $warehouse)
+                                                            <option value="{{ $warehouse->id }}" {{ ($transferDetail['warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="icon is-small is-left">
+                                                    <i class="fas fa-warehouse"></i>
+                                                </div>
+                                                @error('transfer.' . $loop->index . '.warehouse_id')
+                                                    <span class="help has-text-danger" role="alert">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column is-6">
+                                        <div class="field">
+                                            <label for="transfer[{{ $loop->index }}][to_warehouse_id]" class="label text-green has-text-weight-normal"> To <sup class="has-text-danger">*</sup> </label>
+                                            <div class="control has-icons-left">
+                                                <div class="select is-fullwidth">
+                                                    <select id="transfer[{{ $loop->index }}][to_warehouse_id]" name="transfer[{{ $loop->index }}][to_warehouse_id]">
+                                                        @foreach ($warehouses as $warehouse)
+                                                            <option value="{{ $warehouse->id }}" {{ ($transferDetail['to_warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="icon is-small is-left">
+                                                    <i class="fas fa-warehouse"></i>
+                                                </div>
+                                                @error('transfer.' . $loop->index . '.to_warehouse_id')
+                                                    <span class="help has-text-danger" role="alert">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column is-6">
+                                        <div class="field">
+                                            <label for="transfer[{{ $loop->index }}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
+                                            <div class="control has-icons-left">
+                                                <textarea name="transfer[{{ $loop->index }}][description]" id="transfer[{{ $loop->index }}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ $transferDetail['description'] ?? '' }}</textarea>
+                                                <span class="icon is-large is-left">
+                                                    <i class="fas fa-edit"></i>
+                                                </span>
+                                                @error('transfer.' . $loop->index . '.description')
+                                                    <span class="help has-text-danger" role="alert">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
-                <div class="box has-background-white-bis radius-top-0">
-                    <div name="transferFormGroup" class="columns is-marginless is-multiline">
-                        <div class="column is-6">
-                            <div class="field">
-                                <label for="transfer[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-                                <div class="control has-icons-left">
-                                    <x-product-list name="transfer[0]" selected-product-id="{{ old('transfer.0.product_id') }}" />
-                                    <div class="icon is-small is-left">
-                                        <i class="fas fa-th"></i>
-                                    </div>
-                                    @error('transfer.0.product_id')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column is-6">
-                            <label for="transfer[0][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                            <div class="field has-addons">
-                                <div class="control has-icons-left is-expanded">
-                                    <input id="transfer[0][quantity]" name="transfer[0][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('transfer.0.quantity') ?? '' }}">
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-balance-scale"></i>
-                                    </span>
-                                    @error('transfer.0.quantity')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="control">
-                                    <button id="transfer[0][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column is-6">
-                            <div class="field">
-                                <label for="transfer[0][warehouse_id]" class="label text-green has-text-weight-normal"> From <sup class="has-text-danger">*</sup> </label>
-                                <div class="control has-icons-left">
-                                    <div class="select is-fullwidth">
-                                        <select id="transfer[0][warehouse_id]" name="transfer[0][warehouse_id]">
-                                            @foreach ($warehouses as $warehouse)
-                                                <option value="{{ $warehouse->id }}" {{ old('transfer.0.warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="icon is-small is-left">
-                                        <i class="fas fa-warehouse"></i>
-                                    </div>
-                                    @error('transfer.0.warehouse_id')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column is-6">
-                            <div class="field">
-                                <label for="transfer[0][to_warehouse_id]" class="label text-green has-text-weight-normal"> To <sup class="has-text-danger">*</sup> </label>
-                                <div class="control has-icons-left">
-                                    <div class="select is-fullwidth">
-                                        <select id="transfer[0][to_warehouse_id]" name="transfer[0][to_warehouse_id]">
-                                            @foreach ($warehouses as $warehouse)
-                                                <option value="{{ $warehouse->id }}" {{ old('transfer.0.to_warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="icon is-small is-left">
-                                        <i class="fas fa-warehouse"></i>
-                                    </div>
-                                    @error('transfer.0.to_warehouse_id')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column is-6">
-                            <div class="field">
-                                <label for="transfer[0][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
-                                <div class="control has-icons-left">
-                                    <textarea name="transfer[0][description]" id="transfer[0][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('transfer.0.description') ?? '' }}</textarea>
-                                    <span class="icon is-large is-left">
-                                        <i class="fas fa-edit"></i>
-                                    </span>
-                                    @error('transfer.0.description')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @for ($i = 1; $i < 10; $i++)
-                    @if (old('transfer.' . $i . '.product_id') || old('transfer.' . $i . '.quantity'))
-                        <div class="has-text-weight-medium has-text-left">
-                            <span class="tag bg-green has-text-white is-medium radius-bottom-0">
-                                Item {{ $i + 1 }}
-                            </span>
-                        </div>
-                        <div class="box has-background-white-bis radius-top-0">
-                            <div name="transferFormGroup" class="columns is-marginless is-multiline">
-                                <div class="column is-6">
-                                    <div class="field">
-                                        <label for="transfer[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-                                        <div class="control has-icons-left">
-                                            <x-product-list name="transfer[{{ $i }}]" selected-product-id="{{ old('transfer.' . $i . '.product_id') }}" />
-                                            <div class="icon is-small is-left">
-                                                <i class="fas fa-th"></i>
-                                            </div>
-                                            @error('transfer.' . $i . '.product_id')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="column is-6">
-                                    <label for="transfer[{{ $i }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                                    <div class="field has-addons">
-                                        <div class="control has-icons-left is-expanded">
-                                            <input id="transfer[{{ $i }}][quantity]" name="transfer[{{ $i }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ old('transfer.' . $i . '.quantity') ?? '' }}">
-                                            <span class="icon is-small is-left">
-                                                <i class="fas fa-balance-scale"></i>
-                                            </span>
-                                            @error('transfer.' . $i . '.quantity')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
-                                        </div>
-                                        <div class="control">
-                                            <button id="transfer[{{ $i }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="column is-6">
-                                    <div class="field">
-                                        <label for="transfer[{{ $i }}][warehouse_id]" class="label text-green has-text-weight-normal"> From <sup class="has-text-danger">*</sup> </label>
-                                        <div class="control has-icons-left">
-                                            <div class="select is-fullwidth">
-                                                <select id="transfer[{{ $i }}][warehouse_id]" name="transfer[{{ $i }}][warehouse_id]">
-                                                    @foreach ($warehouses as $warehouse)
-                                                        <option value="{{ $warehouse->id }}" {{ old('transfer.' . $i . '.warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="icon is-small is-left">
-                                                <i class="fas fa-warehouse"></i>
-                                            </div>
-                                            @error('transfer.' . $i . '.warehouse_id')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="column is-6">
-                                    <div class="field">
-                                        <label for="transfer[{{ $i }}][to_warehouse_id]" class="label text-green has-text-weight-normal"> To <sup class="has-text-danger">*</sup> </label>
-                                        <div class="control has-icons-left">
-                                            <div class="select is-fullwidth">
-                                                <select id="transfer[{{ $i }}][to_warehouse_id]" name="transfer[{{ $i }}][to_warehouse_id]">
-                                                    @foreach ($warehouses as $warehouse)
-                                                        <option value="{{ $warehouse->id }}" {{ old('transfer.' . $i . '.to_warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="icon is-small is-left">
-                                                <i class="fas fa-warehouse"></i>
-                                            </div>
-                                            @error('transfer.' . $i . '.to_warehouse_id')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="column is-6">
-                                    <div class="field">
-                                        <label for="transfer[{{ $i }}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
-                                        <div class="control has-icons-left">
-                                            <textarea name="transfer[{{ $i }}][description]" id="transfer[{{ $i }}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('transfer.' . $i . '.description') ?? '' }}</textarea>
-                                            <span class="icon is-large is-left">
-                                                <i class="fas fa-edit"></i>
-                                            </span>
-                                            @error('transfer.' . $i . '.description')
-                                                <span class="help has-text-danger" role="alert">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        @break
-                    @endif
-                @endfor
-                <div id="transferFormWrapper"></div>
-                <button id="addNewTransferForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
+                <button id="addNewTransferForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-6">
                     Add More Item
                 </button>
             </div>

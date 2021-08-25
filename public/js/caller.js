@@ -92,7 +92,7 @@ if (d.getElementsByClassName("delete-form").length) {
 if (d.getElementById("addNewTransferForm")) {
     d.getElementById("addNewTransferForm").addEventListener(
         "click",
-        addTransferForm
+        addTransferDetail
     );
 }
 

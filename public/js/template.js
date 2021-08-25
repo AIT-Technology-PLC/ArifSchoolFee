@@ -824,3 +824,152 @@ function addAdjustmentDetail() {
 
     initializeSelect2Products();
 }
+
+function addTransferDetail() {
+    let transferDetailsWrapper = d.getElementById("transfer-details");
+
+    let transferDetails = d.getElementsByClassName("transfer-detail");
+
+    let totalTransferDetails = transferDetails.length;
+
+    let transferDetail = transferDetails[0].cloneNode(true);
+
+    let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    transferDetail.querySelector("[name=item-number]").innerText = `Item ${
+        totalTransferDetails + 1
+    }`;
+
+    transferDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("label")
+        .setAttribute("for", `transfer[${totalTransferDetails}][product_id]`);
+
+    transferDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select").innerHTML = "";
+
+    transferDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select")
+        .appendChild(originalSelect);
+
+    transferDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).id = `transfer[${totalTransferDetails}][product_id]`;
+
+    transferDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).name = `transfer[${totalTransferDetails}][product_id]`;
+
+    transferDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("select").classList = "select2-products";
+
+    transferDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".control > select")
+        .remove();
+
+    transferDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("label")
+        .setAttribute("for", `transfer[${totalTransferDetails}][quantity]`);
+
+    transferDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "input"
+        ).id = `transfer[${totalTransferDetails}][quantity]`;
+
+    transferDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "input"
+        ).name = `transfer[${totalTransferDetails}][quantity]`;
+
+    transferDetail.querySelectorAll(".column")[1].querySelector("input").value =
+        "";
+
+    transferDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "button"
+        ).id = `transfer[${totalTransferDetails}][product_id]Quantity`;
+
+    transferDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("button").innerText = "";
+
+    transferDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("label")
+        .setAttribute(
+            "for",
+            `transfer[${totalTransferDetails}][warehouse_id]`
+        );
+
+    transferDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "select"
+        ).id = `transfer[${totalTransferDetails}][warehouse_id]`;
+
+    transferDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "select"
+        ).name = `transfer[${totalTransferDetails}][warehouse_id]`;
+
+    transferDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("label")
+        .setAttribute(
+            "for",
+            `transfer[${totalTransferDetails}][to_warehouse_id]`
+        );
+
+    transferDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "select"
+        ).id = `transfer[${totalTransferDetails}][to_warehouse_id]`;
+
+    transferDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "select"
+        ).name = `transfer[${totalTransferDetails}][to_warehouse_id]`;
+
+    transferDetail
+        .querySelectorAll(".column")[4]
+        .querySelector("label")
+        .setAttribute(
+            "for",
+            `transfer[${totalTransferDetails}][description]`
+        );
+
+    transferDetail
+        .querySelectorAll(".column")[4]
+        .querySelector(
+            "textarea"
+        ).id = `transfer[${totalTransferDetails}][description]`;
+
+    transferDetail
+        .querySelectorAll(".column")[4]
+        .querySelector(
+            "textarea"
+        ).name = `transfer[${totalTransferDetails}][description]`;
+
+    transferDetail
+        .querySelectorAll(".column")[4]
+        .querySelector("textarea").value = "";
+
+    transferDetailsWrapper.appendChild(transferDetail);
+
+    initializeSelect2Products();
+}
