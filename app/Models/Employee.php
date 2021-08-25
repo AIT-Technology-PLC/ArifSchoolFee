@@ -11,9 +11,7 @@ class Employee extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = [
-        'user_id', 'company_id', 'created_by', 'updated_by', 'enabled', 'position',
-    ];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
         'enabled' => 'boolean',

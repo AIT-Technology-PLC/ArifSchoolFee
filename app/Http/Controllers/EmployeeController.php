@@ -62,6 +62,7 @@ class EmployeeController extends Controller
                     'company_id',
                     'created_by',
                     'updated_by',
+                    'warehouse_id'
                 ])
             );
 
@@ -92,7 +93,7 @@ class EmployeeController extends Controller
         DB::transaction(function () use ($request, $employee) {
             $employee->user->update($request->only(['name', 'email']));
 
-            $employee->update($request->only(['position', 'enabled', 'updated_by']));
+            $employee->update($request->only(['position', 'enabled', 'updated_by', 'warehouse_id']));
 
             if ($request->has('role')) {
                 $employee->user->syncRoles($request->role);

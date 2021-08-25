@@ -21,6 +21,7 @@ class StoreEmployeeRequest extends FormRequest
             'position' => 'required|string',
             'enabled' => 'required|integer|max:1',
             'role' => 'required|string',
+            'warehouse_id' => 'required|integer',
         ];
     }
 
