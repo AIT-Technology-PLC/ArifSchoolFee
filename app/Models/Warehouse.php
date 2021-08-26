@@ -82,6 +82,11 @@ class Warehouse extends Model
         return $this->hasMany(Employee::class);
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class)->withPivot('type');
+    }
+
     public function scopeCompanyWarehouses($query)
     {
         return $query->where('company_id', userCompany()->id);

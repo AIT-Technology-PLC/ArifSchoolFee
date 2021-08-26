@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models as Models;
+use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -329,5 +330,10 @@ class User extends Authenticatable
     public function tenderChecklistTypesUpdated()
     {
         return $this->hasMany(Models\TenderChecklistType::class, 'updated_by');
+    }
+
+    public function warehouses()
+    {
+        return $this->belongsToMany(Models\Warehouse::class)->withPivot('type');
     }
 }
