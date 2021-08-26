@@ -15,7 +15,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'warehouse_id',
     ];
 
     protected $hidden = [
@@ -335,5 +335,10 @@ class User extends Authenticatable
     public function warehouses()
     {
         return $this->belongsToMany(Models\Warehouse::class)->withPivot('type');
+    }
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Models\Warehouse::class);
     }
 }

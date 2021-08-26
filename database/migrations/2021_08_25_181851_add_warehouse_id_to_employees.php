@@ -13,8 +13,8 @@ class AddWarehouseIdToEmployees extends Migration
      */
     public function up()
     {
-        Schema::table('employees', function (Blueprint $table) {
-            $table->bigInteger('warehouse_id')->nullable()->unsigned()->after('user_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->bigInteger('warehouse_id')->nullable()->unsigned()->after('id');
 
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
@@ -27,7 +27,7 @@ class AddWarehouseIdToEmployees extends Migration
      */
     public function down()
     {
-        Schema::table('employees', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['warehouse_id']);
             $table->dropColumn(['warehouse_id']);
         });

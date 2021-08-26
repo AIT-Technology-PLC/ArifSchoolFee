@@ -116,7 +116,7 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized"> {{ $employee->user->name }} </td>
-                                <td class="is-capitalized"> {{ $employee->warehouse->name ?? 'N/A' }} </td>
+                                <td class="is-capitalized"> {{ $employee->user->warehouse->name ?? 'N/A' }} </td>
                                 <td> {{ $employee->user->email }} </td>
                                 <td class="is-capitalized">
                                     <span class="tag is-small bg-green has-text-white">

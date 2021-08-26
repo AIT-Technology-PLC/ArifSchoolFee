@@ -71,7 +71,7 @@
                                 <div class="select is-fullwidth">
                                     <select id="warehouse_id" name="warehouse_id">
                                         @foreach ($warehouses as $warehouse)
-                                            <option value="{{ $warehouse->id }}" {{ $employee->warehouse_id == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                            <option value="{{ $warehouse->id }}" {{ $employee->user->warehouse_id == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

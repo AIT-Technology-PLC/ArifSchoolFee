@@ -26,7 +26,7 @@ class EmployeeController extends Controller
 
     public function index()
     {
-        $employees = $this->employee->getAll()->load(['warehouse']);
+        $employees = $this->employee->getAll()->load(['user.roles', 'user.warehouse', 'createdBy', 'updatedBy']);
 
         $totalEmployees = $this->employee->countAllEmployees();
 
@@ -53,6 +53,7 @@ class EmployeeController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'warehouse_id' => $request->warehouse_id,
             ]);
 
             $user->employee()->create(
@@ -62,7 +63,6 @@ class EmployeeController extends Controller
                     'company_id',
                     'created_by',
                     'updated_by',
-                    'warehouse_id',
                 ])
             );
 
@@ -103,7 +103,7 @@ class EmployeeController extends Controller
 
     public function edit(Employee $employee, Role $role)
     {
-        $employee->load(['user.roles', 'user.warehouses']);
+        $employee->load(['user.roles', 'user.warehouse', 'user.warehouses']);
 
         $roles = Role::all()->where('name', '<>', 'System Manager');
 
@@ -123,9 +123,9 @@ class EmployeeController extends Controller
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
         DB::transaction(function () use ($request, $employee) {
-            $employee->user->update($request->only(['name', 'email']));
+            $employee->user->update($request->only(['name', 'email', 'warehouse_id']));
 
-            $employee->update($request->only(['position', 'enabled', 'updated_by', 'warehouse_id']));
+            $employee->update($request->only(['position', 'enabled', 'updated_by']));
 
             $employee->user->warehouses()->detach();
 

@@ -77,9 +77,9 @@ class Warehouse extends Model
         return $this->hasMany(ReservationDetail::class);
     }
 
-    public function employees()
+    public function originalUsers()
     {
-        return $this->hasMany(Employee::class);
+        return $this->hasMany(User::class);
     }
 
     public function users()
