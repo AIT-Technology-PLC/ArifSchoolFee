@@ -18,3 +18,12 @@ if (!function_exists('limitReached')) {
         return (new Limit())->isLimitReached($limitName, $currentAmount);
     }
 }
+
+if (!function_exists('userWarehouse')) {
+
+    function userWarehouse()
+    {
+        return auth()->user()->warehouse;
+    }
+
+}
