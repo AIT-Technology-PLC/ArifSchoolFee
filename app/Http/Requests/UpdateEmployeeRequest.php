@@ -21,6 +21,12 @@ class UpdateEmployeeRequest extends FormRequest
             'enabled' => 'sometimes|required|integer|max:1',
             'role' => 'sometimes|required|string',
             'warehouse_id' => 'required|integer',
+            'subtract' => 'nullable|array',
+            'subtract.*' => 'nullable|integer',
+            'add' => 'nullable|array',
+            'add.*' => 'nullable|integer',
+            'read' => 'nullable|array',
+            'read.*' => 'nullable|integer',
         ];
     }
 

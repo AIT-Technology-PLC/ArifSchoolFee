@@ -62,9 +62,15 @@ class EmployeeController extends Controller
                     'company_id',
                     'created_by',
                     'updated_by',
-                    'warehouse_id'
+                    'warehouse_id',
                 ])
             );
+
+            $user->warehouses()->syncWithPivotValues($request->read, ['type' => 'read']);
+
+            $user->warehouses()->syncWithPivotValues($request->subtract, ['type' => 'subtract']);
+
+            $user->warehouses()->syncWithPivotValues($request->add, ['type' => 'add']);
 
             $user->assignRole($request->role);
         });

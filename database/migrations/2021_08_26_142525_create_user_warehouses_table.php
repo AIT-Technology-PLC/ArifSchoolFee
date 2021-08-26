@@ -13,7 +13,7 @@ class CreateUserWarehousesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_warehouses', function (Blueprint $table) {
+        Schema::create('user_warehouse', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->nullable()->unsigned();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
@@ -32,6 +32,6 @@ class CreateUserWarehousesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('user_warehouses');
+        Schema::drop('user_warehouse');
     }
 }

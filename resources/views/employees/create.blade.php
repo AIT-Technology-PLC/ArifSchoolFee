@@ -118,15 +118,63 @@
                         </div>
                     </div>
                     <div class="column is-6">
+                        <label for="read[]" class="label text-green has-text-weight-normal"> View Inventory Permission <sup class="has-text-danger">*</sup> </label>
+                        <div class="field">
+                            @foreach ($warehouses as $warehouse)
+                                <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                    <input name="read[]" value="{{ $warehouse->id }}" type="checkbox" {{ in_array($warehouse->id, old('read', [])) ? 'checked' : '' }}>
+                                    {{ $warehouse->name }}
+                                </label>
+                            @endforeach
+                        </div>
+                        @error('read.*')
+                            <span class="help has-text-danger" role="alert">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="column is-6">
+                        <label for="subtract[]" class="label text-green has-text-weight-normal"> Subtract Permission <sup class="has-text-danger">*</sup> </label>
+                        <div class="field">
+                            @foreach ($warehouses as $warehouse)
+                                <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                    <input name="subtract[]" value="{{ $warehouse->id }}" type="checkbox" {{ in_array($warehouse->id, old('subtract', [])) ? 'checked' : '' }}>
+                                    {{ $warehouse->name }}
+                                </label>
+                            @endforeach
+                            @error('subtract.*')
+                                <span class="help has-text-danger" role="alert">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <label for="add[]" class="label text-green has-text-weight-normal"> Add Permission <sup class="has-text-danger">*</sup> </label>
+                        <div class="field">
+                            @foreach ($warehouses as $warehouse)
+                                <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                    <input name="add[]" value="{{ $warehouse->id }}" type="checkbox" {{ in_array($warehouse->id, old('add', [])) == $warehouse->id ? 'checked' : '' }}>
+                                    {{ $warehouse->name }}
+                                </label>
+                            @endforeach
+                            @error('add.*')
+                                <span class="help has-text-danger" role="alert">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="column is-6">
                         <div class="field">
                             <label for="enabled" class="label text-green has-text-weight-normal"> Can this employee access the system? <sup class="has-text-danger">*</sup> </label>
                             <div class="control">
-                                <label class="radio has-text-grey has-text-weight-normal">
+                                <label class="radio has-text-grey has-text-weight-light">
                                     <input type="radio" name="enabled" value="1" class="mt-3" {{ old('enabled') == 1 ? 'checked' : '' }}>
                                     Yes, this employee can access the system
                                 </label>
                                 <br>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                <label class="radio has-text-grey has-text-weight-light mt-2">
                                     <input type="radio" name="enabled" value="0" {{ old('enabled') == 0 ? 'checked' : '' }}>
                                     No, this employee can't access the system
                                 </label>
@@ -140,10 +188,10 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="role" class="label text-green has-text-weight-normal"> Choose Role <sup class="has-text-danger">*</sup> </label>
+                            <label for="role" class="label text-green has-text-weight-light"> Choose Role <sup class="has-text-danger">*</sup> </label>
                             <div class="control">
                                 @foreach ($roles as $role)
-                                    <label class="radio has-text-grey has-text-weight-normal">
+                                    <label class="radio has-text-grey has-text-weight-light">
                                         <input type="radio" name="role" value="{{ $role->name }}" class="mt-3" {{ old('role') == $role->name ? 'checked' : '' }}>
                                         {{ $role->name }}
                                     </label>
