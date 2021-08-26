@@ -20,6 +20,8 @@ class CreateUserWarehousesTable extends Migration
             $table->string('type');
             $table->timestamps();
 
+            $table->unique(['user_id', 'warehouse_id', 'type']);
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
         });
