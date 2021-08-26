@@ -66,11 +66,29 @@ class EmployeeController extends Controller
                 ])
             );
 
-            $user->warehouses()->syncWithPivotValues($request->read, ['type' => 'read']);
+            foreach ($request->read ?? [] as $warehouseId) {
+                DB::table('user_warehouse')->insert([
+                    'user_id' => $user->id,
+                    'warehouse_id' => $warehouseId,
+                    'type' => 'read',
+                ]);
+            }
 
-            $user->warehouses()->syncWithPivotValues($request->subtract, ['type' => 'subtract']);
+            foreach ($request->add ?? [] as $warehouseId) {
+                DB::table('user_warehouse')->insert([
+                    'user_id' => $user->id,
+                    'warehouse_id' => $warehouseId,
+                    'type' => 'add',
+                ]);
+            }
 
-            $user->warehouses()->syncWithPivotValues($request->add, ['type' => 'add']);
+            foreach ($request->subtract ?? [] as $warehouseId) {
+                DB::table('user_warehouse')->insert([
+                    'user_id' => $user->id,
+                    'warehouse_id' => $warehouseId,
+                    'type' => 'subtract',
+                ]);
+            }
 
             $user->assignRole($request->role);
         });
@@ -85,13 +103,21 @@ class EmployeeController extends Controller
 
     public function edit(Employee $employee, Role $role)
     {
-        $employee->load(['user.roles']);
+        $employee->load(['user.roles', 'user.warehouses']);
 
         $roles = Role::all()->where('name', '<>', 'System Manager');
 
         $warehouses = (new Warehouse())->getAllWithoutRelations();
 
-        return view('employees.edit', compact('employee', 'roles', 'warehouses'));
+        $userWarehousePermissions = $employee->user->warehouses->pluck('pivot');
+
+        $readPermissions = $userWarehousePermissions->where('type', 'read')->pluck('warehouse_id');
+
+        $addPermissions = $userWarehousePermissions->where('type', 'add')->pluck('warehouse_id');
+
+        $subtractPermissions = $userWarehousePermissions->where('type', 'subtract')->pluck('warehouse_id');
+
+        return view('employees.edit', compact('employee', 'roles', 'warehouses', 'readPermissions', 'addPermissions', 'subtractPermissions'));
     }
 
     public function update(UpdateEmployeeRequest $request, Employee $employee)
@@ -100,6 +126,32 @@ class EmployeeController extends Controller
             $employee->user->update($request->only(['name', 'email']));
 
             $employee->update($request->only(['position', 'enabled', 'updated_by', 'warehouse_id']));
+
+            $employee->user->warehouses()->detach();
+
+            foreach ($request->read ?? [] as $warehouseId) {
+                DB::table('user_warehouse')->updateOrInsert([
+                    'user_id' => $employee->user->id,
+                    'warehouse_id' => $warehouseId,
+                    'type' => 'read',
+                ]);
+            }
+
+            foreach ($request->add ?? [] as $warehouseId) {
+                DB::table('user_warehouse')->updateOrInsert([
+                    'user_id' => $employee->user->id,
+                    'warehouse_id' => $warehouseId,
+                    'type' => 'add',
+                ]);
+            }
+
+            foreach ($request->subtract ?? [] as $warehouseId) {
+                DB::table('user_warehouse')->updateOrInsert([
+                    'user_id' => $employee->user->id,
+                    'warehouse_id' => $warehouseId,
+                    'type' => 'subtract',
+                ]);
+            }
 
             if ($request->has('role')) {
                 $employee->user->syncRoles($request->role);

@@ -86,6 +86,54 @@
                             </div>
                         </div>
                     </div>
+                    <div class="column is-6">
+                        <label for="read[]" class="label text-green has-text-weight-normal"> View Inventory Permission <sup class="has-text-danger">*</sup> </label>
+                        <div class="field">
+                            @foreach ($warehouses as $warehouse)
+                                <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                    <input name="read[]" value="{{ $warehouse->id }}" type="checkbox" {{ $readPermissions->contains($warehouse->id) ? 'checked' : '' }}>
+                                    {{ $warehouse->name }}
+                                </label>
+                            @endforeach
+                        </div>
+                        @error('read.*')
+                            <span class="help has-text-danger" role="alert">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="column is-6">
+                        <label for="subtract[]" class="label text-green has-text-weight-normal"> Subtract Permission <sup class="has-text-danger">*</sup> </label>
+                        <div class="field">
+                            @foreach ($warehouses as $warehouse)
+                                <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                    <input name="subtract[]" value="{{ $warehouse->id }}" type="checkbox" {{ $subtractPermissions->contains($warehouse->id) ? 'checked' : '' }}>
+                                    {{ $warehouse->name }}
+                                </label>
+                            @endforeach
+                            @error('subtract.*')
+                                <span class="help has-text-danger" role="alert">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <label for="add[]" class="label text-green has-text-weight-normal"> Add Permission <sup class="has-text-danger">*</sup> </label>
+                        <div class="field">
+                            @foreach ($warehouses as $warehouse)
+                                <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                    <input name="add[]" value="{{ $warehouse->id }}" type="checkbox" {{ $addPermissions->contains($warehouse->id) == $warehouse->id ? 'checked' : '' }}>
+                                    {{ $warehouse->name }}
+                                </label>
+                            @endforeach
+                            @error('add.*')
+                                <span class="help has-text-danger" role="alert">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
                     @if (auth()->id() != $employee->user->id && !$employee->user->hasRole('System Manager'))
                         <div class="column is-6">
                             <div class="field">
