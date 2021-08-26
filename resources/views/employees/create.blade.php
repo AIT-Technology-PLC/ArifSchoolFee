@@ -118,7 +118,7 @@
                         </div>
                     </div>
                     <div class="column is-6">
-                        <label for="read[]" class="label text-green has-text-weight-normal"> View Inventory Permission <sup class="has-text-danger">*</sup> </label>
+                        <label for="read[]" class="label text-green has-text-weight-normal"> View Inventory Permission <sup class="has-text-danger"></sup> </label>
                         <div class="field">
                             @foreach ($warehouses as $warehouse)
                                 <label class="checkbox mr-3 has-text-grey has-text-weight-light">
@@ -134,7 +134,7 @@
                         @enderror
                     </div>
                     <div class="column is-6">
-                        <label for="subtract[]" class="label text-green has-text-weight-normal"> Subtract Permission <sup class="has-text-danger">*</sup> </label>
+                        <label for="subtract[]" class="label text-green has-text-weight-normal"> Subtract Permission <sup class="has-text-danger"></sup> </label>
                         <div class="field">
                             @foreach ($warehouses as $warehouse)
                                 <label class="checkbox mr-3 has-text-grey has-text-weight-light">
@@ -150,7 +150,7 @@
                         </div>
                     </div>
                     <div class="column is-6">
-                        <label for="add[]" class="label text-green has-text-weight-normal"> Add Permission <sup class="has-text-danger">*</sup> </label>
+                        <label for="add[]" class="label text-green has-text-weight-normal"> Add Permission <sup class="has-text-danger"></sup> </label>
                         <div class="field">
                             @foreach ($warehouses as $warehouse)
                                 <label class="checkbox mr-3 has-text-grey has-text-weight-light">
