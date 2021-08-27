@@ -63,7 +63,7 @@ class ReservationController extends Controller
     {
         $customers = $customer->getCustomerNames();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->subtractWarehouses());
 
         $currentReservationCode = (Reservation::select('code')->companyReservation()->latest()->first()->code) ?? 0;
 
@@ -96,7 +96,7 @@ class ReservationController extends Controller
     {
         $customers = $customer->getCustomerNames();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->subtractWarehouses());
 
         $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse']);
 

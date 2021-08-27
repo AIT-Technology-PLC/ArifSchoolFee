@@ -54,7 +54,7 @@ class GdnController extends Controller
 
         $sales = $sale->getAll();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->subtractWarehouses());
 
         $currentGdnCode = (Gdn::select('code')->companyGdn()->latest()->first()->code) ?? 0;
 
@@ -93,7 +93,7 @@ class GdnController extends Controller
 
         $sales = $sale->getAll();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->subtractWarehouses());
 
         $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse']);
 
