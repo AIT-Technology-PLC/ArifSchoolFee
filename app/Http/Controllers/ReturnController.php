@@ -44,7 +44,7 @@ class ReturnController extends Controller
     {
         $customers = $customer->getCustomerNames();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->addWarehouses());
 
         $currentReturnCode = (Returnn::select('code')->companyReturn()->latest()->first()->code) ?? 0;
 
@@ -77,7 +77,7 @@ class ReturnController extends Controller
     {
         $customers = $customer->getCustomerNames();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->addWarehouses());
 
         $return->load(['returnDetails.product', 'returnDetails.warehouse']);
 

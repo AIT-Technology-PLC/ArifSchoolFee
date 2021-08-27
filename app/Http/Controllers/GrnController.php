@@ -50,7 +50,7 @@ class GrnController extends Controller
 
     public function create(Warehouse $warehouse, Supplier $supplier, Purchase $purchase)
     {
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->addWarehouses());
 
         $suppliers = $supplier->getSupplierNames();
 
@@ -87,7 +87,7 @@ class GrnController extends Controller
     {
         $grn->load(['grnDetails.product', 'grnDetails.warehouse', 'supplier', 'purchase']);
 
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->addWarehouses());
 
         $suppliers = $supplier->getSupplierNames();
 

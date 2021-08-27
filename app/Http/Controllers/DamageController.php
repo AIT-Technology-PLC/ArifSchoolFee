@@ -42,7 +42,7 @@ class DamageController extends Controller
 
     public function create(Warehouse $warehouse)
     {
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', userWarehouse()->id);
 
         $currentDamageCode = (Damage::select('code')->companyDamage()->latest()->first()->code) ?? 0;
 
@@ -73,7 +73,7 @@ class DamageController extends Controller
 
     public function edit(Damage $damage, Warehouse $warehouse)
     {
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', userWarehouse()->id);
 
         $damage->load(['damageDetails.product', 'damageDetails.warehouse']);
 
