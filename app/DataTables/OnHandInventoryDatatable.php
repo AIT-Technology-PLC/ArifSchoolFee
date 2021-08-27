@@ -11,7 +11,7 @@ class OnHandInventoryDatatable extends DataTable
 {
     public function __construct()
     {
-        $this->warehouses = (new Warehouse())->getAllWithoutRelations();
+        $this->warehouses = (new Warehouse())->getAllWithoutRelations()->whereIn('id', auth()->user()->readWarehouses());
     }
 
     public function dataTable($query)
@@ -62,6 +62,7 @@ class OnHandInventoryDatatable extends DataTable
                 $query->where('merchandises.available', '>', 0)
                     ->orWhere('merchandises.reserved', '>', 0);
             })
+            ->whereIn('warehouses.id', auth()->user()->readWarehouses())
             ->select([
                 'products.id as id',
                 'products.name as product',

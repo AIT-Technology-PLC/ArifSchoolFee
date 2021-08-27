@@ -341,4 +341,31 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Models\Warehouse::class);
     }
+
+    public function readWarehouses()
+    {
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return (new Warehouse())->getAll()->pluck('id');
+        }
+
+        return $this->warehouses()->wherePivot('type', 'read')->pluck('warehouse_id');
+    }
+
+    public function addWarehouses()
+    {
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return (new Warehouse())->getAll()->pluck('id');
+        }
+
+        return $this->warehouses()->wherePivot('type', 'add')->pluck('warehouse_id');
+    }
+
+    public function subtractWarehouses()
+    {
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return (new Warehouse())->getAll()->pluck('id');
+        }
+
+        return $this->warehouses()->wherePivot('type', 'subtract')->pluck('warehouse_id');
+    }
 }
