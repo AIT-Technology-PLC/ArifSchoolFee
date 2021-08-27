@@ -69,7 +69,14 @@ class PurchaseOrder extends Model
 
     public function getAll()
     {
-        return $this->companyPurchaseOrder()->latest()->get();
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return $this->companyPurchaseOrder()->latest()->get();
+        }
+
+        return $this->companyPurchaseOrder()
+            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->latest()
+            ->get();
     }
 
     public function countPurchaseOrdersOfCompany()

@@ -79,7 +79,14 @@ class Purchase extends Model
 
     public function getAll()
     {
-        return $this->companyPurchases()->latest()->get();
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return $this->companyPurchases()->latest()->get();
+        }
+
+        return $this->companyPurchases()
+            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->latest()
+            ->get();
     }
 
     public function countPurchasesOfCompany()

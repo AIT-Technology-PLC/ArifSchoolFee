@@ -76,6 +76,18 @@ class Returnn extends Model
         return $this->totalCredit * 1.15;
     }
 
+    public function getAll()
+    {
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return $this->companyReturn()->latest()->get();
+        }
+
+        return $this->companyReturn()
+            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->latest()
+            ->get();
+    }
+
     public function add()
     {
         $this->returned_by = auth()->id();

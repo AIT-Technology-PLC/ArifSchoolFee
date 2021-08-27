@@ -60,7 +60,14 @@ class Grn extends Model
 
     public function getAll()
     {
-        return $this->companyGrn()->latest()->get();
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return $this->companyGrn()->latest()->get();
+        }
+
+        return $this->companyGrn()
+            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->latest()
+            ->get();
     }
 
     public function countGrnsOfCompany()

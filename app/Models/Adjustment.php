@@ -55,6 +55,18 @@ class Adjustment extends Model
         return Str::after($value, userCompany()->id . '_');
     }
 
+    public function getAll()
+    {
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return $this->companyAdjustment()->latest()->get();
+        }
+
+        return $this->companyAdjustment()
+            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->latest()
+            ->get();
+    }
+
     public function adjust()
     {
         $this->adjusted_by = auth()->id();

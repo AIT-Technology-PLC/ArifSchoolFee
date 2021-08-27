@@ -82,6 +82,18 @@ class ProformaInvoice extends Model
         return $this->proformaInvoiceDetails;
     }
 
+    public function getAll()
+    {
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return $this->companyProformaInvoices()->latest()->get();
+        }
+
+        return $this->companyProformaInvoices()
+            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->latest()
+            ->get();
+    }
+
     public function convert()
     {
         $this->converted_by = auth()->id();

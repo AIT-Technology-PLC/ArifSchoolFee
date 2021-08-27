@@ -83,7 +83,14 @@ class Sale extends Model
 
     public function getAll()
     {
-        return $this->companySales()->latest()->get();
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return $this->companySales()->latest()->get();
+        }
+
+        return $this->companySales()
+            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->latest()
+            ->get();
     }
 
     public function countSalesOfCompany()

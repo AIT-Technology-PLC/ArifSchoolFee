@@ -77,7 +77,14 @@ class Gdn extends Model
 
     public function getAll()
     {
-        return $this->companyGdn()->latest()->get();
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return $this->companyGdn()->latest()->get();
+        }
+
+        return $this->companyGdn()
+            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->latest()
+            ->get();
     }
 
     public function countGdnsOfCompany()

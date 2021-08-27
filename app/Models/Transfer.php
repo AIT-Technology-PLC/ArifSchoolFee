@@ -50,7 +50,14 @@ class Transfer extends Model
 
     public function getAll()
     {
-        return $this->companyTransfer()->latest()->get();
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return $this->companyTransfer()->latest()->get();
+        }
+
+        return $this->companyTransfer()
+            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->latest()
+            ->get();
     }
 
     public function countTransfersOfCompany()

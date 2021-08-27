@@ -49,6 +49,18 @@ class Damage extends Model
         return Str::after($value, userCompany()->id . '_');
     }
 
+    public function getAll()
+    {
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return $this->companyDamage()->latest()->get();
+        }
+
+        return $this->companyDamage()
+            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->latest()
+            ->get();
+    }
+
     public function subtract()
     {
         $this->status = 'Subtracted From Inventory';

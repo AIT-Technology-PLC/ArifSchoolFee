@@ -58,7 +58,15 @@ class Tender extends Model
 
     public function getAll()
     {
-        return $this->companyTender()->withCount('tenderDetails')->latest()->get();
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return $this->companyTender()->withCount('tenderDetails')->latest()->get();
+        }
+
+        return $this->companyTender()
+            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->withCount('tenderDetails')
+            ->latest()
+            ->get();
     }
 
     public function countTendersOfCompany()

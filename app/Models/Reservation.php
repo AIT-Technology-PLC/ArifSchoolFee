@@ -87,6 +87,18 @@ class Reservation extends Model
         return $this->reservationDetails;
     }
 
+    public function getAll()
+    {
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return $this->companyReservation()->latest()->get();
+        }
+
+        return $this->companyReservation()
+            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->latest()
+            ->get();
+    }
+
     public function getPaymentInCash()
     {
         if (userCompany()->isDiscountBeforeVAT()) {
