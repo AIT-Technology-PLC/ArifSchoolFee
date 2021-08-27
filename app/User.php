@@ -68,4 +68,13 @@ class User extends Authenticatable
 
         return $this->warehouses()->wherePivot('type', 'subtract')->pluck('warehouse_id');
     }
+
+    public function assignedWarehouse()
+    {
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return (new Warehouse())->getAll()->pluck('id');
+        }
+
+        return $this->warehouse_id;
+    }
 }

@@ -41,7 +41,7 @@ class SivController extends Controller
 
     public function create(Warehouse $warehouse, Customer $customer)
     {
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', userWarehouse()->id);
+        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
 
         $customers = $customer->getCustomerNames();
 
@@ -76,7 +76,7 @@ class SivController extends Controller
     {
         $siv->load(['sivDetails.product', 'sivDetails.warehouse']);
 
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', userWarehouse()->id);
+        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
 
         $customers = $customer->getCustomerNames();
 

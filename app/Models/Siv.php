@@ -40,9 +40,7 @@ class Siv extends Model
         return $this->hasMany(SivDetail::class);
     }
 
-    public function getAll()
-    {
-        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {    public function warehouse()
+    public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
     }

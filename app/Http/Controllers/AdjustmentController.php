@@ -46,7 +46,7 @@ class AdjustmentController extends Controller
 
     public function create(Warehouse $warehouse)
     {
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', userWarehouse()->id);
+        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
 
         $currentAdjustmentCode = (Adjustment::select('code')->companyAdjustment()->latest()->first()->code) ?? 0;
 
@@ -77,7 +77,7 @@ class AdjustmentController extends Controller
 
     public function edit(Adjustment $adjustment, Warehouse $warehouse)
     {
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', userWarehouse()->id);
+        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
 
         return view('adjustments.edit', compact('adjustment', 'warehouses'));
     }
