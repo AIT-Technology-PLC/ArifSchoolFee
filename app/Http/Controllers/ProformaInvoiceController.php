@@ -25,8 +25,7 @@ class ProformaInvoiceController extends Controller
 
     public function index()
     {
-        $proformaInvoices = ProformaInvoice::companyProformaInvoices()
-            ->with(['createdBy', 'updatedBy', 'convertedBy', 'customer'])->latest()->get();
+        $proformaInvoices = (new ProformaInvoice())->getAll()->load(['createdBy', 'updatedBy', 'convertedBy', 'customer']);
 
         $totalProformaInvoices = $proformaInvoices->count();
 

@@ -28,7 +28,7 @@ class SivController extends Controller
 
     public function index()
     {
-        $sivs = Siv::companySiv()->with(['createdBy', 'updatedBy', 'approvedBy'])->latest()->get();
+        $sivs = (new Siv())->getAll()->load(['createdBy', 'updatedBy', 'approvedBy']);
 
         $totalSivs = $sivs->count();
 

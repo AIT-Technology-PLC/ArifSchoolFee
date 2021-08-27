@@ -37,7 +37,7 @@ class GdnController extends Controller
     {
         $gdns = $gdn->getAll()->load(['gdnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'sale', 'customer', 'company']);
 
-        $totalGdns = $gdn->countGdnsOfCompany();
+        $totalGdns = $gdns->count();
 
         $totalNotApproved = $gdns->whereNull('approved_by')->count();
 

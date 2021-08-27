@@ -28,7 +28,7 @@ class PurchaseController extends Controller
     {
         $purchases = $this->purchase->getAll()->load(['createdBy', 'updatedBy', 'company', 'purchaseDetails']);
 
-        $totalPurchases = $this->purchase->countPurchasesOfCompany();
+        $totalPurchases = $purchases->count();
 
         return view('purchases.index', compact('purchases', 'totalPurchases'));
     }

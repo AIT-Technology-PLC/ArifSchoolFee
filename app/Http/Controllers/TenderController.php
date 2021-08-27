@@ -32,7 +32,7 @@ class TenderController extends Controller
         $tenders = $this->tender->getAll()
             ->load(['customer', 'tenderDetails', 'tenderChecklists', 'createdBy', 'updatedBy']);
 
-        $totalTenders = $this->tender->countTendersOfCompany();
+        $totalTenders = $tenders->count();
 
         return view('tenders.index', compact('tenders', 'totalTenders'));
     }

@@ -28,7 +28,7 @@ class SaleController extends Controller
     {
         $sales = $this->sale->getAll()->load(['createdBy', 'updatedBy', 'company', 'saleDetails']);
 
-        $totalSales = $this->sale->countSalesOfCompany();
+        $totalSales = $sales->count();
 
         return view('sales.index', compact('sales', 'totalSales'));
     }
