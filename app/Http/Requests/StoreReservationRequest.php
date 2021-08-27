@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\PrependCompanyId;
 use App\Services\SetDataOwnerService;
+use App\Traits\PrependCompanyId;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreReservationRequest extends FormRequest
@@ -45,6 +45,6 @@ class StoreReservationRequest extends FormRequest
 
     public function passedValidation()
     {
-        $this->merge(SetDataOwnerService::forNonTransaction());
+        $this->merge(SetDataOwnerService::forTransaction());
     }
 }

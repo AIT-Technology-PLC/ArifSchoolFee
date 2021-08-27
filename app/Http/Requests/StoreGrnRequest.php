@@ -45,6 +45,6 @@ class StoreGrnRequest extends FormRequest
 
         ]);
 
-        $this->merge(SetDataOwnerService::forNonTransaction());
+        $this->merge(SetDataOwnerService::forTransaction());
     }
 }

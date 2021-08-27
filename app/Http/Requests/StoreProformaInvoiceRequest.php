@@ -47,6 +47,6 @@ class StoreProformaInvoiceRequest extends FormRequest
             'is_pending' => 1,
         ]);
 
-        $this->merge(SetDataOwnerService::forNonTransaction());
+        $this->merge(SetDataOwnerService::forTransaction());
     }
 }

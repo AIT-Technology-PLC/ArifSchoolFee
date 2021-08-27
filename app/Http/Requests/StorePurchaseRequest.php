@@ -40,6 +40,6 @@ class StorePurchaseRequest extends FormRequest
 
     public function passedValidation()
     {
-        $this->merge(SetDataOwnerService::forNonTransaction());
+        $this->merge(SetDataOwnerService::forTransaction());
     }
 }

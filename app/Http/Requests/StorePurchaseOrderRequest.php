@@ -48,6 +48,6 @@ class StorePurchaseOrderRequest extends FormRequest
             'is_closed' => 0,
         ]);
 
-        $this->merge(SetDataOwnerService::forNonTransaction());
+        $this->merge(SetDataOwnerService::forTransaction());
     }
 }

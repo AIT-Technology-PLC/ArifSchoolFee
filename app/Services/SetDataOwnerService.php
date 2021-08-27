@@ -16,6 +16,7 @@ class SetDataOwnerService
             'company_id' => userCompany()->id,
             'created_by' => auth()->id(),
             'updated_by' => auth()->id(),
+            'warehouse_id' => auth()->user()->warehouse_id,
         ];
     }
 
@@ -36,5 +37,10 @@ class SetDataOwnerService
     public static function forNonTransaction()
     {
         return Arr::only(self::getInstance()->attributes, ['company_id', 'created_by', 'updated_by']);
+    }
+
+    public static function forTransaction()
+    {
+        return Arr::only(self::getInstance()->attributes, ['company_id', 'created_by', 'updated_by', 'warehouse_id']);
     }
 }

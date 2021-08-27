@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Support\Carbon;
 use App\Services\SetDataOwnerService;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 
 class StoreTenderRequest extends FormRequest
 {
@@ -44,9 +44,9 @@ class StoreTenderRequest extends FormRequest
     {
         $this->merge([
             'closing_date' => (new Carbon($this->closing_date))->toDateTimeString(),
-            'opening_date' => (new Carbon($this->opening_date))->toDateTimeString()
+            'opening_date' => (new Carbon($this->opening_date))->toDateTimeString(),
         ]);
 
-        $this->merge(SetDataOwnerService::forNonTransaction());
+        $this->merge(SetDataOwnerService::forTransaction());
     }
 }
