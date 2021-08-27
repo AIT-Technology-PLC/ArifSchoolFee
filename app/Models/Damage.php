@@ -39,6 +39,11 @@ class Damage extends Model
         return $this->hasMany(DamageDetail::class);
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     public function scopeCompanyDamage($query)
     {
         return $query->where('company_id', userCompany()->id);

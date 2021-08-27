@@ -47,6 +47,11 @@ class Purchase extends Model
         return $this->hasMany(Grn::class);
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     public function scopeCompanyPurchases($query)
     {
         return $query->where('company_id', userCompany()->id);

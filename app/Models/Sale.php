@@ -47,6 +47,11 @@ class Sale extends Model
         return $this->hasMany(Gdn::class);
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     public function getReceiptNoAttribute($value)
     {
         if (Str::endsWith($value, '_') || !$value) {

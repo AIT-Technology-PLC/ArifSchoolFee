@@ -52,6 +52,11 @@ class ProformaInvoice extends Model
         return $this->hasMany(ProformaInvoiceDetail::class);
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     public function scopeCompanyProformaInvoices($query)
     {
         return $query->where('company_id', userCompany()->id);

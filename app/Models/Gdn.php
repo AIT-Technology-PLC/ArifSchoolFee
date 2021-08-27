@@ -55,6 +55,11 @@ class Gdn extends Model
         return $this->morphOne(Reservation::class, 'reservable');
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     public function scopeCompanyGdn($query)
     {
         return $query->where('company_id', userCompany()->id);

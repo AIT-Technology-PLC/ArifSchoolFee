@@ -38,6 +38,11 @@ class Transfer extends Model
         return $this->hasMany(TransferDetail::class);
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     public function scopeCompanyTransfer($query)
     {
         return $query->where('company_id', userCompany()->id);

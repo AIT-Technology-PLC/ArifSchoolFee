@@ -51,6 +51,11 @@ class Returnn extends Model
         return $this->hasMany(ReturnDetail::class, 'return_id');
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     public function scopeCompanyReturn($query)
     {
         return $query->where('company_id', userCompany()->id);

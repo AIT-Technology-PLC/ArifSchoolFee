@@ -67,6 +67,11 @@ class Reservation extends Model
         return $this->hasMany(ReservationDetail::class);
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     public function scopeCompanyReservation($query)
     {
         return $query->where('company_id', userCompany()->id);

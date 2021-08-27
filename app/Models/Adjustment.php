@@ -45,6 +45,11 @@ class Adjustment extends Model
         return $this->hasMany(AdjustmentDetail::class);
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     public function scopeCompanyAdjustment($query)
     {
         return $query->where('company_id', userCompany()->id);

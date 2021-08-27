@@ -48,6 +48,11 @@ class Grn extends Model
         return $this->hasMany(GrnDetail::class);
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     public function scopeCompanyGrn($query)
     {
         return $query->where('company_id', userCompany()->id);
