@@ -141,7 +141,7 @@
                                 </td>
                                 <td class="has-text-right">
                                     {{ $return->company->currency }}.
-                                    {{ number_format($return->totalCreditAfterVAT, 2) }}
+                                    {{ number_format($return->grandTotalPrice, 2) }}
                                 </td>
                                 <td>
                                     {{ $return->customer->company_name ?? 'N/A' }}

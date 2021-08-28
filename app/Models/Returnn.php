@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Approvable;
+use App\Traits\PricingTicket;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,7 @@ use Illuminate\Support\Str;
 
 class Returnn extends Model
 {
-    use HasFactory, SoftDeletes, Approvable;
+    use HasFactory, SoftDeletes, Approvable, PricingTicket;
 
     protected $table = "returns";
 
@@ -66,19 +67,9 @@ class Returnn extends Model
         return Str::after($value, userCompany()->id . '_');
     }
 
-    public function getTotalCreditAttribute()
+    public function details()
     {
-        $totalPrice = $this->returnDetails
-            ->reduce(function ($carry, $item) {
-                return $carry + ($item->unit_price * $item->quantity);
-            }, 0);
-
-        return $totalPrice;
-    }
-
-    public function getTotalCreditAfterVATAttribute()
-    {
-        return $this->totalCredit * 1.15;
+        return $this->returnDetails;
     }
 
     public function getAll()

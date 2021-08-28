@@ -74,10 +74,10 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ number_format($return->totalCredit, 2) }}
+                                {{ number_format($return->subtotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Total Credit ({{ $return->company->currency }})
+                                SubTotal Price ({{ $return->company->currency }})
                             </div>
                         </div>
                     </div>
@@ -93,10 +93,10 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ number_format($return->totalCreditAfterVAT, 2) }}
+                                {{ number_format($return->grandTotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Total Credit After VAT ({{ $return->company->currency }})
+                                Grand Total Price ({{ $return->company->currency }})
                             </div>
                         </div>
                     </div>
@@ -252,6 +252,7 @@
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Unit Price </abbr></th>
+                            <th><abbr> Total </abbr></th>
                             <th><abbr> Description </abbr></th>
                         </tr>
                     </thead>
@@ -272,6 +273,10 @@
                                 <td>
                                     {{ $return->company->currency }}.
                                     {{ number_format($returnDetail->unit_price, 2) }}
+                                </td>
+                                <td>
+                                    {{ $return->company->currency }}.
+                                    {{ number_format($returnDetail->totalPrice, 2) }}
                                 </td>
                                 <td>
                                     {!! nl2br(e($returnDetail->description)) !!}

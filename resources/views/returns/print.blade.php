@@ -114,6 +114,7 @@
                                     <th>Category</th>
                                     <th>Quantity</th>
                                     <th>Unit Price</th>
+                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -124,6 +125,7 @@
                                         <td> {{ $returnDetail->product->productCategory->name }} </td>
                                         <td> {{ number_format($returnDetail->quantity, 2) }} {{ $returnDetail->product->unit_of_measurement }} </td>
                                         <td> {{ number_format($returnDetail->unit_price, 2) }} </td>
+                                        <td> {{ number_format($returnDetail->totalPrice, 2) }} </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -138,15 +140,15 @@
                             <tbody>
                                 <tr>
                                     <td class="has-text-weight-bold">Sub-Total</td>
-                                    <td class="has-text-right">{{ number_format($return->totalCredit, 2) }}</td>
+                                    <td class="has-text-right">{{ number_format($return->subtotalPrice, 2) }}</td>
                                 </tr>
                                 <tr>
                                     <td class="has-text-weight-bold">VAT 15%</td>
-                                    <td class="has-text-right">{{ number_format($return->totalCredit * 0.15, 2) }}</td>
+                                    <td class="has-text-right">{{ number_format($return->vat, 2) }}</td>
                                 </tr>
                                 <tr>
                                     <td class="has-text-weight-bold">Grand Total</td>
-                                    <td class="has-text-right has-text-weight-bold">{{ number_format($return->totalCreditAfterVAT, 2) }}</td>
+                                    <td class="has-text-right has-text-weight-bold">{{ number_format($return->grandTotalPrice, 2) }}</td>
                                 </tr>
                             </tbody>
                         </table>
