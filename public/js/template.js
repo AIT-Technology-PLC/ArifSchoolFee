@@ -908,10 +908,7 @@ function addTransferDetail() {
     transferDetail
         .querySelectorAll(".column")[2]
         .querySelector("label")
-        .setAttribute(
-            "for",
-            `transfer[${totalTransferDetails}][warehouse_id]`
-        );
+        .setAttribute("for", `transfer[${totalTransferDetails}][warehouse_id]`);
 
     transferDetail
         .querySelectorAll(".column")[2]
@@ -948,10 +945,7 @@ function addTransferDetail() {
     transferDetail
         .querySelectorAll(".column")[4]
         .querySelector("label")
-        .setAttribute(
-            "for",
-            `transfer[${totalTransferDetails}][description]`
-        );
+        .setAttribute("for", `transfer[${totalTransferDetails}][description]`);
 
     transferDetail
         .querySelectorAll(".column")[4]
@@ -970,6 +964,157 @@ function addTransferDetail() {
         .querySelector("textarea").value = "";
 
     transferDetailsWrapper.appendChild(transferDetail);
+
+    initializeSelect2Products();
+}
+
+function addReturnDetail() {
+    let returnDetailsWrapper = d.getElementById("return-details");
+
+    let returnDetails = d.getElementsByClassName("return-detail");
+
+    let totalReturnDetails = returnDetails.length;
+
+    let returnDetail = returnDetails[0].cloneNode(true);
+
+    let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    returnDetail.querySelector("[name=item-number]").innerText = `Item ${
+        totalReturnDetails + 1
+    }`;
+
+    returnDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("label")
+        .setAttribute("for", `return[${totalReturnDetails}][product_id]`);
+
+    returnDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select").innerHTML = "";
+
+    returnDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select")
+        .appendChild(originalSelect);
+
+    returnDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).id = `return[${totalReturnDetails}][product_id]`;
+
+    returnDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).name = `return[${totalReturnDetails}][product_id]`;
+
+    returnDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("select").classList = "select2-products";
+
+    returnDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".control > select")
+        .remove();
+
+    returnDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("label")
+        .setAttribute("for", `return[${totalReturnDetails}][warehouse_id]`);
+
+    returnDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "select"
+        ).id = `return[${totalReturnDetails}][warehouse_id]`;
+
+    returnDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "select"
+        ).name = `return[${totalReturnDetails}][warehouse_id]`;
+
+    returnDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("label")
+        .setAttribute("for", `return[${totalReturnDetails}][quantity]`);
+
+    returnDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("input").id = `return[${totalReturnDetails}][quantity]`;
+
+    returnDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "input"
+        ).name = `return[${totalReturnDetails}][quantity]`;
+
+    returnDetail.querySelectorAll(".column")[2].querySelector("input").value =
+        "";
+
+    returnDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "button"
+        ).id = `return[${totalReturnDetails}][product_id]Quantity`;
+
+    returnDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("button").innerText = "";
+
+    returnDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("label")
+        .setAttribute("for", `return[${totalReturnDetails}][unit_price]`);
+
+    returnDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "input"
+        ).id = `return[${totalReturnDetails}][unit_price]`;
+
+    returnDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "input"
+        ).name = `return[${totalReturnDetails}][unit_price]`;
+
+    returnDetail.querySelectorAll(".column")[3].querySelector("input").value =
+        "";
+
+    returnDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "button"
+        ).id = `return[${totalReturnDetails}][product_id]Price`;
+
+    returnDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("button").innerText = "";
+
+    returnDetail
+        .querySelectorAll(".column")[4]
+        .querySelector("label")
+        .setAttribute("for", `return[${totalReturnDetails}][description]`);
+
+    returnDetail
+        .querySelectorAll(".column")[4]
+        .querySelector(
+            "textarea"
+        ).id = `return[${totalReturnDetails}][description]`;
+
+    returnDetail
+        .querySelectorAll(".column")[4]
+        .querySelector(
+            "textarea"
+        ).name = `return[${totalReturnDetails}][description]`;
+
+    returnDetail
+        .querySelectorAll(".column")[4]
+        .querySelector("textarea").value = "";
+
+    returnDetailsWrapper.appendChild(returnDetail);
 
     initializeSelect2Products();
 }

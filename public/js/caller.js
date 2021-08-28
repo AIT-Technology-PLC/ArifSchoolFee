@@ -264,7 +264,7 @@ if (d.getElementById("addNewAdjustmentForm")) {
 if (d.getElementById("addNewReturnForm")) {
     d.getElementById("addNewReturnForm").addEventListener(
         "click",
-        addReturnForm
+        addReturnDetail
     );
 }
 
