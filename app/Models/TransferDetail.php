@@ -21,16 +21,6 @@ class TransferDetail extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function warehouse()
-    {
-        return $this->belongsTo(Warehouse::class, 'warehouse_id');
-    }
-
-    public function toWarehouse()
-    {
-        return $this->belongsTo(Warehouse::class, 'to_warehouse_id');
-    }
-
     public function getByWarehouseAndProduct($warehouse, $product)
     {
         return $this->where('product_id', $product->id)

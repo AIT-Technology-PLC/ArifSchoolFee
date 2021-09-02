@@ -43,6 +43,26 @@ class Transfer extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
+    public function subtractedBy()
+    {
+        return $this->belongsTo(User::class, 'subtracted_by');
+    }
+
+    public function addedBy()
+    {
+        return $this->belongsTo(User::class, 'added_by');
+    }
+
+    public function transferredFrom()
+    {
+        return $this->belongsTo(Warehouse::class, 'transferred_from');
+    }
+
+    public function transferredTo()
+    {
+        return $this->belongsTo(Warehouse::class, 'transferred_to');
+    }
+
     public function scopeCompanyTransfer($query)
     {
         return $query->where('company_id', userCompany()->id);
@@ -70,14 +90,35 @@ class Transfer extends Model
         return $this->companyTransfer()->count();
     }
 
-    public function transfer()
+    public function add()
     {
-        $this->status = 'Transferred';
+        $this->added_by = auth()->id();
+
         $this->save();
     }
 
-    public function isTransferred()
+    public function isAdded()
     {
-        return $this->status == 'Transferred';
+        if (is_null($this->added_by)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function subtract()
+    {
+        $this->subtracted_by = auth()->id();
+
+        $this->save();
+    }
+
+    public function isSubtracted()
+    {
+        if (is_null($this->subtracted_by)) {
+            return false;
+        }
+
+        return true;
     }
 }

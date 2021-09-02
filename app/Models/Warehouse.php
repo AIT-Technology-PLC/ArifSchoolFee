@@ -37,16 +37,6 @@ class Warehouse extends Model
         return $this->hasMany(GdnDetail::class);
     }
 
-    public function transferDetails()
-    {
-        return $this->hasMany(TransferDetail::class, 'warehouse_id');
-    }
-
-    public function toTransferDetails()
-    {
-        return $this->hasMany(TransferDetail::class, 'to_warehouse_id');
-    }
-
     public function grnDetails()
     {
         return $this->hasMany(GrnDetail::class);
@@ -87,6 +77,16 @@ class Warehouse extends Model
         return $this->belongsToMany(User::class)->withPivot('type');
     }
 
+    public function fromTransfers()
+    {
+        return $this->hasMany(Warehouse::class, 'transferred_from');
+    }
+
+    public function toTransfers()
+    {
+        return $this->hasMany(Warehouse::class, 'transferred_to');
+    }
+
     public function scopeCompanyWarehouses($query)
     {
         return $query->where('company_id', userCompany()->id);
@@ -99,17 +99,6 @@ class Warehouse extends Model
 
     public function getAllWithoutRelations()
     {
-        /*
-        This is temporary solution
-        Dont allow sales officer of Dejene Lemessa to see the main warehouse stock level
-         */
-        // ONLY FOR DEJENE
-        if (userCompany()->id == 12 && auth()->user()->roles[0]->name == 'Sales Officer'
-            && (request()->routeIs('merchandises.*') || request()->routeIs('warehouses.merchandises.*'))) {
-            return $this->companyWarehouses()->where('name', '<>', 'Main Warehouse')->orderBy('name')->get();
-        }
-        // ONLY FOR DEJENE
-
         return $this->companyWarehouses()->orderBy('name')->get();
     }
 
