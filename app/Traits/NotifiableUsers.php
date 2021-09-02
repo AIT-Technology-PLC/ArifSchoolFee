@@ -8,7 +8,11 @@ trait NotifiableUsers
 {
     public function notifiableUsers($permission, $creator = null)
     {
-        if (auth()->user()->can($permission)) {
+        if (auth()->user()->can($permission) && auth()->user()->is($creator)) {
+            return [];
+        }
+
+        if (auth()->user()->can($permission) && auth()->user()->isNot($creator)) {
             return $creator ?? [];
         }
 
