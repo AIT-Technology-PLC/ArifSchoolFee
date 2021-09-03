@@ -7,9 +7,9 @@ use Illuminate\View\Component;
 
 class ProductList extends Component
 {
-    public $products, $name, $selectedProductId;
+    public $products, $name, $selectedProductId, $tags;
 
-    public function __construct($name, $selectedProductId)
+    public function __construct($name, $selectedProductId, $tags)
     {
         $this->products = Product::companyProducts()
             ->select(['id', 'product_category_id', 'name', 'code'])
@@ -20,6 +20,8 @@ class ProductList extends Component
         $this->name = $name;
 
         $this->selectedProductId = $selectedProductId;
+
+        $this->tags = $tags;
     }
 
     public function render()

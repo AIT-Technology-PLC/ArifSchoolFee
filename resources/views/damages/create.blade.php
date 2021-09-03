@@ -11,7 +11,7 @@
                 New Damage
             </h1>
         </div>
-        <form id="formOne" action="{{ route('damages.store')}}" method="POST" enctype="multipart/form-data" novalidate>
+        <form id="formOne" action="{{ route('damages.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">
@@ -75,7 +75,7 @@
                             <div class="field">
                                 <label for="damage[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
-                                    <x-product-list name="damage[0]" selected-product-id="{{ old('damage.0.product_id') }}"/>
+                                    <x-product-list tags="false" name="damage[0]" selected-product-id="{{ old('damage.0.product_id') }}" />
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-th"></i>
                                     </div>
@@ -159,7 +159,7 @@
                                     <div class="field">
                                         <label for="damage[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                         <div class="control has-icons-left">
-                                            <x-product-list name="damage[{{ $i }}]" selected-product-id="{{ old('damage.' . $i . '.product_id') }}"/>
+                                            <x-product-list tags="false" name="damage[{{ $i }}]" selected-product-id="{{ old('damage.' . $i . '.product_id') }}" />
                                             <div class="icon is-small is-left">
                                                 <i class="fas fa-th"></i>
                                             </div>
@@ -231,8 +231,8 @@
                             </div>
                         </div>
                     @else
-                        @break
-                    @endif
+                    @break
+                @endif
                 @endfor
                 <div id="damageFormWrapper"></div>
                 <button id="addNewDamageForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
