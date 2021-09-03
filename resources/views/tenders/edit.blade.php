@@ -300,7 +300,7 @@
                                 <div class="field">
                                     <label for="tender[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
-                                        <x-product-list name="tender[{{ $loop->index }}]" selected-product-id="{{ $tenderDetail->product->id }}" />
+                                        <x-product-list tags="false" name="tender[{{ $loop->index }}]" selected-product-id="{{ $tenderDetail->product->id }}" />
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-th"></i>
                                         </div>

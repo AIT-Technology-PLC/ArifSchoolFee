@@ -1105,6 +1105,7 @@ function initializeSelect2Products() {
         $(".select2-products").select2({
             placeholder: "Select a product",
             allowClear: true,
+            tags: $(".select2-products").attr("data-tags"),
             matcher: (params, data) => {
                 if ($.trim(params.term) === "") {
                     return data;

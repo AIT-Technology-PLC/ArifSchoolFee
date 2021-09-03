@@ -138,7 +138,7 @@
                             <div class="field">
                                 <label for="purchase[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
-                                    <x-product-list name="purchase[0]" selected-product-id="{{ old('purchase.0.product_id') }}" />
+                                    <x-product-list tags="false" name="purchase[0]" selected-product-id="{{ old('purchase.0.product_id') }}" />
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-th"></i>
                                     </div>
@@ -203,7 +203,7 @@
                                     <div class="field">
                                         <label for="purchase[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                         <div class="control has-icons-left">
-                                            <x-product-list name="purchase[{{ $i }}]" selected-product-id="{{ old('purchase.' . $i . '.product_id') }}" />
+                                            <x-product-list tags="false" name="purchase[{{ $i }}]" selected-product-id="{{ old('purchase.' . $i . '.product_id') }}" />
                                             <div class="icon is-small is-left">
                                                 <i class="fas fa-th"></i>
                                             </div>
@@ -256,8 +256,8 @@
                             </div>
                         </div>
                     @else
-                        @break
-                    @endif
+                    @break
+                @endif
                 @endfor
                 <div id="purchaseFormWrapper"></div>
                 <button id="addNewPurchaseForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">

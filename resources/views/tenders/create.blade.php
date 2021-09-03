@@ -298,7 +298,7 @@
                             <div class="field">
                                 <label for="tender[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
-                                    <x-product-list name="tender[0]" selected-product-id="{{ old('tender.0.product_id') }}" />
+                                    <x-product-list tags="false" name="tender[0]" selected-product-id="{{ old('tender.0.product_id') }}" />
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-th"></i>
                                     </div>
@@ -348,10 +348,10 @@
                     </div>
                 </div>
                 @for ($i = 1; $i < 10; $i++)
-                    @if (old('tender.' . $i . '.product_id') || old('tender.' . $i . '.quantity')) 
+                    @if (old('tender.' . $i . '.product_id') || old('tender.' . $i . '.quantity'))
                         <div class="has-text-weight-medium has-text-left">
                             <span class="tag bg-green has-text-white is-medium radius-bottom-0">
-                            Item {{ $i + 1 }}
+                                Item {{ $i + 1 }}
                             </span>
                         </div>
                         <div class="box has-background-white-bis radius-top-0">
@@ -360,7 +360,7 @@
                                     <div class="field">
                                         <label for="tender[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                         <div class="control has-icons-left">
-                                            <x-product-list name="tender[{{ $i }}]" selected-product-id="{{ old('tender.' . $i . '.product_id') }}" />
+                                            <x-product-list tags="false" name="tender[{{ $i }}]" selected-product-id="{{ old('tender.' . $i . '.product_id') }}" />
                                             <div class="icon is-small is-left">
                                                 <i class="fas fa-th"></i>
                                             </div>
@@ -410,8 +410,8 @@
                             </div>
                         </div>
                     @else
-                        @break
-                    @endif
+                    @break
+                @endif
                 @endfor
                 <div id="tenderFormWrapper"></div>
                 <button id="addNewTenderForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">

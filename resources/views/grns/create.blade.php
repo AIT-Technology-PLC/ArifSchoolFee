@@ -11,7 +11,7 @@
                 New GRN
             </h1>
         </div>
-        <form id="formOne" action="{{ route('grns.store')}}" method="POST" enctype="multipart/form-data" novalidate>
+        <form id="formOne" action="{{ route('grns.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">
@@ -50,7 +50,7 @@
                             </div>
                         </div>
                     </div>
-                    @if ($enabledFeatures->contains('Purchase Management'))    
+                    @if ($enabledFeatures->contains('Purchase Management'))
                         <div class="column is-6">
                             <div class="field">
                                 <label for="purchase_id" class="label text-green has-text-weight-normal"> Purchase No <sup class="has-text-danger"></sup> </label>
@@ -112,7 +112,7 @@
                             <div class="field">
                                 <label for="grn[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
-                                    <x-product-list name="grn[0]" selected-product-id="{{ old('grn.0.product_id') }}"/>
+                                    <x-product-list tags="false" name="grn[0]" selected-product-id="{{ old('grn.0.product_id') }}" />
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-th"></i>
                                     </div>
@@ -196,7 +196,7 @@
                                     <div class="field">
                                         <label for="grn[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                         <div class="control has-icons-left">
-                                            <x-product-list name="grn[{{ $i }}]" selected-product-id="{{ old('grn.' . $i . '.product_id') }}"/>
+                                            <x-product-list tags="false" name="grn[{{ $i }}]" selected-product-id="{{ old('grn.' . $i . '.product_id') }}" />
                                             <div class="icon is-small is-left">
                                                 <i class="fas fa-th"></i>
                                             </div>
@@ -268,8 +268,8 @@
                             </div>
                         </div>
                     @else
-                        @break
-                    @endif
+                    @break
+                @endif
                 @endfor
                 <div id="grnFormWrapper"></div>
                 <button id="addNewGrnForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-3">
