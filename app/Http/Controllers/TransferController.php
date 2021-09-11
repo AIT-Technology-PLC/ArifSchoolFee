@@ -128,12 +128,22 @@ class TransferController extends Controller
     {
         $this->authorize('transfer', $transfer);
 
+        abort_if(
+            !$transfer->isSubtracted() && !auth()->user()->subtractWarehouses()->contains($transfer->transferred_from),
+            403
+        );
+
+        abort_if(
+            $transfer->isSubtracted() && !auth()->user()->addWarehouses()->contains($transfer->transferred_to),
+            403
+        );
+
         if (!$transfer->isApproved()) {
             return redirect()->back()->with('failedMessage', 'This Transfer is not approved');
         }
 
         $result = DB::transaction(function () use ($transfer) {
-            $result = InventoryOperationService::transfer($transfer->transferDetails);
+            $result = InventoryOperationService::transfer($transfer->transferDetails, $transfer->isSubtracted());
 
             if (!$result['isTransferred']) {
                 DB::rollBack();
@@ -141,7 +151,7 @@ class TransferController extends Controller
                 return $result;
             }
 
-            $transfer->transfer();
+            $transfer->isSubtracted() ? $transfer->add() : $transfer->subtract();
 
             Notification::send(
                 $this->notifiableUsers('Approve Transfer', $transfer->createdBy),

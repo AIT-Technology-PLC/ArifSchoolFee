@@ -50,30 +50,32 @@ class InventoryOperationService
         return $result;
     }
 
-    public static function transfer($details)
+    public static function transfer($details, $isSubtracted)
     {
-        $result = DB::transaction(function () use ($details) {
-            $unavailableProducts = [];
+        $result = DB::transaction(function () use ($details, $isSubtracted) {
+            if (!$isSubtracted) {
+                $unavailableProducts = [];
 
-            foreach ($details as $detail) {
-                $type = InventoryTypeFactory::make($detail);
+                foreach ($details as $detail) {
+                    $type = InventoryTypeFactory::make($detail);
 
-                if (!$type->isAvailable($detail)) {
-                    array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
+                    if (!$type->isAvailable($detail)) {
+                        array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
+                    }
+                }
+
+                if (count($unavailableProducts)) {
+                    return [
+                        'isTransferred' => false,
+                        'unavailableProducts' => $unavailableProducts,
+                    ];
                 }
             }
 
-            if (count($unavailableProducts)) {
-                return [
-                    'isTransferred' => false,
-                    'unavailableProducts' => $unavailableProducts,
-                ];
-            }
-
             foreach ($details as $detail) {
                 $type = InventoryTypeFactory::make($detail);
 
-                $type->transfer($detail);
+                $type->transfer($detail, $isSubtracted);
             }
 
             return ['isTransferred' => true];

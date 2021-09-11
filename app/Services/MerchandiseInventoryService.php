@@ -56,14 +56,18 @@ class MerchandiseInventoryService
         $merchandise->save();
     }
 
-    public function transfer($detail)
+    public function transfer($detail, $isSubtracted)
     {
-        DB::transaction(function () use ($detail) {
-            $this->subtract($detail);
+        DB::transaction(function () use ($detail, $isSubtracted) {
+            if ($isSubtracted) {
+                $detail->warehouse_id = $detail->transferred_to;
+                $this->add($detail);
+            }
 
-            $detail->warehouse_id = $detail->to_warehouse_id;
-
-            $this->add($detail);
+            if (!$isSubtracted) {
+                $detail->warehouse_id = $detail->transferred_from;
+                $this->subtract($detail);
+            }
         });
     }
 
