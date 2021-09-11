@@ -50,11 +50,13 @@ class TransferController extends Controller
 
     public function create(Warehouse $warehouse)
     {
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $fromWarehouses = $warehouse->getAllWithoutRelations();
+
+        $toWarehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
 
         $currentTransferCode = (Transfer::select('code')->companyTransfer()->latest()->first()->code) ?? 0;
 
-        return view('transfers.create', compact('warehouses', 'currentTransferCode'));
+        return view('transfers.create', compact('fromWarehouses', 'toWarehouses', 'currentTransferCode'));
     }
 
     public function store(StoreTransferRequest $request)
@@ -83,9 +85,11 @@ class TransferController extends Controller
     {
         $transfer->load(['transferDetails.product', 'transferDetails.warehouse', 'transferDetails.toWarehouse']);
 
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $fromWarehouses = $warehouse->getAllWithoutRelations();
 
-        return view('transfers.edit', compact('transfer', 'warehouses'));
+        $toWarehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
+
+        return view('transfers.edit', compact('transfer', 'fromWarehouses', 'toWarehouses'));
     }
 
     public function update(UpdateTransferRequest $request, Transfer $transfer)
