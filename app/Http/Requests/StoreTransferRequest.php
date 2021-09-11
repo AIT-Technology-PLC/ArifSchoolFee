@@ -39,10 +39,6 @@ class StoreTransferRequest extends FormRequest
 
     public function passedValidation()
     {
-        $this->merge([
-            'status' => 'Not Transferred',
-        ]);
-
         $this->merge(SetDataOwnerService::forTransaction());
     }
 }
