@@ -92,6 +92,8 @@
                             <th><abbr> # </abbr></th>
                             <th class="has-text-centered"><abbr> Transfer No </abbr></th>
                             <th><abbr> Status </abbr></th>
+                            <th><abbr> From </abbr></th>
+                            <th><abbr> To </abbr></th>
                             <th><abbr> Description </abbr></th>
                             <th class="has-text-right"><abbr> Issued On </abbr></th>
                             <th><abbr> Prepared By </abbr></th>
@@ -108,16 +110,7 @@
                                     {{ $transfer->code }}
                                 </td>
                                 <td class="is-capitalized">
-                                    @if (!$transfer->isApproved())
-                                        <span class="tag is-small bg-purple has-text-white">
-                                            <span class="icon">
-                                                <i class="fas fa-clock"></i>
-                                            </span>
-                                            <span>
-                                                Waiting Approval
-                                            </span>
-                                        </span>
-                                    @elseif ($transfer->isTransferred())
+                                    @if ($transfer->isAdded())
                                         <span class="tag is-small bg-green has-text-white">
                                             <span class="icon">
                                                 <i class="fas fa-check-circle"></i>
@@ -126,7 +119,16 @@
                                                 Transferred
                                             </span>
                                         </span>
-                                    @else
+                                    @elseif ($transfer->isSubtracted())
+                                        <span class="tag is-small bg-green has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-check-circle"></i>
+                                            </span>
+                                            <span>
+                                                Subtracted (not Added)
+                                            </span>
+                                        </span>
+                                    @elseif($transfer->isApproved())
                                         <span class="tag is-small bg-gold has-text-white">
                                             <span class="icon">
                                                 <i class="fas fa-exclamation-circle"></i>
@@ -135,8 +137,19 @@
                                                 Approved (not Transferred)
                                             </span>
                                         </span>
+                                    @else
+                                        <span class="tag is-small bg-purple has-text-white">
+                                            <span class="icon">
+                                                <i class="fas fa-clock"></i>
+                                            </span>
+                                            <span>
+                                                Waiting Approval
+                                            </span>
+                                        </span>
                                     @endif
                                 </td>
+                                <td>{{ $transfer->transferredFrom->name }}</td>
+                                <td>{{ $transfer->transferredTo->name }}</td>
                                 <td>
                                     {!! nl2br(e(substr($transfer->description, 0, 40))) ?? 'N/A' !!}
                                     <span class="is-hidden">

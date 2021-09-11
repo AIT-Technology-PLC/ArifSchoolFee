@@ -35,7 +35,7 @@ class TransferController extends Controller
 
     public function index(Transfer $transfer)
     {
-        $transfers = $transfer->getAll()->load(['createdBy', 'updatedBy', 'approvedBy']);
+        $transfers = $transfer->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'transferredFrom', 'transferredTo']);
 
         $totalTransferred = $transfers->where('status', 'Transferred')->count();
 
@@ -111,7 +111,7 @@ class TransferController extends Controller
 
     public function destroy(Transfer $transfer)
     {
-        if ($transfer->isTransferred()) {
+        if ($transfer->isSubtracted()) {
             return view('errors.permission_denied');
         }
 
@@ -129,7 +129,7 @@ class TransferController extends Controller
         $this->authorize('transfer', $transfer);
 
         abort_if(
-            !$transfer->isSubtracted() && !auth()->user()->subtractWarehouses()->contains($transfer->transferred_from),
+            !$transfer->isSubtracted() && auth()->user()->warehouse_id != $transfer->transferred_from,
             403
         );
 

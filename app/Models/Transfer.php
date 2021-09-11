@@ -80,7 +80,10 @@ class Transfer extends Model
         }
 
         return $this->companyTransfer()
-            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->where(function ($query) {
+                $query->where('transferred_from', auth()->user()->warehouse_id)
+                    ->orWhere('transferred_to', auth()->user()->warehouse_id);
+            })
             ->latest()
             ->get();
     }

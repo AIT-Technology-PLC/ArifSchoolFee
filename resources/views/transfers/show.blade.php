@@ -168,39 +168,7 @@
                         </span>
                     </p>
                 </div>
-            @elseif (!$transfer->isSubtracted() || !$transfer->isAdded())
-                @can('Make Transfer')
-                    <div class="box has-background-white-ter has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-7">
-                            Product(s) listed below are still not transferred
-                            <br>
-                            Click on the button below to transfer.
-                        </p>
-                        <form id="formOne" action="{{ route('transfers.transfer', $transfer->id) }}" method="post" novalidate>
-                            @csrf
-                            <button id="transferButton" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
-                                <span class="icon">
-                                    <i class="fas fa-minus-circle"></i>
-                                </span>
-                                <span>
-                                    Transfer products
-                                </span>
-                            </button>
-                        </form>
-                    </div>
-                @else
-                    <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-6">
-                            <span class="icon">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </span>
-                            <span>
-                                Product(s) listed below are still not transferred.
-                            </span>
-                        </p>
-                    </div>
-                @endcan
-            @elseif (!$transfer->isApproved())
+            @elseif(!$transfer->isApproved())
                 @can('Approve Transfer')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
@@ -228,6 +196,38 @@
                             </span>
                             <span>
                                 This Transfer has not been approved.
+                            </span>
+                        </p>
+                    </div>
+                @endcan
+            @else
+                @can('Make Transfer')
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            Product(s) listed below are still not transferred
+                            <br>
+                            Click on the button below to transfer.
+                        </p>
+                        <form id="formOne" action="{{ route('transfers.transfer', $transfer->id) }}" method="post" novalidate>
+                            @csrf
+                            <button id="transferButton" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                                <span class="icon">
+                                    <i class="fas fa-minus-circle"></i>
+                                </span>
+                                <span>
+                                    {{ $transfer->isSubtracted() ? 'Add to inventory' : 'Subtract from inventory' }}
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-6">
+                            <span class="icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </span>
+                            <span>
+                                Product(s) listed below are still not transferred.
                             </span>
                         </p>
                     </div>
