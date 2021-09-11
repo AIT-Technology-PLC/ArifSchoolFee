@@ -908,59 +908,22 @@ function addTransferDetail() {
     transferDetail
         .querySelectorAll(".column")[2]
         .querySelector("label")
-        .setAttribute("for", `transfer[${totalTransferDetails}][warehouse_id]`);
-
-    transferDetail
-        .querySelectorAll(".column")[2]
-        .querySelector(
-            "select"
-        ).id = `transfer[${totalTransferDetails}][warehouse_id]`;
-
-    transferDetail
-        .querySelectorAll(".column")[2]
-        .querySelector(
-            "select"
-        ).name = `transfer[${totalTransferDetails}][warehouse_id]`;
-
-    transferDetail
-        .querySelectorAll(".column")[3]
-        .querySelector("label")
-        .setAttribute(
-            "for",
-            `transfer[${totalTransferDetails}][to_warehouse_id]`
-        );
-
-    transferDetail
-        .querySelectorAll(".column")[3]
-        .querySelector(
-            "select"
-        ).id = `transfer[${totalTransferDetails}][to_warehouse_id]`;
-
-    transferDetail
-        .querySelectorAll(".column")[3]
-        .querySelector(
-            "select"
-        ).name = `transfer[${totalTransferDetails}][to_warehouse_id]`;
-
-    transferDetail
-        .querySelectorAll(".column")[4]
-        .querySelector("label")
         .setAttribute("for", `transfer[${totalTransferDetails}][description]`);
 
     transferDetail
-        .querySelectorAll(".column")[4]
+        .querySelectorAll(".column")[2]
         .querySelector(
             "textarea"
         ).id = `transfer[${totalTransferDetails}][description]`;
 
     transferDetail
-        .querySelectorAll(".column")[4]
+        .querySelectorAll(".column")[2]
         .querySelector(
             "textarea"
         ).name = `transfer[${totalTransferDetails}][description]`;
 
     transferDetail
-        .querySelectorAll(".column")[4]
+        .querySelectorAll(".column")[2]
         .querySelector("textarea").value = "";
 
     transferDetailsWrapper.appendChild(transferDetail);
