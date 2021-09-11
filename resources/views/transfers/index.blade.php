@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="columns is-marginless is-multiline">
+    <div class="columns is-marginless is-multiline is-centered">
         <div class="column is-6 p-lr-0">
             <div class="box text-green">
                 <div class="columns is-marginless is-vcentered is-mobile">
@@ -57,12 +57,22 @@
             </div>
         </div>
         <div class="column is-4 p-lr-0">
-            <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
+            <div class="box text-blue has-text-centered" style="border-left: 2px solid #3d6386;">
                 <div class="is-size-3 has-text-weight-bold">
-                    {{ $totalNotTransferred }}
+                    {{ $totalSubtracted }}
                 </div>
                 <div class="is-uppercase is-size-7">
-                    Approved (not Transferred)
+                    Subtracted (not Added)
+                </div>
+            </div>
+        </div>
+        <div class="column is-4 p-lr-0">
+            <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
+                <div class="is-size-3 has-text-weight-bold">
+                    {{ $totalApproved }}
+                </div>
+                <div class="is-uppercase is-size-7">
+                    Approved
                 </div>
             </div>
         </div>
