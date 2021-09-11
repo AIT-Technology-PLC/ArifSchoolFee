@@ -60,12 +60,12 @@ class MerchandiseInventoryService
     {
         DB::transaction(function () use ($detail, $isSubtracted) {
             if ($isSubtracted) {
-                $detail->warehouse_id = $detail->transferred_to;
+                $detail->warehouse_id = $detail->transfer->transferred_to;
                 $this->add($detail);
             }
 
             if (!$isSubtracted) {
-                $detail->warehouse_id = $detail->transferred_from;
+                $detail->warehouse_id = $detail->transfer->transferred_from;
                 $this->subtract($detail);
             }
         });

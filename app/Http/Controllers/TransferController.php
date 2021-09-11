@@ -76,14 +76,14 @@ class TransferController extends Controller
 
     public function show(Transfer $transfer)
     {
-        $transfer->load(['transferDetails.product', 'transferDetails.warehouse', 'transferDetails.toWarehouse']);
+        $transfer->load(['transferDetails.product', 'transferredFrom', 'transferredTo']);
 
         return view('transfers.show', compact('transfer'));
     }
 
     public function edit(Transfer $transfer, Warehouse $warehouse)
     {
-        $transfer->load(['transferDetails.product', 'transferDetails.warehouse', 'transferDetails.toWarehouse']);
+        $transfer->load(['transferDetails.product', 'transferredFrom', 'transferredTo']);
 
         $fromWarehouses = $warehouse->getAllWithoutRelations();
 

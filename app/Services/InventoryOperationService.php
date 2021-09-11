@@ -59,8 +59,10 @@ class InventoryOperationService
                 foreach ($details as $detail) {
                     $type = InventoryTypeFactory::make($detail);
 
+                    $detail->warehouse_id = $detail->transfer->transferred_from;
+
                     if (!$type->isAvailable($detail)) {
-                        array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
+                        array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->transfer->transferredFrom->name . '.');
                     }
                 }
 

@@ -5,40 +5,94 @@
 @endsection
 
 @section('content')
-    <div class="columns is-marginless is-multiline">
-        <div class="column">
-            <div class="box text-green">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-exchange-alt"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 has-text-weight-bold">
-                            {{ $transfer->code ?? 'N/A' }}
+    <div class="box mt-3 mx-3 m-lr-0">
+        <div class="columns is-marginless is-multiline">
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-exchange-alt"></i>
+                            </span>
                         </div>
-                        <div class="is-uppercase is-size-7">
-                            Transfer No
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $transfer->code ?? 'N/A' }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Transfer No
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="column">
-            <div class="box text-green">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-calendar-day"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 is-size-5-mobile has-text-weight-bold">
-                            {{ $transfer->issued_on->toFormattedDateString() }}
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-calendar-day"></i>
+                            </span>
                         </div>
-                        <div class="is-uppercase is-size-7">
-                            Issued On
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $transfer->issued_on->toFormattedDateString() ?? 'N/A' }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Issued On
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-purple">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-warehouse"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $transfer->transferredFrom->name }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Tranferred From
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div>
+                    <div class="columns is-marginless is-vcentered is-mobile text-green">
+                        <div class="column is-1">
+                            <span class="icon is-size-3">
+                                <i class="fas fa-warehouse"></i>
+                            </span>
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold">
+                                {{ $transfer->transferredTo->name }}
+                            </div>
+                            <div class="is-uppercase is-size-7">
+                                Transferred To
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-12">
+                <div>
+                    <div class="columns is-marginless is-vcentered text-green">
+                        <div class="column">
+                            <div class="has-text-weight-bold">
+                                Details
+                            </div>
+                            <div class="is-size-7 mt-3">
+                                {!! is_null($transfer->description) ? 'N/A' : nl2br(e($transfer->description)) !!}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -60,7 +114,7 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            @if ($transfer->isTransferred())
+                            @if ($transfer->isAdded())
                                 <a href="{{ route('transfers.sivs.create', $transfer->id) }}" class="button is-small btn-green is-outlined has-text-white">
                                     <span class="icon">
                                         <i class="fas fa-file-export"></i>
@@ -103,7 +157,7 @@
                     {{ session('successMessage') }}
                 </span>
             </div>
-            @if ($transfer->isApproved() && $transfer->isTransferred())
+            @if ($transfer->isAdded())
                 <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
                     <p class="has-text-grey text-green is-size-6">
                         <span class="icon">
@@ -114,8 +168,7 @@
                         </span>
                     </p>
                 </div>
-            @endif
-            @if ($transfer->isApproved() && !$transfer->isTransferred())
+            @elseif (!$transfer->isSubtracted() || !$transfer->isAdded())
                 @can('Make Transfer')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
@@ -147,8 +200,7 @@
                         </p>
                     </div>
                 @endcan
-            @endif
-            @if (!$transfer->isApproved())
+            @elseif (!$transfer->isApproved())
                 @can('Approve Transfer')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
@@ -188,8 +240,6 @@
                             <th><abbr> # </abbr></th>
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
-                            <th><abbr> From </abbr></th>
-                            <th><abbr> To</abbr></th>
                             <th><abbr> Description </abbr></th>
                         </tr>
                     </thead>
@@ -203,12 +253,6 @@
                                 <td>
                                     {{ number_format($transferDetail->quantity, 2) }}
                                     {{ $transferDetail->product->unit_of_measurement }}
-                                </td>
-                                <td class="is-capitalized">
-                                    {{ $transferDetail->warehouse->name }}
-                                </td>
-                                <td class="is-capitalized">
-                                    {{ $transferDetail->toWarehouse->name }}
                                 </td>
                                 <td>
                                     {!! nl2br(e($transferDetail->description)) !!}
