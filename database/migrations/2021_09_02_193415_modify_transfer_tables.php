@@ -14,6 +14,8 @@ class ModifyTransferTables extends Migration
     public function up()
     {
         Schema::table('transfers', function (Blueprint $table) {
+            $table->dropColumn('status');
+
             $table->bigInteger('subtracted_by')->nullable()->unsigned()->after('approved_by');
             $table->bigInteger('added_by')->nullable()->unsigned()->after('subtracted_by');
             $table->bigInteger('transferred_from')->nullable()->unsigned()->after('added_by');
@@ -24,6 +26,13 @@ class ModifyTransferTables extends Migration
             $table->foreign('transferred_from')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('transferred_to')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
         });
+
+        Schema::table('transfer_details', function (Blueprint $table) {
+            $table->dropForeign(['warehouse_id']);
+            $table->dropForeign(['to_warehouse_id']);
+
+            $table->dropColumn(['warehouse_id', 'to_warehouse_id']);
+        });
     }
 
     /**
@@ -33,7 +42,10 @@ class ModifyTransferTables extends Migration
      */
     public function down()
     {
+
         Schema::table('transfers', function (Blueprint $table) {
+            $table->string('status');
+
             $table->dropForeign(['subtracted_by']);
             $table->dropForeign(['added_by']);
             $table->dropForeign(['transferred_from']);
@@ -45,6 +57,15 @@ class ModifyTransferTables extends Migration
                 'transferred_from',
                 'transferred_to',
             ]);
+
+        });
+
+        Schema::table('transfer_details', function (Blueprint $table) {
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
+            $table->bigInteger('to_warehouse_id')->nullable()->unsigned();
+
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('to_warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 }
