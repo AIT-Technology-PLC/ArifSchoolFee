@@ -24,19 +24,17 @@ class TransferDetail extends Model
     public function getByWarehouseAndProduct($warehouse, $product)
     {
         return $this->where('product_id', $product->id)
-            ->where(function ($query) use ($warehouse) {
-                $query->where('warehouse_id', $warehouse->id)
-                    ->orWhere('to_warehouse_id', $warehouse->id);
-            })
-            ->whereIn('transfer_id', function ($query) {
+            ->whereIn('transfer_id', function ($query) use ($warehouse) {
                 $query->select('id')
                     ->from('transfers')
-                    ->where([
-                        ['company_id', userCompany()->id],
-                        ['status', 'Transferred'],
-                    ]);
+                    ->where('company_id', userCompany()->id)
+                    ->whereNotNull('subtracted_by')
+                    ->where(function ($query) use ($warehouse) {
+                        $query->where('transferred_from', $warehouse->id)
+                            ->orWhere('transferred_to', $warehouse->id);
+                    });
             })
             ->get()
-            ->load(['transfer', 'product', 'toWarehouse', 'warehouse']);
+            ->load(['transfer.transferredFrom', 'transfer.transferredTo', 'product']);
     }
 }

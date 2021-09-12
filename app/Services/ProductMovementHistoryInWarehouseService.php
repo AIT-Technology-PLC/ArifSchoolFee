@@ -88,22 +88,30 @@ class ProductMovementHistoryInWarehouseService
 
     private function formatTransfer($transferDetails)
     {
-        $transferDetails->map(function ($transferDetail) {
-            $this->history->push([
-                'type' => 'TRANSFER',
-                'code' => $transferDetail->transfer->code,
-                'date' => $transferDetail->transfer->issued_on,
-                'quantity' => $transferDetail->quantity,
-                'balance' => 0.00,
-                'unit_of_measurement' => $transferDetail->product->unit_of_measurement,
+        $transferDetails
+            ->filter(function ($transferDetail) {
+                if ($transferDetail->transfer->transferred_to == $this->warehouse->id && !$transferDetail->transfer->isAdded()) {
+                    return false;
+                }
 
-                'details' => $transferDetail->warehouse_id == $this->warehouse->id ?
-                Str::of('Transferred')->append(...[' to ', $transferDetail->toWarehouse->name]) :
-                Str::of('Transferred')->append(...[' from ', $transferDetail->warehouse->name]),
+                return true;
+            })
+            ->map(function ($transferDetail) {
+                $this->history->push([
+                    'type' => 'TRANSFER',
+                    'code' => $transferDetail->transfer->code,
+                    'date' => $transferDetail->transfer->issued_on,
+                    'quantity' => $transferDetail->quantity,
+                    'balance' => 0.00,
+                    'unit_of_measurement' => $transferDetail->product->unit_of_measurement,
 
-                'function' => $transferDetail->warehouse_id == $this->warehouse->id ? 'subtract' : 'add',
-            ]);
-        });
+                    'details' => $transferDetail->transfer->transferred_from == $this->warehouse->id ?
+                    Str::of('Transferred')->append(...[' from ', $transferDetail->transfer->transferredFrom->name]) :
+                    Str::of('Transferred')->append(...[' to ', $transferDetail->transfer->transferredTo->name]),
+
+                    'function' => $transferDetail->transfer->transferred_from == $this->warehouse->id ? 'subtract' : 'add',
+                ]);
+            });
     }
 
     private function formatGdn($gdnDetails)
