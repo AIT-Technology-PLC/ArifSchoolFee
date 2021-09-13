@@ -93,6 +93,9 @@ class CoreV1 extends Migration
             $table->string('sector')->nullable();
             $table->boolean('enabled');
             $table->string('currency');
+            $table->string('proforma_invoice_prefix')->nullable();
+            $table->boolean('is_price_before_vat')->default(1);
+            $table->boolean('is_discount_before_vat')->default(1);
             $table->timestamps();
             $table->softDeletes();
 
@@ -707,7 +710,9 @@ class CoreV1 extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->bigInteger('converted_by')->nullable()->unsigned();
             $table->bigInteger('customer_id')->nullable()->unsigned();
+            $table->string('prefix')->nullable();
             $table->string('code')->unique();
+            $table->string('discount')->nullable();
             $table->boolean('is_pending');
             $table->longText('terms')->nullable();
             $table->dateTime('expires_on')->nullable();
@@ -729,6 +734,7 @@ class CoreV1 extends Migration
             $table->id();
             $table->bigInteger('proforma_invoice_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->string('custom_product')->nullable();
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22);
             $table->decimal('discount', 22)->nullable();
