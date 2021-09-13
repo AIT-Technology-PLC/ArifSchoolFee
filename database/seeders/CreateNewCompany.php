@@ -26,7 +26,7 @@ class CreateNewCompany extends Seeder
 
             $user = User::create([
                 'name' => 'Abebe Kebede',
-                'email' => $faker->safeEmail,
+                'email' => $faker->unique()->safeEmail,
                 'password' => Hash::make('password'),
             ]);
 
