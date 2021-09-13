@@ -9,6 +9,7 @@ use App\Models\Gdn;
 use App\Models\Sale;
 use App\Models\Warehouse;
 use App\Notifications\GdnPrepared;
+use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use App\Traits\SubtractInventory;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Notification;
 
 class GdnController extends Controller
 {
-    use NotifiableUsers, SubtractInventory;
+    use NotifiableUsers, SubtractInventory, ApproveInventory;
 
     private $gdn;
 

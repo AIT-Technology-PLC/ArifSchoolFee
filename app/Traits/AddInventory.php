@@ -9,8 +9,6 @@ use Illuminate\Support\Str;
 
 trait AddInventory
 {
-    use ApproveInventory;
-
     public function add(Request $request, $id)
     {
         $modelName = (string) Str::of($request->path())->before('/')->singular()->ucfirst();

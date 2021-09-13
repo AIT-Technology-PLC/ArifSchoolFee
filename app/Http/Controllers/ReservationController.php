@@ -14,6 +14,7 @@ use App\Notifications\ReservationConverted;
 use App\Notifications\ReservationMade;
 use App\Notifications\ReservationPrepared;
 use App\Services\InventoryOperationService;
+use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use App\Traits\PrependCompanyId;
 use App\Traits\SubtractInventory;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Notification;
 
 class ReservationController extends Controller
 {
-    use NotifiableUsers, SubtractInventory, PrependCompanyId;
+    use NotifiableUsers, SubtractInventory, PrependCompanyId, ApproveInventory;
 
     public function __construct()
     {

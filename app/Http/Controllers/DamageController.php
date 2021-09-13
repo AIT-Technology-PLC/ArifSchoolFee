@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateDamageRequest;
 use App\Models\Damage;
 use App\Models\Warehouse;
 use App\Notifications\DamagePrepared;
+use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use App\Traits\SubtractInventory;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Notification;
 
 class DamageController extends Controller
 {
-    use NotifiableUsers, SubtractInventory;
+    use NotifiableUsers, SubtractInventory, ApproveInventory;
 
     public function __construct()
     {

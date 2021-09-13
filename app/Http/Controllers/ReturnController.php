@@ -9,13 +9,14 @@ use App\Models\Returnn;
 use App\Models\Warehouse;
 use App\Notifications\ReturnPrepared;
 use App\Traits\AddInventory;
+use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class ReturnController extends Controller
 {
-    use NotifiableUsers, AddInventory;
+    use NotifiableUsers, AddInventory, ApproveInventory;
 
     public function __construct()
     {

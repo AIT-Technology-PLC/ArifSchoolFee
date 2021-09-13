@@ -9,8 +9,6 @@ use Illuminate\Support\Str;
 
 trait SubtractInventory
 {
-    use ApproveInventory;
-
     public function subtract(Request $request, $id)
     {
         $modelName = (string) Str::of($request->path())->before('/')->singular()->ucfirst();
