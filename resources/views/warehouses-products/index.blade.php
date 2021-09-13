@@ -12,7 +12,7 @@
             </h1>
         </div>
         <div class="box radius-top-0">
-            @include('components.deleted_message', ['model' => 'DO/GDN'])
+            @include('components.deleted-message', ['model' => 'DO/GDN'])
             <div>
                 <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[1]" data-numeric="[4,6]">
                     <thead>

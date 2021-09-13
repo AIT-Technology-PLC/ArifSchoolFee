@@ -102,11 +102,11 @@ class AdjustmentController extends Controller
     public function destroy(Adjustment $adjustment)
     {
         if ($adjustment->isAdjusted()) {
-            return view('errors.permission_denied');
+            return view('errors.403');
         }
 
         if ($adjustment->isApproved() && !auth()->user()->can('Delete Approved Adjustment')) {
-            return view('errors.permission_denied');
+            return view('errors.403');
         }
 
         $adjustment->forceDelete();

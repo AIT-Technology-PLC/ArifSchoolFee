@@ -104,11 +104,11 @@ class ReturnController extends Controller
     public function destroy(Returnn $return)
     {
         if ($return->isAdded()) {
-            return view('errors.permission_denied');
+            return view('errors.403');
         }
 
         if ($return->isApproved() && !auth()->user()->can('Delete Approved Return')) {
-            return view('errors.permission_denied');
+            return view('errors.403');
         }
 
         $return->forceDelete();

@@ -54,7 +54,7 @@
             </h1>
         </div>
         <div class="box radius-top-0">
-            @include('components.deleted_message', ['model' => 'Category'])
+            @include('components.deleted-message', ['model' => 'Category'])
             <div>
                 <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[5]" data-numeric="[]">
                     <thead>
@@ -100,7 +100,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    @include('components.delete_button', ['model' => 'categories',
+                                    @include('components.delete-button', ['model' => 'categories',
                                     'id' => $category->id])
                                 </td>
                             </tr>

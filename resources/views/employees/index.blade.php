@@ -92,7 +92,7 @@
             </h1>
         </div>
         <div class="box radius-top-0">
-            @include('components.deleted_message', ['model' => 'Employee'])
+            @include('components.deleted-message', ['model' => 'Employee'])
             <div>
                 <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[7]" data-numeric="[]">
                     <thead>
@@ -177,7 +177,7 @@
                                         </span>
                                     </a>
                                     <span>
-                                        @include('components.delete_button', ['model' => 'employees',
+                                        @include('components.delete-button', ['model' => 'employees',
                                         'id' => $employee->id])
                                     </span>
                                 </td>

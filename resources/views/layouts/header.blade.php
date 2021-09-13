@@ -126,7 +126,7 @@
                 </div>
             </div>
         </div>
-        @include('layouts.create_menu')
-        @include('layouts.notification_box')
+        @include('layouts.create-menu')
+        @include('layouts.notification-box')
     </div>
 </nav>

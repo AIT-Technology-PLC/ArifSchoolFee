@@ -54,7 +54,7 @@
             </h1>
         </div>
         <div class="box radius-top-0">
-            @include('components.deleted_message', ['model' => 'Tender checklist item'])
+            @include('components.deleted-message', ['model' => 'Tender checklist item'])
             <div>
                 <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[3]" data-numeric="[]">
                     <thead>
@@ -99,7 +99,7 @@
                                         </span>
                                     </a>
                                     <span>
-                                        @include('components.delete_button', ['model' => 'general-tender-checklists',
+                                        @include('components.delete-button', ['model' => 'general-tender-checklists',
                                         'id' => $generalTenderChecklist->id])
                                     </span>
                                 </td>

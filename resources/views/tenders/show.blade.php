@@ -526,7 +526,7 @@
                                         </span>
                                     </a>
                                     <span>
-                                        @include('components.delete_button', ['model' => 'tender-checklists',
+                                        @include('components.delete-button', ['model' => 'tender-checklists',
                                         'id' => $tenderChecklist->id])
                                     </span>
                                 </td>

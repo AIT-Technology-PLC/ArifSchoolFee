@@ -42,7 +42,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (HttpException $exception, $request) {
 
             if ($exception->getStatusCode() == 403) {
-                return response()->view('errors.permission_denied');
+                return response()->view('errors.403');
             }
 
             if ($exception->getStatusCode() == 419) {

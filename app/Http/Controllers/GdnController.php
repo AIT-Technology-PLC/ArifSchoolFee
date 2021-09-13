@@ -132,11 +132,11 @@ class GdnController extends Controller
         }
 
         if ($gdn->isSubtracted()) {
-            return view('errors.permission_denied');
+            return view('errors.403');
         }
 
         if ($gdn->isApproved() && !auth()->user()->can('Delete Approved GDN')) {
-            return view('errors.permission_denied');
+            return view('errors.403');
         }
 
         $gdn->forceDelete();

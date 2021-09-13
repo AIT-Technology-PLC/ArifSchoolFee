@@ -96,11 +96,11 @@ class DamageController extends Controller
     public function destroy(Damage $damage)
     {
         if ($damage->isSubtracted()) {
-            return view('errors.permission_denied');
+            return view('errors.403');
         }
 
         if ($damage->isApproved() && !auth()->user()->can('Delete Approved Damage')) {
-            return view('errors.permission_denied');
+            return view('errors.403');
         }
 
         $damage->forceDelete();
