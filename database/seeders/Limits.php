@@ -7,7 +7,7 @@ use App\Models\Plan;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class LimitTableSeeder extends Seeder
+class Limits extends Seeder
 {
     /**
      * Run the database seeds.

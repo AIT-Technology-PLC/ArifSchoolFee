@@ -69,7 +69,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = DB::transaction(function () use ($data) {
+        return DB::transaction(function () use ($data) {
             $company = Company::create([
                 'name' => $data['company_name'],
                 'currency' => 'ETB',
@@ -86,22 +86,23 @@ class RegisterController extends Controller
                 'user_id' => $user->id,
                 'company_id' => $company->id,
                 'enabled' => 1,
-                'position' => 'Manager',
+                'position' => 'Onrica Support Department',
             ]);
 
-            Warehouse::create([
+            $warehouse = Warehouse::create([
                 'company_id' => $company->id,
-                'name' => 'Primary',
+                'name' => 'Main Warehouse',
                 'location' => 'Unknown',
+                'is_sales_store' => 0,
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
             ]);
 
             $user->assignRole("System Manager");
 
+            $user->warehouse()->associate($warehouse)->save();
+
             return $user;
         });
-
-        return $user;
     }
 }

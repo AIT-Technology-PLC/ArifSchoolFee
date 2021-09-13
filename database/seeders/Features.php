@@ -7,7 +7,7 @@ use App\Models\Plan;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class FeatureTableSeeder extends Seeder
+class Features extends Seeder
 {
     /**
      * Run the database seeds.

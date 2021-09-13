@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Company;
 use App\Models\Employee;
+use App\Models\Plan;
 use App\Models\Warehouse;
 use App\User;
 use Faker\Generator as Faker;
@@ -11,7 +12,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class NewCompanySeeder extends Seeder
+class CreateNewCompany extends Seeder
 {
     public function run(Faker $faker)
     {
@@ -25,7 +26,7 @@ class NewCompanySeeder extends Seeder
 
             $user = User::create([
                 'name' => 'Abebe Kebede',
-                'email' => 'abebe@onrica.com',
+                'email' => $faker->safeEmail,
                 'password' => Hash::make('password'),
             ]);
 
@@ -33,18 +34,21 @@ class NewCompanySeeder extends Seeder
                 'user_id' => $user->id,
                 'company_id' => $company->id,
                 'enabled' => 1,
-                'position' => 'General Manager',
+                'position' => 'Onrica Support Department',
             ]);
 
-            Warehouse::create([
+            $warehouse = Warehouse::create([
                 'company_id' => $company->id,
-                'name' => 'Primary',
+                'name' => 'Main Warehouse',
                 'location' => 'Unknown',
+                'is_sales_store' => 0,
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
             ]);
 
             $user->assignRole('System Manager');
+
+            $user->warehouse()->associate($warehouse)->save();
         });
     }
 }
