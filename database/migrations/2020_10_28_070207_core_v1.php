@@ -406,8 +406,11 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->bigInteger('approved_by')->nullable()->unsigned();
+            $table->bigInteger('subtracted_by')->nullable()->unsigned();
+            $table->bigInteger('added_by')->nullable()->unsigned();
+            $table->bigInteger('transferred_from')->nullable()->unsigned();
+            $table->bigInteger('transferred_to')->nullable()->unsigned();
             $table->string('code')->unique();
-            $table->string('status');
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->timestamps();
@@ -419,13 +422,15 @@ class CoreV1 extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('subtracted_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('added_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('transferred_from')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('transferred_to')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('transfer_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('transfer_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('to_warehouse_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->decimal('quantity', 22);
             $table->longText('description')->nullable();
@@ -435,8 +440,6 @@ class CoreV1 extends Migration
             $table->index('transfer_id');
 
             $table->foreign('transfer_id')->references('id')->on('transfers')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('to_warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
