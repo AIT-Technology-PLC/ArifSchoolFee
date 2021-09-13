@@ -35,7 +35,7 @@ class ProformaInvoiceController extends Controller
 
         $totalCancelled = $proformaInvoices->where('is_pending', 0)->whereNull('converted_by')->count();
 
-        return view('proforma_invoices.index', compact('proformaInvoices', 'totalProformaInvoices',
+        return view('proforma-invoices.index', compact('proformaInvoices', 'totalProformaInvoices',
             'totalConverted', 'totalPending', 'totalCancelled'));
     }
 
@@ -45,7 +45,7 @@ class ProformaInvoiceController extends Controller
 
         $currentProformaInvoiceCode = (ProformaInvoice::select('code')->companyProformaInvoices()->latest()->first()->code) ?? 0;
 
-        return view('proforma_invoices.create', compact('customers', 'currentProformaInvoiceCode'));
+        return view('proforma-invoices.create', compact('customers', 'currentProformaInvoiceCode'));
     }
 
     public function store(StoreProformaInvoiceRequest $request)
@@ -78,7 +78,7 @@ class ProformaInvoiceController extends Controller
     {
         $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'company']);
 
-        return view('proforma_invoices.show', compact('proformaInvoice'));
+        return view('proforma-invoices.show', compact('proformaInvoice'));
     }
 
     public function edit(ProformaInvoice $proformaInvoice)
@@ -87,7 +87,7 @@ class ProformaInvoiceController extends Controller
 
         $customers = Customer::companyCustomers()->orderBy('company_name')->get(['id', 'company_name']);
 
-        return view('proforma_invoices.edit', compact('proformaInvoice', 'customers'));
+        return view('proforma-invoices.edit', compact('proformaInvoice', 'customers'));
     }
 
     public function update(UpdateProformaInvoiceRequest $request, ProformaInvoice $proformaInvoice)
@@ -175,7 +175,7 @@ class ProformaInvoiceController extends Controller
 
         $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'company']);
 
-        return \PDF::loadView('proforma_invoices.print', compact('proformaInvoice'))
+        return \PDF::loadView('proforma-invoices.print', compact('proformaInvoice'))
             ->setPaper('a4', 'portrait')
             ->stream();
     }

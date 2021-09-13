@@ -31,14 +31,14 @@ class PurchaseOrderController extends Controller
 
         $totalOpen = $purchaseOrders->where('is_closed', 0)->count();
 
-        return view('purchase_orders.index', compact('purchaseOrders', 'totalPurchaseOrders', 'totalClosed', 'totalOpen'));
+        return view('purchase-orders.index', compact('purchaseOrders', 'totalPurchaseOrders', 'totalClosed', 'totalOpen'));
     }
 
     public function create(Customer $customer)
     {
         $customers = $customer->getCustomerNames();
 
-        return view('purchase_orders.create', compact('customers'));
+        return view('purchase-orders.create', compact('customers'));
     }
 
     public function store(StorePurchaseOrderRequest $request)
@@ -72,7 +72,7 @@ class PurchaseOrderController extends Controller
     {
         $purchaseOrder->load(['purchaseOrderDetails.product', 'customer', 'company']);
 
-        return view('purchase_orders.show', compact('purchaseOrder'));
+        return view('purchase-orders.show', compact('purchaseOrder'));
     }
 
     public function edit(PurchaseOrder $purchaseOrder, Customer $customer)
@@ -81,7 +81,7 @@ class PurchaseOrderController extends Controller
 
         $customers = $customer->getCustomerNames();
 
-        return view('purchase_orders.edit', compact('purchaseOrder', 'customers'));
+        return view('purchase-orders.edit', compact('purchaseOrder', 'customers'));
     }
 
     public function update(UpdatePurchaseOrderRequest $request, PurchaseOrder $purchaseOrder)

@@ -25,7 +25,7 @@ class TenderChecklistController extends Controller
 
         $generalTenderChecklists = $generalTenderChecklist->getAll();
 
-        return view('tender_checklists.create', compact('generalTenderChecklists', 'tender'));
+        return view('tender-checklists.create', compact('generalTenderChecklists', 'tender'));
     }
 
     public function store(StoreTenderChecklistRequest $request, Tender $tender)
@@ -52,7 +52,7 @@ class TenderChecklistController extends Controller
 
         $this->authorize('update', $tenderChecklist->tender);
 
-        return view('tender_checklists.edit', compact('tenderChecklist'));
+        return view('tender-checklists.edit', compact('tenderChecklist'));
     }
 
     public function update(UpdateTenderChecklistRequest $request, TenderChecklist $tenderChecklist)

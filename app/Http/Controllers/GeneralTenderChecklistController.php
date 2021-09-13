@@ -27,14 +27,14 @@ class GeneralTenderChecklistController extends Controller
 
         $totalGeneralTenderChecklists = $generalTenderChecklists->count();
 
-        return view('general_tender_checklists.index', compact('generalTenderChecklists', 'totalGeneralTenderChecklists'));
+        return view('general-tender-checklists.index', compact('generalTenderChecklists', 'totalGeneralTenderChecklists'));
     }
 
     public function create()
     {
         $tenderChecklistTypes = TenderChecklistType::companyTenderChecklistType()->get();
 
-        return view('general_tender_checklists.create', compact('tenderChecklistTypes'));
+        return view('general-tender-checklists.create', compact('tenderChecklistTypes'));
     }
 
     public function store(StoreGeneralTenderChecklistRequest $request)
@@ -51,7 +51,7 @@ class GeneralTenderChecklistController extends Controller
     {
         $tenderChecklistTypes = TenderChecklistType::companyTenderChecklistType()->get();
 
-        return view('general_tender_checklists.edit', compact('generalTenderChecklist', 'tenderChecklistTypes'));
+        return view('general-tender-checklists.edit', compact('generalTenderChecklist', 'tenderChecklistTypes'));
     }
 
     public function update(UpdateGeneralTenderChecklistRequest $request, GeneralTenderChecklist $generalTenderChecklist)

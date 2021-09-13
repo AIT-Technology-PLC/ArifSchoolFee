@@ -16,6 +16,6 @@ class WarehouseProductController extends Controller
 
         $history = (new ProductMovementHistoryInWarehouseService($warehouse, $product))->history();
 
-        return view('warehouses_products.index', compact('warehouse', 'product', 'history'));
+        return view('warehouses-products.index', compact('warehouse', 'product', 'history'));
     }
 }

@@ -22,12 +22,12 @@ class TenderChecklistTypeController extends Controller
 
         $totalTenderChecklistTypes = $tenderChecklistTypes->count();
 
-        return view('tender_checklist_types.index', compact('tenderChecklistTypes', 'totalTenderChecklistTypes'));
+        return view('tender-checklist-types.index', compact('tenderChecklistTypes', 'totalTenderChecklistTypes'));
     }
 
     public function create()
     {
-        return view('tender_checklist_types.create');
+        return view('tender-checklist-types.create');
     }
 
     public function store(StoreTenderChecklistTypeRequest $request)
@@ -42,7 +42,7 @@ class TenderChecklistTypeController extends Controller
 
     public function edit(TenderChecklistType $tenderChecklistType)
     {
-        return view('tender_checklist_types.edit', compact('tenderChecklistType'));
+        return view('tender-checklist-types.edit', compact('tenderChecklistType'));
     }
 
     public function update(UpdateTenderChecklistTypeRequest $request, TenderChecklistType $tenderChecklistType)

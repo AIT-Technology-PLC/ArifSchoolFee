@@ -25,12 +25,12 @@ class TenderStatusController extends Controller
 
         $totalTenderStatuses = $tenderStatuses->count();
 
-        return view('tender_statuses.index', compact('tenderStatuses', 'totalTenderStatuses'));
+        return view('tender-statuses.index', compact('tenderStatuses', 'totalTenderStatuses'));
     }
 
     public function create()
     {
-        return view('tender_statuses.create');
+        return view('tender-statuses.create');
     }
 
     public function store(StoreTenderStatusRequest $request)
@@ -45,7 +45,7 @@ class TenderStatusController extends Controller
 
     public function edit(TenderStatus $tenderStatus)
     {
-        return view('tender_statuses.edit', compact('tenderStatus'));
+        return view('tender-statuses.edit', compact('tenderStatus'));
     }
 
     public function update(UpdateTenderStatusRequest $request, TenderStatus $tenderStatus)
