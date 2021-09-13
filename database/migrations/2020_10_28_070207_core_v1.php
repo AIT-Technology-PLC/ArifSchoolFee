@@ -225,6 +225,7 @@ class CoreV1 extends Migration
         // Purchases
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('supplier_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
@@ -244,6 +245,7 @@ class CoreV1 extends Migration
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         // Purchase Details
@@ -291,6 +293,7 @@ class CoreV1 extends Migration
         // Sales
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('customer_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
@@ -309,6 +312,7 @@ class CoreV1 extends Migration
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         // Sale Details
@@ -354,6 +358,7 @@ class CoreV1 extends Migration
 
         Schema::create('gdns', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('sale_id')->nullable()->unsigned();
             $table->bigInteger('customer_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
@@ -379,6 +384,7 @@ class CoreV1 extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('gdn_details', function (Blueprint $table) {
@@ -402,6 +408,7 @@ class CoreV1 extends Migration
 
         Schema::create('transfers', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
@@ -426,6 +433,7 @@ class CoreV1 extends Migration
             $table->foreign('added_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('transferred_from')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('transferred_to')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('transfer_details', function (Blueprint $table) {
@@ -445,6 +453,7 @@ class CoreV1 extends Migration
 
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('customer_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
@@ -462,6 +471,7 @@ class CoreV1 extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('purchase_order_details', function (Blueprint $table) {
@@ -483,6 +493,7 @@ class CoreV1 extends Migration
 
         Schema::create('grns', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('purchase_id')->nullable()->unsigned();
             $table->bigInteger('supplier_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
@@ -505,6 +516,7 @@ class CoreV1 extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('grn_details', function (Blueprint $table) {
@@ -599,6 +611,7 @@ class CoreV1 extends Migration
 
         Schema::create('tenders', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('customer_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
@@ -631,6 +644,7 @@ class CoreV1 extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('tender_details', function (Blueprint $table) {
@@ -676,6 +690,7 @@ class CoreV1 extends Migration
 
         Schema::create('sivs', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
@@ -697,6 +712,7 @@ class CoreV1 extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('siv_details', function (Blueprint $table) {
@@ -718,6 +734,7 @@ class CoreV1 extends Migration
 
         Schema::create('proforma_invoices', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
@@ -741,6 +758,7 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('converted_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('proforma_invoice_details', function (Blueprint $table) {
@@ -763,6 +781,7 @@ class CoreV1 extends Migration
 
         Schema::create('damages', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
@@ -780,6 +799,7 @@ class CoreV1 extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('damage_details', function (Blueprint $table) {
@@ -801,6 +821,7 @@ class CoreV1 extends Migration
 
         Schema::create('adjustments', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
@@ -819,6 +840,7 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('adjusted_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('adjustment_details', function (Blueprint $table) {
@@ -841,6 +863,7 @@ class CoreV1 extends Migration
 
         Schema::create('returns', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('customer_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
@@ -862,6 +885,7 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('returned_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('return_details', function (Blueprint $table) {
@@ -884,6 +908,7 @@ class CoreV1 extends Migration
 
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->bigInteger('customer_id')->nullable()->unsigned();
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
@@ -913,6 +938,7 @@ class CoreV1 extends Migration
             $table->foreign('reserved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('cancelled_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('converted_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('reservation_details', function (Blueprint $table) {
