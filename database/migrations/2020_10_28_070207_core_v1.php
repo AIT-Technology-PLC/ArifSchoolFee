@@ -931,6 +931,19 @@ class CoreV1 extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
+        Schema::create('user_warehouse', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('user_id')->nullable()->unsigned();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
+            $table->string('type');
+            $table->timestamps();
+
+            $table->unique(['user_id', 'warehouse_id', 'type']);
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -987,5 +1000,6 @@ class CoreV1 extends Migration
         Schema::drop('returns');
         Schema::drop('reservation_details');
         Schema::drop('reservations');
+        Schema::drop('user_warehouse');
     }
 }
