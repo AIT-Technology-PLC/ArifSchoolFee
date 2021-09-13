@@ -535,13 +535,14 @@ class CoreV1 extends Migration
             $table->bigInteger('company_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->boolean('is_sensitive');
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('company_id');
+            $table->unique(['name', 'company_id']);
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
@@ -735,6 +736,7 @@ class CoreV1 extends Migration
             $table->bigInteger('proforma_invoice_id')->nullable()->unsigned();
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->string('custom_product')->nullable();
+            $table->longText('specification')->nullable();
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22);
             $table->decimal('discount', 22)->nullable();
