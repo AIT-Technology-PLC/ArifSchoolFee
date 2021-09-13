@@ -23,7 +23,7 @@ class GdnPrepared extends Notification
     {
         return [
             'icon' => 'file-invoice',
-            'message' => 'Approval request for DO/GDN prepared by ' . ucfirst($this->gdn->createdBy->name),
+            'message' => 'Approval request for Delivery Order prepared by ' . ucfirst($this->gdn->createdBy->name),
             'endpoint' => '/gdns/' . $this->gdn->id,
         ];
     }

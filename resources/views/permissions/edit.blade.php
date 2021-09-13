@@ -32,7 +32,7 @@
                     <div class="column is-6">
                         <div class="message">
                             <div class="message-header has-background-white-ter text-gold">
-                                DO/GDN Permissions
+                                DO Permissions
                             </div>
                             <div class="message-body has-background-white-bis">
                                 <div class="columns is-marginless is-multiline">

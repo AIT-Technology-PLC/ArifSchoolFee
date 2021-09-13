@@ -585,8 +585,8 @@ function initiateDataTables() {
 function openApproveGdnModal(event) {
     event.preventDefault();
     swal({
-        title: "Do you want to approve this DO/GDN?",
-        text: "By clicking 'Yes, Approve', you are going to approve this DO/GDN.",
+        title: "Do you want to approve this Delivery Order?",
+        text: "By clicking 'Yes, Approve', you are going to approve this Delivery Order.",
         buttons: ["Not now", "Yes, Approve"],
         dangerMode: true,
     }).then((willTransfer) => {

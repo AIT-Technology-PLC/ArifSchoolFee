@@ -23,7 +23,7 @@ class GdnSubtracted extends Notification
     {
         return [
             'icon' => 'file-invoice',
-            'message' => 'DO/GDN has been submitted to customer',
+            'message' => 'Delivery Order has been submitted to customer',
             'endpoint' => '/gdns/' . $this->gdn->id,
         ];
     }

@@ -22,7 +22,7 @@ trait ApproveInventory
 
         $notificationClass = (string) Str::of($modelName)->append('Approved')->prepend('App\\Notifications\\');
 
-        $modelName = $modelName == 'Gdn' ? 'Do/Gdn' : $modelName;
+        $modelName = $modelName == 'Gdn' ? 'DO' : $modelName;
 
         $message = 'This ' . Str::upper($modelName) . ' is already approved';
 

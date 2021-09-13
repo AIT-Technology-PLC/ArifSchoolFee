@@ -118,7 +118,7 @@ class ProductMovementHistoryInWarehouseService
     {
         $gdnDetails->map(function ($gdnDetail) {
             $this->history->push([
-                'type' => 'DO/GDN',
+                'type' => 'DO',
                 'code' => $gdnDetail->gdn->code,
                 'date' => $gdnDetail->gdn->issued_on,
                 'quantity' => $gdnDetail->quantity,

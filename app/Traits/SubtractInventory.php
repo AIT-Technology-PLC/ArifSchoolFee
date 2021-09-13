@@ -25,7 +25,7 @@ trait SubtractInventory
 
         $notificationClass = (string) Str::of($modelName)->append('Subtracted')->prepend('App\\Notifications\\');
 
-        $modelName = $modelName == 'Gdn' ? 'Do/Gdn' : $modelName;
+        $modelName = $modelName == 'Gdn' ? 'DO' : $modelName;
 
         if (!$model->isApproved()) {
             return redirect()->back()->with('failedMessage', 'This ' . Str::upper($modelName) . ' is not approved');
@@ -44,7 +44,7 @@ trait SubtractInventory
 
             $model->subtract();
 
-            $modelName = $modelName == 'Do/Gdn' ? Str::of($modelName)->remove('Do/')->upper() : $modelName;
+            $modelName = $modelName == 'DO' ? 'GDN' : $modelName;
 
             Notification::send(
                 $this->notifiableUsers('Approve ' . $modelName, $model->createdBy),

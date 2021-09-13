@@ -157,7 +157,7 @@
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
                                 <span>
-                                    New DO/GDN
+                                    New DO
                                 </span>
                             </a>
                             <a href="{{ route('sales.edit', $sale->id) }}" class="button is-small bg-green has-text-white">
@@ -219,14 +219,14 @@
             </div>
             <div class="box has-background-white-bis radius-bottom-0">
                 <h1 class="title is-size-5 text-green has-text-centered">
-                    DO/GDN for this sale
+                    DO for this sale
                 </h1>
                 <div class="table-container has-background-white-bis">
                     <table class="table is-hoverable is-fullwidth is-size-7 has-background-white-bis">
                         <thead>
                             <tr>
                                 <th><abbr> # </abbr></th>
-                                <th><abbr> DO/GDN No </abbr></th>
+                                <th><abbr> DO No </abbr></th>
                                 <th><abbr> Status </abbr></th>
                                 <th><abbr> Issued on </abbr></th>
                             </tr>
