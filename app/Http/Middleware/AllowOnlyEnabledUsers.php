@@ -16,26 +16,12 @@ class AllowOnlyEnabledUsers
      */
     public function handle($request, Closure $next)
     {
-        if ($this->isCompanyEnabled() && $this->isUserEnabled()) {
+        if (userCompany()->isEnabled() && auth()->user()->isEnabled()) {
             return $next($request);
         }
 
         Auth::logout();
 
         return redirect("/login");
-    }
-
-    public function isCompanyEnabled()
-    {
-        $isCompanyEnabled = userCompany()->enabled;
-
-        return $isCompanyEnabled;
-    }
-
-    public function isUserEnabled()
-    {
-        $isUserEnabled = auth()->user()->employee->enabled;
-
-        return $isUserEnabled;
     }
 }

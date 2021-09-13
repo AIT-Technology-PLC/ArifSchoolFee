@@ -153,6 +153,11 @@ class Company extends Model
         return $query->where('enabled', 1);
     }
 
+    public function isEnabled()
+    {
+        return $this->enabled;
+    }
+
     public function getPriceMethod()
     {
         return $this->is_price_before_vat ? 'Before VAT' : 'After VAT';

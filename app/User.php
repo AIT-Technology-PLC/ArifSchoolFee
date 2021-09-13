@@ -42,6 +42,11 @@ class User extends Authenticatable
         return $this->belongsTo(Models\Warehouse::class);
     }
 
+    public function isEnabled()
+    {
+        return $this->employee->enabled;
+    }
+
     public function readWarehouses()
     {
         if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
