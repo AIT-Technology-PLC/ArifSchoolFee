@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Employee;
+use App\Models\Plan;
 use App\Models\Warehouse;
 use App\Providers\RouteServiceProvider;
 use App\User;
@@ -74,6 +75,7 @@ class RegisterController extends Controller
                 'name' => $data['company_name'],
                 'currency' => 'ETB',
                 'enabled' => 0,
+                'plan_id' => Plan::where('name', 'premium')->first()->id,
             ]);
 
             $user = User::create([
