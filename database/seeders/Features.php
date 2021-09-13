@@ -63,11 +63,6 @@ class Features extends Seeder
             ]);
 
             Feature::firstOrCreate([
-                'name' => 'Price Management',
-                'is_enabled' => 1,
-            ]);
-
-            Feature::firstOrCreate([
                 'name' => 'Proforma Invoice',
                 'is_enabled' => 1,
             ]);

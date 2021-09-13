@@ -76,11 +76,6 @@ class Product extends Model
         return $this->hasMany(GrnDetail::class);
     }
 
-    public function price()
-    {
-        return $this->hasOne(Price::class);
-    }
-
     public function tenderDetails()
     {
         return $this->hasMany(TenderDetail::class);

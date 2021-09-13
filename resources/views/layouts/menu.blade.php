@@ -140,7 +140,7 @@
         </ul>
     @endcanany
 
-    @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read PO', 'Read Customer', 'Read Price'])
+    @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read PO', 'Read Customer'])
         <ul class="menu-list mb-2">
             <li>
                 <button name="menu-accordion" class="button is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0">
@@ -216,15 +216,6 @@
                             <li>
                                 <a name="menuTitles" href="{{ route('customers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('customers') ? 'is-active' : '' }}">
                                     Customers
-                                </a>
-                            </li>
-                        @endcan
-                    @endif
-                    @if ($enabledFeatures->contains('Price Management'))
-                        @can('Read Price')
-                            <li>
-                                <a name="menuTitles" href="{{ route('prices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('prices') ? 'is-active' : '' }}">
-                                    Pricings
                                 </a>
                             </li>
                         @endcan

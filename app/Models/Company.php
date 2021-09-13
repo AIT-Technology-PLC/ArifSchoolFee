@@ -88,11 +88,6 @@ class Company extends Model
         return $this->hasMany(Grn::class);
     }
 
-    public function prices()
-    {
-        return $this->hasMany(Price::class);
-    }
-
     public function generalTenderChecklists()
     {
         return $this->hasMany(GeneralTenderChecklist::class);

@@ -133,8 +133,6 @@ Route::resource('purchases', Controllers\PurchaseController::class);
 
 Route::resource('sales', Controllers\SaleController::class);
 
-Route::resource('prices', Controllers\PriceController::class);
-
 Route::resource('notifications', Controllers\NotificationController::class)->only("index");
 
 Route::resource('warehouses.merchandises', Controllers\MerchandiseLevelByWarehouseController::class);
