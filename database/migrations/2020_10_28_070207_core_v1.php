@@ -1009,6 +1009,7 @@ class CoreV1 extends Migration
         Schema::drop('grns');
         Schema::drop('grn_details');
         Schema::drop('prices');
+        Schema::drop('tender_checklist_types');
         Schema::drop('general_tender_checklists');
         Schema::drop('tender_statuses');
         Schema::drop('tenders');
