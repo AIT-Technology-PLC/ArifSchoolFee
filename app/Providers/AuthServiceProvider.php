@@ -50,24 +50,6 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Employee::class => EmployeePolicy::class,
-        Company::class => CompanyPolicy::class,
-        Product::class => ProductPolicy::class,
-        ProductCategory::class => ProductCategoryPolicy::class,
-        Supplier::class => SupplierPolicy::class,
-        Purchase::class => PurchasePolicy::class,
-        Warehouse::class => WarehousePolicy::class,
-        Merchandise::class => MerchandisePolicy::class,
-        Customer::class => CustomerPolicy::class,
-        Sale::class => SalePolicy::class,
-        Gdn::class => GdnPolicy::class,
-        Transfer::class => TransferPolicy::class,
-        PurchaseOrder::class => PurchaseOrderPolicy::class,
-        Grn::class => GrnPolicy::class,
-        Price::class => PricePolicy::class,
-        GeneralTenderChecklist::class => GeneralTenderChecklistPolicy::class,
-        Tender::class => TenderPolicy::class,
-        TenderStatus::class => TenderStatusPolicy::class,
         Returnn::class => ReturnPolicy::class,
     ];
 
