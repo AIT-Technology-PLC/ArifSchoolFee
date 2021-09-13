@@ -225,7 +225,7 @@
                         </p>
                         <form id="formOne" action="{{ route('sivs.approve', $siv->id) }}" method="post" novalidate>
                             @csrf
-                            <button id="openApproveSivModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button data-type="SIV" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>

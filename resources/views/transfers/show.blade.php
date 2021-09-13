@@ -178,7 +178,7 @@
                         </p>
                         <form id="formOne" action="{{ route('transfers.approve', $transfer->id) }}" method="post" novalidate>
                             @csrf
-                            <button id="openApproveTransferModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button data-type="Transfer" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>
@@ -210,7 +210,7 @@
                         </p>
                         <form id="formOne" action="{{ route('transfers.transfer', $transfer->id) }}" method="post" novalidate>
                             @csrf
-                            <button id="transferButton" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button data-type="Transfer" data-action="execute" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-minus-circle"></i>
                                 </span>

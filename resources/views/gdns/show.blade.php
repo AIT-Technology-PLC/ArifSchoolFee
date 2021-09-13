@@ -328,7 +328,7 @@
                         </p>
                         <form id="formOne" action="{{ route('gdns.subtract', $gdn->id) }}" method="post" novalidate>
                             @csrf
-                            <button id="openCloseSaleModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button data-type="Delivery Order" data-action="execute" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-minus-circle"></i>
                                 </span>
@@ -361,7 +361,7 @@
                         </p>
                         <form id="formOne" action="{{ route('gdns.approve', $gdn->id) }}" method="post" novalidate>
                             @csrf
-                            <button id="openApproveGdnModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button data-type="Delivery Order" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>

@@ -320,19 +320,6 @@ function disableSaveButton() {
     saveButton.disabled = true;
 }
 
-function openCloseSaleModal(event) {
-    event.preventDefault();
-    swal({
-        title: "Do you want to subtract?",
-        text: "By clicking 'Yes, Subtract', you are going to subtract the products from inventory.",
-        buttons: ["Not now", "Yes, Subtract"],
-    }).then((willCloseSale) => {
-        if (willCloseSale) {
-            d.getElementById("formOne").submit();
-        }
-    });
-}
-
 function changeWarehouse() {
     if (this.value == 0) {
         return (location.href = "/merchandises");
@@ -371,48 +358,6 @@ function disableDeleteForm(event) {
             deleteButton.innerText = "Deleting ...";
             deleteButton.disabled = true;
             this.submit();
-        }
-    });
-}
-
-function openTransferModal(event) {
-    event.preventDefault();
-    swal({
-        title: "Do you want to transfer?",
-        text: "By clicking 'Yes, Transfer', you are going to transfer the products.",
-        buttons: ["Not now", "Yes, Transfer"],
-        dangerMode: true,
-    }).then((willTransfer) => {
-        if (willTransfer) {
-            d.getElementById("formOne").submit();
-        }
-    });
-}
-
-function closePurchaseOrderModal(event) {
-    event.preventDefault();
-    swal({
-        title: "Do you want to close this PO?",
-        text: "By clicking 'Yes, Close', you are going to close this PO and the remaining quantities will be set to '0'.",
-        buttons: ["Not now", "Yes, Close"],
-        dangerMode: true,
-    }).then((willClose) => {
-        if (willClose) {
-            d.getElementById("formOne").submit();
-        }
-    });
-}
-
-function openAddGrnModal(event) {
-    event.preventDefault();
-    swal({
-        title: "Do you want to add to inventory?",
-        text: "By clicking 'Yes, Add', you are going to add the products.",
-        buttons: ["Not now", "Yes, Add"],
-        dangerMode: true,
-    }).then((willTransfer) => {
-        if (willTransfer) {
-            d.getElementById("formOne").submit();
         }
     });
 }
@@ -580,48 +525,6 @@ function initiateDataTables() {
     });
 
     showTablesAfterCompleteLoad("table.regular-datatable");
-}
-
-function openApproveGdnModal(event) {
-    event.preventDefault();
-    swal({
-        title: "Do you want to approve this Delivery Order?",
-        text: "By clicking 'Yes, Approve', you are going to approve this Delivery Order.",
-        buttons: ["Not now", "Yes, Approve"],
-        dangerMode: true,
-    }).then((willTransfer) => {
-        if (willTransfer) {
-            d.getElementById("formOne").submit();
-        }
-    });
-}
-
-function openApproveGrnModal(event) {
-    event.preventDefault();
-    swal({
-        title: "Do you want to approve this GRN?",
-        text: "By clicking 'Yes, Approve', you are going to approve this GRN.",
-        buttons: ["Not now", "Yes, Approve"],
-        dangerMode: true,
-    }).then((willTransfer) => {
-        if (willTransfer) {
-            d.getElementById("formOne").submit();
-        }
-    });
-}
-
-function openApproveTransferModal(event) {
-    event.preventDefault();
-    swal({
-        title: "Do you want to approve this Transfer?",
-        text: "By clicking 'Yes, Approve', you are going to approve this Transfer.",
-        buttons: ["Not now", "Yes, Approve"],
-        dangerMode: true,
-    }).then((willTransfer) => {
-        if (willTransfer) {
-            d.getElementById("formOne").submit();
-        }
-    });
 }
 
 const addTenderForm = (function () {
@@ -927,34 +830,6 @@ const addSivForm = (function () {
         }
     };
 })();
-
-function openApproveSivModal(event) {
-    event.preventDefault();
-    swal({
-        title: "Do you want to approve this SIV?",
-        text: "By clicking 'Yes, Approve', you are going to approve this SIV.",
-        buttons: ["Not now", "Yes, Approve"],
-        dangerMode: true,
-    }).then((willApprove) => {
-        if (willApprove) {
-            d.getElementById("formOne").submit();
-        }
-    });
-}
-
-function openExecuteSivModal(event) {
-    event.preventDefault();
-    swal({
-        title: "Do you want to execute this SIV?",
-        text: "By clicking 'Yes, Execute', you are going to execute this SIV.",
-        buttons: ["Not now", "Yes, Execute"],
-        dangerMode: true,
-    }).then((willExecute) => {
-        if (willExecute) {
-            d.getElementById("formOne").submit();
-        }
-    });
-}
 
 function initializeSummernote() {
     $(".summernote").summernote({

@@ -61,13 +61,6 @@ if (d.getElementById("formOne")) {
     d.getElementById("formOne").addEventListener("submit", disableSaveButton);
 }
 
-if (d.getElementById("openCloseSaleModal")) {
-    d.getElementById("openCloseSaleModal").addEventListener(
-        "click",
-        openCloseSaleModal
-    );
-}
-
 if (d.getElementById("warehouseId")) {
     d.getElementById("warehouseId").addEventListener("change", changeWarehouse);
 }
@@ -96,31 +89,10 @@ if (d.getElementById("addNewTransferForm")) {
     );
 }
 
-if (d.getElementById("transferButton")) {
-    d.getElementById("transferButton").addEventListener(
-        "click",
-        openTransferModal
-    );
-}
-
 if (d.getElementById("addNewPurchaseOrderForm")) {
     d.getElementById("addNewPurchaseOrderForm").addEventListener(
         "click",
         addPurchaseOrderDetail
-    );
-}
-
-if (d.getElementById("closePurchaseOrderButton")) {
-    d.getElementById("closePurchaseOrderButton").addEventListener(
-        "click",
-        closePurchaseOrderModal
-    );
-}
-
-if (d.getElementById("openAddGrnModal")) {
-    d.getElementById("openAddGrnModal").addEventListener(
-        "click",
-        openAddGrnModal
     );
 }
 
@@ -130,27 +102,6 @@ if (d.getElementById("addNewGrnForm")) {
 
 if (d.querySelectorAll("table.regular-datatable").length) {
     window.addEventListener("load", initiateDataTables);
-}
-
-if (d.getElementById("openApproveGdnModal")) {
-    d.getElementById("openApproveGdnModal").addEventListener(
-        "click",
-        openApproveGdnModal
-    );
-}
-
-if (d.getElementById("openApproveGrnModal")) {
-    d.getElementById("openApproveGrnModal").addEventListener(
-        "click",
-        openApproveGrnModal
-    );
-}
-
-if (d.getElementById("openApproveTransferModal")) {
-    d.getElementById("openApproveTransferModal").addEventListener(
-        "click",
-        openApproveTransferModal
-    );
 }
 
 if (d.getElementById("addNewTenderForm")) {
@@ -218,20 +169,6 @@ if (d.getElementsByClassName("summernote").length) {
 
 if (d.getElementById("addNewSivForm")) {
     d.getElementById("addNewSivForm").addEventListener("click", addSivForm);
-}
-
-if (d.getElementById("openApproveSivModal")) {
-    d.getElementById("openApproveSivModal").addEventListener(
-        "click",
-        openApproveSivModal
-    );
-}
-
-if (d.getElementById("openExecuteSivModal")) {
-    d.getElementById("openExecuteSivModal").addEventListener(
-        "click",
-        openExecuteSivModal
-    );
 }
 
 if (d.getElementById("addNewProformaInvoiceForm")) {

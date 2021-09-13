@@ -160,7 +160,7 @@
                         </p>
                         <form id="formOne" action="{{ route('grns.add', $grn->id) }}" method="post" novalidate>
                             @csrf
-                            <button id="openAddGrnModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button data-type="GRN" data-action="execute" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
@@ -193,7 +193,7 @@
                         </p>
                         <form id="formOne" action="{{ route('grns.approve', $grn->id) }}" method="post" novalidate>
                             @csrf
-                            <button id="openApproveGrnModal" class="button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button data-type="GRN" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>
