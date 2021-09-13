@@ -536,24 +536,6 @@ class CoreV1 extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
-        Schema::create('prices', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->decimal('price', 22);
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('company_id');
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-        });
-
         Schema::create('tender_checklist_types', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('company_id')->nullable()->unsigned();
@@ -1008,7 +990,6 @@ class CoreV1 extends Migration
         Schema::drop('purchase_order_details');
         Schema::drop('grns');
         Schema::drop('grn_details');
-        Schema::drop('prices');
         Schema::drop('tender_checklist_types');
         Schema::drop('general_tender_checklists');
         Schema::drop('tender_statuses');
