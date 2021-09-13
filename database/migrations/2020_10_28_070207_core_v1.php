@@ -16,6 +16,7 @@ class CoreV1 extends Migration
         // Users
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -24,6 +25,8 @@ class CoreV1 extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         // Failed Jobs - Queue
@@ -133,6 +136,10 @@ class CoreV1 extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('name');
             $table->string('location');
+            $table->boolean('is_sales_store')->default(1);
+            $table->boolean('can_be_sold_from')->default(1);
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -354,6 +361,7 @@ class CoreV1 extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->bigInteger('approved_by')->nullable()->unsigned();
             $table->string('code')->unique();
+            $table->string('discount')->nullable();
             $table->string('status');
             $table->string('payment_type');
             $table->decimal('cash_received_in_percentage', 22);
@@ -380,6 +388,7 @@ class CoreV1 extends Migration
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22)->nullable();
+            $table->string('discount')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -882,6 +891,7 @@ class CoreV1 extends Migration
             $table->bigInteger('converted_by')->nullable()->unsigned();
             $table->nullableMorphs('reservable');
             $table->string('code')->unique();
+            $table->string('discount')->nullable();
             $table->string('payment_type');
             $table->decimal('cash_received_in_percentage', 22);
             $table->longText('description')->nullable();
@@ -909,6 +919,7 @@ class CoreV1 extends Migration
             $table->bigInteger('product_id')->nullable()->unsigned();
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22)->nullable();
+            $table->string('discount')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
