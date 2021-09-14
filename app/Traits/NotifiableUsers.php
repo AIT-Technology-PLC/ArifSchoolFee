@@ -24,8 +24,8 @@ trait NotifiableUsers
                     ->where('id', '<>', auth()->user()->employee->id);
             })->get();
 
-        if ($users->contains('warehouse_id', userWarehouse()->id)) {
-            $users = $users->where('warehouse_id', userWarehouse()->id);
+        if ($users->contains('warehouse_id', auth()->user()->warehouse_id)) {
+            $users = $users->where('warehouse_id', auth()->user()->warehouse_id);
         }
 
         if ($creator) {
