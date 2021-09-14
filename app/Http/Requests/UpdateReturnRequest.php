@@ -18,16 +18,16 @@ class UpdateReturnRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|string|unique:returns,code,' . $this->route('return')->id,
-            'return' => 'required|array',
-            'return.*.product_id' => 'required|integer',
-            'return.*.warehouse_id' => 'required|integer',
-            'return.*.unit_price' => 'nullable|numeric',
-            'return.*.quantity' => 'required|numeric|min:1',
-            'return.*.description' => 'nullable|string',
-            'customer_id' => 'nullable|integer',
-            'issued_on' => 'required|date',
-            'description' => 'nullable|string',
+            'code' => ['required', 'string', 'unique:returns,code,' . $this->route('return')->id],
+            'return' => ['required', 'array'],
+            'return.*.product_id' => ['required', 'integer'],
+            'return.*.warehouse_id' => ['required', 'integer'],
+            'return.*.unit_price' => ['nullable', 'numeric'],
+            'return.*.quantity' => ['required', 'numeric', 'min:1'],
+            'return.*.description' => ['nullable', 'string'],
+            'customer_id' => ['nullable', 'integer'],
+            'issued_on' => ['required', 'date'],
+            'description' => ['nullable', 'string'],
         ];
     }
 

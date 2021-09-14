@@ -15,9 +15,9 @@ class StoreGeneralTenderChecklistRequest extends FormRequest
     public function rules()
     {
         return [
-            'item' => 'required|string',
-            'tender_checklist_type_id' => 'required|integer',
-            'description' => 'nullable|string',
+            'item' => ['required', 'string'],
+            'tender_checklist_type_id' => ['required', 'integer'],
+            'description' => ['nullable', 'string'],
         ];
     }
 

@@ -14,13 +14,13 @@ class UpdateCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'sector' => 'nullable|string|max:255',
-            'currency' => 'required|string|max:255',
-            'email' => 'nullable|string|email|',
-            'phone' => 'nullable|string|max:255',
-            'address' => 'nullable|string|max:255',
-            'proforma_invoice_prefix' => 'nullable|string|max:255',
-            'is_price_before_vat' => 'required|integer',
+            'sector' => ['nullable', 'string', 'max:255'],
+            'currency' => ['required', 'string', 'max:255'],
+            'email' => ['nullable', 'string', 'email'],
+            'phone' => ['nullable', 'string', 'max:255'],
+            'address' => ['nullable', 'string', 'max:255'],
+            'proforma_invoice_prefix' => ['nullable', 'string', 'max:255'],
+            'is_price_before_vat' => ['required', 'integer'],
 
             'is_discount_before_vat' => [
                 'required',
@@ -32,7 +32,7 @@ class UpdateCompanyRequest extends FormRequest
                 },
             ],
 
-            'logo' => 'sometimes|file',
+            'logo' => ['sometimes', 'file'],
         ];
     }
 }

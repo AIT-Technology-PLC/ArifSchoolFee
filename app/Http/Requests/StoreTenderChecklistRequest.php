@@ -14,7 +14,7 @@ class StoreTenderChecklistRequest extends FormRequest
     public function rules()
     {
         return [
-            'checklists' => 'required|array',
+            'checklists' => ['required', 'array'],
         ];
     }
 }

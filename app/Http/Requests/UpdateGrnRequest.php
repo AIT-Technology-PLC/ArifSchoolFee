@@ -18,16 +18,16 @@ class UpdateGrnRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|string|unique:grns,code,' . $this->route('grn')->id,
-            'grn' => 'required|array',
-            'grn.*.product_id' => 'required|integer',
-            'grn.*.warehouse_id' => 'required|integer',
-            'grn.*.quantity' => 'required|numeric|min:1',
-            'grn.*.description' => 'nullable|string',
-            'supplier_id' => 'nullable|integer',
-            'purchase_id' => 'nullable|integer',
-            'issued_on' => 'required|date',
-            'description' => 'nullable|string',
+            'code' => ['required', 'string', 'unique:grns,code,' . $this->route('grn')->id],
+            'grn' => ['required', 'array'],
+            'grn.*.product_id' => ['required', 'integer'],
+            'grn.*.warehouse_id' => ['required', 'integer'],
+            'grn.*.quantity' => ['required', 'numeric', 'min:1'],
+            'grn.*.description' => ['nullable', 'string'],
+            'supplier_id' => ['nullable', 'integer'],
+            'purchase_id' => ['nullable', 'integer'],
+            'issued_on' => ['required', 'date'],
+            'description' => ['nullable', 'string'],
         ];
     }
 

@@ -14,8 +14,8 @@ class UpdateTenderChecklistRequest extends FormRequest
     public function rules()
     {
         return [
-            'status' => 'required|string',
-            'comment' => 'nullable|string',
+            'status' => ['required', 'string'],
+            'comment' => ['nullable', 'string'],
         ];
     }
 }

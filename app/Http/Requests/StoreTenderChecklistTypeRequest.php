@@ -15,9 +15,9 @@ class StoreTenderChecklistTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'is_sensitive' => 'required|boolean',
-            'description' => 'nullable|string',
+            'name' => ['required', 'string'],
+            'is_sensitive' => ['required', 'boolean'],
+            'description' => ['nullable', 'string'],
         ];
     }
 

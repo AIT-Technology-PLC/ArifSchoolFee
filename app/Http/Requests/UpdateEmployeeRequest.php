@@ -15,18 +15,18 @@ class UpdateEmployeeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'position' => 'required|string',
-            'enabled' => 'sometimes|required|integer|max:1',
-            'role' => 'sometimes|required|string',
-            'warehouse_id' => 'required|integer',
-            'subtract' => 'nullable|array',
-            'subtract.*' => 'nullable|integer',
-            'add' => 'nullable|array',
-            'add.*' => 'nullable|integer',
-            'read' => 'nullable|array',
-            'read.*' => 'nullable|integer',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'position' => ['required', 'string'],
+            'enabled' => ['sometimes', 'required', 'integer', 'max:1'],
+            'role' => ['sometimes', 'required', 'string'],
+            'warehouse_id' => ['required', 'integer'],
+            'subtract' => ['nullable', 'array'],
+            'subtract.*' => ['nullable', 'integer'],
+            'add' => ['nullable', 'array'],
+            'add.*' => ['nullable', 'integer'],
+            'read' => ['nullable', 'array'],
+            'read.*' => ['nullable', 'integer'],
         ];
     }
 

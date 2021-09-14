@@ -15,8 +15,8 @@ class UpdateTenderReadingRequest extends FormRequest
     public function rules()
     {
         return [
-            'financial_reading' => 'nullable|string',
-            'technical_reading' => 'nullable|string',
+            'financial_reading' => ['nullable', 'string'],
+            'technical_reading' => ['nullable', 'string'],
         ];
     }
 

@@ -15,8 +15,8 @@ class StoreTenderStatusRequest extends FormRequest
     public function rules()
     {
         return [
-            'status' => 'required|string',
-            'description' => 'nullable|string',
+            'status' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
         ];
     }
 

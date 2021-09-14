@@ -18,15 +18,15 @@ class StoreSaleRequest extends FormRequest
     public function rules()
     {
         return [
-            'receipt_no' => 'required|string|unique:sales',
-            'sale' => 'required|array',
-            'sale.*.product_id' => 'required|integer',
-            'sale.*.quantity' => 'required|numeric|min:1',
-            'sale.*.unit_price' => 'required|numeric',
-            'customer_id' => 'nullable|integer',
-            'sold_on' => 'required|date',
-            'payment_type' => 'required|string',
-            'description' => 'nullable|string',
+            'receipt_no' => ['required', 'string', 'unique:sales'],
+            'sale' => ['required', 'array'],
+            'sale.*.product_id' => ['required', 'integer'],
+            'sale.*.quantity' => ['required', 'numeric', 'min:1'],
+            'sale.*.unit_price' => ['required', 'numeric'],
+            'customer_id' => ['nullable', 'integer'],
+            'sold_on' => ['required', 'date'],
+            'payment_type' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
         ];
     }
 

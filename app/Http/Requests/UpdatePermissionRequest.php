@@ -14,8 +14,8 @@ class UpdatePermissionRequest extends FormRequest
     public function rules()
     {
         return [
-            'permissions' => 'nullable|array',
-            'permissions.*' => 'nullable|string',
+            'permissions' => ['nullable', 'array'],
+            'permissions.*' => ['nullable', 'string'],
         ];
     }
 
