@@ -3,12 +3,13 @@
 namespace App\Policies;
 
 use App\Models\Transfer;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TransferPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
@@ -17,9 +18,7 @@ class TransferPolicy
 
     public function view(User $user, Transfer $transfer)
     {
-        $doesTransferBelongToMyCompany = $user->employee->company_id == $transfer->company_id;
-
-        return $doesTransferBelongToMyCompany && $user->can('Read Transfer');
+        return $this->doesModelBelongToMyCompany($user, $transfer) && $user->can('Read Transfer');
     }
 
     public function create(User $user)
@@ -29,29 +28,21 @@ class TransferPolicy
 
     public function update(User $user, Transfer $transfer)
     {
-        $doesTransferBelongToMyCompany = $user->employee->company_id == $transfer->company_id;
-
-        return $doesTransferBelongToMyCompany && $user->can('Update Transfer');
+        return $this->doesModelBelongToMyCompany($user, $transfer) && $user->can('Update Transfer');
     }
 
     public function delete(User $user, Transfer $transfer)
     {
-        $doesTransferBelongToMyCompany = $user->employee->company_id == $transfer->company_id;
-
-        return $doesTransferBelongToMyCompany && $user->can('Delete Transfer');
+        return $this->doesModelBelongToMyCompany($user, $transfer) && $user->can('Delete Transfer');
     }
 
     public function approve(User $user, Transfer $transfer)
     {
-        $doesTransferBelongToMyCompany = $user->employee->company_id == $transfer->company_id;
-
-        return $doesTransferBelongToMyCompany && $user->can('Approve Transfer');
+        return $this->doesModelBelongToMyCompany($user, $transfer) && $user->can('Approve Transfer');
     }
 
     public function transfer(User $user, Transfer $transfer)
     {
-        $doesTransferBelongToMyCompany = $user->employee->company_id == $transfer->company_id;
-
-        return $doesTransferBelongToMyCompany && $user->can('Make Transfer');
+        return $this->doesModelBelongToMyCompany($user, $transfer) && $user->can('Make Transfer');
     }
 }

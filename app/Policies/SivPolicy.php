@@ -3,12 +3,13 @@
 namespace App\Policies;
 
 use App\Models\Siv;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SivPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
@@ -17,9 +18,7 @@ class SivPolicy
 
     public function view(User $user, Siv $siv)
     {
-        $doesSivBelongToMyCompany = $user->employee->company_id == $siv->company_id;
-
-        return $doesSivBelongToMyCompany && $user->can('Read SIV');
+        return $this->doesModelBelongToMyCompany($user, $siv) && $user->can('Read SIV');
     }
 
     public function create(User $user)
@@ -29,22 +28,16 @@ class SivPolicy
 
     public function update(User $user, Siv $siv)
     {
-        $doesSivBelongToMyCompany = $user->employee->company_id == $siv->company_id;
-
-        return $doesSivBelongToMyCompany && $user->can('Update SIV');
+        return $this->doesModelBelongToMyCompany($user, $siv) && $user->can('Update SIV');
     }
 
     public function delete(User $user, Siv $siv)
     {
-        $doesSivBelongToMyCompany = $user->employee->company_id == $siv->company_id;
-
-        return $doesSivBelongToMyCompany && $user->can('Delete SIV');
+        return $this->doesModelBelongToMyCompany($user, $siv) && $user->can('Delete SIV');
     }
 
     public function approve(User $user, Siv $siv)
     {
-        $doesSivBelongToMyCompany = $user->employee->company_id == $siv->company_id;
-
-        return $doesSivBelongToMyCompany && $user->can('Approve SIV');
+        return $this->doesModelBelongToMyCompany($user, $siv) && $user->can('Approve SIV');
     }
 }

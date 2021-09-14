@@ -3,17 +3,16 @@
 namespace App\Policies;
 
 use App\Models\Company;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CompanyPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function update(User $user, Company $company)
     {
-        $doesAdminBelongsToCompany = $user->employee->company_id == $company->id;
-
-        return $doesAdminBelongsToCompany && $user->can('Update Company');
+        return $this->doesModelBelongToMyCompany($user, $company) && $user->can('Update Company');
     }
 }

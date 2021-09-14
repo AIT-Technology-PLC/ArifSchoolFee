@@ -3,12 +3,13 @@
 namespace App\Policies;
 
 use App\Models\ProformaInvoice;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProformaInvoicePolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
@@ -17,9 +18,7 @@ class ProformaInvoicePolicy
 
     public function view(User $user, ProformaInvoice $proformaInvoice)
     {
-        $doesProformaInvoiceBelongToMyCompany = $user->employee->company_id == $proformaInvoice->company_id;
-
-        return $doesProformaInvoiceBelongToMyCompany && $user->can('Read Proforma Invoice');
+        return $this->doesModelBelongToMyCompany($user, $proformaInvoice) && $user->can('Read Proforma Invoice');
     }
 
     public function create(User $user)
@@ -29,29 +28,21 @@ class ProformaInvoicePolicy
 
     public function update(User $user, ProformaInvoice $proformaInvoice)
     {
-        $doesProformaInvoiceBelongToMyCompany = $user->employee->company_id == $proformaInvoice->company_id;
-
-        return $doesProformaInvoiceBelongToMyCompany && $user->can('Update Proforma Invoice');
+        return $this->doesModelBelongToMyCompany($user, $proformaInvoice) && $user->can('Update Proforma Invoice');
     }
 
     public function delete(User $user, ProformaInvoice $proformaInvoice)
     {
-        $doesProformaInvoiceBelongToMyCompany = $user->employee->company_id == $proformaInvoice->company_id;
-
-        return $doesProformaInvoiceBelongToMyCompany && $user->can('Delete Proforma Invoice');
+        return $this->doesModelBelongToMyCompany($user, $proformaInvoice) && $user->can('Delete Proforma Invoice');
     }
 
     public function convert(User $user, ProformaInvoice $proformaInvoice)
     {
-        $doesProformaInvoiceBelongToMyCompany = $user->employee->company_id == $proformaInvoice->company_id;
-
-        return $doesProformaInvoiceBelongToMyCompany && $user->can('Convert Proforma Invoice');
+        return $this->doesModelBelongToMyCompany($user, $proformaInvoice) && $user->can('Convert Proforma Invoice');
     }
 
     public function cancel(User $user, ProformaInvoice $proformaInvoice)
     {
-        $doesProformaInvoiceBelongToMyCompany = $user->employee->company_id == $proformaInvoice->company_id;
-
-        return $doesProformaInvoiceBelongToMyCompany && $user->can('Cancel Proforma Invoice');
+        return $this->doesModelBelongToMyCompany($user, $proformaInvoice) && $user->can('Cancel Proforma Invoice');
     }
 }

@@ -3,12 +3,13 @@
 namespace App\Policies;
 
 use App\Models\PurchaseOrder;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PurchaseOrderPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
@@ -17,9 +18,7 @@ class PurchaseOrderPolicy
 
     public function view(User $user, PurchaseOrder $purchaseOrder)
     {
-        $doesPurchaseOrderBelongToMyCompany = $user->employee->company_id == $purchaseOrder->company_id;
-
-        return $doesPurchaseOrderBelongToMyCompany && $user->can('Read PO');
+        return $this->doesModelBelongToMyCompany($user, $purchaseOrder) && $user->can('Read PO');
     }
 
     public function create(User $user)
@@ -29,15 +28,11 @@ class PurchaseOrderPolicy
 
     public function update(User $user, PurchaseOrder $purchaseOrder)
     {
-        $doesPurchaseOrderBelongToMyCompany = $user->employee->company_id == $purchaseOrder->company_id;
-
-        return $doesPurchaseOrderBelongToMyCompany && $user->can('Update PO');
+        return $this->doesModelBelongToMyCompany($user, $purchaseOrder) && $user->can('Update PO');
     }
 
     public function delete(User $user, PurchaseOrder $purchaseOrder)
     {
-        $doesPurchaseOrderBelongToMyCompany = $user->employee->company_id == $purchaseOrder->company_id;
-
-        return $doesPurchaseOrderBelongToMyCompany && $user->can('Delete PO');
+        return $this->doesModelBelongToMyCompany($user, $purchaseOrder) && $user->can('Delete PO');
     }
 }

@@ -3,12 +3,13 @@
 namespace App\Policies;
 
 use App\Models\Employee;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class EmployeePolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
@@ -22,29 +23,33 @@ class EmployeePolicy
 
     public function view(User $user, Employee $employee)
     {
-        $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $employee->company_id;
+        if ($user->employee->id == $employee->id) {
+            return true;
+        }
 
-        $isItMyProfie = $user->employee->id == $employee->id;
-
-        return $isItMyProfie || ($user->can('Read Employee') && $doesAdminAndEmployeeBelongToSameCompany);
+        return $this->doesModelBelongToMyCompany($user, $employee) && $user->can('Read Employee');
     }
 
     public function update(User $user, Employee $employee)
     {
-        $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $employee->company_id;
+        if (!$this->doesModelBelongToMyCompany($user, $employee) || !$user->can('Update Employee')) {
+            return false;
+        }
 
-        if ($doesAdminAndEmployeeBelongToSameCompany && $user->hasRole('System Manager')) {
+        if ($user->id == $employee->user->id && $user->hasRole('System Manager')) {
             return true;
         }
 
-        return $doesAdminAndEmployeeBelongToSameCompany && $user->id != $employee->user->id && $user->can('Update Employee');
+        if ($user->id != $employee->user->id) {
+            return true;
+        }
+
+        return false;
     }
 
     public function delete(User $user, Employee $employee)
     {
-        $doesAdminAndEmployeeBelongToSameCompany = $user->employee->company_id == $employee->company_id;
-
-        return $doesAdminAndEmployeeBelongToSameCompany && $user->can('Delete Employee');
+        return $this->doesModelBelongToMyCompany($user, $employee) && $user->can('Delete Employee');
     }
 
 }

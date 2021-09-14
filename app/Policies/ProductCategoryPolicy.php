@@ -3,23 +3,22 @@
 namespace App\Policies;
 
 use App\Models\ProductCategory;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProductCategoryPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
-        return true;
+        return $user->can('Read Product');
     }
 
     public function view(User $user, ProductCategory $category)
     {
-        $doesCategoryBelongToMyCompany = $user->employee->company_id == $category->company_id;
-
-        return $doesCategoryBelongToMyCompany;
+        return $this->doesModelBelongToMyCompany($user, $category) && $user->can('Read Product');
     }
 
     public function create(User $user)
@@ -29,15 +28,11 @@ class ProductCategoryPolicy
 
     public function update(User $user, ProductCategory $category)
     {
-        $doesCategoryBelongToMyCompany = $user->employee->company_id == $category->company_id;
-
-        return $doesCategoryBelongToMyCompany && $user->can('Update Product');
+        return $this->doesModelBelongToMyCompany($user, $category) && $user->can('Update Product');
     }
 
     public function delete(User $user, ProductCategory $category)
     {
-        $doesCategoryBelongToMyCompany = $user->employee->company_id == $category->company_id;
-
-        return $doesCategoryBelongToMyCompany && $user->can('Read Product');
+        return $this->doesModelBelongToMyCompany($user, $category) && $user->can('Delete Product');
     }
 }

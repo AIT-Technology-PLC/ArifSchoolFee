@@ -3,24 +3,22 @@
 namespace App\Policies;
 
 use App\Models\Customer;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CustomerPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
-        return $user->can('Read Customer') ? true : false;
+        return $user->can('Read Customer');
     }
 
     public function view(User $user, Customer $customer)
     {
-        $doesCustomerBelongToMyCompany = $user->employee->company_id == $customer->company_id;
-
-        return $doesCustomerBelongToMyCompany && $user->can('Read Customer') ?
-        true : false;
+        return $this->doesModelBelongToMyCompany($user, $customer) && $user->can('Read Customer');
     }
 
     public function create(User $user)
@@ -30,17 +28,12 @@ class CustomerPolicy
 
     public function update(User $user, Customer $customer)
     {
-        $doesCustomerBelongToMyCompany = $user->employee->company_id == $customer->company_id;
-
-        return $user->can('Update Customer') && $doesCustomerBelongToMyCompany
-        ? true : false;
+        return $this->doesModelBelongToMyCompany($user, $customer) && $user->can('Update Customer');
 
     }
 
     public function delete(User $user, Customer $customer)
     {
-        $doesCustomerBelongToMyCompany = $user->employee->company_id == $customer->company_id;
-
-        return $user->can('Delete Customer') && $doesCustomerBelongToMyCompany;
+        return $this->doesModelBelongToMyCompany($user, $customer) && $user->can('Delete Customer');
     }
 }

@@ -3,12 +3,13 @@
 namespace App\Policies;
 
 use App\Models\Supplier;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SupplierPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
@@ -17,9 +18,7 @@ class SupplierPolicy
 
     public function view(User $user, Supplier $supplier)
     {
-        $doesSupplierBelongToMyCompany = $user->employee->company_id == $supplier->company_id;
-
-        return $doesSupplierBelongToMyCompany && $user->can('Read Supplier');
+        return $this->doesModelBelongToMyCompany($user, $supplier) && $user->can('Read Supplier');
     }
 
     public function create(User $user)
@@ -29,15 +28,11 @@ class SupplierPolicy
 
     public function update(User $user, Supplier $supplier)
     {
-        $doesSupplierBelongToMyCompany = $user->employee->company_id == $supplier->company_id;
-
-        return $doesSupplierBelongToMyCompany && $user->can('Update Supplier');
+        return $this->doesModelBelongToMyCompany($user, $supplier) && $user->can('Update Supplier');
     }
 
     public function delete(User $user, Supplier $supplier)
     {
-        $doesSupplierBelongToMyCompany = $user->employee->company_id == $supplier->company_id;
-
-        return $doesSupplierBelongToMyCompany && $user->can('Delete Supplier');
+        return $this->doesModelBelongToMyCompany($user, $supplier) && $user->can('Delete Supplier');
     }
 }

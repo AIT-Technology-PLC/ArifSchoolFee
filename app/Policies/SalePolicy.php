@@ -3,12 +3,13 @@
 namespace App\Policies;
 
 use App\Models\Sale;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SalePolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
@@ -17,9 +18,7 @@ class SalePolicy
 
     public function view(User $user, Sale $sale)
     {
-        $doesSaleBelongToMyCompany = $user->employee->company_id == $sale->company_id;
-
-        return $doesSaleBelongToMyCompany && $user->can('Read Sale');
+        return $this->doesModelBelongToMyCompany($user, $sale) && $user->can('Read Sale');
     }
 
     public function create(User $user)
@@ -29,15 +28,11 @@ class SalePolicy
 
     public function update(User $user, Sale $sale)
     {
-        $doesSaleBelongToMyCompany = $user->employee->company_id == $sale->company_id;
-
-        return $doesSaleBelongToMyCompany && $user->can('Update Sale');
+        return $this->doesModelBelongToMyCompany($user, $sale) && $user->can('Update Sale');
     }
 
     public function delete(User $user, Sale $sale)
     {
-        $doesSaleBelongToMyCompany = $user->employee->company_id == $sale->company_id;
-
-        return $doesSaleBelongToMyCompany && $user->can('Delete Sale');
+        return $this->doesModelBelongToMyCompany($user, $sale) && $user->can('Delete Sale');
     }
 }

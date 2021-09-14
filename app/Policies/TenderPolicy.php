@@ -3,12 +3,13 @@
 namespace App\Policies;
 
 use App\Models\Tender;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TenderPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
@@ -17,9 +18,7 @@ class TenderPolicy
 
     public function view(User $user, Tender $tender)
     {
-        $doesTenderBelongToMyCompany = $user->employee->company_id == $tender->company_id;
-
-        return $doesTenderBelongToMyCompany && $user->can('Read Tender');
+        return $this->doesModelBelongToMyCompany($user, $tender) && $user->can('Read Tender');
     }
 
     public function create(User $user)
@@ -29,15 +28,11 @@ class TenderPolicy
 
     public function update(User $user, Tender $tender)
     {
-        $doesTenderBelongToMyCompany = $user->employee->company_id == $tender->company_id;
-
-        return $doesTenderBelongToMyCompany && $user->can('Update Tender');
+        return $this->doesModelBelongToMyCompany($user, $tender) && $user->can('Update Tender');
     }
 
     public function delete(User $user, Tender $tender)
     {
-        $doesTenderBelongToMyCompany = $user->employee->company_id == $tender->company_id;
-
-        return $doesTenderBelongToMyCompany && $user->can('Delete Tender');
+        return $this->doesModelBelongToMyCompany($user, $tender) && $user->can('Delete Tender');
     }
 }

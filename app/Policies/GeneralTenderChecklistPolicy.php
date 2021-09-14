@@ -3,12 +3,13 @@
 namespace App\Policies;
 
 use App\Models\GeneralTenderChecklist;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class GeneralTenderChecklistPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
@@ -17,9 +18,7 @@ class GeneralTenderChecklistPolicy
 
     public function view(User $user, GeneralTenderChecklist $generalTenderChecklist)
     {
-        $doesTenderBelongToMyCompany = $user->employee->company_id == $generalTenderChecklist->company_id;
-
-        return $doesTenderBelongToMyCompany && $user->can('Read Tender');
+        return $this->doesModelBelongToMyCompany($user, $generalTenderChecklist) && $user->can('Read Tender');
     }
 
     public function create(User $user)
@@ -29,15 +28,11 @@ class GeneralTenderChecklistPolicy
 
     public function update(User $user, GeneralTenderChecklist $generalTenderChecklist)
     {
-        $doesTenderBelongToMyCompany = $user->employee->company_id == $generalTenderChecklist->company_id;
-
-        return $doesTenderBelongToMyCompany && $user->can('Update Tender');
+        return $this->doesModelBelongToMyCompany($user, $generalTenderChecklist) && $user->can('Update Tender');
     }
 
     public function delete(User $user, GeneralTenderChecklist $generalTenderChecklist)
     {
-        $doesTenderBelongToMyCompany = $user->employee->company_id == $generalTenderChecklist->company_id;
-
-        return $doesTenderBelongToMyCompany && $user->can('Delete Tender');
+        return $this->doesModelBelongToMyCompany($user, $generalTenderChecklist) && $user->can('Delete Tender');
     }
 }

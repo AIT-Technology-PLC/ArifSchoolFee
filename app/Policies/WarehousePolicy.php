@@ -3,12 +3,13 @@
 namespace App\Policies;
 
 use App\Models\Warehouse;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class WarehousePolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
@@ -17,9 +18,7 @@ class WarehousePolicy
 
     public function view(User $user, Warehouse $warehouse)
     {
-        $doesWarehouseBelongToMyCompany = $user->employee->company_id == $warehouse->company_id;
-
-        return $doesWarehouseBelongToMyCompany;
+        return $this->doesModelBelongToMyCompany($user, $warehouse) && $user->can('Read Warehouse');
     }
 
     public function create(User $user)
@@ -29,15 +28,11 @@ class WarehousePolicy
 
     public function update(User $user, Warehouse $warehouse)
     {
-        $doesWarehouseBelongToMyCompany = $user->employee->company_id == $warehouse->company_id;
-
-        return $doesWarehouseBelongToMyCompany && $user->can('Update Warehouse');
+        return $this->doesModelBelongToMyCompany($user, $warehouse) && $user->can('Update Warehouse');
     }
 
     public function delete(User $user, Warehouse $warehouse)
     {
-        $doesWarehouseBelongToMyCompany = $user->employee->company_id == $warehouse->company_id;
-
-        return $doesWarehouseBelongToMyCompany && $user->can('Delete Warehouse');
+        return $this->doesModelBelongToMyCompany($user, $warehouse) && $user->can('Delete Warehouse');
     }
 }

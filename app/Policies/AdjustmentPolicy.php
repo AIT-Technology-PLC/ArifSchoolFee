@@ -3,12 +3,13 @@
 namespace App\Policies;
 
 use App\Models\Adjustment;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AdjustmentPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
@@ -17,9 +18,7 @@ class AdjustmentPolicy
 
     public function view(User $user, Adjustment $adjustment)
     {
-        $doesAdjustmentBelongToMyCompany = $user->employee->company_id == $adjustment->company_id;
-
-        return $doesAdjustmentBelongToMyCompany && $user->can('Read Adjustment');
+        return $this->doesModelBelongToMyCompany($user, $adjustment) && $user->can('Read Adjustment');
     }
 
     public function create(User $user)
@@ -29,29 +28,21 @@ class AdjustmentPolicy
 
     public function update(User $user, Adjustment $adjustment)
     {
-        $doesAdjustmentBelongToMyCompany = $user->employee->company_id == $adjustment->company_id;
-
-        return $doesAdjustmentBelongToMyCompany && $user->can('Update Adjustment');
+        return $this->doesModelBelongToMyCompany($user, $adjustment) && $user->can('Update Adjustment');
     }
 
     public function delete(User $user, Adjustment $adjustment)
     {
-        $doesAdjustmentBelongToMyCompany = $user->employee->company_id == $adjustment->company_id;
-
-        return $doesAdjustmentBelongToMyCompany && $user->can('Delete Adjustment');
+        return $this->doesModelBelongToMyCompany($user, $adjustment) && $user->can('Delete Adjustment');
     }
 
     public function approve(User $user, Adjustment $adjustment)
     {
-        $doesAdjustmentBelongToMyCompany = $user->employee->company_id == $adjustment->company_id;
-
-        return $doesAdjustmentBelongToMyCompany && $user->can('Approve Adjustment');
+        return $this->doesModelBelongToMyCompany($user, $adjustment) && $user->can('Approve Adjustment');
     }
 
     public function adjust(User $user, Adjustment $adjustment)
     {
-        $doesAdjustmentBelongToMyCompany = $user->employee->company_id == $adjustment->company_id;
-
-        return $doesAdjustmentBelongToMyCompany && $user->can('Make Adjustment');
+        return $this->doesModelBelongToMyCompany($user, $adjustment) && $user->can('Make Adjustment');
     }
 }

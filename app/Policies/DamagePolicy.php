@@ -3,12 +3,13 @@
 namespace App\Policies;
 
 use App\Models\Damage;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class DamagePolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
@@ -17,9 +18,7 @@ class DamagePolicy
 
     public function view(User $user, Damage $damage)
     {
-        $doesDamageBelongToMyCompany = $user->employee->company_id == $damage->company_id;
-
-        return $doesDamageBelongToMyCompany && $user->can('Read Damage');
+        return $this->doesModelBelongToMyCompany($user, $damage) && $user->can('Read Damage');
     }
 
     public function create(User $user)
@@ -29,29 +28,21 @@ class DamagePolicy
 
     public function update(User $user, Damage $damage)
     {
-        $doesDamageBelongToMyCompany = $user->employee->company_id == $damage->company_id;
-
-        return $doesDamageBelongToMyCompany && $user->can('Update Damage');
+        return $this->doesModelBelongToMyCompany($user, $damage) && $user->can('Update Damage');
     }
 
     public function delete(User $user, Damage $damage)
     {
-        $doesDamageBelongToMyCompany = $user->employee->company_id == $damage->company_id;
-
-        return $doesDamageBelongToMyCompany && $user->can('Delete Damage');
+        return $this->doesModelBelongToMyCompany($user, $damage) && $user->can('Delete Damage');
     }
 
     public function approve(User $user, Damage $damage)
     {
-        $doesDamageBelongToMyCompany = $user->employee->company_id == $damage->company_id;
-
-        return $doesDamageBelongToMyCompany && $user->can('Approve Damage');
+        return $this->doesModelBelongToMyCompany($user, $damage) && $user->can('Approve Damage');
     }
 
     public function subtract(User $user, Damage $damage)
     {
-        $doesDamageBelongToMyCompany = $user->employee->company_id == $damage->company_id;
-
-        return $doesDamageBelongToMyCompany && $user->can('Subtract Damage');
+        return $this->doesModelBelongToMyCompany($user, $damage) && $user->can('Subtract Damage');
     }
 }

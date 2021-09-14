@@ -3,12 +3,13 @@
 namespace App\Policies;
 
 use App\Models\Returnn;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ReturnPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
 
     public function viewAny(User $user)
     {
@@ -17,9 +18,7 @@ class ReturnPolicy
 
     public function view(User $user, Returnn $returnn)
     {
-        $doesReturnnBelongToMyCompany = $user->employee->company_id == $returnn->company_id;
-
-        return $doesReturnnBelongToMyCompany && $user->can('Read Return');
+        return $this->doesModelBelongToMyCompany($user, $returnn) && $user->can('Read Return');
     }
 
     public function create(User $user)
@@ -29,29 +28,21 @@ class ReturnPolicy
 
     public function update(User $user, Returnn $returnn)
     {
-        $doesReturnnBelongToMyCompany = $user->employee->company_id == $returnn->company_id;
-
-        return $doesReturnnBelongToMyCompany && $user->can('Update Return');
+        return $this->doesModelBelongToMyCompany($user, $returnn) && $user->can('Update Return');
     }
 
     public function delete(User $user, Returnn $returnn)
     {
-        $doesReturnnBelongToMyCompany = $user->employee->company_id == $returnn->company_id;
-
-        return $doesReturnnBelongToMyCompany && $user->can('Delete Return');
+        return $this->doesModelBelongToMyCompany($user, $returnn) && $user->can('Delete Return');
     }
 
     public function approve(User $user, Returnn $returnn)
     {
-        $doesReturnnBelongToMyCompany = $user->employee->company_id == $returnn->company_id;
-
-        return $doesReturnnBelongToMyCompany && $user->can('Approve Return');
+        return $this->doesModelBelongToMyCompany($user, $returnn) && $user->can('Approve Return');
     }
 
     public function add(User $user, Returnn $returnn)
     {
-        $doesReturnnBelongToMyCompany = $user->employee->company_id == $returnn->company_id;
-
-        return $doesReturnnBelongToMyCompany && $user->can('Make Return');
+        return $this->doesModelBelongToMyCompany($user, $returnn) && $user->can('Make Return');
     }
 }
