@@ -140,7 +140,6 @@ return [
          * Third Party Service Providers...
          */
 
-        Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
