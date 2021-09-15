@@ -123,11 +123,11 @@ class ProformaInvoiceController extends Controller
     public function destroy(ProformaInvoice $proformaInvoice)
     {
         if ($proformaInvoice->isConverted()) {
-            return view('errors.403');
+            abort(403);
         }
 
         if ($proformaInvoice->isCancelled() && !auth()->user()->can('Delete Cancelled Proforma Invoice')) {
-            return view('errors.403');
+            abort(403);
         }
 
         $proformaInvoice->forceDelete();

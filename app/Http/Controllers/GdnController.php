@@ -133,11 +133,11 @@ class GdnController extends Controller
         }
 
         if ($gdn->isSubtracted()) {
-            return view('errors.403');
+            abort(403);
         }
 
         if ($gdn->isApproved() && !auth()->user()->can('Delete Approved GDN')) {
-            return view('errors.403');
+            abort(403);
         }
 
         $gdn->forceDelete();

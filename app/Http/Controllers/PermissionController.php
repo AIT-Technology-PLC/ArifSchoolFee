@@ -16,11 +16,11 @@ class PermissionController extends Controller
     public function edit(Employee $employee, Permission $permission)
     {
         if ($employee->user->hasRole('System Manager')) {
-            return view('errors.403');
+            abort(403);
         }
 
         if ($employee->user->id == auth()->id()) {
-            return view('errors.403');
+            abort(403);
         }
 
         $this->authorize('update', $employee);
@@ -39,11 +39,11 @@ class PermissionController extends Controller
     public function update(UpdatePermissionRequest $request, Employee $employee)
     {
         if ($employee->user->hasRole('System Manager')) {
-            return view('errors.403');
+            abort(403);
         }
 
         if ($employee->user->id == auth()->id()) {
-            return view('errors.403');
+            abort(403);
         }
 
         $this->authorize('update', $employee);
@@ -70,11 +70,11 @@ class PermissionController extends Controller
         $permission['merchandisePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'merchandise'))->pluck('name')->toArray();
 
         $permission['returnPermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'return'))->pluck('name')->toArray();
-        
+
         $permission['salePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'sale'))->pluck('name')->toArray();
 
         $permission['proformaInvoicePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'proforma invoice'))->pluck('name')->toArray();
-        
+
         $permission['reservationPermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'reservation'))->pluck('name')->toArray();
 
         $permission['purchasePermissions'] = $permissions->filter(fn($permission) => stristr($permission->name, 'purchase'))->pluck('name')->toArray();

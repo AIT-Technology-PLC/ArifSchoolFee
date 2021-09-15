@@ -105,7 +105,7 @@ class SivController extends Controller
     public function destroy(Siv $siv)
     {
         if ($siv->isApproved() && !auth()->user()->can('Delete Approved SIV')) {
-            return view('errors.403');
+            abort(403);
         }
 
         $siv->forceDelete();

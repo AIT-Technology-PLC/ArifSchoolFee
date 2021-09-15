@@ -129,11 +129,11 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         if (($reservation->isConverted() || $reservation->isReserved()) && !$reservation->isCancelled()) {
-            return view('errors.403');
+            abort(403);
         }
 
         if (($reservation->isApproved() || $reservation->isCancelled()) && !auth()->user()->can('Delete Approved Reservation')) {
-            return view('errors.403');
+            abort(403);
         }
 
         $reservation->forceDelete();
