@@ -189,7 +189,7 @@
                 </tbody>
             </table>
         </section>
-        <section class="pl-6">
+        <section class="pl-6 mt-5">
             <aside style="width: 40% !important">
                 <table class="table is-bordered is-striped is-hoverable is-fullwidth is-size-7">
                     <tbody>
