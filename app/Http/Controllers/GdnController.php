@@ -151,6 +151,8 @@ class GdnController extends Controller
 
         $gdn->load(['gdnDetails.product', 'customer', 'company', 'createdBy', 'approvedBy']);
 
-        return view('gdns.print', compact('gdn'));
+        return \PDF::loadView('gdns.print', compact('gdn'))
+            ->setPaper('a4', 'portrait')
+            ->stream();
     }
 }

@@ -13,6 +13,6 @@ class CompanyPolicy
 
     public function update(User $user, Company $company)
     {
-        return $this->doesModelBelongToMyCompany($user, $company) && $user->can('Update Company');
+        return $this->doesModelBelongToMyCompany($user, $company->id) && $user->can('Update Company');
     }
 }
