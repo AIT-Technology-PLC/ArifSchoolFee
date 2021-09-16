@@ -15,7 +15,3 @@ Route::get('/password/confirm', [Auth\ConfirmPasswordController::class, 'showCon
 Route::post('/password/confirm', [Auth\ConfirmPasswordController::class, 'confirm']);
 
 Route::post('logout', [Auth\LoginController::class, 'logout'])->name('logout');
-
-Route::fallback(function () {
-    abort(404);
-});
