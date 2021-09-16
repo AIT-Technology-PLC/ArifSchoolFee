@@ -39,8 +39,6 @@ class FeatureAuthComposer
             return false;
         }
 
-        $view->with([
-            'enabledFeatures' => Feature::getAllEnabledFeaturesOfCompany(),
-        ]);
+        $view->with('enabledFeatures', Feature::getAllEnabledFeaturesOfCompany());
     }
 }
