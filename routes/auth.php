@@ -3,7 +3,7 @@
 use App\Http\Controllers as Controllers;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [Controllers\MenuController::class, 'index'])->name('home');
+Route::view('/', 'menu.index')->name('home');
 
 Route::get('/product/uom/{product}', [Controllers\ProductController::class, 'getProductUOM']);
 

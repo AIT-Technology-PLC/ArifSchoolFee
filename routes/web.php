@@ -1,10 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth as Auth;
-use App\Http\Controllers\OfflineController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/offline', [OfflineController::class, 'offline']);
+Route::view('/offline', 'offline.index');
 
 Route::get('/register', [Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [Auth\RegisterController::class, 'register']);
@@ -16,3 +15,7 @@ Route::get('/password/confirm', [Auth\ConfirmPasswordController::class, 'showCon
 Route::post('/password/confirm', [Auth\ConfirmPasswordController::class, 'confirm']);
 
 Route::post('logout', [Auth\LoginController::class, 'logout'])->name('logout');
+
+Route::fallback(function () {
+    abort(404);
+});
