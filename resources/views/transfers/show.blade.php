@@ -114,7 +114,7 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            @if ($transfer->isAdded())
+                            @if ($transfer->isSubtracted())
                                 <a href="{{ route('transfers.sivs.create', $transfer->id) }}" class="button is-small btn-green is-outlined has-text-white">
                                     <span class="icon">
                                         <i class="fas fa-file-export"></i>
