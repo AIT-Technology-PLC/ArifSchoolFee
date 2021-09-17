@@ -30,9 +30,9 @@
 </head>
 
 <body>
-    <header class="is-clearfix py-5 has-background-white-ter">
-        <aside class="is-pulled-left ml-6 mt-6 pt-4">
-            <img src="{{ asset('storage/' . $gdn->company->logo) }}" width="30%">
+    <header class="is-clearfix pt-5 has-background-white-ter">
+        <aside class="is-pulled-left ml-6 mt-5 pt-4">
+            <img src="{{ asset('storage/' . $gdn->company->logo) }}" style="width: 300px !important; height: 130px !important">
         </aside>
         <aside class="is-pulled-right mr-6">
             <h1 class="heading is-capitalized has-text-black has-text-weight-medium is-size-5">

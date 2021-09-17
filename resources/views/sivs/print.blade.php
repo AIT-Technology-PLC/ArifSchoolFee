@@ -1,232 +1,239 @@
-<!DOCTYPE html>
-<html lang="en" style="background-color: inherit">
+<!doctype html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>SIV #{{ $siv->code . ' - Print Preview' }}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title> SIV #{{ $siv->code }} - {{ userCompany()->name }} </title>
     <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <style>
-        @page {
-            size: A4
+        .page-break {
+            page-break-inside: avoid;
         }
 
         @media print {
-            body {
-                -webkit-print-color-adjust: exact !important;
-                color-adjust: exact !important;
+            .table-breaked {
+                page-break-before: auto;
             }
+        }
+
+        .summernote-table table td,
+        .summernote-table table th {
+            border-width: 1px !important;
+            padding: 0 !important;
         }
 
     </style>
 </head>
 
-<body class="A4">
-    <section class="sheet">
-        <article>
-            <div class="columns is-marginless has-background-white-ter is-vcentered">
-                <div class="column is-3 is-offset-1">
-                    <img class="" src="{{ asset('storage/' . $siv->company->logo) }}" style="width: 170px !important; height: 72px !important">
-                </div>
-                <div class="column is-5 is-offset-3">
-                    <h1 class="heading is-capitalized has-text-black has-text-weight-medium is-size-5">
-                        {{ $siv->company->name }}
-                    </h1>
-                    <h1 class="title is-size-7 is-uppercase has-text-grey-light mt-0 mb-0">
-                        Tel/Phone
-                        <br>
-                        <span class="title has-text-weight-normal is-size-6 is-uppercase">
-                            {{ $siv->company->phone ?? '-' }}
-                        </span>
-                    </h1>
-                    <h1 class="title is-size-7 has-text-grey-light mb-0">
-                        E-mail
-                        <br>
-                        <span class="title has-text-weight-normal is-size-6">
-                            {{ $siv->company->email ?? '-' }}
-                        </span>
-                    </h1>
-                    <h1 class="title is-size-7 has-text-grey-light mb-0">
-                        Address
-                        <br>
-                        <span class="title has-text-weight-normal is-size-6">
-                            {{ $siv->company->address ?? '-' }}
-                        </span>
-                    </h1>
-                </div>
-            </div>
-            <div class="columns is-marginless has-background-white-bis">
-                <div class="column is-5 is-offset-1">
-                    @if ($siv->issued_to)
-                        <h1 class="title is-size-7 is-uppercase has-text-grey-light">
+<body>
+    <header class="is-clearfix pt-5 has-background-white-ter">
+        <aside class="is-pulled-left ml-6 mt-5 pt-4">
+            <img src="{{ asset('storage/' . $siv->company->logo) }}" style="width: 300px !important; height: 130px !important">
+        </aside>
+        <aside class="is-pulled-right mr-6">
+            <h1 class="heading is-capitalized has-text-black has-text-weight-medium is-size-5">
+                {{ $siv->company->name }}
+            </h1>
+            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-0">
+                Tel/Phone
+            </h1>
+            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                {{ $siv->company->phone ?? '-' }}
+            </p>
+            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                Email
+            </h1>
+            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                {{ $siv->company->email ?? '-' }}
+            </p>
+            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                Address
+            </h1>
+            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                {{ $siv->company->address ?? '-' }}
+            </p>
+        </aside>
+    </header>
+
+    <main>
+        <section class="is-clearfix has-background-white-bis py-3 pl-6 pr-6">
+            <aside class="is-pulled-left">
+                @if ($siv->issued_to)
+                    <div class="mb-3">
+                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
                             Issued To
-                            <br>
-                            <span class="title is-size-6 is-uppercase">
-                                {{ $siv->issued_to }}
-                            </span>
                         </h1>
-                    @endif
-                    @if ($siv->purpose)
-                        <h1 class="title is-size-7 is-uppercase has-text-grey-light">
-                            Purpose
-                            <br>
-                            <span class="title is-size-6 is-capitalized">
-                                {{ $siv->purpose }}{{ $siv->ref_num ? ' No: ' . $siv->ref_num : '' }}
-                            </span>
+                        <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
+                            {{ $siv->issued_to }}
                         </h1>
-                    @endif
-                </div>
-                <div class="column is-4 is-offset-2">
-                    <h1 class="title is-size-7 is-uppercase has-text-grey-light">
-                        SIV No
-                        <br>
-                        <span class="title is-size-6 is-uppercase">
-                            {{ $siv->code }}
-                        </span>
-                    </h1>
-                    <h1 class="title is-size-7 is-uppercase has-text-grey-light">
-                        Issued On
-                        <br>
-                        <span class="title is-size-6 is-capitalized">
-                            {{ $siv->issued_on->toFormattedDateString() }}
-                        </span>
-                    </h1>
-                </div>
-            </div>
-            <div class="has-text-centered mt-4">
-                <h1 class="is-uppercase has-text-grey-dark has-text-weight-bold is-size-4 is-underlined">
-                    Store Issue Voucher
-                </h1>
-            </div>
-            <div class="columns is-marginless">
-                <div class="column mx-6 pt-0">
-                    <div class="table-container">
-                        <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Product Description</th>
-                                    <th>Category</th>
-                                    <th>Quantity</th>
-                                    <th>From</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($siv->sivDetails as $sivDetail)
-                                    <tr>
-                                        <td> {{ $loop->index + 1 }} </td>
-                                        <td> {{ $sivDetail->product->name }} </td>
-                                        <td> {{ $sivDetail->product->productCategory->name }} </td>
-                                        <td> {{ number_format($sivDetail->quantity, 2) }} {{ $sivDetail->product->unit_of_measurement }} </td>
-                                        <td> {{ $sivDetail->warehouse->name }} </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div style="position:absolute; bottom: 0%;left: 0;right: 0;">
-                <div class="columns is-marginless has-background-white-bis">
-                    <div class="column py-0 is-4 is-offset-1 is-size-7">
-                        <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-0 mt-5">
-                            Received By
-                            @if (!$siv->received_by)
-                                : <span class="is-inline-block" style="border: 1px solid lightgrey; width: 154px"></span>
-                            @endif
-                            @if ($siv->received_by)
-                                <br>
-                                <span class="title is-size-6 is-uppercase">
-                                    {{ $siv->received_by }}
-                                </span>
-                            @endif
-                        </h1>
-                        <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-6 mt-5">
-                            Signature
-                        </h1>
-                        <div class="mb-5" style="border: 1px solid lightgrey"></div>
-                    </div>
-                    <div class="column py-0 is-4 is-offset-2 is-size-7">
-                        <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-0 mt-5">
-                            Delivered By:
-                            @if (!$siv->delivered_by)
-                                : <span class="is-inline-block" style="border: 1px solid lightgrey; width: 144px"></span>
-                            @endif
-                            @if ($siv->delivered_by)
-                                <br>
-                                <span class="title is-size-6 is-uppercase">
-                                    {{ $siv->delivered_by }}
-                                </span>
-                            @endif
-                        </h1>
-                        <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-6 mt-5">
-                            Signature
-                        </h1>
-                        <div class="mb-5" style="border: 1px solid lightgrey"></div>
-                    </div>
-                </div>
-                @if ($siv->created_by == $siv->approved_by)
-                    <div class="columns is-marginless has-background-white-ter">
-                        <div class="column py-0 is-4 is-offset-1 is-size-7">
-                            <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-0 mt-6">
-                                Prepared & Approved By
-                                <br>
-                                <span class="title is-size-6 is-uppercase">
-                                    {{ $siv->createdBy->name }}
-                                </span>
-                            </h1>
-                            <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-6 mt-5">
-                                Signature
-                            </h1>
-                            <div class="mb-3" style="border: 1px solid lightgrey"></div>
-                        </div>
-                    </div>
-                @else
-                    <div class="columns is-marginless has-background-white-ter">
-                        <div class="column py-0 is-4 is-offset-1 is-size-7">
-                            <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-0 mt-6">
-                                Prepared By
-                                <br>
-                                <span class="title is-size-6 is-uppercase">
-                                    {{ $siv->createdBy->name }}
-                                </span>
-                            </h1>
-                            <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-6 mt-5">
-                                Signature
-                            </h1>
-                            <div class="mb-3" style="border: 1px solid lightgrey"></div>
-                        </div>
-                        <div class="column py-0 is-4 is-offset-2">
-                            <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-0 mt-6">
-                                Approved By
-                                <br>
-                                <span class="title is-size-6 is-uppercase">
-                                    {{ $siv->approvedBy->name ?? 'Still Not Approved' }}
-                                </span>
-                            </h1>
-                            <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-6 mt-5">
-                                Signature
-                            </h1>
-                            <div class="mb-3" style="border: 1px solid lightgrey"></div>
-                        </div>
                     </div>
                 @endif
-            </div>
-        </article>
-    </section>
+                <div>
+                    @if ($siv->purpose)
+                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                            Purpose
+                        </h1>
+                        <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
+                            {{ $siv->purpose }}{{ $siv->ref_num ? ' No: ' . $siv->ref_num : '' }}
+                        </h1>
+                    @endif
+                </div>
+            </aside>
+            <aside class="is-pulled-right">
+                <div class="mb-3">
+                    <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                        SIV N<u>o</u>
+                    </h1>
+                    <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
+                        {{ $siv->code }}
+                    </h1>
+                </div>
+                <div>
+                    <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                        Issued On
+                    </h1>
+                    <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
+                        {{ $siv->issued_on->toFormattedDateString() }}
+                    </h1>
+                </div>
+            </aside>
+        </section>
 
-    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/caller.js') }}"></script>
+        <section class="pt-5 has-text-centered">
+            <h1 class="is-uppercase has-text-grey-dark has-text-weight-bold is-size-4 is-underlined">
+                Store Issue Voucher
+            </h1>
+        </section>
 
-    <script>
-        window.onload = window.print();
-        window.onafterprint = (event) => {
-            event.preventDefault();
-            window.close();
-        }
-    </script>
+        <section class="px-6 table-breaked">
+            <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
+                <thead>
+                    <tr class="is-borderless">
+                        <td colspan="5" class="is-borderless">&nbsp;</td>
+                    </tr>
+                    <tr class="is-borderless">
+                        <td colspan="5" class="is-borderless">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Product Description</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>From</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($siv->sivDetails as $sivDetail)
+                        <tr>
+                            <td> {{ $loop->index + 1 }} </td>
+                            <td> {{ $sivDetail->product->name }} </td>
+                            <td> {{ $sivDetail->product->productCategory->name }} </td>
+                            <td> {{ number_format($sivDetail->quantity, 2) }} {{ $sivDetail->product->unit_of_measurement }} </td>
+                            <td> {{ $sivDetail->warehouse->name }} </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <div class="has-background-white-bis" style="position:absolute;bottom: 14%;left: 0;right: 0;margin-top: 132px">
+        <aside class="pl-6">
+            <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
+                Received By
+                @if (!$siv->received_by)
+                    : <div class="is-inline-block" style="border: 1px solid lightgrey;width: 18%"></div>
+                @endif
+            </h1>
+            @if ($siv->received_by)
+                <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
+                    {{ $siv->received_by }}
+                </h1>
+            @endif
+            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-4 mt-3">
+                <div>
+                    Signature
+                </div>
+                <div class="mt-6" style="border: 1px solid lightgrey;width: 30%"></div>
+            </h1>
+        </aside>
+    </div>
+    <div class="has-background-white-bis" style="position:absolute;bottom: 14%;left: 15%;right: 0;margin-left: 40%">
+        <aside class="pl-6">
+            <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
+                Delivered By
+                @if (!$siv->delivered_by)
+                    : <div class="is-inline-block" style="border: 1px solid lightgrey;width: 38%"></div>
+                @endif
+            </h1>
+            @if ($siv->delivered_by)
+                <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
+                    {{ $siv->delivered_by }}
+                </h1>
+            @endif
+            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-4 mt-3">
+                <div>
+                    Signature
+                </div>
+                <div class="mt-6" style="border: 1px solid lightgrey;width: 70%"></div>
+            </h1>
+        </aside>
+    </div>
+    @if ($siv->createdBy->is($siv->approvedBy))
+        <footer class="has-background-white-ter" style="position:absolute;bottom: 0%;left: 0;right: 0;">
+            <aside class="pl-6">
+                <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
+                    Prepared & Approved By
+                </h1>
+                <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
+                    {{ $siv->createdBy->name }}
+                </h1>
+                <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-4 mt-5">
+                    <div>
+                        Signature
+                    </div>
+                    <div class="mt-6" style="border: 1px solid lightgrey;width: 30%"></div>
+                </h1>
+            </aside>
+        </footer>
+    @else
+        <footer class="has-background-white-ter" style="position:absolute;bottom: 0%;left: 0;right: 0;">
+            <aside class="pl-6">
+                <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
+                    Prepared By
+                </h1>
+                <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
+                    {{ $siv->createdBy->name }}
+                </h1>
+                <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-4 mt-5">
+                    <div>
+                        Signature
+                    </div>
+                    <div class="mt-6" style="border: 1px solid lightgrey;width: 30%"></div>
+                </h1>
+            </aside>
+        </footer>
+        <footer class="has-background-white-ter" style="position:absolute;bottom: 0%;left: 15%;right: 0;margin-left: 40%">
+            <aside class="pl-6">
+                <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
+                    Approved By
+                </h1>
+                <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
+                    {{ $siv->approvedBy->name }}
+                </h1>
+                <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-4 mt-5">
+                    <div>
+                        Signature
+                    </div>
+                    <div class="mt-6" style="border: 1px solid lightgrey;width: 70%"></div>
+                </h1>
+            </aside>
+        </footer>
+    @endif
 </body>
 
 </html>
