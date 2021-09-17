@@ -34,9 +34,9 @@ class TransferSivController extends Controller
                 'company_id' => userCompany()->id,
             ]);
 
-            $sivDetails = $transfer->transferDetails()
-                ->get(['product_id', 'warehouse_id', 'quantity'])
-                ->toArray();
+            $sivDetails = $transfer->transferDetails()->get(['product_id', 'quantity'])->toArray();
+
+            data_fill($sivDetails, '*.warehouse_id', $transfer->transferred_from);
 
             $siv->sivDetails()->createMany($sivDetails);
 
