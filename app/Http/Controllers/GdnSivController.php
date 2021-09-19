@@ -29,8 +29,8 @@ class GdnSivController extends Controller
                 'ref_num' => $gdn->code,
                 'issued_on' => today(),
                 'issued_to' => $gdn->customer->company_name ?? '',
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id,
+                'created_by' => auth()->id,
+                'updated_by' => auth()->id,
                 'approved_by' => $gdn->approvedBy->id,
                 'company_id' => userCompany()->id,
             ]);
