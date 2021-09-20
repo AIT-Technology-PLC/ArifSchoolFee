@@ -41,8 +41,8 @@ class WarehouseController extends Controller
         }
 
         $this->warehouse->firstOrCreate(
-            $request->only(['name']),
-            $request->except(['name']),
+            $request->only(['name'] + ['company_id' => userCompany()->id]),
+            $request->except(['name'] + ['company_id' => userCompany()->id]),
         );
 
         return redirect()->route('warehouses.index');

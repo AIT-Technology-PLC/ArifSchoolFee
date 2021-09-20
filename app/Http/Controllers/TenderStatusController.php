@@ -36,8 +36,8 @@ class TenderStatusController extends Controller
     public function store(StoreTenderStatusRequest $request)
     {
         $this->tenderStatus->firstOrCreate(
-            $request->only(['status']),
-            $request->except(['status']),
+            $request->only(['status'] + ['company_id' => userCompany()->id]),
+            $request->except(['status'] + ['company_id' => userCompany()->id]),
         );
 
         return redirect()->route('tender-statuses.index');

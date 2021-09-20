@@ -40,8 +40,8 @@ class GeneralTenderChecklistController extends Controller
     public function store(StoreGeneralTenderChecklistRequest $request)
     {
         $this->generalTenderChecklist->firstOrCreate(
-            $request->only(['item']),
-            $request->except(['item'])
+            $request->only(['item'] + ['company_id' => userCompany()->id]),
+            $request->except(['item'] + ['company_id' => userCompany()->id])
         );
 
         return redirect()->route('general-tender-checklists.index');

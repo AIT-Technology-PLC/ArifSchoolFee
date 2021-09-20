@@ -36,8 +36,8 @@ class SupplierController extends Controller
     public function store(StoreSupplierRequest $request)
     {
         $this->supplier->firstOrCreate(
-            $request->only(['company_name']),
-            $request->except(['company_name']),
+            $request->only(['company_name'] + ['company_id' => userCompany()->id]),
+            $request->except(['company_name'] + ['company_id' => userCompany()->id]),
         );
 
         return redirect()->route('suppliers.index');

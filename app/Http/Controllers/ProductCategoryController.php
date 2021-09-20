@@ -36,8 +36,8 @@ class ProductCategoryController extends Controller
     public function store(StoreProductCategoryRequest $request)
     {
         $this->category->firstOrCreate(
-            $request->only(['name']),
-            $request->except(['name']),
+            $request->only(['name'] + ['company_id' => userCompany()->id]),
+            $request->except(['name'] + ['company_id' => userCompany()->id]),
         );
 
         return redirect()->route('categories.index');
