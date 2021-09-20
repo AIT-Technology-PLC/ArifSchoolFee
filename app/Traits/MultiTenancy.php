@@ -10,6 +10,8 @@ trait MultiTenancy
     protected static function bootMultiTenancy()
     {
         static::addGlobalScope(new CompanyScope);
+
+        static::creating(fn($model) => $model->company()->associate(userCompany()));
     }
 
     public function company()

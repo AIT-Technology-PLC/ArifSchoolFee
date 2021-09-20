@@ -13,7 +13,6 @@ class SetDataOwnerService
     private function __construct()
     {
         $this->attributes = [
-            'company_id' => userCompany()->id,
             'created_by' => auth()->id(),
             'updated_by' => auth()->id(),
             'warehouse_id' => auth()->user()->warehouse_id,
@@ -36,11 +35,11 @@ class SetDataOwnerService
 
     public static function forNonTransaction()
     {
-        return Arr::only(self::getInstance()->attributes, ['company_id', 'created_by', 'updated_by']);
+        return Arr::only(self::getInstance()->attributes, ['created_by', 'updated_by']);
     }
 
     public static function forTransaction()
     {
-        return Arr::only(self::getInstance()->attributes, ['company_id', 'created_by', 'updated_by', 'warehouse_id']);
+        return Arr::only(self::getInstance()->attributes, ['created_by', 'updated_by', 'warehouse_id']);
     }
 }
