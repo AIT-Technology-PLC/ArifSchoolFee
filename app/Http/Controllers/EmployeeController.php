@@ -60,7 +60,6 @@ class EmployeeController extends Controller
                 $request->only([
                     'position',
                     'enabled',
-                    'company_id',
                     'created_by',
                     'updated_by',
                 ])

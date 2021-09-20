@@ -21,7 +21,7 @@ class TransferSivController extends Controller
         $this->authorize('create', Siv::class);
 
         $siv = DB::transaction(function () use ($transfer) {
-            $currentSivCode = (Siv::select('code')->companySiv()->latest()->first()->code) ?? 0;
+            $currentSivCode = (Siv::select('code')->latest()->first()->code) ?? 0;
 
             $siv = Siv::create([
                 'code' => $this->prependCompanyId($currentSivCode + 1),
@@ -31,7 +31,6 @@ class TransferSivController extends Controller
                 'created_by' => auth()->id,
                 'updated_by' => auth()->id,
                 'approved_by' => $transfer->approvedBy->id,
-                'company_id' => userCompany()->id,
             ]);
 
             $sivDetails = $transfer->transferDetails()->get(['product_id', 'quantity'])->toArray();

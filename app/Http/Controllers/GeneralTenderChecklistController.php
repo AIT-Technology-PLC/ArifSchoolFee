@@ -32,7 +32,7 @@ class GeneralTenderChecklistController extends Controller
 
     public function create()
     {
-        $tenderChecklistTypes = TenderChecklistType::companyTenderChecklistType()->get();
+        $tenderChecklistTypes = TenderChecklistType::get();
 
         return view('general-tender-checklists.create', compact('tenderChecklistTypes'));
     }
@@ -40,8 +40,8 @@ class GeneralTenderChecklistController extends Controller
     public function store(StoreGeneralTenderChecklistRequest $request)
     {
         $this->generalTenderChecklist->firstOrCreate(
-            $request->only(['item', 'company_id']),
-            $request->except(['item', 'company_id'])
+            $request->only(['item']),
+            $request->except(['item'])
         );
 
         return redirect()->route('general-tender-checklists.index');
@@ -49,7 +49,7 @@ class GeneralTenderChecklistController extends Controller
 
     public function edit(GeneralTenderChecklist $generalTenderChecklist)
     {
-        $tenderChecklistTypes = TenderChecklistType::companyTenderChecklistType()->get();
+        $tenderChecklistTypes = TenderChecklistType::get();
 
         return view('general-tender-checklists.edit', compact('generalTenderChecklist', 'tenderChecklistTypes'));
     }

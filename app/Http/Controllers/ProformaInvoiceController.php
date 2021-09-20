@@ -41,9 +41,9 @@ class ProformaInvoiceController extends Controller
 
     public function create()
     {
-        $customers = Customer::companyCustomers()->orderBy('company_name')->get(['id', 'company_name']);
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $currentProformaInvoiceCode = (ProformaInvoice::select('code')->companyProformaInvoices()->latest()->first()->code) ?? 0;
+        $currentProformaInvoiceCode = (ProformaInvoice::select('code')->latest()->first()->code) ?? 0;
 
         return view('proforma-invoices.create', compact('customers', 'currentProformaInvoiceCode'));
     }
@@ -85,7 +85,7 @@ class ProformaInvoiceController extends Controller
     {
         $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer']);
 
-        $customers = Customer::companyCustomers()->orderBy('company_name')->get(['id', 'company_name']);
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         return view('proforma-invoices.edit', compact('proformaInvoice', 'customers'));
     }

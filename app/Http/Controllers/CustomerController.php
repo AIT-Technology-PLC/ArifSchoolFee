@@ -36,8 +36,8 @@ class CustomerController extends Controller
     public function store(StoreCustomerRequest $request)
     {
         $this->customer->firstOrCreate(
-            $request->only(['company_name', 'company_id']),
-            $request->except(['company_name', 'company_id'])
+            $request->only(['company_name']),
+            $request->except(['company_name'])
         );
 
         return redirect()->route('customers.index');

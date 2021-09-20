@@ -35,14 +35,14 @@ class WarehouseController extends Controller
 
     public function store(StoreWarehouseRequest $request)
     {
-        if (limitReached('warehouse', Warehouse::companyWarehouses()->count())) {
+        if (limitReached('warehouse', Warehouse::count())) {
             return redirect()->back()
                 ->with('limitReachedMessage', 'You have reached the allowed number of warehouses in respect to your package.');
         }
 
         $this->warehouse->firstOrCreate(
-            $request->only(['name', 'company_id']),
-            $request->except(['name', 'company_id']),
+            $request->only(['name']),
+            $request->except(['name']),
         );
 
         return redirect()->route('warehouses.index');

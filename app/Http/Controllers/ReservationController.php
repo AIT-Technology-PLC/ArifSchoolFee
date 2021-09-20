@@ -66,7 +66,7 @@ class ReservationController extends Controller
 
         $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->subtractWarehouses());
 
-        $currentReservationCode = (Reservation::select('code')->companyReservation()->latest()->first()->code) ?? 0;
+        $currentReservationCode = (Reservation::select('code')->latest()->first()->code) ?? 0;
 
         return view('reservations.create', compact('customers', 'warehouses', 'currentReservationCode'));
     }
@@ -227,7 +227,7 @@ class ReservationController extends Controller
                 new ReservationConverted($reservation)
             );
 
-            $currentGdnCode = (Gdn::select('code')->companyGdn()->latest()->first()->code) ?? 0;
+            $currentGdnCode = (Gdn::select('code')->latest()->first()->code) ?? 0;
 
             $gdn = Gdn::create([
                 'status' => 'Not Subtracted From Inventory',
@@ -239,7 +239,6 @@ class ReservationController extends Controller
                 'cash_received_in_percentage' => $reservation->cash_received_in_percentage,
                 'created_by' => auth()->id(),
                 'updated_by' => auth()->id(),
-                'company_id' => userCompany()->id,
             ]);
 
             $gdn->gdnDetails()->createMany($reservation->reservationDetails->toArray());

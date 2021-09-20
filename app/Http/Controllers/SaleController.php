@@ -37,7 +37,7 @@ class SaleController extends Controller
     {
         $customers = $customer->getCustomerNames();
 
-        $currentReceiptNo = (Sale::select('receipt_no')->companySales()->latest()->first()->receipt_no) ?? 0;
+        $currentReceiptNo = (Sale::select('receipt_no')->latest()->first()->receipt_no) ?? 0;
 
         return view('sales.create', compact('customers', 'currentReceiptNo'));
     }

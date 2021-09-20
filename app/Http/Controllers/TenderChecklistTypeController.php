@@ -33,8 +33,8 @@ class TenderChecklistTypeController extends Controller
     public function store(StoreTenderChecklistTypeRequest $request)
     {
         TenderChecklistType::firstOrCreate(
-            $request->only(['name', 'company_id']),
-            $request->except(['name', 'company_id'])
+            $request->only(['name']),
+            $request->except(['name'])
         );
 
         return redirect()->route('tender-checklist-types.index');

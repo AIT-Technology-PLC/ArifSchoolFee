@@ -11,8 +11,7 @@ class ProductList extends Component
 
     public function __construct($name, $selectedProductId, $tags)
     {
-        $this->products = Product::companyProducts()
-            ->select(['id', 'product_category_id', 'name', 'code'])
+        $this->products = Product::select(['id', 'product_category_id', 'name', 'code'])
             ->with('productCategory')
             ->orderBy('name')
             ->get();
