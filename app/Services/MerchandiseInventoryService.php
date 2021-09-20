@@ -24,7 +24,6 @@ class MerchandiseInventoryService
                 ],
                 [
                     $to => 0.00,
-                    'company_id' => SetDataOwnerService::forNonTransaction()['company_id'],
                 ]
             );
 
