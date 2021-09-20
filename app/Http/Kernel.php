@@ -39,10 +39,6 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
-        'isEmployeeEnabled' => [
-            \App\Http\Middleware\AllowOnlyEnabledUsers::class,
-        ],
-
         'api' => [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -67,5 +63,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'isFeatureAccessible' => \App\Http\Middleware\AllowOnlyEnabledFeatures::class,
+        'isEmployeeEnabled' => \App\Http\Middleware\AllowOnlyEnabledUsers::class,
     ];
 }
