@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Approvable;
+use App\Traits\MultiTenancy;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,7 +11,7 @@ use Illuminate\Support\Str;
 
 class Transfer extends Model
 {
-    use SoftDeletes, Approvable;
+    use MultiTenancy, SoftDeletes, Approvable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -26,11 +27,6 @@ class Transfer extends Model
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
     }
 
     public function transferDetails()
@@ -63,11 +59,6 @@ class Transfer extends Model
         return $this->belongsTo(Warehouse::class, 'transferred_to');
     }
 
-    public function scopeCompanyTransfer($query)
-    {
-        return $query->where('company_id', userCompany()->id);
-    }
-
     public function getCodeAttribute($value)
     {
         return Str::after($value, userCompany()->id . '_');
@@ -76,10 +67,10 @@ class Transfer extends Model
     public function getAll()
     {
         if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return $this->companyTransfer()->latest()->get();
+            return $this->latest()->get();
         }
 
-        return $this->companyTransfer()
+        return $this
             ->where(function ($query) {
                 $query->where('transferred_from', auth()->user()->warehouse_id)
                     ->orWhere('transferred_to', auth()->user()->warehouse_id);
@@ -90,7 +81,7 @@ class Transfer extends Model
 
     public function countTransfersOfCompany()
     {
-        return $this->companyTransfer()->count();
+        return $this->count();
     }
 
     public function add()

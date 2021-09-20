@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\MultiTenancy;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use SoftDeletes;
+    use MultiTenancy, SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -39,11 +40,6 @@ class Product extends Model
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
     }
 
     public function supplier()
@@ -126,11 +122,6 @@ class Product extends Model
         $this->attributes['properties'] = json_encode($properties);
     }
 
-    public function scopeCompanyProducts($query)
-    {
-        return $query->where('company_id', userCompany()->id);
-    }
-
     public function scopeSaleableProducts($query)
     {
         return $query->where('type', 'Merchandise Inventory');
@@ -138,17 +129,17 @@ class Product extends Model
 
     public function getAll()
     {
-        return $this->companyProducts()->with(['productCategory', 'createdBy', 'updatedBy', 'supplier'])->orderBy('name')->get();
+        return $this->with(['productCategory', 'createdBy', 'updatedBy', 'supplier'])->orderBy('name')->get();
     }
 
     public function getProductNames()
     {
-        return $this->companyProducts()->orderBy('name')->get(['id', 'name']);
+        return $this->orderBy('name')->get(['id', 'name']);
     }
 
     public function getSaleableProducts()
     {
-        return $this->companyProducts()->saleableProducts()->orderBy('name')->get();
+        return $this->saleableProducts()->orderBy('name')->get();
     }
 
     public function getProductUOM()
@@ -158,7 +149,7 @@ class Product extends Model
 
     public function getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)
     {
-        return $this->companyProducts()
+        return $this
             ->where('type', 'Merchandise Inventory')
             ->whereNotIn('id', $onHandMerchandiseProducts->pluck('id'))
             ->get();
@@ -189,6 +180,6 @@ class Product extends Model
 
     public function countProductsOfCompany()
     {
-        return $this->companyProducts()->count();
+        return $this->count();
     }
 }

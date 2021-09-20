@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Approvable;
+use App\Traits\MultiTenancy;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,7 +11,7 @@ use Illuminate\Support\Str;
 
 class Grn extends Model
 {
-    use SoftDeletes, Approvable;
+    use MultiTenancy, SoftDeletes, Approvable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -38,11 +39,6 @@ class Grn extends Model
         return $this->belongsTo(Supplier::class);
     }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
     public function grnDetails()
     {
         return $this->hasMany(GrnDetail::class);
@@ -53,11 +49,6 @@ class Grn extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
-    public function scopeCompanyGrn($query)
-    {
-        return $query->where('company_id', userCompany()->id);
-    }
-
     public function getCodeAttribute($value)
     {
         return Str::after($value, userCompany()->id . '_');
@@ -66,10 +57,10 @@ class Grn extends Model
     public function getAll()
     {
         if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return $this->companyGrn()->latest()->get();
+            return $this->latest()->get();
         }
 
-        return $this->companyGrn()
+        return $this
             ->where('warehouse_id', auth()->user()->warehouse_id)
             ->latest()
             ->get();
@@ -77,7 +68,7 @@ class Grn extends Model
 
     public function countGrnsOfCompany()
     {
-        return $this->companyGrn()->count();
+        return $this->count();
     }
 
     public function add()

@@ -2,19 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Merchandise extends Model
 {
-    use SoftDeletes;
+    use MultiTenancy, SoftDeletes;
 
     protected $guarded = ['id'];
-
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
 
     public function product()
     {
@@ -34,14 +30,9 @@ class Merchandise extends Model
         );
     }
 
-    public function scopeCompanyMerchandises($query)
-    {
-        return $query->where('company_id', userCompany()->id);
-    }
-
     public function getAllOnHand()
     {
-        return $this->companyMerchandises()
+        return $this
             ->where(function ($query) {
                 $query->where('merchandises.available', '>', 0)
                     ->orWhere('merchandises.reserved', '>', 0);
@@ -51,14 +42,14 @@ class Merchandise extends Model
 
     public function getAllAvailable()
     {
-        return $this->companyMerchandises()
+        return $this
             ->where('available', '>', 0)
             ->get();
     }
 
     public function getAllReserved()
     {
-        return $this->companyMerchandises()
+        return $this
             ->where('reserved', '>', 0)
             ->get();
     }

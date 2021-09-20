@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Discountable;
+use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +13,7 @@ use Illuminate\Support\Str;
 
 class ProformaInvoice extends Model
 {
-    use HasFactory, SoftDeletes, PricingTicket, Discountable;
+    use MultiTenancy, HasFactory, SoftDeletes, PricingTicket, Discountable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -37,11 +38,6 @@ class ProformaInvoice extends Model
         return $this->belongsTo(User::class, 'converted_by');
     }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
     public function customer()
     {
         return $this->belongsTo(Customer::class);
@@ -55,11 +51,6 @@ class ProformaInvoice extends Model
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
-    }
-
-    public function scopeCompanyProformaInvoices($query)
-    {
-        return $query->where('company_id', userCompany()->id);
     }
 
     public function getCodeAttribute($value)
@@ -90,10 +81,10 @@ class ProformaInvoice extends Model
     public function getAll()
     {
         if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return $this->companyProformaInvoices()->latest()->get();
+            return $this->latest()->get();
         }
 
-        return $this->companyProformaInvoices()
+        return $this
             ->where('warehouse_id', auth()->user()->warehouse_id)
             ->latest()
             ->get();

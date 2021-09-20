@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Company;
+use App\Traits\MultiTenancy;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Employee extends Model
 {
-    use SoftDeletes;
+    use MultiTenancy, SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -32,33 +32,23 @@ class Employee extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
-    public function scopeCompanyEmployees($query)
-    {
-        return $query->where('company_id', userCompany()->id);
-    }
-
     public function getAll()
     {
-        return $this->companyEmployees()->get();
+        return $this->get();
     }
 
     public function countAllEmployees()
     {
-        return $this->companyEmployees()->count();
+        return $this->count();
     }
 
     public function countEnabledEmployees()
     {
-        return $this->companyEmployees()->where('enabled', 1)->count();
+        return $this->where('enabled', 1)->count();
     }
 
     public function countBlockedEmployees()
     {
-        return $this->companyEmployees()->where('enabled', 0)->count();
+        return $this->where('enabled', 0)->count();
     }
 }

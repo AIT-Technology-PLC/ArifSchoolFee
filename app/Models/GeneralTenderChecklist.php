@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\MultiTenancy;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GeneralTenderChecklist extends Model
 {
-    use SoftDeletes;
+    use MultiTenancy, SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -22,11 +23,6 @@ class GeneralTenderChecklist extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
     public function tenderChecklistType()
     {
         return $this->belongsTo(TenderChecklistType::class);
@@ -37,13 +33,8 @@ class GeneralTenderChecklist extends Model
         return $this->hasMany(TenderChecklist::class);
     }
 
-    public function scopeCompanyGeneralTenderChecklist($query)
-    {
-        return $query->where('company_id', userCompany()->id);
-    }
-
     public function getAll()
     {
-        return $this->companyGeneralTenderChecklist()->orderBy('item', 'asc')->get();
+        return $this->orderBy('item', 'asc')->get();
     }
 }

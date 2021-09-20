@@ -29,7 +29,7 @@ class User extends Authenticatable
 
     public function employee()
     {
-        return $this->hasOne(Models\Employee::class, 'user_id');
+        return $this->hasOne(Models\Employee::class, 'user_id')->withoutGlobalScopes();
     }
 
     public function warehouses()

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Approvable;
 use App\Traits\Discountable;
+use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Illuminate\Support\Str;
 
 class Reservation extends Model
 {
-    use HasFactory, SoftDeletes, Approvable, PricingTicket, Discountable;
+    use MultiTenancy, HasFactory, SoftDeletes, Approvable, PricingTicket, Discountable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -47,11 +48,6 @@ class Reservation extends Model
         return $this->belongsTo(User::class, 'converted_by');
     }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
     public function customer()
     {
         return $this->belongsTo(Customer::class);
@@ -72,11 +68,6 @@ class Reservation extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
-    public function scopeCompanyReservation($query)
-    {
-        return $query->where('company_id', userCompany()->id);
-    }
-
     public function getCodeAttribute($value)
     {
         return Str::after($value, userCompany()->id . '_');
@@ -95,10 +86,10 @@ class Reservation extends Model
     public function getAll()
     {
         if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return $this->companyReservation()->latest()->get();
+            return $this->latest()->get();
         }
 
-        return $this->companyReservation()
+        return $this
             ->where('warehouse_id', auth()->user()->warehouse_id)
             ->latest()
             ->get();

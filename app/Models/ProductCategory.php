@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Models\Company;
+use App\Traits\MultiTenancy;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductCategory extends Model
 {
-    use SoftDeletes;
+    use MultiTenancy, SoftDeletes;
 
     protected $fillable = [
         'name', 'description', 'properties', 'company_id', 'created_by', 'updated_by',
@@ -27,11 +28,6 @@ class ProductCategory extends Model
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
     }
 
     public function products()
@@ -54,18 +50,13 @@ class ProductCategory extends Model
         $this->attributes['properties'] = json_encode($properties);
     }
 
-    public function scopeCompanyCategories($query)
-    {
-        return $query->where('company_id', userCompany()->id);
-    }
-
     public function getAll()
     {
-        return $this->companyCategories()->with(['products', 'createdBy', 'updatedBy'])->orderBy('name')->get();
+        return $this->with(['products', 'createdBy', 'updatedBy'])->orderBy('name')->get();
     }
 
     public function countProductCategoriesOfCompany()
     {
-        return $this->companyCategories()->count();
+        return $this->count();
     }
 }

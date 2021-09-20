@@ -17,8 +17,8 @@ class TenderChecklistTypeController extends Controller
 
     public function index()
     {
-        $tenderChecklistTypes = TenderChecklistType::companyTenderChecklistType()
-            ->withCount('generalTenderChecklists')->with(['createdBy', 'updatedBy'])->get();
+        $tenderChecklistTypes = TenderChecklistType::withCount('generalTenderChecklists')
+            ->with(['createdBy', 'updatedBy'])->get();
 
         $totalTenderChecklistTypes = $tenderChecklistTypes->count();
 

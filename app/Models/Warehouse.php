@@ -2,20 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\MultiTenancy;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Warehouse extends Model
 {
-    use SoftDeletes;
+    use MultiTenancy, SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
-
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
 
     public function createdBy()
     {
@@ -87,24 +83,19 @@ class Warehouse extends Model
         return $this->hasMany(Warehouse::class, 'transferred_to');
     }
 
-    public function scopeCompanyWarehouses($query)
-    {
-        return $query->where('company_id', userCompany()->id);
-    }
-
     public function getAll()
     {
-        return $this->companyWarehouses()->with(['createdBy', 'updatedBy'])->orderBy('name')->get();
+        return $this->with(['createdBy', 'updatedBy'])->orderBy('name')->get();
     }
 
     public function getAllWithoutRelations()
     {
-        return $this->companyWarehouses()->orderBy('name')->get();
+        return $this->orderBy('name')->get();
     }
 
     public function countWarehousesOfCompany()
     {
-        return $this->companyWarehouses()->count();
+        return $this->count();
     }
 
     public function getTotalWarehousesUsed($onHandMerchandises)

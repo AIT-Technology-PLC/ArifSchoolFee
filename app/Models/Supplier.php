@@ -2,20 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\MultiTenancy;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Supplier extends Model
 {
-    use SoftDeletes;
+    use MultiTenancy, SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
-
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
 
     public function createdBy()
     {
@@ -42,23 +38,18 @@ class Supplier extends Model
         return $this->hasMany(Grn::class);
     }
 
-    public function scopeCompanySuppliers($query)
-    {
-        return $query->where('company_id', userCompany()->id);
-    }
-
     public function getAll()
     {
-        return $this->companySuppliers()->with(['createdBy', 'updatedBy'])->orderBy('company_name')->get();
+        return $this->with(['createdBy', 'updatedBy'])->orderBy('company_name')->get();
     }
 
     public function getSupplierNames()
     {
-        return $this->companySuppliers()->orderBy('company_name')->get(['id', 'company_name']);
+        return $this->orderBy('company_name')->get(['id', 'company_name']);
     }
 
     public function countSuppliersOfCompany()
     {
-        return $this->companySuppliers()->count();
+        return $this->count();
     }
 }

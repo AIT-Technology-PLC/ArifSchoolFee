@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Approvable;
+use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +13,7 @@ use Illuminate\Support\Str;
 
 class Returnn extends Model
 {
-    use HasFactory, SoftDeletes, Approvable, PricingTicket;
+    use MultiTenancy, HasFactory, SoftDeletes, Approvable, PricingTicket;
 
     protected $table = "returns";
 
@@ -37,11 +38,6 @@ class Returnn extends Model
         return $this->belongsTo(User::class, 'returned_by');
     }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
     public function customer()
     {
         return $this->belongsTo(Customer::class);
@@ -57,11 +53,6 @@ class Returnn extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
-    public function scopeCompanyReturn($query)
-    {
-        return $query->where('company_id', userCompany()->id);
-    }
-
     public function getCodeAttribute($value)
     {
         return Str::after($value, userCompany()->id . '_');
@@ -75,10 +66,10 @@ class Returnn extends Model
     public function getAll()
     {
         if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return $this->companyReturn()->latest()->get();
+            return $this->latest()->get();
         }
 
-        return $this->companyReturn()
+        return $this
             ->where('warehouse_id', auth()->user()->warehouse_id)
             ->latest()
             ->get();

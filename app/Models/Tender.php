@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\MultiTenancy;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tender extends Model
 {
-    use SoftDeletes;
+    use MultiTenancy, SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -31,11 +32,6 @@ class Tender extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
     public function customer()
     {
         return $this->belongsTo(Customer::class);
@@ -56,18 +52,13 @@ class Tender extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
-    public function scopeCompanyTender($query)
-    {
-        return $query->where('company_id', userCompany()->id);
-    }
-
     public function getAll()
     {
         if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return $this->companyTender()->withCount('tenderDetails')->latest()->get();
+            return $this->withCount('tenderDetails')->latest()->get();
         }
 
-        return $this->companyTender()
+        return $this
             ->where('warehouse_id', auth()->user()->warehouse_id)
             ->withCount('tenderDetails')
             ->latest()
@@ -76,7 +67,7 @@ class Tender extends Model
 
     public function countTendersOfCompany()
     {
-        return $this->companyTender()->count();
+        return $this->count();
     }
 
     public function getTenderChecklistsCompletionRate()
