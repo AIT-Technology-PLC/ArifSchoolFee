@@ -9,11 +9,13 @@ trait MultiTenancy
 {
     protected static function bootMultiTenancy()
     {
-        if (auth()->check()) {
-            static::addGlobalScope(new CompanyScope);
+        static::addGlobalScope(new CompanyScope);
 
-            static::creating(fn($model) => $model->company()->associate(userCompany()));
-        }
+        static::creating(function ($model) {
+            if (auth()->check()) {
+                $model->company()->associate(userCompany());
+            }
+        });
     }
 
     public function company()
