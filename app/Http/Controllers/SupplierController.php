@@ -12,7 +12,7 @@ class SupplierController extends Controller
 
     public function __construct(Supplier $supplier)
     {
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Supplier Management');
+        $this->middleware('isFeatureAcccessible:Supplier Management');
 
         $this->authorizeResource(Supplier::class, 'supplier');
 

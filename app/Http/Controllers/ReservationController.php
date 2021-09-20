@@ -27,7 +27,7 @@ class ReservationController extends Controller
 
     public function __construct()
     {
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Reservation Management');
+        $this->middleware('isFeatureAcccessible:Reservation Management');
 
         $this->authorizeResource(Reservation::class, 'reservation');
 

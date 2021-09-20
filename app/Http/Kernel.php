@@ -43,10 +43,6 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\AllowOnlyEnabledUsers::class,
         ],
 
-        'isFeatureAccessible' => [
-            \App\Http\Middleware\AllowOnlyEnabledFeatures::class,
-        ],
-
         'api' => [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -70,5 +66,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'isFeatureAccessible' => \App\Http\Middleware\AllowOnlyEnabledFeatures::class,
     ];
 }

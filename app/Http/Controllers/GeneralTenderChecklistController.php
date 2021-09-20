@@ -13,7 +13,7 @@ class GeneralTenderChecklistController extends Controller
 
     public function __construct(GeneralTenderChecklist $generalTenderChecklist)
     {
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Tender Management');
+        $this->middleware('isFeatureAcccessible:Tender Management');
 
         $this->authorizeResource(GeneralTenderChecklist::class);
 

@@ -14,7 +14,7 @@ class PurchaseOrderController extends Controller
 
     public function __construct(PurchaseOrder $purchaseOrder)
     {
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Purchase Order');
+        $this->middleware('isFeatureAcccessible:Purchase Order');
 
         $this->authorizeResource(PurchaseOrder::class);
 

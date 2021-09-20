@@ -12,7 +12,7 @@ class TenderStatusController extends Controller
 
     public function __construct(TenderStatus $tenderStatus)
     {
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Tender Management');
+        $this->middleware('isFeatureAcccessible:Tender Management');
 
         $this->authorizeResource(TenderStatus::class);
 

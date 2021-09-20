@@ -17,7 +17,7 @@ class ProductController extends Controller
 
     public function __construct(Product $product)
     {
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:Product Management');
+        $this->middleware('isFeatureAcccessible:Product Management');
 
         $this->authorizeResource(Product::class, 'product');
 

@@ -10,7 +10,7 @@ class PasswordResetController extends Controller
     public function __construct()
     {
         $this->middleware([
-            '\App\Http\Middleware\AllowOnlyEnabledFeatures:User Management',
+            'isFeatureAcccessible:User Management',
             'password.confirm',
         ]);
     }

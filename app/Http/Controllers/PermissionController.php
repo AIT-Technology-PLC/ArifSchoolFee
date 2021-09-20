@@ -10,7 +10,7 @@ class PermissionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('\App\Http\Middleware\AllowOnlyEnabledFeatures:User Management');
+        $this->middleware('isFeatureAcccessible:User Management');
     }
 
     public function edit(Employee $employee, Permission $permission)
