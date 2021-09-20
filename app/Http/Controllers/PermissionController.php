@@ -10,7 +10,7 @@ class PermissionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('isFeatureAcccessible:User Management');
+        $this->middleware('isFeatureAccessible:User Management');
     }
 
     public function edit(Employee $employee, Permission $permission)

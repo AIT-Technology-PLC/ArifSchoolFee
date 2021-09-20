@@ -17,7 +17,7 @@ class SaleController extends Controller
 
     public function __construct(Sale $sale)
     {
-        $this->middleware('isFeatureAcccessible:Sale Management');
+        $this->middleware('isFeatureAccessible:Sale Management');
 
         $this->authorizeResource(Sale::class, 'sale');
 

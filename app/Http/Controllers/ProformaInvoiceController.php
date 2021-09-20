@@ -18,7 +18,7 @@ class ProformaInvoiceController extends Controller
 
     public function __construct()
     {
-        $this->middleware('isFeatureAcccessible:Proforma Invoice');
+        $this->middleware('isFeatureAccessible:Proforma Invoice');
 
         $this->authorizeResource(ProformaInvoice::class);
     }

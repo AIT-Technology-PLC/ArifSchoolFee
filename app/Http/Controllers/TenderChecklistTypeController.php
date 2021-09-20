@@ -10,7 +10,7 @@ class TenderChecklistTypeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('isFeatureAcccessible:Tender Management');
+        $this->middleware('isFeatureAccessible:Tender Management');
 
         $this->authorizeResource(TenderChecklistType::class);
     }

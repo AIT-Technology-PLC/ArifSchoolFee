@@ -12,7 +12,7 @@ class WarehouseController extends Controller
 
     public function __construct(Warehouse $warehouse)
     {
-        $this->middleware('isFeatureAcccessible:Warehouse Management');
+        $this->middleware('isFeatureAccessible:Warehouse Management');
 
         $this->authorizeResource(Warehouse::class, 'warehouse');
 

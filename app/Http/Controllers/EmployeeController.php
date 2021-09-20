@@ -17,7 +17,7 @@ class EmployeeController extends Controller
 
     public function __construct(Employee $employee)
     {
-        $this->middleware('isFeatureAcccessible:User Management');
+        $this->middleware('isFeatureAccessible:User Management');
 
         $this->authorizeResource(Employee::class, 'employee');
 

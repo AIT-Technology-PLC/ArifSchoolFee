@@ -8,7 +8,7 @@ class NotificationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('isFeatureAcccessible:Notification Management');
+        $this->middleware('isFeatureAccessible:Notification Management');
     }
 
     public function index()

@@ -24,7 +24,7 @@ class TransferController extends Controller
 
     public function __construct(transfer $transfer)
     {
-        $this->middleware('isFeatureAcccessible:Transfer Management');
+        $this->middleware('isFeatureAccessible:Transfer Management');
 
         $this->authorizeResource(Transfer::class, 'transfer');
 

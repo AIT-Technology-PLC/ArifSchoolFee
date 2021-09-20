@@ -12,7 +12,7 @@ class ProductCategoryController extends Controller
 
     public function __construct(ProductCategory $category)
     {
-        $this->middleware('isFeatureAcccessible:Product Management');
+        $this->middleware('isFeatureAccessible:Product Management');
 
         $this->authorizeResource(ProductCategory::class, 'category');
 

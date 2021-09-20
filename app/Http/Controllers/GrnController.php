@@ -25,7 +25,7 @@ class GrnController extends Controller
 
     public function __construct(Grn $grn)
     {
-        $this->middleware('isFeatureAcccessible:Grn Management');
+        $this->middleware('isFeatureAccessible:Grn Management');
 
         $this->authorizeResource(Grn::class, 'grn');
 

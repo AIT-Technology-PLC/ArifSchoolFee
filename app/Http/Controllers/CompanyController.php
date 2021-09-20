@@ -10,7 +10,7 @@ class CompanyController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('isFeatureAcccessible:General Settings');
+        $this->middleware('isFeatureAccessible:General Settings');
 
         $this->authorizeResource(Company::class, 'company');
     }

@@ -21,7 +21,7 @@ class SivController extends Controller
 
     public function __construct(Siv $siv)
     {
-        $this->middleware('isFeatureAcccessible:Siv Management');
+        $this->middleware('isFeatureAccessible:Siv Management');
 
         $this->authorizeResource(Siv::class, 'siv');
     }

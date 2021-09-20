@@ -9,7 +9,7 @@ class TenderReadingController extends Controller
 {
     public function __construct(Tender $tender)
     {
-        $this->middleware('isFeatureAcccessible:Tender Management');
+        $this->middleware('isFeatureAccessible:Tender Management');
 
         $this->authorizeResource(Tender::class, 'tender');
 

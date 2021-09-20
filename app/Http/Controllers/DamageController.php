@@ -19,7 +19,7 @@ class DamageController extends Controller
 
     public function __construct()
     {
-        $this->middleware('isFeatureAcccessible:Damage Management');
+        $this->middleware('isFeatureAccessible:Damage Management');
 
         $this->authorizeResource(Damage::class, 'damage');
 

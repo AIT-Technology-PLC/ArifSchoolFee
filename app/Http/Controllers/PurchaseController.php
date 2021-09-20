@@ -17,7 +17,7 @@ class PurchaseController extends Controller
 
     public function __construct(Purchase $purchase)
     {
-        $this->middleware('isFeatureAcccessible:Purchase Management');
+        $this->middleware('isFeatureAccessible:Purchase Management');
 
         $this->authorizeResource(Purchase::class, 'purchase');
 

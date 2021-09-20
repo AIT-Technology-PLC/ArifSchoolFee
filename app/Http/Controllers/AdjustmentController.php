@@ -22,7 +22,7 @@ class AdjustmentController extends Controller
 
     public function __construct()
     {
-        $this->middleware('isFeatureAcccessible:Inventory Adjustment');
+        $this->middleware('isFeatureAccessible:Inventory Adjustment');
 
         $this->authorizeResource(Adjustment::class, 'adjustment');
 

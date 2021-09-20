@@ -20,7 +20,7 @@ class ReturnController extends Controller
 
     public function __construct()
     {
-        $this->middleware('isFeatureAcccessible:Return Management');
+        $this->middleware('isFeatureAccessible:Return Management');
 
         $this->authorizeResource(Returnn::class, 'return');
 

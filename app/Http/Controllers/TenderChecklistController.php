@@ -14,7 +14,7 @@ class TenderChecklistController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('isFeatureAcccessible:Tender Management');
+        $this->middleware('isFeatureAccessible:Tender Management');
     }
 
     public function create(Tender $tender, GeneralTenderChecklist $generalTenderChecklist)

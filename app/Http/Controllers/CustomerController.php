@@ -12,7 +12,7 @@ class CustomerController extends Controller
 
     public function __construct(Customer $customer)
     {
-        $this->middleware('isFeatureAcccessible:Customer Management');
+        $this->middleware('isFeatureAccessible:Customer Management');
 
         $this->authorizeResource(Customer::class, 'customer');
 

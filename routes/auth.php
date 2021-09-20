@@ -17,43 +17,43 @@ Route::get('/notifications/{notification}/mark-as-read',
 
 Route::get('/warehouses/{warehouse}/products/{product}', Controllers\WarehouseProductController::class)
     ->name('warehouses-products')
-    ->middleware('isFeatureAcccessible:Inventory History');
+    ->middleware('isFeatureAccessible:Inventory History');
 
 Route::get('merchandises', [Controllers\MerchandiseController::class, 'index'])
     ->name('merchandises.index')
-    ->middleware('isFeatureAcccessible:Merchandise Inventory');
+    ->middleware('isFeatureAccessible:Merchandise Inventory');
 
 Route::get('merchandises/available', [Controllers\MerchandiseController::class, 'available'])
     ->name('merchandises.available')
-    ->middleware('isFeatureAcccessible:Merchandise Inventory');
+    ->middleware('isFeatureAccessible:Merchandise Inventory');
 
 Route::get('merchandises/reserved', [Controllers\MerchandiseController::class, 'reserved'])
     ->name('merchandises.reserved')
-    ->middleware('isFeatureAcccessible:Merchandise Inventory');
+    ->middleware('isFeatureAccessible:Merchandise Inventory');
 
 Route::get('merchandises/out-of-stock', [Controllers\MerchandiseController::class, 'outOfStock'])
     ->name('merchandises.out-of-stock')
-    ->middleware('isFeatureAcccessible:Merchandise Inventory');
+    ->middleware('isFeatureAccessible:Merchandise Inventory');
 
 Route::get('/sale/{sale}/gdn/create', Controllers\SaleGdnController::class)
     ->name('sales.gdns.create')
-    ->middleware('isFeatureAcccessible:Gdn Management');
+    ->middleware('isFeatureAccessible:Gdn Management');
 
 Route::get('/purchases/{purchase}/grns/create', Controllers\PurchaseGrnController::class)
     ->name('purchases.grns.create')
-    ->middleware('isFeatureAcccessible:Grn Management');
+    ->middleware('isFeatureAccessible:Grn Management');
 
 Route::get('/gdns/{gdn}/sivs/create', Controllers\GdnSivController::class)
     ->name('gdns.sivs.create')
-    ->middleware('isFeatureAcccessible:Siv Management');
+    ->middleware('isFeatureAccessible:Siv Management');
 
 Route::get('/transfers/{transfer}/sivs/create', Controllers\TransferSivController::class)
     ->name('transfers.sivs.create')
-    ->middleware('isFeatureAcccessible:Siv Management');
+    ->middleware('isFeatureAccessible:Siv Management');
 
 Route::get('/proforma-invoices/{proforma_invoice}/gdns/create', Controllers\ProformaInvoiceGdnController::class)
     ->name('proforma-invoices.gdns.create')
-    ->middleware('isFeatureAcccessible:Proforma Invoice');
+    ->middleware('isFeatureAccessible:Proforma Invoice');
 
 Route::get('/gdns/{gdn}/print', [Controllers\GdnController::class, 'printed'])->name('gdns.print');
 
