@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Services\SetDataOwnerService;
 use App\Traits\PrependCompanyId;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -47,10 +46,5 @@ class UpdateSivRequest extends FormRequest
         $this->merge([
             'code' => $this->prependCompanyId($this->code),
         ]);
-    }
-
-    public function passedValidation()
-    {
-        $this->merge(SetDataOwnerService::forUpdate());
     }
 }

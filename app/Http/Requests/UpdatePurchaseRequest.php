@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Services\SetDataOwnerService;
 use App\Traits\PrependCompanyId;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -36,10 +35,5 @@ class UpdatePurchaseRequest extends FormRequest
         $this->merge([
             'purchase_no' => $this->prependCompanyId($this->purchase_no),
         ]);
-    }
-
-    public function passedValidation()
-    {
-        $this->merge(SetDataOwnerService::forUpdate());
     }
 }

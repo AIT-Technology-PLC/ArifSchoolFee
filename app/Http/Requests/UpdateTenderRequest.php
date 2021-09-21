@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Services\SetDataOwnerService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 
@@ -46,7 +45,5 @@ class UpdateTenderRequest extends FormRequest
             'closing_date' => (new Carbon($this->closing_date))->toDateTimeString(),
             'opening_date' => (new Carbon($this->opening_date))->toDateTimeString(),
         ]);
-
-        $this->merge(SetDataOwnerService::forUpdate());
     }
 }
