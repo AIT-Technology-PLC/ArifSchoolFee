@@ -41,10 +41,8 @@ class GrnDetail extends Model
             ->whereIn('grn_id', function ($query) {
                 $query->select('id')
                     ->from('grns')
-                    ->where([
-                        ['company_id', userCompany()->id],
-                        ['status', 'Added To Inventory'],
-                    ]);
+                    ->where('company_id', userCompany()->id)
+                    ->whereNotNull('added_by');
             })
             ->get()
             ->load(['grn.supplier', 'product']);

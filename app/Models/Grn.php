@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Addable;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\HasUserstamps;
@@ -13,7 +14,7 @@ use Illuminate\Support\Str;
 
 class Grn extends Model
 {
-    use MultiTenancy, SoftDeletes, Approvable, HasUserstamps, Branchable;
+    use MultiTenancy, SoftDeletes, Approvable, HasUserstamps, Branchable, Addable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -56,16 +57,5 @@ class Grn extends Model
     public function countGrnsOfCompany()
     {
         return $this->count();
-    }
-
-    public function add()
-    {
-        $this->status = 'Added To Inventory';
-        $this->save();
-    }
-
-    public function isAdded()
-    {
-        return $this->status == 'Added To Inventory';
     }
 }

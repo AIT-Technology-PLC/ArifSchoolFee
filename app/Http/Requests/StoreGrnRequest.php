@@ -36,12 +36,4 @@ class StoreGrnRequest extends FormRequest
             'code' => $this->prependCompanyId($this->code),
         ]);
     }
-
-    public function passedValidation()
-    {
-        $this->merge([
-            'status' => 'Not Added To Inventory',
-
-        ]);
-    }
 }

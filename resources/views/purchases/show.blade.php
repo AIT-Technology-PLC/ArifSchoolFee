@@ -256,11 +256,11 @@
                                     <td>
                                         @if ($grn->isAdded())
                                             <span class="tag is-small bg-purple has-text-white">
-                                                {{ $grn->status ?? 'N/A' }}
+                                                Added to inventory
                                             </span>
                                         @else
                                             <span class="tag is-small bg-blue has-text-white">
-                                                {{ $grn->status ?? 'N/A' }}
+                                                Not added to inventory
                                             </span>
                                         @endif
                                     </td>

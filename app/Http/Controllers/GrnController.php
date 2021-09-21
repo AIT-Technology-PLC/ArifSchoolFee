@@ -38,11 +38,11 @@ class GrnController extends Controller
     {
         $grns = $grn->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'supplier', 'purchase']);
 
-        $totalAdded = $grns->where('status', 'Added To Inventory')->count();
+        $totalAdded = $grns->whereNotNull('added_by')->count();
 
         $totalNotApproved = $grns->whereNull('approved_by')->count();
 
-        $totalNotAdded = $grns->whereNotNull('approved_by')->where('status', 'Not Added To Inventory')->count();
+        $totalNotAdded = $grns->whereNotNull('approved_by')->whereNull('added_by')->count();
 
         $totalGrns = $grns->count();
 
