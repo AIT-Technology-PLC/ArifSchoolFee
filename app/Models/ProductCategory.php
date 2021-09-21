@@ -11,9 +11,7 @@ class ProductCategory extends Model
 {
     use MultiTenancy, SoftDeletes, HasUserstamps;
 
-    protected $fillable = [
-        'name', 'description', 'properties', 'company_id', 'created_by', 'updated_by',
-    ];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
         'properties' => 'array',

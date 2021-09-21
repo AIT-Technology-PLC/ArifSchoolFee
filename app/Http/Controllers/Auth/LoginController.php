@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class LoginController extends Controller
 {
@@ -42,7 +41,7 @@ class LoginController extends Controller
 
     public function authenticated(Request $request, $user)
     {
-        $user->last_online_at = Carbon::now()->toDateTimeString();
+        $user->last_online_at = now();
 
         $user->save();
     }

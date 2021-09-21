@@ -14,9 +14,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes, HasRoles;
 
-    protected $fillable = [
-        'name', 'email', 'password', 'warehouse_id',
-    ];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'last_online_at'];
 
     protected $hidden = [
         'password', 'remember_token',

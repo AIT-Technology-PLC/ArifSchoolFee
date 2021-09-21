@@ -10,7 +10,7 @@ class PurchaseDetail extends Model
 {
     use SoftDeletes, TouchParentUserstamp;
 
-    protected $fillable = ['purchase_id', 'product_id', 'quantity', 'unit_price'];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     public function purchase()
     {
