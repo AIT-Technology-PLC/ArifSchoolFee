@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Company;
+use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductCategory extends Model
 {
-    use MultiTenancy, SoftDeletes;
+    use MultiTenancy, SoftDeletes, HasUserstamps;
 
     protected $fillable = [
         'name', 'description', 'properties', 'company_id', 'created_by', 'updated_by',
@@ -19,16 +18,6 @@ class ProductCategory extends Model
     protected $casts = [
         'properties' => 'array',
     ];
-
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
 
     public function products()
     {

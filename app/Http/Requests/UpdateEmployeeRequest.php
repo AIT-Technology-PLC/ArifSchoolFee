@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Services\SetDataOwnerService;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateEmployeeRequest extends FormRequest
@@ -35,7 +34,5 @@ class UpdateEmployeeRequest extends FormRequest
         if (!$this->has('enabled')) {
             $this->enabled = 1;
         }
-
-        $this->merge(SetDataOwnerService::forUpdate());
     }
 }

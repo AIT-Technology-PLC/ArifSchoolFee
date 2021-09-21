@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Services\SetDataOwnerService;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateWarehouseRequest extends FormRequest
@@ -23,10 +22,5 @@ class UpdateWarehouseRequest extends FormRequest
             'phone' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
         ];
-    }
-
-    public function passedValidation()
-    {
-        $this->merge(SetDataOwnerService::forUpdate());
     }
 }

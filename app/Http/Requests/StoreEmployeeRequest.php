@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Services\SetDataOwnerService;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreEmployeeRequest extends FormRequest
@@ -29,10 +28,5 @@ class StoreEmployeeRequest extends FormRequest
             'read' => ['nullable', 'array'],
             'read.*' => ['nullable', 'integer'],
         ];
-    }
-
-    public function passedValidation()
-    {
-        $this->merge(SetDataOwnerService::forNonTransaction());
     }
 }

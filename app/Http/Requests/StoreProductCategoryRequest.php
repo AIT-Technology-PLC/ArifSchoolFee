@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Services\SetDataOwnerService;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProductCategoryRequest extends FormRequest
@@ -19,10 +18,5 @@ class StoreProductCategoryRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'properties' => ['nullable', 'array'],
         ];
-    }
-
-    public function passedValidation()
-    {
-        $this->merge(SetDataOwnerService::forNonTransaction());
     }
 }

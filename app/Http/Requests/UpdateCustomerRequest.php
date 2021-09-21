@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Services\SetDataOwnerService;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCustomerRequest extends FormRequest
@@ -23,10 +22,5 @@ class UpdateCustomerRequest extends FormRequest
             'phone' => ['nullable', 'string', 'max:255'],
             'country' => ['nullable', 'string', 'max:255'],
         ];
-    }
-
-    public function passedValidation()
-    {
-        $this->merge(SetDataOwnerService::forUpdate());
     }
 }

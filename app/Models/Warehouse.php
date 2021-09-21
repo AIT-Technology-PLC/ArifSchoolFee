@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -9,19 +10,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Warehouse extends Model
 {
-    use MultiTenancy, SoftDeletes;
+    use MultiTenancy, SoftDeletes, HasUserstamps;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
-
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
 
     public function merchandises()
     {

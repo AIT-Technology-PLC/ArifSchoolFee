@@ -6,11 +6,12 @@ use App\User;
 
 trait HasUserstamps
 {
-    public function bootHasUserstamps()
+    protected static function bootHasUserstamps()
     {
         static::creating(function ($model) {
             if (auth()->check()) {
                 $model->created_by = auth()->id();
+                $model->updated_by = auth()->id();
             }
         });
 
