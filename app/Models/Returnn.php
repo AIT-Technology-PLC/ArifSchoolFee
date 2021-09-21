@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Addable;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\HasUserstamps;
@@ -15,7 +16,7 @@ use Illuminate\Support\Str;
 
 class Returnn extends Model
 {
-    use MultiTenancy, HasFactory, SoftDeletes, Approvable, PricingTicket, HasUserstamps, Branchable;
+    use MultiTenancy, HasFactory, SoftDeletes, Approvable, PricingTicket, HasUserstamps, Branchable, Addable;
 
     protected $table = "returns";
 
@@ -24,11 +25,6 @@ class Returnn extends Model
     protected $casts = [
         'issued_on' => 'datetime',
     ];
-
-    public function returnedBy()
-    {
-        return $this->belongsTo(User::class, 'returned_by');
-    }
 
     public function customer()
     {
@@ -60,21 +56,5 @@ class Returnn extends Model
             ->where('warehouse_id', auth()->user()->warehouse_id)
             ->latest()
             ->get();
-    }
-
-    public function add()
-    {
-        $this->returned_by = auth()->id();
-
-        $this->save();
-    }
-
-    public function isAdded()
-    {
-        if (is_null($this->returned_by)) {
-            return false;
-        }
-
-        return true;
     }
 }

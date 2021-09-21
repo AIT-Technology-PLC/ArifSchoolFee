@@ -34,9 +34,9 @@ class ReturnController extends Controller
 
         $totalNotApproved = $returns->whereNull('approved_by')->count();
 
-        $totalNotAdded = $returns->whereNotNull('approved_by')->whereNull('returned_by')->count();
+        $totalNotAdded = $returns->whereNotNull('approved_by')->whereNull('added_by')->count();
 
-        $totalAdded = $returns->whereNotNull('returned_by')->count();
+        $totalAdded = $returns->whereNotNull('added_by')->count();
 
         return view('returns.index', compact('returns', 'totalReturns', 'totalNotApproved', 'totalNotAdded', 'totalAdded'));
     }

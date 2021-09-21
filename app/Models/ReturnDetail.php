@@ -44,7 +44,7 @@ class ReturnDetail extends Model
                 $query->select('id')
                     ->from('returns')
                     ->where('company_id', userCompany()->id)
-                    ->whereNotNull('returned_by');
+                    ->whereNotNull('added_by');
             })
             ->get()
             ->load(['returnn', 'product', 'warehouse']);
