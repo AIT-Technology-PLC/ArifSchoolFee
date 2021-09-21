@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Services\SetDataOwnerService;
 use App\Traits\PrependCompanyId;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -46,7 +45,5 @@ class StoreProformaInvoiceRequest extends FormRequest
         $this->merge([
             'is_pending' => 1,
         ]);
-
-        $this->merge(SetDataOwnerService::forTransaction());
     }
 }

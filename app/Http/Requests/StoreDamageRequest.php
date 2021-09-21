@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Services\SetDataOwnerService;
 use App\Traits\PrependCompanyId;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -41,7 +40,5 @@ class StoreDamageRequest extends FormRequest
         $this->merge([
             'status' => 'Not Subtracted From Inventory',
         ]);
-
-        $this->merge(SetDataOwnerService::forTransaction());
     }
 }

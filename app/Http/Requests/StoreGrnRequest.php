@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Services\SetDataOwnerService;
 use App\Traits\PrependCompanyId;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -44,7 +43,5 @@ class StoreGrnRequest extends FormRequest
             'status' => 'Not Added To Inventory',
 
         ]);
-
-        $this->merge(SetDataOwnerService::forTransaction());
     }
 }

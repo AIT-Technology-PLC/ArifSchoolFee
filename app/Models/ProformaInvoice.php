@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Traits\Branchable;
 use App\Traits\Discountable;
+use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
 use App\User;
@@ -13,7 +15,7 @@ use Illuminate\Support\Str;
 
 class ProformaInvoice extends Model
 {
-    use MultiTenancy, HasFactory, SoftDeletes, PricingTicket, Discountable;
+    use MultiTenancy, HasFactory, SoftDeletes, PricingTicket, Discountable, HasUserstamps, Branchable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -22,16 +24,6 @@ class ProformaInvoice extends Model
         'expires_on' => 'datetime',
         'is_pending' => 'boolean',
     ];
-
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
 
     public function convertedBy()
     {
@@ -46,11 +38,6 @@ class ProformaInvoice extends Model
     public function proformaInvoiceDetails()
     {
         return $this->hasMany(ProformaInvoiceDetail::class);
-    }
-
-    public function warehouse()
-    {
-        return $this->belongsTo(Warehouse::class);
     }
 
     public function getCodeAttribute($value)

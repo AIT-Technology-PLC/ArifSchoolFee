@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Services\SetDataOwnerService;
 use App\Traits\PrependCompanyId;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -35,10 +34,5 @@ class StoreSaleRequest extends FormRequest
         $this->merge([
             'receipt_no' => $this->prependCompanyId($this->receipt_no),
         ]);
-    }
-
-    public function passedValidation()
-    {
-        $this->merge(SetDataOwnerService::forTransaction());
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Traits\Branchable;
+use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PurchaseOrder extends Model
 {
-    use MultiTenancy, SoftDeletes;
+    use MultiTenancy, SoftDeletes, HasUserstamps, Branchable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -17,16 +19,6 @@ class PurchaseOrder extends Model
         'received_on' => 'datetime',
         'is_closed' => 'boolean',
     ];
-
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
 
     public function customer()
     {
@@ -36,11 +28,6 @@ class PurchaseOrder extends Model
     public function purchaseOrderDetails()
     {
         return $this->hasMany(PurchaseOrderDetail::class);
-    }
-
-    public function warehouse()
-    {
-        return $this->belongsTo(Warehouse::class);
     }
 
     public function getTotalPurchaseOrderPriceAttribute()

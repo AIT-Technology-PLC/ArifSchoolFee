@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Traits\Branchable;
+use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -10,23 +12,13 @@ use Illuminate\Support\Str;
 
 class Purchase extends Model
 {
-    use MultiTenancy, SoftDeletes;
+    use MultiTenancy, SoftDeletes, HasUserstamps, Branchable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
         'purchased_on' => 'datetime',
     ];
-
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
 
     public function supplier()
     {
@@ -41,11 +33,6 @@ class Purchase extends Model
     public function grns()
     {
         return $this->hasMany(Grn::class);
-    }
-
-    public function warehouse()
-    {
-        return $this->belongsTo(Warehouse::class);
     }
 
     public function getPurchaseNoAttribute($value)

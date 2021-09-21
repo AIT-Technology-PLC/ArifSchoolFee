@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Services\SetDataOwnerService;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePurchaseOrderRequest extends FormRequest
@@ -47,7 +46,5 @@ class StorePurchaseOrderRequest extends FormRequest
         $this->merge([
             'is_closed' => 0,
         ]);
-
-        $this->merge(SetDataOwnerService::forTransaction());
     }
 }

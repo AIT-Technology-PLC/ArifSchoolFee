@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Traits\Approvable;
+use App\Traits\Branchable;
+use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
 use App\User;
@@ -13,7 +15,7 @@ use Illuminate\Support\Str;
 
 class Returnn extends Model
 {
-    use MultiTenancy, HasFactory, SoftDeletes, Approvable, PricingTicket;
+    use MultiTenancy, HasFactory, SoftDeletes, Approvable, PricingTicket, HasUserstamps, Branchable;
 
     protected $table = "returns";
 
@@ -22,16 +24,6 @@ class Returnn extends Model
     protected $casts = [
         'issued_on' => 'datetime',
     ];
-
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
 
     public function returnedBy()
     {
@@ -46,11 +38,6 @@ class Returnn extends Model
     public function returnDetails()
     {
         return $this->hasMany(ReturnDetail::class, 'return_id');
-    }
-
-    public function warehouse()
-    {
-        return $this->belongsTo(Warehouse::class);
     }
 
     public function getCodeAttribute($value)
