@@ -76,10 +76,7 @@ class Reservation extends Model
             return $this->latest()->get();
         }
 
-        return $this
-            ->where('warehouse_id', auth()->user()->warehouse_id)
-            ->latest()
-            ->get();
+        return $this->byBranch()->latest()->get();
     }
 
     public function getPaymentInCash()

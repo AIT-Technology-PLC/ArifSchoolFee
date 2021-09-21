@@ -19,4 +19,9 @@ trait Branchable
     {
         return $this->belongsTo(Warehouse::class);
     }
+
+    public function scopeByBranch($query)
+    {
+        return $query->where('warehouse_id', auth()->user()->warehouse_id);
+    }
 }

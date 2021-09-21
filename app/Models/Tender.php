@@ -45,11 +45,7 @@ class Tender extends Model
             return $this->withCount('tenderDetails')->latest()->get();
         }
 
-        return $this
-            ->where('warehouse_id', auth()->user()->warehouse_id)
-            ->withCount('tenderDetails')
-            ->latest()
-            ->get();
+        return $this->byBranch()->latest()->get();
     }
 
     public function countTendersOfCompany()
