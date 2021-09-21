@@ -54,7 +54,7 @@ class ReservationDetail extends Model
                             'reservable',
                             [Gdn::class],
                             function (Builder $query) {
-                                $query->where('status', 'Subtracted From Inventory');
+                                $query->whereNotNull('subtracted_by');
                             })
                             ->pluck('id')
                     );

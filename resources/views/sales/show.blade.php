@@ -243,11 +243,11 @@
                                     <td>
                                         @if ($gdn->isSubtracted())
                                             <span class="tag is-small bg-purple has-text-white">
-                                                {{ $gdn->status ?? 'N/A' }}
+                                                Subtracted from inventory
                                             </span>
                                         @else
                                             <span class="tag is-small bg-blue has-text-white">
-                                                {{ $gdn->status ?? 'N/A' }}
+                                                Not subtracted from inventory
                                             </span>
                                         @endif
                                     </td>

@@ -43,10 +43,8 @@ class GdnDetail extends Model
             ->whereIn('gdn_id', function ($query) {
                 $query->select('id')
                     ->from('gdns')
-                    ->where([
-                        ['company_id', userCompany()->id],
-                        ['status', 'Subtracted From Inventory'],
-                    ]);
+                    ->where('company_id', userCompany()->id)
+                    ->whereNotNull('subtracted_by');
             })
             ->get()
             ->load(['gdn.customer', 'product']);

@@ -41,11 +41,4 @@ class StoreGdnRequest extends FormRequest
             'code' => $this->prependCompanyId($this->code),
         ]);
     }
-
-    public function passedValidation()
-    {
-        $this->merge([
-            'status' => 'Not Subtracted From Inventory',
-        ]);
-    }
 }

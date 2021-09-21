@@ -8,6 +8,7 @@ use App\Traits\Discountable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
+use App\Traits\Subtractable;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,7 +16,7 @@ use Illuminate\Support\Str;
 
 class Gdn extends Model
 {
-    use MultiTenancy, SoftDeletes, Approvable, PricingTicket, Discountable, HasUserstamps, Branchable;
+    use MultiTenancy, SoftDeletes, Approvable, PricingTicket, Discountable, HasUserstamps, Branchable, Subtractable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -73,17 +74,6 @@ class Gdn extends Model
     public function countGdnsOfCompany()
     {
         return $this->count();
-    }
-
-    public function subtract()
-    {
-        $this->status = 'Subtracted From Inventory';
-        $this->save();
-    }
-
-    public function isSubtracted()
-    {
-        return $this->status == 'Subtracted From Inventory';
     }
 
     public function getPaymentInCash()

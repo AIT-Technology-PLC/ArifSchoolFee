@@ -42,9 +42,9 @@ class GdnController extends Controller
 
         $totalNotApproved = $gdns->whereNull('approved_by')->count();
 
-        $totalNotSubtracted = $gdns->where('status', 'Not Subtracted From Inventory')->whereNotNull('approved_by')->count();
+        $totalNotSubtracted = $gdns->whereNull('subtracted_by')->whereNotNull('approved_by')->count();
 
-        $totalSubtracted = $gdns->where('status', 'Subtracted From Inventory')->count();
+        $totalSubtracted = $gdns->whereNotNull('subtracted_by')->count();
 
         return view('gdns.index', compact('gdns', 'totalGdns', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }
