@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AdjustmentDetail extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, TouchParentUserstamp;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -25,6 +26,11 @@ class AdjustmentDetail extends Model
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function parentModel()
+    {
+        return $this->adjustment;
     }
 
     public function getByWarehouseAndProduct($warehouse, $product)

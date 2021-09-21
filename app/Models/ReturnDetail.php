@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Traits\PricingProduct;
+use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ReturnDetail extends Model
 {
-    use HasFactory, SoftDeletes, PricingProduct;
+    use HasFactory, SoftDeletes, PricingProduct, TouchParentUserstamp;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -26,6 +27,11 @@ class ReturnDetail extends Model
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function parentModel()
+    {
+        return $this->returnn;
     }
 
     public function getByWarehouseAndProduct($warehouse, $product)

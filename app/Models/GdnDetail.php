@@ -4,12 +4,13 @@ namespace App\Models;
 
 use App\Traits\Discountable;
 use App\Traits\PricingProduct;
+use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GdnDetail extends Model
 {
-    use SoftDeletes, PricingProduct, Discountable;
+    use SoftDeletes, PricingProduct, Discountable, TouchParentUserstamp;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -26,6 +27,11 @@ class GdnDetail extends Model
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function parentModel()
+    {
+        return $this->gdn;
     }
 
     public function getByWarehouseAndProduct($warehouse, $product)

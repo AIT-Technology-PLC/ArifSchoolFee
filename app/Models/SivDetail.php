@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
-use App\Models\Siv;
 use App\Models\Product;
+use App\Models\Siv;
 use App\Models\Warehouse;
+use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SivDetail extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, TouchParentUserstamp;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -28,5 +29,10 @@ class SivDetail extends Model
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function parentModel()
+    {
+        return $this->siv;
     }
 }

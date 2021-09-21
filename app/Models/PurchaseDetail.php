@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PurchaseDetail extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, TouchParentUserstamp;
 
     protected $fillable = ['purchase_id', 'product_id', 'quantity', 'unit_price'];
 
@@ -19,5 +20,10 @@ class PurchaseDetail extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function parentModel()
+    {
+        return $this->purchase;
     }
 }
