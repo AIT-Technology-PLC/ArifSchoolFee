@@ -42,10 +42,8 @@ class DamageDetail extends Model
             ->whereIn('damage_id', function ($query) {
                 $query->select('id')
                     ->from('damages')
-                    ->where([
-                        ['company_id', userCompany()->id],
-                        ['status', 'Subtracted From Inventory'],
-                    ]);
+                    ->where('company_id', userCompany()->id)
+                    ->whereNotNull('subtracted_by');
             })
             ->get()
             ->load(['damage', 'warehouse', 'product']);

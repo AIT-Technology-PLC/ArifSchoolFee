@@ -6,6 +6,7 @@ use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
+use App\Traits\Subtractable;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ use Illuminate\Support\Str;
 
 class Damage extends Model
 {
-    use MultiTenancy, HasFactory, SoftDeletes, Approvable, HasUserstamps, Branchable;
+    use MultiTenancy, HasFactory, SoftDeletes, Approvable, HasUserstamps, Branchable, Subtractable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -43,16 +44,4 @@ class Damage extends Model
             ->latest()
             ->get();
     }
-
-    public function subtract()
-    {
-        $this->status = 'Subtracted From Inventory';
-        $this->save();
-    }
-
-    public function isSubtracted()
-    {
-        return $this->status == 'Subtracted From Inventory';
-    }
-
 }
