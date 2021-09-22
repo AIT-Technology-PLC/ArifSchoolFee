@@ -2,13 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\PrependCompanyId;
+use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreSaleRequest extends FormRequest
 {
-    use PrependCompanyId;
-
     public function authorize()
     {
         return true;
@@ -17,7 +15,7 @@ class StoreSaleRequest extends FormRequest
     public function rules()
     {
         return [
-            'receipt_no' => ['required', 'string', 'unique:sales'],
+            'code' => ['required', 'string', new UniqueReferenceNum('sales')],
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer'],
             'sale.*.quantity' => ['required', 'numeric', 'min:1'],
@@ -27,12 +25,5 @@ class StoreSaleRequest extends FormRequest
             'payment_type' => ['required', 'string'],
             'description' => ['nullable', 'string'],
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'receipt_no' => $this->prependCompanyId($this->receipt_no),
-        ]);
     }
 }

@@ -6,13 +6,10 @@ use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
 use App\Models\Customer;
 use App\Models\Sale;
-use App\Traits\PrependCompanyId;
 use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
-    use PrependCompanyId;
-
     private $sale;
 
     public function __construct(Sale $sale)
@@ -37,7 +34,7 @@ class SaleController extends Controller
     {
         $customers = $customer->getCustomerNames();
 
-        $currentReceiptNo = (Sale::select('receipt_no')->latest()->first()->receipt_no) ?? 0;
+        $currentReceiptNo = Sale::byBranch()->max('code') + 1;
 
         return view('sales.create', compact('customers', 'currentReceiptNo'));
     }

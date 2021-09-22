@@ -37,7 +37,7 @@
                             </div>
                             <div class="column m-lr-20">
                                 <div class="is-size- has-text-weight-bold">
-                                    {{ $gdn->sale->receipt_no ?? 'N/A' }}
+                                    {{ $gdn->sale->code ?? 'N/A' }}
                                 </div>
                                 <div class="is-uppercase is-size-7">
                                     Receipt No

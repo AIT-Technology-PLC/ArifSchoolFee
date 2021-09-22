@@ -60,7 +60,7 @@
                                         <select id="sale_id" name="sale_id">
                                             <option selected disabled>Select Sale</option>
                                             @foreach ($sales as $sale)
-                                                <option value="{{ $sale->id }}" {{ $gdn->sale_id == $sale->id ? 'selected' : '' }}>{{ $sale->receipt_no ?? '' }}</option>
+                                                <option value="{{ $sale->id }}" {{ $gdn->sale_id == $sale->id ? 'selected' : '' }}>{{ $sale->code ?? '' }}</option>
                                             @endforeach
                                             <option value="">None</option>
                                         </select>

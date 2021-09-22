@@ -35,15 +35,6 @@ class Sale extends Model
         return $this->hasMany(Gdn::class);
     }
 
-    public function getReceiptNoAttribute($value)
-    {
-        if (Str::endsWith($value, '_') || !$value) {
-            return null;
-        }
-
-        return Str::after($value, userCompany()->id . '_');
-    }
-
     public function getTotalSalePriceAttribute()
     {
         $totalPrice = $this->saleDetails

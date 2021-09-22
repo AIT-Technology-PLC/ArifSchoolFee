@@ -115,7 +115,7 @@
                                 </td>
                                 @if ($enabledFeatures->contains('Sale Management'))
                                     <td class="is-capitalized">
-                                        {{ is_null($gdn->sale) ? 'N/A' : $gdn->sale->receipt_no }}
+                                        {{ is_null($gdn->sale) ? 'N/A' : $gdn->sale->code }}
                                     </td>
                                 @endif
                                 <td class="is-capitalized">
