@@ -2,13 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\PrependCompanyId;
+use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateGdnRequest extends FormRequest
 {
-    use PrependCompanyId;
-
     public function authorize()
     {
         return true;
@@ -17,7 +15,7 @@ class UpdateGdnRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', 'unique:gdns,code,' . $this->route('gdn')->id],
+            'code' => ['required', 'integer', new UniqueReferenceNum('gdns', $this->route('gdn')->id)],
             'gdn' => ['required', 'array'],
             'gdn.*.product_id' => ['required', 'integer'],
             'gdn.*.warehouse_id' => ['required', 'integer'],
@@ -33,12 +31,5 @@ class UpdateGdnRequest extends FormRequest
             'cash_received_in_percentage' => ['required', 'numeric', 'between:0,100'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'code' => $this->prependCompanyId($this->code),
-        ]);
     }
 }

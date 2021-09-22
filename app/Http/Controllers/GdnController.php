@@ -57,7 +57,7 @@ class GdnController extends Controller
 
         $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->subtractWarehouses());
 
-        $currentGdnCode = (Gdn::select('code')->latest()->first()->code) ?? 0;
+        $currentGdnCode = Gdn::byBranch()->max('code') + 1;
 
         return view('gdns.create', compact('customers', 'sales', 'warehouses', 'currentGdnCode'));
     }

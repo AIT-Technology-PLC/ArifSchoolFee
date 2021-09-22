@@ -44,11 +44,6 @@ class Gdn extends Model
         return $this->morphOne(Reservation::class, 'reservable');
     }
 
-    public function getCodeAttribute($value)
-    {
-        return Str::after($value, userCompany()->id . '_');
-    }
-
     public function getCreditPayableInPercentageAttribute()
     {
         return 100.00 - $this->cash_received_in_percentage;
