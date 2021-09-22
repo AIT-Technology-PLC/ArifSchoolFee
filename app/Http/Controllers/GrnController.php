@@ -57,7 +57,7 @@ class GrnController extends Controller
 
         $purchases = $purchase->getAll();
 
-        $currentGrnCode = (Grn::select('code')->latest()->first()->code) ?? 0;
+        $currentGrnCode = Grn::byBranch()->max('code') + 1;
 
         return view('grns.create', compact('warehouses', 'suppliers', 'purchases', 'currentGrnCode'));
     }
