@@ -25,6 +25,10 @@ class ProformaInvoice extends Model
         'is_pending' => 'boolean',
     ];
 
+    protected $attributes = [
+        'is_pending' => 1,
+    ];
+
     public function convertedBy()
     {
         return $this->belongsTo(User::class, 'converted_by');
@@ -38,11 +42,6 @@ class ProformaInvoice extends Model
     public function proformaInvoiceDetails()
     {
         return $this->hasMany(ProformaInvoiceDetail::class);
-    }
-
-    public function getCodeAttribute($value)
-    {
-        return Str::after($value, userCompany()->id . '_');
     }
 
     public function getReferenceAttribute()

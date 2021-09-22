@@ -22,7 +22,7 @@
                                 <input name="prefix" class="input" type="text" placeholder="Prefix" value="{{ userCompany()->proforma_invoice_prefix ?? '' }}">
                             </div>
                             <div class="control has-icons-left">
-                                <input class="input" type="text" name="code" id="code" value="{{ $currentProformaInvoiceCode + 1 }}">
+                                <input class="input" type="text" name="code" id="code" value="{{ $currentProformaInvoiceCode }}">
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-hashtag"></i>
                                 </span>

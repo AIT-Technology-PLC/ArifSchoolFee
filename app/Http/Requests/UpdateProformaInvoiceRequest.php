@@ -2,13 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\PrependCompanyId;
+use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProformaInvoiceRequest extends FormRequest
 {
-    use PrependCompanyId;
-
     public function authorize()
     {
         return true;
@@ -18,7 +16,7 @@ class UpdateProformaInvoiceRequest extends FormRequest
     {
         return [
             'prefix' => ['nullable', 'string'],
-            'code' => ['required', 'string', 'unique:proforma_invoices,code,' . $this->route('proforma_invoice')->id],
+            'code' => ['required', 'string', new UniqueReferenceNum('proforma_invoices', $this->route('proforma_invoice')->id)],
             'customer_id' => ['nullable', 'integer'],
             'issued_on' => ['required', 'date'],
             'expires_on' => ['nullable', 'date', 'after_or_equal:issued_on'],
@@ -31,12 +29,5 @@ class UpdateProformaInvoiceRequest extends FormRequest
             'proformaInvoice.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'proformaInvoice.*.specification' => ['nullable', 'string'],
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'code' => $this->prependCompanyId($this->code),
-        ]);
     }
 }

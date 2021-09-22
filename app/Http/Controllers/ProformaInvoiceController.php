@@ -43,7 +43,7 @@ class ProformaInvoiceController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $currentProformaInvoiceCode = (ProformaInvoice::select('code')->latest()->first()->code) ?? 0;
+        $currentProformaInvoiceCode = ProformaInvoice::byBranch()->max('code') + 1;
 
         return view('proforma-invoices.create', compact('customers', 'currentProformaInvoiceCode'));
     }
