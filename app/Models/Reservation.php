@@ -55,11 +55,6 @@ class Reservation extends Model
         return $this->hasMany(ReservationDetail::class);
     }
 
-    public function getCodeAttribute($value)
-    {
-        return Str::after($value, userCompany()->id . '_');
-    }
-
     public function getCreditPayableInPercentageAttribute()
     {
         return 100.00 - $this->cash_received_in_percentage;

@@ -2,13 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\PrependCompanyId;
+use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateReservationRequest extends FormRequest
 {
-    use PrependCompanyId;
-
     public function authorize()
     {
         return true;
@@ -17,7 +15,7 @@ class UpdateReservationRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', 'unique:reservations,code,' . $this->route('reservation')->id],
+            'code' => ['required', 'string', new UniqueReferenceNum('reservations', $this->route('reservation')->id)],
             'reservation' => ['required', 'array'],
             'reservation.*.product_id' => ['required', 'integer'],
             'reservation.*.warehouse_id' => ['required', 'integer'],
@@ -33,20 +31,5 @@ class UpdateReservationRequest extends FormRequest
             'cash_received_in_percentage' => ['required', 'numeric', 'between:0,100'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'code' => $this->prependCompanyId($this->code),
-        ]);
-    }
-
-    public function passedValidation()
-    {
-        $this->merge([
-            'approved_by' => null,
-            'reserved_by' => null,
-        ]);
     }
 }

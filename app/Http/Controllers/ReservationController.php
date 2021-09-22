@@ -66,7 +66,7 @@ class ReservationController extends Controller
 
         $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->subtractWarehouses());
 
-        $currentReservationCode = (Reservation::select('code')->latest()->first()->code) ?? 0;
+        $currentReservationCode = Reservation::byBranch()->max('code') + 1;
 
         return view('reservations.create', compact('customers', 'warehouses', 'currentReservationCode'));
     }
