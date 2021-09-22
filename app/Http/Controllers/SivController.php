@@ -45,7 +45,7 @@ class SivController extends Controller
 
         $customers = $customer->getCustomerNames();
 
-        $currentSivCode = (Siv::select('code')->latest()->first()->code) ?? 0;
+        $currentSivCode = Siv::byBranch()->max('code') + 1;
 
         return view('sivs.create', compact('warehouses', 'customers', 'currentSivCode'));
     }

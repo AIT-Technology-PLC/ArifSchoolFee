@@ -2,13 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\PrependCompanyId;
+use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateSivRequest extends FormRequest
 {
-    use PrependCompanyId;
-
     public function authorize()
     {
         return true;
@@ -17,7 +15,7 @@ class UpdateSivRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', 'unique:sivs,code,' . $this->route('siv')->id],
+            'code' => ['required', 'string', new UniqueReferenceNum('sivs', $this->route('siv')->id)],
             'purpose' => ['nullable', 'string'],
             'ref_num' => ['nullable', 'required_unless:purpose,null', 'prohibited_if:purpose,null', 'string'],
             'siv' => ['required', 'array'],
@@ -39,12 +37,5 @@ class UpdateSivRequest extends FormRequest
             'ref_num.required_unless' => 'The Ref No is required for the purpose selected',
             'ref_num.prohibited_if' => 'The Ref No field requires one of the purposes to be selected',
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'code' => $this->prependCompanyId($this->code),
-        ]);
     }
 }
