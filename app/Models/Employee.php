@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
