@@ -2,13 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\PrependCompanyId;
+use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateAdjustmentRequest extends FormRequest
 {
-    use PrependCompanyId;
-
     public function authorize()
     {
         return true;
@@ -17,7 +15,7 @@ class UpdateAdjustmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', 'unique:adjustments,code,' . $this->route('adjustment')->id],
+            'code' => ['required', 'string', new UniqueReferenceNum('adjustments', $this->route('adjustment')->id)],
             'adjustment' => ['required', 'array'],
             'adjustment.*.warehouse_id' => ['required', 'integer'],
             'adjustment.*.product_id' => ['required', 'integer'],
@@ -27,12 +25,5 @@ class UpdateAdjustmentRequest extends FormRequest
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'code' => $this->prependCompanyId($this->code),
-        ]);
     }
 }

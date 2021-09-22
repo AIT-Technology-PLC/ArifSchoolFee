@@ -33,11 +33,6 @@ class Adjustment extends Model
         return $this->hasMany(AdjustmentDetail::class);
     }
 
-    public function getCodeAttribute($value)
-    {
-        return Str::after($value, userCompany()->id . '_');
-    }
-
     public function getAll()
     {
         if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
