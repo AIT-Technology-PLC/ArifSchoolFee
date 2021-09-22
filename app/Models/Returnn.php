@@ -12,7 +12,6 @@ use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 
 class Returnn extends Model
 {
@@ -34,11 +33,6 @@ class Returnn extends Model
     public function returnDetails()
     {
         return $this->hasMany(ReturnDetail::class, 'return_id');
-    }
-
-    public function getCodeAttribute($value)
-    {
-        return Str::after($value, userCompany()->id . '_');
     }
 
     public function details()

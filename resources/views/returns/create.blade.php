@@ -19,7 +19,7 @@
                         <div class="field">
                             <label for="code" class="label text-green has-text-weight-normal">Return Number <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="number" name="code" id="code" value="{{ $currentReturnCode + 1 }}">
+                                <input class="input" type="number" name="code" id="code" value="{{ $currentReturnCode }}">
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-hashtag"></i>
                                 </span>

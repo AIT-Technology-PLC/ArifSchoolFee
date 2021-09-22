@@ -2,13 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\PrependCompanyId;
+use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreReturnRequest extends FormRequest
 {
-    use PrependCompanyId;
-
     public function authorize()
     {
         return true;
@@ -17,7 +15,7 @@ class StoreReturnRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', 'unique:returns'],
+            'code' => ['required', 'string', new UniqueReferenceNum('returns')],
             'return' => ['required', 'array'],
             'return.*.product_id' => ['required', 'integer'],
             'return.*.warehouse_id' => ['required', 'integer'],
@@ -28,12 +26,5 @@ class StoreReturnRequest extends FormRequest
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'code' => $this->prependCompanyId($this->code),
-        ]);
     }
 }

@@ -47,7 +47,7 @@ class ReturnController extends Controller
 
         $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->addWarehouses());
 
-        $currentReturnCode = (Returnn::select('code')->latest()->first()->code) ?? 0;
+        $currentReturnCode = Returnn::byBranch()->max('code') + 1;
 
         return view('returns.create', compact('customers', 'warehouses', 'currentReturnCode'));
     }
