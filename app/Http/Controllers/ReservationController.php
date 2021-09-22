@@ -233,8 +233,6 @@ class ReservationController extends Controller
                 'payment_type' => $reservation->payment_type,
                 'description' => $reservation->description ?? '',
                 'cash_received_in_percentage' => $reservation->cash_received_in_percentage,
-                'created_by' => auth()->id(),
-                'updated_by' => auth()->id(),
             ]);
 
             $gdn->gdnDetails()->createMany($reservation->reservationDetails->toArray());

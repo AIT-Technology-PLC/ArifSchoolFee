@@ -56,14 +56,7 @@ class EmployeeController extends Controller
                 'warehouse_id' => $request->warehouse_id,
             ]);
 
-            $user->employee()->create(
-                $request->only([
-                    'position',
-                    'enabled',
-                    'created_by',
-                    'updated_by',
-                ])
-            );
+            $user->employee()->create($request->only(['position', 'enabled']));
 
             foreach ($request->read ?? [] as $warehouseId) {
                 DB::table('user_warehouse')->insert([

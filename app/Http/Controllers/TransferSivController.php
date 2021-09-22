@@ -25,8 +25,6 @@ class TransferSivController extends Controller
                 'purpose' => 'Transfer',
                 'ref_num' => $transfer->code,
                 'issued_on' => today(),
-                'created_by' => auth()->id,
-                'updated_by' => auth()->id,
                 'approved_by' => $transfer->approvedBy->id,
             ]);
 
