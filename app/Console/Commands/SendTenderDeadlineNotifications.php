@@ -6,7 +6,7 @@ use App\Models\Company;
 use App\Models\Employee;
 use App\Models\Tender;
 use App\Notifications\TenderDeadlineIsClose;
-use App\User;
+use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 

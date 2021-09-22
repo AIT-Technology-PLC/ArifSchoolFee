@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\GeneralTenderChecklist;
 use App\Traits\ModelToCompanyBelongingnessChecker;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class GeneralTenderChecklistPolicy

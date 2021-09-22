@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\User;
+use App\Models\User;
 use App\Models\Company;
 use App\Models\Employee;
 use App\Models\ProformaInvoice;

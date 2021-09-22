@@ -1,9 +1,7 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\Models as Models;
-use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -27,17 +25,17 @@ class User extends Authenticatable
 
     public function employee()
     {
-        return $this->hasOne(Models\Employee::class, 'user_id')->withoutGlobalScopes();
+        return $this->hasOne(Employee::class, 'user_id')->withoutGlobalScopes();
     }
 
     public function warehouses()
     {
-        return $this->belongsToMany(Models\Warehouse::class)->withPivot('type');
+        return $this->belongsToMany(Warehouse::class)->withPivot('type');
     }
 
     public function warehouse()
     {
-        return $this->belongsTo(Models\Warehouse::class);
+        return $this->belongsTo(Warehouse::class);
     }
 
     public function isEnabled()

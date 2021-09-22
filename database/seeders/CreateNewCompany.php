@@ -6,7 +6,7 @@ use App\Models\Company;
 use App\Models\Employee;
 use App\Models\Plan;
 use App\Models\Warehouse;
-use App\User;
+use App\Models\User;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
