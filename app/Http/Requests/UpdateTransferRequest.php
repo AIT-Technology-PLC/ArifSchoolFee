@@ -2,13 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\PrependCompanyId;
+use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTransferRequest extends FormRequest
 {
-    use PrependCompanyId;
-
     public function authorize()
     {
         return true;
@@ -17,7 +15,7 @@ class UpdateTransferRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', 'unique:transfers,code,' . $this->route('transfer')->id],
+            'code' => ['required', 'string', new UniqueReferenceNum('transfers', $this->route('transfer')->id)],
             'transfer' => ['required', 'array'],
             'transfer.*.product_id' => ['required', 'integer'],
             'transfer.*.quantity' => ['required', 'numeric', 'min:1'],
@@ -27,12 +25,5 @@ class UpdateTransferRequest extends FormRequest
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'code' => $this->prependCompanyId($this->code),
-        ]);
     }
 }

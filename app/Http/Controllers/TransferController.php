@@ -56,7 +56,7 @@ class TransferController extends Controller
 
         $toWarehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
 
-        $currentTransferCode = (Transfer::select('code')->latest()->first()->code) ?? 0;
+        $currentTransferCode = Transfer::byBranch()->max('code') + 1;
 
         return view('transfers.create', compact('fromWarehouses', 'toWarehouses', 'currentTransferCode'));
     }

@@ -11,7 +11,6 @@ use App\Traits\Subtractable;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 
 class Transfer extends Model
 {
@@ -36,11 +35,6 @@ class Transfer extends Model
     public function transferredTo()
     {
         return $this->belongsTo(Warehouse::class, 'transferred_to');
-    }
-
-    public function getCodeAttribute($value)
-    {
-        return Str::after($value, userCompany()->id . '_');
     }
 
     public function getAll()
