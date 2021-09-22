@@ -6,13 +6,12 @@ use App\Models\Siv;
 use App\Models\Transfer;
 use App\Notifications\SivPrepared;
 use App\Traits\NotifiableUsers;
-use App\Traits\PrependCompanyId;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class TransferSivController extends Controller
 {
-    use PrependCompanyId, NotifiableUsers;
+    use NotifiableUsers;
 
     public function __invoke(Transfer $transfer)
     {
@@ -21,10 +20,8 @@ class TransferSivController extends Controller
         $this->authorize('create', Siv::class);
 
         $siv = DB::transaction(function () use ($transfer) {
-            $currentSivCode = (Siv::select('code')->latest()->first()->code) ?? 0;
-
             $siv = Siv::create([
-                'code' => $this->prependCompanyId($currentSivCode + 1),
+                'code' => Siv::byBranch()->max('code'),
                 'purpose' => 'Transfer',
                 'ref_num' => $transfer->code,
                 'issued_on' => today(),

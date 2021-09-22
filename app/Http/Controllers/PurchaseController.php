@@ -6,13 +6,10 @@ use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
 use App\Models\Purchase;
 use App\Models\Supplier;
-use App\Traits\PrependCompanyId;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
-    use PrependCompanyId;
-
     private $purchase;
 
     public function __construct(Purchase $purchase)

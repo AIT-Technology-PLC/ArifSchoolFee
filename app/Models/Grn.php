@@ -7,10 +7,8 @@ use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 
 class Grn extends Model
 {

@@ -6,13 +6,12 @@ use App\Models\Gdn;
 use App\Models\Siv;
 use App\Notifications\SivPrepared;
 use App\Traits\NotifiableUsers;
-use App\Traits\PrependCompanyId;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class GdnSivController extends Controller
 {
-    use PrependCompanyId, NotifiableUsers;
+    use NotifiableUsers;
 
     public function __invoke(Gdn $gdn)
     {
@@ -21,10 +20,8 @@ class GdnSivController extends Controller
         $this->authorize('create', Siv::class);
 
         $siv = DB::transaction(function () use ($gdn) {
-            $currentSivCode = (Siv::select('code')->latest()->first()->code) ?? 0;
-
             $siv = Siv::create([
-                'code' => $this->prependCompanyId($currentSivCode + 1),
+                'code' => Siv::byBranch()->max('code') + 1,
                 'purpose' => 'DO',
                 'ref_num' => $gdn->code,
                 'issued_on' => today(),

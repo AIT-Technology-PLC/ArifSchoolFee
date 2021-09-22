@@ -16,14 +16,13 @@ use App\Notifications\ReservationPrepared;
 use App\Services\InventoryOperationService;
 use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
-use App\Traits\PrependCompanyId;
 use App\Traits\SubtractInventory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class ReservationController extends Controller
 {
-    use NotifiableUsers, SubtractInventory, PrependCompanyId, ApproveInventory;
+    use NotifiableUsers, SubtractInventory, ApproveInventory;
 
     public function __construct()
     {
@@ -227,10 +226,8 @@ class ReservationController extends Controller
                 new ReservationConverted($reservation)
             );
 
-            $currentGdnCode = (Gdn::select('code')->latest()->first()->code) ?? 0;
-
             $gdn = Gdn::create([
-                'code' => $this->prependCompanyId($currentGdnCode + 1),
+                'code' => Gdn::byBranch()->max('code'),
                 'customer_id' => $reservation->customer_id ?? null,
                 'issued_on' => today(),
                 'payment_type' => $reservation->payment_type,
