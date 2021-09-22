@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class UniqueReferenceNum implements Rule
 {
-    private $tableName, $excludedId;
+    private $tableName, $excludedId, $value;
 
     public function __construct($tableName, $excludedId = null)
     {
@@ -18,6 +18,8 @@ class UniqueReferenceNum implements Rule
 
     public function passes($attribute, $value)
     {
+        $this->value = $value;
+
         return DB::table($this->tableName)
             ->where('warehouse_id', auth()->user()->warehouse_id)
             ->where('company_id', userCompany()->id)
@@ -28,6 +30,6 @@ class UniqueReferenceNum implements Rule
 
     public function message()
     {
-        return 'The reference number has already been taken.';
+        return "Reference #{$this->value} has already been taken.";
     }
 }

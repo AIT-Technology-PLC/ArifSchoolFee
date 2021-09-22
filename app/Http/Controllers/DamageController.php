@@ -45,7 +45,7 @@ class DamageController extends Controller
     {
         $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
 
-        $currentDamageCode = (Damage::select('code')->latest()->first()->code) ?? 0;
+        $currentDamageCode = Damage::byBranch()->max('code') + 1;
 
         return view('damages.create', compact('warehouses', 'currentDamageCode'));
     }

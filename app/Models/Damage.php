@@ -11,7 +11,6 @@ use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 
 class Damage extends Model
 {
@@ -26,11 +25,6 @@ class Damage extends Model
     public function damageDetails()
     {
         return $this->hasMany(DamageDetail::class);
-    }
-
-    public function getCodeAttribute($value)
-    {
-        return Str::after($value, userCompany()->id . '_');
     }
 
     public function getAll()

@@ -2,13 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\PrependCompanyId;
+use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreDamageRequest extends FormRequest
 {
-    use PrependCompanyId;
-
     public function authorize()
     {
         return true;
@@ -17,7 +15,7 @@ class StoreDamageRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', 'unique:damages'],
+            'code' => ['required', 'string', new UniqueReferenceNum('damages')],
             'damage' => ['required', 'array'],
             'damage.*.product_id' => ['required', 'integer'],
             'damage.*.warehouse_id' => ['required', 'integer'],
@@ -26,12 +24,5 @@ class StoreDamageRequest extends FormRequest
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'code' => $this->prependCompanyId($this->code),
-        ]);
     }
 }
