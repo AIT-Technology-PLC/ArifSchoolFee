@@ -35,11 +35,6 @@ class Purchase extends Model
         return $this->hasMany(Grn::class);
     }
 
-    public function getPurchaseNoAttribute($value)
-    {
-        return Str::after($value, userCompany()->id . '_');
-    }
-
     public function getTotalPurchasePriceAttribute()
     {
         $totalPrice = $this->purchaseDetails

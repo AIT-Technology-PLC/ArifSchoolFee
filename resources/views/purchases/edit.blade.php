@@ -18,13 +18,13 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
-                            <label for="purchase_no" class="label text-green has-text-weight-normal">Purchase No <sup class="has-text-danger">*</sup> </label>
+                            <label for="code" class="label text-green has-text-weight-normal">Purchase No <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="number" name="purchase_no" id="purchase_no" value="{{ $purchase->purchase_no }}">
+                                <input class="input" type="number" name="code" id="code" value="{{ $purchase->code }}">
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-hashtag"></i>
                                 </span>
-                                @error('purchase_no')
+                                @error('code')
                                     <span class="help has-text-danger" role="alert">
                                         {{ $message }}
                                     </span>

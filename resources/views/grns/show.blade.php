@@ -37,7 +37,7 @@
                             </div>
                             <div class="column m-lr-20">
                                 <div class="is-size- has-text-weight-bold">
-                                    {{ $grn->purchase->purchase_no ?? 'N/A' }}
+                                    {{ $grn->purchase->code ?? 'N/A' }}
                                 </div>
                                 <div class="is-uppercase is-size-7">
                                     Purchase No

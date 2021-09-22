@@ -2,13 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\PrependCompanyId;
+use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePurchaseRequest extends FormRequest
 {
-    use PrependCompanyId;
-
     public function authorize()
     {
         return true;
@@ -17,7 +15,7 @@ class StorePurchaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'purchase_no' => ['required', 'string', 'unique:purchases'],
+            'code' => ['required', 'string', new UniqueReferenceNum('purchases')],
             'type' => ['required', 'string'],
             'purchase' => ['required', 'array'],
             'purchase.*.product_id' => ['required', 'integer'],
@@ -28,12 +26,5 @@ class StorePurchaseRequest extends FormRequest
             'payment_type' => ['required', 'string'],
             'description' => ['nullable', 'string'],
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'purchase_no' => $this->prependCompanyId($this->purchase_no),
-        ]);
     }
 }

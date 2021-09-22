@@ -110,7 +110,7 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 @if ($enabledFeatures->contains('Purchase Management'))
                                     <td class="is-capitalized">
-                                        {{ is_null($grn->purchase) ? 'N/A' : $grn->purchase->purchase_no }}
+                                        {{ is_null($grn->purchase) ? 'N/A' : $grn->purchase->code }}
                                     </td>
                                 @endif
                                 <td class="is-capitalized has-text-centered">

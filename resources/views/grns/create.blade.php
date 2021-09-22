@@ -59,7 +59,7 @@
                                         <select id="purchase_id" name="purchase_id">
                                             <option selected disabled>Select Purchase</option>
                                             @foreach ($purchases as $purchase)
-                                                <option value="{{ $purchase->id }}" {{ old('purchase_id') == $purchase->id ? 'selected' : '' }}>{{ $purchase->purchase_no ?? '' }}</option>
+                                                <option value="{{ $purchase->id }}" {{ old('purchase_id') == $purchase->id ? 'selected' : '' }}>{{ $purchase->code ?? '' }}</option>
                                             @endforeach
                                             <option value="">None</option>
                                         </select>

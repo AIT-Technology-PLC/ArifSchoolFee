@@ -37,7 +37,7 @@ class PurchaseController extends Controller
     {
         $suppliers = $supplier->getSupplierNames();
 
-        $currentPurchaseNo = (Purchase::select('purchase_no')->companyPurchases()->latest()->first()->purchase_no) ?? 0;
+        $currentPurchaseNo = Purchase::byBranch()->max('code') + 1;
 
         return view('purchases.create', compact('suppliers', 'currentPurchaseNo'));
     }
