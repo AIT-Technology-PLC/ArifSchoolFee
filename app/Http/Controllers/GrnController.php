@@ -53,7 +53,7 @@ class GrnController extends Controller
     {
         $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->addWarehouses());
 
-        $suppliers = $supplier->getSupplierNames();
+        $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
         $purchases = $purchase->getAll();
 
@@ -90,7 +90,7 @@ class GrnController extends Controller
 
         $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->addWarehouses());
 
-        $suppliers = $supplier->getSupplierNames();
+        $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
         $purchases = $purchase->getAll();
 

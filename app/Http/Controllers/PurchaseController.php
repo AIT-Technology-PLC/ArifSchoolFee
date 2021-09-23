@@ -32,7 +32,7 @@ class PurchaseController extends Controller
 
     public function create(Supplier $supplier)
     {
-        $suppliers = $supplier->getSupplierNames();
+        $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
         $currentPurchaseNo = Purchase::byBranch()->max('code') + 1;
 
@@ -63,7 +63,7 @@ class PurchaseController extends Controller
     {
         $purchase->load('purchaseDetails.product');
 
-        $suppliers = $supplier->getSupplierNames();
+        $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
         return view('purchases.edit', compact('purchase', 'suppliers'));
     }

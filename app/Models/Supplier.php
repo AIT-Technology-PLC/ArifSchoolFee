@@ -33,11 +33,6 @@ class Supplier extends Model
         return $this->with(['createdBy', 'updatedBy'])->orderBy('company_name')->get();
     }
 
-    public function getSupplierNames()
-    {
-        return $this->orderBy('company_name')->get(['id', 'company_name']);
-    }
-
     public function countSuppliersOfCompany()
     {
         return $this->count();

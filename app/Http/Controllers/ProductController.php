@@ -37,7 +37,7 @@ class ProductController extends Controller
     {
         $categories = $category->getAll();
 
-        $suppliers = $supplier->getSupplierNames();
+        $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
         $inventoryTypes = $this->getInventoryTypes();
 
@@ -60,7 +60,7 @@ class ProductController extends Controller
     {
         $categories = $category->getAll();
 
-        $suppliers = $supplier->getSupplierNames();
+        $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
         $inventoryTypes = $this->getInventoryTypes();
 
