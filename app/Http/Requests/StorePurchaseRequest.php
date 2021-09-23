@@ -21,10 +21,12 @@ class StorePurchaseRequest extends FormRequest
             'purchase.*.product_id' => ['required', 'integer'],
             'purchase.*.quantity' => ['required', 'numeric'],
             'purchase.*.unit_price' => ['required', 'numeric'],
+            'purchase.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'supplier_id' => ['nullable', 'integer'],
             'purchased_on' => ['required', 'date'],
             'payment_type' => ['required', 'string'],
             'description' => ['nullable', 'string'],
+            'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
         ];
     }
 }
