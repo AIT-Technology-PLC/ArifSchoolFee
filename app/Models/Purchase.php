@@ -35,6 +35,11 @@ class Purchase extends Model
         return $this->hasMany(Grn::class);
     }
 
+    public function details()
+    {
+        return $this->purchaseDetails;
+    }
+
     public function getAll()
     {
         if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {

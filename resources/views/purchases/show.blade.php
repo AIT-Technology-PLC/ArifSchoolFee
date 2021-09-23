@@ -111,11 +111,11 @@
                             </span>
                         </div>
                         <div class="column m-lr-20">
-                            <div class="has-text-weight-bold">
-                                {{ $purchase->totalPurchasePrice }}
+                            <div class="is-size- has-text-weight-bold">
+                                {{ number_format($purchase->subtotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Total Price ({{ $purchase->company->currency }})
+                                SubTotal Price ({{ $purchase->company->currency }})
                             </div>
                         </div>
                     </div>
@@ -131,11 +131,53 @@
                                 </span>
                             </div>
                             <div class="column m-lr-20">
-                                <div class="has-text-weight-bold">
-                                    {{ $purchase->totalPurchasePriceWithVAT ?? '0.00' }}
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ number_format($purchase->grandTotalPrice, 2) }}
                                 </div>
                                 <div class="is-uppercase is-size-7">
-                                    Total Price with VAT ({{ $purchase->company->currency }})
+                                    Grand Total Price ({{ $purchase->company->currency }})
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            @if (!userCompany()->isDiscountBeforeVAT())
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-percentage"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ number_format($purchase->discount * 100, 2) }}%
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Discount
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            @if (!$purchase->isImported() && !userCompany()->isDiscountBeforeVAT())
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ number_format($purchase->grandTotalPriceAfterDiscount, 2) }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Grand Total Price (After Discount)
                                 </div>
                             </div>
                         </div>
@@ -203,6 +245,9 @@
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Unit Price </abbr></th>
+                            @if (userCompany()->isDiscountBeforeVAT())
+                                <th><abbr> Discount </abbr></th>
+                            @endif
                             <th><abbr> Total </abbr></th>
                         </tr>
                     </thead>
@@ -221,9 +266,13 @@
                                     {{ $purchase->company->currency }}.
                                     {{ number_format($purchaseDetail->unit_price, 2) }}
                                 </td>
+                                @if (userCompany()->isDiscountBeforeVAT())
+                                    <td>
+                                        {{ number_format($purchaseDetail->discount * 100, 2) }}%
+                                    </td>
+                                @endif
                                 <td>
-                                    {{ $purchase->company->currency }}.
-                                    {{ number_format($purchaseDetail->quantity * $purchaseDetail->unit_price, 2) }}
+                                    {{ number_format($purchaseDetail->totalPrice, 2) }}
                                 </td>
                             </tr>
                         @endforeach
