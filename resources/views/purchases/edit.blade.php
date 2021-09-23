@@ -48,6 +48,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
+                        <label for="discount" class="label text-green has-text-weight-normal">Discount<sup class="has-text-danger"></sup> </label>
+                        <div class="field">
+                            <div class="control has-icons-left is-expanded">
+                                <input id="discount" name="discount" type="number" class="input" placeholder="Discount in Percentage" value="{{ $purchase->discount * 100 ?? '' }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-percent"></i>
+                                </span>
+                                @error('discount')
+                                    <span class="help has-text-danger" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                     <div class="column is-6">
                         <div class="field">
                             <label for="type" class="label text-green has-text-weight-normal">Purchase Type <sup class="has-text-danger">*</sup> </label>
@@ -174,10 +190,10 @@
                                 </div>
                             </div>
                             <div class="column is-6">
-                                <label for="purchase[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> (Before VAT)</sup> <sup class="has-text-danger">*</sup> </label>
+                                <label for="purchase[{{ $loop->index }}][unit_price]" class="label text-green has-text-weight-normal">Unit Price<sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup> <sup class="has-text-danger">*</sup> </label>
                                 <div class="field has-addons">
                                     <div class="control has-icons-left is-expanded">
-                                        <input id="purchase[{{ $loop->index }}][unit_price]" name="purchase[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Purchase Price" value="{{ $purchaseDetail->unit_price ?? '' }}">
+                                        <input id="purchase[{{ $loop->index }}][unit_price]" name="purchase[{{ $loop->index }}][unit_price]" type="number" class="input" placeholder="Purchase Price" value="{{ $purchaseDetail->originalUnitPrice ?? '' }}">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-money-bill"></i>
                                         </span>
@@ -191,6 +207,22 @@
                                         <button id="purchase[{{ $loop->index }}][product_id]Price" class="button bg-green has-text-white" type="button">
                                             Per {{ $purchaseDetail->product->unit_of_measurement }}
                                         </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? '' : 'is-hidden' }}">
+                                <label for="purchase[{{ $loop->index }}][discount]" class="label text-green has-text-weight-normal">Discount <sup class="has-text-danger"></sup> </label>
+                                <div class="field">
+                                    <div class="control has-icons-left is-expanded">
+                                        <input id="purchase[{{ $loop->index }}][discount]" name="purchase[{{ $loop->index }}][discount]" type="number" class="input" placeholder="Discount in Percentage" value="{{ $purchaseDetail->discount * 100 ?? '' }}">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-percent"></i>
+                                        </span>
+                                        @error('purchase.' . $loop->index . '.discount')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
