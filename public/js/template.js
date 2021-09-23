@@ -1192,6 +1192,26 @@ function addPurchaseDetail() {
         .querySelectorAll(".column")[2]
         .querySelector("button").innerText = "";
 
+    purchaseDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("label")
+        .setAttribute("for", `purchase[${totalPurchaseDetails}][discount]`);
+
+    purchaseDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "input"
+        ).id = `purchase[${totalPurchaseDetails}][discount]`;
+
+    purchaseDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "input"
+        ).name = `purchase[${totalPurchaseDetails}][discount]`;
+
+    purchaseDetail.querySelectorAll(".column")[3].querySelector("input").value =
+        "";
+
     purchaseDetailsWrapper.appendChild(purchaseDetail);
 
     initializeSelect2Products();
