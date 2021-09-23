@@ -50,11 +50,11 @@ class TransferController extends Controller
         return view('transfers.index', compact('transfers', 'totalTransfers', 'totalTransferred', 'totalSubtracted', 'totalApproved', 'totalNotApproved'));
     }
 
-    public function create(Warehouse $warehouse)
+    public function create()
     {
         $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        $toWarehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
+        $toWarehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
 
         $currentTransferCode = Transfer::byBranch()->max('code') + 1;
 
@@ -83,13 +83,13 @@ class TransferController extends Controller
         return view('transfers.show', compact('transfer'));
     }
 
-    public function edit(Transfer $transfer, Warehouse $warehouse)
+    public function edit(Transfer $transfer)
     {
         $transfer->load(['transferDetails.product', 'transferredFrom', 'transferredTo']);
 
         $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        $toWarehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
+        $toWarehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
 
         return view('transfers.edit', compact('transfer', 'fromWarehouses', 'toWarehouses'));
     }

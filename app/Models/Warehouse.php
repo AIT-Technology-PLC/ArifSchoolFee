@@ -83,11 +83,6 @@ class Warehouse extends Model
         return $this->with(['createdBy', 'updatedBy'])->orderBy('name')->get();
     }
 
-    public function getAllWithoutRelations()
-    {
-        return $this->orderBy('name')->get();
-    }
-
     public function countWarehousesOfCompany()
     {
         return $this->count();

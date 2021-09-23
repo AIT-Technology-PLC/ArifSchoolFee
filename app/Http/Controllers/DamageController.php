@@ -41,9 +41,9 @@ class DamageController extends Controller
         return view('damages.index', compact('damages', 'totalDamages', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }
 
-    public function create(Warehouse $warehouse)
+    public function create()
     {
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
 
         $currentDamageCode = Damage::byBranch()->max('code') + 1;
 
@@ -72,9 +72,9 @@ class DamageController extends Controller
         return view('damages.show', compact('damage'));
     }
 
-    public function edit(Damage $damage, Warehouse $warehouse)
+    public function edit(Damage $damage)
     {
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
 
         $damage->load(['damageDetails.product', 'damageDetails.warehouse']);
 

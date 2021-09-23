@@ -41,11 +41,11 @@ class ReturnController extends Controller
         return view('returns.index', compact('returns', 'totalReturns', 'totalNotApproved', 'totalNotAdded', 'totalAdded'));
     }
 
-    public function create(Customer $customer, Warehouse $warehouse)
+    public function create(Customer $customer)
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->addWarehouses());
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->addWarehouses())->get(['id', 'name']);
 
         $currentReturnCode = Returnn::byBranch()->max('code') + 1;
 
@@ -74,11 +74,11 @@ class ReturnController extends Controller
         return view('returns.show', compact('return'));
     }
 
-    public function edit(Returnn $return, Customer $customer, Warehouse $warehouse)
+    public function edit(Returnn $return, Customer $customer)
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->addWarehouses());
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->addWarehouses())->get(['id', 'name']);
 
         $return->load(['returnDetails.product', 'returnDetails.warehouse']);
 

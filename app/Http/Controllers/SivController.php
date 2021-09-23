@@ -39,9 +39,9 @@ class SivController extends Controller
         return view('sivs.index', compact('sivs', 'totalSivs', 'totalApproved', 'totalNotApproved'));
     }
 
-    public function create(Warehouse $warehouse, Customer $customer)
+    public function create(Customer $customer)
     {
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
 
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
@@ -72,11 +72,11 @@ class SivController extends Controller
         return view('sivs.show', compact('siv'));
     }
 
-    public function edit(Siv $siv, Warehouse $warehouse, Customer $customer)
+    public function edit(Siv $siv, Customer $customer)
     {
         $siv->load(['sivDetails.product', 'sivDetails.warehouse']);
 
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
 
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 

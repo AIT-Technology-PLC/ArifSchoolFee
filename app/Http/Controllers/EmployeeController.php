@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Employee;
-use App\Models\Warehouse;
 use App\Models\User;
+use App\Models\Warehouse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -41,7 +41,7 @@ class EmployeeController extends Controller
     {
         $roles = Role::all()->where('name', '<>', 'System Manager');
 
-        $warehouses = (new Warehouse())->getAllWithoutRelations();
+        $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
         return view('employees.create', compact('roles', 'warehouses'));
     }
@@ -99,7 +99,7 @@ class EmployeeController extends Controller
 
         $roles = Role::all()->where('name', '<>', 'System Manager');
 
-        $warehouses = (new Warehouse())->getAllWithoutRelations();
+        $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
         $userWarehousePermissions = $employee->user->warehouses->pluck('pivot');
 

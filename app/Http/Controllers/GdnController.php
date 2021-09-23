@@ -49,13 +49,13 @@ class GdnController extends Controller
         return view('gdns.index', compact('gdns', 'totalGdns', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }
 
-    public function create(Customer $customer, Sale $sale, Warehouse $warehouse)
+    public function create(Customer $customer, Sale $sale)
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         $sales = $sale->getAll();
 
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->subtractWarehouses());
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->subtractWarehouses())->get(['id', 'name']);
 
         $currentGdnCode = Gdn::byBranch()->max('code') + 1;
 
@@ -84,7 +84,7 @@ class GdnController extends Controller
         return view('gdns.show', compact('gdn'));
     }
 
-    public function edit(Gdn $gdn, Customer $customer, Sale $sale, Warehouse $warehouse)
+    public function edit(Gdn $gdn, Customer $customer, Sale $sale)
     {
         if ($gdn->reservation) {
             return redirect()->back()->with('failedMessage', 'You cannot edit a DO that belongs to a reservation.');
@@ -94,7 +94,7 @@ class GdnController extends Controller
 
         $sales = $sale->getAll();
 
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->subtractWarehouses());
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->subtractWarehouses())->get(['id', 'name']);
 
         $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse']);
 

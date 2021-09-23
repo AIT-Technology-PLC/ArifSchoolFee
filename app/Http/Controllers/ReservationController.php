@@ -59,11 +59,11 @@ class ReservationController extends Controller
         return view('reservations.index', compact('reservations', 'totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalNotApproved', 'totalApproved', 'totalReservedInBirr'));
     }
 
-    public function create(Customer $customer, Warehouse $warehouse)
+    public function create(Customer $customer)
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->subtractWarehouses());
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->subtractWarehouses())->get(['id', 'name']);
 
         $currentReservationCode = Reservation::byBranch()->max('code') + 1;
 
@@ -92,11 +92,11 @@ class ReservationController extends Controller
         return view('reservations.show', compact('reservation'));
     }
 
-    public function edit(Reservation $reservation, Customer $customer, Warehouse $warehouse)
+    public function edit(Reservation $reservation, Customer $customer)
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->subtractWarehouses());
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->subtractWarehouses())->get(['id', 'name']);
 
         $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse']);
 

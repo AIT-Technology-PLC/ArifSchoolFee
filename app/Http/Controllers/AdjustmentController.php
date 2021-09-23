@@ -44,9 +44,9 @@ class AdjustmentController extends Controller
         return view('adjustments.index', compact('adjustments', 'totalAdjustments', 'totalNotApproved', 'totalNotAdjusted', 'totalAdjusted'));
     }
 
-    public function create(Warehouse $warehouse)
+    public function create()
     {
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
 
         $currentAdjustmentCode = Adjustment::byBranch()->max('code') + 1;
 
@@ -75,9 +75,9 @@ class AdjustmentController extends Controller
         return view('adjustments.show', compact('adjustment'));
     }
 
-    public function edit(Adjustment $adjustment, Warehouse $warehouse)
+    public function edit(Adjustment $adjustment)
     {
-        $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
 
         return view('adjustments.edit', compact('adjustment', 'warehouses'));
     }
