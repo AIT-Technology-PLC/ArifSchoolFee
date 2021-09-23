@@ -133,7 +133,7 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ $tender->getTenderChecklistsCompletionRate() }}%
+                                {{ $tender->tenderChecklistsCompletionRate }}%
                             </div>
                             <div class="is-uppercase is-size-7">
                                 Checklist Completion
