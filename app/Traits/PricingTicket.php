@@ -23,4 +23,6 @@ trait PricingTicket
     {
         return $this->grandTotalPrice - ($this->grandTotalPrice * $this->discount);
     }
+
+    abstract public function details();
 }
