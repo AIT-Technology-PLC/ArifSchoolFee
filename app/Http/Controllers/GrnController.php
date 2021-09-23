@@ -49,7 +49,7 @@ class GrnController extends Controller
         return view('grns.index', compact('grns', 'totalGrns', 'totalAdded', 'totalNotApproved', 'totalNotAdded'));
     }
 
-    public function create(Supplier $supplier, Purchase $purchase)
+    public function create(Purchase $purchase)
     {
         $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->addWarehouses())->get(['id', 'name']);
 
@@ -84,7 +84,7 @@ class GrnController extends Controller
         return view('grns.show', compact('grn'));
     }
 
-    public function edit(Grn $grn, Supplier $supplier, Purchase $purchase)
+    public function edit(Grn $grn, Purchase $purchase)
     {
         $grn->load(['grnDetails.product', 'grnDetails.warehouse', 'supplier', 'purchase']);
 

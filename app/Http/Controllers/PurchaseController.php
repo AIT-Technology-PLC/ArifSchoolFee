@@ -30,7 +30,7 @@ class PurchaseController extends Controller
         return view('purchases.index', compact('purchases', 'totalPurchases'));
     }
 
-    public function create(Supplier $supplier)
+    public function create()
     {
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
@@ -59,7 +59,7 @@ class PurchaseController extends Controller
         return view('purchases.show', compact('purchase'));
     }
 
-    public function edit(Purchase $purchase, Supplier $supplier)
+    public function edit(Purchase $purchase)
     {
         $purchase->load('purchaseDetails.product');
 

@@ -33,7 +33,7 @@ class ProductController extends Controller
         return view('products.index', compact('products', 'totalProductsOfCompany'));
     }
 
-    public function create(ProductCategory $category, Supplier $supplier)
+    public function create(ProductCategory $category)
     {
         $categories = $category->getAll();
 
@@ -56,7 +56,7 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    public function edit(Product $product, ProductCategory $category, Supplier $supplier)
+    public function edit(Product $product, ProductCategory $category)
     {
         $categories = $category->getAll();
 
