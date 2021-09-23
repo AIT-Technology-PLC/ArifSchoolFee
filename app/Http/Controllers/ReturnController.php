@@ -43,7 +43,7 @@ class ReturnController extends Controller
 
     public function create(Customer $customer, Warehouse $warehouse)
     {
-        $customers = $customer->getCustomerNames();
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->addWarehouses());
 
@@ -76,7 +76,7 @@ class ReturnController extends Controller
 
     public function edit(Returnn $return, Customer $customer, Warehouse $warehouse)
     {
-        $customers = $customer->getCustomerNames();
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->addWarehouses());
 

@@ -51,7 +51,7 @@ class GdnController extends Controller
 
     public function create(Customer $customer, Sale $sale, Warehouse $warehouse)
     {
-        $customers = $customer->getCustomerNames();
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         $sales = $sale->getAll();
 
@@ -90,7 +90,7 @@ class GdnController extends Controller
             return redirect()->back()->with('failedMessage', 'You cannot edit a DO that belongs to a reservation.');
         }
 
-        $customers = $customer->getCustomerNames();
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         $sales = $sale->getAll();
 

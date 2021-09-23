@@ -53,11 +53,6 @@ class Customer extends Model
         return $this->with(['createdBy', 'updatedBy'])->orderBy('company_name')->get();
     }
 
-    public function getCustomerNames()
-    {
-        return $this->orderBy('company_name')->get(['id', 'company_name']);
-    }
-
     public function countCustomersOfCompany()
     {
         return $this->count();

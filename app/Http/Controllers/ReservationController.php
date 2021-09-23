@@ -61,7 +61,7 @@ class ReservationController extends Controller
 
     public function create(Customer $customer, Warehouse $warehouse)
     {
-        $customers = $customer->getCustomerNames();
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->subtractWarehouses());
 
@@ -94,7 +94,7 @@ class ReservationController extends Controller
 
     public function edit(Reservation $reservation, Customer $customer, Warehouse $warehouse)
     {
-        $customers = $customer->getCustomerNames();
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->subtractWarehouses());
 

@@ -32,7 +32,7 @@ class SaleController extends Controller
 
     public function create(Customer $customer)
     {
-        $customers = $customer->getCustomerNames();
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         $currentReceiptNo = Sale::byBranch()->max('code') + 1;
 
@@ -63,7 +63,7 @@ class SaleController extends Controller
     {
         $sale->load('saleDetails.product');
 
-        $customers = $customer->getCustomerNames();
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         return view('sales.edit', compact('sale', 'customers'));
     }

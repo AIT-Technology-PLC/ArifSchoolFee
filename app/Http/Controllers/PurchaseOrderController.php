@@ -36,7 +36,7 @@ class PurchaseOrderController extends Controller
 
     public function create(Customer $customer)
     {
-        $customers = $customer->getCustomerNames();
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         return view('purchase-orders.create', compact('customers'));
     }
@@ -79,7 +79,7 @@ class PurchaseOrderController extends Controller
     {
         $purchaseOrder->load(['purchaseOrderDetails.product', 'customer']);
 
-        $customers = $customer->getCustomerNames();
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         return view('purchase-orders.edit', compact('purchaseOrder', 'customers'));
     }

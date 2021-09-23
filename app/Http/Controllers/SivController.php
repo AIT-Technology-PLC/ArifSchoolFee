@@ -43,7 +43,7 @@ class SivController extends Controller
     {
         $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
 
-        $customers = $customer->getCustomerNames();
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         $currentSivCode = Siv::byBranch()->max('code') + 1;
 
@@ -78,7 +78,7 @@ class SivController extends Controller
 
         $warehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
 
-        $customers = $customer->getCustomerNames();
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         return view('sivs.edit', compact('siv', 'warehouses', 'customers'));
     }
