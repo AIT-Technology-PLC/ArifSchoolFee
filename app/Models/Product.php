@@ -112,24 +112,9 @@ class Product extends Model
         $this->attributes['properties'] = json_encode($properties);
     }
 
-    public function scopeSaleableProducts($query)
-    {
-        return $query->where('type', 'Merchandise Inventory');
-    }
-
     public function getAll()
     {
         return $this->with(['productCategory', 'createdBy', 'updatedBy', 'supplier'])->orderBy('name')->get();
-    }
-
-    public function getProductNames()
-    {
-        return $this->orderBy('name')->get(['id', 'name']);
-    }
-
-    public function getSaleableProducts()
-    {
-        return $this->saleableProducts()->orderBy('name')->get();
     }
 
     public function getProductUOM()
@@ -144,24 +129,7 @@ class Product extends Model
             ->whereNotIn('id', $onHandMerchandiseProducts->pluck('id'))
             ->get();
     }
-
-    public function isProductSaleable($productId = null)
-    {
-        if (is_null($productId)) {
-            $productId = $this->id;
-        }
-
-        return $this->where('id', $productId)->saleableProducts()->exists();
-    }
-
-    public function isProductMerchandise($productId = null)
-    {
-        if (is_null($productId)) {
-            $productId = $this->id;
-        }
-
-        return $this->where('id', $productId)->where('type', 'Merchandise Inventory')->exists();
-    }
+    
 
     public function isProductLimited($onHandQuantity)
     {
