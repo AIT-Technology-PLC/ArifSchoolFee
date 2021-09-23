@@ -1081,3 +1081,118 @@ function addReturnDetail() {
 
     initializeSelect2Products();
 }
+
+function addPurchaseDetail() {
+    let purchaseDetailsWrapper = d.getElementById("purchase-details");
+
+    let purchaseDetails = d.getElementsByClassName("purchase-detail");
+
+    let totalPurchaseDetails = purchaseDetails.length;
+
+    let purchaseDetail = purchaseDetails[0].cloneNode(true);
+
+    let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    purchaseDetail.querySelector("[name=item-number]").innerText = `Item ${
+        totalPurchaseDetails + 1
+    }`;
+
+    purchaseDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("label")
+        .setAttribute("for", `purchase[${totalPurchaseDetails}][product_id]`);
+
+    purchaseDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select").innerHTML = "";
+
+    purchaseDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select")
+        .appendChild(originalSelect);
+
+    purchaseDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).id = `purchase[${totalPurchaseDetails}][product_id]`;
+
+    purchaseDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).name = `purchase[${totalPurchaseDetails}][product_id]`;
+
+    purchaseDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("select").classList = "select2-products";
+
+    purchaseDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".control > select")
+        .remove();
+
+    purchaseDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("label")
+        .setAttribute("for", `purchase[${totalPurchaseDetails}][quantity]`);
+
+    purchaseDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "input"
+        ).id = `purchase[${totalPurchaseDetails}][quantity]`;
+
+    purchaseDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "input"
+        ).name = `purchase[${totalPurchaseDetails}][quantity]`;
+
+    purchaseDetail.querySelectorAll(".column")[1].querySelector("input").value =
+        "";
+
+    purchaseDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "button"
+        ).id = `purchase[${totalPurchaseDetails}][product_id]Quantity`;
+
+    purchaseDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("button").innerText = "";
+
+    purchaseDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("label")
+        .setAttribute("for", `purchase[${totalPurchaseDetails}][unit_price]`);
+
+    purchaseDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "input"
+        ).id = `purchase[${totalPurchaseDetails}][unit_price]`;
+
+    purchaseDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "input"
+        ).name = `purchase[${totalPurchaseDetails}][unit_price]`;
+
+    purchaseDetail.querySelectorAll(".column")[2].querySelector("input").value =
+        "";
+
+    purchaseDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "button"
+        ).id = `purchase[${totalPurchaseDetails}][product_id]Price`;
+
+    purchaseDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("button").innerText = "";
+
+    purchaseDetailsWrapper.appendChild(purchaseDetail);
+
+    initializeSelect2Products();
+}

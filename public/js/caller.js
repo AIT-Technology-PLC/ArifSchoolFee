@@ -18,7 +18,7 @@ if (d.getElementsByName("createMenuModal").length) {
 if (d.getElementById("addNewPurchaseForm")) {
     d.getElementById("addNewPurchaseForm").addEventListener(
         "click",
-        addPurchaseForm
+        addPurchaseDetail
     );
 }
 
