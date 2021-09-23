@@ -52,7 +52,7 @@ class TransferController extends Controller
 
     public function create(Warehouse $warehouse)
     {
-        $fromWarehouses = $warehouse->getAllWithoutRelations();
+        $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
         $toWarehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
 
@@ -87,7 +87,7 @@ class TransferController extends Controller
     {
         $transfer->load(['transferDetails.product', 'transferredFrom', 'transferredTo']);
 
-        $fromWarehouses = $warehouse->getAllWithoutRelations();
+        $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
         $toWarehouses = $warehouse->getAllWithoutRelations()->whereIn('id', auth()->user()->assignedWarehouse());
 

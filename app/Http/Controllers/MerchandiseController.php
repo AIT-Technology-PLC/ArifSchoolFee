@@ -12,52 +12,52 @@ use App\Models\Warehouse;
 
 class MerchandiseController extends Controller
 {
-    public function index(OnHandInventoryDatatable $datatable, Warehouse $warehouse)
+    public function index(OnHandInventoryDatatable $datatable)
     {
         $this->authorize('viewAny', Merchandise::class);
 
         $insights = $this->insights();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
         $view = 'merchandises.on-hand';
 
         return $datatable->render('merchandises.index', compact('insights', 'warehouses', 'view'));
     }
 
-    public function available(AvailableInventoryDatatable $datatable, Warehouse $warehouse)
+    public function available(AvailableInventoryDatatable $datatable)
     {
         $this->authorize('viewAny', Merchandise::class);
 
         $insights = $this->insights();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
         $view = 'merchandises.on-hand';
 
         return $datatable->render('merchandises.index', compact('insights', 'warehouses', 'view'));
     }
 
-    public function reserved(ReservedInventoryDatatable $datatable, Warehouse $warehouse)
+    public function reserved(ReservedInventoryDatatable $datatable)
     {
         $this->authorize('viewAny', Merchandise::class);
 
         $insights = $this->insights();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
         $view = 'merchandises.reserved';
 
         return $datatable->render('merchandises.index', compact('insights', 'warehouses', 'view'));
     }
 
-    public function outOfStock(OutOfStockInventoryDatatable $datatable, Warehouse $warehouse)
+    public function outOfStock(OutOfStockInventoryDatatable $datatable)
     {
         $this->authorize('viewAny', Merchandise::class);
 
         $insights = $this->insights();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
         $view = 'merchandises.out-of';
 

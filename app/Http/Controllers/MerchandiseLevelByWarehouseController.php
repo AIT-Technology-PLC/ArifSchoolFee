@@ -29,7 +29,7 @@ class MerchandiseLevelByWarehouseController extends Controller
 
         $totalOutOfStockMerchandises = $outOfStockMerchandises->count();
 
-        $warehouses = $warehouse->getAllWithoutRelations();
+        $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
         return view('warehouses.merchandises.index', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'warehouses', 'warehouse'));
     }
