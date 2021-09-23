@@ -98,7 +98,7 @@
                                 </td>
                                 <td class="is-capitalized">
                                     <span class="tag is-small bg-purple has-text-white">
-                                        {{ $tender->getTenderChecklistsCompletionRate() }}%
+                                        {{ $tender->tenderChecklistsCompletionRate }}%
                                     </span>
                                 </td>
                                 <td>

@@ -38,21 +38,7 @@ class Tender extends Model
         return $this->hasMany(TenderChecklist::class);
     }
 
-    public function getAll()
-    {
-        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return $this->withCount('tenderDetails')->latest()->get();
-        }
-
-        return $this->byBranch()->latest()->get();
-    }
-
-    public function countTendersOfCompany()
-    {
-        return $this->count();
-    }
-
-    public function getTenderChecklistsCompletionRate()
+    public function getTenderChecklistsCompletionRateAttribute()
     {
         $completedChecklists = $this->tenderChecklists->where('status', 'Completed')->count();
         $inProcessChecklists = $this->tenderChecklists->where('status', 'In Process')->count();
@@ -70,5 +56,19 @@ class Tender extends Model
         $checklistCompletionRate = ($completedChecklists + $inProcessChecklists) / $totalChecklists;
 
         return number_format($checklistCompletionRate * 100, 2);
+    }
+
+    public function getAll()
+    {
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return $this->withCount('tenderDetails')->latest()->get();
+        }
+
+        return $this->byBranch()->latest()->get();
+    }
+
+    public function countTendersOfCompany()
+    {
+        return $this->count();
     }
 }

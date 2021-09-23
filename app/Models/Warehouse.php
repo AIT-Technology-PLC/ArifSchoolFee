@@ -11,7 +11,12 @@ class Warehouse extends Model
 {
     use MultiTenancy, SoftDeletes, HasUserstamps;
 
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
+
+    protected $casts = [
+        'is_sales_store' => 'boolean',
+        'can_be_sold_from' => 'boolean',
+    ];
 
     public function merchandises()
     {

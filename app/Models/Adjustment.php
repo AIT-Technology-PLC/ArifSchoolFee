@@ -18,7 +18,6 @@ class Adjustment extends Model
 
     protected $casts = [
         'issued_on' => 'datetime',
-        'is_subtract' => 'boolean',
     ];
 
     public function adjustedBy()
