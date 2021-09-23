@@ -1216,3 +1216,119 @@ function addPurchaseDetail() {
 
     initializeSelect2Products();
 }
+
+function addSaleDetail() {
+    let saleDetailsWrapper = d.getElementById("sale-details");
+
+    let saleDetails = d.getElementsByClassName("sale-detail");
+
+    let totalSaleDetails = saleDetails.length;
+
+    let saleDetail = saleDetails[0].cloneNode(true);
+
+    let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    saleDetail.querySelector("[name=item-number]").innerText = `Item ${
+        totalSaleDetails + 1
+    }`;
+
+    saleDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("label")
+        .setAttribute("for", `sale[${totalSaleDetails}][product_id]`);
+
+    saleDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select").innerHTML = "";
+
+    saleDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select")
+        .appendChild(originalSelect);
+
+    saleDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("select").id = `sale[${totalSaleDetails}][product_id]`;
+
+    saleDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("select").name = `sale[${totalSaleDetails}][product_id]`;
+
+    saleDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("select").classList = "select2-products";
+
+    saleDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".control > select")
+        .remove();
+
+    saleDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("label")
+        .setAttribute("for", `sale[${totalSaleDetails}][quantity]`);
+
+    saleDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("input").id = `sale[${totalSaleDetails}][quantity]`;
+
+    saleDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("input").name = `sale[${totalSaleDetails}][quantity]`;
+
+    saleDetail.querySelectorAll(".column")[1].querySelector("input").value = "";
+
+    saleDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "button"
+        ).id = `sale[${totalSaleDetails}][product_id]Quantity`;
+
+    saleDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("button").innerText = "";
+
+    saleDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("label")
+        .setAttribute("for", `sale[${totalSaleDetails}][unit_price]`);
+
+    saleDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("input").id = `sale[${totalSaleDetails}][unit_price]`;
+
+    saleDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("input").name = `sale[${totalSaleDetails}][unit_price]`;
+
+    saleDetail.querySelectorAll(".column")[2].querySelector("input").value = "";
+
+    saleDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "button"
+        ).id = `sale[${totalSaleDetails}][product_id]Price`;
+
+    saleDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("button").innerText = "";
+
+    saleDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("label")
+        .setAttribute("for", `sale[${totalSaleDetails}][discount]`);
+
+    saleDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("input").id = `sale[${totalSaleDetails}][discount]`;
+
+    saleDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("input").name = `sale[${totalSaleDetails}][discount]`;
+
+    saleDetail.querySelectorAll(".column")[3].querySelector("input").value = "";
+
+    saleDetailsWrapper.appendChild(saleDetail);
+
+    initializeSelect2Products();
+}
