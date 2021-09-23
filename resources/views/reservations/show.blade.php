@@ -112,7 +112,7 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ number_format($reservation->getPaymentInCash(), 2) }}
+                                {{ number_format($reservation->paymentInCash, 2) }}
                                 ({{ (float) $reservation->cash_received_in_percentage }}%)
                             </div>
                             <div class="is-uppercase is-size-7">
@@ -132,7 +132,7 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ number_format($reservation->getPaymentInCredit(), 2) }}
+                                {{ number_format($reservation->paymentInCredit, 2) }}
                                 ({{ $reservation->credit_payable_in_percentage }}%)
                             </div>
                             <div class="is-uppercase is-size-7">

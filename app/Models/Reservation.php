@@ -58,21 +58,7 @@ class Reservation extends Model
         return 100.00 - $this->cash_received_in_percentage;
     }
 
-    public function details()
-    {
-        return $this->reservationDetails;
-    }
-
-    public function getAll()
-    {
-        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return $this->latest()->get();
-        }
-
-        return $this->byBranch()->latest()->get();
-    }
-
-    public function getPaymentInCash()
+    public function getPaymentInCashAttribute()
     {
         if (userCompany()->isDiscountBeforeVAT()) {
             $price = $this->grandTotalPrice;
@@ -89,7 +75,7 @@ class Reservation extends Model
         return $price * ($this->cash_received_in_percentage / 100);
     }
 
-    public function getPaymentInCredit()
+    public function getPaymentInCreditAttribute()
     {
         if (userCompany()->isDiscountBeforeVAT()) {
             $price = $this->grandTotalPrice;
@@ -104,6 +90,20 @@ class Reservation extends Model
         }
 
         return $price * ($this->credit_payable_in_percentage / 100);
+    }
+
+    public function details()
+    {
+        return $this->reservationDetails;
+    }
+
+    public function getAll()
+    {
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return $this->latest()->get();
+        }
+
+        return $this->byBranch()->latest()->get();
     }
 
     public function convert()
