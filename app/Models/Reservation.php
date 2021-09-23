@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Approvable;
 use App\Traits\Branchable;
+use App\Traits\CalculateCreditPayment;
 use App\Traits\Discountable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reservation extends Model
 {
-    use MultiTenancy, HasFactory, SoftDeletes, Approvable, PricingTicket, Discountable, HasUserstamps, Branchable;
+    use MultiTenancy, HasFactory, SoftDeletes, Approvable, PricingTicket, Discountable, HasUserstamps, Branchable, CalculateCreditPayment;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -51,45 +52,6 @@ class Reservation extends Model
     public function reservationDetails()
     {
         return $this->hasMany(ReservationDetail::class);
-    }
-
-    public function getCreditPayableInPercentageAttribute()
-    {
-        return 100.00 - $this->cash_received_in_percentage;
-    }
-
-    public function getPaymentInCashAttribute()
-    {
-        if (userCompany()->isDiscountBeforeVAT()) {
-            $price = $this->grandTotalPrice;
-        }
-
-        if (!userCompany()->isDiscountBeforeVAT()) {
-            $price = $this->grandTotalPriceAfterDiscount;
-        }
-
-        if ($this->cash_received_in_percentage < 0) {
-            return $price;
-        }
-
-        return $price * ($this->cash_received_in_percentage / 100);
-    }
-
-    public function getPaymentInCreditAttribute()
-    {
-        if (userCompany()->isDiscountBeforeVAT()) {
-            $price = $this->grandTotalPrice;
-        }
-
-        if (!userCompany()->isDiscountBeforeVAT()) {
-            $price = $this->grandTotalPriceAfterDiscount;
-        }
-
-        if ($this->credit_payable_in_percentage < 0) {
-            return $price;
-        }
-
-        return $price * ($this->credit_payable_in_percentage / 100);
     }
 
     public function details()
