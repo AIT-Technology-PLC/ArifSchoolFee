@@ -34,7 +34,7 @@ class PurchaseOrderController extends Controller
         return view('purchase-orders.index', compact('purchaseOrders', 'totalPurchaseOrders', 'totalClosed', 'totalOpen'));
     }
 
-    public function create(Customer $customer)
+    public function create()
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
@@ -75,7 +75,7 @@ class PurchaseOrderController extends Controller
         return view('purchase-orders.show', compact('purchaseOrder'));
     }
 
-    public function edit(PurchaseOrder $purchaseOrder, Customer $customer)
+    public function edit(PurchaseOrder $purchaseOrder)
     {
         $purchaseOrder->load(['purchaseOrderDetails.product', 'customer']);
 

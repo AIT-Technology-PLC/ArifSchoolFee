@@ -39,7 +39,7 @@ class SivController extends Controller
         return view('sivs.index', compact('sivs', 'totalSivs', 'totalApproved', 'totalNotApproved'));
     }
 
-    public function create(Customer $customer)
+    public function create()
     {
         $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
 
@@ -72,7 +72,7 @@ class SivController extends Controller
         return view('sivs.show', compact('siv'));
     }
 
-    public function edit(Siv $siv, Customer $customer)
+    public function edit(Siv $siv)
     {
         $siv->load(['sivDetails.product', 'sivDetails.warehouse']);
 

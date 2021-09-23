@@ -59,7 +59,7 @@ class ReservationController extends Controller
         return view('reservations.index', compact('reservations', 'totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalNotApproved', 'totalApproved', 'totalReservedInBirr'));
     }
 
-    public function create(Customer $customer)
+    public function create()
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
@@ -92,7 +92,7 @@ class ReservationController extends Controller
         return view('reservations.show', compact('reservation'));
     }
 
-    public function edit(Reservation $reservation, Customer $customer)
+    public function edit(Reservation $reservation)
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 

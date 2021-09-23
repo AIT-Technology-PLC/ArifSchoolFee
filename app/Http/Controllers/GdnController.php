@@ -49,7 +49,7 @@ class GdnController extends Controller
         return view('gdns.index', compact('gdns', 'totalGdns', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }
 
-    public function create(Customer $customer, Sale $sale)
+    public function create(Sale $sale)
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
@@ -84,7 +84,7 @@ class GdnController extends Controller
         return view('gdns.show', compact('gdn'));
     }
 
-    public function edit(Gdn $gdn, Customer $customer, Sale $sale)
+    public function edit(Gdn $gdn, Sale $sale)
     {
         if ($gdn->reservation) {
             return redirect()->back()->with('failedMessage', 'You cannot edit a DO that belongs to a reservation.');

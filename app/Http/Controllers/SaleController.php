@@ -30,7 +30,7 @@ class SaleController extends Controller
         return view('sales.index', compact('sales', 'totalSales'));
     }
 
-    public function create(Customer $customer)
+    public function create()
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
@@ -59,7 +59,7 @@ class SaleController extends Controller
         return view('sales.show', compact('sale'));
     }
 
-    public function edit(Sale $sale, Customer $customer)
+    public function edit(Sale $sale)
     {
         $sale->load('saleDetails.product');
 

@@ -41,7 +41,7 @@ class ReturnController extends Controller
         return view('returns.index', compact('returns', 'totalReturns', 'totalNotApproved', 'totalNotAdded', 'totalAdded'));
     }
 
-    public function create(Customer $customer)
+    public function create()
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
@@ -74,7 +74,7 @@ class ReturnController extends Controller
         return view('returns.show', compact('return'));
     }
 
-    public function edit(Returnn $return, Customer $customer)
+    public function edit(Returnn $return)
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
