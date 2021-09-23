@@ -93,10 +93,10 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ $purchaseOrder->totalPurchaseOrderPrice }}
+                                {{ number_format($purchaseOrder->subtotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Total Price ({{ $purchaseOrder->company->currency }})
+                                SubTotal Price ({{ $purchaseOrder->company->currency }})
                             </div>
                         </div>
                     </div>
@@ -112,10 +112,10 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ $purchaseOrder->totalPurchaseOrderPriceWithVAT }}
+                                {{ number_format($purchaseOrder->grandTotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Total Price with VAT ({{ $purchaseOrder->company->currency }})
+                                Grand Total Price ({{ $purchaseOrder->company->currency }})
                             </div>
                         </div>
                     </div>
@@ -229,7 +229,7 @@
                                 </td>
                                 <td>
                                     {{ $purchaseOrder->company->currency }}.
-                                    {{ number_format($purchaseOrderDetail->quantity * $purchaseOrderDetail->unit_price, 2) }}
+                                    {{ number_format($purchaseOrderDetail->totalPrice, 2) }}
                                 </td>
                                 <td>
                                     {!! nl2br(e($purchaseOrderDetail->description)) !!}

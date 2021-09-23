@@ -5,12 +5,13 @@ namespace App\Models;
 use App\Traits\Branchable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
+use App\Traits\PricingTicket;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PurchaseOrder extends Model
 {
-    use MultiTenancy, SoftDeletes, HasUserstamps, Branchable;
+    use MultiTenancy, SoftDeletes, HasUserstamps, Branchable, PricingTicket;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -29,24 +30,9 @@ class PurchaseOrder extends Model
         return $this->hasMany(PurchaseOrderDetail::class);
     }
 
-    public function getTotalPurchaseOrderPriceAttribute()
+    public function details()
     {
-        $totalPrice = $this->purchaseOrderDetails
-            ->reduce(function ($carry, $item) {
-                return $carry + ($item->unit_price * $item->quantity);
-            }, 0);
-
-        return number_format($totalPrice, 2);
-    }
-
-    public function getTotalPurchaseOrderPriceWithVATAttribute()
-    {
-        $totalPrice = $this->purchaseOrderDetails
-            ->reduce(function ($carry, $item) {
-                return $carry + ($item->unit_price * $item->quantity);
-            }, 0);
-
-        return number_format($totalPrice * 1.15, 2);
+        return $this->purchaseOrderDetails;
     }
 
     public function getAll()
