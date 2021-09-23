@@ -3,14 +3,16 @@
 namespace App\Models;
 
 use App\Traits\Branchable;
+use App\Traits\Discountable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
+use App\Traits\PricingTicket;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Purchase extends Model
 {
-    use MultiTenancy, SoftDeletes, HasUserstamps, Branchable;
+    use MultiTenancy, SoftDeletes, HasUserstamps, Branchable, PricingTicket, Discountable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -31,26 +33,6 @@ class Purchase extends Model
     public function grns()
     {
         return $this->hasMany(Grn::class);
-    }
-
-    public function getTotalPurchasePriceAttribute()
-    {
-        $totalPrice = $this->purchaseDetails
-            ->reduce(function ($carry, $item) {
-                return $carry + ($item->unit_price * $item->quantity);
-            }, 0);
-
-        return number_format($totalPrice, 2);
-    }
-
-    public function getTotalPurchasePricewithVATAttribute()
-    {
-        $totalPrice = $this->purchaseDetails
-            ->reduce(function ($carry, $item) {
-                return $carry + ($item->unit_price * $item->quantity);
-            }, 0);
-
-        return number_format($totalPrice * 1.15, 2);
     }
 
     public function getAll()
