@@ -11,7 +11,9 @@ class ReservedInventoryDatatable extends DataTable
 {
     public function __construct()
     {
-        $this->warehouses = (new Warehouse())->getAllWithoutRelations()->whereIn('id', auth()->user()->readWarehouses());
+        $this->warehouses = Warehouse::orderBy('name')
+            ->whereIn('id', auth()->user()->readWarehouses())
+            ->get(['id', 'name']);
     }
 
     public function dataTable($query)

@@ -11,7 +11,7 @@ class OutOfStockInventoryDatatable extends DataTable
 {
     public function __construct()
     {
-        $this->warehouses = (new Warehouse())->getAllWithoutRelations();
+        $this->warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
     }
 
     public function dataTable($query)
