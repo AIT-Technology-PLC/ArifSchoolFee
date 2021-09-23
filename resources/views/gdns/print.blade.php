@@ -204,7 +204,7 @@
                                     </span>
                                     <br>
                                     <span>
-                                        {{ number_format($gdn->getPaymentInCash(), 2) }}
+                                        {{ number_format($gdn->paymentInCash, 2) }}
                                     </span>
                                 </p>
                             </td>
@@ -215,7 +215,7 @@
                                     </span>
                                     <br>
                                     <span>
-                                        {{ number_format($gdn->getPaymentInCredit(), 2) }}
+                                        {{ number_format($gdn->paymentInCredit, 2) }}
                                     </span>
                                 </p>
                             </td>

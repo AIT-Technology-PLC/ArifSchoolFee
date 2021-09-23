@@ -114,7 +114,7 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ number_format($gdn->getPaymentInCash(), 2) }}
+                                {{ number_format($gdn->paymentInCash, 2) }}
                                 ({{ (float) $gdn->cash_received_in_percentage }}%)
                             </div>
                             <div class="is-uppercase is-size-7">
@@ -134,7 +134,7 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ number_format($gdn->getPaymentInCredit(), 2) }}
+                                {{ number_format($gdn->paymentInCredit, 2) }}
                                 ({{ $gdn->credit_payable_in_percentage }}%)
                             </div>
                             <div class="is-uppercase is-size-7">
