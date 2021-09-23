@@ -23,7 +23,7 @@ if (d.getElementById("addNewPurchaseForm")) {
 }
 
 if (d.getElementById("addNewSaleForm")) {
-    d.getElementById("addNewSaleForm").addEventListener("click", addSaleForm);
+    d.getElementById("addNewSaleForm").addEventListener("click", addSaleDetail);
 }
 
 window.addEventListener("load", jumpToCurrentPageMenuTitle);
