@@ -18,7 +18,7 @@ class UniqueReferenceNum implements Rule
 
     public function passes($attribute, $value)
     {
-        $this->value = $value;
+        $this->value = round($value);
 
         return DB::table($this->tableName)
             ->where('warehouse_id', auth()->user()->warehouse_id)
