@@ -49,13 +49,14 @@ class PurchaseOrder extends Model
         return $this->count();
     }
 
-    public function changeStatusToClose()
+    public function close()
     {
         $this->is_closed = 1;
+
         $this->save();
     }
 
-    public function isPurchaseOrderClosed()
+    public function isClosed()
     {
         return $this->is_closed;
     }

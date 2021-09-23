@@ -98,7 +98,7 @@
                                     {{ $purchaseOrder->code ?? 'N/A' }}
                                 </td>
                                 <td class="is-capitalized">
-                                    @if ($purchaseOrder->isPurchaseOrderClosed())
+                                    @if ($purchaseOrder->isClosed())
                                         <span class="tag is-small bg-green has-text-white">
                                             <span class="icon">
                                                 <i class="fas fa-check-circle"></i>

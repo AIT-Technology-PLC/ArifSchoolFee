@@ -63,7 +63,7 @@ class PurchaseOrderController extends Controller
             $purchaseOrderDetail->save();
         }
 
-        $purchaseOrder->changeStatusToClose();
+        $purchaseOrder->close();
 
         return redirect()->back();
     }
@@ -86,7 +86,7 @@ class PurchaseOrderController extends Controller
 
     public function update(UpdatePurchaseOrderRequest $request, PurchaseOrder $purchaseOrder)
     {
-        if ($purchaseOrder->isPurchaseOrderClosed()) {
+        if ($purchaseOrder->isClosed()) {
             return redirect()->route('purchase-orders.show', $purchaseOrder->id);
         }
 

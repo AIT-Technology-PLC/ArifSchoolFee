@@ -36,7 +36,7 @@
                         </div>
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
-                                {{ $purchaseOrder->isPurchaseOrderClosed() ? 'PO Closed' : 'Still Opened' }}
+                                {{ $purchaseOrder->isClosed() ? 'PO Closed' : 'Still Opened' }}
                             </div>
                             <div class="is-uppercase is-size-7">
                                 Status
@@ -166,7 +166,7 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            @if (!$purchaseOrder->isPurchaseOrderClosed())
+            @if (!$purchaseOrder->isClosed())
                 <div class="box has-background-white-ter has-text-left mb-6">
                     <p class="has-text-grey text-purple is-size-7">
                         This PO is still not closed. <br> Click the button below to close this PO.
