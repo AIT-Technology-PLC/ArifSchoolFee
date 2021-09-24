@@ -65,7 +65,7 @@ class Feature extends Model
 
     public static function status($featureName)
     {
-        $feature = (new self())->where('name', $featureName)->first();
+        $feature = (new self())->where('name', $featureName)->firstOrFail();
 
         if ($feature->is_enabled) {
             return 'Enabled';

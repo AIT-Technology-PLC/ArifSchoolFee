@@ -38,9 +38,13 @@ class ShowFeatureStatus extends Command
      */
     public function handle()
     {
-        $status = Feature::status($this->argument('featureName'));
+        try {
+            $status = Feature::status($this->argument('featureName'));
 
-        $this->info('This feature is ' . $status);
+            $this->info('This feature is ' . $status);
+        } catch (\Throwable $th) {
+            $this->error('Feature name is wrong.');
+        }
 
         return 0;
     }
