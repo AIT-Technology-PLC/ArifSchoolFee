@@ -109,13 +109,13 @@ class Feature extends Model
     {
         $globallyDisabledfeatures = (new self())->where('is_enabled', 0)->pluck('name');
 
-        $planFeatures = userCompany()
+        $enabledPlanFeatures = userCompany()
             ->plan
             ->features()
             ->wherePivot('is_enabled', 1)
             ->pluck('name');
 
-        $companyFeatures = userCompany()
+        $enabledCompanyFeatures = userCompany()
             ->features()
             ->wherePivot('is_enabled', 1)
             ->pluck('name');
@@ -125,8 +125,8 @@ class Feature extends Model
             ->wherePivot('is_enabled', 0)
             ->pluck('name');
 
-        return $planFeatures
-            ->merge($companyFeatures)
+        return $enabledPlanFeatures
+            ->merge($enabledCompanyFeatures)
             ->unique()
             ->diff($disabledCompanyFeatures)
             ->diff($globallyDisabledfeatures);
