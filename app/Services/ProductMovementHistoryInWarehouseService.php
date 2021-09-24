@@ -2,60 +2,63 @@
 
 namespace App\Services;
 
-use App\Models\AdjustmentDetail;
-use App\Models\DamageDetail;
-use App\Models\GdnDetail;
-use App\Models\GrnDetail;
 use App\Models\Product;
-use App\Models\ReservationDetail;
-use App\Models\ReturnDetail;
-use App\Models\TransferDetail;
 use App\Models\Warehouse;
-use Illuminate\Support\Str;
+use App\Services\InventoryHistory as InventoryHistory;
 
 class ProductMovementHistoryInWarehouseService
 {
-    public function __construct(Warehouse $warehouse, Product $product)
+    private $histories = [
+        InventoryHistory\GrnDetailHistoryService::class,
+        InventoryHistory\GdnDetailHistoryService::class,
+        InventoryHistory\TransferDetailHistoryService::class,
+        InventoryHistory\DamageDetailHistoryService::class,
+        InventoryHistory\ReturnDetailHistoryService::class,
+        InventoryHistory\AdjustmentDetailHistoryService::class,
+        InventoryHistory\ReservationDetailHistoryService::class,
+    ];
+
+    private $warehouse, $product, $history;
+
+    public function __construct()
+    {
+        $this->history = collect();
+    }
+
+    public function get(Warehouse $warehouse, Product $product)
     {
         $this->warehouse = $warehouse;
 
         $this->product = $product;
 
-        $this->history = collect();
+        return $this
+            ->merge()
+            ->sort()
+            ->calculate()
+            ->history;
     }
 
-    public function history()
+    private function merge()
     {
-        $grnDetails = (new GrnDetail())->getByWarehouseAndProduct($this->warehouse, $this->product);
+        foreach ($this->histories as $historyClass) {
+            $historyClass::formatted($this->warehouse, $this->product)
+                ->each(function ($item) {
+                    $this->history->push($item);
+                });
+        }
 
-        $transferDetails = (new TransferDetail())->getByWarehouseAndProduct($this->warehouse, $this->product);
+        return $this;
+    }
 
-        $gdnDetails = (new GdnDetail())->getByWarehouseAndProduct($this->warehouse, $this->product);
+    private function sort()
+    {
+        $this->history = collect($this->history->sortBy('date')->values()->all());
 
-        $damageDetails = (new DamageDetail())->getByWarehouseAndProduct($this->warehouse, $this->product);
+        return $this;
+    }
 
-        $adjustmentDetails = (new AdjustmentDetail())->getByWarehouseAndProduct($this->warehouse, $this->product);
-
-        $returnDetails = (new ReturnDetail())->getByWarehouseAndProduct($this->warehouse, $this->product);
-
-        $reservationDetails = (new ReservationDetail())->getByWarehouseAndProduct($this->warehouse, $this->product);
-
-        $this->formatGrn($grnDetails);
-
-        $this->formatTransfer($transferDetails);
-
-        $this->formatGdn($gdnDetails);
-
-        $this->formatDamage($damageDetails);
-
-        $this->formatAdjustMent($adjustmentDetails);
-
-        $this->formatReturn($returnDetails);
-
-        $this->formatReservations($reservationDetails);
-
-        $this->history = $this->history->sortBy('date')->values()->all();
-
+    private function calculate()
+    {
         for ($i = 0; $i < count($this->history); $i++) {
             $method = $this->history[$i]['function'];
 
@@ -67,131 +70,7 @@ class ProductMovementHistoryInWarehouseService
             $this->history[$i] = $this->$method($this->history[$i], $this->history[$i - 1]['balance']);
         }
 
-        return $this->history;
-    }
-
-    private function formatGrn($grnDetails)
-    {
-        $grnDetails->map(function ($grnDetail) {
-            $this->history->push([
-                'type' => 'GRN',
-                'code' => $grnDetail->grn->code,
-                'date' => $grnDetail->grn->issued_on,
-                'quantity' => $grnDetail->quantity,
-                'balance' => 0.00,
-                'unit_of_measurement' => $grnDetail->product->unit_of_measurement,
-                'details' => Str::of($grnDetail->grn->supplier->company_name ?? 'Unknown')->prepend('Purchased from '),
-                'function' => 'add',
-            ]);
-        });
-    }
-
-    private function formatTransfer($transferDetails)
-    {
-        $transferDetails
-            ->filter(function ($transferDetail) {
-                if ($transferDetail->transfer->transferred_to == $this->warehouse->id && !$transferDetail->transfer->isAdded()) {
-                    return false;
-                }
-
-                return true;
-            })
-            ->map(function ($transferDetail) {
-                $this->history->push([
-                    'type' => 'TRANSFER',
-                    'code' => $transferDetail->transfer->code,
-                    'date' => $transferDetail->transfer->issued_on,
-                    'quantity' => $transferDetail->quantity,
-                    'balance' => 0.00,
-                    'unit_of_measurement' => $transferDetail->product->unit_of_measurement,
-
-                    'details' => $transferDetail->transfer->transferred_from == $this->warehouse->id ?
-                    Str::of('Transferred')->append(...[' from ', $transferDetail->transfer->transferredFrom->name]) :
-                    Str::of('Transferred')->append(...[' to ', $transferDetail->transfer->transferredTo->name]),
-
-                    'function' => $transferDetail->transfer->transferred_from == $this->warehouse->id ? 'subtract' : 'add',
-                ]);
-            });
-    }
-
-    private function formatGdn($gdnDetails)
-    {
-        $gdnDetails->map(function ($gdnDetail) {
-            $this->history->push([
-                'type' => 'DO',
-                'code' => $gdnDetail->gdn->code,
-                'date' => $gdnDetail->gdn->issued_on,
-                'quantity' => $gdnDetail->quantity,
-                'balance' => 0.00,
-                'unit_of_measurement' => $gdnDetail->product->unit_of_measurement,
-                'details' => Str::of($gdnDetail->gdn->customer->company_name ?? 'Unknown')->prepend('Submitted to '),
-                'function' => 'subtract',
-            ]);
-        });
-    }
-
-    private function formatDamage($damageDetails)
-    {
-        $damageDetails->map(function ($damageDetail) {
-            $this->history->push([
-                'type' => 'DAMAGE',
-                'code' => $damageDetail->damage->code,
-                'date' => $damageDetail->damage->issued_on,
-                'quantity' => $damageDetail->quantity,
-                'balance' => 0.00,
-                'unit_of_measurement' => $damageDetail->product->unit_of_measurement,
-                'details' => 'Damaged in ' . $damageDetail->warehouse->name,
-                'function' => 'subtract',
-            ]);
-        });
-    }
-
-    private function formatAdjustment($adjustmentDetails)
-    {
-        $adjustmentDetails->map(function ($adjustmentDetail) {
-            $this->history->push([
-                'type' => 'ADJUSTMENT',
-                'code' => $adjustmentDetail->adjustment->code,
-                'date' => $adjustmentDetail->adjustment->issued_on,
-                'quantity' => $adjustmentDetail->quantity,
-                'balance' => 0.00,
-                'unit_of_measurement' => $adjustmentDetail->product->unit_of_measurement,
-                'details' => ($adjustmentDetail->is_subtract ? 'Subtracted' : 'Added') . ' in ' . $adjustmentDetail->warehouse->name,
-                'function' => $adjustmentDetail->is_subtract ? 'subtract' : 'add',
-            ]);
-        });
-    }
-
-    private function formatReturn($returnDetails)
-    {
-        $returnDetails->map(function ($returnDetail) {
-            $this->history->push([
-                'type' => 'RETURN',
-                'code' => $returnDetail->returnn->code,
-                'date' => $returnDetail->returnn->issued_on,
-                'quantity' => $returnDetail->quantity,
-                'balance' => 0.00,
-                'unit_of_measurement' => $returnDetail->product->unit_of_measurement,
-                'details' => 'Returned to ' . $returnDetail->warehouse->name,
-                'function' => 'add',
-            ]);
-        });
-    }
-
-    private function formatReservations($reservationDetails)
-    {
-        $reservationDetails->map(function ($reservationDetail) {
-            $this->history->push([
-                'type' => 'RESERVED',
-                'code' => $reservationDetail->reservation->code,
-                'date' => $reservationDetail->reservation->issued_on,
-                'quantity' => $reservationDetail->quantity,
-                'balance' => 0.00,
-                'unit_of_measurement' => $reservationDetail->product->unit_of_measurement,
-                'details' => Str::of($reservationDetail->reservation->customer->company_name ?? 'Unknown')->prepend('Reserved for '),
-                'function' => 'subtract',
-            ]);
-        });
+        return $this;
     }
 
     private function subtract($item, $previousBalance = 0)
