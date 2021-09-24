@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\InventoryHistory;
 
 use App\Models\Product;
 use App\Models\Warehouse;
-use App\Services\InventoryHistory as InventoryHistory;
 
-class ProductMovementHistoryInWarehouseService
+class InventoryHistoryService
 {
     private $histories = [
-        InventoryHistory\GrnDetailHistoryService::class,
-        InventoryHistory\GdnDetailHistoryService::class,
-        InventoryHistory\TransferDetailHistoryService::class,
-        InventoryHistory\DamageDetailHistoryService::class,
-        InventoryHistory\ReturnDetailHistoryService::class,
-        InventoryHistory\AdjustmentDetailHistoryService::class,
-        InventoryHistory\ReservationDetailHistoryService::class,
+        GrnDetailHistoryService::class,
+        GdnDetailHistoryService::class,
+        TransferDetailHistoryService::class,
+        DamageDetailHistoryService::class,
+        ReturnDetailHistoryService::class,
+        AdjustmentDetailHistoryService::class,
+        ReservationDetailHistoryService::class,
     ];
 
     private $warehouse, $product, $history;

@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Warehouse;
-use App\Services\ProductMovementHistoryInWarehouseService;
+use App\Services\InventoryHistory\InventoryHistoryService;
 
 class WarehouseProductController extends Controller
 {
-    public function __invoke(Warehouse $warehouse, Product $product, ProductMovementHistoryInWarehouseService $service)
+    public function __invoke(Warehouse $warehouse, Product $product, InventoryHistoryService $service)
     {
         $this->authorize('view', $warehouse);
 
