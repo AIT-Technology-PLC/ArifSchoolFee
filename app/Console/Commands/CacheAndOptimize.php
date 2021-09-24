@@ -38,12 +38,12 @@ class CacheAndOptimize extends Command
      */
     public function handle()
     {
-        Artisan::call('route:cache');
-        Artisan::call('view:cache');
-        Artisan::call('config:cache');
-        Artisan::call('optimize');
+        $routeCachingResponse = Artisan::call('route:cache') == 0 ? 'ROUTE CACHING COMPLETED' : 'ROUTE CACHING FAILED';
+        $viewCachingResponse = Artisan::call('view:cache') == 0 ? 'VIEW CACHING COMPLETED' : 'VIEW CACHING FAILED';
+        $configCachingResponse = Artisan::call('config:cache') == 0 ? 'CONFIG CACHING COMPLETED' : 'CONFIG CACHING FAILED';
+        $optimizeResponse = Artisan::call('optimize') == 0 ? 'OPTIMIZE COMPLETED' : 'OPTIMIZE FAILED';
 
-        $this->info('All the commands were executed successfully');
+        $this->info("{$routeCachingResponse}\n{$viewCachingResponse}\n{$configCachingResponse}\n{$optimizeResponse}");
 
         $shellMessage = shell_exec('composer dump-autoload -o');
 
