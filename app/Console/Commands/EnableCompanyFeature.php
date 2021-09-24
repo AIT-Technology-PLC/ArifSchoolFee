@@ -38,9 +38,17 @@ class EnableCompanyFeature extends Command
      */
     public function handle()
     {
-        Feature::enableForCompany($this->argument('featureName'), $this->argument('companyId'));
+        try {
+            Feature::enableOrDisableForCompany(
+                $this->argument('featureName'),
+                $this->argument('companyId'),
+                1
+            );
 
-        $this->info('Feature enabled.');
+            $this->info('Feature enabled for this company.');
+        } catch (\Exception $ex) {
+            $this->error('Feature name or company id is wrong.');
+        }
 
         return 0;
     }

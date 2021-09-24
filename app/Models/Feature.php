@@ -79,29 +79,16 @@ class Feature extends Model
         return 'Disabled';
     }
 
-    public static function enableForCompany($featureName, $companyId)
+    public static function enableOrDisableForCompany($featureName, $companyId, $value)
     {
-        $feature = (new self())->where('name', $featureName)->first();
+        $feature = (new self())->where('name', $featureName)->firstOrFail();
 
-        $company = Company::find($companyId);
+        $company = Company::where('id', $companyId)->firstOrFail();
 
-        DB::transaction(function () use ($feature, $company) {
-            $feature->companies()->detach($company);
-
-            $feature->companies()->attach($company, ['is_enabled' => 1]);
-        });
-    }
-
-    public static function disableForCompany($featureName, $companyId)
-    {
-        $feature = (new self())->where('name', $featureName)->first();
-
-        $company = Company::find($companyId);
-
-        DB::transaction(function () use ($feature, $company) {
-            $feature->companies()->detach($company);
-
-            $feature->companies()->attach($company, ['is_enabled' => 0]);
+        DB::transaction(function () use ($feature, $company, $value) {
+            $feature->companies()->syncWithoutDetaching([
+                $company->id => ['is_enabled' => $value],
+            ]);
         });
     }
 
