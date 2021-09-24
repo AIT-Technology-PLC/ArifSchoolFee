@@ -59,7 +59,7 @@ class ProductMovementHistoryInWarehouseService
 
     private function calculate()
     {
-        for ($i = 0; $i < count($this->history); $i++) {
+        for ($i = 0; $i < $this->history->count(); $i++) {
             $method = $this->history[$i]['function'];
 
             if ($i == 0) {
