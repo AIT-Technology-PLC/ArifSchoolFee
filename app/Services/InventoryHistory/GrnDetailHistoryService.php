@@ -6,7 +6,7 @@ use App\Interfaces\DetailHistoryServiceInterface;
 use App\Models\GrnDetail;
 use Illuminate\Support\Str;
 
-class GrnDetailHistory implements DetailHistoryServiceInterface
+class GrnDetailHistoryService implements DetailHistoryServiceInterface
 {
     public static function get($warehouse, $product)
     {
