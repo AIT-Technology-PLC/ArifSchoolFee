@@ -6,7 +6,7 @@ use App\Models\Product;
 use App\Models\Warehouse;
 use App\Services\InventoryHistory\InventoryHistoryService;
 
-class WarehouseProductController extends Controller
+class InventoryHistoryController extends Controller
 {
     public function __invoke(Warehouse $warehouse, Product $product, InventoryHistoryService $service)
     {

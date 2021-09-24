@@ -15,7 +15,7 @@ Route::get('/notifications/{notification}/mark-as-read',
     [Controllers\NotificationController::class, 'markNotificationAsRead'])
     ->name('notifications.markAsRead');
 
-Route::get('/warehouses/{warehouse}/products/{product}', Controllers\WarehouseProductController::class)
+Route::get('/warehouses/{warehouse}/products/{product}', Controllers\InventoryHistoryController::class)
     ->name('warehouses-products')
     ->middleware('isFeatureAccessible:Inventory History');
 
