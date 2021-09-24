@@ -107,9 +107,9 @@ class Feature extends Model
 
     public static function deleteForCompany($featureName, $companyId)
     {
-        $feature = (new self())->where('name', $featureName)->first();
+        $feature = (new self())->where('name', $featureName)->firstOrFail();
 
-        $company = Company::find($companyId);
+        $company = Company::where('id', $companyId)->firstOrFail();
 
         $feature->companies()->detach($company);
     }

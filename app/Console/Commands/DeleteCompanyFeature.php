@@ -38,9 +38,12 @@ class DeleteCompanyFeature extends Command
      */
     public function handle()
     {
-        Feature::deleteForCompany($this->argument('featureName'), $this->argument('companyId'));
-
-        $this->info('Feature delete from a company');
+        try {
+            Feature::deleteForCompany($this->argument('featureName'), $this->argument('companyId'));
+            $this->info('Feature delete from a company');
+        } catch (\Exception $ex) {
+            $this->error('Feature name or company id is wrong.');
+        }
 
         return 0;
     }
