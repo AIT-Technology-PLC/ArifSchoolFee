@@ -38,9 +38,17 @@ class EnablePlanFeature extends Command
      */
     public function handle()
     {
-        Feature::enableForPlan($this->argument('featureName'), $this->argument('planName'));
+        try {
+            Feature::enableOrDisableForPlan(
+                $this->argument('featureName'),
+                $this->argument('planName'),
+                1
+            );
 
-        $this->info('Feature enabled for this plan');
+            $this->info('Feature enabled for this plan.');
+        } catch (\Throwable $th) {
+            $this->error('Feature name or plan name is wrong.');
+        }
 
         return 0;
     }

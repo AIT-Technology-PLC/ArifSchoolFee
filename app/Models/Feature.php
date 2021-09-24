@@ -96,22 +96,13 @@ class Feature extends Model
         $feature->companies()->detach($company);
     }
 
-    public static function enableForPlan($featureName, $planName)
+    public static function enableOrDisableForPlan($featureName, $planName, $value)
     {
-        $feature = (new self())->where('name', $featureName)->first();
+        $feature = (new self())->where('name', $featureName)->firstOrFail();
 
-        $plan = Plan::firstWhere('name', $planName);
+        $plan = Plan::where('name', $planName)->firstOrFail();
 
-        $feature->plans()->updateExistingPivot($plan->id, ['is_enabled' => 1]);
-    }
-
-    public static function disableForPlan($featureName, $planName)
-    {
-        $feature = (new self())->where('name', $featureName)->first();
-
-        $plan = Plan::firstWhere('name', $planName);
-
-        $feature->plans()->updateExistingPivot($plan->id, ['is_enabled' => 0]);
+        $feature->plans()->updateExistingPivot($plan->id, ['is_enabled' => $value]);
     }
 
     public static function getAllEnabledFeaturesOfCompany()
