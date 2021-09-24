@@ -54,18 +54,13 @@ class Feature extends Model
         return false;
     }
 
-    public static function disable($featureName)
+    public static function enableOrDisable($featureName, $value)
     {
-        (new self())->where('name', $featureName)->update([
-            'is_enabled' => 0,
-        ]);
-    }
-
-    public static function enable($featureName)
-    {
-        (new self())->where('name', $featureName)->update([
-            'is_enabled' => 1,
-        ]);
+        (new self())->where('name', $featureName)
+            ->firstOrFail()
+            ->update([
+                'is_enabled' => $value,
+            ]);
     }
 
     public static function status($featureName)

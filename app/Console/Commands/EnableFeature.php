@@ -38,9 +38,13 @@ class EnableFeature extends Command
      */
     public function handle()
     {
-        Feature::enable($this->argument('featureName'));
+        try {
+            Feature::enableOrDisable($this->argument('featureName'), 1);
 
-        $this->info('Feature is enabled successfully');
+            $this->info('Feature is enabled globally.');
+        } catch (\Exception $ex) {
+            $this->error('Feature name is wrong.');
+        }
 
         return 0;
     }
