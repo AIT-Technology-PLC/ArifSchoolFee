@@ -227,7 +227,7 @@ class ReservationController extends Controller
             );
 
             $gdn = Gdn::create([
-                'code' => Gdn::byBranch()->max('code'),
+                'code' => Gdn::byBranch()->max('code') + 1,
                 'customer_id' => $reservation->customer_id ?? null,
                 'issued_on' => today(),
                 'payment_type' => $reservation->payment_type,

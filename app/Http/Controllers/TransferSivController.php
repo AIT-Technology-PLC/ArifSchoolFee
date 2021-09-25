@@ -21,7 +21,7 @@ class TransferSivController extends Controller
 
         $siv = DB::transaction(function () use ($transfer) {
             $siv = Siv::create([
-                'code' => Siv::byBranch()->max('code'),
+                'code' => Siv::byBranch()->max('code') + 1,
                 'purpose' => 'Transfer',
                 'ref_num' => $transfer->code,
                 'issued_on' => today(),
