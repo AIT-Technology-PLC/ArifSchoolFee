@@ -13,7 +13,11 @@ class InventoryOperationService
             foreach ($details as $detail) {
                 $type = InventoryTypeFactory::make($detail);
 
-                $type->add($detail);
+                $type->add(
+                    $detail->product_id,
+                    $detail->warehouse_id,
+                    $detail->quantity
+                );
             }
         });
     }
@@ -26,7 +30,7 @@ class InventoryOperationService
             foreach ($details as $detail) {
                 $type = InventoryTypeFactory::make($detail);
 
-                if (!$type->isAvailable($detail, $from)) {
+                if (!$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity, $from)) {
                     array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
                 }
             }
@@ -41,7 +45,12 @@ class InventoryOperationService
             foreach ($details as $detail) {
                 $type = InventoryTypeFactory::make($detail);
 
-                $type->subtract($detail, $from);
+                $type->subtract(
+                    $detail->product_id,
+                    $detail->warehouse_id,
+                    $detail->quantity,
+                    $from
+                );
             }
 
             return ['isSubtracted' => true];
@@ -59,9 +68,7 @@ class InventoryOperationService
                 foreach ($details as $detail) {
                     $type = InventoryTypeFactory::make($detail);
 
-                    $detail->warehouse_id = $detail->transfer->transferred_from;
-
-                    if (!$type->isAvailable($detail)) {
+                    if (!$type->isAvailable($detail->product_id, $detail->transfer->transferred_from, $detail->quantity)) {
                         array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->transfer->transferredFrom->name . '.');
                     }
                 }
@@ -77,7 +84,13 @@ class InventoryOperationService
             foreach ($details as $detail) {
                 $type = InventoryTypeFactory::make($detail);
 
-                $type->transfer($detail, $isSubtracted);
+                $type->transfer(
+                    $detail->product_id,
+                    $detail->transfer->transferred_to,
+                    $detail->transfer->transferred_from,
+                    $detail->quantity,
+                    $isSubtracted
+                );
             }
 
             return ['isTransferred' => true];
@@ -94,7 +107,7 @@ class InventoryOperationService
             foreach ($details as $detail) {
                 $type = InventoryTypeFactory::make($detail);
 
-                if ($detail->is_subtract && !$type->isAvailable($detail)) {
+                if ($detail->is_subtract && !$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity)) {
                     array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
                 }
             }
@@ -109,7 +122,12 @@ class InventoryOperationService
             foreach ($details as $detail) {
                 $type = InventoryTypeFactory::make($detail);
 
-                $type->adjust($detail);
+                $type->adjust(
+                    $detail->product_id,
+                    $detail->warehouse_id,
+                    $detail->quantity,
+                    $detail->is_subtract
+                );
             }
 
             return ['isAdjusted' => true];
@@ -126,7 +144,7 @@ class InventoryOperationService
             foreach ($details as $detail) {
                 $type = InventoryTypeFactory::make($detail);
 
-                if (!$type->isAvailable($detail)) {
+                if (!$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity)) {
                     array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
                 }
             }
@@ -141,7 +159,11 @@ class InventoryOperationService
             foreach ($details as $detail) {
                 $type = InventoryTypeFactory::make($detail);
 
-                $type->reserve($detail);
+                $type->reserve(
+                    $detail->product_id,
+                    $detail->warehouse_id,
+                    $detail->quantity,
+                );
             }
 
             return ['isReserved' => true];
@@ -156,7 +178,11 @@ class InventoryOperationService
             foreach ($details as $detail) {
                 $type = InventoryTypeFactory::make($detail);
 
-                $type->cancelReservation($detail);
+                $type->cancelReservation(
+                    $detail->product_id,
+                    $detail->warehouse_id,
+                    $detail->quantity,
+                );
             }
         });
     }

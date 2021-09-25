@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Merchandise;
-use Illuminate\Support\Facades\DB;
 
 class MerchandiseInventoryService
 {
@@ -14,88 +13,78 @@ class MerchandiseInventoryService
         $this->merchandise = new Merchandise();
     }
 
-    public function add($detail, $to = 'available')
+    public function add($product_id, $warehouse_id, $quantity, $to = 'available')
     {
-        DB::transaction(function () use ($detail, $to) {
-            $merchandise = $this->merchandise->firstOrCreate(
-                [
-                    'product_id' => $detail->product_id,
-                    'warehouse_id' => $detail->warehouse_id,
-                ],
-                [
-                    $to => 0.00,
-                ]
-            );
+        $merchandise = $this->merchandise->firstOrCreate(
+            [
+                'product_id' => $product_id,
+                'warehouse_id' => $warehouse_id,
+            ],
+            [
+                $to => 0.00,
+            ]
+        );
 
-            $merchandise->$to = $merchandise->$to + $detail->quantity;
-
-            $merchandise->save();
-        });
-    }
-
-    public function isAvailable($detail, $in = 'available')
-    {
-        return $this->merchandise->where([
-            ['product_id', $detail->product_id],
-            ['warehouse_id', $detail->warehouse_id],
-            [$in, '>=', $detail->quantity],
-        ])->exists();
-    }
-
-    public function subtract($detail, $from = 'available')
-    {
-        $merchandise = $this->merchandise->where([
-            ['product_id', $detail->product_id],
-            ['warehouse_id', $detail->warehouse_id],
-            [$from, '>=', $detail->quantity],
-        ])->first();
-
-        $merchandise->$from = $merchandise->$from - $detail->quantity;
+        $merchandise->$to = $merchandise->$to + $quantity;
 
         $merchandise->save();
     }
 
-    public function transfer($detail, $isSubtracted)
+    public function isAvailable($product_id, $warehouse_id, $quantity, $in = 'available')
     {
-        DB::transaction(function () use ($detail, $isSubtracted) {
-            if ($isSubtracted) {
-                $detail->warehouse_id = $detail->transfer->transferred_to;
-                $this->add($detail);
-            }
-
-            if (!$isSubtracted) {
-                $detail->warehouse_id = $detail->transfer->transferred_from;
-                $this->subtract($detail);
-            }
-        });
+        return $this->merchandise->where([
+            ['product_id', $product_id],
+            ['warehouse_id', $warehouse_id],
+            [$in, '>=', $quantity],
+        ])->exists();
     }
 
-    public function adjust($detail)
+    public function subtract($product_id, $warehouse_id, $quantity, $from = 'available')
     {
-        DB::transaction(function () use ($detail) {
-            if ($detail->is_subtract) {
-                $this->subtract($detail);
-            }
+        $merchandise = $this->merchandise->where([
+            ['product_id', $product_id],
+            ['warehouse_id', $warehouse_id],
+            [$from, '>=', $quantity],
+        ])->first();
 
-            if (!$detail->is_subtract) {
-                $this->add($detail);
-            }
-        });
+        $merchandise->$from = $merchandise->$from - $quantity;
+
+        $merchandise->save();
     }
 
-    public function reserve($detail)
+    public function transfer($product_id, $transferred_to, $transferred_from, $quantity, $isSubtracted)
     {
-        DB::transaction(function () use ($detail) {
-            $this->subtract($detail);
-            $this->add($detail, 'reserved');
-        });
+        if ($isSubtracted) {
+            $this->add($product_id, $transferred_to, $quantity);
+        }
+
+        if (!$isSubtracted) {
+            $this->subtract($product_id, $transferred_from, $quantity);
+        }
     }
 
-    public function cancelReservation($detail)
+    public function adjust($product_id, $warehouse_id, $quantity, $isSubtract)
     {
-        DB::transaction(function () use ($detail) {
-            $this->subtract($detail, 'reserved');
-            $this->add($detail);
-        });
+        if ($isSubtract) {
+            $this->subtract($product_id, $warehouse_id, $quantity);
+        }
+
+        if (!$isSubtract) {
+            $this->add($product_id, $warehouse_id, $quantity);
+        }
+    }
+
+    public function reserve($product_id, $warehouse_id, $quantity)
+    {
+        $this->subtract($product_id, $warehouse_id, $quantity);
+
+        $this->add($product_id, $warehouse_id, $quantity, 'reserved');
+    }
+
+    public function cancelReservation($product_id, $warehouse_id, $quantity)
+    {
+        $this->subtract($product_id, $warehouse_id, $quantity, 'reserved');
+
+        $this->add($product_id, $warehouse_id, $quantity);
     }
 }
