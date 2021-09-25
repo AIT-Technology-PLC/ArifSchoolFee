@@ -11,7 +11,7 @@ class InventoryOperationService
     {
         DB::transaction(function () use ($details) {
             foreach ($details as $detail) {
-                $type = InventoryTypeFactory::make($detail);
+                $type = InventoryTypeFactory::make($detail->product->type);
 
                 $type->add(
                     $detail->product_id,
@@ -28,7 +28,7 @@ class InventoryOperationService
             $unavailableProducts = [];
 
             foreach ($details as $detail) {
-                $type = InventoryTypeFactory::make($detail);
+                $type = InventoryTypeFactory::make($detail->product->type);
 
                 if (!$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity, $from)) {
                     array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
@@ -43,7 +43,7 @@ class InventoryOperationService
             }
 
             foreach ($details as $detail) {
-                $type = InventoryTypeFactory::make($detail);
+                $type = InventoryTypeFactory::make($detail->product->type);
 
                 $type->subtract(
                     $detail->product_id,
@@ -66,7 +66,7 @@ class InventoryOperationService
                 $unavailableProducts = [];
 
                 foreach ($details as $detail) {
-                    $type = InventoryTypeFactory::make($detail);
+                    $type = InventoryTypeFactory::make($detail->product->type);
 
                     if (!$type->isAvailable($detail->product_id, $detail->transfer->transferred_from, $detail->quantity)) {
                         array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->transfer->transferredFrom->name . '.');
@@ -82,7 +82,7 @@ class InventoryOperationService
             }
 
             foreach ($details as $detail) {
-                $type = InventoryTypeFactory::make($detail);
+                $type = InventoryTypeFactory::make($detail->product->type);
 
                 $type->transfer(
                     $detail->product_id,
@@ -105,7 +105,7 @@ class InventoryOperationService
             $unavailableProducts = [];
 
             foreach ($details as $detail) {
-                $type = InventoryTypeFactory::make($detail);
+                $type = InventoryTypeFactory::make($detail->product->type);
 
                 if ($detail->is_subtract && !$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity)) {
                     array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
@@ -120,7 +120,7 @@ class InventoryOperationService
             }
 
             foreach ($details as $detail) {
-                $type = InventoryTypeFactory::make($detail);
+                $type = InventoryTypeFactory::make($detail->product->type);
 
                 $type->adjust(
                     $detail->product_id,
@@ -142,7 +142,7 @@ class InventoryOperationService
             $unavailableProducts = [];
 
             foreach ($details as $detail) {
-                $type = InventoryTypeFactory::make($detail);
+                $type = InventoryTypeFactory::make($detail->product->type);
 
                 if (!$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity)) {
                     array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
@@ -157,7 +157,7 @@ class InventoryOperationService
             }
 
             foreach ($details as $detail) {
-                $type = InventoryTypeFactory::make($detail);
+                $type = InventoryTypeFactory::make($detail->product->type);
 
                 $type->reserve(
                     $detail->product_id,
@@ -176,7 +176,7 @@ class InventoryOperationService
     {
         DB::transaction(function () use ($details) {
             foreach ($details as $detail) {
-                $type = InventoryTypeFactory::make($detail);
+                $type = InventoryTypeFactory::make($detail->product->type);
 
                 $type->cancelReservation(
                     $detail->product_id,

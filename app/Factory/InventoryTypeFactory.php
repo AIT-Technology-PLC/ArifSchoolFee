@@ -6,9 +6,9 @@ use Illuminate\Support\Str;
 
 class InventoryTypeFactory
 {
-    public static function make($detail)
+    public static function make($productType)
     {
-        $inventoryType = (string) Str::of($detail->product->type)
+        $inventoryType = (string) Str::of($productType)
             ->prepend('App\\Services\\')
             ->append('Service')
             ->studly();
