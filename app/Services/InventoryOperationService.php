@@ -23,15 +23,7 @@ class InventoryOperationService
 
     public static function subtract($details, $from)
     {
-        foreach ($details as $detail) {
-            $type = InventoryTypeFactory::make($detail->product->type);
-
-            if (!$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity, $from)) {
-                array_push(self::$unavailableProducts, "{$detail->product->name} is not available or not enough in {$detail->warehouse->name}");
-            }
-        }
-
-        if (count(self::$unavailableProducts)) {
+        if (!static::isAvailable($details)) {
             return [
                 'isSubtracted' => false,
                 'unavailableProducts' => self::$unavailableProducts,
@@ -56,15 +48,11 @@ class InventoryOperationService
     {
         if (!$isSubtracted) {
 
-            foreach ($details as $detail) {
-                $type = InventoryTypeFactory::make($detail->product->type);
+            data_fill($details, '*.warehouse_id', $details->first()->transfer->transferred_from);
 
-                if (!$type->isAvailable($detail->product_id, $detail->transfer->transferred_from, $detail->quantity)) {
-                    array_push(self::$unavailableProducts, "{$detail->product->name} is not available or not enough in {$detail->transfer->transferredFrom->name}");
-                }
-            }
+            data_fill($details, '*.warehouse', $details->first()->transfer->transferredFrom);
 
-            if (count(self::$unavailableProducts)) {
+            if (!static::isAvailable($details)) {
                 return [
                     'isTransferred' => false,
                     'unavailableProducts' => self::$unavailableProducts,
@@ -89,15 +77,7 @@ class InventoryOperationService
 
     public static function adjust($details)
     {
-        foreach ($details as $detail) {
-            $type = InventoryTypeFactory::make($detail->product->type);
-
-            if ($detail->is_subtract && !$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity)) {
-                array_push(self::$unavailableProducts, "{$detail->product->name} is not available or not enough in {$detail->warehouse->name}");
-            }
-        }
-
-        if (count(self::$unavailableProducts)) {
+        if (!static::isAvailable($details)) {
             return [
                 'isAdjusted' => false,
                 'unavailableProducts' => self::$unavailableProducts,
@@ -120,15 +100,7 @@ class InventoryOperationService
 
     public static function reserve($details)
     {
-        foreach ($details as $detail) {
-            $type = InventoryTypeFactory::make($detail->product->type);
-
-            if (!$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity)) {
-                array_push(self::$unavailableProducts, "{$detail->product->name} is not available or not enough in {$detail->warehouse->name}");
-            }
-        }
-
-        if (count(self::$unavailableProducts)) {
+        if (!static::isAvailable($details)) {
             return [
                 'isReserved' => false,
                 'unavailableProducts' => self::$unavailableProducts,
@@ -159,5 +131,18 @@ class InventoryOperationService
                 $detail->quantity,
             );
         }
+    }
+
+    public static function isAvailable($details)
+    {
+        foreach ($details as $detail) {
+            $type = InventoryTypeFactory::make($detail->product->type);
+
+            if (!$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity)) {
+                array_push(self::$unavailableProducts, "{$detail->product->name} is not available or not enough in {$detail->warehouse->name}");
+            }
+        }
+
+        return count(self::$unavailableProducts) ? false : true;
     }
 }
