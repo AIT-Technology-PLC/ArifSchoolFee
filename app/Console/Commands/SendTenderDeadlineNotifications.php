@@ -3,11 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Models\Company;
-use App\Models\Employee;
 use App\Models\Tender;
-use App\Notifications\TenderDeadlineIsClose;
 use App\Models\User;
+use App\Notifications\TenderDeadlineIsClose;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Notification;
 
 class SendTenderDeadlineNotifications extends Command
@@ -39,13 +39,11 @@ class SendTenderDeadlineNotifications extends Command
                 continue;
             }
 
-            $notifiableUsersId = User::role(['Tender Officer', 'System Manager'])->get()->pluck('id')->toArray();
-
-            $users = Employee::with('user')
-                ->where('company_id', $company->id)
-                ->whereIn('user_id', $notifiableUsersId)
-                ->get()
-                ->pluck('user');
+            $users = User::role(['Tender Officer', 'System Manager'])
+                ->whereHas('employee', function (Builder $query) use ($company) {
+                    $query->where('company_id', $company->id);
+                })
+                ->get();
 
             if ($users->isEmpty()) {
                 continue;
