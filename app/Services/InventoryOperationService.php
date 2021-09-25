@@ -31,7 +31,7 @@ class InventoryOperationService
                 $type = InventoryTypeFactory::make($detail->product->type);
 
                 if (!$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity, $from)) {
-                    array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
+                    array_push($unavailableProducts, "{$detail->product->name} is not available or not enough in {$detail->warehouse->name}");
                 }
             }
 
@@ -69,7 +69,7 @@ class InventoryOperationService
                     $type = InventoryTypeFactory::make($detail->product->type);
 
                     if (!$type->isAvailable($detail->product_id, $detail->transfer->transferred_from, $detail->quantity)) {
-                        array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->transfer->transferredFrom->name . '.');
+                        array_push($unavailableProducts, "{$detail->product->name} is not available or not enough in {$detail->transfer->transferredFrom->name}");
                     }
                 }
 
@@ -108,7 +108,7 @@ class InventoryOperationService
                 $type = InventoryTypeFactory::make($detail->product->type);
 
                 if ($detail->is_subtract && !$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity)) {
-                    array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
+                    array_push($unavailableProducts, "{$detail->product->name} is not available or not enough in {$detail->warehouse->name}");
                 }
             }
 
@@ -145,7 +145,7 @@ class InventoryOperationService
                 $type = InventoryTypeFactory::make($detail->product->type);
 
                 if (!$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity)) {
-                    array_push($unavailableProducts, $detail->product->name . ' is not available or not enough in ' . $detail->warehouse->name . '.');
+                    array_push($unavailableProducts, "{$detail->product->name} is not available or not enough in {$detail->warehouse->name}");
                 }
             }
 
