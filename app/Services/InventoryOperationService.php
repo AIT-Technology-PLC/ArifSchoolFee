@@ -23,7 +23,7 @@ class InventoryOperationService
 
     public static function subtract($details, $from)
     {
-        if (!static::isAvailable($details)) {
+        if (!static::isAvailable($details, $from)) {
             return [
                 'isSubtracted' => false,
                 'unavailableProducts' => self::$unavailableProducts,
@@ -133,12 +133,12 @@ class InventoryOperationService
         }
     }
 
-    public static function isAvailable($details)
+    public static function isAvailable($details, $in = 'available')
     {
         foreach ($details as $detail) {
             $type = InventoryTypeFactory::make($detail->product->type);
 
-            if (!$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity)) {
+            if (!$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity, $in)) {
                 array_push(self::$unavailableProducts, "{$detail->product->name} is not available or not enough in {$detail->warehouse->name}");
             }
         }

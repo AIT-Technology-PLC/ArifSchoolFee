@@ -30,7 +30,7 @@ class MerchandiseInventoryService
         $merchandise->save();
     }
 
-    public function isAvailable($product_id, $warehouse_id, $quantity, $in = 'available')
+    public function isAvailable($product_id, $warehouse_id, $quantity, $in)
     {
         return $this->merchandise->where([
             ['product_id', $product_id],
