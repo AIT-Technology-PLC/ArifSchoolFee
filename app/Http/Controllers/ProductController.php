@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\ProductDatatable;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
@@ -24,13 +25,11 @@ class ProductController extends Controller
         $this->product = $product;
     }
 
-    public function index()
+    public function index(ProductDatatable $datatable)
     {
-        $products = $this->product->getAll();
-
         $totalProductsOfCompany = $this->product->countProductsOfCompany();
 
-        return view('products.index', compact('products', 'totalProductsOfCompany'));
+        return $datatable->render('products.index', compact('totalProductsOfCompany'));
     }
 
     public function create(ProductCategory $category)
