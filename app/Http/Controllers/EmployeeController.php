@@ -117,7 +117,7 @@ class EmployeeController extends Controller
         DB::transaction(function () use ($request, $employee) {
             $employee->user->update($request->only(['name', 'email', 'warehouse_id']));
 
-            $employee->update($request->only(['position', 'enabled', 'updated_by']));
+            $employee->update($request->only(['position', 'enabled']));
 
             $employee->user->warehouses()->detach();
 
