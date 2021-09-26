@@ -33,6 +33,13 @@ class ProductDatatable extends DataTable
             ->editColumn('edited by', function ($product) {
                 return $product->updatedBy->name;
             })
+            ->editColumn('actions', function ($product) {
+                return view('components.action-buttons')->with([
+                    'model' => 'products',
+                    'id' => $product->id,
+                ]);
+            })
+            ->rawColumns(['actions'])
             ->addIndexColumn();
     }
 
@@ -80,7 +87,7 @@ class ProductDatatable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('#')->searchable(false)->orderable(false),
+            Column::computed('#'),
             Column::make('product', 'name'),
             Column::make('category', 'productCategory.name'),
             Column::make('type'),
@@ -90,6 +97,7 @@ class ProductDatatable extends DataTable
             Column::make('reorder level', 'min_on_hand'),
             Column::make('added by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name'),
+            Column::computed('actions'),
         ];
 
     }
