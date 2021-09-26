@@ -5,10 +5,13 @@ namespace App\DataTables;
 use App\Models\Merchandise;
 use App\Models\Product;
 use App\Models\Warehouse;
+use App\Traits\DataTableHtmlBuilder;
 use Yajra\DataTables\Services\DataTable;
 
 class OutOfStockInventoryDatatable extends DataTable
 {
+    use DataTableHtmlBuilder;
+
     public function __construct()
     {
         $this->warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
@@ -64,38 +67,6 @@ class OutOfStockInventoryDatatable extends DataTable
         }
 
         return $organizedoutOfStockProducts;
-    }
-
-    public function html()
-    {
-        return $this->builder()
-            ->responsive(true)
-            ->scrollX(true)
-            ->scrollY('500px')
-            ->scrollCollapse(true)
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('lBfrtip')
-            ->lengthMenu([
-                [10, 25, 50, 75, 100, -1],
-                [10, 25, 50, 75, 100, "All"],
-            ])
-            ->buttons([
-                'colvis', 'excelHtml5', 'print', 'pdfHtml5',
-            ])
-            ->setTableId('inventoryleveldatatable-table')
-            ->addTableClass('display is-hoverable is-size-7 nowrap')
-            ->preDrawCallback("
-                function(settings){
-                    changeDtButton();
-                    $('table').css('display', 'table');
-                    removeDtSearchLabel();
-                }
-            ")
-            ->language([
-                'processing' => '<i class="fas fa-spinner fa-spin text-green is-size-3"></i>',
-            ])
-            ->orderBy(1, 'asc');
     }
 
     protected function getColumns()

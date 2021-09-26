@@ -3,12 +3,15 @@
 namespace App\DataTables;
 
 use App\Models\Product;
+use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
 class ProductDatatable extends DataTable
 {
+    use DataTableHtmlBuilder;
+
     public function dataTable($query)
     {
         return datatables()
@@ -55,37 +58,6 @@ class ProductDatatable extends DataTable
                 'updatedBy:id,name',
                 'supplier:id,company_name',
             ]);
-    }
-
-    public function html()
-    {
-        return $this->builder()
-            ->responsive(true)
-            ->scrollX(true)
-            ->scrollY('500px')
-            ->scrollCollapse(true)
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('lBfrtip')
-            ->lengthMenu([
-                [10, 25, 50, 75, 100, -1],
-                [10, 25, 50, 75, 100, "All"],
-            ])
-            ->buttons([
-                'colvis', 'excelHtml5', 'print', 'pdfHtml5',
-            ])
-            ->addTableClass('display is-hoverable is-size-7 nowrap')
-            ->preDrawCallback("
-                function(settings){
-                    changeDtButton();
-                    $('table').css('display', 'table');
-                    removeDtSearchLabel();
-                }
-            ")
-            ->language([
-                'processing' => '<i class="fas fa-spinner fa-spin text-green is-size-3"></i>',
-            ])
-            ->orderBy(1, 'asc');
     }
 
     protected function getColumns()
