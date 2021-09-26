@@ -82,6 +82,9 @@ class ProductDatatable extends DataTable
                     removeDtSearchLabel();
                 }
             ")
+            ->language([
+                'processing' => '<i class="fas fa-spinner fa-spin text-green is-size-3"></i>',
+            ])
             ->orderBy(1, 'asc');
     }
 

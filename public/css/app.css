@@ -487,6 +487,11 @@ table.dataTable thead td {
     margin-bottom: 20px !important;
     margin-right: 5px !important;
 }
+div.dataTables_wrapper div.dataTables_processing {
+    bottom: 60%;
+    background: transparent !important;
+    z-index: 9999;
+}
 @media screen and (max-width: 640px) {
     .dataTables_wrapper .dataTables_length,
     .dataTables_wrapper .dataTables_filter {
