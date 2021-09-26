@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Product;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -25,7 +26,7 @@ class ProductDatatable extends DataTable
                 return $product->description ?? 'N/A';
             })
             ->editColumn('reorder level', function ($product) {
-                return $product->min_on_hand ?? 0.0;
+                return Str::of($product->min_on_hand ?? 0.0)->append(' ', $product->unit_of_measurement);
             })
             ->editColumn('added by', function ($product) {
                 return $product->createdBy->name;
@@ -89,9 +90,9 @@ class ProductDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('product', 'name'),
+            Column::make('code')->className('text-purple has-text-weight-medium'),
             Column::make('category', 'productCategory.name'),
             Column::make('type'),
-            Column::make('code'),
             Column::make('supplier', 'supplier.company_name'),
             Column::make('description'),
             Column::make('reorder level', 'min_on_hand'),
