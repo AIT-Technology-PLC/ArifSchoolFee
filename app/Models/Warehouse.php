@@ -88,10 +88,11 @@ class Warehouse extends Model
         return $this->count();
     }
 
-    public function getTotalWarehousesUsed($onHandMerchandises)
+    public function getWarehousesInUseQuery()
     {
-        $totalWarehousesUsed = $onHandMerchandises->groupBy('warehouse_id')->count();
-
-        return $totalWarehousesUsed;
+        return $this->whereHas('merchandises', function ($query) {
+            $query->where('available', '>', 0)
+                ->orWhere('reserved', '>', 0);
+        });
     }
 }

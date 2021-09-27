@@ -16,7 +16,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $insights['totalDistinctOnHandMerchandises'] ?? 0.0 }}
+                            {{ $insights['totalOnHandProducts'] ?? 0.0 }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Product Types
@@ -39,7 +39,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $insights['totalDistinctLimitedMerchandises'] ?? 0.0 }}
+                            {{ $insights['totalLimitedMerchandises'] ?? 0.0 }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Product Types
@@ -62,7 +62,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $insights['totalOutOfStockMerchandises'] ?? 0.0 }}
+                            {{ $insights['totalOutOfStockProducts'] ?? 0.0 }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Product Types
@@ -75,31 +75,29 @@
                 </div>
             </div>
         </div>
-        @if (!isset($warehouse))
-            <div class="column">
-                <div class="box text-blue">
-                    <div class="columns is-marginless is-vcentered is-mobile">
-                        <div class="column has-text-centered is-paddingless">
-                            <span class="icon is-large is-size-1">
-                                <i class="fas fa-warehouse"></i>
-                            </span>
-                        </div>
-                        <div class="column is-paddingless">
-                            <div class="is-size-3 has-text-weight-bold">
-                                {{ $insights['totalWarehousesInUse'] ?? 0.0 }}
-                            </div>
-                            <div class="is-uppercase is-size-7">
-                                Warehouses
-                            </div>
-                        </div>
+        <div class="column">
+            <div class="box text-blue">
+                <div class="columns is-marginless is-vcentered is-mobile">
+                    <div class="column has-text-centered is-paddingless">
+                        <span class="icon is-large is-size-1">
+                            <i class="fas fa-warehouse"></i>
+                        </span>
                     </div>
-                    <hr class="my-4">
-                    <div class="is-size-7 is-uppercase has-text-grey">
-                        Total Warehouses In Use
+                    <div class="column is-paddingless">
+                        <div class="is-size-3 has-text-weight-bold">
+                            {{ $insights['totalWarehousesInUse'] ?? 0.0 }}
+                        </div>
+                        <div class="is-uppercase is-size-7">
+                            Warehouses
+                        </div>
                     </div>
                 </div>
+                <hr class="my-4">
+                <div class="is-size-7 is-uppercase has-text-grey">
+                    Total Warehouses In Use
+                </div>
             </div>
-        @endif
+        </div>
     </div>
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">

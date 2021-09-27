@@ -66,18 +66,11 @@ class MerchandiseController extends Controller
 
     public function insights()
     {
-        $onHandMerchandises = (new Merchandise())->getAllOnHand()->load(['product']);
-
-        $outOfStockMerchandises = (new Product())->getOutOfStockMerchandiseProducts($onHandMerchandises->unique('product_id')->pluck('product'));
-
-        $totalDistinctLimitedMerchandises = (new Merchandise())->getTotalDistinctLimitedMerchandises($onHandMerchandises);
-
-        $totalDistinctOnHandMerchandises = $onHandMerchandises->unique('product_id')->count();
-
-        $totalOutOfStockMerchandises = $outOfStockMerchandises->count();
-
-        $totalWarehousesInUse = (new Warehouse())->getTotalWarehousesUsed($onHandMerchandises);
-
-        return compact('totalDistinctOnHandMerchandises', 'totalDistinctLimitedMerchandises', 'totalOutOfStockMerchandises', 'totalWarehousesInUse');
+        return [
+            'totalOnHandProducts' => (new Product)->getOnHandMerchandiseProductsQuery()->count(),
+            'totalOutOfStockProducts' => (new Product)->getOutOfOnHandMerchandiseProductsQuery()->count(),
+            'totalLimitedMerchandises' => (new Product)->getLimitedMerchandiseProductsQuery()->count(),
+            'totalWarehousesInUse' => (new Warehouse)->getWarehousesInUseQuery()->count(),
+        ];
     }
 }

@@ -129,7 +129,6 @@ class Product extends Model
             ->whereNotIn('id', $onHandMerchandiseProducts->pluck('id'))
             ->get();
     }
-    
 
     public function isProductLimited($onHandQuantity)
     {
@@ -139,5 +138,29 @@ class Product extends Model
     public function countProductsOfCompany()
     {
         return $this->count();
+    }
+
+    public function getOnHandMerchandiseProductsQuery()
+    {
+        return $this->whereHas('merchandises', function ($query) {
+            $query->where('available', '>', 0)
+                ->orWhere('reserved', '>', 0);
+        });
+    }
+
+    public function getOutOfOnHandMerchandiseProductsQuery()
+    {
+        return $this->whereDoesntHave('merchandises', function ($query) {
+            $query->where('available', '>', 0)
+                ->orWhere('reserved', '>', 0);
+        });
+    }
+
+    public function getLimitedMerchandiseProductsQuery()
+    {
+        return $this->whereHas('merchandises', function ($query) {
+            $query->whereRaw('products.min_on_hand != 0')
+                ->whereRaw('merchandises.available <= products.min_on_hand');
+        });
     }
 }
