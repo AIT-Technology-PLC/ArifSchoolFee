@@ -38,7 +38,7 @@ class AvailableInventoryDatatable extends DataTable
 
                 return "
                     <span class='is-hidden'>" . number_format($content, 2, '.', '') . "</span>" . "
-                    <a href='/warehouses/" . $warehouse->id . "/products/" . $row['product_id'] . "'" . "data-title='View Product History'>
+                    <a href='/history/products/" . $row['product_id'] . "/warehouses/" . $warehouse->id . "'" . "data-title='View Product History'>
                         <span class='tag is-small btn-green is-outlined'>" . number_format($content, 2, '.', '') . ' ' . $row['unit'] .
                     '</span>' .
                     '</a>';

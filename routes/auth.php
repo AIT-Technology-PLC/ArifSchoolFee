@@ -15,7 +15,7 @@ Route::get('/notifications/{notification}/mark-as-read',
     [Controllers\NotificationController::class, 'markNotificationAsRead'])
     ->name('notifications.markAsRead');
 
-Route::get('/warehouses/{warehouse}/products/{product}', Controllers\InventoryHistoryController::class)
+Route::get('/history/products/{product}/warehouses/{warehouse}', Controllers\ProductInWarehouseHistoryController::class)
     ->name('warehouses-products');
 
 Route::get('merchandises/{type}', Controllers\MerchandiseController::class)
