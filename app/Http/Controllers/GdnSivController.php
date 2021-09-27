@@ -13,6 +13,11 @@ class GdnSivController extends Controller
 {
     use NotifiableUsers;
 
+    public function __construct()
+    {
+        $this->middleware('isFeatureAccessible:Siv Management');
+    }
+
     public function __invoke(Gdn $gdn)
     {
         $this->authorize('view', $gdn);

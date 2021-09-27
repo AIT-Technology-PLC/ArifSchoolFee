@@ -12,6 +12,11 @@ use App\Models\Warehouse;
 
 class MerchandiseController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('isFeatureAccessible:Merchandise Inventory');
+    }
+
     public function __invoke($type)
     {
         $this->authorize('viewAny', Merchandise::class);

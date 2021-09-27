@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class PurchaseGrnController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('isFeatureAccessible:Grn Management');
+    }
+
     public function __invoke(Purchase $purchase, Request $request)
     {
         $this->authorize('view', $purchase);

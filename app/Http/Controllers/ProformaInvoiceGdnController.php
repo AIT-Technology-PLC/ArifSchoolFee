@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class ProformaInvoiceGdnController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('isFeatureAccessible:Gdn Management');
+    }
+
     public function __invoke(ProformaInvoice $proformaInvoice, Request $request)
     {
         $this->authorize('view', $proformaInvoice);

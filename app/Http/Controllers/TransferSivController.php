@@ -13,6 +13,11 @@ class TransferSivController extends Controller
 {
     use NotifiableUsers;
 
+    public function __construct()
+    {
+        $this->middleware('isFeatureAccessible:Siv Management');
+    }
+
     public function __invoke(Transfer $transfer)
     {
         $this->authorize('view', $transfer);

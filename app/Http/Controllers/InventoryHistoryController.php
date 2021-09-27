@@ -8,6 +8,11 @@ use App\Services\InventoryHistory\InventoryHistoryService;
 
 class InventoryHistoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('isFeatureAccessible:Inventory History');
+    }
+
     public function __invoke(Warehouse $warehouse, Product $product, InventoryHistoryService $service)
     {
         $this->authorize('view', $warehouse);

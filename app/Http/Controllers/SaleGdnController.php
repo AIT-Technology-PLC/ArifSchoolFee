@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class SaleGdnController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('isFeatureAccessible:Gdn Management');
+    }
+
     public function __invoke(Sale $sale, Request $request)
     {
         $this->authorize('view', $sale);
