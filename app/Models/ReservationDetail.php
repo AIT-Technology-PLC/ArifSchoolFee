@@ -60,6 +60,6 @@ class ReservationDetail extends Model
                     );
             })
             ->get()
-            ->load(['reservation.customer', 'product', 'warehouse']);
+            ->load(['reservation.customer']);
     }
 }

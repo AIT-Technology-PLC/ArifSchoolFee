@@ -50,6 +50,6 @@ class AdjustmentDetail extends Model
                     ->whereNotNull('adjusted_by');
             })
             ->get()
-            ->load(['adjustment', 'product']);
+            ->load(['adjustment']);
     }
 }

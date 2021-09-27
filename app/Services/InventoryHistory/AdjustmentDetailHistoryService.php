@@ -7,6 +7,8 @@ use App\Models\AdjustmentDetail;
 
 class AdjustmentDetailHistoryService implements DetailHistoryServiceInterface
 {
+    private static $warehouse, $product;
+
     public static function get($warehouse, $product)
     {
         return (new AdjustmentDetail())->getByWarehouseAndProduct($warehouse, $product);
@@ -21,8 +23,8 @@ class AdjustmentDetailHistoryService implements DetailHistoryServiceInterface
                 'date' => $adjustmentDetail->adjustment->issued_on,
                 'quantity' => $adjustmentDetail->quantity,
                 'balance' => 0.00,
-                'unit_of_measurement' => $adjustmentDetail->product->unit_of_measurement,
-                'details' => ($adjustmentDetail->is_subtract ? 'Subtracted' : 'Added') . ' in ' . $adjustmentDetail->warehouse->name,
+                'unit_of_measurement' => static::$product->unit_of_measurement,
+                'details' => ($adjustmentDetail->is_subtract ? 'Subtracted' : 'Added') . ' in ' . static::$warehouse->name,
                 'function' => $adjustmentDetail->is_subtract ? 'subtract' : 'add',
             ];
         });
@@ -30,6 +32,10 @@ class AdjustmentDetailHistoryService implements DetailHistoryServiceInterface
 
     public static function formatted($warehouse, $product)
     {
+        static::$product = $product;
+
+        static::$warehouse = $warehouse;
+
         $adjustmentDetails = self::get($warehouse, $product);
 
         return self::format($adjustmentDetails);

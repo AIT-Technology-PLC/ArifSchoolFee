@@ -45,7 +45,7 @@ class GrnDetail extends Model
                     ->whereNotNull('added_by');
             })
             ->get()
-            ->load(['grn.supplier', 'product']);
+            ->load(['grn.supplier']);
     }
 
 }

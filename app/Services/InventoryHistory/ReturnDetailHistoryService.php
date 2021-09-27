@@ -7,6 +7,8 @@ use App\Models\ReturnDetail;
 
 class ReturnDetailHistoryService implements DetailHistoryServiceInterface
 {
+    private static $warehouse, $product;
+
     public static function get($warehouse, $product)
     {
         return (new ReturnDetail())->getByWarehouseAndProduct($warehouse, $product);
@@ -21,8 +23,8 @@ class ReturnDetailHistoryService implements DetailHistoryServiceInterface
                 'date' => $returnDetail->returnn->issued_on,
                 'quantity' => $returnDetail->quantity,
                 'balance' => 0.00,
-                'unit_of_measurement' => $returnDetail->product->unit_of_measurement,
-                'details' => 'Returned to ' . $returnDetail->warehouse->name,
+                'unit_of_measurement' => static::$product->unit_of_measurement,
+                'details' => 'Returned to ' . static::$warehouse->name . ' from' . ($returnDetail->returnn->customer->company_name ?? ' Unknown'),
                 'function' => 'add',
             ];
         });
@@ -30,6 +32,10 @@ class ReturnDetailHistoryService implements DetailHistoryServiceInterface
 
     public static function formatted($warehouse, $product)
     {
+        static::$product = $product;
+
+        static::$warehouse = $warehouse;
+
         $returnDetails = self::get($warehouse, $product);
 
         return self::format($returnDetails);

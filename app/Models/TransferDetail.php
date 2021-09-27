@@ -41,6 +41,6 @@ class TransferDetail extends Model
                     });
             })
             ->get()
-            ->load(['transfer.transferredFrom', 'transfer.transferredTo', 'product']);
+            ->load(['transfer.transferredFrom', 'transfer.transferredTo']);
     }
 }

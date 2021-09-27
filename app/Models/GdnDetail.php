@@ -47,6 +47,6 @@ class GdnDetail extends Model
                     ->whereNotNull('subtracted_by');
             })
             ->get()
-            ->load(['gdn.customer', 'product']);
+            ->load(['gdn.customer']);
     }
 }

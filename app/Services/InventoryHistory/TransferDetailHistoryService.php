@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 
 class TransferDetailHistoryService implements DetailHistoryServiceInterface
 {
+    private static $warehouse, $product;
+
     public static function get($warehouse, $product)
     {
         return (new TransferDetail())->getByWarehouseAndProduct($warehouse, $product);
@@ -30,10 +32,10 @@ class TransferDetailHistoryService implements DetailHistoryServiceInterface
                     'date' => $transferDetail->transfer->issued_on,
                     'quantity' => $transferDetail->quantity,
                     'balance' => 0.00,
-                    'unit_of_measurement' => $transferDetail->product->unit_of_measurement,
+                    'unit_of_measurement' => static::$product->unit_of_measurement,
 
                     'details' => $transferDetail->transfer->transferred_from == $warehouse->id ?
-                    Str::of('Transferred')->append(' from ', $transferDetail->transfer->transferredFrom->name) :
+                    Str::of('Transferred')->append(' from ', static::$warehouse->name) :
                     Str::of('Transferred')->append(' to ', $transferDetail->transfer->transferredTo->name),
 
                     'function' => $transferDetail->transfer->transferred_from == $warehouse->id ? 'subtract' : 'add',
@@ -43,6 +45,10 @@ class TransferDetailHistoryService implements DetailHistoryServiceInterface
 
     public static function formatted($warehouse, $product)
     {
+        static::$product = $product;
+
+        static::$warehouse = $warehouse;
+
         $transferDetails = self::get($warehouse, $product);
 
         return self::format($transferDetails, $warehouse);

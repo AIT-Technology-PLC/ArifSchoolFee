@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 
 class ReservationDetailHistoryService implements DetailHistoryServiceInterface
 {
+    private static $warehouse, $product;
+
     public static function get($warehouse, $product)
     {
         return (new ReservationDetail())->getByWarehouseAndProduct($warehouse, $product);
@@ -22,7 +24,7 @@ class ReservationDetailHistoryService implements DetailHistoryServiceInterface
                 'date' => $reservationDetail->reservation->issued_on,
                 'quantity' => $reservationDetail->quantity,
                 'balance' => 0.00,
-                'unit_of_measurement' => $reservationDetail->product->unit_of_measurement,
+                'unit_of_measurement' => static::$product->unit_of_measurement,
                 'details' => Str::of($reservationDetail->reservation->customer->company_name ?? 'Unknown')->prepend('Reserved for '),
                 'function' => 'subtract',
             ];
@@ -31,6 +33,10 @@ class ReservationDetailHistoryService implements DetailHistoryServiceInterface
 
     public static function formatted($warehouse, $product)
     {
+        static::$product = $product;
+
+        static::$warehouse = $warehouse;
+
         $reservationDetails = self::get($warehouse, $product);
 
         return self::format($reservationDetails);
