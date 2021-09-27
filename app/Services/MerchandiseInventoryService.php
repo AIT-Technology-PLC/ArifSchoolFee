@@ -13,12 +13,12 @@ class MerchandiseInventoryService
         $this->merchandise = new Merchandise();
     }
 
-    public function add($product_id, $warehouse_id, $quantity, $to = 'available')
+    public function add($productId, $warehouseId, $quantity, $to = 'available')
     {
         $merchandise = $this->merchandise->firstOrCreate(
             [
-                'product_id' => $product_id,
-                'warehouse_id' => $warehouse_id,
+                'product_id' => $productId,
+                'warehouse_id' => $warehouseId,
             ],
             [
                 $to => 0.00,
@@ -30,20 +30,20 @@ class MerchandiseInventoryService
         $merchandise->save();
     }
 
-    public function isAvailable($product_id, $warehouse_id, $quantity, $in)
+    public function isAvailable($productId, $warehouseId, $quantity, $in)
     {
         return $this->merchandise->where([
-            ['product_id', $product_id],
-            ['warehouse_id', $warehouse_id],
+            ['product_id', $productId],
+            ['warehouse_id', $warehouseId],
             [$in, '>=', $quantity],
         ])->exists();
     }
 
-    public function subtract($product_id, $warehouse_id, $quantity, $from = 'available')
+    public function subtract($productId, $warehouseId, $quantity, $from = 'available')
     {
         $merchandise = $this->merchandise->where([
-            ['product_id', $product_id],
-            ['warehouse_id', $warehouse_id],
+            ['product_id', $productId],
+            ['warehouse_id', $warehouseId],
             [$from, '>=', $quantity],
         ])->first();
 
@@ -52,39 +52,39 @@ class MerchandiseInventoryService
         $merchandise->save();
     }
 
-    public function transfer($product_id, $transferred_to, $transferred_from, $quantity, $isSubtracted)
+    public function transfer($productId, $transferredTo, $transferredFrom, $quantity, $isSubtracted)
     {
         if ($isSubtracted) {
-            $this->add($product_id, $transferred_to, $quantity);
+            $this->add($productId, $transferredTo, $quantity);
         }
 
         if (!$isSubtracted) {
-            $this->subtract($product_id, $transferred_from, $quantity);
+            $this->subtract($productId, $transferredFrom, $quantity);
         }
     }
 
-    public function adjust($product_id, $warehouse_id, $quantity, $isSubtract)
+    public function adjust($productId, $warehouseId, $quantity, $isSubtract)
     {
         if ($isSubtract) {
-            $this->subtract($product_id, $warehouse_id, $quantity);
+            $this->subtract($productId, $warehouseId, $quantity);
         }
 
         if (!$isSubtract) {
-            $this->add($product_id, $warehouse_id, $quantity);
+            $this->add($productId, $warehouseId, $quantity);
         }
     }
 
-    public function reserve($product_id, $warehouse_id, $quantity)
+    public function reserve($productId, $warehouseId, $quantity)
     {
-        $this->subtract($product_id, $warehouse_id, $quantity);
+        $this->subtract($productId, $warehouseId, $quantity);
 
-        $this->add($product_id, $warehouse_id, $quantity, 'reserved');
+        $this->add($productId, $warehouseId, $quantity, 'reserved');
     }
 
-    public function cancelReservation($product_id, $warehouse_id, $quantity)
+    public function cancelReservation($productId, $warehouseId, $quantity)
     {
-        $this->subtract($product_id, $warehouse_id, $quantity, 'reserved');
+        $this->subtract($productId, $warehouseId, $quantity, 'reserved');
 
-        $this->add($product_id, $warehouse_id, $quantity);
+        $this->add($productId, $warehouseId, $quantity);
     }
 }
