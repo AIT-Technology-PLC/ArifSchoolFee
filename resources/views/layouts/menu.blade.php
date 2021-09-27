@@ -75,7 +75,7 @@
                     @can('Read Merchandise')
                         @if ($enabledFeatures->contains('Merchandise Inventory'))
                             <li>
-                                <a name="menuTitles" href="{{ route('merchandises.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('merchandises') ? 'is-active' : '' }}">
+                                <a name="menuTitles" href="{{ route('merchandises.index', 'on-hand') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('merchandises') ? 'is-active' : '' }}">
                                     Inventory Level
                                 </a>
                             </li>

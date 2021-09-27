@@ -6,34 +6,49 @@ use App\DataTables\AvailableInventoryDatatable;
 use App\DataTables\OnHandInventoryDatatable;
 use App\DataTables\OutOfStockInventoryDatatable;
 use App\DataTables\ReservedInventoryDatatable;
+use App\Models\Merchandise;
+use App\Models\Product;
+use App\Models\Warehouse;
 
 class MerchandiseController extends Controller
 {
-    public function index(OnHandInventoryDatatable $datatable)
+    public function __invoke($type)
     {
-        $view = 'merchandises.on-hand';
+        $this->authorize('viewAny', Merchandise::class);
 
-        return $datatable->render('merchandises.index', compact('view'));
+        $insights = $this->insights();
+
+        $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
+
+        return $this->datatable($type)->render('merchandises.index', compact('insights', 'warehouses'));
     }
 
-    public function available(AvailableInventoryDatatable $datatable)
+    private function insights()
     {
-        $view = 'merchandises.on-hand';
-
-        return $datatable->render('merchandises.index', compact('view'));
+        return [
+            'totalOnHandProducts' => (new Product)->getOnHandMerchandiseProductsQuery()->count(),
+            'totalOutOfStockProducts' => (new Product)->getOutOfOnHandMerchandiseProductsQuery()->count(),
+            'totalLimitedMerchandises' => (new Product)->getLimitedMerchandiseProductsQuery()->count(),
+            'totalWarehousesInUse' => (new Warehouse)->getWarehousesInUseQuery()->count(),
+        ];
     }
 
-    public function reserved(ReservedInventoryDatatable $datatable)
+    private function datatable($type)
     {
-        $view = 'merchandises.reserved';
+        if ($type == 'on-hand') {
+            return new OnHandInventoryDatatable;
+        }
 
-        return $datatable->render('merchandises.index', compact('view'));
-    }
+        if ($type == 'available') {
+            return new AvailableInventoryDatatable;
+        }
 
-    public function outOfStock(OutOfStockInventoryDatatable $datatable)
-    {
-        $view = 'merchandises.out-of';
+        if ($type == 'reserved') {
+            return new ReservedInventoryDatatable;
+        }
 
-        return $datatable->render('merchandises.index', compact('view'));
+        if ($type == 'out-of-stock') {
+            return new OutOfStockInventoryDatatable;
+        }
     }
 }

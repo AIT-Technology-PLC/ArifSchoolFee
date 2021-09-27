@@ -19,20 +19,9 @@ Route::get('/warehouses/{warehouse}/products/{product}', Controllers\InventoryHi
     ->name('warehouses-products')
     ->middleware('isFeatureAccessible:Inventory History');
 
-Route::get('merchandises', [Controllers\MerchandiseController::class, 'index'])
+Route::get('merchandises/{type}', Controllers\MerchandiseController::class)
     ->name('merchandises.index')
-    ->middleware('isFeatureAccessible:Merchandise Inventory');
-
-Route::get('merchandises/available', [Controllers\MerchandiseController::class, 'available'])
-    ->name('merchandises.available')
-    ->middleware('isFeatureAccessible:Merchandise Inventory');
-
-Route::get('merchandises/reserved', [Controllers\MerchandiseController::class, 'reserved'])
-    ->name('merchandises.reserved')
-    ->middleware('isFeatureAccessible:Merchandise Inventory');
-
-Route::get('merchandises/out-of-stock', [Controllers\MerchandiseController::class, 'outOfStock'])
-    ->name('merchandises.out-of-stock')
+    ->where('type', 'on-hand|available|reserved|out-of-stock')
     ->middleware('isFeatureAccessible:Merchandise Inventory');
 
 Route::get('/sale/{sale}/gdn/create', Controllers\SaleGdnController::class)

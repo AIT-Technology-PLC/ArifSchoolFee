@@ -18,7 +18,7 @@
                     @can('Read Merchandise')
                         @if ($enabledFeatures->contains('Merchandise Inventory'))
                             <div class="column is-4 has-text-centered has-text-grey">
-                                <a href="{{ route('merchandises.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
+                                <a href="{{ route('merchandises.index', 'on-hand') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-chart-bar"></i>
                                     </span>

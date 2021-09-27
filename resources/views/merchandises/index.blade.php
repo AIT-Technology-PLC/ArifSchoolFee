@@ -138,23 +138,23 @@
         </div>
         <div class="tabs is-toggle is-fullwidth has-background-white-bis">
             <ul>
-                <li class="on-hand {{ request()->is('merchandises') ? 'is-active' : '' }}">
-                    <a href="{{ route('merchandises.index') }}">
+                <li class="on-hand {{ request()->is('merchandises/on-hand') ? 'is-active' : '' }}">
+                    <a href="{{ route('merchandises.index', 'on-hand') }}">
                         <span>On Hand</span>
                     </a>
                 </li>
                 <li class="available {{ request()->is('merchandises/available') ? 'is-active' : '' }}">
-                    <a href="{{ route('merchandises.available') }}">
+                    <a href="{{ route('merchandises.index', 'available') }}">
                         <span>Available</span>
                     </a>
                 </li>
                 <li class="reserved {{ request()->is('merchandises/reserved') ? 'is-active' : '' }}">
-                    <a href="{{ route('merchandises.reserved') }}">
+                    <a href="{{ route('merchandises.index', 'reserved') }}">
                         <span>Reserved</span>
                     </a>
                 </li>
                 <li class="out-of-stock {{ request()->is('merchandises/out-of-stock') ? 'is-active' : '' }}">
-                    <a href="{{ route('merchandises.out-of-stock') }}">
+                    <a href="{{ route('merchandises.index', 'out-of-stock') }}">
                         <span>Out of Stock</span>
                     </a>
                 </li>
@@ -162,5 +162,15 @@
         </div>
     </section>
 
-    @include($view)
+    <section class="mx-3 m-lr-0">
+        <div class="box radius-top-0">
+            <div>
+                {{ $dataTable->table() }}
+            </div>
+        </div>
+    </section>
+
+    @push('scripts')
+        {{ $dataTable->scripts() }}
+    @endpush
 @endsection
