@@ -120,7 +120,7 @@ function disableSaveButton() {
 
 function changeWarehouse() {
     if (this.value == 0) {
-        return (location.href = "/merchandises");
+        return (location.href = "/merchandises/on-hand");
     }
 
     location.href = `/warehouses/${this.value}/merchandises`;
