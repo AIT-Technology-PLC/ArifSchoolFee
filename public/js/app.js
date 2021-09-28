@@ -40,13 +40,21 @@ function toggleCreateMenu() {
 }
 
 async function getProductSelected(elementId, productId) {
-    const response = await axios.get("/product/uom/" + productId);
+    const response = await axios.get(
+        `/api/products/${productId}/unit-of-measurement`
+    );
+
     const unitOfMeasurement = response.data;
 
-    d.getElementById(elementId + "Quantity").innerText = unitOfMeasurement;
-    d.getElementById(
-        elementId + "Price"
-    ).innerText = `Per ${unitOfMeasurement}`;
+    if (d.getElementById(elementId + "Quantity")) {
+        d.getElementById(elementId + "Quantity").innerText = unitOfMeasurement;
+    }
+
+    if (d.getElementById(elementId + "Price")) {
+        d.getElementById(
+            elementId + "Price"
+        ).innerText = `Per ${unitOfMeasurement}`;
+    }
 }
 
 function jumpToCurrentPageMenuTitle() {

@@ -117,11 +117,6 @@ class Product extends Model
         return $this->with(['productCategory', 'createdBy', 'updatedBy', 'supplier'])->orderBy('name')->get();
     }
 
-    public function getProductUOM()
-    {
-        return $this->unit_of_measurement;
-    }
-
     public function getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)
     {
         return $this

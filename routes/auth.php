@@ -1,13 +1,14 @@
 <?php
 
 use App\Http\Controllers as Controllers;
+use App\Http\Controllers\Api as Api;
 use App\Http\Controllers\Auth as Auth;
 use App\Http\Controllers\Invokable as Invokable;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'menu.index')->name('home');
 
-Route::get('/product/uom/{product}', [Controllers\ProductController::class, 'getProductUOM']);
+Route::get('/api/products/{product}/unit-of-measurement', [Api\ProductController::class, 'getProductUOM']);
 
 Route::get('/employees/{employee}/permissions/edit', [Controllers\PermissionController::class, 'edit'])->name('permissions.edit');
 

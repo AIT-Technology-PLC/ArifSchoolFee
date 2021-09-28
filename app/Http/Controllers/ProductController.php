@@ -81,9 +81,4 @@ class ProductController extends Controller
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
     }
-
-    public function getProductUOM(Product $product)
-    {
-        return $product->getProductUOM();
-    }
 }
