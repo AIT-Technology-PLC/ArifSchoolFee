@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Warehouse;
-use App\Services\InventoryHistory\ProductInWarehouseHistoryService;
+use App\Services\InventoryHistory\ProductPerWarehouseHistoryService;
 
-class ProductInWarehouseHistoryController extends Controller
+class ProductPerWarehouseHistoryController extends Controller
 {
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Inventory History');
     }
 
-    public function __invoke(Product $product, Warehouse $warehouse, ProductInWarehouseHistoryService $service)
+    public function __invoke(Product $product, Warehouse $warehouse, ProductPerWarehouseHistoryService $service)
     {
         $this->authorize('view', $warehouse);
 

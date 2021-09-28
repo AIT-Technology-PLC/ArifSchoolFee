@@ -5,7 +5,7 @@ namespace App\Services\InventoryHistory;
 use App\Models\Product;
 use App\Models\Warehouse;
 
-class ProductInWarehouseHistoryService
+class ProductPerWarehouseHistoryService
 {
     private $histories = [
         GrnDetailHistoryService::class,
