@@ -7,37 +7,43 @@ use App\Models\ReturnDetail;
 
 class ReturnDetailHistoryService implements DetailHistoryServiceInterface
 {
-    private static $warehouse, $product;
+    private $warehouse, $product, $history;
 
-    public static function get($warehouse, $product)
+    private function get()
     {
-        return (new ReturnDetail())->getByWarehouseAndProduct($warehouse, $product);
+        $this->history = (new ReturnDetail())
+            ->getByWarehouseAndProduct(
+                $this->warehouse,
+                $this->product
+            );
+
+        return $this;
     }
 
-    public static function format($returnDetails)
+    private function format()
     {
-        return $returnDetails->map(function ($returnDetail) {
+        $this->history->transform(function ($returnDetail) {
             return [
                 'type' => 'RETURN',
                 'code' => $returnDetail->returnn->code,
                 'date' => $returnDetail->returnn->issued_on,
                 'quantity' => $returnDetail->quantity,
                 'balance' => 0.00,
-                'unit_of_measurement' => static::$product->unit_of_measurement,
-                'details' => 'Returned to ' . static::$warehouse->name . ' from' . ($returnDetail->returnn->customer->company_name ?? ' Unknown'),
+                'unit_of_measurement' => $this->product->unit_of_measurement,
+                'details' => 'Returned to ' . $this->warehouse->name . ' from' . ($returnDetail->returnn->customer->company_name ?? ' Unknown'),
                 'function' => 'add',
             ];
         });
+
+        return $this;
     }
 
-    public static function formatted($warehouse, $product)
+    public function retrieve($warehouse, $product)
     {
-        static::$product = $product;
+        $this->product = $product;
 
-        static::$warehouse = $warehouse;
+        $this->warehouse = $warehouse;
 
-        $returnDetails = self::get($warehouse, $product);
-
-        return self::format($returnDetails);
+        return $this->get()->format()->history;
     }
 }

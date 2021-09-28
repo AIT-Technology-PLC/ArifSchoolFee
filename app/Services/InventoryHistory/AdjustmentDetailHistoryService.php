@@ -7,37 +7,43 @@ use App\Models\AdjustmentDetail;
 
 class AdjustmentDetailHistoryService implements DetailHistoryServiceInterface
 {
-    private static $warehouse, $product;
+    private $warehouse, $product, $history;
 
-    public static function get($warehouse, $product)
+    private function get()
     {
-        return (new AdjustmentDetail())->getByWarehouseAndProduct($warehouse, $product);
+        $this->history = (new AdjustmentDetail())
+            ->getByWarehouseAndProduct(
+                $this->warehouse,
+                $this->product
+            );
+
+        return $this;
     }
 
-    public static function format($adjustmentDetails)
+    private function format()
     {
-        return $adjustmentDetails->map(function ($adjustmentDetail) {
+        $this->history->transform(function ($adjustmentDetail) {
             return [
                 'type' => 'ADJUSTMENT',
                 'code' => $adjustmentDetail->adjustment->code,
                 'date' => $adjustmentDetail->adjustment->issued_on,
                 'quantity' => $adjustmentDetail->quantity,
                 'balance' => 0.00,
-                'unit_of_measurement' => static::$product->unit_of_measurement,
-                'details' => ($adjustmentDetail->is_subtract ? 'Subtracted' : 'Added') . ' in ' . static::$warehouse->name,
+                'unit_of_measurement' => $this->product->unit_of_measurement,
+                'details' => ($adjustmentDetail->is_subtract ? 'Subtracted' : 'Added') . ' in ' . $this->warehouse->name,
                 'function' => $adjustmentDetail->is_subtract ? 'subtract' : 'add',
             ];
         });
+
+        return $this;
     }
 
-    public static function formatted($warehouse, $product)
+    public function retrieve($warehouse, $product)
     {
-        static::$product = $product;
+        $this->product = $product;
 
-        static::$warehouse = $warehouse;
+        $this->warehouse = $warehouse;
 
-        $adjustmentDetails = self::get($warehouse, $product);
-
-        return self::format($adjustmentDetails);
+        return $this->get()->format()->history;
     }
 }

@@ -8,37 +8,43 @@ use Illuminate\Support\Str;
 
 class GdnDetailHistoryService implements DetailHistoryServiceInterface
 {
-    private static $warehouse, $product;
+    private $warehouse, $product, $history;
 
-    public static function get($warehouse, $product)
+    private function get()
     {
-        return (new GdnDetail())->getByWarehouseAndProduct($warehouse, $product);
+        $this->history = (new GdnDetail())
+            ->getByWarehouseAndProduct(
+                $this->warehouse,
+                $this->product
+            );
+
+        return $this;
     }
 
-    public static function format($gdnDetails)
+    private function format()
     {
-        return $gdnDetails->map(function ($gdnDetail) {
+        $this->history->transform(function ($gdnDetail) {
             return [
                 'type' => 'DO',
                 'code' => $gdnDetail->gdn->code,
                 'date' => $gdnDetail->gdn->issued_on,
                 'quantity' => $gdnDetail->quantity,
                 'balance' => 0.00,
-                'unit_of_measurement' => static::$product->unit_of_measurement,
+                'unit_of_measurement' => $this->product->unit_of_measurement,
                 'details' => Str::of($gdnDetail->gdn->customer->company_name ?? 'Unknown')->prepend('Submitted to '),
                 'function' => 'subtract',
             ];
         });
+
+        return $this;
     }
 
-    public static function formatted($warehouse, $product)
+    public function retrieve($warehouse, $product)
     {
-        static::$product = $product;
+        $this->product = $product;
 
-        static::$warehouse = $warehouse;
+        $this->warehouse = $warehouse;
 
-        $gdnDetails = self::get($warehouse, $product);
-
-        return self::format($gdnDetails);
+        return $this->get()->format()->history;
     }
 }

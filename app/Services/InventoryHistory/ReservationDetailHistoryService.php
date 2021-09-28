@@ -8,37 +8,43 @@ use Illuminate\Support\Str;
 
 class ReservationDetailHistoryService implements DetailHistoryServiceInterface
 {
-    private static $warehouse, $product;
+    private $warehouse, $product, $history;
 
-    public static function get($warehouse, $product)
+    private function get()
     {
-        return (new ReservationDetail())->getByWarehouseAndProduct($warehouse, $product);
+        $this->history = (new ReservationDetail())
+            ->getByWarehouseAndProduct(
+                $this->warehouse,
+                $this->product
+            );
+
+        return $this;
     }
 
-    public static function format($reservationDetails)
+    private function format()
     {
-        return $reservationDetails->map(function ($reservationDetail) {
+        $this->history->transform(function ($reservationDetail) {
             return [
                 'type' => 'RESERVED',
                 'code' => $reservationDetail->reservation->code,
                 'date' => $reservationDetail->reservation->issued_on,
                 'quantity' => $reservationDetail->quantity,
                 'balance' => 0.00,
-                'unit_of_measurement' => static::$product->unit_of_measurement,
+                'unit_of_measurement' => $this->product->unit_of_measurement,
                 'details' => Str::of($reservationDetail->reservation->customer->company_name ?? 'Unknown')->prepend('Reserved for '),
                 'function' => 'subtract',
             ];
         });
+
+        return $this;
     }
 
-    public static function formatted($warehouse, $product)
+    public function retrieve($warehouse, $product)
     {
-        static::$product = $product;
+        $this->product = $product;
 
-        static::$warehouse = $warehouse;
+        $this->warehouse = $warehouse;
 
-        $reservationDetails = self::get($warehouse, $product);
-
-        return self::format($reservationDetails);
+        return $this->get()->format()->history;
     }
 }

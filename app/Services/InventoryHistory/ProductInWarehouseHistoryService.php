@@ -40,7 +40,8 @@ class ProductInWarehouseHistoryService
     private function merge()
     {
         foreach ($this->histories as $historyClass) {
-            $historyClass::formatted($this->warehouse, $this->product)
+            (new $historyClass)
+                ->retrieve($this->warehouse, $this->product)
                 ->each(function ($item) {
                     $this->history->push($item);
                 });

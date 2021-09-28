@@ -7,37 +7,43 @@ use App\Models\DamageDetail;
 
 class DamageDetailHistoryService implements DetailHistoryServiceInterface
 {
-    private static $warehouse, $product;
+    private $warehouse, $product, $history;
 
-    public static function get($warehouse, $product)
+    private function get()
     {
-        return (new DamageDetail())->getByWarehouseAndProduct($warehouse, $product);
+        $this->history = (new DamageDetail())
+            ->getByWarehouseAndProduct(
+                $this->warehouse,
+                $this->product
+            );
+
+        return $this;
     }
 
-    public static function format($damageDetails)
+    private function format()
     {
-        return $damageDetails->map(function ($damageDetail) {
+        $this->history->transform(function ($damageDetail) {
             return [
                 'type' => 'DAMAGE',
                 'code' => $damageDetail->damage->code,
                 'date' => $damageDetail->damage->issued_on,
                 'quantity' => $damageDetail->quantity,
                 'balance' => 0.00,
-                'unit_of_measurement' => static::$product->unit_of_measurement,
-                'details' => 'Damaged in ' . static::$warehouse->name,
+                'unit_of_measurement' => $this->product->unit_of_measurement,
+                'details' => 'Damaged in ' . $this->warehouse->name,
                 'function' => 'subtract',
             ];
         });
+
+        return $this;
     }
 
-    public static function formatted($warehouse, $product)
+    public function retrieve($warehouse, $product)
     {
-        static::$product = $product;
+        $this->product = $product;
 
-        static::$warehouse = $warehouse;
+        $this->warehouse = $warehouse;
 
-        $damageDetails = self::get($warehouse, $product);
-
-        return self::format($damageDetails);
+        return $this->get()->format()->history;
     }
 }

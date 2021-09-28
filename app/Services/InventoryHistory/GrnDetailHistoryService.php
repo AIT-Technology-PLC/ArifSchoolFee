@@ -8,37 +8,43 @@ use Illuminate\Support\Str;
 
 class GrnDetailHistoryService implements DetailHistoryServiceInterface
 {
-    private static $warehouse, $product;
+    private $warehouse, $product, $history;
 
-    public static function get($warehouse, $product)
+    private function get()
     {
-        return (new GrnDetail())->getByWarehouseAndProduct($warehouse, $product);
+        $this->history = (new GrnDetail())
+            ->getByWarehouseAndProduct(
+                $this->warehouse,
+                $this->product
+            );
+
+        return $this;
     }
 
-    public static function format($grnDetails)
+    private function format()
     {
-        return $grnDetails->map(function ($grnDetail) {
+        $this->history->transform(function ($grnDetail) {
             return [
                 'type' => 'GRN',
                 'code' => $grnDetail->grn->code,
                 'date' => $grnDetail->grn->issued_on,
                 'quantity' => $grnDetail->quantity,
                 'balance' => 0.00,
-                'unit_of_measurement' => static::$product->unit_of_measurement,
+                'unit_of_measurement' => $this->product->unit_of_measurement,
                 'details' => Str::of($grnDetail->grn->supplier->company_name ?? 'Unknown')->prepend('Purchased from '),
                 'function' => 'add',
             ];
         });
+
+        return $this;
     }
 
-    public static function formatted($warehouse, $product)
+    public function retrieve($warehouse, $product)
     {
-        static::$product = $product;
+        $this->product = $product;
 
-        static::$warehouse = $warehouse;
+        $this->warehouse = $warehouse;
 
-        $grnDetails = self::get($warehouse, $product);
-
-        return self::format($grnDetails);
+        return $this->get()->format()->history;
     }
 }

@@ -8,49 +8,57 @@ use Illuminate\Support\Str;
 
 class TransferDetailHistoryService implements DetailHistoryServiceInterface
 {
-    private static $warehouse, $product;
+    private $warehouse, $product, $history;
 
-    public static function get($warehouse, $product)
+    private function get()
     {
-        return (new TransferDetail())->getByWarehouseAndProduct($warehouse, $product);
+        $this->history = (new TransferDetail())
+            ->getByWarehouseAndProduct(
+                $this->warehouse,
+                $this->product
+            );
+
+        return $this;
     }
 
-    public static function format($transferDetails, $warehouse = null)
+    private function format()
     {
-        return $transferDetails
-            ->filter(function ($transferDetail) use ($warehouse) {
-                if ($transferDetail->transfer->transferred_to == $warehouse->id && !$transferDetail->transfer->isAdded()) {
+        $history = $this->history
+            ->filter(function ($transferDetail) {
+                if ($transferDetail->transfer->transferred_to == $this->warehouse->id && !$transferDetail->transfer->isAdded()) {
                     return false;
                 }
 
                 return true;
             })
-            ->map(function ($transferDetail) use ($warehouse) {
+            ->map(function ($transferDetail) {
                 return [
                     'type' => 'TRANSFER',
                     'code' => $transferDetail->transfer->code,
                     'date' => $transferDetail->transfer->issued_on,
                     'quantity' => $transferDetail->quantity,
                     'balance' => 0.00,
-                    'unit_of_measurement' => static::$product->unit_of_measurement,
+                    'unit_of_measurement' => $this->product->unit_of_measurement,
 
-                    'details' => $transferDetail->transfer->transferred_from == $warehouse->id ?
-                    Str::of('Transferred')->append(' from ', static::$warehouse->name) :
+                    'details' => $transferDetail->transfer->transferred_from == $this->warehouse->id ?
+                    Str::of('Transferred')->append(' from ', $this->warehouse->name) :
                     Str::of('Transferred')->append(' to ', $transferDetail->transfer->transferredTo->name),
 
-                    'function' => $transferDetail->transfer->transferred_from == $warehouse->id ? 'subtract' : 'add',
+                    'function' => $transferDetail->transfer->transferred_from == $this->warehouse->id ? 'subtract' : 'add',
                 ];
             });
+
+        $this->history = $history;
+
+        return $this;
     }
 
-    public static function formatted($warehouse, $product)
+    public function retrieve($warehouse, $product)
     {
-        static::$product = $product;
+        $this->product = $product;
 
-        static::$warehouse = $warehouse;
+        $this->warehouse = $warehouse;
 
-        $transferDetails = self::get($warehouse, $product);
-
-        return self::format($transferDetails, $warehouse);
+        return $this->get()->format()->history;
     }
 }
