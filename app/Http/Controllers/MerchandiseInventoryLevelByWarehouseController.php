@@ -6,7 +6,7 @@ use App\Models\Merchandise;
 use App\Models\Product;
 use App\Models\Warehouse;
 
-class MerchandiseLevelByWarehouseController extends Controller
+class MerchandiseInventoryLevelByWarehouseController extends Controller
 {
     public function __construct()
     {

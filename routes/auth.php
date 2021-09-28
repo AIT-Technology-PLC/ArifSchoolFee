@@ -115,7 +115,7 @@ Route::resource('sales', Controllers\SaleController::class);
 
 Route::resource('notifications', Controllers\NotificationController::class)->only("index");
 
-Route::resource('warehouses.merchandises', Controllers\MerchandiseLevelByWarehouseController::class);
+Route::resource('warehouses.merchandises', Controllers\MerchandiseInventoryLevelByWarehouseController::class);
 
 Route::resource('suppliers', Controllers\SupplierController::class);
 
