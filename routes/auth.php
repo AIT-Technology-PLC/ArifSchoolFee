@@ -18,9 +18,12 @@ Route::get('/notifications/{notification}/mark-as-read',
 Route::get('/history/products/{product}/warehouses/{warehouse}', Controllers\ProductPerWarehouseHistoryController::class)
     ->name('warehouses-products');
 
-Route::get('merchandises/{type}', Controllers\MerchandiseInventoryLevelController::class)
+Route::get('/merchandises/{type}', Controllers\MerchandiseInventoryLevelController::class)
     ->name('merchandises.index')
     ->where('type', 'on-hand|available|reserved|out-of-stock');
+
+Route::get('/warehouses/{warehouse}/merchandises', Controllers\MerchandiseInventoryLevelByWarehouseController::class)
+    ->name('warehouses.merchandises');
 
 Route::get('/sale/{sale}/gdn/create', Controllers\SaleGdnController::class)
     ->name('sales.gdns.create');
@@ -114,8 +117,6 @@ Route::resource('purchases', Controllers\PurchaseController::class);
 Route::resource('sales', Controllers\SaleController::class);
 
 Route::resource('notifications', Controllers\NotificationController::class)->only("index");
-
-Route::resource('warehouses.merchandises', Controllers\MerchandiseInventoryLevelByWarehouseController::class);
 
 Route::resource('suppliers', Controllers\SupplierController::class);
 

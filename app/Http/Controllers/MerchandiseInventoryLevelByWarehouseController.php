@@ -13,7 +13,7 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
         $this->middleware('isFeatureAccessible:Merchandise Inventory');
     }
 
-    public function index(Warehouse $warehouse, Merchandise $merchandise, Product $product)
+    public function __invoke(Warehouse $warehouse, Merchandise $merchandise, Product $product)
     {
         $this->authorize('view', $warehouse);
 
