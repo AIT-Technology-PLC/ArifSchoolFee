@@ -16,8 +16,6 @@ class DamageDetailHistoryService implements DetailHistoryServiceInterface
                 $this->warehouse,
                 $this->product
             );
-
-        return $this;
     }
 
     private function format()
@@ -34,8 +32,6 @@ class DamageDetailHistoryService implements DetailHistoryServiceInterface
                 'function' => 'subtract',
             ];
         });
-
-        return $this;
     }
 
     public function retrieve($warehouse, $product)
@@ -44,6 +40,10 @@ class DamageDetailHistoryService implements DetailHistoryServiceInterface
 
         $this->warehouse = $warehouse;
 
-        return $this->get()->format()->history;
+        $this->get();
+
+        $this->format();
+
+        return $this->history;
     }
 }

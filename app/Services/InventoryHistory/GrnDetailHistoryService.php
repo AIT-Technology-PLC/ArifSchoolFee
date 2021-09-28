@@ -17,8 +17,6 @@ class GrnDetailHistoryService implements DetailHistoryServiceInterface
                 $this->warehouse,
                 $this->product
             );
-
-        return $this;
     }
 
     private function format()
@@ -35,8 +33,6 @@ class GrnDetailHistoryService implements DetailHistoryServiceInterface
                 'function' => 'add',
             ];
         });
-
-        return $this;
     }
 
     public function retrieve($warehouse, $product)
@@ -45,6 +41,10 @@ class GrnDetailHistoryService implements DetailHistoryServiceInterface
 
         $this->warehouse = $warehouse;
 
-        return $this->get()->format()->history;
+        $this->get();
+
+        $this->format();
+
+        return $this->history;
     }
 }

@@ -17,8 +17,6 @@ class TransferDetailHistoryService implements DetailHistoryServiceInterface
                 $this->warehouse,
                 $this->product
             );
-
-        return $this;
     }
 
     private function format()
@@ -49,8 +47,6 @@ class TransferDetailHistoryService implements DetailHistoryServiceInterface
             });
 
         $this->history = $history;
-
-        return $this;
     }
 
     public function retrieve($warehouse, $product)
@@ -59,6 +55,10 @@ class TransferDetailHistoryService implements DetailHistoryServiceInterface
 
         $this->warehouse = $warehouse;
 
-        return $this->get()->format()->history;
+        $this->get();
+
+        $this->format();
+
+        return $this->history;
     }
 }
