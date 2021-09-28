@@ -18,7 +18,7 @@ Route::get('/notifications/{notification}/mark-as-read',
 Route::get('/history/products/{product}/warehouses/{warehouse}', Controllers\ProductPerWarehouseHistoryController::class)
     ->name('warehouses-products');
 
-Route::get('merchandises/{type}', Controllers\MerchandiseController::class)
+Route::get('merchandises/{type}', Controllers\MerchandiseInventoryLevelController::class)
     ->name('merchandises.index')
     ->where('type', 'on-hand|available|reserved|out-of-stock');
 
