@@ -30,11 +30,13 @@ class ProductPerWarehouseHistoryService
 
         $this->product = $product;
 
-        return $this
-            ->merge()
-            ->sort()
-            ->calculate()
-            ->history;
+        $this->merge();
+
+        $this->sort();
+
+        $this->calculate();
+
+        return $this->history;
     }
 
     private function merge()
@@ -46,15 +48,11 @@ class ProductPerWarehouseHistoryService
                     $this->history->push($item);
                 });
         }
-
-        return $this;
     }
 
     private function sort()
     {
         $this->history = collect($this->history->sortBy('date')->values()->all());
-
-        return $this;
     }
 
     private function calculate()
@@ -69,8 +67,6 @@ class ProductPerWarehouseHistoryService
 
             $this->history[$i] = $this->$method($this->history[$i], $this->history[$i - 1]['balance']);
         }
-
-        return $this;
     }
 
     private function subtract($item, $previousBalance = 0)
