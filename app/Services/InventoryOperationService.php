@@ -63,13 +63,21 @@ class InventoryOperationService
         foreach ($details as $detail) {
             $type = InventoryTypeFactory::make($detail->product->type);
 
-            $type->transfer(
-                $detail->product_id,
-                $detail->transfer->transferred_to,
-                $detail->transfer->transferred_from,
-                $detail->quantity,
-                $isSubtracted
-            );
+            if ($isSubtracted) {
+                $type->add(
+                    $detail->product_id,
+                    $detail->transfer->transferred_to,
+                    $detail->quantity,
+                );
+            }
+
+            if (!$isSubtracted) {
+                $type->subtract(
+                    $detail->product_id,
+                    $detail->transfer->transferred_from,
+                    $detail->quantity,
+                );
+            }
         }
 
         return ['isTransferred' => true];
@@ -77,7 +85,7 @@ class InventoryOperationService
 
     public static function adjust($details)
     {
-        if (!static::isAvailable($details)) {
+        if (!static::isAvailable($details->where('is_subtract', 1))) {
             return [
                 'isAdjusted' => false,
                 'unavailableProducts' => self::$unavailableProducts,
@@ -87,12 +95,21 @@ class InventoryOperationService
         foreach ($details as $detail) {
             $type = InventoryTypeFactory::make($detail->product->type);
 
-            $type->adjust(
-                $detail->product_id,
-                $detail->warehouse_id,
-                $detail->quantity,
-                $detail->is_subtract
-            );
+            if ($detail->is_subtract) {
+                $type->subtract(
+                    $detail->product_id,
+                    $detail->warehouse_id,
+                    $detail->quantity,
+                );
+            }
+
+            if (!$detail->is_subtract) {
+                $type->add(
+                    $detail->product_id,
+                    $detail->warehouse_id,
+                    $detail->quantity,
+                );
+            }
         }
 
         return ['isAdjusted' => true];
@@ -110,10 +127,17 @@ class InventoryOperationService
         foreach ($details as $detail) {
             $type = InventoryTypeFactory::make($detail->product->type);
 
-            $type->reserve(
+            $type->subtract(
                 $detail->product_id,
                 $detail->warehouse_id,
                 $detail->quantity,
+            );
+
+            $type->add(
+                $detail->product_id,
+                $detail->warehouse_id,
+                $detail->quantity,
+                'reserved'
             );
         }
 
@@ -125,7 +149,14 @@ class InventoryOperationService
         foreach ($details as $detail) {
             $type = InventoryTypeFactory::make($detail->product->type);
 
-            $type->cancelReservation(
+            $type->subtract(
+                $detail->product_id,
+                $detail->warehouse_id,
+                $detail->quantity,
+                'reserved'
+            );
+
+            $type->add(
                 $detail->product_id,
                 $detail->warehouse_id,
                 $detail->quantity,

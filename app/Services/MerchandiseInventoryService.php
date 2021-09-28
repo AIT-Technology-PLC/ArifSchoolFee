@@ -51,40 +51,4 @@ class MerchandiseInventoryService
 
         $merchandise->save();
     }
-
-    public function transfer($productId, $transferredTo, $transferredFrom, $quantity, $isSubtracted)
-    {
-        if ($isSubtracted) {
-            $this->add($productId, $transferredTo, $quantity);
-        }
-
-        if (!$isSubtracted) {
-            $this->subtract($productId, $transferredFrom, $quantity);
-        }
-    }
-
-    public function adjust($productId, $warehouseId, $quantity, $isSubtract)
-    {
-        if ($isSubtract) {
-            $this->subtract($productId, $warehouseId, $quantity);
-        }
-
-        if (!$isSubtract) {
-            $this->add($productId, $warehouseId, $quantity);
-        }
-    }
-
-    public function reserve($productId, $warehouseId, $quantity)
-    {
-        $this->subtract($productId, $warehouseId, $quantity);
-
-        $this->add($productId, $warehouseId, $quantity, 'reserved');
-    }
-
-    public function cancelReservation($productId, $warehouseId, $quantity)
-    {
-        $this->subtract($productId, $warehouseId, $quantity, 'reserved');
-
-        $this->add($productId, $warehouseId, $quantity);
-    }
 }
