@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers as Controllers;
+use App\Http\Controllers\Auth as Auth;
+use App\Http\Controllers\Invokable as Invokable;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'menu.index')->name('home');
@@ -15,14 +17,14 @@ Route::get('/notifications/{notification}/mark-as-read',
     [Controllers\NotificationController::class, 'markNotificationAsRead'])
     ->name('notifications.markAsRead');
 
-Route::get('/history/products/{product}/warehouses/{warehouse}', Controllers\ProductPerWarehouseHistoryController::class)
+Route::get('/history/products/{product}/warehouses/{warehouse}', Invokable\ProductPerWarehouseHistoryController::class)
     ->name('warehouses-products');
 
-Route::get('/merchandises/{type}', Controllers\MerchandiseInventoryLevelController::class)
+Route::get('/merchandises/{type}', Invokable\MerchandiseInventoryLevelController::class)
     ->name('merchandises.index')
     ->where('type', 'on-hand|available|reserved|out-of-stock');
 
-Route::get('/warehouses/{warehouse}/merchandises', Controllers\MerchandiseInventoryLevelByWarehouseController::class)
+Route::get('/warehouses/{warehouse}/merchandises', Invokable\MerchandiseInventoryLevelByWarehouseController::class)
     ->name('warehouses.merchandises');
 
 Route::get('/sale/{sale}/gdn/create', Controllers\SaleGdnController::class)
@@ -48,7 +50,7 @@ Route::get('/proforma-invoices/{proformaInvoice}/print', [Controllers\ProformaIn
 
 Route::get('/returns/{return}/print', [Controllers\ReturnController::class, 'printed'])->name('returns.print');
 
-Route::get('/password/edit', [Controllers\PasswordResetController::class, 'edit'])->name('password.edit');
+Route::get('/password/edit', [Auth\PasswordResetController::class, 'edit'])->name('password.edit');
 
 Route::get('/tenders/{tender}/print', [Controllers\TenderController::class, 'printed'])->name('tenders.print');
 
@@ -62,7 +64,7 @@ Route::patch('/notifications/mark-all-read',
     [Controllers\NotificationController::class, 'markAllNotificationsAsRead'])
     ->name('notifications.markAllAsRead');
 
-Route::patch('/password/update', [Controllers\PasswordResetController::class, 'update'])->name('password.update');
+Route::patch('/password/update', [Auth\PasswordResetController::class, 'update'])->name('password.update');
 
 Route::post('purchase-orders/{purchaseOrder}/close', [Controllers\PurchaseOrderController::class, 'close'])->name('purchase-orders.close');
 

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Invokable;
 
+use App\Http\Controllers\Controller;
 use App\Models\Merchandise;
 use App\Models\Product;
 use App\Models\Warehouse;
