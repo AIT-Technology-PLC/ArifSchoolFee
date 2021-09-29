@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class NotificationCounter extends Component
 {
-    public $totalUnreadNotifications;
+    public $totalUnreadNotifications, $class;
 
     protected $listeners = [
         'notificationComponentRefreshed' => 'getTotalUnreadNotifications',

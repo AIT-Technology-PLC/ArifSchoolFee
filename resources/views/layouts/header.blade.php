@@ -18,12 +18,7 @@
                     <i class="fas fa-plus"></i>
                 </span>
             </a>
-            <a class="navbar-item has-text-white is-size-5 is-hidden-desktop notification-bell-button">
-                <span class="icon">
-                    <i class="fas fa-bell"></i>
-                </span>
-                <livewire:notification-counter />
-            </a>
+            <livewire:notification-counter class="navbar-item has-text-white is-size-5 is-hidden-desktop notification-bell-button" />
             <span id="burger-menu" class="navbar-item has-text-white is-size-5 is-hidden-desktop">
                 <span class="icon">
                     <i id="burgerMenuBars" class="fas fa-bars"></i>
@@ -69,12 +64,7 @@
                         <i class="fas fa-plus"></i>
                     </span>
                 </a>
-                <a class="navbar-item has-text-white link-text notification-bell-button">
-                    <span class="icon">
-                        <i class="fas fa-bell"></i>
-                    </span>
-                    <livewire:notification-counter />
-                </a>
+                <livewire:notification-counter class="navbar-item has-text-white link-text notification-bell-button" />
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link is-arrowless">
                         <figure class="image is-24x24" style="margin: auto !important">
