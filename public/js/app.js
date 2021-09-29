@@ -441,20 +441,14 @@ function toggleNotificationBox() {
     d.getElementById("notificationBox").classList.toggle("is-hidden");
 }
 
-async function getUnreadNotifications() {
-    const response = await axios.get("/notifications/unread");
-    const unreadNotifications = response.data;
-
-    return unreadNotifications;
-}
-
 async function showNewNotifications() {
     const notificationBody = d.getElementById("notificationBody");
     const notificationCountDesktop = d.getElementById(
         "notificationCountDesktop"
     );
     const notificationCountMobile = d.getElementById("notificationCountMobile");
-    const unreadNotifications = await getUnreadNotifications();
+    const response = await axios.get("/api/notifications/unread");
+    const unreadNotifications = response.data;
     let notification = "";
 
     if (unreadNotifications.length) {
@@ -478,14 +472,14 @@ async function showNewNotifications() {
                         </a>
                         <br>
                         <span class="is-size-7 has-text-weight-bold">
-                            just now
+                            ${unreadNotifications[index].diff_for_humans}
                         </span>
                     </div>
                 </div>
                 <hr class="mt-0 mb-0">`;
         }
 
-        notificationBody.innerHTML = notification;
+        notificationBody.firstElementChild.innerHTML = notification;
     }
 }
 

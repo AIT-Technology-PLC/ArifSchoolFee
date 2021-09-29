@@ -8,9 +8,6 @@ Route::get('/employees/{employee}/permissions/edit',
     [Controllers\PermissionController::class, 'edit'])
     ->name('permissions.edit');
 
-Route::get('/notifications/unread',
-    [Controllers\NotificationController::class, 'getUnreadNotifications']);
-
 Route::get('/sale/{sale}/gdn/create',
     Controllers\SaleGdnController::class)
     ->name('sales.gdns.create');

@@ -33,13 +33,6 @@ class NotificationController extends Controller
         return redirect()->back();
     }
 
-    public function getUnreadNotifications()
-    {
-        $unreadNotifications = auth()->user()->unreadNotifications;
-
-        return $unreadNotifications;
-    }
-
     public function markAllNotificationsAsRead()
     {
         auth()->user()->notifications->markAsRead();

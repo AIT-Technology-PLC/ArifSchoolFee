@@ -5,47 +5,51 @@
             <button id="closeNotificationButton" class="delete"></button>
         </div>
         <div id="notificationBody" class="message-body is-overflow has-background-white p-0" style="max-height: 300px !important">
-            @foreach ($unreadNotifications as $unreadNotification)
-                <div class="columns is-marginless has-background-white-bis text-green py-3 is-size-6-5 is-mobile">
-                    <div class="column is-1">
-                        <span class="icon is-small">
-                            <i class="fas fa-{{ $unreadNotification->data['icon'] }}"></i>
-                        </span>
+            <div id="unread-notifications">
+                @foreach ($unreadNotifications as $unreadNotification)
+                    <div class="columns is-marginless has-background-white-bis text-green py-3 is-size-6-5 is-mobile">
+                        <div class="column is-1">
+                            <span class="icon is-small">
+                                <i class="fas fa-{{ $unreadNotification->data['icon'] }}"></i>
+                            </span>
+                        </div>
+                        <div class="column is-11 pl-1">
+                            <a data-notification-id="{{ $unreadNotification->id }}" class="unreadNotifications is-not-underlined" href="{{ $unreadNotification->data['endpoint'] }}">
+                                {{ $unreadNotification->data['message'] }}
+                            </a>
+                            <br>
+                            <span class="is-size-7 has-text-weight-bold">
+                                {{ $unreadNotification->created_at->diffForHumans() }}
+                            </span>
+                        </div>
                     </div>
-                    <div class="column is-11 pl-1">
-                        <a data-notification-id="{{ $unreadNotification->id }}" class="unreadNotifications is-not-underlined" href="{{ $unreadNotification->data['endpoint'] }}">
-                            {{ $unreadNotification->data['message'] }}
-                        </a>
-                        <br>
-                        <span class="is-size-7 has-text-weight-bold">
-                            {{ $unreadNotification->created_at->diffForHumans() }}
-                        </span>
+                    <hr class="mt-0 mb-0">
+                @endforeach
+            </div>
+            <div id="read-notifications">
+                @foreach ($readNotifications as $readNotification)
+                    @if ($loop->index == 5)
+                        @break
+                    @endif
+                    <div class="columns is-marginless has-background-white text-green py-3 is-size-6-5 is-mobile">
+                        <div class="column is-1">
+                            <span class="icon is-small">
+                                <i class="fas fa-{{ $readNotification->data['icon'] }}"></i>
+                            </span>
+                        </div>
+                        <div class="column is-11 pl-1">
+                            <a data-notification-id="{{ $readNotification->id }}" class="readNotifications is-not-underlined" href="{{ $readNotification->data['endpoint'] }}">
+                                {{ $readNotification->data['message'] }}
+                            </a>
+                            <br>
+                            <span class="is-size-7 has-text-weight-bold">
+                                {{ $readNotification->created_at->diffForHumans() }}
+                            </span>
+                        </div>
                     </div>
-                </div>
-                <hr class="mt-0 mb-0">
-            @endforeach
-            @foreach ($readNotifications as $readNotification)
-                @if ($loop->index == 5)
-                    @break
-                @endif
-                <div class="columns is-marginless has-background-white text-green py-3 is-size-6-5 is-mobile">
-                    <div class="column is-1">
-                        <span class="icon is-small">
-                            <i class="fas fa-{{ $readNotification->data['icon'] }}"></i>
-                        </span>
-                    </div>
-                    <div class="column is-11 pl-1">
-                        <a data-notification-id="{{ $readNotification->id }}" class="readNotifications is-not-underlined" href="{{ $readNotification->data['endpoint'] }}">
-                            {{ $readNotification->data['message'] }}
-                        </a>
-                        <br>
-                        <span class="is-size-7 has-text-weight-bold">
-                            {{ $readNotification->created_at->diffForHumans() }}
-                        </span>
-                    </div>
-                </div>
-                <hr class="mt-0 mb-0">
-            @endforeach
+                    <hr class="mt-0 mb-0">
+                @endforeach
+            </div>
             @if ($unreadNotifications->isEmpty() && $readNotifications->isEmpty())
                 <div class="columns is-marginless has-background-white has-text-black py-3 is-size-6-5 is-mobile">
                     <div class="column is-12">
