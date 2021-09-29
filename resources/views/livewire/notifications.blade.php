@@ -1,4 +1,4 @@
-<div wire:poll.360000ms>
+<div wire:poll.keep-alive.300000ms>
     <section id="notificationBox" class="notification-box mt-1 is-hidden">
         <article class="message m-lr-10">
             <div class="message-header bg-green has-text-white">

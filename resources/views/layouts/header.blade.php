@@ -22,9 +22,7 @@
                 <span class="icon">
                     <i class="fas fa-bell"></i>
                 </span>
-                <span id="notificationCountMobile" class="has-text-white has-text-centered has-text-weight-bold bg-brown {{ $unreadNotificationsCount ? '' : 'is-hidden' }}">
-                    {{ $unreadNotificationsCount }}
-                </span>
+                <livewire:notification-counter />
             </a>
             <span id="burger-menu" class="navbar-item has-text-white is-size-5 is-hidden-desktop">
                 <span class="icon">
@@ -75,9 +73,7 @@
                     <span class="icon">
                         <i class="fas fa-bell"></i>
                     </span>
-                    <span id="notificationCountDesktop" class="has-text-white has-text-centered has-text-weight-bold bg-brown {{ $unreadNotificationsCount ? '' : 'is-hidden' }}">
-                        {{ $unreadNotificationsCount }}
-                    </span>
+                    <livewire:notification-counter />
                 </a>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link is-arrowless">

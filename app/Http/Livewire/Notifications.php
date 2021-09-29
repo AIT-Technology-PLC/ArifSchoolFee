@@ -32,6 +32,8 @@ class Notifications extends Component
     {
         $this->getNotifications();
 
+        $this->emit("notificationComponentRefreshed");
+
         return view('livewire.notifications');
     }
 }
