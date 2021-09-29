@@ -57,16 +57,18 @@ class ProductPerWarehouseHistoryService
 
     private function calculate()
     {
-        for ($i = 0; $i < $this->history->count(); $i++) {
-            $method = $this->history[$i]['function'];
+        $this->history
+            ->each(function ($item, $key) {
+                $method = $this->history[$key]['function'];
 
-            if ($i == 0) {
-                $this->history[$i] = $this->$method($this->history[$i]);
-                continue;
-            }
+                if ($key == 0) {
+                    $this->history[$key] = $this->$method($this->history[$key]);
 
-            $this->history[$i] = $this->$method($this->history[$i], $this->history[$i - 1]['balance']);
-        }
+                    return;
+                }
+
+                $this->history[$key] = $this->$method($this->history[$key], $this->history[$key - 1]['balance']);
+            });
     }
 
     private function subtract($item, $previousBalance = 0)
