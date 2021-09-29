@@ -22,13 +22,9 @@ class NotificationController extends Controller
 
     public function update(Notification $notification)
     {
-        if ($notification->notifiable->id == auth()->id()) {
-            $notification->markAsRead();
-        }
+        abort_if($notification->notifiable_id != auth()->id(), 403);
 
-        if (request()->ajax()) {
-            return response(true);
-        }
+        $notification->unread() ? $notification->markAsRead() : '';
 
         return redirect()->back();
     }
