@@ -441,54 +441,6 @@ function toggleNotificationBox() {
     d.getElementById("notificationBox").classList.toggle("is-hidden");
 }
 
-async function showNewNotifications() {
-    const notificationBody = d.getElementById("notificationBody");
-    const notificationCountDesktop = d.getElementById(
-        "notificationCountDesktop"
-    );
-    const notificationCountMobile = d.getElementById("notificationCountMobile");
-    const response = await axios.get("/api/notifications/unread");
-    const unreadNotifications = response.data;
-    let notification = "";
-
-    if (unreadNotifications.length) {
-        notificationCountDesktop.classList.remove("is-hidden");
-        notificationCountMobile.classList.remove("is-hidden");
-
-        notificationCountDesktop.innerText = unreadNotifications.length;
-        notificationCountMobile.innerText = unreadNotifications.length;
-
-        for (let index = 0; index < unreadNotifications.length; index++) {
-            notification += `
-                <div class="columns is-marginless has-background-white-bis text-green py-3 is-size-6-5 is-mobile">
-                    <div class="column is-1">
-                        <span class="icon is-small">
-                            <i class="fas fa-${unreadNotifications[index].data.icon}"></i>
-                        </span>
-                    </div>
-                    <div class="column is-11 pl-1">
-                        <a data-notification-id="${unreadNotifications[index].id}" class="unreadNotifications is-not-underlined" href="${unreadNotifications[index].data.endpoint}">
-                            ${unreadNotifications[index].data.message}
-                        </a>
-                        <br>
-                        <span class="is-size-7 has-text-weight-bold">
-                            ${unreadNotifications[index].diff_for_humans}
-                        </span>
-                    </div>
-                </div>
-                <hr class="mt-0 mb-0">`;
-        }
-
-        notificationBody.firstElementChild.innerHTML = notification;
-    }
-}
-
-function markNotificationAsRead(event) {
-    if (event.target.classList.contains("unreadNotifications")) {
-        axios.patch(`/notifications/${event.target.dataset.notificationId}`);
-    }
-}
-
 function openMarkAllNotificationsAsReadModal(event) {
     event.preventDefault();
     swal({

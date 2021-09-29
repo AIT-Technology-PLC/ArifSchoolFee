@@ -338,8 +338,7 @@ td {
         width: 100%;
     }
 }
-#notificationCountDesktop,
-#notificationCountMobile {
+.notification-counter {
     position: absolute;
     top: 5px;
     content: attr(data-notif);

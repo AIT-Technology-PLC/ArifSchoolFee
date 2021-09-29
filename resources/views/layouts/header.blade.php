@@ -18,7 +18,7 @@
                     <i class="fas fa-plus"></i>
                 </span>
             </a>
-            <a id="notificationButtonMobile" class="navbar-item has-text-white is-size-5 is-hidden-desktop">
+            <a class="navbar-item has-text-white is-size-5 is-hidden-desktop notification-bell-button">
                 <span class="icon">
                     <i class="fas fa-bell"></i>
                 </span>
@@ -69,7 +69,7 @@
                         <i class="fas fa-plus"></i>
                     </span>
                 </a>
-                <a id="notificationButtonDesktop" class="navbar-item has-text-white link-text">
+                <a class="navbar-item has-text-white link-text notification-bell-button">
                     <span class="icon">
                         <i class="fas fa-bell"></i>
                     </span>

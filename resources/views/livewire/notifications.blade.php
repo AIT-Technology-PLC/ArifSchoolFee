@@ -5,7 +5,7 @@
                 <p class="is-size-7">Notifications</p>
                 <button id="closeNotificationButton" class="delete"></button>
             </div>
-            <div id="notificationBody" class="message-body is-overflow has-background-white p-0" style="max-height: 300px !important">
+            <div class="message-body is-overflow has-background-white p-0" style="max-height: 300px !important">
                 @foreach ($unreadNotifications as $unreadNotification)
                     <div class="columns is-marginless has-background-white-bis text-green py-3 is-size-6-5 is-mobile">
                         <div class="column is-1">

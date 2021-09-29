@@ -15,7 +15,6 @@ class FeatureAuthComposer
             'pwa.tags',
             'layouts.header',
             'layouts.create-menu',
-            'layouts.notification-box',
             'layouts.menu',
             'layouts.footer',
             'assets.js',

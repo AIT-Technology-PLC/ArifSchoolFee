@@ -118,28 +118,13 @@ window.addEventListener("offline", showOfflineBox);
 window.addEventListener("load", showOfflineBoxPermanent);
 
 if (d.getElementById("notificationBox")) {
-    d.getElementById("notificationButtonDesktop").addEventListener(
-        "click",
-        toggleNotificationBox
-    );
-
-    d.getElementById("notificationButtonMobile").addEventListener(
-        "click",
-        toggleNotificationBox
-    );
+    d.querySelectorAll(".notification-bell-button").forEach((element) => {
+        element.addEventListener("click", toggleNotificationBox);
+    });
 
     d.getElementById("closeNotificationButton").addEventListener(
         "click",
         toggleNotificationBox
-    );
-
-    window.addEventListener("load", () =>
-        setInterval(showNewNotifications, 360000)
-    );
-
-    d.getElementById("notificationBox").addEventListener(
-        "click",
-        markNotificationAsRead
     );
 }
 
