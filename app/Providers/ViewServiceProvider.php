@@ -26,7 +26,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('*', NotificationComposer::class);
+        View::composer('layouts.header', NotificationComposer::class);
 
         View::composer('*', FeatureAuthComposer::class);
     }

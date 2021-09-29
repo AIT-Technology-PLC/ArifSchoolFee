@@ -22,6 +22,7 @@ class FeatureAuthComposer
             'components.delete-button',
             'components.deleted-message',
             'components.product-list',
+            'livewire.notifications',
             'warehouses.merchandises.on-hand',
             'warehouses.merchandises.out-of',
             'merchandises.on-hand',

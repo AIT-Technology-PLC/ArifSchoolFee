@@ -13,8 +13,7 @@ class NotificationComposer
         }
 
         $view->with([
-            'unreadNotifications' => auth()->user()->unreadNotifications,
-            'readNotifications' => auth()->user()->readNotifications,
+            'unreadNotificationsCount' => auth()->user()->unreadNotifications()->count(),
         ]);
     }
 }

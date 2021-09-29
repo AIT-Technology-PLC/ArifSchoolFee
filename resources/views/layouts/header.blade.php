@@ -22,8 +22,8 @@
                 <span class="icon">
                     <i class="fas fa-bell"></i>
                 </span>
-                <span id="notificationCountMobile" class="has-text-white has-text-centered has-text-weight-bold bg-brown {{ $unreadNotifications->count() ? '' : 'is-hidden' }}">
-                    {{ $unreadNotifications->count() }}
+                <span id="notificationCountMobile" class="has-text-white has-text-centered has-text-weight-bold bg-brown {{ $unreadNotificationsCount ? '' : 'is-hidden' }}">
+                    {{ $unreadNotificationsCount }}
                 </span>
             </a>
             <span id="burger-menu" class="navbar-item has-text-white is-size-5 is-hidden-desktop">
@@ -75,8 +75,8 @@
                     <span class="icon">
                         <i class="fas fa-bell"></i>
                     </span>
-                    <span id="notificationCountDesktop" class="has-text-white has-text-centered has-text-weight-bold bg-brown {{ $unreadNotifications->count() ? '' : 'is-hidden' }}">
-                        {{ $unreadNotifications->count() }}
+                    <span id="notificationCountDesktop" class="has-text-white has-text-centered has-text-weight-bold bg-brown {{ $unreadNotificationsCount ? '' : 'is-hidden' }}">
+                        {{ $unreadNotificationsCount }}
                     </span>
                 </a>
                 <div class="navbar-item has-dropdown is-hoverable">
@@ -127,6 +127,6 @@
             </div>
         </div>
         @include('layouts.create-menu')
-        @include('layouts.notification-box')
+        <livewire:notifications />
     </div>
 </nav>
