@@ -10,7 +10,7 @@ class NotificationCounter extends Component
     public $totalUnreadNotifications, $class;
 
     protected $listeners = [
-        'notificationComponentRefreshed' => 'getTotalUnreadNotifications',
+        'notificationComponentRefreshed' => 'render',
     ];
 
     public function render()
