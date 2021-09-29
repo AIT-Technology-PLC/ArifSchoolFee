@@ -43,13 +43,25 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 
+            // Auth Controllers
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
 
+            // Api & Invokable Controllers
             Route::middleware(['web', 'auth', 'isEmployeeEnabled'])
                 ->namespace($this->namespace)
-                ->group(base_path('routes/auth.php'));
+                ->group(base_path('routes/other.php'));
+
+            // Action Controllers
+            Route::middleware(['web', 'auth', 'isEmployeeEnabled'])
+                ->namespace($this->namespace)
+                ->group(base_path('routes/action.php'));
+
+            // Resource Controllers
+            Route::middleware(['web', 'auth', 'isEmployeeEnabled'])
+                ->namespace($this->namespace)
+                ->group(base_path('routes/resource.php'));
         });
     }
 
