@@ -7,38 +7,38 @@
             </div>
             <div class="message-body is-overflow has-background-white p-0" style="max-height: 300px !important">
                 @foreach ($unreadNotifications as $unreadNotification)
-                    <div class="columns is-marginless has-background-white-bis text-green py-3 is-size-6-5 is-mobile">
+                    <div wire:click="markAsRead({{ $unreadNotification }})" class="columns is-marginless bg-lightgreen text-green py-3 is-size-6-5 is-mobile is-clickable">
                         <div class="column is-1">
                             <span class="icon is-small">
                                 <i class="fas fa-{{ $unreadNotification->data['icon'] }}"></i>
                             </span>
                         </div>
                         <div class="column is-11 pl-1">
-                            <a wire:click="markAsRead({{ $unreadNotification }})" class="is-not-underlined">
+                            <span>
                                 {{ $unreadNotification->data['message'] }}
-                            </a>
+                            </span>
                             <br>
                             <span class="is-size-7 has-text-weight-bold">
                                 {{ $unreadNotification->created_at->diffForHumans() }}
                             </span>
                         </div>
                     </div>
-                    <hr class="mt-0 mb-0">
+                    <hr class="mt-0 mb-0 has-background-white">
                 @endforeach
                 @foreach ($readNotifications as $readNotification)
                     @if ($loop->index == 5)
                         @break
                     @endif
-                    <div class="columns is-marginless has-background-white text-green py-3 is-size-6-5 is-mobile">
+                    <div wire:click="redirectToEndpoint({{ $readNotification }})" class="columns is-marginless has-background-white text-green py-3 is-size-6-5 is-mobile is-clickable">
                         <div class="column is-1">
                             <span class="icon is-small">
                                 <i class="fas fa-{{ $readNotification->data['icon'] }}"></i>
                             </span>
                         </div>
                         <div class="column is-11 pl-1">
-                            <a wire:click="redirectToEndpoint({{ $readNotification }})" class="is-not-underlined">
+                            <span>
                                 {{ $readNotification->data['message'] }}
-                            </a>
+                            </span>
                             <br>
                             <span class="is-size-7 has-text-weight-bold">
                                 {{ $readNotification->created_at->diffForHumans() }}
