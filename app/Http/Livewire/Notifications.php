@@ -9,13 +9,6 @@ class Notifications extends Component
 {
     public $readNotifications, $unreadNotifications;
 
-    public function getNotifications()
-    {
-        $this->readNotifications = auth()->user()->readNotifications;
-
-        $this->unreadNotifications = auth()->user()->unreadNotifications;
-    }
-
     public function markAsRead(Notification $notification)
     {
         $notification->markAsRead();
@@ -30,7 +23,9 @@ class Notifications extends Component
 
     public function render()
     {
-        $this->getNotifications();
+        $this->readNotifications = auth()->user()->readNotifications;
+
+        $this->unreadNotifications = auth()->user()->unreadNotifications;
 
         $this->emit("notificationComponentRefreshed");
 

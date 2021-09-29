@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class NotificationCounter extends Component
@@ -12,16 +13,12 @@ class NotificationCounter extends Component
         'notificationComponentRefreshed' => 'getTotalUnreadNotifications',
     ];
 
-    public function getTotalUnreadNotifications()
-    {
-        $this->totalUnreadNotifications = cache()->store('array')->rememberForever('totalUnreadNotifications', function () {
-            return auth()->user()->unreadNotifications()->count();
-        });
-    }
-
     public function render()
     {
-        $this->getTotalUnreadNotifications();
+        $this->totalUnreadNotifications = Cache::store('array')
+            ->rememberForever('totalUnreadNotifications', function () {
+                return auth()->user()->unreadNotifications()->count();
+            });
 
         return view('livewire.notification-counter');
     }
