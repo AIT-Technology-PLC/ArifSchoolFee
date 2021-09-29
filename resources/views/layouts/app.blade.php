@@ -16,7 +16,7 @@
     <main>
         <div class="columns is-marginless">
             <div id="menuLeft" class="column is-one-fifth py-5 scroller is-overflow is-hidden-mobile">
-                @include('layouts.menu')
+                <x-side-menu />
             </div>
             <div id="contentRight" class="column bg-lightgreen py-5 scroller">
                 @yield('content')

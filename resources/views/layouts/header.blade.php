@@ -112,7 +112,7 @@
                 </div>
             </div>
         </div>
-        @include('layouts.create-menu')
+        <x-create-menu />
         <livewire:notifications />
     </div>
 </nav>
