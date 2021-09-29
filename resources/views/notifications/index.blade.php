@@ -121,16 +121,18 @@
                                         </span>
                                     </a>
                                     @if (!$notification->read())
-                                        <a href="{{ route('notifications.markAsRead', $notification->id) }}">
-                                            <span class="tag btn-green is-outlined is-small text-green has-text-weight-medium">
+                                        <form class="is-inline" action="{{ route('notifications.update', $notification->id) }}" method="post">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button data-type="notification as read" data-action="mark" data-description="" class="swal tag btn-green is-outlined is-small text-green has-text-weight-medium is-pointer">
                                                 <span class="icon">
                                                     <i class="fas fa-check-double"></i>
                                                 </span>
                                                 <span>
                                                     Mark as read
                                                 </span>
-                                            </span>
-                                        </a>
+                                            </button>
+                                        </form>
                                     @endif
                                 </td>
                             </tr>

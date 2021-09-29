@@ -11,10 +11,6 @@ Route::get('/employees/{employee}/permissions/edit',
 Route::get('/notifications/unread',
     [Controllers\NotificationController::class, 'getUnreadNotifications']);
 
-Route::get('/notifications/{notification}/mark-as-read',
-    [Controllers\NotificationController::class, 'markNotificationAsRead'])
-    ->name('notifications.markAsRead');
-
 Route::get('/sale/{sale}/gdn/create',
     Controllers\SaleGdnController::class)
     ->name('sales.gdns.create');

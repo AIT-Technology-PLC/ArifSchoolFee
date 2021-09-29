@@ -20,22 +20,24 @@ class NotificationController extends Controller
         return view('notifications.index', compact('notifications', 'unreadNotifications'));
     }
 
-    public function getUnreadNotifications()
-    {
-        $unreadNotifications = auth()->user()->unreadNotifications;
-
-        return $unreadNotifications;
-    }
-
-    public function markNotificationAsRead(Notification $notification)
+    public function update(Notification $notification)
     {
         if ($notification->notifiable->id == auth()->id()) {
             $notification->markAsRead();
         }
 
-        if (!request()->ajax()) {
-            return redirect()->back();
+        if (request()->ajax()) {
+            return response(true);
         }
+
+        return redirect()->back();
+    }
+
+    public function getUnreadNotifications()
+    {
+        $unreadNotifications = auth()->user()->unreadNotifications;
+
+        return $unreadNotifications;
     }
 
     public function markAllNotificationsAsRead()

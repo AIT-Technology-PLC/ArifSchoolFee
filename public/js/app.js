@@ -491,9 +491,7 @@ async function showNewNotifications() {
 
 function markNotificationAsRead(event) {
     if (event.target.classList.contains("unreadNotifications")) {
-        axios.get(
-            `/notifications/${event.target.dataset.notificationId}/mark-as-read`
-        );
+        axios.patch(`/notifications/${event.target.dataset.notificationId}`);
     }
 }
 
