@@ -13,12 +13,12 @@ class Notifications extends Component
     {
         $notification->markAsRead();
 
-        return $this->redirectToEndpoint($notification);
+        return $this->redirectToEndpoint($notification->data['endpoint']);
     }
 
-    public function redirectToEndpoint(Notification $notification)
+    public function redirectToEndpoint($endpoint)
     {
-        return redirect($notification->data['endpoint']);
+        return redirect($endpoint);
     }
 
     public function render()

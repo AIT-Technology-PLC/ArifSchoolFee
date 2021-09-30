@@ -7,7 +7,7 @@
             </div>
             <div class="message-body is-overflow has-background-white p-0" style="max-height: 300px !important">
                 @foreach ($unreadNotifications as $unreadNotification)
-                    <div wire:click="markAsRead({{ $unreadNotification }})" class="columns is-marginless has-background-white-ter text-green py-1 is-size-6-5 is-mobile is-clickable">
+                    <div wire:click="markAsRead('{{ $unreadNotification->id }}')" class="columns is-marginless has-background-white-ter text-green py-1 is-size-6-5 is-mobile is-clickable">
                         <div class="column is-1 pb-0">
                             <span class="icon is-small">
                                 <i class="fas fa-{{ $unreadNotification->data['icon'] }}"></i>
@@ -28,7 +28,7 @@
                     @if ($loop->index == 5)
                         @break
                     @endif
-                    <div wire:click="redirectToEndpoint({{ $readNotification }})" class="columns is-marginless has-background-white text-green py-1 is-size-6-5 is-mobile is-clickable">
+                    <div wire:click="redirectToEndpoint('{{ $readNotification->data['endpoint'] }}')" class="columns is-marginless has-background-white text-green py-1 is-size-6-5 is-mobile is-clickable">
                         <div class="column is-1 pb-0">
                             <span class="icon is-small">
                                 <i class="fas fa-{{ $readNotification->data['icon'] }}"></i>
