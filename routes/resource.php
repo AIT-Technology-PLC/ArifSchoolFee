@@ -8,9 +8,10 @@ Route::resource('products', Resource\ProductController::class);
 
 Route::resource('categories', Resource\ProductCategoryController::class);
 
+// TODO
 Route::resource('employees', Controllers\EmployeeController::class);
 
-Route::resource('companies', Controllers\CompanyController::class);
+Route::resource('companies', Resource\CompanyController::class);
 
 Route::resource('purchases', Controllers\PurchaseController::class);
 
