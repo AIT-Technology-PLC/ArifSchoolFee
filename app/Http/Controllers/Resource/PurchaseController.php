@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
 use App\Models\Purchase;
@@ -10,22 +11,20 @@ use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
-    private $purchase;
-
-    public function __construct(Purchase $purchase)
+    public function __construct()
     {
         $this->middleware('isFeatureAccessible:Purchase Management');
 
         $this->authorizeResource(Purchase::class, 'purchase');
-
-        $this->purchase = $purchase;
     }
 
     public function index()
     {
-        $purchases = $this->purchase->getAll()->load(['createdBy', 'updatedBy', 'company', 'purchaseDetails']);
+        $purchases = (new Purchase)
+            ->getAll()
+            ->load(['createdBy', 'updatedBy', 'purchaseDetails']);
 
-        $totalPurchases = $purchases->count();
+        $totalPurchases = Purchase::count();
 
         return view('purchases.index', compact('purchases', 'totalPurchases'));
     }
@@ -42,7 +41,7 @@ class PurchaseController extends Controller
     public function store(StorePurchaseRequest $request)
     {
         $purchase = DB::transaction(function () use ($request) {
-            $purchase = $this->purchase->create($request->except('purchase'));
+            $purchase = Purchase::create($request->except('purchase'));
 
             $purchase->purchaseDetails()->createMany($request->purchase);
 

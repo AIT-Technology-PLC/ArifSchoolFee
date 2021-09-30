@@ -13,7 +13,7 @@ Route::resource('employees', Controllers\EmployeeController::class);
 
 Route::resource('companies', Resource\CompanyController::class);
 
-Route::resource('purchases', Controllers\PurchaseController::class);
+Route::resource('purchases', Resource\PurchaseController::class);
 
 Route::resource('sales', Controllers\SaleController::class);
 
