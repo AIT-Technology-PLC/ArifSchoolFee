@@ -77,7 +77,7 @@ class GdnController extends Controller
 
     public function edit(Gdn $gdn)
     {
-        if ($gdn->reservation) {
+        if ($gdn->reservation()->exists()) {
             return redirect()->back()
                 ->with('failedMessage', 'You cannot edit a DO that belongs to a reservation.');
         }
@@ -95,7 +95,7 @@ class GdnController extends Controller
 
     public function update(UpdateGdnRequest $request, Gdn $gdn)
     {
-        if ($gdn->reservation) {
+        if ($gdn->reservation()->exists()) {
             return redirect()->route('gdns.show', $gdn->id)
                 ->with('failedMessage', 'You cannot edit a DO that belongs to a reservation.');
         }
@@ -119,7 +119,7 @@ class GdnController extends Controller
 
     public function destroy(Gdn $gdn)
     {
-        if ($gdn->reservation) {
+        if ($gdn->reservation()->exists()) {
             return redirect()->back()
                 ->with('failedMessage', "You cannot delete a DO that belongs to a reservation, instead cancel the reservation.");
         }
