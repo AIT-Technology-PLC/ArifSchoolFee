@@ -35,7 +35,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $unreadNotifications->count() }}
+                            {{ $totalUnreadNotifications }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Total Unseen Notifications

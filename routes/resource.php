@@ -17,7 +17,7 @@ Route::resource('purchases', Resource\PurchaseController::class);
 
 Route::resource('sales', Resource\SaleController::class);
 
-Route::resource('notifications', Controllers\NotificationController::class)->only(['index', 'update']);
+Route::resource('notifications', Resource\NotificationController::class);
 
 Route::resource('suppliers', Controllers\SupplierController::class);
 

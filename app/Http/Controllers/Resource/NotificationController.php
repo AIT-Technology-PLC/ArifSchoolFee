@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Notifications\DatabaseNotification as Notification;
 
 class NotificationController extends Controller
@@ -15,9 +16,9 @@ class NotificationController extends Controller
     {
         $notifications = auth()->user()->notifications;
 
-        $unreadNotifications = auth()->user()->unreadNotifications;
+        $totalUnreadNotifications = auth()->user()->unreadNotifications()->count();
 
-        return view('notifications.index', compact('notifications', 'unreadNotifications'));
+        return view('notifications.index', compact('notifications', 'totalUnreadNotifications'));
     }
 
     public function update(Notification $notification)
