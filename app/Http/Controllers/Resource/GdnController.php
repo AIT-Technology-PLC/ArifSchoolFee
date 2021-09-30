@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGdnRequest;
 use App\Http\Requests\UpdateGdnRequest;
 use App\Models\Customer;
@@ -9,51 +10,41 @@ use App\Models\Gdn;
 use App\Models\Sale;
 use App\Models\Warehouse;
 use App\Notifications\GdnPrepared;
-use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
-use App\Traits\SubtractInventory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class GdnController extends Controller
 {
-    use NotifiableUsers, SubtractInventory, ApproveInventory;
+    use NotifiableUsers;
 
-    private $gdn;
-
-    private $permission;
-
-    public function __construct(Gdn $gdn)
+    public function __construct()
     {
         $this->middleware('isFeatureAccessible:Gdn Management');
 
         $this->authorizeResource(Gdn::class, 'gdn');
-
-        $this->gdn = $gdn;
-
-        $this->permission = 'Subtract GDN';
     }
 
-    public function index(Gdn $gdn)
+    public function index()
     {
-        $gdns = $gdn->getAll()->load(['gdnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'sale', 'customer', 'company']);
+        $gdns = (new Gdn)->getAll()->load(['gdnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'sale', 'customer']);
 
-        $totalGdns = $gdns->count();
+        $totalGdns = Gdn::count();
 
-        $totalNotApproved = $gdns->whereNull('approved_by')->count();
+        $totalNotApproved = Gdn::whereNull('approved_by')->count();
 
-        $totalNotSubtracted = $gdns->whereNull('subtracted_by')->whereNotNull('approved_by')->count();
+        $totalNotSubtracted = Gdn::whereNull('subtracted_by')->whereNotNull('approved_by')->count();
 
-        $totalSubtracted = $gdns->whereNotNull('subtracted_by')->count();
+        $totalSubtracted = Gdn::whereNotNull('subtracted_by')->count();
 
         return view('gdns.index', compact('gdns', 'totalGdns', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }
 
-    public function create(Sale $sale)
+    public function create()
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $sales = $sale->getAll();
+        $sales = (new Sale)->getAll();
 
         $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->subtractWarehouses())->get(['id', 'name']);
 
@@ -65,7 +56,7 @@ class GdnController extends Controller
     public function store(StoreGdnRequest $request)
     {
         $gdn = DB::transaction(function () use ($request) {
-            $gdn = $this->gdn->create($request->except('gdn'));
+            $gdn = Gdn::create($request->except('gdn'));
 
             $gdn->gdnDetails()->createMany($request->gdn);
 
@@ -79,20 +70,21 @@ class GdnController extends Controller
 
     public function show(Gdn $gdn)
     {
-        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'customer', 'sale', 'company']);
+        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'customer', 'sale']);
 
         return view('gdns.show', compact('gdn'));
     }
 
-    public function edit(Gdn $gdn, Sale $sale)
+    public function edit(Gdn $gdn)
     {
         if ($gdn->reservation) {
-            return redirect()->back()->with('failedMessage', 'You cannot edit a DO that belongs to a reservation.');
+            return redirect()->back()
+                ->with('failedMessage', 'You cannot edit a DO that belongs to a reservation.');
         }
 
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $sales = $sale->getAll();
+        $sales = (new Sale)->getAll();
 
         $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->subtractWarehouses())->get(['id', 'name']);
 
@@ -143,16 +135,5 @@ class GdnController extends Controller
         $gdn->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
-    }
-
-    public function printed(Gdn $gdn)
-    {
-        $this->authorize('view', $gdn);
-
-        $gdn->load(['gdnDetails.product', 'customer', 'company', 'createdBy', 'approvedBy']);
-
-        return \PDF::loadView('gdns.print', compact('gdn'))
-            ->setPaper('a4', 'portrait')
-            ->stream();
     }
 }

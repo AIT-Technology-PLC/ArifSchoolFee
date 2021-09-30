@@ -118,7 +118,7 @@
                                 ({{ (float) $gdn->cash_received_in_percentage }}%)
                             </div>
                             <div class="is-uppercase is-size-7">
-                                In Cash ({{ $gdn->company->currency }})
+                                In Cash ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
                                 ({{ $gdn->credit_payable_in_percentage }}%)
                             </div>
                             <div class="is-uppercase is-size-7">
-                                On Credit ({{ $gdn->company->currency }})
+                                On Credit ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -157,7 +157,7 @@
                                 {{ number_format($gdn->subtotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                SubTotal Price ({{ $gdn->company->currency }})
+                                SubTotal Price ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -176,7 +176,7 @@
                                 {{ number_format($gdn->grandTotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Grand Total Price ({{ $gdn->company->currency }})
+                                Grand Total Price ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -415,7 +415,7 @@
                                     {{ $gdnDetail->product->unit_of_measurement }}
                                 </td>
                                 <td>
-                                    {{ $gdn->company->currency }}.
+                                    {{ userCompany()->currency }}.
                                     {{ number_format($gdnDetail->unit_price, 2) }}
                                 </td>
                                 @if (userCompany()->isDiscountBeforeVAT())

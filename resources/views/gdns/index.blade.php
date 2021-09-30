@@ -152,7 +152,7 @@
                                     {{ $gdn->payment_type ?? 'N/A' }}
                                 </td>
                                 <td class="has-text-right">
-                                    {{ $gdn->company->currency }}.
+                                    {{ userCompany()->currency }}.
                                     @if (userCompany()->isDiscountBeforeVAT())
                                         {{ number_format($gdn->grandTotalPrice, 2) }}
                                     @else

@@ -30,8 +30,16 @@ Route::get('/proforma-invoices/{proforma_invoice}/gdns/create',
     ->name('proforma-invoices.gdns.create');
 
 Route::get('/gdns/{gdn}/print',
-    [Controllers\GdnController::class, 'printed'])
+    [Action\GdnController::class, 'printed'])
     ->name('gdns.print');
+
+Route::post('/gdns/{gdn}/approve',
+    [Action\GdnController::class, 'approve'])
+    ->name('gdns.approve');
+
+Route::post('/gdns/{gdn}/subtract',
+    [Action\GdnController::class, 'subtract'])
+    ->name('gdns.subtract');
 
 Route::get('/sivs/{siv}/print',
     [Controllers\SivController::class, 'printed'])
@@ -76,14 +84,6 @@ Route::patch('/password/update',
 Route::post('purchase-orders/{purchaseOrder}/close',
     [Controllers\PurchaseOrderController::class, 'close'])
     ->name('purchase-orders.close');
-
-Route::post('/gdns/{gdn}/approve',
-    [Controllers\GdnController::class, 'approve'])
-    ->name('gdns.approve');
-
-Route::post('/gdns/{gdn}/subtract',
-    [Controllers\GdnController::class, 'subtract'])
-    ->name('gdns.subtract');
 
 Route::post('/transfers/{transfer}/approve',
     [Controllers\TransferController::class, 'approve'])
