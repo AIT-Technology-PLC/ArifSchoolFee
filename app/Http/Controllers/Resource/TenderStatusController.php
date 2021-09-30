@@ -1,29 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTenderStatusRequest;
 use App\Http\Requests\UpdateTenderStatusRequest;
 use App\Models\TenderStatus;
 
 class TenderStatusController extends Controller
 {
-    private $tenderStatus;
-
-    public function __construct(TenderStatus $tenderStatus)
+    public function __construct()
     {
         $this->middleware('isFeatureAccessible:Tender Management');
 
         $this->authorizeResource(TenderStatus::class);
-
-        $this->tenderStatus = $tenderStatus;
     }
 
     public function index()
     {
-        $tenderStatuses = $this->tenderStatus->getAll()->load(['createdBy', 'updatedBy']);
+        $tenderStatuses = TenderStatus::orderBy('status')
+            ->with(['createdBy', 'updatedBy'])
+            ->get();
 
-        $totalTenderStatuses = $tenderStatuses->count();
+        $totalTenderStatuses = TenderStatus::count();
 
         return view('tender-statuses.index', compact('tenderStatuses', 'totalTenderStatuses'));
     }
@@ -35,7 +34,7 @@ class TenderStatusController extends Controller
 
     public function store(StoreTenderStatusRequest $request)
     {
-        $this->tenderStatus->firstOrCreate(
+        TenderStatus::firstOrCreate(
             $request->only(['status'] + ['company_id' => userCompany()->id]),
             $request->except(['status'] + ['company_id' => userCompany()->id]),
         );
