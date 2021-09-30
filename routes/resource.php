@@ -31,7 +31,7 @@ Route::resource('transfers', Resource\TransferController::class);
 
 Route::resource('purchase-orders', Resource\PurchaseOrderController::class);
 
-Route::resource('grns', Controllers\GrnController::class);
+Route::resource('grns', Resource\GrnController::class);
 
 Route::resource('general-tender-checklists', Controllers\GeneralTenderChecklistController::class);
 

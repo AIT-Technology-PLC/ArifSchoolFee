@@ -94,11 +94,11 @@ Route::post('/transfers/{transfer}/transfer',
     ->name('transfers.transfer');
 
 Route::post('/grns/{grn}/approve',
-    [Controllers\GrnController::class, 'approve'])
+    [Action\GrnController::class, 'approve'])
     ->name('grns.approve');
 
 Route::post('/grns/{grn}/add',
-    [Controllers\GrnController::class, 'add'])
+    [Action\GrnController::class, 'add'])
     ->name('grns.add');
 
 Route::post('/sivs/{siv}/approve',

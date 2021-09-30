@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGrnRequest;
 use App\Http\Requests\UpdateGrnRequest;
 use App\Models\Grn;
@@ -9,53 +10,43 @@ use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Notifications\GrnPrepared;
-use App\Traits\AddInventory;
-use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class GrnController extends Controller
 {
-    use NotifiableUsers, AddInventory, ApproveInventory;
+    use NotifiableUsers;
 
-    private $grn;
-
-    private $permission;
-
-    public function __construct(Grn $grn)
+    public function __construct()
     {
         $this->middleware('isFeatureAccessible:Grn Management');
 
         $this->authorizeResource(Grn::class, 'grn');
-
-        $this->grn = $grn;
-
-        $this->permission = 'Add GRN';
     }
 
-    public function index(Grn $grn)
+    public function index()
     {
-        $grns = $grn->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'supplier', 'purchase']);
+        $grns = (new Grn)->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'supplier', 'purchase']);
 
-        $totalAdded = $grns->whereNotNull('added_by')->count();
+        $totalAdded = Grn::whereNotNull('added_by')->count();
 
-        $totalNotApproved = $grns->whereNull('approved_by')->count();
+        $totalNotApproved = Grn::whereNull('approved_by')->count();
 
-        $totalNotAdded = $grns->whereNotNull('approved_by')->whereNull('added_by')->count();
+        $totalNotAdded = Grn::whereNotNull('approved_by')->whereNull('added_by')->count();
 
-        $totalGrns = $grns->count();
+        $totalGrns = Grn::count();
 
         return view('grns.index', compact('grns', 'totalGrns', 'totalAdded', 'totalNotApproved', 'totalNotAdded'));
     }
 
-    public function create(Purchase $purchase)
+    public function create()
     {
         $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->addWarehouses())->get(['id', 'name']);
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        $purchases = $purchase->getAll();
+        $purchases = (new Purchase)->getAll();
 
         $currentGrnCode = Grn::byBranch()->max('code') + 1;
 
@@ -65,7 +56,7 @@ class GrnController extends Controller
     public function store(StoreGrnRequest $request)
     {
         $grn = DB::transaction(function () use ($request) {
-            $grn = $this->grn->create($request->except('grn'));
+            $grn = Grn::create($request->except('grn'));
 
             $grn->grnDetails()->createMany($request->grn);
 
@@ -84,7 +75,7 @@ class GrnController extends Controller
         return view('grns.show', compact('grn'));
     }
 
-    public function edit(Grn $grn, Purchase $purchase)
+    public function edit(Grn $grn)
     {
         $grn->load(['grnDetails.product', 'grnDetails.warehouse', 'supplier', 'purchase']);
 
@@ -92,7 +83,7 @@ class GrnController extends Controller
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        $purchases = $purchase->getAll();
+        $purchases = (new Purchase)->getAll();
 
         return view('grns.edit', compact('grn', 'warehouses', 'suppliers', 'purchases'));
     }
