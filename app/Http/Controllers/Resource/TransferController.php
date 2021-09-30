@@ -1,51 +1,41 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTransferRequest;
 use App\Http\Requests\UpdateTransferRequest;
 use App\Models\Transfer;
 use App\Models\Warehouse;
-use App\Notifications\TransferMade;
 use App\Notifications\TransferPrepared;
-use App\Services\InventoryOperationService;
-use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class TransferController extends Controller
 {
-    use NotifiableUsers, ApproveInventory;
+    use NotifiableUsers;
 
-    private $transfer;
-
-    private $permission;
-
-    public function __construct(transfer $transfer)
+    public function __construct()
     {
         $this->middleware('isFeatureAccessible:Transfer Management');
 
         $this->authorizeResource(Transfer::class, 'transfer');
-
-        $this->transfer = $transfer;
-
-        $this->permission = 'Make Transfer';
     }
 
-    public function index(Transfer $transfer)
+    public function index()
     {
-        $transfers = $transfer->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'transferredFrom', 'transferredTo']);
+        $transfers = (new Transfer)->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'transferredFrom', 'transferredTo']);
 
-        $totalTransferred = $transfers->whereNotNull('added_by')->count();
+        $totalTransferred = Transfer::whereNotNull('added_by')->count();
 
-        $totalSubtracted = $transfers->whereNotNull('subtracted_by')->whereNull('added_by')->count();
+        $totalSubtracted = Transfer::whereNotNull('subtracted_by')->whereNull('added_by')->count();
 
-        $totalApproved = $transfers->whereNotNull('approved_by')->whereNull('subtracted_by')->count();
+        $totalApproved = Transfer::whereNotNull('approved_by')->whereNull('subtracted_by')->count();
 
-        $totalNotApproved = $transfers->whereNull('approved_by')->count();
+        $totalNotApproved = Transfer::whereNull('approved_by')->count();
 
-        $totalTransfers = $transfers->count();
+        $totalTransfers = Transfer::count();
 
         return view('transfers.index', compact('transfers', 'totalTransfers', 'totalTransferred', 'totalSubtracted', 'totalApproved', 'totalNotApproved'));
     }
@@ -64,7 +54,7 @@ class TransferController extends Controller
     public function store(StoreTransferRequest $request)
     {
         $transfer = DB::transaction(function () use ($request) {
-            $transfer = $this->transfer->create($request->except('transfer'));
+            $transfer = Transfer::create($request->except('transfer'));
 
             $transfer->transferDetails()->createMany($request->transfer);
 
@@ -124,47 +114,5 @@ class TransferController extends Controller
         $transfer->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
-    }
-
-    public function transfer(Transfer $transfer)
-    {
-        $this->authorize('transfer', $transfer);
-
-        abort_if(
-            !$transfer->isSubtracted() && auth()->user()->warehouse_id != $transfer->transferred_from,
-            403
-        );
-
-        abort_if(
-            $transfer->isSubtracted() && !auth()->user()->addWarehouses()->contains($transfer->transferred_to),
-            403
-        );
-
-        if (!$transfer->isApproved()) {
-            return redirect()->back()->with('failedMessage', 'This Transfer is not approved');
-        }
-
-        $result = DB::transaction(function () use ($transfer) {
-            $result = InventoryOperationService::transfer($transfer->transferDetails, $transfer->isSubtracted());
-
-            if (!$result['isTransferred']) {
-                DB::rollBack();
-
-                return $result;
-            }
-
-            $transfer->isSubtracted() ? $transfer->add() : $transfer->subtract();
-
-            Notification::send(
-                $this->notifiableUsers('Approve Transfer', $transfer->createdBy),
-                new TransferMade($transfer)
-            );
-
-            return $result;
-        });
-
-        return $result['isTransferred'] ?
-        redirect()->back() :
-        redirect()->back()->with('failedMessage', $result['unavailableProducts']);
     }
 }

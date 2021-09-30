@@ -86,11 +86,11 @@ Route::post('purchase-orders/{purchaseOrder}/close',
     ->name('purchase-orders.close');
 
 Route::post('/transfers/{transfer}/approve',
-    [Controllers\TransferController::class, 'approve'])
+    [Action\TransferController::class, 'approve'])
     ->name('transfers.approve');
 
 Route::post('/transfers/{transfer}/transfer',
-    [Controllers\TransferController::class, 'transfer'])
+    [Action\TransferController::class, 'transfer'])
     ->name('transfers.transfer');
 
 Route::post('/grns/{grn}/approve',

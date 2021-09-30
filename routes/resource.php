@@ -27,7 +27,7 @@ Route::resource('customers', Resource\CustomerController::class);
 
 Route::resource('gdns', Resource\GdnController::class);
 
-Route::resource('transfers', Controllers\TransferController::class);
+Route::resource('transfers', Resource\TransferController::class);
 
 Route::resource('purchase-orders', Controllers\PurchaseOrderController::class);
 
