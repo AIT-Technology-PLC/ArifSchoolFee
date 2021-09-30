@@ -25,6 +25,19 @@ class ProformaInvoiceDetail extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function setProductIdAttribute($value)
+    {
+        if (!is_numeric($value)) {
+            $this->attributes['custom_product'] = $value;
+            
+            $this->attributes['product_id'] = null;
+
+            return;
+        }
+
+        $this->attributes['product_id'] = $value;
+    }
+
     public function parentModel()
     {
         return $this->proformaInvoice;
