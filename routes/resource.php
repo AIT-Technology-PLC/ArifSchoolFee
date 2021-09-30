@@ -21,7 +21,7 @@ Route::resource('notifications', Resource\NotificationController::class);
 
 Route::resource('suppliers', Resource\SupplierController::class);
 
-Route::resource('warehouses', Controllers\WarehouseController::class);
+Route::resource('warehouses', Resource\WarehouseController::class);
 
 Route::resource('customers', Controllers\CustomerController::class);
 

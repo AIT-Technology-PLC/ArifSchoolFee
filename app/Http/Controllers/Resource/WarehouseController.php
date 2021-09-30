@@ -1,29 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreWarehouseRequest;
 use App\Http\Requests\UpdateWarehouseRequest;
 use App\Models\Warehouse;
 
 class WarehouseController extends Controller
 {
-    private $warehouse;
-
-    public function __construct(Warehouse $warehouse)
+    public function __construct()
     {
         $this->middleware('isFeatureAccessible:Warehouse Management');
 
         $this->authorizeResource(Warehouse::class, 'warehouse');
-
-        $this->warehouse = $warehouse;
     }
 
     public function index()
     {
-        $warehouses = $this->warehouse->getAll();
+        $warehouses = Warehouse::with(['createdBy', 'updatedBy'])->orderBy('name')->get();
 
-        $totalWarehousesOfCompany = $this->warehouse->countWarehousesOfCompany();
+        $totalWarehousesOfCompany = Warehouse::count();
 
         return view('warehouses.index', compact('warehouses', 'totalWarehousesOfCompany'));
     }
@@ -40,7 +37,7 @@ class WarehouseController extends Controller
                 ->with('limitReachedMessage', 'You have reached the allowed number of warehouses in respect to your package.');
         }
 
-        $this->warehouse->firstOrCreate(
+        Warehouse::firstOrCreate(
             $request->only(['name'] + ['company_id' => userCompany()->id]),
             $request->except(['name'] + ['company_id' => userCompany()->id]),
         );
