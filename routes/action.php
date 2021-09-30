@@ -42,7 +42,7 @@ Route::post('/gdns/{gdn}/subtract',
     ->name('gdns.subtract');
 
 Route::get('/sivs/{siv}/print',
-    [Controllers\SivController::class, 'printed'])
+    [Action\SivController::class, 'printed'])
     ->name('sivs.print');
 
 Route::get('/proforma-invoices/{proformaInvoice}/print',
@@ -102,7 +102,7 @@ Route::post('/grns/{grn}/add',
     ->name('grns.add');
 
 Route::post('/sivs/{siv}/approve',
-    [Controllers\SivController::class, 'approve'])
+    [Action\SivController::class, 'approve'])
     ->name('sivs.approve');
 
 Route::post('/proforma-invoices/{proformaInvoice}/cancel',

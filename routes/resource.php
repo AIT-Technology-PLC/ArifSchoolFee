@@ -43,7 +43,7 @@ Route::resource('tenders', Resource\TenderController::class);
 
 Route::resource('tender-checklists', Resource\TenderChecklistController::class);
 
-Route::resource('sivs', Controllers\SivController::class);
+Route::resource('sivs', Resource\SivController::class);
 
 Route::resource('proforma-invoices', Controllers\ProformaInvoiceController::class);
 

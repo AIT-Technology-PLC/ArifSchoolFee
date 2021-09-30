@@ -1,25 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSivRequest;
 use App\Http\Requests\UpdateSivRequest;
 use App\Models\Customer;
 use App\Models\Siv;
 use App\Models\Warehouse;
 use App\Notifications\SivPrepared;
-use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class SivController extends Controller
 {
-    use NotifiableUsers, ApproveInventory;
+    use NotifiableUsers;
 
-    private $permission;
-
-    public function __construct(Siv $siv)
+    public function __construct()
     {
         $this->middleware('isFeatureAccessible:Siv Management');
 
@@ -28,13 +26,13 @@ class SivController extends Controller
 
     public function index()
     {
-        $sivs = (new Siv())->getAll()->load(['createdBy', 'updatedBy', 'approvedBy']);
+        $sivs = (new Siv)->getAll()->load(['createdBy', 'updatedBy', 'approvedBy']);
 
-        $totalSivs = $sivs->count();
+        $totalSivs = Siv::count();
 
-        $totalApproved = $sivs->whereNotNull('approved_by')->count();
+        $totalApproved = Siv::whereNotNull('approved_by')->count();
 
-        $totalNotApproved = $sivs->whereNull('approved_by')->count();
+        $totalNotApproved = Siv::whereNull('approved_by')->count();
 
         return view('sivs.index', compact('sivs', 'totalSivs', 'totalApproved', 'totalNotApproved'));
     }
@@ -111,16 +109,5 @@ class SivController extends Controller
         $siv->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
-    }
-
-    public function printed(Siv $siv)
-    {
-        $this->authorize('view', $siv);
-
-        $siv->load(['sivDetails.product', 'sivDetails.warehouse', 'company', 'createdBy', 'approvedBy']);
-
-        return \PDF::loadView('sivs.print', compact('siv'))
-            ->setPaper('a4', 'portrait')
-            ->stream();
     }
 }
