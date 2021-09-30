@@ -11,6 +11,10 @@ class TenderChecklist extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $attributes = [
+        'status' => 'Not Started',
+    ];
+
     public function tender()
     {
         return $this->belongsTo(Tender::class);

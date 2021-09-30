@@ -41,7 +41,7 @@ Route::resource('tender-statuses', Resource\TenderStatusController::class);
 
 Route::resource('tenders', Resource\TenderController::class);
 
-Route::resource('tender-checklists', Controllers\TenderChecklistController::class);
+Route::resource('tender-checklists', Resource\TenderChecklistController::class);
 
 Route::resource('sivs', Controllers\SivController::class);
 

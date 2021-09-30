@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTenderChecklistRequest;
 use App\Http\Requests\UpdateTenderChecklistRequest;
 use App\Models\GeneralTenderChecklist;
 use App\Models\Tender;
 use App\Models\TenderChecklist;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TenderChecklistController extends Controller
@@ -17,27 +17,34 @@ class TenderChecklistController extends Controller
         $this->middleware('isFeatureAccessible:Tender Management');
     }
 
-    public function create(Tender $tender, GeneralTenderChecklist $generalTenderChecklist)
+    public function create()
     {
-        $tender = $tender->with('tenderChecklists')->find(request('tender'));
+        $tender = Tender::withCount('tenderChecklists')->findOrFail(request('tender'));
+
+        $this->authorize('view', $tender);
 
         $this->authorize('create', $tender);
 
-        $generalTenderChecklists = $generalTenderChecklist->getAll();
+        $generalTenderChecklists = GeneralTenderChecklist::whereNotIn(
+            'id',
+            $tender->tenderChecklists()->pluck('general_tender_checklist_id')
+        )->orderBy('item')->get();
 
-        return view('tender-checklists.create', compact('generalTenderChecklists', 'tender'));
+        $totalGeneralTenderChecklists = GeneralTenderChecklist::count();
+
+        return view('tender-checklists.create', compact('generalTenderChecklists', 'tender', 'totalGeneralTenderChecklists'));
     }
 
-    public function store(StoreTenderChecklistRequest $request, Tender $tender)
+    public function store(StoreTenderChecklistRequest $request)
     {
-        $tender = $tender->find(request('tender'));
+        $tender = Tender::findOrFail(request('tender'));
+
+        $this->authorize('view', $tender);
 
         $this->authorize('create', $tender);
 
         DB::transaction(function () use ($request, $tender) {
             $tender->tenderChecklists()->createMany($request->checklists);
-
-            $tender->tenderChecklists->each->update(['status' => 'Not Started']);
         });
 
         return redirect()->route('tenders.show', $tender->id);

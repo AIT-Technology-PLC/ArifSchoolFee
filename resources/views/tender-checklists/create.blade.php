@@ -1,39 +1,57 @@
 @extends('layouts.app')
 
 @section('title')
-    New Tender Checklist
+    Select & Add Checklists
 @endsection
 
 @section('content')
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-green has-text-weight-medium is-size-5">
-                New Tender Checklist
+                Select & Add Checklists
             </h1>
         </div>
 
         <form id="formOne" action="{{ route('tender-checklists.store', 'tender=' . $tender->id) }}" method="post" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
-                <div class="has-text-right-tablet">
-                    <button id="selectAllCheckboxes" class="button bg-purple is-small has-text-white" type="button"> 
+                <div class="has-text-right-tablet mb-4">
+                    <button id="selectAllCheckboxes" class="button bg-purple is-small has-text-white" type="button">
                         <span class="icon">
                             <i class="fas fa-check-square"></i>
                         </span>
                         <span>
-                            Select All 
+                            Select All
                         </span>
                     </button>
                 </div>
-                <p class="text-green has-text-weight-normal mx-3 mb-3 mt-4">
-                    Select Checklists
+                <p class="mx-3">
+                    @if ($totalGeneralTenderChecklists > 0 && $totalGeneralTenderChecklists == $tender->tender_checklists_count)
+                        <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
+                            <p class="has-text-centered text-green">
+                                <span class="icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </span>
+                                <span>
+                                    All checklists are already selected
+                                </span>
+                            </p>
+                        </div>
+                    @elseif($totalGeneralTenderChecklists == 0)
+                        <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
+                            <p class="has-text-centered text-purple">
+                                <span class="icon">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </span>
+                                <span>
+                                    No checklists found
+                                </span>
+                            </p>
+                        </div>
+                    @endif
                 </p>
                 <div class="columns is-marginless is-multiline">
                     @foreach ($generalTenderChecklists as $generalTenderChecklist)
-                        @if ($tender->tenderChecklists->where('general_tender_checklist_id', $generalTenderChecklist->id)->count())
-                            @continue
-                        @endif
-
                         <div class="column is-one-fifth">
                             <div class="field">
                                 <div class="control">
