@@ -96,7 +96,7 @@
                                 {{ number_format($proformaInvoice->subtotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                SubTotal Price ({{ $proformaInvoice->company->currency }})
+                                SubTotal Price ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                                 {{ number_format($proformaInvoice->grandTotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Grand Total Price ({{ $proformaInvoice->company->currency }})
+                                Grand Total Price ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -333,7 +333,7 @@
                                     {{ $proformaInvoiceDetail->product->unit_of_measurement ?? '' }}
                                 </td>
                                 <td>
-                                    {{ $proformaInvoice->company->currency }}.
+                                    {{ userCompany()->currency }}.
                                     {{ number_format($proformaInvoiceDetail->unit_price, 2) }}
                                 </td>
                                 @if (userCompany()->isDiscountBeforeVAT())

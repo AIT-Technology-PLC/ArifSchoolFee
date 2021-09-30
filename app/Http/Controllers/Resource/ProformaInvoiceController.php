@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProformaInvoiceRequest;
 use App\Http\Requests\UpdateProformaInvoiceRequest;
 use App\Models\Customer;
@@ -26,13 +27,13 @@ class ProformaInvoiceController extends Controller
     {
         $proformaInvoices = (new ProformaInvoice())->getAll()->load(['createdBy', 'updatedBy', 'convertedBy', 'customer']);
 
-        $totalProformaInvoices = $proformaInvoices->count();
+        $totalProformaInvoices = ProformaInvoice::count();
 
-        $totalConverted = $proformaInvoices->whereNotNull('converted_by')->count();
+        $totalConverted = ProformaInvoice::whereNotNull('converted_by')->count();
 
-        $totalPending = $proformaInvoices->where('is_pending', 1)->count();
+        $totalPending = ProformaInvoice::where('is_pending', 1)->count();
 
-        $totalCancelled = $proformaInvoices->where('is_pending', 0)->whereNull('converted_by')->count();
+        $totalCancelled = ProformaInvoice::where('is_pending', 0)->whereNull('converted_by')->count();
 
         return view('proforma-invoices.index', compact('proformaInvoices', 'totalProformaInvoices',
             'totalConverted', 'totalPending', 'totalCancelled'));
@@ -64,7 +65,7 @@ class ProformaInvoiceController extends Controller
 
     public function show(ProformaInvoice $proformaInvoice)
     {
-        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'company']);
+        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer']);
 
         return view('proforma-invoices.show', compact('proformaInvoice'));
     }
@@ -88,9 +89,10 @@ class ProformaInvoiceController extends Controller
         DB::transaction(function () use ($request, $proformaInvoice) {
             $proformaInvoice->update($request->except('proformaInvoice'));
 
-            $proformaInvoice->proformaInvoiceDetails
-                ->each(function ($proformaInvoiceDetail, $index) use ($request) {
-                    $proformaInvoiceDetail->update($request->proformaInvoice[$index]);
+            $proformaInvoice
+                ->proformaInvoiceDetails
+                ->each(function ($proformaInvoiceDetail, $key) use ($request) {
+                    $proformaInvoiceDetail->update($request->proformaInvoice[$key]);
                 });
         });
 
@@ -110,50 +112,5 @@ class ProformaInvoiceController extends Controller
         $proformaInvoice->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
-    }
-
-    public function convert(ProformaInvoice $proformaInvoice)
-    {
-        $this->authorize('convert', $proformaInvoice);
-
-        if ($proformaInvoice->isConverted()) {
-            return redirect()->back()->with('failedMessage', 'This Proforma Invoice has already been converted to DO');
-        }
-
-        if ($proformaInvoice->isCancelled()) {
-            return redirect()->back()->with('failedMessage', 'This Proforma Invoice is cancelled');
-        }
-
-        $proformaInvoice->convert();
-
-        return redirect()->back();
-    }
-
-    public function cancel(ProformaInvoice $proformaInvoice)
-    {
-        $this->authorize('cancel', $proformaInvoice);
-
-        if ($proformaInvoice->isConverted()) {
-            return redirect()->back()->with('failedMessage', 'This Proforma Invoice has been converted to DO');
-        }
-
-        if ($proformaInvoice->isCancelled()) {
-            return redirect()->back()->with('failedMessage', 'This Proforma Invoice is already cancelled');
-        }
-
-        $proformaInvoice->cancel();
-
-        return redirect()->back();
-    }
-
-    public function printed(ProformaInvoice $proformaInvoice)
-    {
-        $this->authorize('view', $proformaInvoice);
-
-        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'company']);
-
-        return \PDF::loadView('proforma-invoices.print', compact('proformaInvoice'))
-            ->setPaper('a4', 'portrait')
-            ->stream();
     }
 }

@@ -46,7 +46,7 @@ Route::get('/sivs/{siv}/print',
     ->name('sivs.print');
 
 Route::get('/proforma-invoices/{proformaInvoice}/print',
-    [Controllers\ProformaInvoiceController::class, 'printed'])
+    [Action\ProformaInvoiceController::class, 'printed'])
     ->name('proforma-invoices.print');
 
 Route::get('/returns/{return}/print',
@@ -106,11 +106,11 @@ Route::post('/sivs/{siv}/approve',
     ->name('sivs.approve');
 
 Route::post('/proforma-invoices/{proformaInvoice}/cancel',
-    [Controllers\ProformaInvoiceController::class, 'cancel'])
+    [Action\ProformaInvoiceController::class, 'cancel'])
     ->name('proforma-invoices.cancel');
 
 Route::post('/proforma-invoices/{proformaInvoice}/convert',
-    [Controllers\ProformaInvoiceController::class, 'convert'])
+    [Action\ProformaInvoiceController::class, 'convert'])
     ->name('proforma-invoices.convert');
 
 Route::post('/damages/{damage}/approve',

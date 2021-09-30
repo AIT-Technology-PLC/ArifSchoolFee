@@ -92,16 +92,16 @@ class ProformaInvoice extends Model
 
     public function isConverted()
     {
-        return !$this->is_pending && $this->convertedBy;
+        return !$this->is_pending && $this->converted_by;
     }
 
     public function isPending()
     {
-        return $this->is_pending && !$this->convertedBy;
+        return $this->is_pending && !$this->converted_by;
     }
 
     public function isCancelled()
     {
-        return !$this->is_pending && !$this->convertedBy;
+        return !$this->is_pending && !$this->converted_by;
     }
 }
