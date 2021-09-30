@@ -35,7 +35,7 @@ Route::resource('grns', Resource\GrnController::class);
 
 Route::resource('general-tender-checklists', Resource\GeneralTenderChecklistController::class);
 
-Route::resource('tender-checklist-types', Controllers\TenderChecklistTypeController::class);
+Route::resource('tender-checklist-types', Resource\TenderChecklistTypeController::class);
 
 Route::resource('tender-statuses', Controllers\TenderStatusController::class);
 
