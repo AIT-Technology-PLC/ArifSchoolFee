@@ -1,29 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 use App\Models\Supplier;
 
 class SupplierController extends Controller
 {
-    private $supplier;
-
-    public function __construct(Supplier $supplier)
+    public function __construct()
     {
         $this->middleware('isFeatureAccessible:Supplier Management');
 
         $this->authorizeResource(Supplier::class, 'supplier');
-
-        $this->supplier = $supplier;
     }
 
     public function index()
     {
-        $suppliers = $this->supplier->getAll();
+        $suppliers = Supplier::with(['createdBy', 'updatedBy'])->orderBy('company_name')->get();
 
-        $totalSuppliers = $this->supplier->countSuppliersOfCompany();
+        $totalSuppliers = Supplier::count();
 
         return view('suppliers.index', compact('suppliers', 'totalSuppliers'));
     }
@@ -35,7 +32,7 @@ class SupplierController extends Controller
 
     public function store(StoreSupplierRequest $request)
     {
-        $this->supplier->firstOrCreate(
+        Supplier::firstOrCreate(
             $request->only(['company_name'] + ['company_id' => userCompany()->id]),
             $request->except(['company_name'] + ['company_id' => userCompany()->id]),
         );

@@ -19,7 +19,7 @@ Route::resource('sales', Resource\SaleController::class);
 
 Route::resource('notifications', Resource\NotificationController::class);
 
-Route::resource('suppliers', Controllers\SupplierController::class);
+Route::resource('suppliers', Resource\SupplierController::class);
 
 Route::resource('warehouses', Controllers\WarehouseController::class);
 
