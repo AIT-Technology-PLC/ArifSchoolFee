@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
 use App\DataTables\ProductDatatable;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
@@ -16,25 +17,23 @@ class ProductController extends Controller
 
     private $product;
 
-    public function __construct(Product $product)
+    public function __construct()
     {
         $this->middleware('isFeatureAccessible:Product Management');
 
         $this->authorizeResource(Product::class, 'product');
-
-        $this->product = $product;
     }
 
     public function index(ProductDatatable $datatable)
     {
-        $totalProductsOfCompany = $this->product->countProductsOfCompany();
+        $totalProductsOfCompany = Product::count();
 
         return $datatable->render('products.index', compact('totalProductsOfCompany'));
     }
 
-    public function create(ProductCategory $category)
+    public function create()
     {
-        $categories = $category->getAll();
+        $categories = ProductCategory::orderBy('name')->get(['id', 'name']);
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
@@ -47,7 +46,7 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        $this->product->firstOrCreate(
+        Product::firstOrCreate(
             $request->only(['name', 'product_category_id'] + ['company_id' => userCompany()->id]),
             $request->except(['name', 'product_category_id'] + ['company_id' => userCompany()->id])
         );
@@ -55,9 +54,9 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    public function edit(Product $product, ProductCategory $category)
+    public function edit(Product $product)
     {
-        $categories = $category->getAll();
+        $categories = ProductCategory::orderBy('name')->get(['id', 'name']);
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 

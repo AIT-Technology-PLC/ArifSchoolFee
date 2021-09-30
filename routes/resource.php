@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers as Controllers;
+use App\Http\Controllers\Resource as Resource;
 use Illuminate\Support\Facades\Route;
 
-Route::resource('products', Controllers\ProductController::class);
+Route::resource('products', Resource\ProductController::class);
 
 Route::resource('categories', Controllers\ProductCategoryController::class);
 
