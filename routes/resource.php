@@ -33,7 +33,7 @@ Route::resource('purchase-orders', Resource\PurchaseOrderController::class);
 
 Route::resource('grns', Resource\GrnController::class);
 
-Route::resource('general-tender-checklists', Controllers\GeneralTenderChecklistController::class);
+Route::resource('general-tender-checklists', Resource\GeneralTenderChecklistController::class);
 
 Route::resource('tender-checklist-types', Controllers\TenderChecklistTypeController::class);
 
