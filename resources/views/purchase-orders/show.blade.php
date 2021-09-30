@@ -96,7 +96,7 @@
                                 {{ number_format($purchaseOrder->subtotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                SubTotal Price ({{ $purchaseOrder->company->currency }})
+                                SubTotal Price ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                                 {{ number_format($purchaseOrder->grandTotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Grand Total Price ({{ $purchaseOrder->company->currency }})
+                                Grand Total Price ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -224,11 +224,11 @@
                                     {{ $purchaseOrderDetail->product->unit_of_measurement }}
                                 </td>
                                 <td>
-                                    {{ $purchaseOrder->company->currency }}.
+                                    {{ userCompany()->currency }}.
                                     {{ number_format($purchaseOrderDetail->unit_price, 2) }}
                                 </td>
                                 <td>
-                                    {{ $purchaseOrder->company->currency }}.
+                                    {{ userCompany()->currency }}.
                                     {{ number_format($purchaseOrderDetail->totalPrice, 2) }}
                                 </td>
                                 <td>

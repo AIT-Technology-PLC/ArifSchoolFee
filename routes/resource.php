@@ -29,7 +29,7 @@ Route::resource('gdns', Resource\GdnController::class);
 
 Route::resource('transfers', Resource\TransferController::class);
 
-Route::resource('purchase-orders', Controllers\PurchaseOrderController::class);
+Route::resource('purchase-orders', Resource\PurchaseOrderController::class);
 
 Route::resource('grns', Controllers\GrnController::class);
 

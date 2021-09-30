@@ -82,7 +82,7 @@ Route::patch('/password/update',
     ->name('password.update');
 
 Route::post('purchase-orders/{purchaseOrder}/close',
-    [Controllers\PurchaseOrderController::class, 'close'])
+    [Action\PurchaseOrderController::class, 'close'])
     ->name('purchase-orders.close');
 
 Route::post('/transfers/{transfer}/approve',
