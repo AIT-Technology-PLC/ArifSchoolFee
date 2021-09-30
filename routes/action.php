@@ -58,7 +58,7 @@ Route::get('/password/edit',
     ->name('password.edit');
 
 Route::get('/tenders/{tender}/print',
-    [Controllers\TenderController::class, 'printed'])
+    [Action\TenderController::class, 'printed'])
     ->name('tenders.print');
 
 Route::get('/tenders/{tender}/reading',

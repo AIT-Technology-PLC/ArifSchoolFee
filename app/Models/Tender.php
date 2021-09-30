@@ -61,7 +61,7 @@ class Tender extends Model
     public function getAll()
     {
         if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return $this->withCount('tenderDetails')->latest()->get();
+            return $this->latest()->get();
         }
 
         return $this->byBranch()->latest()->get();

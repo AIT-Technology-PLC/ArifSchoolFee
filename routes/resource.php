@@ -39,7 +39,7 @@ Route::resource('tender-checklist-types', Resource\TenderChecklistTypeController
 
 Route::resource('tender-statuses', Resource\TenderStatusController::class);
 
-Route::resource('tenders', Controllers\TenderController::class);
+Route::resource('tenders', Resource\TenderController::class);
 
 Route::resource('tender-checklists', Controllers\TenderChecklistController::class);
 

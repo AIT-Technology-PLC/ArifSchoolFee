@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTenderRequest;
 use App\Http\Requests\UpdateTenderRequest;
 use App\Models\Customer;
@@ -16,32 +17,30 @@ class TenderController extends Controller
 {
     use NotifiableUsers;
 
-    private $tender;
-
-    public function __construct(Tender $tender)
+    public function __construct()
     {
         $this->middleware('isFeatureAccessible:Tender Management');
 
         $this->authorizeResource(Tender::class, 'tender');
-
-        $this->tender = $tender;
     }
 
     public function index()
     {
-        $tenders = $this->tender->getAll()
-            ->load(['customer', 'tenderDetails', 'tenderChecklists', 'createdBy', 'updatedBy']);
+        $tenders = (new Tender)
+            ->getAll()
+            ->loadCount('tenderDetails')
+            ->load(['customer', 'tenderChecklists', 'createdBy', 'updatedBy']);
 
-        $totalTenders = $tenders->count();
+        $totalTenders = Tender::count();
 
         return view('tenders.index', compact('tenders', 'totalTenders'));
     }
 
-    public function create(Customer $customer, TenderStatus $tenderStatus)
+    public function create()
     {
-        $customers = $customer->getAll();
+        $customers = Customer::orderBy('company_name')->get();
 
-        $tenderStatuses = $tenderStatus->getAll();
+        $tenderStatuses = TenderStatus::orderBy('status')->get();
 
         return view('tenders.create', compact('customers', 'tenderStatuses'));
     }
@@ -49,7 +48,7 @@ class TenderController extends Controller
     public function store(StoreTenderRequest $request)
     {
         $tender = DB::transaction(function () use ($request) {
-            $tender = $this->tender->create($request->except('tender'));
+            $tender = Tender::create($request->except('tender'));
 
             $tender->tenderDetails()->createMany($request->tender);
 
@@ -66,13 +65,13 @@ class TenderController extends Controller
         return view('tenders.show', compact('tender'));
     }
 
-    public function edit(Tender $tender, Customer $customer, TenderStatus $tenderStatus)
+    public function edit(Tender $tender)
     {
         $tender->load(['tenderDetails.product']);
 
-        $customers = $customer->getAll();
+        $customers = Customer::orderBy('company_name')->get();
 
-        $tenderStatuses = $tenderStatus->getAll();
+        $tenderStatuses = TenderStatus::orderBy('status')->get();
 
         return view('tenders.edit', compact('tender', 'customers', 'tenderStatuses'));
     }
@@ -101,16 +100,5 @@ class TenderController extends Controller
         $tender->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
-    }
-
-    public function printed(Tender $tender)
-    {
-        $this->authorize('view', $tender);
-
-        $tender->load(['tenderChecklists.generalTenderChecklist']);
-
-        return \PDF::loadView('tenders.print', compact('tender'))
-            ->setPaper('a4', 'portrait')
-            ->stream();
     }
 }
