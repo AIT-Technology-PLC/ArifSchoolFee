@@ -1,29 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
+use App\Http\Controllers\Controller;
 
 class CustomerController extends Controller
 {
-    private $customer;
-
-    public function __construct(Customer $customer)
+    public function __construct()
     {
         $this->middleware('isFeatureAccessible:Customer Management');
 
         $this->authorizeResource(Customer::class, 'customer');
-
-        $this->customer = $customer;
     }
 
     public function index()
     {
-        $customers = $this->customer->getAll();
+        $customers = Customer::with(['createdBy', 'updatedBy'])->orderBy('company_name')->get();
 
-        $totalCustomers = $this->customer->countCustomersOfCompany();
+        $totalCustomers = Customer::count();
 
         return view('customers.index', compact('customers', 'totalCustomers'));
     }
@@ -35,7 +32,7 @@ class CustomerController extends Controller
 
     public function store(StoreCustomerRequest $request)
     {
-        $this->customer->firstOrCreate(
+        Customer::firstOrCreate(
             $request->only(['company_name'] + ['company_id' => userCompany()->id]),
             $request->except(['company_name'] + ['company_id' => userCompany()->id])
         );

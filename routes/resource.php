@@ -23,7 +23,7 @@ Route::resource('suppliers', Resource\SupplierController::class);
 
 Route::resource('warehouses', Resource\WarehouseController::class);
 
-Route::resource('customers', Controllers\CustomerController::class);
+Route::resource('customers', Resource\CustomerController::class);
 
 Route::resource('gdns', Controllers\GdnController::class);
 
