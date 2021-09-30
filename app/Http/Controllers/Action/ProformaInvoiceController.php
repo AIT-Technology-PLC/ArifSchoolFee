@@ -20,7 +20,7 @@ class ProformaInvoiceController extends Controller
         $this->authorize('convert', $proformaInvoice);
 
         if ($proformaInvoice->isConverted()) {
-            return redirect()->back()->with('failedMessage', 'This Proforma Invoice has already been converted to DO');
+            return redirect()->back()->with('failedMessage', 'This Proforma Invoice is already confirmed');
         }
 
         if ($proformaInvoice->isCancelled()) {
@@ -37,7 +37,7 @@ class ProformaInvoiceController extends Controller
         $this->authorize('cancel', $proformaInvoice);
 
         if ($proformaInvoice->isConverted()) {
-            return redirect()->back()->with('failedMessage', 'This Proforma Invoice has been converted to DO');
+            return redirect()->back()->with('failedMessage', 'Cancelling a confirmed Proforma Invoice is not allowed.');
         }
 
         if ($proformaInvoice->isCancelled()) {
