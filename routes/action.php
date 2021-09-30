@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers as Controllers;
+use App\Http\Controllers\Action as Action;
 use App\Http\Controllers\Auth as Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -65,7 +66,7 @@ Route::patch('/employees/{employee}/permissions',
     ->name('permissions.update');
 
 Route::patch('/notifications/mark-all-read',
-    [Controllers\NotificationController::class, 'markAllNotificationsAsRead'])
+    [Action\NotificationController::class, 'markAllAsRead'])
     ->name('notifications.markAllAsRead');
 
 Route::patch('/password/update',
