@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
 use App\Models\Customer;
@@ -10,22 +11,20 @@ use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
-    private $sale;
-
-    public function __construct(Sale $sale)
+    public function __construct()
     {
         $this->middleware('isFeatureAccessible:Sale Management');
 
         $this->authorizeResource(Sale::class, 'sale');
-
-        $this->sale = $sale;
     }
 
     public function index()
     {
-        $sales = $this->sale->getAll()->load(['createdBy', 'updatedBy', 'company', 'saleDetails']);
+        $sales = (new Sale)
+            ->getAll()
+            ->load(['createdBy', 'updatedBy', 'saleDetails']);
 
-        $totalSales = $sales->count();
+        $totalSales = Sale::count();
 
         return view('sales.index', compact('sales', 'totalSales'));
     }
@@ -42,7 +41,7 @@ class SaleController extends Controller
     public function store(StoreSaleRequest $request)
     {
         $sale = DB::transaction(function () use ($request) {
-            $sale = $this->sale->create($request->except('sale'));
+            $sale = Sale::create($request->except('sale'));
 
             $sale->saleDetails()->createMany($request->sale);
 
@@ -54,7 +53,7 @@ class SaleController extends Controller
 
     public function show(Sale $sale)
     {
-        $sale->load(['saleDetails.product', 'gdns', 'customer', 'company']);
+        $sale->load(['saleDetails.product', 'gdns', 'customer']);
 
         return view('sales.show', compact('sale'));
     }

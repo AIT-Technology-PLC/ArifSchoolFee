@@ -96,7 +96,7 @@
                                 {{ number_format($sale->subtotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                SubTotal Price ({{ $sale->company->currency }})
+                                SubTotal Price ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                                 {{ number_format($sale->grandTotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Grand Total Price ({{ $sale->company->currency }})
+                                Grand Total Price ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -248,7 +248,7 @@
                                     {{ $saleDetail->product->unit_of_measurement }}
                                 </td>
                                 <td>
-                                    {{ $sale->company->currency }}.
+                                    {{ userCompany()->currency }}.
                                     {{ number_format($saleDetail->unit_price, 2) }}
                                 </td>
                                 @if (userCompany()->isDiscountBeforeVAT())
@@ -257,7 +257,7 @@
                                     </td>
                                 @endif
                                 <td>
-                                    {{ $sale->company->currency }}.
+                                    {{ userCompany()->currency }}.
                                     {{ number_format($saleDetail->totalPrice, 2) }}
                                 </td>
                             </tr>
