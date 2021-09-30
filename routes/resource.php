@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('products', Resource\ProductController::class);
 
-Route::resource('categories', Controllers\ProductCategoryController::class);
+Route::resource('categories', Resource\ProductCategoryController::class);
 
 Route::resource('employees', Controllers\EmployeeController::class);
 

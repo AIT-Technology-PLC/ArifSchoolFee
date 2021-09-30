@@ -15,8 +15,6 @@ class ProductController extends Controller
 {
     use HasOptions;
 
-    private $product;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Product Management');

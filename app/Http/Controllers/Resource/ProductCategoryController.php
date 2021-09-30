@@ -1,29 +1,29 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductCategoryRequest;
 use App\Http\Requests\UpdateProductCategoryRequest;
 use App\Models\ProductCategory;
 
 class ProductCategoryController extends Controller
 {
-    private $category;
-
-    public function __construct(ProductCategory $category)
+    public function __construct()
     {
         $this->middleware('isFeatureAccessible:Product Management');
 
         $this->authorizeResource(ProductCategory::class, 'category');
-
-        $this->category = $category;
     }
 
     public function index()
     {
-        $categories = $this->category->getAll();
+        $categories = ProductCategory::with(['createdBy', 'updatedBy'])
+            ->withCount('products')
+            ->orderBy('name')
+            ->get();
 
-        $totalProductCategoriesOfCompany = $this->category->countProductCategoriesOfCompany();
+        $totalProductCategoriesOfCompany = ProductCategory::count();
 
         return view('categories.index', compact('categories', 'totalProductCategoriesOfCompany'));
     }
@@ -35,7 +35,7 @@ class ProductCategoryController extends Controller
 
     public function store(StoreProductCategoryRequest $request)
     {
-        $this->category->firstOrCreate(
+        ProductCategory::firstOrCreate(
             $request->only(['name'] + ['company_id' => userCompany()->id]),
             $request->except(['name'] + ['company_id' => userCompany()->id]),
         );
