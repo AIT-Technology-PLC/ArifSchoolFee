@@ -1,42 +1,39 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDamageRequest;
 use App\Http\Requests\UpdateDamageRequest;
 use App\Models\Damage;
 use App\Models\Warehouse;
 use App\Notifications\DamagePrepared;
-use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
-use App\Traits\SubtractInventory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class DamageController extends Controller
 {
-    use NotifiableUsers, SubtractInventory, ApproveInventory;
+    use NotifiableUsers;
 
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Damage Management');
 
         $this->authorizeResource(Damage::class, 'damage');
-
-        $this->permission = 'Subtract Damage';
     }
 
     public function index()
     {
-        $damages = (new Damage())->getAll()->load(['damageDetails', 'createdBy', 'updatedBy', 'approvedBy', 'company']);
+        $damages = (new Damage)->getAll()->load(['damageDetails', 'createdBy', 'updatedBy', 'approvedBy']);
 
-        $totalDamages = $damages->count();
+        $totalDamages = Damage::count();
 
-        $totalNotApproved = $damages->whereNull('approved_by')->count();
+        $totalNotApproved = Damage::whereNull('approved_by')->count();
 
-        $totalNotSubtracted = $damages->whereNull('subtracted_by')->whereNotNull('approved_by')->count();
+        $totalNotSubtracted = Damage::whereNull('subtracted_by')->whereNotNull('approved_by')->count();
 
-        $totalSubtracted = $damages->whereNotNull('subtracted_by')->count();
+        $totalSubtracted = Damage::whereNotNull('subtracted_by')->count();
 
         return view('damages.index', compact('damages', 'totalDamages', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }

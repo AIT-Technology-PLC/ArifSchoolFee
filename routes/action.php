@@ -114,11 +114,11 @@ Route::post('/proforma-invoices/{proformaInvoice}/convert',
     ->name('proforma-invoices.convert');
 
 Route::post('/damages/{damage}/approve',
-    [Controllers\DamageController::class, 'approve'])
+    [Action\DamageController::class, 'approve'])
     ->name('damages.approve');
 
 Route::post('/damages/{damage}/subtract',
-    [Controllers\DamageController::class, 'subtract'])
+    [Action\DamageController::class, 'subtract'])
     ->name('damages.subtract');
 
 Route::post('/adjustments/{adjustment}/approve',
