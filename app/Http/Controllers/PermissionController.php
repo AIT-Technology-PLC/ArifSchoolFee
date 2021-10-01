@@ -14,13 +14,13 @@ class PermissionController extends Controller
         $this->middleware('isFeatureAccessible:User Management');
     }
 
-    public function edit(Employee $employee, Permission $permission)
+    public function edit(Employee $employee)
     {
         abort_if($employee->user->hasRole('System Manager'), 403);
 
         $this->authorize('update', $employee);
 
-        $permissions = $permission->whereNotIn('name', $employee->user->getPermissionsViaRoles()->pluck('name'))
+        $permissions = Permission::whereNotIn('name', $employee->user->getPermissionsViaRoles()->pluck('name'))
             ->oldest()
             ->pluck('name');
 
