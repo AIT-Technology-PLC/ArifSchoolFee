@@ -140,7 +140,7 @@
                                     @endif
                                 </td>
                                 <td class="has-text-right">
-                                    {{ $return->company->currency }}.
+                                    {{ userCompany()->currency }}.
                                     {{ number_format($return->grandTotalPrice, 2) }}
                                 </td>
                                 <td>

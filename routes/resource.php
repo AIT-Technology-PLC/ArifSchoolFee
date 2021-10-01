@@ -51,6 +51,6 @@ Route::resource('damages', Resource\DamageController::class);
 
 Route::resource('adjustments', Resource\AdjustmentController::class);
 
-Route::resource('returns', Controllers\ReturnController::class);
+Route::resource('returns', Resource\ReturnController::class);
 
 Route::resource('reservations', Controllers\ReservationController::class);

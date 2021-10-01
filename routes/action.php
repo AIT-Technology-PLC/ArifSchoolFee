@@ -50,7 +50,7 @@ Route::get('/proforma-invoices/{proformaInvoice}/print',
     ->name('proforma-invoices.print');
 
 Route::get('/returns/{return}/print',
-    [Controllers\ReturnController::class, 'printed'])
+    [Action\ReturnController::class, 'printed'])
     ->name('returns.print');
 
 Route::get('/password/edit',
@@ -130,11 +130,11 @@ Route::post('/adjustments/{adjustment}/adjust',
     ->name('adjustments.adjust');
 
 Route::post('/returnns/{return}/approve',
-    [Controllers\ReturnController::class, 'approve'])
+    [Action\ReturnController::class, 'approve'])
     ->name('returns.approve');
 
 Route::post('/returnns/{return}/return',
-    [Controllers\ReturnController::class, 'add'])
+    [Action\ReturnController::class, 'add'])
     ->name('returns.add');
 
 Route::post('/reservations/{reservation}/approve',

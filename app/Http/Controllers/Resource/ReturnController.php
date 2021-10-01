@@ -1,42 +1,40 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReturnRequest;
 use App\Http\Requests\UpdateReturnRequest;
 use App\Models\Customer;
 use App\Models\Returnn;
 use App\Models\Warehouse;
 use App\Notifications\ReturnPrepared;
-use App\Traits\AddInventory;
-use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class ReturnController extends Controller
 {
-    use NotifiableUsers, AddInventory, ApproveInventory;
+    use NotifiableUsers;
 
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Return Management');
 
         $this->authorizeResource(Returnn::class, 'return');
-
-        $this->permission = 'Make Return';
     }
+
     public function index()
     {
-        $returns = (new Returnn())->getAll()->load(['returnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'customer', 'company']);
+        $returns = (new Returnn)->getAll()->load(['returnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'customer']);
 
-        $totalReturns = $returns->count();
+        $totalReturns = Returnn::count();
 
-        $totalNotApproved = $returns->whereNull('approved_by')->count();
+        $totalNotApproved = Returnn::whereNull('approved_by')->count();
 
-        $totalNotAdded = $returns->whereNotNull('approved_by')->whereNull('added_by')->count();
+        $totalNotAdded = Returnn::whereNotNull('approved_by')->whereNull('added_by')->count();
 
-        $totalAdded = $returns->whereNotNull('added_by')->count();
+        $totalAdded = Returnn::whereNotNull('added_by')->count();
 
         return view('returns.index', compact('returns', 'totalReturns', 'totalNotApproved', 'totalNotAdded', 'totalAdded'));
     }
@@ -69,7 +67,7 @@ class ReturnController extends Controller
 
     public function show(Returnn $return)
     {
-        $return->load(['returnDetails.product', 'returnDetails.warehouse', 'customer', 'company']);
+        $return->load(['returnDetails.product', 'returnDetails.warehouse', 'customer']);
 
         return view('returns.show', compact('return'));
     }
@@ -115,14 +113,5 @@ class ReturnController extends Controller
         $return->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
-    }
-
-    public function printed(Returnn $return)
-    {
-        $this->authorize('view', $return);
-
-        $return->load(['returnDetails.product', 'customer', 'company', 'createdBy', 'approvedBy']);
-
-        return view('returns.print', compact('return'));
     }
 }

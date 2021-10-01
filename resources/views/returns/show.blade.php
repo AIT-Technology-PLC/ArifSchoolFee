@@ -77,7 +77,7 @@
                                 {{ number_format($return->subtotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                SubTotal Price ({{ $return->company->currency }})
+                                SubTotal Price ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                                 {{ number_format($return->grandTotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Grand Total Price ({{ $return->company->currency }})
+                                Grand Total Price ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -271,11 +271,11 @@
                                     {{ $returnDetail->product->unit_of_measurement }}
                                 </td>
                                 <td>
-                                    {{ $return->company->currency }}.
+                                    {{ userCompany()->currency }}.
                                     {{ number_format($returnDetail->unit_price, 2) }}
                                 </td>
                                 <td>
-                                    {{ $return->company->currency }}.
+                                    {{ userCompany()->currency }}.
                                     {{ number_format($returnDetail->totalPrice, 2) }}
                                 </td>
                                 <td>
