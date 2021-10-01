@@ -116,7 +116,7 @@
                                 ({{ (float) $reservation->cash_received_in_percentage }}%)
                             </div>
                             <div class="is-uppercase is-size-7">
-                                In Cash ({{ $reservation->company->currency }})
+                                In Cash ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -136,7 +136,7 @@
                                 ({{ $reservation->credit_payable_in_percentage }}%)
                             </div>
                             <div class="is-uppercase is-size-7">
-                                On Credit ({{ $reservation->company->currency }})
+                                On Credit ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                                 {{ number_format($reservation->subtotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                SubTotal Price ({{ $reservation->company->currency }})
+                                SubTotal Price ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                                 {{ number_format($reservation->grandTotalPrice, 2) }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Grand Total Price ({{ $reservation->company->currency }})
+                                Grand Total Price ({{ userCompany()->currency }})
                             </div>
                         </div>
                     </div>
@@ -451,7 +451,7 @@
                                     {{ $reservationDetail->product->unit_of_measurement }}
                                 </td>
                                 <td>
-                                    {{ $reservation->company->currency }}.
+                                    {{ userCompany()->currency }}.
                                     {{ number_format($reservationDetail->unit_price, 2) }}
                                 </td>
                                 @if (userCompany()->isDiscountBeforeVAT())

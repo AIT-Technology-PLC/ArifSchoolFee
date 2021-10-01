@@ -138,17 +138,17 @@ Route::post('/returnns/{return}/return',
     ->name('returns.add');
 
 Route::post('/reservations/{reservation}/approve',
-    [Controllers\ReservationController::class, 'approve'])
+    [Action\ReservationController::class, 'approve'])
     ->name('reservations.approve');
 
 Route::post('/reservations/{reservation}/convert',
-    [Controllers\ReservationController::class, 'convert'])
+    [Action\ReservationController::class, 'convert'])
     ->name('reservations.convert');
 
 Route::post('/reservations/{reservation}/cancel',
-    [Controllers\ReservationController::class, 'cancel'])
+    [Action\ReservationController::class, 'cancel'])
     ->name('reservations.cancel');
 
 Route::post('/reservations/{reservation}/reserve',
-    [Controllers\ReservationController::class, 'reserve'])
+    [Action\ReservationController::class, 'reserve'])
     ->name('reservations.reserve');

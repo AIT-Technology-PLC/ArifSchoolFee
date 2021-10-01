@@ -76,7 +76,7 @@
                 </div>
             </div>
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-4 is-offset-2 p-lr-0">
             <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalApproved }}
@@ -93,16 +93,6 @@
                 </div>
                 <div class="is-uppercase is-size-7">
                     Waiting Approval
-                </div>
-            </div>
-        </div>
-        <div class="column is-4 p-lr-0">
-            <div class="box bg-blue has-text-white" style="border: 1px !important;">
-                <div class="is-size-3 has-text-weight-bold">
-                    {{ userCompany()->currency }} {{ number_format($totalReservedInBirr, 2) }}
-                </div>
-                <div class="is-uppercase is-size-7">
-                    Reservations in Birr
                 </div>
             </div>
         </div>
@@ -197,7 +187,7 @@
                                     {{ $reservation->payment_type ?? 'N/A' }}
                                 </td>
                                 <td class="has-text-right">
-                                    {{ $reservation->company->currency }}.
+                                    {{ userCompany()->currency }}.
                                     @if (userCompany()->isDiscountBeforeVAT())
                                         {{ number_format($reservation->grandTotalPrice, 2) }}
                                     @else
