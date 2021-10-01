@@ -122,11 +122,11 @@ Route::post('/damages/{damage}/subtract',
     ->name('damages.subtract');
 
 Route::post('/adjustments/{adjustment}/approve',
-    [Controllers\AdjustmentController::class, 'approve'])
+    [Action\AdjustmentController::class, 'approve'])
     ->name('adjustments.approve');
 
 Route::post('/adjustments/{adjustment}/adjust',
-    [Controllers\AdjustmentController::class, 'adjust'])
+    [Action\AdjustmentController::class, 'adjust'])
     ->name('adjustments.adjust');
 
 Route::post('/returnns/{return}/approve',

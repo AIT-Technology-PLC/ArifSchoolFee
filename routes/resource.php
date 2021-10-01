@@ -49,7 +49,7 @@ Route::resource('proforma-invoices', Resource\ProformaInvoiceController::class);
 
 Route::resource('damages', Resource\DamageController::class);
 
-Route::resource('adjustments', Controllers\AdjustmentController::class);
+Route::resource('adjustments', Resource\AdjustmentController::class);
 
 Route::resource('returns', Controllers\ReturnController::class);
 

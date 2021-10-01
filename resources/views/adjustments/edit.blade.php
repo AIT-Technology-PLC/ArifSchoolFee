@@ -104,7 +104,7 @@
                                         @enderror
                                     </div>
                                     <div class="control">
-                                        <button id="adjustment[{{ $loop->index }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                        <button id="adjustment[{{ $loop->index }}][product_id]Quantity" class="button bg-green has-text-white" type="button">{{ $adjustmentDetail->product->unit_of_measurement }}</button>
                                     </div>
                                 </div>
                             </div>

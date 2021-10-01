@@ -1,45 +1,39 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdjustmentRequest;
 use App\Http\Requests\UpdateAdjustmentRequest;
 use App\Models\Adjustment;
 use App\Models\Warehouse;
-use App\Notifications\AdjustmentMade;
 use App\Notifications\AdjustmentPrepared;
-use App\Services\InventoryOperationService;
-use App\Traits\ApproveInventory;
 use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class AdjustmentController extends Controller
 {
-    use NotifiableUsers, ApproveInventory;
-
-    private $permission;
+    use NotifiableUsers;
 
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Inventory Adjustment');
 
         $this->authorizeResource(Adjustment::class, 'adjustment');
-
-        $this->permission = 'Make Adjustment';
     }
 
     public function index()
     {
-        $adjustments = (new Adjustment())->getAll()->load(['createdBy', 'updatedBy', 'approvedBy']);
+        $adjustments = (new Adjustment)->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'adjustedBy']);
 
-        $totalAdjustments = $adjustments->count();
+        $totalAdjustments = Adjustment::count();
 
-        $totalNotApproved = $adjustments->whereNull('approved_by')->count();
+        $totalNotApproved = Adjustment::whereNull('approved_by')->count();
 
-        $totalNotAdjusted = $adjustments->whereNotNull('approved_by')->whereNull('adjusted_by')->count();
+        $totalNotAdjusted = Adjustment::whereNotNull('approved_by')->whereNull('adjusted_by')->count();
 
-        $totalAdjusted = $adjustments->whereNotNull('adjusted_by')->count();
+        $totalAdjusted = Adjustment::whereNotNull('adjusted_by')->count();
 
         return view('adjustments.index', compact('adjustments', 'totalAdjustments', 'totalNotApproved', 'totalNotAdjusted', 'totalAdjusted'));
     }
@@ -77,6 +71,8 @@ class AdjustmentController extends Controller
 
     public function edit(Adjustment $adjustment)
     {
+        $adjustment->load(['adjustmentDetails.warehouse', 'adjustmentDetails.product']);
+
         $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
 
         return view('adjustments.edit', compact('adjustment', 'warehouses'));
@@ -112,37 +108,5 @@ class AdjustmentController extends Controller
         $adjustment->forceDelete();
 
         return redirect()->back()->with('deleted', 'Deleted Successfully');
-    }
-
-    public function adjust(Adjustment $adjustment)
-    {
-        $this->authorize('adjust', $adjustment);
-
-        if (!$adjustment->isApproved()) {
-            return redirect()->back()->with('failedMessage', 'This Adjustment is not approved');
-        }
-
-        $result = DB::transaction(function () use ($adjustment) {
-            $result = InventoryOperationService::adjust($adjustment->adjustmentDetails);
-
-            if (!$result['isAdjusted']) {
-                DB::rollBack();
-
-                return $result;
-            }
-
-            $adjustment->adjust();
-
-            Notification::send(
-                $this->notifiableUsers('Approve Adjustment', $adjustment->createdBy),
-                new AdjustmentMade($adjustment)
-            );
-
-            return $result;
-        });
-
-        return $result['isAdjusted'] ?
-        redirect()->back() :
-        redirect()->back()->with('failedMessage', $result['unavailableProducts']);
     }
 }
