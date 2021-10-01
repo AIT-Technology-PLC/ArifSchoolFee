@@ -12,7 +12,7 @@
                 Tender Readings
             </h1>
         </div>
-        <form id="formOne" action="{{ route('tenders.reading.update', $tender->id) }}" method="post" enctype="multipart/form-data" novalidate>
+        <form id="formOne" action="{{ route('tender-readings.update', $tender->id) }}" method="post" enctype="multipart/form-data" novalidate>
             @csrf
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">

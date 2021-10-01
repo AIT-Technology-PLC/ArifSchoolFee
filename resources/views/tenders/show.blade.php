@@ -345,7 +345,7 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             @if (!$tender->financial_reading && !$tender->technical_reading)
-                                <a href="{{ route('tenders.reading.edit', $tender->id) }}" class="button is-small btn-green is-outlined has-text-white">
+                                <a href="{{ route('tender-readings.edit', $tender->id) }}" class="button is-small btn-green is-outlined has-text-white">
                                     <span class="icon">
                                         <i class="fas fa-table"></i>
                                     </span>
@@ -413,7 +413,7 @@
                     <div class="level-right">
                         <div class="level-item is-justify-content-left">
                             <div>
-                                <a href="{{ route('tenders.reading.edit', $tender->id) }}" class="button is-small bg-green has-text-white">
+                                <a href="{{ route('tender-readings.edit', $tender->id) }}" class="button is-small bg-green has-text-white">
                                     <span class="icon">
                                         <i class="fas fa-table"></i>
                                     </span>
