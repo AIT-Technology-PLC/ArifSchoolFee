@@ -10,7 +10,7 @@ Route::get('/employees/{employee}/permissions/edit',
     ->name('permissions.edit');
 
 Route::patch('/employees/{employee}/permissions',
-    [Controllers\PermissionController::class, 'update'])
+    [Action\PermissionController::class, 'update'])
     ->name('permissions.update');
 
 Route::get('/sale/{sale}/gdn/create',
