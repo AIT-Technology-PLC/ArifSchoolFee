@@ -30,14 +30,15 @@
                 @endif
                 <div class="columns is-marginless is-multiline">
                     @foreach ($permissionCategories as $key => $value)
+                        @continue(!$enabledFeatures->contains($value['feature']))
                         <div class="column is-6">
                             <div class="message">
                                 <div class="message-header has-background-white-ter text-gold">
-                                    {{ Str::ucfirst($value) }} Permissions
+                                    {{ $value['label'] }} Permissions
                                 </div>
                                 <div class="message-body has-background-white-bis">
                                     <div class="columns is-marginless is-multiline">
-                                        @foreach ($permissionsByCategory[$key] as $permission)
+                                        @foreach ($permissionsByCategories[$key] as $permission)
                                             <div class="column is-one-third">
                                                 <div class="field">
                                                     <div class="control">
