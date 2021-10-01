@@ -9,6 +9,10 @@ Route::get('/employees/{employee}/permissions/edit',
     [Controllers\PermissionController::class, 'edit'])
     ->name('permissions.edit');
 
+Route::patch('/employees/{employee}/permissions',
+    [Controllers\PermissionController::class, 'update'])
+    ->name('permissions.update');
+
 Route::get('/sale/{sale}/gdn/create',
     Controllers\SaleGdnController::class)
     ->name('sales.gdns.create');
@@ -60,10 +64,6 @@ Route::get('/password/edit',
 Route::get('/tenders/{tender}/print',
     [Action\TenderController::class, 'printed'])
     ->name('tenders.print');
-
-Route::patch('/employees/{employee}/permissions',
-    [Controllers\PermissionController::class, 'update'])
-    ->name('permissions.update');
 
 Route::patch('/notifications/mark-all-read',
     [Action\NotificationController::class, 'markAllAsRead'])
