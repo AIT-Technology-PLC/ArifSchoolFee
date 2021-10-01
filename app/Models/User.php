@@ -23,6 +23,29 @@ class User extends Authenticatable
         'last_online_at' => 'datetime',
     ];
 
+    public const PERMISSION_CATEGORIES = [
+        'gdn' => 'Delivery Order',
+        'grn' => 'Goods Received Note',
+        'transfer' => 'Transfer',
+        'damage' => 'Damage',
+        'adjustment' => 'Adjustment',
+        'siv' => 'Store Issue Voucher',
+        'merchandise' => 'Merchandise Inventory',
+        'return' => 'Return',
+        'sale' => 'Invoice',
+        'proforma invoice' => 'Proforma Invoice',
+        'reservation' => 'Reservation',
+        'purchase' => 'Purchase',
+        'po' => 'Purchase Order',
+        'product' => 'Product & Category',
+        'warehouse' => 'Warehouse',
+        'employee' => 'Employee',
+        'supplier' => 'Supplier',
+        'customer' => 'Customer',
+        'tender' => 'Tender',
+        'company' => 'Company',
+    ];
+
     public function employee()
     {
         return $this->hasOne(Employee::class, 'user_id')->withoutGlobalScopes();

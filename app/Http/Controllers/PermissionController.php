@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Models\Employee;
+use App\Models\User;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
@@ -19,15 +20,17 @@ class PermissionController extends Controller
 
         $this->authorize('update', $employee);
 
+        $permissionCategories = User::PERMISSION_CATEGORIES;
+
         $permissions = $permission->whereNotIn('name', $employee->user->getPermissionsViaRoles()->pluck('name'))
             ->oldest()
             ->pluck('name');
 
-        $permissionsByCategory = $this->categorizePermissions($permissions);
+        $permissionsByCategory = $this->categorizePermissions($permissionCategories, $permissions);
 
         $userDirectPermissions = $employee->user->getDirectPermissions()->pluck('name');
 
-        return view('permissions.edit', compact('employee', 'permissionsByCategory', 'userDirectPermissions'));
+        return view('permissions.edit', compact('employee', 'permissionCategories', 'permissionsByCategory', 'userDirectPermissions'));
     }
 
     public function update(UpdatePermissionRequest $request, Employee $employee)
@@ -41,48 +44,20 @@ class PermissionController extends Controller
         return redirect()->back()->with('message', 'Permissions updated successfully');
     }
 
-    private function categorizePermissions($permissions)
+    private function categorizePermissions($permissionCategories, $permissions)
     {
-        $permission['gdnPermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'gdn'));
+        $permissionsByCategory = [];
 
-        $permission['grnPermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'grn'));
+        foreach ($permissionCategories as $key => $value) {
 
-        $permission['transferPermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'transfer'));
+            $permissionsByCategory[$key] = $permissions
+                ->filter(function ($permission) use ($key) {
+                    return stristr($permission, $key);
+                })
+                ->toArray();
 
-        $permission['damagePermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'damage'));
+        }
 
-        $permission['adjustmentPermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'adjustment'));
-
-        $permission['sivPermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'siv'));
-
-        $permission['merchandisePermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'merchandise'));
-
-        $permission['returnPermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'return'));
-
-        $permission['salePermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'sale'));
-
-        $permission['proformaInvoicePermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'proforma invoice'));
-
-        $permission['reservationPermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'reservation'));
-
-        $permission['purchasePermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'purchase'));
-
-        $permission['poPermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'po'));
-
-        $permission['productPermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'product'));
-
-        $permission['warehousePermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'warehouse'));
-
-        $permission['employeePermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'employee'));
-
-        $permission['supplierPermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'supplier'));
-
-        $permission['customerPermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'customer'));
-
-        $permission['tenderPermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'tender'));
-
-        $permission['companyPermissions'] = $permissions->filter(fn($permission) => stristr($permission, 'company'));
-
-        return $permission;
+        return $permissionsByCategory;
     }
 }
