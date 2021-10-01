@@ -12,7 +12,7 @@ class CacheAndOptimize extends Command
      *
      * @var string
      */
-    protected $signature = 'app:optimize';
+    protected $signature = 'optimize:cache';
 
     /**
      * The console command description.
@@ -38,12 +38,13 @@ class CacheAndOptimize extends Command
      */
     public function handle()
     {
-        $routeCachingResponse = Artisan::call('route:cache') == 0 ? 'ROUTE CACHING COMPLETED' : 'ROUTE CACHING FAILED';
         $viewCachingResponse = Artisan::call('view:cache') == 0 ? 'VIEW CACHING COMPLETED' : 'VIEW CACHING FAILED';
-        $configCachingResponse = Artisan::call('config:cache') == 0 ? 'CONFIG CACHING COMPLETED' : 'CONFIG CACHING FAILED';
-        $optimizeResponse = Artisan::call('optimize') == 0 ? 'OPTIMIZE COMPLETED' : 'OPTIMIZE FAILED';
 
-        $this->info("{$routeCachingResponse}\n{$viewCachingResponse}\n{$configCachingResponse}\n{$optimizeResponse}");
+        $optimizeResponse = Artisan::call('optimize') == 0 ? 'CONFIG AND ROUTES CACHING COMPLETED' : 'CONFIG AND ROUTES CACHING FAILED';
+
+        $packageDiscoveryResponse = Artisan::call('package:discover') == 0 ? 'PACKAGE MANIFEST GENERATED SUCCESSFULLY' : 'PACKAGE DISCOVERY FAILED';
+
+        $this->info("{$viewCachingResponse}\n{$optimizeResponse}\n{$packageDiscoveryResponse}");
 
         $shellMessage = shell_exec('composer dump-autoload -o');
 
