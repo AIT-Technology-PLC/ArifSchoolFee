@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Action;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Models\Employee;
 use App\Services\PermissionCategorizationService;

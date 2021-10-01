@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth as Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/employees/{employee}/permissions/edit',
-    [Controllers\PermissionController::class, 'edit'])
+    [Action\PermissionController::class, 'edit'])
     ->name('permissions.edit');
 
 Route::patch('/employees/{employee}/permissions',
