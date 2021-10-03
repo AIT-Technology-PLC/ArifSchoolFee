@@ -49,11 +49,6 @@ class Purchase extends Model
         return $this->byBranch()->latest()->get();
     }
 
-    public function countPurchasesOfCompany()
-    {
-        return $this->count();
-    }
-
     public function isImported()
     {
         return $this->type == 'Import';

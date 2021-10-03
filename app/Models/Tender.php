@@ -66,9 +66,4 @@ class Tender extends Model
 
         return $this->byBranch()->latest()->get();
     }
-
-    public function countTendersOfCompany()
-    {
-        return $this->count();
-    }
 }

@@ -48,11 +48,6 @@ class PurchaseOrder extends Model
         return $this->byBranch()->latest()->get();
     }
 
-    public function countPurchaseOrdersOfCompany()
-    {
-        return $this->count();
-    }
-
     public function close()
     {
         $this->is_closed = 1;

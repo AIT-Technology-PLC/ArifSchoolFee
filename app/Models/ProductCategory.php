@@ -36,14 +36,4 @@ class ProductCategory extends Model
 
         $this->attributes['properties'] = json_encode($properties);
     }
-
-    public function getAll()
-    {
-        return $this->with(['products', 'createdBy', 'updatedBy'])->orderBy('name')->get();
-    }
-
-    public function countProductCategoriesOfCompany()
-    {
-        return $this->count();
-    }
 }

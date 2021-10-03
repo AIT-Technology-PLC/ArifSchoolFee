@@ -27,14 +27,4 @@ class Supplier extends Model
     {
         return $this->hasMany(Grn::class);
     }
-
-    public function getAll()
-    {
-        return $this->with(['createdBy', 'updatedBy'])->orderBy('company_name')->get();
-    }
-
-    public function countSuppliersOfCompany()
-    {
-        return $this->count();
-    }
 }

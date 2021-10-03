@@ -40,20 +40,6 @@ class Merchandise extends Model
             ->get();
     }
 
-    public function getAllAvailable()
-    {
-        return $this
-            ->where('available', '>', 0)
-            ->get();
-    }
-
-    public function getAllReserved()
-    {
-        return $this
-            ->where('reserved', '>', 0)
-            ->get();
-    }
-
     public function getTotalDistinctLimitedMerchandises($onHandMerchandises)
     {
         $distinctTotalLimitedMerchandises = $onHandMerchandises
@@ -66,53 +52,5 @@ class Merchandise extends Model
             ->count();
 
         return $distinctTotalLimitedMerchandises;
-    }
-
-    public function getProductAvailableInWarehouse($availableMerchandises, $productId, $warehouseId)
-    {
-        return $availableMerchandises->where('product_id', $productId)
-            ->where('warehouse_id', $warehouseId)
-            ->first()
-            ->available ?? 0.00;
-    }
-
-    public function getProductAvailableTotalBalance($availableMerchandises, $productId)
-    {
-        return number_format(
-            $availableMerchandises->where('product_id', $productId)->sum('available'),
-            2, '.', ''
-        );
-    }
-
-    public function getProductReservedInWarehouse($reservedMerchandises, $productId, $warehouseId)
-    {
-        return $reservedMerchandises->where('product_id', $productId)
-            ->where('warehouse_id', $warehouseId)
-            ->first()
-            ->reserved ?? 0.00;
-    }
-
-    public function getProductReservedTotalBalance($reservedMerchandises, $productId)
-    {
-        return number_format(
-            $reservedMerchandises->where('product_id', $productId)->sum('reserved'),
-            2, '.', ''
-        );
-    }
-
-    public function getProductOnHandInWarehouse($onHandMerchandises, $productId, $warehouseId)
-    {
-        return $onHandMerchandises->where('product_id', $productId)
-            ->where('warehouse_id', $warehouseId)
-            ->first()
-            ->on_hand ?? 0.00;
-    }
-
-    public function getProductOnHandTotalBalance($onHandMerchandises, $productId)
-    {
-        return number_format(
-            $onHandMerchandises->where('product_id', $productId)->sum('on_hand'),
-            2, '.', ''
-        );
     }
 }

@@ -47,14 +47,4 @@ class Customer extends Model
     {
         return $this->hasMany(Reservation::class);
     }
-
-    public function getAll()
-    {
-        return $this->with(['createdBy', 'updatedBy'])->orderBy('company_name')->get();
-    }
-
-    public function countCustomersOfCompany()
-    {
-        return $this->count();
-    }
 }

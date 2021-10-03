@@ -22,9 +22,4 @@ class GeneralTenderChecklist extends Model
     {
         return $this->hasMany(TenderChecklist::class);
     }
-
-    public function getAll()
-    {
-        return $this->orderBy('item', 'asc')->get();
-    }
 }

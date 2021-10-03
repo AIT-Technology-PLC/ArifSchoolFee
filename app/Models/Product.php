@@ -112,11 +112,6 @@ class Product extends Model
         $this->attributes['properties'] = json_encode($properties);
     }
 
-    public function getAll()
-    {
-        return $this->with(['productCategory', 'createdBy', 'updatedBy', 'supplier'])->orderBy('name')->get();
-    }
-
     public function getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)
     {
         return $this
@@ -128,11 +123,6 @@ class Product extends Model
     public function isProductLimited($onHandQuantity)
     {
         return $this->min_on_hand >= $onHandQuantity;
-    }
-
-    public function countProductsOfCompany()
-    {
-        return $this->count();
     }
 
     public function getOnHandMerchandiseProductsQuery()

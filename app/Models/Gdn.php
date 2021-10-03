@@ -56,9 +56,4 @@ class Gdn extends Model
 
         return $this->byBranch()->latest()->get();
     }
-
-    public function countGdnsOfCompany()
-    {
-        return $this->count();
-    }
 }

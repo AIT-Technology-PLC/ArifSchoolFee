@@ -78,16 +78,6 @@ class Warehouse extends Model
         return $this->hasMany(Warehouse::class, 'transferred_to');
     }
 
-    public function getAll()
-    {
-        return $this->with(['createdBy', 'updatedBy'])->orderBy('name')->get();
-    }
-
-    public function countWarehousesOfCompany()
-    {
-        return $this->count();
-    }
-
     public function getWarehousesInUseQuery()
     {
         return $this->whereHas('merchandises', function ($query) {

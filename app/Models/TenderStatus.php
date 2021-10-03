@@ -12,9 +12,4 @@ class TenderStatus extends Model
     use MultiTenancy, SoftDeletes, HasUserstamps;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
-
-    public function getAll()
-    {
-        return $this->orderBy('status', 'asc')->get();
-    }
 }

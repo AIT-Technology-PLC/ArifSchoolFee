@@ -48,14 +48,4 @@ class Sale extends Model
 
         return $this->byBranch()->latest()->get();
     }
-
-    public function countSalesOfCompany()
-    {
-        return $this->count();
-    }
-
-    public function isSalePaymentCash()
-    {
-        return $this->payment_type == "Cash";
-    }
 }

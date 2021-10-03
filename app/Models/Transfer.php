@@ -50,9 +50,4 @@ class Transfer extends Model
             ->latest()
             ->get();
     }
-
-    public function countTransfersOfCompany()
-    {
-        return $this->count();
-    }
 }

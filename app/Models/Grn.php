@@ -43,9 +43,4 @@ class Grn extends Model
 
         return $this->byBranch()->latest()->get();
     }
-
-    public function countGrnsOfCompany()
-    {
-        return $this->count();
-    }
 }
