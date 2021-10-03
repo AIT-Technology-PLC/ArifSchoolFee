@@ -20,6 +20,10 @@ class PurchaseOrder extends Model
         'is_closed' => 'boolean',
     ];
 
+    protected $attributes = [
+        'is_closed' => 0,
+    ];
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);

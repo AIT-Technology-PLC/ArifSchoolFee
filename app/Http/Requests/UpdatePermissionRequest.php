@@ -18,11 +18,4 @@ class UpdatePermissionRequest extends FormRequest
             'permissions.*' => ['nullable', 'string'],
         ];
     }
-
-    public function passedValidation()
-    {
-        $this->replace([
-            'permissions' => $this->has('permissions') ? $this->only('permissions') : null,
-        ]);
-    }
 }

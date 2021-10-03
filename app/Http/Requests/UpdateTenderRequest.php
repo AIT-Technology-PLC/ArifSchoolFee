@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Carbon;
 
 class UpdateTenderRequest extends FormRequest
 {
@@ -37,13 +36,5 @@ class UpdateTenderRequest extends FormRequest
             'tender.*.quantity' => ['required', 'numeric'],
             'tender.*.description' => ['nullable', 'string'],
         ];
-    }
-
-    public function passedValidation()
-    {
-        $this->merge([
-            'closing_date' => (new Carbon($this->closing_date))->toDateTimeString(),
-            'opening_date' => (new Carbon($this->opening_date))->toDateTimeString(),
-        ]);
     }
 }

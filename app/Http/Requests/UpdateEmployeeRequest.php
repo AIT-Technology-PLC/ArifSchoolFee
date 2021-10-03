@@ -28,11 +28,4 @@ class UpdateEmployeeRequest extends FormRequest
             'read.*' => ['nullable', 'integer'],
         ];
     }
-
-    public function passedValidation()
-    {
-        if (!$this->has('enabled')) {
-            $this->enabled = 1;
-        }
-    }
 }

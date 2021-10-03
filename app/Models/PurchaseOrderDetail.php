@@ -13,6 +13,11 @@ class PurchaseOrderDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    public static function booted()
+    {
+        static::creating(fn($model) => $model->quantity_left = $model->quantity);
+    }
+
     public function purchaseOrder()
     {
         return $this->belongsTo(PurchaseOrder::class);
