@@ -7,7 +7,6 @@ use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Carbon;
 
 class Tender extends Model
 {
@@ -37,16 +36,6 @@ class Tender extends Model
     public function tenderChecklists()
     {
         return $this->hasMany(TenderChecklist::class);
-    }
-
-    public function setClosingDateAttribute($value)
-    {
-        $this->attributes['closing_date'] = (new Carbon($value))->toDateTimeString();
-    }
-
-    public function setOpeningDateAttribute($value)
-    {
-        $this->attributes['opening_date'] = (new Carbon($value))->toDateTimeString();
     }
 
     public function getTenderChecklistsCompletionRateAttribute()
