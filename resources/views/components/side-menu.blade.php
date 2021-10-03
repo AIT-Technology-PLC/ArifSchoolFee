@@ -73,7 +73,7 @@
             <li>
                 <ul class="mt-0 ml-5 is-hidden">
                     @can('Read Merchandise')
-                        @if ($enabledFeatures->contains('Merchandise Inventory'))
+                        @if (isFeatureEnabled('Merchandise Inventory'))
                             <li>
                                 <a name="menuTitles" href="{{ route('merchandises.index', 'on-hand') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('merchandises') ? 'is-active' : '' }}">
                                     Inventory Level
@@ -82,7 +82,7 @@
                         @endif
                     @endcan
                     @can('Read Warehouse')
-                        @if ($enabledFeatures->contains('Warehouse Management'))
+                        @if (isFeatureEnabled('Warehouse Management'))
                             <li>
                                 <a name="menuTitles" href="{{ route('warehouses.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('warehouses') ? 'is-active' : '' }}">
                                     Warehouses
@@ -90,7 +90,7 @@
                             </li>
                         @endif
                     @endcan
-                    @if ($enabledFeatures->contains('Grn Management'))
+                    @if (isFeatureEnabled('Grn Management'))
                         @can('Read GRN')
                             <li>
                                 <a name="menuTitles" href="{{ route('grns.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('grns') ? 'is-active' : '' }}">
@@ -99,7 +99,7 @@
                             </li>
                         @endif
                     @endcan
-                    @if ($enabledFeatures->contains('Transfer Management'))
+                    @if (isFeatureEnabled('Transfer Management'))
                         @can('Read Transfer')
                             <li>
                                 <a name="menuTitles" href="{{ route('transfers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('transfers') ? 'is-active' : '' }}">
@@ -108,7 +108,7 @@
                             </li>
                         @endif
                     @endcan
-                    @if ($enabledFeatures->contains('Damage Management'))
+                    @if (isFeatureEnabled('Damage Management'))
                         @can('Read Damage')
                             <li>
                                 <a name="menuTitles" href="{{ route('damages.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages') ? 'is-active' : '' }}">
@@ -117,7 +117,7 @@
                             </li>
                         @endcan
                     @endif
-                    @if ($enabledFeatures->contains('Inventory Adjustment'))
+                    @if (isFeatureEnabled('Inventory Adjustment'))
                         @can('Read Adjustment')
                             <li>
                                 <a name="menuTitles" href="{{ route('adjustments.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('adjustments') ? 'is-active' : '' }}">
@@ -126,7 +126,7 @@
                             </li>
                         @endcan
                     @endif
-                    @if ($enabledFeatures->contains('Siv Management'))
+                    @if (isFeatureEnabled('Siv Management'))
                         @can('Read SIV')
                             <li>
                                 <a name="menuTitles" href="{{ route('sivs.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs') ? 'is-active' : '' }}">
@@ -157,7 +157,7 @@
             </li>
             <li>
                 <ul class="mt-0 ml-5 is-hidden">
-                    @if ($enabledFeatures->contains('Sale Management'))
+                    @if (isFeatureEnabled('Sale Management'))
                         @can('Read Sale')
                             <li>
                                 <a name="menuTitles" href="{{ route('sales.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'is-active' : '' }}">
@@ -166,7 +166,7 @@
                             </li>
                         @endcan
                     @endif
-                    @if ($enabledFeatures->contains('Gdn Management'))
+                    @if (isFeatureEnabled('Gdn Management'))
                         @can('Read GDN')
                             <li>
                                 <a name="menuTitles" href="{{ route('gdns.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('gdns') ? 'is-active' : '' }}">
@@ -175,7 +175,7 @@
                             </li>
                         @endcan
                     @endif
-                    @if ($enabledFeatures->contains('Proforma Invoice'))
+                    @if (isFeatureEnabled('Proforma Invoice'))
                         @can('Read Proforma Invoice')
                             <li>
                                 <a name="menuTitles" href="{{ route('proforma-invoices.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('proforma-invoices') ? 'is-active' : '' }}">
@@ -184,7 +184,7 @@
                             </li>
                         @endcan
                     @endif
-                    @if ($enabledFeatures->contains('Reservation Management'))
+                    @if (isFeatureEnabled('Reservation Management'))
                         @can('Read Reservation')
                             <li>
                                 <a name="menuTitles" href="{{ route('reservations.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('reservations') ? 'is-active' : '' }}">
@@ -193,7 +193,7 @@
                             </li>
                         @endcan
                     @endif
-                    @if ($enabledFeatures->contains('Return Management'))
+                    @if (isFeatureEnabled('Return Management'))
                         @can('Read Return')
                             <li>
                                 <a name="menuTitles" href="{{ route('returns.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('returns') ? 'is-active' : '' }}">
@@ -203,7 +203,7 @@
                         @endcan
                     @endif
                     @can('Read PO')
-                        @if ($enabledFeatures->contains('Purchase Order'))
+                        @if (isFeatureEnabled('Purchase Order'))
                             <li>
                                 <a name="menuTitles" href="{{ route('purchase-orders.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchase-orders') ? 'is-active' : '' }}">
                                     Purchase Orders
@@ -211,7 +211,7 @@
                             </li>
                         @endcan
                     @endif
-                    @if ($enabledFeatures->contains('Customer Management'))
+                    @if (isFeatureEnabled('Customer Management'))
                         @can('Read Customer')
                             <li>
                                 <a name="menuTitles" href="{{ route('customers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('customers') ? 'is-active' : '' }}">
@@ -226,7 +226,7 @@
     @endcanany
 
     @can('Read Tender')
-        @if ($enabledFeatures->contains('Tender Management'))
+        @if (isFeatureEnabled('Tender Management'))
             <ul class="menu-list mb-2">
                 <li>
                     <button name="menu-accordion" class="button is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0">
@@ -286,7 +286,7 @@
             </li>
             <li>
                 <ul class="mt-0 ml-5 is-hidden">
-                    @if ($enabledFeatures->contains('Purchase Management'))
+                    @if (isFeatureEnabled('Purchase Management'))
                         @can('Read Purchase')
                             <li>
                                 <a name="menuTitles" href="{{ route('purchases.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases') ? 'is-active' : '' }}">
@@ -295,7 +295,7 @@
                             </li>
                         @endcan
                     @endif
-                    @if ($enabledFeatures->contains('Supplier Management'))
+                    @if (isFeatureEnabled('Supplier Management'))
                         @can('Read Supplier')
                             <li>
                                 <a name="menuTitles" href="{{ route('suppliers.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'is-active' : '' }}">
@@ -310,7 +310,7 @@
     @endcanany
 
     @can('Read Product')
-        @if ($enabledFeatures->contains('Product Management'))
+        @if (isFeatureEnabled('Product Management'))
             <ul class="menu-list mb-2">
                 <li>
                     <button name="menu-accordion" class="button is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0">
@@ -360,7 +360,7 @@
             </li>
             <li>
                 <ul class="mt-0 ml-5 is-hidden">
-                    @if ($enabledFeatures->contains('User Management'))
+                    @if (isFeatureEnabled('User Management'))
                         @can('Read Employee')
                             <li>
                                 <a name="menuTitles" href="{{ route('employees.index') }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees') ? 'is-active' : '' }}">
@@ -369,7 +369,7 @@
                             </li>
                         @endcan
                     @endif
-                    @if ($enabledFeatures->contains('General Settings'))
+                    @if (isFeatureEnabled('General Settings'))
                         @can('Update Company')
                             <li>
                                 <a name="menuTitles" href="{{ route('companies.edit', userCompany()->id) }}" class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('companies.edit') ? 'is-active' : '' }}">

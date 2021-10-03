@@ -27,33 +27,6 @@ class Feature extends Model
         return $this->morphedByMany(Plan::class, 'featurable')->withPivot('is_enabled');
     }
 
-    public static function isFeatureAccessible($featureName)
-    {
-        $feature = (new self())->where('name', $featureName)->first();
-
-        if (!$feature) {
-            return false;
-        }
-
-        if (!$feature->is_enabled) {
-            return false;
-        }
-
-        $featureByCompany = $feature->companies()->wherePivot('featurable_id', userCompany()->id)->first();
-
-        if ($featureByCompany) {
-            return $featureByCompany->pivot->is_enabled;
-        }
-
-        $featureByPlan = $feature->plans()->wherePivot('featurable_id', userCompany()->plan_id)->first();
-
-        if ($featureByPlan) {
-            return $featureByPlan->pivot->is_enabled;
-        }
-
-        return false;
-    }
-
     public static function enableOrDisable($featureName, $value)
     {
         (new self())->where('name', $featureName)
@@ -107,28 +80,30 @@ class Feature extends Model
 
     public static function getAllEnabledFeaturesOfCompany()
     {
-        $globallyDisabledfeatures = (new self())->where('is_enabled', 0)->pluck('name');
+        $enabledFeatures = DB::table('featurables')
+            ->join('features', 'featurables.feature_id', 'features.id')
+            ->where('features.is_enabled', 1)
+            ->where(function ($query) {
+                $query->where('featurables.featurable_type', 'App\\Models\\Plan')
+                    ->where('featurables.featurable_id', userCompany()->plan_id)
+                    ->where('featurables.is_enabled', 1);
+            })
+            ->orWhere(function ($query) {
+                $query->where('featurables.featurable_type', 'App\\Models\\Company')
+                    ->where('featurables.featurable_id', userCompany()->id)
+                    ->where('featurables.is_enabled', 1);
+            })
+            ->pluck('features.name')
+            ->unique();
 
-        $enabledPlanFeatures = userCompany()
-            ->plan
-            ->features()
-            ->wherePivot('is_enabled', 1)
-            ->pluck('name');
+        $disabledFeaturesForCompany = DB::table('featurables')
+            ->join('features', 'featurables.feature_id', 'features.id')
+            ->where('featurables.featurable_type', 'App\\Models\\Company')
+            ->where('featurables.featurable_id', userCompany()->id)
+            ->where('featurables.is_enabled', 0)
+            ->pluck('features.name')
+            ->unique();
 
-        $enabledCompanyFeatures = userCompany()
-            ->features()
-            ->wherePivot('is_enabled', 1)
-            ->pluck('name');
-
-        $disabledCompanyFeatures = userCompany()
-            ->features()
-            ->wherePivot('is_enabled', 0)
-            ->pluck('name');
-
-        return $enabledPlanFeatures
-            ->merge($enabledCompanyFeatures)
-            ->unique()
-            ->diff($disabledCompanyFeatures)
-            ->diff($globallyDisabledfeatures);
+        return $enabledFeatures->diff($disabledFeaturesForCompany);
     }
 }

@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Http\View\Composers\FeatureAuthComposer;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class ViewServiceProvider extends ServiceProvider
@@ -25,6 +23,6 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('*', FeatureAuthComposer::class);
+        //
     }
 }

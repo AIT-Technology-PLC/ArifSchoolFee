@@ -50,7 +50,7 @@
                             </div>
                         </div>
                     </div>
-                    @if ($enabledFeatures->contains('Sale Management'))
+                    @if (isFeatureEnabled('Sale Management'))
                         <div class="column is-6">
                             <div class="field">
                                 <label for="sale_id" class="label text-green has-text-weight-normal"> Receipt No <sup class="has-text-danger"></sup> </label>

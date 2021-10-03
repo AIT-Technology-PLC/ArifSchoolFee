@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Feature;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -17,7 +16,7 @@ class AllowOnlyEnabledFeatures
      */
     public function handle(Request $request, Closure $next, $featureName)
     {
-        abort_if(!Feature::isFeatureAccessible($featureName), 403);
+        abort_if(!isFeatureEnabled($featureName), 403);
 
         return $next($request);
     }

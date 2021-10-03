@@ -86,12 +86,12 @@
         <div class="box radius-top-0">
             @include('components.deleted-message', ['model' => 'DO'])
             <div>
-                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[{{ $enabledFeatures->contains('Sale Management') ? 8 : 7 }}]" data-numeric="[]">
+                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[{{ isFeatureEnabled('Sale Management') ? 8 : 7 }}]" data-numeric="[]">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th><abbr> DO No </abbr></th>
-                            @if ($enabledFeatures->contains('Sale Management'))
+                            @if (isFeatureEnabled('Sale Management'))
                                 <th><abbr> Receipt No </abbr></th>
                             @endif
                             <th><abbr> Status </abbr></th>
@@ -113,7 +113,7 @@
                                 <td class="is-capitalized has-text-centered">
                                     {{ $gdn->code }}
                                 </td>
-                                @if ($enabledFeatures->contains('Sale Management'))
+                                @if (isFeatureEnabled('Sale Management'))
                                     <td class="is-capitalized">
                                         {{ is_null($gdn->sale) ? 'N/A' : $gdn->sale->code }}
                                     </td>

@@ -20,7 +20,7 @@
                     </h2>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Warehouse')
-                            @if ($enabledFeatures->contains('Warehouse Management'))
+                            @if (isFeatureEnabled('Warehouse Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('warehouses.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -38,7 +38,7 @@
                         @endcan
 
                         @can('Create GRN')
-                            @if ($enabledFeatures->contains('Grn Management'))
+                            @if (isFeatureEnabled('Grn Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('grns.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -56,7 +56,7 @@
                         @endcan
 
                         @can('Create Transfer')
-                            @if ($enabledFeatures->contains('Transfer Management'))
+                            @if (isFeatureEnabled('Transfer Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('transfers.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -74,7 +74,7 @@
                         @endcan
 
                         @can('Create Damage')
-                            @if ($enabledFeatures->contains('Damage Management'))
+                            @if (isFeatureEnabled('Damage Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('damages.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -92,7 +92,7 @@
                         @endcan
 
                         @can('Create Adjustment')
-                            @if ($enabledFeatures->contains('Inventory Adjustment'))
+                            @if (isFeatureEnabled('Inventory Adjustment'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('adjustments.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -110,7 +110,7 @@
                         @endcan
 
                         @can('Create SIV')
-                            @if ($enabledFeatures->contains('Siv Management'))
+                            @if (isFeatureEnabled('Siv Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('sivs.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -139,7 +139,7 @@
                     </h2>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Sale')
-                            @if ($enabledFeatures->contains('Sale Management'))
+                            @if (isFeatureEnabled('Sale Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('sales.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -157,7 +157,7 @@
                         @endcan
 
                         @can('Create GDN')
-                            @if ($enabledFeatures->contains('Gdn Management'))
+                            @if (isFeatureEnabled('Gdn Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('gdns.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -175,7 +175,7 @@
                         @endcan
 
                         @can('Create Proforma Invoice')
-                            @if ($enabledFeatures->contains('Proforma Invoice'))
+                            @if (isFeatureEnabled('Proforma Invoice'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('proforma-invoices.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -193,7 +193,7 @@
                         @endcan
 
                         @can('Create Reservation')
-                            @if ($enabledFeatures->contains('Reservation Management'))
+                            @if (isFeatureEnabled('Reservation Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('reservations.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -211,7 +211,7 @@
                         @endcan
 
                         @can('Create Return')
-                            @if ($enabledFeatures->contains('Return Management'))
+                            @if (isFeatureEnabled('Return Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('returns.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -229,7 +229,7 @@
                         @endcan
 
                         @can('Create PO')
-                            @if ($enabledFeatures->contains('Purchase Order'))
+                            @if (isFeatureEnabled('Purchase Order'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('purchase-orders.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -247,7 +247,7 @@
                         @endcan
 
                         @can('Create Customer')
-                            @if ($enabledFeatures->contains('Customer Management'))
+                            @if (isFeatureEnabled('Customer Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('customers.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -265,7 +265,7 @@
                         @endcan
 
                         @can('Create Price')
-                            @if ($enabledFeatures->contains('Price Management'))
+                            @if (isFeatureEnabled('Price Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('prices.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -294,7 +294,7 @@
                     </h2>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Tender')
-                            @if ($enabledFeatures->contains('Tender Management'))
+                            @if (isFeatureEnabled('Tender Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('tenders.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -362,7 +362,7 @@
                     </h2>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Purchase')
-                            @if ($enabledFeatures->contains('Purchase Management'))
+                            @if (isFeatureEnabled('Purchase Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('purchases.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -380,7 +380,7 @@
                         @endcan
 
                         @can('Create Supplier')
-                            @if ($enabledFeatures->contains('Supplier Management'))
+                            @if (isFeatureEnabled('Supplier Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('suppliers.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -409,7 +409,7 @@
                     </h2>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Product')
-                            @if ($enabledFeatures->contains('Product Management'))
+                            @if (isFeatureEnabled('Product Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('categories.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">
@@ -451,7 +451,7 @@
                     </h2>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Employee')
-                            @if ($enabledFeatures->contains('User Management'))
+                            @if (isFeatureEnabled('User Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a href="{{ route('employees.create') }}" class="button text-purple bg-lightpurple is-borderless">
                                         <span class="icon">

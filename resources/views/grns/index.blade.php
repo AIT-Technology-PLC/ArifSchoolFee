@@ -86,11 +86,11 @@
         <div class="box radius-top-0">
             @include('components.deleted-message', ['model' => 'GRN'])
             <div>
-                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[{{ $enabledFeatures->contains('Purchase Management') ? 6 : 5 }}]" data-numeric="[]">
+                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[{{ isFeatureEnabled('Purchase Management') ? 6 : 5 }}]" data-numeric="[]">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
-                            @if ($enabledFeatures->contains('Purchase Management'))
+                            @if (isFeatureEnabled('Purchase Management'))
                                 <th><abbr> Purchase No </abbr></th>
                             @endif
                             <th class="has-text-centered"><abbr> GRN No </abbr></th>
@@ -108,7 +108,7 @@
                         @foreach ($grns as $grn)
                             <tr class="showRowDetails is-clickable" data-id="{{ route('grns.show', $grn->id) }}">
                                 <td> {{ $loop->index + 1 }} </td>
-                                @if ($enabledFeatures->contains('Purchase Management'))
+                                @if (isFeatureEnabled('Purchase Management'))
                                     <td class="is-capitalized">
                                         {{ is_null($grn->purchase) ? 'N/A' : $grn->purchase->code }}
                                     </td>

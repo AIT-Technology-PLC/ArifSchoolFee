@@ -51,7 +51,7 @@
                             </div>
                         </div>
                     </div>
-                    @if ($enabledFeatures->contains('Purchase Management'))
+                    @if (isFeatureEnabled('Purchase Management'))
                         <div class="column is-6">
                             <div class="field">
                                 <label for="purchase_id" class="label text-green has-text-weight-normal"> Purchase No <sup class="has-text-danger"></sup> </label>

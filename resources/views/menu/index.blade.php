@@ -16,7 +16,7 @@
                 <div class="columns is-marginless is-multiline is-mobile">
 
                     @can('Read Merchandise')
-                        @if ($enabledFeatures->contains('Merchandise Inventory'))
+                        @if (isFeatureEnabled('Merchandise Inventory'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('merchandises.index', 'on-hand') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -32,7 +32,7 @@
                     @endcan
 
                     @can('Read GDN')
-                        @if ($enabledFeatures->contains('Gdn Management'))
+                        @if (isFeatureEnabled('Gdn Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('gdns.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -48,7 +48,7 @@
                     @endcan
 
                     @can('Read GRN')
-                        @if ($enabledFeatures->contains('Grn Management'))
+                        @if (isFeatureEnabled('Grn Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('grns.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -64,7 +64,7 @@
                     @endcan
 
                     @can('Read Transfer')
-                        @if ($enabledFeatures->contains('Transfer Management'))
+                        @if (isFeatureEnabled('Transfer Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('transfers.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -80,7 +80,7 @@
                     @endcan
 
                     @can('Read Damage')
-                        @if ($enabledFeatures->contains('Damage Management'))
+                        @if (isFeatureEnabled('Damage Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('damages.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -96,7 +96,7 @@
                     @endcan
 
                     @can('Read Adjustment')
-                        @if ($enabledFeatures->contains('Inventory Adjustment'))
+                        @if (isFeatureEnabled('Inventory Adjustment'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('adjustments.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -112,7 +112,7 @@
                     @endcan
 
                     @can('Read SIV')
-                        @if ($enabledFeatures->contains('Siv Management'))
+                        @if (isFeatureEnabled('Siv Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('sivs.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -128,7 +128,7 @@
                     @endcan
 
                     @can('Read Sale')
-                        @if ($enabledFeatures->contains('Sale Management'))
+                        @if (isFeatureEnabled('Sale Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('sales.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -144,7 +144,7 @@
                     @endcan
 
                     @can('Read Proforma Invoice')
-                        @if ($enabledFeatures->contains('Proforma Invoice'))
+                        @if (isFeatureEnabled('Proforma Invoice'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('proforma-invoices.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -160,7 +160,7 @@
                     @endcan
 
                     @can('Read Reservation')
-                        @if ($enabledFeatures->contains('Reservation Management'))
+                        @if (isFeatureEnabled('Reservation Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('reservations.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -176,7 +176,7 @@
                     @endcan
 
                     @can('Read Return')
-                        @if ($enabledFeatures->contains('Return Management'))
+                        @if (isFeatureEnabled('Return Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('returns.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -192,7 +192,7 @@
                     @endcan
 
                     @can('Read Tender')
-                        @if ($enabledFeatures->contains('Tender Management'))
+                        @if (isFeatureEnabled('Tender Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('tenders.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -208,7 +208,7 @@
                     @endcan
 
                     @can('Read Customer')
-                        @if ($enabledFeatures->contains('Customer Management'))
+                        @if (isFeatureEnabled('Customer Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('customers.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -224,7 +224,7 @@
                     @endcan
 
                     @can('Read PO')
-                        @if ($enabledFeatures->contains('Purchase Order'))
+                        @if (isFeatureEnabled('Purchase Order'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('purchase-orders.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -240,7 +240,7 @@
                     @endcan
 
                     @can('Read Purchase')
-                        @if ($enabledFeatures->contains('Purchase Management'))
+                        @if (isFeatureEnabled('Purchase Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('purchases.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -256,7 +256,7 @@
                     @endcan
 
                     @can('Read Supplier')
-                        @if ($enabledFeatures->contains('Supplier Management'))
+                        @if (isFeatureEnabled('Supplier Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('suppliers.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -272,7 +272,7 @@
                     @endcan
 
                     @can('Read Product')
-                        @if ($enabledFeatures->contains('Product Management'))
+                        @if (isFeatureEnabled('Product Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('categories.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -299,7 +299,7 @@
                     @endcan
 
                     @can('Read Warehouse')
-                        @if ($enabledFeatures->contains('Warehouse Management'))
+                        @if (isFeatureEnabled('Warehouse Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('warehouses.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
@@ -315,7 +315,7 @@
                     @endcan
 
                     @can('Read Employee')
-                        @if ($enabledFeatures->contains('User Management'))
+                        @if (isFeatureEnabled('User Management'))
                             <div class="column is-4 has-text-centered has-text-grey">
                                 <a href="{{ route('employees.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">

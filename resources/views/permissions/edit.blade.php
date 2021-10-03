@@ -30,7 +30,7 @@
                 @endif
                 <div class="columns is-marginless is-multiline">
                     @foreach ($permissionCategories as $key => $value)
-                        @continue(!$enabledFeatures->contains($value['feature']))
+                        @continue(!isFeatureEnabled($value['feature']))
                         <div class="column is-6">
                             <div class="message">
                                 <div class="message-header has-background-white-ter text-gold">

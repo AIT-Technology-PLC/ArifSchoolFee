@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            @if ($enabledFeatures->contains('Purchase Management'))
+            @if (isFeatureEnabled('Purchase Management'))
                 <div class="column is-6">
                     <div>
                         <div class="columns is-marginless is-vcentered is-mobile text-green">
