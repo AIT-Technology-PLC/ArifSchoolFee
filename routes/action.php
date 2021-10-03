@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers as Controllers;
 use App\Http\Controllers\Action as Action;
 use App\Http\Controllers\Auth as Auth;
 use Illuminate\Support\Facades\Route;
@@ -13,9 +12,9 @@ Route::patch('/employees/{employee}/permissions',
     [Action\PermissionController::class, 'update'])
     ->name('permissions.update');
 
-Route::get('/purchases/{purchase}/grns/create',
-    Controllers\PurchaseGrnController::class)
-    ->name('purchases.grns.create');
+Route::get('/purchases/{purchase}/convert-to-grn',
+    [Action\PurchaseController::class, 'convertToGrn'])
+    ->name('purchases.convert_to_grn');
 
 Route::get('/gdns/{gdn}/convert-to-siv',
     [Action\GdnController::class, 'convertToSiv'])

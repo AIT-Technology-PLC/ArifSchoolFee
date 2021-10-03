@@ -215,7 +215,7 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('purchases.grns.create', $purchase->id) }}" class="button is-small bg-purple has-text-white">
+                            <a href="{{ route('purchases.convert_to_grn', $purchase->id) }}" class="button is-small bg-purple has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>

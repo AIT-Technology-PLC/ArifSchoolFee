@@ -1,20 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Action;
 
+use App\Http\Controllers\Controller;
+use App\Models\Grn;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 
-class PurchaseGrnController extends Controller
+class PurchaseController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('isFeatureAccessible:Grn Management');
+        $this->middleware('isFeatureAccessible:Purchase Management');
     }
 
-    public function __invoke(Purchase $purchase, Request $request)
+    public function convertToGrn(Request $request, Purchase $purchase)
     {
         $this->authorize('view', $purchase);
+
+        $this->authorize('create', Grn::class);
 
         $request->merge([
             'purchase_id' => $purchase->id,
