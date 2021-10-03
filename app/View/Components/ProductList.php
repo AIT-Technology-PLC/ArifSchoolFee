@@ -12,7 +12,7 @@ class ProductList extends Component
 
     public function __construct($name, $selectedProductId, $tags)
     {
-        $this->products = Cache::store('array')->rememberForever('productLists', function () {
+        $this->products = Cache::store('array')->rememberForever(auth()->id() . '_' . 'productLists', function () {
             return Product::select(['id', 'product_category_id', 'name', 'code'])
                 ->with('productCategory:id,name')
                 ->orderBy('name')

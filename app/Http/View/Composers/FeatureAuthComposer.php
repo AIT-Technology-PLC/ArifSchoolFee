@@ -15,7 +15,7 @@ class FeatureAuthComposer
         }
 
         $enabledFeatures = Cache::store('array')
-            ->rememberForever('enabledFeatures', function () {
+            ->rememberForever(auth()->id() . '_' . 'enabledFeatures', function () {
                 return Feature::getAllEnabledFeaturesOfCompany();
             });
 
