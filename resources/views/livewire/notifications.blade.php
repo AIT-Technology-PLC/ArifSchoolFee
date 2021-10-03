@@ -25,9 +25,6 @@
                     </div>
                 @endforeach
                 @foreach ($readNotifications as $readNotification)
-                    @if ($loop->index == 5)
-                        @break
-                    @endif
                     <div wire:click="redirectToEndpoint('{{ $readNotification->data['endpoint'] }}')" class="columns is-marginless has-background-white text-green py-1 is-size-6-5 is-mobile is-clickable">
                         <div class="column is-1 pb-0">
                             <span class="icon is-small">

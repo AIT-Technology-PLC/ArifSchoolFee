@@ -23,7 +23,7 @@ class Notifications extends Component
 
     public function render()
     {
-        $this->readNotifications = auth()->user()->readNotifications;
+        $this->readNotifications = auth()->user()->readNotifications()->take(5)->get();
 
         $this->unreadNotifications = auth()->user()->unreadNotifications;
 
