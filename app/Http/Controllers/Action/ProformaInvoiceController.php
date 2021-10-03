@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Models\ProformaInvoice;
 use App\Traits\NotifiableUsers;
+use Illuminate\Http\Request;
 
 class ProformaInvoiceController extends Controller
 {
@@ -58,5 +59,25 @@ class ProformaInvoiceController extends Controller
         return \PDF::loadView('proforma-invoices.print', compact('proformaInvoice'))
             ->setPaper('a4', 'portrait')
             ->stream();
+    }
+
+    public function convertToGdn(Request $request, ProformaInvoice $proformaInvoice)
+    {
+        $this->authorize('view', $proformaInvoice);
+
+        $proformaInvoiceDetails = collect($proformaInvoice->proformaInvoiceDetails->toArray())
+            ->map(function ($item) {
+                $item['unit_price'] = $item['originalUnitPrice'];
+
+                return $item;
+            });
+
+        $request->merge([
+            'customer_id' => $proformaInvoice->customer_id ?? '',
+            'discount' => number_format($proformaInvoice->discount * 100, 2),
+            'gdn' => $proformaInvoiceDetails,
+        ]);
+
+        return redirect()->route('gdns.create')->withInput($request->all());
     }
 }

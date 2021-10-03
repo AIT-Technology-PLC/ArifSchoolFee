@@ -15,6 +15,10 @@ class ProformaInvoiceDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $appends = [
+        'originalUnitPrice',
+    ];
+
     public function proformaInvoice()
     {
         return $this->belongsTo(ProformaInvoice::class);
@@ -29,7 +33,7 @@ class ProformaInvoiceDetail extends Model
     {
         if (!is_numeric($value)) {
             $this->attributes['custom_product'] = $value;
-            
+
             $this->attributes['product_id'] = null;
 
             return;

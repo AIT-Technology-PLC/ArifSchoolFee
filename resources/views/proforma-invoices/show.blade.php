@@ -193,7 +193,7 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             @if ($proformaInvoice->isConverted())
-                                <a href="{{ route('proforma-invoices.gdns.create', $proformaInvoice->id) }}" class="button is-small btn-green is-outlined has-text-white">
+                                <a href="{{ route('proforma-invoices.convert_to_gdn', $proformaInvoice->id) }}" class="button is-small btn-green is-outlined has-text-white">
                                     <span class="icon">
                                         <i class="fas fa-file-invoice"></i>
                                     </span>
