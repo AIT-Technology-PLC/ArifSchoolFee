@@ -4,6 +4,16 @@ use App\Http\Controllers\Action as Action;
 use App\Http\Controllers\Auth as Auth;
 use Illuminate\Support\Facades\Route;
 
+// Password Resets
+Route::get('/password/edit',
+    [Auth\PasswordResetController::class, 'edit'])
+    ->name('password.edit');
+
+Route::patch('/password/update',
+    [Auth\PasswordResetController::class, 'update'])
+    ->name('password.update');
+
+// Permissions
 Route::get('/employees/{employee}/permissions/edit',
     [Action\PermissionController::class, 'edit'])
     ->name('permissions.edit');
@@ -12,21 +22,45 @@ Route::patch('/employees/{employee}/permissions',
     [Action\PermissionController::class, 'update'])
     ->name('permissions.update');
 
+// Purchases
 Route::get('/purchases/{purchase}/convert-to-grn',
     [Action\PurchaseController::class, 'convertToGrn'])
     ->name('purchases.convert_to_grn');
 
-Route::get('/gdns/{gdn}/convert-to-siv',
-    [Action\GdnController::class, 'convertToSiv'])
-    ->name('gdns.convert_to_siv');
-
+// Transfers
 Route::get('/transfers/{transfer}/convert-to-siv',
     [Action\TransferController::class, 'convertToSiv'])
     ->name('transfers.convert_to_siv');
 
+Route::post('/transfers/{transfer}/approve',
+    [Action\TransferController::class, 'approve'])
+    ->name('transfers.approve');
+
+Route::post('/transfers/{transfer}/transfer',
+    [Action\TransferController::class, 'transfer'])
+    ->name('transfers.transfer');
+
 Route::get('/proforma-invoices/{proforma_invoice}/convert-to-gdn',
     [Action\ProformaInvoiceController::class, 'convertToGdn'])
     ->name('proforma-invoices.convert_to_gdn');
+
+// Proforma Invoices
+Route::get('/proforma-invoices/{proformaInvoice}/print',
+    [Action\ProformaInvoiceController::class, 'printed'])
+    ->name('proforma-invoices.print');
+
+Route::post('/proforma-invoices/{proformaInvoice}/cancel',
+    [Action\ProformaInvoiceController::class, 'cancel'])
+    ->name('proforma-invoices.cancel');
+
+Route::post('/proforma-invoices/{proformaInvoice}/convert',
+    [Action\ProformaInvoiceController::class, 'convert'])
+    ->name('proforma-invoices.convert');
+
+// Gdns
+Route::get('/gdns/{gdn}/convert-to-siv',
+    [Action\GdnController::class, 'convertToSiv'])
+    ->name('gdns.convert_to_siv');
 
 Route::get('/gdns/{gdn}/print',
     [Action\GdnController::class, 'printed'])
@@ -40,81 +74,19 @@ Route::post('/gdns/{gdn}/subtract',
     [Action\GdnController::class, 'subtract'])
     ->name('gdns.subtract');
 
+// Sivs
 Route::get('/sivs/{siv}/print',
     [Action\SivController::class, 'printed'])
     ->name('sivs.print');
-
-Route::get('/proforma-invoices/{proformaInvoice}/print',
-    [Action\ProformaInvoiceController::class, 'printed'])
-    ->name('proforma-invoices.print');
-
-Route::get('/returns/{return}/print',
-    [Action\ReturnController::class, 'printed'])
-    ->name('returns.print');
-
-Route::get('/password/edit',
-    [Auth\PasswordResetController::class, 'edit'])
-    ->name('password.edit');
-
-Route::get('/tenders/{tender}/print',
-    [Action\TenderController::class, 'printed'])
-    ->name('tenders.print');
-
-Route::patch('/notifications/mark-all-read',
-    [Action\NotificationController::class, 'markAllAsRead'])
-    ->name('notifications.markAllAsRead');
-
-Route::patch('/password/update',
-    [Auth\PasswordResetController::class, 'update'])
-    ->name('password.update');
-
-Route::post('purchase-orders/{purchaseOrder}/close',
-    [Action\PurchaseOrderController::class, 'close'])
-    ->name('purchase-orders.close');
-
-Route::post('/transfers/{transfer}/approve',
-    [Action\TransferController::class, 'approve'])
-    ->name('transfers.approve');
-
-Route::post('/transfers/{transfer}/transfer',
-    [Action\TransferController::class, 'transfer'])
-    ->name('transfers.transfer');
-
-Route::post('/grns/{grn}/approve',
-    [Action\GrnController::class, 'approve'])
-    ->name('grns.approve');
-
-Route::post('/grns/{grn}/add',
-    [Action\GrnController::class, 'add'])
-    ->name('grns.add');
 
 Route::post('/sivs/{siv}/approve',
     [Action\SivController::class, 'approve'])
     ->name('sivs.approve');
 
-Route::post('/proforma-invoices/{proformaInvoice}/cancel',
-    [Action\ProformaInvoiceController::class, 'cancel'])
-    ->name('proforma-invoices.cancel');
-
-Route::post('/proforma-invoices/{proformaInvoice}/convert',
-    [Action\ProformaInvoiceController::class, 'convert'])
-    ->name('proforma-invoices.convert');
-
-Route::post('/damages/{damage}/approve',
-    [Action\DamageController::class, 'approve'])
-    ->name('damages.approve');
-
-Route::post('/damages/{damage}/subtract',
-    [Action\DamageController::class, 'subtract'])
-    ->name('damages.subtract');
-
-Route::post('/adjustments/{adjustment}/approve',
-    [Action\AdjustmentController::class, 'approve'])
-    ->name('adjustments.approve');
-
-Route::post('/adjustments/{adjustment}/adjust',
-    [Action\AdjustmentController::class, 'adjust'])
-    ->name('adjustments.adjust');
+// Returns
+Route::get('/returns/{return}/print',
+    [Action\ReturnController::class, 'printed'])
+    ->name('returns.print');
 
 Route::post('/returnns/{return}/approve',
     [Action\ReturnController::class, 'approve'])
@@ -124,6 +96,49 @@ Route::post('/returnns/{return}/return',
     [Action\ReturnController::class, 'add'])
     ->name('returns.add');
 
+// Tenders
+Route::get('/tenders/{tender}/print',
+    [Action\TenderController::class, 'printed'])
+    ->name('tenders.print');
+
+// Notifications
+Route::patch('/notifications/mark-all-read',
+    [Action\NotificationController::class, 'markAllAsRead'])
+    ->name('notifications.markAllAsRead');
+
+// Purchase Orders
+Route::post('purchase-orders/{purchaseOrder}/close',
+    [Action\PurchaseOrderController::class, 'close'])
+    ->name('purchase-orders.close');
+
+// Grns
+Route::post('/grns/{grn}/approve',
+    [Action\GrnController::class, 'approve'])
+    ->name('grns.approve');
+
+Route::post('/grns/{grn}/add',
+    [Action\GrnController::class, 'add'])
+    ->name('grns.add');
+
+// Damages
+Route::post('/damages/{damage}/approve',
+    [Action\DamageController::class, 'approve'])
+    ->name('damages.approve');
+
+Route::post('/damages/{damage}/subtract',
+    [Action\DamageController::class, 'subtract'])
+    ->name('damages.subtract');
+
+// Adjustments
+Route::post('/adjustments/{adjustment}/approve',
+    [Action\AdjustmentController::class, 'approve'])
+    ->name('adjustments.approve');
+
+Route::post('/adjustments/{adjustment}/adjust',
+    [Action\AdjustmentController::class, 'adjust'])
+    ->name('adjustments.adjust');
+
+// Reservations
 Route::post('/reservations/{reservation}/approve',
     [Action\ReservationController::class, 'approve'])
     ->name('reservations.approve');
