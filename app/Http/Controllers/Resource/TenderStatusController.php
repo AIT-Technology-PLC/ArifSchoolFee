@@ -49,7 +49,7 @@ class TenderStatusController extends Controller
 
     public function update(UpdateTenderStatusRequest $request, TenderStatus $tenderStatus)
     {
-        $tenderStatus->update($request->all());
+        $tenderStatus->update($request->validated());
 
         return redirect()->route('tender-statuses.index');
     }

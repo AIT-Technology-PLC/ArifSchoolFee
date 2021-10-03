@@ -28,7 +28,7 @@ class TenderReadingController extends Controller
 
         $this->authorize('update', $tender);
 
-        $tender->update($request->all());
+        $tender->update($request->validated());
 
         return redirect()->route('tenders.show', $tender->id);
     }

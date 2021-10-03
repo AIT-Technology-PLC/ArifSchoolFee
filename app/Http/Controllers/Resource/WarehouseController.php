@@ -52,7 +52,7 @@ class WarehouseController extends Controller
 
     public function update(UpdateWarehouseRequest $request, Warehouse $warehouse)
     {
-        $warehouse->update($request->all());
+        $warehouse->update($request->validated());
 
         return redirect()->route('warehouses.index');
     }

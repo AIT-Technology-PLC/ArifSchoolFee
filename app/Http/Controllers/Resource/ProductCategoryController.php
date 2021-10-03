@@ -55,7 +55,7 @@ class ProductCategoryController extends Controller
 
     public function update(UpdateProductCategoryRequest $request, ProductCategory $category)
     {
-        $category->update($request->all());
+        $category->update($request->validated());
 
         return redirect()->route('categories.index');
     }

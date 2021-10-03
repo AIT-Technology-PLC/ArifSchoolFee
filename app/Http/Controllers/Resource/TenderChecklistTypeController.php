@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTenderChecklistTypeRequest;
 use App\Http\Requests\UpdateTenderChecklistTypeRequest;
 use App\Models\TenderChecklistType;
-use App\Http\Controllers\Controller;
 
 class TenderChecklistTypeController extends Controller
 {
@@ -48,7 +48,7 @@ class TenderChecklistTypeController extends Controller
 
     public function update(UpdateTenderChecklistTypeRequest $request, TenderChecklistType $tenderChecklistType)
     {
-        $tenderChecklistType->update($request->all());
+        $tenderChecklistType->update($request->validated());
 
         return redirect()->route('tender-checklist-types.index');
     }

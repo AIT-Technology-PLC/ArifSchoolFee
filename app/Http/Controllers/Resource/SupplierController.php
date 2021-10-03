@@ -47,7 +47,7 @@ class SupplierController extends Controller
 
     public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {
-        $supplier->update($request->all());
+        $supplier->update($request->validated());
 
         return redirect()->route('suppliers.index');
     }

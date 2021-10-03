@@ -24,7 +24,7 @@ class CompanyController extends Controller
     public function update(UpdateCompanyRequest $request, Company $company)
     {
         DB::transaction(function () use ($company, $request) {
-            $company->update($request->all());
+            $company->update($request->validated());
 
             if ($request->hasFile('logo')) {
                 $company->update([

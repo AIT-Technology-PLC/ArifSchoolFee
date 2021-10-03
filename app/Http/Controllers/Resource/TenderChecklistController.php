@@ -71,7 +71,7 @@ class TenderChecklistController extends Controller
             abort(403);
         }
 
-        $tenderChecklist->update($request->all());
+        $tenderChecklist->update($request->validated());
 
         return redirect()->route('tenders.show', $tenderChecklist->tender_id);
     }

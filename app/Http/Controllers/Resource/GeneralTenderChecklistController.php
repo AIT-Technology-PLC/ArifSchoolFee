@@ -54,7 +54,7 @@ class GeneralTenderChecklistController extends Controller
 
     public function update(UpdateGeneralTenderChecklistRequest $request, GeneralTenderChecklist $generalTenderChecklist)
     {
-        $generalTenderChecklist->update($request->all());
+        $generalTenderChecklist->update($request->validated());
 
         return redirect()->route('general-tender-checklists.index');
     }
