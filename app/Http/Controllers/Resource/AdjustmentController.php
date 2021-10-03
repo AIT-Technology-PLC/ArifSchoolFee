@@ -81,7 +81,7 @@ class AdjustmentController extends Controller
     public function update(UpdateAdjustmentRequest $request, Adjustment $adjustment)
     {
         if ($adjustment->isApproved()) {
-            return redirect()->back();
+            return back();
         }
 
         DB::transaction(function () use ($request, $adjustment) {
@@ -107,6 +107,6 @@ class AdjustmentController extends Controller
 
         $adjustment->forceDelete();
 
-        return redirect()->back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted Successfully');
     }
 }

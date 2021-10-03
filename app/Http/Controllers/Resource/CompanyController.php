@@ -33,6 +33,6 @@ class CompanyController extends Controller
             }
         });
 
-        return redirect()->back();
+        return back();
     }
 }

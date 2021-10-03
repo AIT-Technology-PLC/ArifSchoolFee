@@ -33,6 +33,6 @@ class PasswordResetController extends Controller
 
         $user->save();
 
-        return redirect()->back()->with('successMessage', 'Your password was changed successfully!');
+        return back()->with('successMessage', 'Your password was changed successfully!');
     }
 }

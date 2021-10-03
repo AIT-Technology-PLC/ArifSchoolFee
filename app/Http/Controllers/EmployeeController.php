@@ -165,6 +165,6 @@ class EmployeeController extends Controller
 
         $employee->user->forceDelete();
 
-        return redirect()->back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted Successfully');
     }
 }

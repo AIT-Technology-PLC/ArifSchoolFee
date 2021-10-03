@@ -27,6 +27,6 @@ class NotificationController extends Controller
 
         $notification->unread() ? $notification->markAsRead() : '';
 
-        return redirect()->back();
+        return back();
     }
 }

@@ -70,7 +70,7 @@ class PurchaseOrderController extends Controller
     public function update(UpdatePurchaseOrderRequest $request, PurchaseOrder $purchaseOrder)
     {
         if ($purchaseOrder->isClosed()) {
-            return redirect()->back();
+            return back();
         }
 
         DB::transaction(function () use ($request, $purchaseOrder) {
@@ -93,6 +93,6 @@ class PurchaseOrderController extends Controller
 
         $purchaseOrder->forceDelete();
 
-        return redirect()->back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted Successfully');
     }
 }

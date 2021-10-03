@@ -78,8 +78,7 @@ class GdnController extends Controller
     public function edit(Gdn $gdn)
     {
         if ($gdn->reservation()->exists()) {
-            return redirect()->back()
-                ->with('failedMessage', 'You cannot edit a DO that belongs to a reservation.');
+            return back()->with('failedMessage', 'You cannot edit a DO that belongs to a reservation.');
         }
 
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
@@ -120,7 +119,7 @@ class GdnController extends Controller
     public function destroy(Gdn $gdn)
     {
         if ($gdn->reservation()->exists()) {
-            return redirect()->back()
+            return back()
                 ->with('failedMessage', "You cannot delete a DO that belongs to a reservation, instead cancel the reservation.");
         }
 
@@ -134,6 +133,6 @@ class GdnController extends Controller
 
         $gdn->forceDelete();
 
-        return redirect()->back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted Successfully');
     }
 }

@@ -128,6 +128,6 @@ class ReservationController extends Controller
 
         $reservation->forceDelete();
 
-        return redirect()->back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted Successfully');
     }
 }

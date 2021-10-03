@@ -33,7 +33,7 @@ class WarehouseController extends Controller
     public function store(StoreWarehouseRequest $request)
     {
         if (limitReached('warehouse', Warehouse::count())) {
-            return redirect()->back()
+            return back()
                 ->with('limitReachedMessage', 'You have reached the allowed number of warehouses in respect to your package.');
         }
 
@@ -61,6 +61,6 @@ class WarehouseController extends Controller
     {
         $warehouse->forceDelete();
 
-        return redirect()->back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted Successfully');
     }
 }

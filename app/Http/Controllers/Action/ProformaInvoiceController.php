@@ -22,16 +22,16 @@ class ProformaInvoiceController extends Controller
         $this->authorize('convert', $proformaInvoice);
 
         if ($proformaInvoice->isConverted()) {
-            return redirect()->back()->with('failedMessage', 'This Proforma Invoice is already confirmed');
+            return back()->with('failedMessage', 'This Proforma Invoice is already confirmed');
         }
 
         if ($proformaInvoice->isCancelled()) {
-            return redirect()->back()->with('failedMessage', 'This Proforma Invoice is cancelled');
+            return back()->with('failedMessage', 'This Proforma Invoice is cancelled');
         }
 
         $proformaInvoice->convert();
 
-        return redirect()->back();
+        return back();
     }
 
     public function cancel(ProformaInvoice $proformaInvoice)
@@ -39,16 +39,16 @@ class ProformaInvoiceController extends Controller
         $this->authorize('cancel', $proformaInvoice);
 
         if ($proformaInvoice->isConverted()) {
-            return redirect()->back()->with('failedMessage', 'Cancelling a confirmed Proforma Invoice is not allowed.');
+            return back()->with('failedMessage', 'Cancelling a confirmed Proforma Invoice is not allowed.');
         }
 
         if ($proformaInvoice->isCancelled()) {
-            return redirect()->back()->with('failedMessage', 'This Proforma Invoice is already cancelled');
+            return back()->with('failedMessage', 'This Proforma Invoice is already cancelled');
         }
 
         $proformaInvoice->cancel();
 
-        return redirect()->back();
+        return back();
     }
 
     public function printed(ProformaInvoice $proformaInvoice)

@@ -15,6 +15,6 @@ class NotificationController extends Controller
     {
         auth()->user()->notifications->markAsRead();
 
-        return redirect()->back();
+        return back();
     }
 }

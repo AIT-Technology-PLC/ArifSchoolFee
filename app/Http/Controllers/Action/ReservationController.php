@@ -32,7 +32,7 @@ class ReservationController extends Controller
         $this->authorize('reserve', $reservation);
 
         if (!$reservation->isApproved()) {
-            return redirect()->back()->with('failedMessage', 'This reservation is not approved yet.');
+            return back()->with('failedMessage', 'This reservation is not approved yet.');
         }
 
         $result = DB::transaction(function () use ($reservation) {
@@ -54,9 +54,8 @@ class ReservationController extends Controller
             return $result;
         });
 
-        return $result['isReserved'] ?
-        redirect()->back() :
-        redirect()->back()->with('failedMessage', $result['unavailableProducts']);
+        return $result['isReserved'] ? back() :
+        back()->with('failedMessage', $result['unavailableProducts']);
     }
 
     public function cancel(Reservation $reservation)
@@ -64,17 +63,17 @@ class ReservationController extends Controller
         $this->authorize('cancel', $reservation);
 
         if (!$reservation->isApproved()) {
-            return redirect()->back()->with('failedMessage', 'This reservation is not approved yet.');
+            return back()->with('failedMessage', 'This reservation is not approved yet.');
         }
 
         if ($reservation->isConverted() && $reservation->reservable->isSubtracted()) {
-            return redirect()->back()->with('failedMessage', 'This reservation cannot be cancelled, it has been converted to DO.');
+            return back()->with('failedMessage', 'This reservation cannot be cancelled, it has been converted to DO.');
         }
 
         if (!$reservation->isConverted() && !$reservation->isReserved()) {
             $reservation->cancel();
 
-            return redirect()->back();
+            return back();
         }
 
         DB::transaction(function () use ($reservation) {
@@ -92,7 +91,7 @@ class ReservationController extends Controller
             );
         });
 
-        return redirect()->back();
+        return back();
     }
 
     public function convert(Reservation $reservation)
@@ -102,7 +101,7 @@ class ReservationController extends Controller
         $this->authorize('create', Gdn::class);
 
         if (!$reservation->isReserved()) {
-            return redirect()->back()->with('failedMessage', 'This reservation is not reserved yet.');
+            return back()->with('failedMessage', 'This reservation is not reserved yet.');
         }
 
         DB::transaction(function () use ($reservation) {
@@ -132,6 +131,6 @@ class ReservationController extends Controller
             );
         });
 
-        return redirect()->back();
+        return back();
     }
 }

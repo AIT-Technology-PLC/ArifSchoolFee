@@ -42,6 +42,6 @@ trait ApproveInventory
             });
         }
 
-        return redirect()->back()->with('successMessage', $message);
+        return back()->with('successMessage', $message);
     }
 }

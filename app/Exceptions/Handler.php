@@ -46,7 +46,7 @@ class Handler extends ExceptionHandler
             }
 
             if ($exception instanceof MethodNotAllowedHttpException) {
-                return redirect()->back();
+                return back();
             }
 
         });

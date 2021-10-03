@@ -27,7 +27,7 @@ trait SubtractInventory
         $modelName = $modelName == 'Gdn' ? 'DO' : $modelName;
 
         if (!$model->isApproved()) {
-            return redirect()->back()->with('failedMessage', 'This ' . Str::upper($modelName) . ' is not approved');
+            return back()->with('failedMessage', 'This ' . Str::upper($modelName) . ' is not approved');
         }
 
         $result = DB::transaction(function () use ($model, $modelDetails, $modelName, $notificationClass) {
@@ -53,8 +53,7 @@ trait SubtractInventory
             return $result;
         });
 
-        return $result['isSubtracted'] ?
-        redirect()->back() :
-        redirect()->back()->with('failedMessage', $result['unavailableProducts']);
+        return $result['isSubtracted'] ? back() :
+        back()->with('failedMessage', $result['unavailableProducts']);
     }
 }

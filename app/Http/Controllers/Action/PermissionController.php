@@ -42,6 +42,6 @@ class PermissionController extends Controller
 
         $employee->user->syncPermissions($request->permissions);
 
-        return redirect()->back()->with('message', 'Permissions updated successfully');
+        return back()->with('message', 'Permissions updated successfully');
     }
 }

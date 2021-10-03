@@ -29,7 +29,7 @@ class AdjustmentController extends Controller
         $this->authorize('adjust', $adjustment);
 
         if (!$adjustment->isApproved()) {
-            return redirect()->back()->with('failedMessage', 'This Adjustment is not approved');
+            return back()->with('failedMessage', 'This Adjustment is not approved');
         }
 
         $result = DB::transaction(function () use ($adjustment) {
@@ -52,7 +52,7 @@ class AdjustmentController extends Controller
         });
 
         return $result['isAdjusted'] ?
-        redirect()->back() :
-        redirect()->back()->with('failedMessage', $result['unavailableProducts']);
+        back() :
+        back()->with('failedMessage', $result['unavailableProducts']);
     }
 }

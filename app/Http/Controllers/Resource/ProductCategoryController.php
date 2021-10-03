@@ -64,6 +64,6 @@ class ProductCategoryController extends Controller
     {
         $category->forceDelete();
 
-        return redirect()->back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted Successfully');
     }
 }

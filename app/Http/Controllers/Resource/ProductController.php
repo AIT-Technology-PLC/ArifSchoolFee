@@ -76,6 +76,6 @@ class ProductController extends Controller
     {
         $product->forceDelete();
 
-        return redirect()->back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted Successfully');
     }
 }

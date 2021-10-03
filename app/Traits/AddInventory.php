@@ -27,7 +27,7 @@ trait AddInventory
         $notificationClass = (string) Str::of($modelName)->append('Added')->prepend('App\\Notifications\\');
 
         if (!$model->isApproved()) {
-            return redirect()->back()->with('failedMessage', 'This ' . Str::upper($modelName) . ' is not approved.');
+            return back()->with('failedMessage', 'This ' . Str::upper($modelName) . ' is not approved.');
         }
 
         DB::transaction(function () use ($model, $modelDetails, $modelName, $notificationClass) {
@@ -43,6 +43,6 @@ trait AddInventory
             );
         });
 
-        return redirect()->back();
+        return back();
     }
 }

@@ -84,6 +84,6 @@ class PurchaseController extends Controller
     {
         $purchase->forceDelete();
 
-        return redirect()->back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted Successfully');
     }
 }

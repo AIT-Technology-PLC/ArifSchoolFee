@@ -25,6 +25,6 @@ class PurchaseOrderController extends Controller
             $purchaseOrder->close();
         });
 
-        return redirect()->back();
+        return back();
     }
 }

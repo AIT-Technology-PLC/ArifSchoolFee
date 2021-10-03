@@ -56,6 +56,6 @@ class CustomerController extends Controller
     {
         $customer->forceDelete();
 
-        return redirect()->back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted Successfully');
     }
 }

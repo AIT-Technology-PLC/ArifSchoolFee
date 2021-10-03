@@ -57,6 +57,6 @@ class TenderChecklistTypeController extends Controller
     {
         $tenderChecklistType->forceDelete();
 
-        return redirect()->back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted Successfully');
     }
 }

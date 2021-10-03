@@ -41,7 +41,7 @@ class TransferController extends Controller
         );
 
         if (!$transfer->isApproved()) {
-            return redirect()->back()->with('failedMessage', 'This Transfer is not approved');
+            return back()->with('failedMessage', 'This Transfer is not approved');
         }
 
         $result = DB::transaction(function () use ($transfer) {
@@ -63,9 +63,8 @@ class TransferController extends Controller
             return $result;
         });
 
-        return $result['isTransferred'] ?
-        redirect()->back() :
-        redirect()->back()->with('failedMessage', $result['unavailableProducts']);
+        return $result['isTransferred'] ? back() :
+        back()->with('failedMessage', $result['unavailableProducts']);
     }
 
     public function convertToSiv(Transfer $transfer, ConvertToSivAction $action)

@@ -119,6 +119,6 @@ class GrnController extends Controller
 
         $grn->forceDelete();
 
-        return redirect()->back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted Successfully');
     }
 }
