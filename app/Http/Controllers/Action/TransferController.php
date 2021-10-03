@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Action;
 
+use App\Actions\ConvertToSivAction;
 use App\Http\Controllers\Controller;
+use App\Models\Siv;
 use App\Models\Transfer;
 use App\Notifications\TransferMade;
 use App\Services\InventoryOperationService;
@@ -64,5 +66,26 @@ class TransferController extends Controller
         return $result['isTransferred'] ?
         redirect()->back() :
         redirect()->back()->with('failedMessage', $result['unavailableProducts']);
+    }
+
+    public function convertToSiv(Transfer $transfer, ConvertToSivAction $action)
+    {
+        $this->authorize('view', $transfer);
+
+        $this->authorize('create', Siv::class);
+
+        $transferDetails = $transfer->transferDetails()->get(['product_id', 'quantity'])->toArray();
+
+        data_fill($transferDetails, '*.warehouse_id', $transfer->transferred_from);
+
+        $siv = $action->execute(
+            'Transfer',
+            $transfer->code,
+            null,
+            $transfer->approved_by,
+            $transferDetails,
+        );
+
+        return redirect()->route('sivs.show', $siv->id);
     }
 }

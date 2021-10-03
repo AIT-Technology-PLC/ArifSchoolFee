@@ -115,7 +115,7 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             @if ($transfer->isSubtracted())
-                                <a href="{{ route('transfers.sivs.create', $transfer->id) }}" class="button is-small btn-green is-outlined has-text-white">
+                                <a href="{{ route('transfers.convert_to_siv', $transfer->id) }}" class="button is-small btn-green is-outlined has-text-white">
                                     <span class="icon">
                                         <i class="fas fa-file-export"></i>
                                     </span>

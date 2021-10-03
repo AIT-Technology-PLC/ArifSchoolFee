@@ -25,9 +25,9 @@ Route::get('/gdns/{gdn}/convert-to-siv',
     [Action\GdnController::class, 'convertToSiv'])
     ->name('gdns.convert_to_siv');
 
-Route::get('/transfers/{transfer}/sivs/create',
-    Controllers\TransferSivController::class)
-    ->name('transfers.sivs.create');
+Route::get('/transfers/{transfer}/convert-to-siv',
+    [Action\TransferController::class, 'convertToSiv'])
+    ->name('transfers.convert_to_siv');
 
 Route::get('/proforma-invoices/{proforma_invoice}/gdns/create',
     Controllers\ProformaInvoiceGdnController::class)
