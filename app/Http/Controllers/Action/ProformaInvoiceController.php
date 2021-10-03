@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
+use App\Models\Gdn;
 use App\Models\ProformaInvoice;
 use App\Traits\NotifiableUsers;
 use Illuminate\Http\Request;
@@ -64,6 +65,8 @@ class ProformaInvoiceController extends Controller
     public function convertToGdn(Request $request, ProformaInvoice $proformaInvoice)
     {
         $this->authorize('view', $proformaInvoice);
+
+        $this->authorize('create', Gdn::class);
 
         $proformaInvoiceDetails = collect($proformaInvoice->proformaInvoiceDetails->toArray())
             ->map(function ($item) {
