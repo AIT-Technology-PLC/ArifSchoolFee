@@ -192,14 +192,6 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('sales.gdns.create', $sale->id) }}" class="button is-small bg-purple has-text-white">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    New DO
-                                </span>
-                            </a>
                             <a href="{{ route('sales.edit', $sale->id) }}" class="button is-small bg-green has-text-white">
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>

@@ -13,10 +13,6 @@ Route::patch('/employees/{employee}/permissions',
     [Action\PermissionController::class, 'update'])
     ->name('permissions.update');
 
-Route::get('/sale/{sale}/gdn/create',
-    Controllers\SaleGdnController::class)
-    ->name('sales.gdns.create');
-
 Route::get('/purchases/{purchase}/grns/create',
     Controllers\PurchaseGrnController::class)
     ->name('purchases.grns.create');
