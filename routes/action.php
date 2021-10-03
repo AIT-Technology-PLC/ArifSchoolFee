@@ -21,9 +21,9 @@ Route::get('/purchases/{purchase}/grns/create',
     Controllers\PurchaseGrnController::class)
     ->name('purchases.grns.create');
 
-Route::get('/gdns/{gdn}/sivs/create',
-    Controllers\GdnSivController::class)
-    ->name('gdns.sivs.create');
+Route::get('/gdns/{gdn}/convert-to-siv',
+    [Action\GdnController::class, 'convertToSiv'])
+    ->name('gdns.convert_to_siv');
 
 Route::get('/transfers/{transfer}/sivs/create',
     Controllers\TransferSivController::class)
