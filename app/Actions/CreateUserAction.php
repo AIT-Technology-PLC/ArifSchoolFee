@@ -27,7 +27,7 @@ class CreateUserAction
 
     public function execute($request)
     {
-        DB::transaction(function () use ($request) {
+        return DB::transaction(function () use ($request) {
             $user = $this->createNewUser($request);
 
             $user->employee()->create($request->only(['position', 'enabled']));
@@ -35,6 +35,8 @@ class CreateUserAction
             $this->action->execute($user, $request->only(['read', 'add', 'subtract']));
 
             $user->assignRole($request->role);
+
+            return $user;
         });
     }
 }

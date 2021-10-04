@@ -6,8 +6,12 @@ use Illuminate\Support\Facades\DB;
 
 class SyncWarehousePermissionsAction
 {
-    public function execute($user, $permissions)
+    public function execute($user, $permissions = [])
     {
+        if (count($permissions) == 0) {
+            return;
+        }
+
         $user->warehouses()->detach();
 
         foreach ($permissions['read'] ?? [] as $warehouseId) {

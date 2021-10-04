@@ -2,39 +2,25 @@
 
 namespace Database\Seeders;
 
+use App\Actions\CreateUserAction;
 use App\Models\Company;
-use App\Models\Employee;
 use App\Models\Plan;
 use App\Models\Warehouse;
-use App\Models\User;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class CreateNewCompany extends Seeder
 {
-    public function run(Faker $faker)
+    public function run(Faker $faker, CreateUserAction $action)
     {
-        DB::transaction(function () use ($faker) {
+        DB::transaction(function () use ($faker, $action) {
             $company = Company::create([
                 'name' => $faker->company,
                 'currency' => 'ETB',
                 'enabled' => 1,
-                'plan_id' => Plan::where('name', 'professional')->first()->id,
-            ]);
-
-            $user = User::create([
-                'name' => 'Abebe Kebede',
-                'email' => $faker->unique()->safeEmail,
-                'password' => Hash::make('password'),
-            ]);
-
-            Employee::create([
-                'user_id' => $user->id,
-                'company_id' => $company->id,
-                'enabled' => 1,
-                'position' => 'Onrica Support Department',
+                'plan_id' => Plan::firstWhere('name', 'professional')->id,
             ]);
 
             $warehouse = Warehouse::create([
@@ -42,13 +28,25 @@ class CreateNewCompany extends Seeder
                 'name' => 'Main Warehouse',
                 'location' => 'Unknown',
                 'is_sales_store' => 0,
-                'created_by' => $user->id,
-                'updated_by' => $user->id,
             ]);
 
-            $user->assignRole('System Manager');
+            $request = new Request([
+                'name' => 'Abebe Kebede',
+                'email' => $faker->unique()->safeEmail,
+                'password' => 'password',
+                'warehouse_id' => $warehouse->id,
+                'enabled' => 1,
+                'position' => 'Onrica Support Department',
+                'role' => 'System Manager',
+            ]);
 
-            $user->warehouse()->associate($warehouse)->save();
+            $user = $action->execute($request);
+
+            $user->employee->company()->associate($company)->save();
+
+            $warehouse->createdBy()->associate($user)->save();
+
+            $warehouse->updatedBy()->associate($user)->save();
         });
     }
 }
