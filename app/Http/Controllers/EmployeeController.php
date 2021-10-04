@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateUserAction;
+use App\Actions\UpdateUserAction;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Employee;
 use App\Models\Warehouse;
-use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
@@ -70,43 +70,9 @@ class EmployeeController extends Controller
         return view('employees.edit', compact('employee', 'roles', 'warehouses', 'readPermissions', 'addPermissions', 'subtractPermissions'));
     }
 
-    public function update(UpdateEmployeeRequest $request, Employee $employee)
+    public function update(UpdateEmployeeRequest $request, Employee $employee, UpdateUserAction $action)
     {
-        DB::transaction(function () use ($request, $employee) {
-            $employee->user->update($request->only(['name', 'email', 'warehouse_id']));
-
-            $employee->update($request->only(['position', 'enabled']));
-
-            $employee->user->warehouses()->detach();
-
-            foreach ($request->read ?? [] as $warehouseId) {
-                DB::table('user_warehouse')->updateOrInsert([
-                    'user_id' => $employee->user->id,
-                    'warehouse_id' => $warehouseId,
-                    'type' => 'read',
-                ]);
-            }
-
-            foreach ($request->add ?? [] as $warehouseId) {
-                DB::table('user_warehouse')->updateOrInsert([
-                    'user_id' => $employee->user->id,
-                    'warehouse_id' => $warehouseId,
-                    'type' => 'add',
-                ]);
-            }
-
-            foreach ($request->subtract ?? [] as $warehouseId) {
-                DB::table('user_warehouse')->updateOrInsert([
-                    'user_id' => $employee->user->id,
-                    'warehouse_id' => $warehouseId,
-                    'type' => 'subtract',
-                ]);
-            }
-
-            if ($request->has('role')) {
-                $employee->user->syncRoles($request->role);
-            }
-        });
+        $action->execute($employee, $request);
 
         return redirect()->route('employees.index');
     }
