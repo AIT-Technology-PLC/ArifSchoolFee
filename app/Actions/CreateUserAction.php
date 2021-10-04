@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Hash;
 
 class CreateUserAction
 {
+    private $action;
+
+    public function __construct(SyncWarehousePermissionsAction $action)
+    {
+        $this->action = $action;
+    }
+
     private function createNewUser($request)
     {
         return User::create([
@@ -18,34 +25,6 @@ class CreateUserAction
         ]);
     }
 
-    private function giveWarehousePermissions($request, $user)
-    {
-        $user->warehouses()->detach();
-
-        foreach ($request->read ?? [] as $warehouseId) {
-            DB::table('user_warehouse')->insert([
-                'user_id' => $user->id,
-                'warehouse_id' => $warehouseId,
-                'type' => 'read',
-            ]);
-        }
-
-        foreach ($request->add ?? [] as $warehouseId) {
-            DB::table('user_warehouse')->insert([
-                'user_id' => $user->id,
-                'warehouse_id' => $warehouseId,
-                'type' => 'add',
-            ]);
-        }
-
-        foreach ($request->subtract ?? [] as $warehouseId) {
-            DB::table('user_warehouse')->insert([
-                'user_id' => $user->id,
-                'warehouse_id' => $warehouseId,
-                'type' => 'subtract',
-            ]);
-        }
-    }
     public function execute($request)
     {
         DB::transaction(function () use ($request) {
@@ -53,7 +32,7 @@ class CreateUserAction
 
             $user->employee()->create($request->only(['position', 'enabled']));
 
-            $this->giveWarehousePermissions($request, $user);
+            $this->action->execute($user, $request->only(['read', 'add', 'subtract']));
 
             $user->assignRole($request->role);
         });

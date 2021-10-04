@@ -2,44 +2,23 @@
 
 namespace App\Actions;
 
+use App\Actions\SyncWarehousePermissionsAction;
 use Illuminate\Support\Facades\DB;
 
 class UpdateUserAction
 {
+    private $action;
+
+    public function __construct(SyncWarehousePermissionsAction $action)
+    {
+        $this->action = $action;
+    }
+
     private function UpdateUser($employee, $request)
     {
         $employee->user->update($request->only(['name', 'email', 'warehouse_id']));
 
         return $employee->user;
-    }
-
-    private function giveWarehousePermissions($request, $user)
-    {
-        $user->warehouses()->detach();
-
-        foreach ($request->read ?? [] as $warehouseId) {
-            DB::table('user_warehouse')->updateOrInsert([
-                'user_id' => $user->id,
-                'warehouse_id' => $warehouseId,
-                'type' => 'read',
-            ]);
-        }
-
-        foreach ($request->add ?? [] as $warehouseId) {
-            DB::table('user_warehouse')->updateOrInsert([
-                'user_id' => $user->id,
-                'warehouse_id' => $warehouseId,
-                'type' => 'add',
-            ]);
-        }
-
-        foreach ($request->subtract ?? [] as $warehouseId) {
-            DB::table('user_warehouse')->updateOrInsert([
-                'user_id' => $user->id,
-                'warehouse_id' => $warehouseId,
-                'type' => 'subtract',
-            ]);
-        }
     }
 
     public function execute($employee, $request)
@@ -49,7 +28,7 @@ class UpdateUserAction
 
             $employee->update($request->only(['position', 'enabled']));
 
-            $this->giveWarehousePermissions($request, $user);
+            $this->action->execute($user, $request->only(['read', 'add', 'subtract']));
 
             $user->syncRoles($request->has('role') ? $request->role : $user->roles[0]->name);
         });
