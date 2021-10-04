@@ -1,17 +1,7 @@
 <?php
 
 use App\Http\Controllers\Action as Action;
-use App\Http\Controllers\Auth as Auth;
 use Illuminate\Support\Facades\Route;
-
-// Password Resets
-Route::get('/password/edit',
-    [Auth\PasswordResetController::class, 'edit'])
-    ->name('password.edit');
-
-Route::patch('/password/update',
-    [Auth\PasswordResetController::class, 'update'])
-    ->name('password.update');
 
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',

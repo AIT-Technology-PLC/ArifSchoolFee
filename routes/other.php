@@ -7,10 +7,8 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'menu.index')->name('home');
 
 Route::prefix('api')->group(function () {
-
     Route::get('/products/{product}/unit-of-measurement',
         [Api\ProductController::class, 'getProductUOM']);
-
 });
 
 Route::get('/history/products/{product}/warehouses/{warehouse}',
