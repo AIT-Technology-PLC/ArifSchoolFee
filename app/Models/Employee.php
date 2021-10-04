@@ -22,23 +22,13 @@ class Employee extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function getAll()
+    public function scopeEnabled($query)
     {
-        return $this->get();
+        return $query->where('enabled', 1);
     }
 
-    public function countAllEmployees()
+    public function scopeDisabled($query)
     {
-        return $this->count();
-    }
-
-    public function countEnabledEmployees()
-    {
-        return $this->where('enabled', 1)->count();
-    }
-
-    public function countBlockedEmployees()
-    {
-        return $this->where('enabled', 0)->count();
+        return $query->where('enabled', 0);
     }
 }

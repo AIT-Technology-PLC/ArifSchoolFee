@@ -15,29 +15,27 @@ class EmployeeController extends Controller
 {
     private $employee;
 
-    public function __construct(Employee $employee)
+    public function __construct()
     {
         $this->middleware('isFeatureAccessible:User Management');
 
         $this->authorizeResource(Employee::class, 'employee');
-
-        $this->employee = $employee;
     }
 
     public function index()
     {
-        $employees = $this->employee->getAll()->load(['user.roles', 'user.warehouse', 'createdBy', 'updatedBy']);
+        $employees = Employee::with(['user.roles', 'user.warehouse', 'createdBy', 'updatedBy'])->get();
 
-        $totalEmployees = $this->employee->countAllEmployees();
+        $totalEmployees = Employee::count();
 
-        $totalEnabledEmployees = $this->employee->countEnabledEmployees();
+        $totalEnabledEmployees = Employee::enabled()->count();
 
-        $totalBlockedEmployees = $this->employee->countBlockedEmployees();
+        $totalBlockedEmployees = Employee::disabled()->count();
 
         return view('employees.index', compact('employees', 'totalEmployees', 'totalEnabledEmployees', 'totalBlockedEmployees'));
     }
 
-    public function create(Role $role)
+    public function create()
     {
         $roles = Role::all()->where('name', '<>', 'System Manager');
 
@@ -93,7 +91,7 @@ class EmployeeController extends Controller
         return view('employees.show', compact('employee'));
     }
 
-    public function edit(Employee $employee, Role $role)
+    public function edit(Employee $employee)
     {
         $employee->load(['user.roles', 'user.warehouse', 'user.warehouses']);
 
@@ -101,13 +99,11 @@ class EmployeeController extends Controller
 
         $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        $userWarehousePermissions = $employee->user->warehouses->pluck('pivot');
+        $readPermissions = $employee->user->warehouses()->wherePivot('type', 'read')->pluck('warehouse_id');
 
-        $readPermissions = $userWarehousePermissions->where('type', 'read')->pluck('warehouse_id');
+        $addPermissions = $employee->user->warehouses()->where('type', 'add')->pluck('warehouse_id');
 
-        $addPermissions = $userWarehousePermissions->where('type', 'add')->pluck('warehouse_id');
-
-        $subtractPermissions = $userWarehousePermissions->where('type', 'subtract')->pluck('warehouse_id');
+        $subtractPermissions = $employee->user->warehouses()->where('type', 'subtract')->pluck('warehouse_id');
 
         return view('employees.edit', compact('employee', 'roles', 'warehouses', 'readPermissions', 'addPermissions', 'subtractPermissions'));
     }
