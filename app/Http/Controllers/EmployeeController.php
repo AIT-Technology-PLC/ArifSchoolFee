@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateNewUserAction;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Employee;
 use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
 {
-    private $employee;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:User Management');
@@ -44,44 +42,9 @@ class EmployeeController extends Controller
         return view('employees.create', compact('roles', 'warehouses'));
     }
 
-    public function store(StoreEmployeeRequest $request)
+    public function store(StoreEmployeeRequest $request, CreateNewUserAction $action)
     {
-        DB::transaction(function () use ($request) {
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'warehouse_id' => $request->warehouse_id,
-            ]);
-
-            $user->employee()->create($request->only(['position', 'enabled']));
-
-            foreach ($request->read ?? [] as $warehouseId) {
-                DB::table('user_warehouse')->insert([
-                    'user_id' => $user->id,
-                    'warehouse_id' => $warehouseId,
-                    'type' => 'read',
-                ]);
-            }
-
-            foreach ($request->add ?? [] as $warehouseId) {
-                DB::table('user_warehouse')->insert([
-                    'user_id' => $user->id,
-                    'warehouse_id' => $warehouseId,
-                    'type' => 'add',
-                ]);
-            }
-
-            foreach ($request->subtract ?? [] as $warehouseId) {
-                DB::table('user_warehouse')->insert([
-                    'user_id' => $user->id,
-                    'warehouse_id' => $warehouseId,
-                    'type' => 'subtract',
-                ]);
-            }
-
-            $user->assignRole($request->role);
-        });
+        $action->execute($request);
 
         return redirect()->route('employees.index');
     }
