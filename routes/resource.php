@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers as Controllers;
 use App\Http\Controllers\Resource as Resource;
 use Illuminate\Support\Facades\Route;
 
@@ -8,8 +7,7 @@ Route::resource('products', Resource\ProductController::class);
 
 Route::resource('categories', Resource\ProductCategoryController::class);
 
-// TODO
-Route::resource('employees', Controllers\EmployeeController::class);
+Route::resource('employees', Resource\EmployeeController::class);
 
 Route::resource('companies', Resource\CompanyController::class);
 
