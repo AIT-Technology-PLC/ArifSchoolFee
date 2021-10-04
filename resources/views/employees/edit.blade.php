@@ -91,7 +91,7 @@
                         <div class="field">
                             @foreach ($warehouses as $warehouse)
                                 <label class="checkbox mr-3 has-text-grey has-text-weight-light">
-                                    <input name="read[]" value="{{ $warehouse->id }}" type="checkbox" {{ $warehousePermissions['read']->contains($warehouse) ? 'checked' : '' }}>
+                                    <input name="read[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['read']) ? ($warehousePermissions['read']->contains($warehouse) ? 'checked' : '') : '' }}>
                                     {{ $warehouse->name }}
                                 </label>
                             @endforeach
@@ -107,7 +107,7 @@
                         <div class="field">
                             @foreach ($warehouses as $warehouse)
                                 <label class="checkbox mr-3 has-text-grey has-text-weight-light">
-                                    <input name="subtract[]" value="{{ $warehouse->id }}" type="checkbox" {{ $warehousePermissions['subtract']->contains($warehouse) ? 'checked' : '' }}>
+                                    <input name="subtract[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['subtract']) ? ($warehousePermissions['subtract']->contains($warehouse) ? 'checked' : '') : '' }}>
                                     {{ $warehouse->name }}
                                 </label>
                             @endforeach
@@ -123,7 +123,7 @@
                         <div class="field">
                             @foreach ($warehouses as $warehouse)
                                 <label class="checkbox mr-3 has-text-grey has-text-weight-light">
-                                    <input name="add[]" value="{{ $warehouse->id }}" type="checkbox" {{ $warehousePermissions['add']->contains($warehouse) == $warehouse->id ? 'checked' : '' }}>
+                                    <input name="add[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['add']) ? ($warehousePermissions['add']->contains($warehouse) == $warehouse->id ? 'checked' : '') : '' }}>
                                     {{ $warehouse->name }}
                                 </label>
                             @endforeach

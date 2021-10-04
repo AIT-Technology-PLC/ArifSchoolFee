@@ -36,7 +36,11 @@ class EmployeePolicy
             return false;
         }
 
-        if ($user->id == $employee->user->id && !$user->hasRole('System Manager')) {
+        if ($employee->user->hasRole('System Manager') && !$user->hasRole('System Manager')) {
+            return false;
+        }
+
+        if ($employee->user->id == $user->id && !$user->hasRole('System Manager')) {
             return false;
         }
 
@@ -53,7 +57,7 @@ class EmployeePolicy
             return false;
         }
 
-        if ($user->id == $employee->user->id) {
+        if ($employee->user->id == $user->id) {
             return false;
         }
 
