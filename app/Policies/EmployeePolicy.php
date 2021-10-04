@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\Employee;
-use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\Models\User;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class EmployeePolicy
@@ -36,20 +36,28 @@ class EmployeePolicy
             return false;
         }
 
-        if ($user->id == $employee->user->id && $user->hasRole('System Manager')) {
-            return true;
+        if ($user->id == $employee->user->id && !$user->hasRole('System Manager')) {
+            return false;
         }
 
-        if ($user->id != $employee->user->id) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     public function delete(User $user, Employee $employee)
     {
-        return $this->doesModelBelongToMyCompany($user, $employee) && $user->can('Delete Employee');
+        if (!$this->doesModelBelongToMyCompany($user, $employee) || !$user->can('Delete Employee')) {
+            return false;
+        }
+
+        if ($employee->user->hasRole('System Manager')) {
+            return false;
+        }
+
+        if ($user->id == $employee->user->id) {
+            return false;
+        }
+
+        return true;
     }
 
 }

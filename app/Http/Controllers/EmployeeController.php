@@ -75,14 +75,6 @@ class EmployeeController extends Controller
 
     public function destroy(Employee $employee)
     {
-        if ($employee->user->hasRole('System Manager')) {
-            abort(403);
-        }
-
-        if ($employee->user->id == auth()->id()) {
-            abort(403);
-        }
-
         $employee->user->forceDelete();
 
         return back()->with('deleted', 'Deleted Successfully');
