@@ -76,6 +76,6 @@ class User extends Authenticatable
             return Warehouse::orderBy('name')->pluck('id');
         }
 
-        return $this->warehouse_id;
+        return [$this->warehouse_id];
     }
 }
