@@ -46,7 +46,7 @@ trait SubtractInventory
             $modelName = $modelName == 'DO' ? 'GDN' : $modelName;
 
             Notification::send(
-                $this->notifiableUsers('Approve ' . $modelName, $model->createdBy),
+                notifiables('Approve ' . $modelName, $model->createdBy),
                 new $notificationClass($model)
             );
 

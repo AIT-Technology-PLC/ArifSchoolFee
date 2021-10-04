@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Action;
 
-use App\Traits\NotifiableUsers;
+use App\Http\Controllers\Controller;
 use App\Traits\ApproveInventory;
 use App\Traits\SubtractInventory;
-use App\Http\Controllers\Controller;
 
 class DamageController extends Controller
 {
-    use NotifiableUsers, SubtractInventory, ApproveInventory;
+    use SubtractInventory, ApproveInventory;
 
     public function __construct()
     {

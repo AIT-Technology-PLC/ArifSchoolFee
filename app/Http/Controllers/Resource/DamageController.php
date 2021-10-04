@@ -8,14 +8,11 @@ use App\Http\Requests\UpdateDamageRequest;
 use App\Models\Damage;
 use App\Models\Warehouse;
 use App\Notifications\DamagePrepared;
-use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class DamageController extends Controller
 {
-    use NotifiableUsers;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Damage Management');
@@ -54,7 +51,7 @@ class DamageController extends Controller
 
             $damage->damageDetails()->createMany($request->damage);
 
-            Notification::send($this->notifiableUsers('Approve Damage'), new DamagePrepared($damage));
+            Notification::send(notifiables('Approve Damage'), new DamagePrepared($damage));
 
             return $damage;
         });

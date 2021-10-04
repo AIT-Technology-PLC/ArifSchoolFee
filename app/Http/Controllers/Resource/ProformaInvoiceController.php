@@ -8,14 +8,11 @@ use App\Http\Requests\UpdateProformaInvoiceRequest;
 use App\Models\Customer;
 use App\Models\ProformaInvoice;
 use App\Notifications\ProformaInvoicePrepared;
-use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class ProformaInvoiceController extends Controller
 {
-    use NotifiableUsers;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Proforma Invoice');
@@ -55,7 +52,7 @@ class ProformaInvoiceController extends Controller
 
             $proformaInvoice->proformaInvoiceDetails()->createMany($request->proformaInvoice);
 
-            Notification::send($this->notifiableUsers('Approve GDN'), new ProformaInvoicePrepared($proformaInvoice));
+            Notification::send(notifiables('Approve GDN'), new ProformaInvoicePrepared($proformaInvoice));
 
             return $proformaInvoice;
         });

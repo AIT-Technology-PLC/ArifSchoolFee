@@ -10,14 +10,11 @@ use App\Models\Reservation;
 use App\Models\Warehouse;
 use App\Notifications\ReservationPrepared;
 use App\Services\InventoryOperationService;
-use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class ReservationController extends Controller
 {
-    use NotifiableUsers;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Reservation Management');
@@ -68,7 +65,7 @@ class ReservationController extends Controller
 
             $reservation->reservationDetails()->createMany($request->reservation);
 
-            Notification::send($this->notifiableUsers('Approve Reservation'), new ReservationPrepared($reservation));
+            Notification::send(notifiables('Approve Reservation'), new ReservationPrepared($reservation));
 
             return $reservation;
         });
@@ -103,7 +100,7 @@ class ReservationController extends Controller
         DB::transaction(function () use ($request, $reservation) {
             if ($reservation->isReserved()) {
                 InventoryOperationService::cancelReservation($reservation->reservationDetails);
-                Notification::send($this->notifiableUsers('Approve Reservation'), new ReservationPrepared($reservation));
+                Notification::send(notifiables('Approve Reservation'), new ReservationPrepared($reservation));
             }
 
             $reservation->update($request->except('reservation'));

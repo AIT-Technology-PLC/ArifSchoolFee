@@ -7,12 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Gdn;
 use App\Models\Siv;
 use App\Traits\ApproveInventory;
-use App\Traits\NotifiableUsers;
 use App\Traits\SubtractInventory;
 
 class GdnController extends Controller
 {
-    use NotifiableUsers, SubtractInventory, ApproveInventory;
+    use SubtractInventory, ApproveInventory;
 
     private $permission;
 

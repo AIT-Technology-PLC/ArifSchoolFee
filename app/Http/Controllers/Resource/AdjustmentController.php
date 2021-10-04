@@ -8,14 +8,11 @@ use App\Http\Requests\UpdateAdjustmentRequest;
 use App\Models\Adjustment;
 use App\Models\Warehouse;
 use App\Notifications\AdjustmentPrepared;
-use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class AdjustmentController extends Controller
 {
-    use NotifiableUsers;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Inventory Adjustment');
@@ -54,7 +51,7 @@ class AdjustmentController extends Controller
 
             $adjustment->adjustmentDetails()->createMany($request->adjustment);
 
-            Notification::send($this->notifiableUsers('Approve Adjustment'), new AdjustmentPrepared($adjustment));
+            Notification::send(notifiables('Approve Adjustment'), new AdjustmentPrepared($adjustment));
 
             return $adjustment;
         });

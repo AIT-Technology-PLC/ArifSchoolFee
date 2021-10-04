@@ -6,11 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Returnn;
 use App\Traits\AddInventory;
 use App\Traits\ApproveInventory;
-use App\Traits\NotifiableUsers;
 
 class ReturnController extends Controller
 {
-    use NotifiableUsers, AddInventory, ApproveInventory;
+    use AddInventory, ApproveInventory;
 
     public function __construct()
     {

@@ -9,14 +9,11 @@ use App\Models\Customer;
 use App\Models\Returnn;
 use App\Models\Warehouse;
 use App\Notifications\ReturnPrepared;
-use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class ReturnController extends Controller
 {
-    use NotifiableUsers;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Return Management');
@@ -57,7 +54,7 @@ class ReturnController extends Controller
 
             $return->returnDetails()->createMany($request->return);
 
-            Notification::send($this->notifiableUsers('Approve Return'), new ReturnPrepared($return));
+            Notification::send(notifiables('Approve Return'), new ReturnPrepared($return));
 
             return $return;
         });

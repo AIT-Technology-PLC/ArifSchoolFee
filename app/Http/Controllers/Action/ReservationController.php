@@ -11,14 +11,13 @@ use App\Notifications\ReservationConverted;
 use App\Notifications\ReservationMade;
 use App\Services\InventoryOperationService;
 use App\Traits\ApproveInventory;
-use App\Traits\NotifiableUsers;
 use App\Traits\SubtractInventory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class ReservationController extends Controller
 {
-    use NotifiableUsers, SubtractInventory, ApproveInventory;
+    use SubtractInventory, ApproveInventory;
 
     public function __construct()
     {
@@ -47,7 +46,7 @@ class ReservationController extends Controller
             $reservation->reserve();
 
             Notification::send(
-                $this->notifiableUsers('Approve Reservation', $reservation->createdBy),
+                notifiables('Approve Reservation', $reservation->createdBy),
                 new ReservationMade($reservation)
             );
 
@@ -86,7 +85,7 @@ class ReservationController extends Controller
             $reservation->cancel();
 
             Notification::send(
-                $this->notifiableUsers('Approve Reservation', $reservation->createdBy),
+                notifiables('Approve Reservation', $reservation->createdBy),
                 new ReservationCancelled($reservation)
             );
         });
@@ -108,7 +107,7 @@ class ReservationController extends Controller
             $reservation->convert();
 
             Notification::send(
-                $this->notifiableUsers('Approve Reservation', $reservation->createdBy),
+                notifiables('Approve Reservation', $reservation->createdBy),
                 new ReservationConverted($reservation)
             );
 
@@ -126,7 +125,7 @@ class ReservationController extends Controller
             $gdn->reservation()->save($reservation);
 
             Notification::send(
-                $this->notifiableUsers('Approve GDN', $gdn->createdBy),
+                notifiables('Approve GDN', $gdn->createdBy),
                 new GdnPrepared($gdn)
             );
         });

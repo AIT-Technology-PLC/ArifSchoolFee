@@ -8,14 +8,11 @@ use App\Http\Requests\UpdateTransferRequest;
 use App\Models\Transfer;
 use App\Models\Warehouse;
 use App\Notifications\TransferPrepared;
-use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class TransferController extends Controller
 {
-    use NotifiableUsers;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Transfer Management');
@@ -58,7 +55,7 @@ class TransferController extends Controller
 
             $transfer->transferDetails()->createMany($request->transfer);
 
-            Notification::send($this->notifiableUsers('Approve Transfer'), new TransferPrepared($transfer));
+            Notification::send(notifiables('Approve Transfer'), new TransferPrepared($transfer));
 
             return $transfer;
         });

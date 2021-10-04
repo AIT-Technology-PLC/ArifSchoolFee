@@ -10,14 +10,11 @@ use App\Models\Gdn;
 use App\Models\Sale;
 use App\Models\Warehouse;
 use App\Notifications\GdnPrepared;
-use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class GdnController extends Controller
 {
-    use NotifiableUsers;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Gdn Management');
@@ -60,7 +57,7 @@ class GdnController extends Controller
 
             $gdn->gdnDetails()->createMany($request->gdn);
 
-            Notification::send($this->notifiableUsers('Approve GDN'), new GdnPrepared($gdn));
+            Notification::send(notifiables('Approve GDN'), new GdnPrepared($gdn));
 
             return $gdn;
         });

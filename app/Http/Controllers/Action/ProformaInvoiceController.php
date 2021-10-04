@@ -5,13 +5,10 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Models\Gdn;
 use App\Models\ProformaInvoice;
-use App\Traits\NotifiableUsers;
 use Illuminate\Http\Request;
 
 class ProformaInvoiceController extends Controller
 {
-    use NotifiableUsers;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Proforma Invoice');

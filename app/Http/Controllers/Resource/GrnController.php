@@ -10,14 +10,11 @@ use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Notifications\GrnPrepared;
-use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class GrnController extends Controller
 {
-    use NotifiableUsers;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Grn Management');
@@ -60,7 +57,7 @@ class GrnController extends Controller
 
             $grn->grnDetails()->createMany($request->grn);
 
-            Notification::send($this->notifiableUsers('Approve GRN'), new GrnPrepared($grn));
+            Notification::send(notifiables('Approve GRN'), new GrnPrepared($grn));
 
             return $grn;
         });

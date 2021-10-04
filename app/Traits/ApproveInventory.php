@@ -33,7 +33,7 @@ trait ApproveInventory
 
                 if ($this->permission) {
                     Notification::send(
-                        $this->notifiableUsers($this->permission, $model->createdBy),
+                        notifiables($this->permission, $model->createdBy),
                         new $notificationClass($model)
                     );
                 }

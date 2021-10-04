@@ -3,14 +3,11 @@ namespace App\Actions;
 
 use App\Models\Siv;
 use App\Notifications\SivPrepared;
-use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class ConvertToSivAction
 {
-    use NotifiableUsers;
-
     public function execute($purpose, $code, $issuedTo, $approvedBy, $details)
     {
         $siv = DB::transaction(function () use ($purpose, $code, $issuedTo, $approvedBy, $details) {
@@ -25,7 +22,7 @@ class ConvertToSivAction
 
             $siv->sivDetails()->createMany($details);
 
-            Notification::send($this->notifiableUsers('Approve SIV'), new SivPrepared($siv));
+            Notification::send(notifiables('Approve SIV'), new SivPrepared($siv));
 
             return $siv;
         });

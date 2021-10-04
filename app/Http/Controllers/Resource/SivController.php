@@ -9,14 +9,11 @@ use App\Models\Customer;
 use App\Models\Siv;
 use App\Models\Warehouse;
 use App\Notifications\SivPrepared;
-use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class SivController extends Controller
 {
-    use NotifiableUsers;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Siv Management');
@@ -55,7 +52,7 @@ class SivController extends Controller
 
             $siv->sivDetails()->createMany($request->siv);
 
-            Notification::send($this->notifiableUsers('Approve SIV'), new SivPrepared($siv));
+            Notification::send(notifiables('Approve SIV'), new SivPrepared($siv));
 
             return $siv;
         });

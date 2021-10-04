@@ -9,13 +9,12 @@ use App\Models\Transfer;
 use App\Notifications\TransferMade;
 use App\Services\InventoryOperationService;
 use App\Traits\ApproveInventory;
-use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class TransferController extends Controller
 {
-    use NotifiableUsers, ApproveInventory;
+    use ApproveInventory;
 
     private $permission;
 
@@ -56,7 +55,7 @@ class TransferController extends Controller
             $transfer->isSubtracted() ? $transfer->add() : $transfer->subtract();
 
             Notification::send(
-                $this->notifiableUsers('Approve Transfer', $transfer->createdBy),
+                notifiables('Approve Transfer', $transfer->createdBy),
                 new TransferMade($transfer)
             );
 

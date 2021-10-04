@@ -7,13 +7,12 @@ use App\Models\Adjustment;
 use App\Notifications\AdjustmentMade;
 use App\Services\InventoryOperationService;
 use App\Traits\ApproveInventory;
-use App\Traits\NotifiableUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class AdjustmentController extends Controller
 {
-    use NotifiableUsers, ApproveInventory;
+    use ApproveInventory;
 
     private $permission;
 
@@ -44,7 +43,7 @@ class AdjustmentController extends Controller
             $adjustment->adjust();
 
             Notification::send(
-                $this->notifiableUsers('Approve Adjustment', $adjustment->createdBy),
+                notifiables('Approve Adjustment', $adjustment->createdBy),
                 new AdjustmentMade($adjustment)
             );
 

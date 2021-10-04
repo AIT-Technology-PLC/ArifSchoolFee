@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Models\Siv;
 use App\Traits\ApproveInventory;
-use App\Traits\NotifiableUsers;
 
 class SivController extends Controller
 {
-    use NotifiableUsers, ApproveInventory;
+    use ApproveInventory;
 
     private $permission;
 
