@@ -61,13 +61,9 @@ class EmployeeController extends Controller
 
         $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        $readPermissions = $employee->user->warehouses()->wherePivot('type', 'read')->pluck('warehouse_id');
+        $warehousePermissions = $employee->user->warehouses->groupBy('pivot.type');
 
-        $addPermissions = $employee->user->warehouses()->where('type', 'add')->pluck('warehouse_id');
-
-        $subtractPermissions = $employee->user->warehouses()->where('type', 'subtract')->pluck('warehouse_id');
-
-        return view('employees.edit', compact('employee', 'roles', 'warehouses', 'readPermissions', 'addPermissions', 'subtractPermissions'));
+        return view('employees.edit', compact('employee', 'roles', 'warehouses', 'warehousePermissions'));
     }
 
     public function update(UpdateEmployeeRequest $request, Employee $employee, UpdateUserAction $action)
