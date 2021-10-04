@@ -130,7 +130,7 @@
                 </div>
             @endcanany
 
-            @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create PO', 'Create Customer', 'Create Price'])
+            @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create PO', 'Create Customer'])
                 <div class="box has-background-white-bis">
                     <h2 class="mb-3 text-purple has-text-weight-bold">
                         <span>
@@ -258,24 +258,6 @@
                                     <span class="is-size-7">
                                         <span>
                                             New Customer
-                                        </span>
-                                    </span>
-                                </div>
-                            @endif
-                        @endcan
-
-                        @can('Create Price')
-                            @if (isFeatureEnabled('Price Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('prices.create') }}" class="button text-purple bg-lightpurple is-borderless">
-                                        <span class="icon">
-                                            <i class="fas fa-money-bill"></i>
-                                        </span>
-                                    </a>
-                                    <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Price
                                         </span>
                                     </span>
                                 </div>
