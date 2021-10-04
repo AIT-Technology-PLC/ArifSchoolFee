@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class CreateNewUserAction
+class CreateUserAction
 {
     private function createNewUser($request)
     {

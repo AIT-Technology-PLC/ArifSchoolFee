@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CreateNewUserAction;
+use App\Actions\CreateUserAction;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Employee;
-use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -42,7 +41,7 @@ class EmployeeController extends Controller
         return view('employees.create', compact('roles', 'warehouses'));
     }
 
-    public function store(StoreEmployeeRequest $request, CreateNewUserAction $action)
+    public function store(StoreEmployeeRequest $request, CreateUserAction $action)
     {
         $action->execute($request);
 
