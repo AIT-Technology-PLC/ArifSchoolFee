@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\DB;
 
 class SyncWarehousePermissionsAction
 {
+    private $warehousePermissions = [
+        'read', 'subtract', 'add', 'sales', 'transfer_from', 'transfer_to', 'adjustment', 'siv',
+    ];
+
     public function execute($user, $permissions = [])
     {
         if (count($permissions) == 0) {
@@ -14,28 +18,18 @@ class SyncWarehousePermissionsAction
 
         $user->warehouses()->detach();
 
-        foreach ($permissions['read'] ?? [] as $warehouseId) {
-            DB::table('user_warehouse')->updateOrInsert([
-                'user_id' => $user->id,
-                'warehouse_id' => $warehouseId,
-                'type' => 'read',
-            ]);
-        }
+        foreach ($this->warehousePermissions as $permission) {
+            if (!isset($permissions[$permission])) {
+                continue;
+            }
 
-        foreach ($permissions['add'] ?? [] as $warehouseId) {
-            DB::table('user_warehouse')->updateOrInsert([
-                'user_id' => $user->id,
-                'warehouse_id' => $warehouseId,
-                'type' => 'add',
-            ]);
-        }
-
-        foreach ($permissions['subtract'] ?? [] as $warehouseId) {
-            DB::table('user_warehouse')->updateOrInsert([
-                'user_id' => $user->id,
-                'warehouse_id' => $warehouseId,
-                'type' => 'subtract',
-            ]);
+            foreach ($permissions[$permission] as $warehouseId) {
+                DB::table('user_warehouse')->updateOrInsert([
+                    'user_id' => $user->id,
+                    'warehouse_id' => $warehouseId,
+                    'type' => $permission,
+                ]);
+            }
         }
     }
 }

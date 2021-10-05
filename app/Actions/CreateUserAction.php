@@ -32,7 +32,10 @@ class CreateUserAction
 
             $user->employee()->create($request->only(['position', 'enabled']));
 
-            $this->action->execute($user, $request->only(['read', 'add', 'subtract']));
+            $this->action->execute(
+                $user,
+                $request->only('read', 'subtract', 'add', 'sales', 'transfer_from', 'transfer_to', 'adjustment', 'siv')
+            );
 
             $user->assignRole($request->role);
 

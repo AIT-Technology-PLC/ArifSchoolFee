@@ -166,15 +166,15 @@
                                     @enderror
                                 </div>
                                 <div class="column is-3">
-                                    <label for="sale[]" class="label text-green"> Sales <sup class="has-text-weight-light is-size-7">(Delivery Order, Reservation)</sup> </label>
+                                    <label for="sales[]" class="label text-green"> Sales <sup class="has-text-weight-light is-size-7">(Delivery Order, Reservation)</sup> </label>
                                     <div class="field">
                                         @foreach ($warehouses as $warehouse)
                                             <label class="checkbox mr-3 has-text-grey has-text-weight-light">
-                                                <input name="sale[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['sale']) ? ($warehousePermissions['sale']->contains($warehouse) ? 'checked' : '') : '' }}>
+                                                <input name="sales[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['sales']) ? ($warehousePermissions['sales']->contains($warehouse) ? 'checked' : '') : '' }}>
                                                 {{ $warehouse->name }}
                                             </label>
                                         @endforeach
-                                        @error('sale.*')
+                                        @error('sales.*')
                                             <span class="help has-text-danger" role="alert">
                                                 {{ $message }}
                                             </span>

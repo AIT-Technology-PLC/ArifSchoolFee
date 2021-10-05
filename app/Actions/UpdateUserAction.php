@@ -28,7 +28,10 @@ class UpdateUserAction
 
             $employee->update($request->only(['position', 'enabled']));
 
-            $this->action->execute($user, $request->only(['read', 'add', 'subtract']));
+            $this->action->execute(
+                $user,
+                $request->only('read', 'subtract', 'add', 'sales', 'transfer_from', 'transfer_to', 'adjustment', 'siv')
+            );
 
             $user->syncRoles($request->has('role') ? $request->role : $user->roles[0]->name);
         });
