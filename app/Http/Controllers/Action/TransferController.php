@@ -29,16 +29,6 @@ class TransferController extends Controller
     {
         $this->authorize('transfer', $transfer);
 
-        abort_if(
-            !$transfer->isSubtracted() && !user()->hasWarehousePermission('transfer_from', $transfer->transferred_from),
-            403
-        );
-
-        abort_if(
-            $transfer->isSubtracted() && !user()->hasWarehousePermission('transfer_to', $transfer->transferred_to),
-            403
-        );
-
         if (!$transfer->isApproved()) {
             return back()->with('failedMessage', 'This Transfer is not approved');
         }

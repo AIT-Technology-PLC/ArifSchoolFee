@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 use App\Models\Transfer;
-use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\Models\User;
+use App\Traits\ModelToCompanyBelongingnessChecker;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TransferPolicy
@@ -43,6 +43,14 @@ class TransferPolicy
 
     public function transfer(User $user, Transfer $transfer)
     {
+        if (!$transfer->isSubtracted() && !user()->hasWarehousePermission('transfer_from', $transfer->transferred_from)) {
+            return false;
+        }
+
+        if ($transfer->isSubtracted() && !user()->hasWarehousePermission('transfer_to', $transfer->transferred_to)) {
+            return false;
+        }
+
         return $this->doesModelBelongToMyCompany($user, $transfer) && $user->can('Make Transfer');
     }
 }
