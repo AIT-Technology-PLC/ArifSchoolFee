@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\User;
-use App\Models\Limit;
 use App\Models\Feature;
+use App\Models\Limit;
+use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 
 if (!function_exists('userCompany')) {
@@ -64,5 +64,17 @@ if (!function_exists('notifiables')) {
         }
 
         return $users->except(auth()->id());
+    }
+}
+
+if (!function_exists('user')) {
+
+    function user()
+    {
+        if (!auth()->check()) {
+            return;
+        }
+
+        return auth()->user();
     }
 }
