@@ -52,17 +52,20 @@ class User extends Authenticatable
         return [$this->warehouse_id];
     }
 
-    public function hasWarehousePermission($type, $warehouseId)
+    public function hasWarehousePermission($type, $warehouse)
     {
-        return $this->getAllowedWarehouses($type)->contains($warehouseId);
+        return $this->getAllowedWarehouses($type)->contains($warehouse);
     }
 
     public function getAllowedWarehouses($type)
     {
         if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return Warehouse::orderBy('name')->pluck('id');
+            return Warehouse::orderBy('name')->get(['id', 'name']);
         }
 
-        return $this->warehouses()->wherePivot('type', $type)->pluck('warehouse_id');
+        return $this->warehouses()
+            ->wherePivot('type', $type)
+            ->orderBy('warehouses.name')
+            ->get(['warehouses.id', 'warehouses.name']);
     }
 }

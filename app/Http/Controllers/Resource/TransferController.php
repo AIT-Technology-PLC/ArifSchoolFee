@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTransferRequest;
 use App\Http\Requests\UpdateTransferRequest;
 use App\Models\Transfer;
-use App\Models\Warehouse;
 use App\Notifications\TransferPrepared;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -39,9 +38,9 @@ class TransferController extends Controller
 
     public function create()
     {
-        $fromWarehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('transfer_from'))->get(['id', 'name']);
+        $fromWarehouses = user()->getAllowedWarehouses('transfer_from');
 
-        $toWarehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('transfer_to'))->get(['id', 'name']);
+        $toWarehouses = user()->getAllowedWarehouses('transfer_to');
 
         $currentTransferCode = Transfer::byBranch()->max('code') + 1;
 
@@ -74,9 +73,9 @@ class TransferController extends Controller
     {
         $transfer->load(['transferDetails.product', 'transferredFrom', 'transferredTo']);
 
-        $fromWarehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('transfer_from'))->get(['id', 'name']);
+        $fromWarehouses = user()->getAllowedWarehouses('transfer_from');
 
-        $toWarehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('transfer_to'))->get(['id', 'name']);
+        $toWarehouses = user()->getAllowedWarehouses('transfer_to');
 
         return view('transfers.edit', compact('transfer', 'fromWarehouses', 'toWarehouses'));
     }

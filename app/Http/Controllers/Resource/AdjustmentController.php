@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdjustmentRequest;
 use App\Http\Requests\UpdateAdjustmentRequest;
 use App\Models\Adjustment;
-use App\Models\Warehouse;
 use App\Notifications\AdjustmentPrepared;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -37,7 +36,7 @@ class AdjustmentController extends Controller
 
     public function create()
     {
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('adjustment'))->get(['id', 'name']);
+        $warehouses = user()->getAllowedWarehouses('adjustment');
 
         $currentAdjustmentCode = Adjustment::byBranch()->max('code') + 1;
 
@@ -70,7 +69,7 @@ class AdjustmentController extends Controller
     {
         $adjustment->load(['adjustmentDetails.warehouse', 'adjustmentDetails.product']);
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('adjustment'))->get(['id', 'name']);
+        $warehouses = user()->getAllowedWarehouses('adjustment');
 
         return view('adjustments.edit', compact('adjustment', 'warehouses'));
     }

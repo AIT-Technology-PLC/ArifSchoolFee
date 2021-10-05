@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDamageRequest;
 use App\Http\Requests\UpdateDamageRequest;
 use App\Models\Damage;
-use App\Models\Warehouse;
 use App\Notifications\DamagePrepared;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -37,7 +36,7 @@ class DamageController extends Controller
 
     public function create()
     {
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('subtract'))->get(['id', 'name']);
+        $warehouses = user()->getAllowedWarehouses('subtract');
 
         $currentDamageCode = Damage::byBranch()->max('code') + 1;
 
@@ -68,7 +67,7 @@ class DamageController extends Controller
 
     public function edit(Damage $damage)
     {
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('subtract'))->get(['id', 'name']);
+        $warehouses = user()->getAllowedWarehouses('subtract');
 
         $damage->load(['damageDetails.product', 'damageDetails.warehouse']);
 

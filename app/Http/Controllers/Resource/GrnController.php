@@ -8,7 +8,6 @@ use App\Http\Requests\UpdateGrnRequest;
 use App\Models\Grn;
 use App\Models\Purchase;
 use App\Models\Supplier;
-use App\Models\Warehouse;
 use App\Notifications\GrnPrepared;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -39,7 +38,7 @@ class GrnController extends Controller
 
     public function create()
     {
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('add'))->get(['id', 'name']);
+        $warehouses = user()->getAllowedWarehouses('add');
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
@@ -76,7 +75,7 @@ class GrnController extends Controller
     {
         $grn->load(['grnDetails.product', 'grnDetails.warehouse', 'supplier', 'purchase']);
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('add'))->get(['id', 'name']);
+        $warehouses = user()->getAllowedWarehouses('add');
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 

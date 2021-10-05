@@ -2,7 +2,6 @@
 
 namespace App\DataTables;
 
-use App\Models\Warehouse;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -14,9 +13,7 @@ class OnHandInventoryDatatable extends DataTable
 
     public function __construct()
     {
-        $this->warehouses = Warehouse::orderBy('name')
-            ->whereIn('id', user()->getAllowedWarehouses('read'))
-            ->get(['id', 'name']);
+        $this->warehouses = user()->getAllowedWarehouses('read');
     }
 
     public function dataTable($query)
@@ -67,7 +64,7 @@ class OnHandInventoryDatatable extends DataTable
                 $query->where('merchandises.available', '>', 0)
                     ->orWhere('merchandises.reserved', '>', 0);
             })
-            ->whereIn('warehouses.id', user()->getAllowedWarehouses('read'))
+            ->whereIn('warehouses.id', user()->getAllowedWarehouses('read')->pluck('id'))
             ->select([
                 'products.id as id',
                 'products.name as product',

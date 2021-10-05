@@ -30,12 +30,12 @@ class TransferController extends Controller
         $this->authorize('transfer', $transfer);
 
         abort_if(
-            !$transfer->isSubtracted() && auth()->user()->warehouse_id != $transfer->transferred_from,
+            !$transfer->isSubtracted() && !user()->hasWarehousePermission('transfer_from', $transfer->transferred_from),
             403
         );
 
         abort_if(
-            $transfer->isSubtracted() && !user()->getAllowedWarehouses('add')->contains($transfer->transferred_to),
+            $transfer->isSubtracted() && !user()->hasWarehousePermission('transfer_to', $transfer->transferred_to),
             403
         );
 

@@ -8,7 +8,6 @@ use App\Http\Requests\UpdateGdnRequest;
 use App\Models\Customer;
 use App\Models\Gdn;
 use App\Models\Sale;
-use App\Models\Warehouse;
 use App\Notifications\GdnPrepared;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -43,7 +42,7 @@ class GdnController extends Controller
 
         $sales = (new Sale)->getAll();
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('sales'))->get(['id', 'name']);
+        $warehouses = user()->getAllowedWarehouses('sales');
 
         $currentGdnCode = Gdn::byBranch()->max('code') + 1;
 
@@ -82,7 +81,7 @@ class GdnController extends Controller
 
         $sales = (new Sale)->getAll();
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('sales'))->get(['id', 'name']);
+        $warehouses = user()->getAllowedWarehouses('sales');
 
         $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse']);
 

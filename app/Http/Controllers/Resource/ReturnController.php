@@ -7,7 +7,6 @@ use App\Http\Requests\StoreReturnRequest;
 use App\Http\Requests\UpdateReturnRequest;
 use App\Models\Customer;
 use App\Models\Returnn;
-use App\Models\Warehouse;
 use App\Notifications\ReturnPrepared;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -40,7 +39,7 @@ class ReturnController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('add'))->get(['id', 'name']);
+        $warehouses = user()->getAllowedWarehouses('add');
 
         $currentReturnCode = Returnn::byBranch()->max('code') + 1;
 
@@ -73,7 +72,7 @@ class ReturnController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('add'))->get(['id', 'name']);
+        $warehouses = user()->getAllowedWarehouses('add');
 
         $return->load(['returnDetails.product', 'returnDetails.warehouse']);
 

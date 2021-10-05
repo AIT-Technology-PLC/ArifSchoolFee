@@ -7,7 +7,6 @@ use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Customer;
 use App\Models\Reservation;
-use App\Models\Warehouse;
 use App\Notifications\ReservationPrepared;
 use App\Services\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
@@ -51,7 +50,7 @@ class ReservationController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('sales'))->get(['id', 'name']);
+        $warehouses = user()->getAllowedWarehouses('sales');
 
         $currentReservationCode = Reservation::byBranch()->max('code') + 1;
 
@@ -84,7 +83,7 @@ class ReservationController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('sales'))->get(['id', 'name']);
+        $warehouses = user()->getAllowedWarehouses('sales');
 
         $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse']);
 

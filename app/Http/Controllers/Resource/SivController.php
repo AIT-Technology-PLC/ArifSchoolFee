@@ -7,7 +7,6 @@ use App\Http\Requests\StoreSivRequest;
 use App\Http\Requests\UpdateSivRequest;
 use App\Models\Customer;
 use App\Models\Siv;
-use App\Models\Warehouse;
 use App\Notifications\SivPrepared;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -36,7 +35,7 @@ class SivController extends Controller
 
     public function create()
     {
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('siv'))->get(['id', 'name']);
+        $warehouses = user()->getAllowedWarehouses('siv');
 
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
@@ -71,7 +70,7 @@ class SivController extends Controller
     {
         $siv->load(['sivDetails.product', 'sivDetails.warehouse']);
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('siv'))->get(['id', 'name']);
+        $warehouses = user()->getAllowedWarehouses('siv');
 
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
