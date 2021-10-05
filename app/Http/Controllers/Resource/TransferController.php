@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTransferRequest;
 use App\Http\Requests\UpdateTransferRequest;
 use App\Models\Transfer;
+use App\Models\Warehouse;
 use App\Notifications\TransferPrepared;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -38,7 +39,7 @@ class TransferController extends Controller
 
     public function create()
     {
-        $fromWarehouses = user()->getAllowedWarehouses('transfer_from');
+        $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
         $toWarehouses = user()->getAllowedWarehouses('transfer_to');
 
@@ -73,7 +74,7 @@ class TransferController extends Controller
     {
         $transfer->load(['transferDetails.product', 'transferredFrom', 'transferredTo']);
 
-        $fromWarehouses = user()->getAllowedWarehouses('transfer_from');
+        $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
         $toWarehouses = user()->getAllowedWarehouses('transfer_to');
 
