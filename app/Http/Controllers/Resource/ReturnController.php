@@ -40,7 +40,7 @@ class ReturnController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->addWarehouses())->get(['id', 'name']);
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('add'))->get(['id', 'name']);
 
         $currentReturnCode = Returnn::byBranch()->max('code') + 1;
 
@@ -73,7 +73,7 @@ class ReturnController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->addWarehouses())->get(['id', 'name']);
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('add'))->get(['id', 'name']);
 
         $return->load(['returnDetails.product', 'returnDetails.warehouse']);
 

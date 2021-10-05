@@ -39,7 +39,7 @@ class GrnController extends Controller
 
     public function create()
     {
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->addWarehouses())->get(['id', 'name']);
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('add'))->get(['id', 'name']);
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
@@ -76,7 +76,7 @@ class GrnController extends Controller
     {
         $grn->load(['grnDetails.product', 'grnDetails.warehouse', 'supplier', 'purchase']);
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->addWarehouses())->get(['id', 'name']);
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('add'))->get(['id', 'name']);
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 

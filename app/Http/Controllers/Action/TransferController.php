@@ -35,7 +35,7 @@ class TransferController extends Controller
         );
 
         abort_if(
-            $transfer->isSubtracted() && !auth()->user()->addWarehouses()->contains($transfer->transferred_to),
+            $transfer->isSubtracted() && !user()->getAllowedWarehouses('add')->contains($transfer->transferred_to),
             403
         );
 

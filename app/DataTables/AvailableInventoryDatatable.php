@@ -15,7 +15,7 @@ class AvailableInventoryDatatable extends DataTable
     public function __construct()
     {
         $this->warehouses = Warehouse::orderBy('name')
-            ->whereIn('id', auth()->user()->readWarehouses())
+            ->whereIn('id', user()->getAllowedWarehouses('read'))
             ->get(['id', 'name']);
     }
 
@@ -70,7 +70,7 @@ class AvailableInventoryDatatable extends DataTable
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
             ->where('merchandises.company_id', '=', userCompany()->id)
             ->where('merchandises.available', '>', 0)
-            ->whereIn('warehouses.id', auth()->user()->readWarehouses())
+            ->whereIn('warehouses.id', user()->getAllowedWarehouses('read'))
             ->select([
                 'merchandises.available as available',
                 'products.id as product_id',
