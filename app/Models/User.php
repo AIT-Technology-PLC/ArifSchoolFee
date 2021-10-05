@@ -78,4 +78,18 @@ class User extends Authenticatable
 
         return [$this->warehouse_id];
     }
+
+    public function hasWarehousePermission($type, $warehouseId)
+    {
+        return $this->getAllowedWarehouses($type)->contains($warehouseId);
+    }
+
+    public function getAllowedWarehouses($type)
+    {
+        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
+            return Warehouse::orderBy('name')->pluck('id');
+        }
+
+        return $this->warehouses()->wherePivot('type', $type)->pluck('warehouse_id');
+    }
 }
