@@ -41,7 +41,7 @@ class TransferController extends Controller
     {
         $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        $toWarehouses = user()->getAllowedWarehouses('transfer_to');
+        $toWarehouses = user()->getAllowedWarehouses('add');
 
         $currentTransferCode = Transfer::byBranch()->max('code') + 1;
 
@@ -76,7 +76,7 @@ class TransferController extends Controller
 
         $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        $toWarehouses = user()->getAllowedWarehouses('transfer_to');
+        $toWarehouses = user()->getAllowedWarehouses('add');
 
         return view('transfers.edit', compact('transfer', 'fromWarehouses', 'toWarehouses'));
     }

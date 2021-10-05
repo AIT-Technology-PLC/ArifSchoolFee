@@ -183,7 +183,7 @@
                                 </div>
                             </div>
                             <div class="column is-3">
-                                <label for="subtract[]" class="label text-green"> Subtract <sup class="has-text-weight-light is-size-7">(Damage)</sup> </label>
+                                <label for="subtract[]" class="label text-green"> Subtract <sup class="has-text-weight-light is-size-7">(Transfer, Damage)</sup> </label>
                                 <div class="field">
                                     @foreach ($warehouses as $warehouse)
                                         <label class="checkbox mr-3 has-text-grey has-text-weight-light">
@@ -200,7 +200,7 @@
                                 </div>
                             </div>
                             <div class="column is-3">
-                                <label for="add[]" class="label text-green"> Add <sup class="has-text-weight-light is-size-7">(Return, GRN)</sup> </label>
+                                <label for="add[]" class="label text-green"> Add <sup class="has-text-weight-light is-size-7">(Transfer, Return, GRN)</sup> </label>
                                 <div class="field">
                                     @foreach ($warehouses as $warehouse)
                                         <label class="checkbox mr-3 has-text-grey has-text-weight-light">
@@ -210,40 +210,6 @@
                                         <br>
                                     @endforeach
                                     @error('add.*')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="column is-3">
-                                <label for="transfer_from[]" class="label text-green"> Transfer From <sup class="has-text-danger"></sup> </label>
-                                <div class="field">
-                                    @foreach ($warehouses as $warehouse)
-                                        <label class="checkbox mr-3 has-text-grey has-text-weight-light">
-                                            <input name="transfer_from[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['transfer_from']) ? ($warehousePermissions['transfer_from']->contains($warehouse) == $warehouse->id ? 'checked' : '') : '' }}>
-                                            {{ $warehouse->name }}
-                                        </label>
-                                        <br>
-                                    @endforeach
-                                    @error('transfer_from.*')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="column is-3">
-                                <label for="transfer_to[]" class="label text-green"> Transfer To <sup class="has-text-danger"></sup> </label>
-                                <div class="field">
-                                    @foreach ($warehouses as $warehouse)
-                                        <label class="checkbox mr-3 has-text-grey has-text-weight-light">
-                                            <input name="transfer_to[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['transfer_to']) ? ($warehousePermissions['transfer_to']->contains($warehouse) == $warehouse->id ? 'checked' : '') : '' }}>
-                                            {{ $warehouse->name }}
-                                        </label>
-                                        <br>
-                                    @endforeach
-                                    @error('transfer_to.*')
                                         <span class="help has-text-danger" role="alert">
                                             {{ $message }}
                                         </span>
