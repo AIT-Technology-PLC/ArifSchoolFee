@@ -52,7 +52,7 @@ class TransferController extends Controller
                 return $result;
             }
 
-            $transfer->isSubtracted() ? $transfer->add() : $transfer->subtract();
+            $transfer->transfer();
 
             Notification::send(
                 notifiables('Approve Transfer', $transfer->createdBy),

@@ -50,4 +50,9 @@ class Transfer extends Model
             ->latest()
             ->get();
     }
+
+    public function transfer()
+    {
+        $this->isSubtracted() ? $this->add() : $this->subtract();
+    }
 }
