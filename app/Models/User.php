@@ -43,15 +43,6 @@ class User extends Authenticatable
         return $this->employee->enabled;
     }
 
-    public function assignedWarehouse()
-    {
-        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return Warehouse::orderBy('name')->pluck('id');
-        }
-
-        return [$this->warehouse_id];
-    }
-
     public function hasWarehousePermission($type, $warehouse)
     {
         return $this->getAllowedWarehouses($type)->contains($warehouse);
@@ -59,13 +50,22 @@ class User extends Authenticatable
 
     public function getAllowedWarehouses($type)
     {
+        $withOnlyCanBeSoldFromBranches = $type == 'sales' ? true : false;
+
         if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return Warehouse::orderBy('name')->get(['id', 'name']);
+            return Warehouse::orderBy('name')
+                ->when($withOnlyCanBeSoldFromBranches, function ($query) {
+                    return $query->where('can_be_sold_from', 1);
+                })
+                ->get(['id', 'name']);
         }
 
         return $this->warehouses()
             ->wherePivot('type', $type)
             ->orderBy('warehouses.name')
+            ->when($withOnlyCanBeSoldFromBranches, function ($query) {
+                return $query->where('warehouses.can_be_sold_from', 1);
+            })
             ->get(['warehouses.id', 'warehouses.name']);
     }
 }
