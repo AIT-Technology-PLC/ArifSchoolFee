@@ -85,4 +85,9 @@ class Warehouse extends Model
                 ->orWhere('reserved', '>', 0);
         });
     }
+
+    public function canBeSoldFrom()
+    {
+        return $this->can_be_sold_from;
+    }
 }
