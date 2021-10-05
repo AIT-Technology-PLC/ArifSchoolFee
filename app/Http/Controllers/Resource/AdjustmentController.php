@@ -37,7 +37,7 @@ class AdjustmentController extends Controller
 
     public function create()
     {
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('adjustment'))->get(['id', 'name']);
 
         $currentAdjustmentCode = Adjustment::byBranch()->max('code') + 1;
 
@@ -70,7 +70,7 @@ class AdjustmentController extends Controller
     {
         $adjustment->load(['adjustmentDetails.warehouse', 'adjustmentDetails.product']);
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('adjustment'))->get(['id', 'name']);
 
         return view('adjustments.edit', compact('adjustment', 'warehouses'));
     }

@@ -43,7 +43,7 @@ class GdnController extends Controller
 
         $sales = (new Sale)->getAll();
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('subtract'))->get(['id', 'name']);
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('sales'))->get(['id', 'name']);
 
         $currentGdnCode = Gdn::byBranch()->max('code') + 1;
 
@@ -82,7 +82,7 @@ class GdnController extends Controller
 
         $sales = (new Sale)->getAll();
 
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('subtract'))->get(['id', 'name']);
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('sales'))->get(['id', 'name']);
 
         $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse']);
 

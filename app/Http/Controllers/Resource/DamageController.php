@@ -37,7 +37,7 @@ class DamageController extends Controller
 
     public function create()
     {
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('subtract'))->get(['id', 'name']);
 
         $currentDamageCode = Damage::byBranch()->max('code') + 1;
 
@@ -68,7 +68,7 @@ class DamageController extends Controller
 
     public function edit(Damage $damage)
     {
-        $warehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
+        $warehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('subtract'))->get(['id', 'name']);
 
         $damage->load(['damageDetails.product', 'damageDetails.warehouse']);
 

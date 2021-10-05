@@ -39,9 +39,9 @@ class TransferController extends Controller
 
     public function create()
     {
-        $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
+        $fromWarehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('transfer_from'))->get(['id', 'name']);
 
-        $toWarehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
+        $toWarehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('transfer_to'))->get(['id', 'name']);
 
         $currentTransferCode = Transfer::byBranch()->max('code') + 1;
 
@@ -74,9 +74,9 @@ class TransferController extends Controller
     {
         $transfer->load(['transferDetails.product', 'transferredFrom', 'transferredTo']);
 
-        $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
+        $fromWarehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('transfer_from'))->get(['id', 'name']);
 
-        $toWarehouses = Warehouse::orderBy('name')->whereIn('id', auth()->user()->assignedWarehouse())->get(['id', 'name']);
+        $toWarehouses = Warehouse::orderBy('name')->whereIn('id', user()->getAllowedWarehouses('transfer_to'))->get(['id', 'name']);
 
         return view('transfers.edit', compact('transfer', 'fromWarehouses', 'toWarehouses'));
     }
