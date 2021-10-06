@@ -26,6 +26,11 @@ class Damage extends Model
         return $this->hasMany(DamageDetail::class);
     }
 
+    public function details()
+    {
+        return $this->damageDetails;
+    }
+
     public function getAll()
     {
         if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
