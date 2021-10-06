@@ -298,7 +298,7 @@
                     <br>
                 @endforeach
             </div>
-            <x-success-message :message="session('successMessage')" :class="session('successMessage') ? '' : 'is-hidden'" />
+            <x-success-message :message="session('successMessage')" />
             @if ($gdn->isApproved() && $gdn->isSubtracted())
                 <x-success-message message="Products have been subtracted from inventory." />
             @endif
