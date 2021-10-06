@@ -2,28 +2,40 @@
 
 namespace App\Http\Controllers\Action;
 
+use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Gdn;
 use App\Models\Reservation;
 use App\Notifications\GdnPrepared;
+use App\Notifications\ReservationApproved;
 use App\Notifications\ReservationCancelled;
 use App\Notifications\ReservationConverted;
 use App\Notifications\ReservationMade;
 use App\Services\InventoryOperationService;
-use App\Traits\ApproveInventory;
 use App\Traits\SubtractInventory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class ReservationController extends Controller
 {
-    use SubtractInventory, ApproveInventory;
+    use SubtractInventory;
 
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Reservation Management');
+    }
 
-        $this->permission = 'Make Reservation';
+    public function approve(Reservation $reservation, ApproveTransactionAction $action)
+    {
+        $this->authorize('approve', $reservation);
+
+        [$isExecuted, $message] = $action->execute($reservation, ReservationApproved::class, 'Make Reservation');
+
+        if (!$isExecuted) {
+            return redirect()->back()->with('failedMessage', $message);
+        }
+
+        return redirect()->back()->with('successMessage', $message);
     }
 
     public function reserve(Reservation $reservation)
