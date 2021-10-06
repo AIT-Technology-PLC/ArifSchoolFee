@@ -259,6 +259,21 @@
                                     Edit
                                 </span>
                             </a>
+                            @if (!$reservation->reservable->isSubtracted())
+                                @can('Cancel Reservation')
+                                    <form id="formOne" class="is-inline" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate>
+                                        @csrf
+                                        <button data-type="Reservation" data-action="cancel" data-description="" class="swal button bg-purple has-text-white is-small is-inline">
+                                            <span class="icon">
+                                                <i class="fas fa-times-circle"></i>
+                                            </span>
+                                            <span>
+                                                Cancel Reservation
+                                            </span>
+                                        </button>
+                                    </form>
+                                @endcan
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -290,21 +305,6 @@
                 </div>
             @elseif ($reservation->isConverted())
                 <x-success-message message="This reservation is successfully converted to Delivery Order" />
-                @if (!$reservation->reservable->isSubtracted())
-                    @can('Cancel Reservation')
-                        <form id="formOne" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate>
-                            @csrf
-                            <button data-type="Reservation" data-action="cancel" data-description="" class="swal button bg-purple has-text-white is-size-7-mobile">
-                                <span class="icon">
-                                    <i class="fas fa-times-circle"></i>
-                                </span>
-                                <span>
-                                    Cancel Reservation
-                                </span>
-                            </button>
-                        </form>
-                    @endcan
-                @endif
             @elseif ($reservation->isReserved())
                 <div class="box has-background-white-ter has-text-left mb-6">
                     <p class="has-text-grey text-purple is-size-6">
