@@ -27,18 +27,7 @@
                         </p>
                     </div>
                 @endif
-                @if (session('successMessage'))
-                    <div class="box is-shadowless bg-lightgreen has-text-left mb-0">
-                        <p class="has-text-grey text-green is-size-6">
-                            <span class="icon">
-                                <i class="fas fa-check-circle"></i>
-                            </span>
-                            <span>
-                                {{ session('successMessage') }}
-                            </span>
-                        </p>
-                    </div>
-                @endif
+                <x-success-message :message="session('successMessage')" />
                 <div class="columns is-marginless is-multiline is-centered">
                     <div class="column is-5">
                         <div class="field">
