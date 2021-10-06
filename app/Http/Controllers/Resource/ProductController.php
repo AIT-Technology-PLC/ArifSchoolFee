@@ -9,12 +9,9 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Supplier;
-use App\Traits\HasOptions;
 
 class ProductController extends Controller
 {
-    use HasOptions;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Product Management');
@@ -35,9 +32,7 @@ class ProductController extends Controller
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        $inventoryTypes = $this->getInventoryTypes();
-
-        return view('products.create', compact('categories', 'suppliers', 'inventoryTypes'));
+        return view('products.create', compact('categories', 'suppliers'));
     }
 
     public function store(StoreProductRequest $request)
@@ -56,9 +51,7 @@ class ProductController extends Controller
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        $inventoryTypes = $this->getInventoryTypes();
-
-        return view('products.edit', compact('product', 'categories', 'suppliers', 'inventoryTypes'));
+        return view('products.edit', compact('product', 'categories', 'suppliers'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)

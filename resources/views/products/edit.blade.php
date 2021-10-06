@@ -22,10 +22,7 @@
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="type" name="type">
-                                        <option selected disabled>Type</option>
-                                        @foreach ($inventoryTypes as $inventoryType)
-                                            <option value="{{ $inventoryType }}" {{ $product->type == $inventoryType ? 'selected' : '' }}>{{ $inventoryType }}</option>
-                                        @endforeach
+                                        <x-inventory-type-options :type="$product->type" />
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
