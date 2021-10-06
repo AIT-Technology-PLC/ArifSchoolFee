@@ -2,27 +2,35 @@
 
 namespace App\Http\Controllers\Action;
 
+use App\Actions\ApproveTransactionAction;
 use App\Actions\ConvertToSivAction;
 use App\Http\Controllers\Controller;
 use App\Models\Siv;
 use App\Models\Transfer;
+use App\Notifications\TransferApproved;
 use App\Notifications\TransferMade;
 use App\Services\InventoryOperationService;
-use App\Traits\ApproveInventory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class TransferController extends Controller
 {
-    use ApproveInventory;
-
-    private $permission;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Transfer Management');
+    }
 
-        $this->permission = 'Make Transfer';
+    public function approve(Transfer $transfer, ApproveTransactionAction $action)
+    {
+        $this->authorize('approve', $transfer);
+
+        [$isExecuted, $message] = $action->execute($transfer, TransferApproved::class, 'Make Transfer');
+
+        if (!$isExecuted) {
+            return redirect()->back()->with('failedMessage', $message);
+        }
+
+        return redirect()->back()->with('successMessage', $message);
     }
 
     public function transfer(Transfer $transfer)
