@@ -27,16 +27,7 @@
                 </div>
                 <p class="mx-3">
                     @if ($totalGeneralTenderChecklists > 0 && $totalGeneralTenderChecklists == $tender->tender_checklists_count)
-                        <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
-                            <p class="has-text-centered text-green">
-                                <span class="icon">
-                                    <i class="fas fa-check-circle"></i>
-                                </span>
-                                <span>
-                                    All checklists are already selected
-                                </span>
-                            </p>
-                        </div>
+                        <x-success-message message="All checklists are already selected" />
                     @elseif($totalGeneralTenderChecklists == 0)
                         <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
                             <p class="has-text-centered text-purple">

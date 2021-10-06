@@ -184,16 +184,7 @@
                     </form>
                 </div>
             @else
-                <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
-                    <p class="has-text-grey text-green is-size-6">
-                        <span class="icon">
-                            <i class="fas fa-check-circle"></i>
-                        </span>
-                        <span>
-                            This PO is closed.
-                        </span>
-                    </p>
-                </div>
+                <x-success-message message="This PO is closed." />
             @endif
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
