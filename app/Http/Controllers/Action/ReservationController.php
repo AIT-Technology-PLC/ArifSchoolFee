@@ -12,14 +12,11 @@ use App\Notifications\ReservationCancelled;
 use App\Notifications\ReservationConverted;
 use App\Notifications\ReservationMade;
 use App\Services\InventoryOperationService;
-use App\Traits\SubtractInventory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class ReservationController extends Controller
 {
-    use SubtractInventory;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Reservation Management');
