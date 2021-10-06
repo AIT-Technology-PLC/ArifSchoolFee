@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Action;
 
+use App\Actions\AddToInventoryAction;
 use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Grn;
+use App\Notifications\GrnAdded;
 use App\Notifications\GrnApproved;
 use App\Traits\AddInventory;
 
@@ -22,6 +24,19 @@ class GrnController extends Controller
         $this->authorize('approve', $grn);
 
         [$isExecuted, $message] = $action->execute($grn, GrnApproved::class, 'Add GRN');
+
+        if (!$isExecuted) {
+            return redirect()->back()->with('failedMessage', $message);
+        }
+
+        return redirect()->back()->with('successMessage', $message);
+    }
+
+    public function add(Grn $grn, AddToInventoryAction $action)
+    {
+        $this->authorize('add', $grn);;
+
+        [$isExecuted, $message] = $action->execute($grn, GrnAdded::class, 'Approve GRN');
 
         if (!$isExecuted) {
             return redirect()->back()->with('failedMessage', $message);

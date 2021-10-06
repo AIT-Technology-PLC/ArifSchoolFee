@@ -10,13 +10,13 @@ class AddToInventoryAction
 {
     private const ADD_FAILED_MESSAGE = 'This transaction is already added to inventory';
 
-    private const APPROVE_FAILED_MESSAGE = 'This transaction is already approved';
+    private const APPROVE_FAILED_MESSAGE = 'This transaction is not approved yet.';
 
     private const SUCCESS_MESSAGE = 'Products have been added to inventory successfully';
 
     public function execute($model, $notification, $permission)
     {
-        if ($model->isApproved()) {
+        if (!$model->isApproved()) {
             return [false, static::APPROVE_FAILED_MESSAGE];
         }
 
