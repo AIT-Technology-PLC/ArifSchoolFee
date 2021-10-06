@@ -2,25 +2,33 @@
 
 namespace App\Http\Controllers\Action;
 
+use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Adjustment;
+use App\Notifications\AdjustmentApproved;
 use App\Notifications\AdjustmentMade;
 use App\Services\InventoryOperationService;
-use App\Traits\ApproveInventory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class AdjustmentController extends Controller
 {
-    use ApproveInventory;
-
-    private $permission;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Inventory Adjustment');
+    }
 
-        $this->permission = 'Make Adjustment';
+    public function approve(Adjustment $adjustment, ApproveTransactionAction $action)
+    {
+        $this->authorize('approve', $adjustment);
+
+        [$isExecuted, $message] = $action->execute($adjustment, AdjustmentApproved::class, 'Make Adjustment');
+
+        if (!$isExecuted) {
+            return redirect()->back()->with('failedMessage', $message);
+        }
+
+        return redirect()->back()->with('successMessage', $message);
     }
 
     public function adjust(Adjustment $adjustment)
