@@ -35,6 +35,11 @@ class Grn extends Model
         return $this->hasMany(GrnDetail::class);
     }
 
+    public function details()
+    {
+        return $this->grnDetails;
+    }
+
     public function getAll()
     {
         if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
