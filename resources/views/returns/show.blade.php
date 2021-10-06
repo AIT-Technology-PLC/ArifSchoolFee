@@ -157,25 +157,9 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            <div class="notification bg-green has-text-white has-text-weight-medium {{ session('successMessage') ? '' : 'is-hidden' }}">
-                <span class="icon">
-                    <i class="fas fa-check-circle"></i>
-                </span>
-                <span>
-                    {{ session('successMessage') }}
-                </span>
-            </div>
+            <x-success-message :message="session('successMessage')" />
             @if ($return->isApproved() && $return->isAdded())
-                <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
-                    <p class="has-text-grey text-green is-size-6">
-                        <span class="icon">
-                            <i class="fas fa-check-circle"></i>
-                        </span>
-                        <span>
-                            Products have been added to the inventory.
-                        </span>
-                    </p>
-                </div>
+                <x-success-message message="Products have been added to the inventory." />
             @endif
             @if ($return->isApproved() && !$return->isAdded())
                 @can('Make Return')

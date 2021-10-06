@@ -48,6 +48,6 @@ class ReturnController extends Controller
             return redirect()->back()->with('failedMessage', $message);
         }
 
-        return redirect()->back()->with('successMessage', $message);
+        return redirect()->back();
     }
 }
