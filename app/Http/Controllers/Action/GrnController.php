@@ -8,12 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Grn;
 use App\Notifications\GrnAdded;
 use App\Notifications\GrnApproved;
-use App\Traits\AddInventory;
 
 class GrnController extends Controller
 {
-    use AddInventory;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Grn Management');
@@ -34,7 +31,7 @@ class GrnController extends Controller
 
     public function add(Grn $grn, AddToInventoryAction $action)
     {
-        $this->authorize('add', $grn);;
+        $this->authorize('add', $grn);
 
         [$isExecuted, $message] = $action->execute($grn, GrnAdded::class, 'Approve GRN');
 
