@@ -276,14 +276,7 @@
                     <br>
                 @endforeach
             </div>
-            <div class="notification bg-green has-text-white has-text-weight-medium {{ session('successMessage') ? '' : 'is-hidden' }}">
-                <span class="icon">
-                    <i class="fas fa-check-circle"></i>
-                </span>
-                <span>
-                    {{ session('successMessage') }}
-                </span>
-            </div>
+            <x-success-message :message="session('successMessage')" />
             @if ($reservation->isCancelled())
                 <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
                     <p class="has-text-grey text-purple is-size-6">
@@ -297,14 +290,7 @@
                 </div>
             @elseif ($reservation->isConverted())
                 <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
-                    <p class="has-text-grey text-green is-size-6">
-                        <span class="icon">
-                            <i class="fas fa-check-circle"></i>
-                        </span>
-                        <span>
-                            This reservation is successfully converted to Delivery Order
-                        </span>
-                    </p>
+                    <x-success-message message="This reservation is successfully converted to Delivery Order" />
                     @if (!$reservation->reservable->isSubtracted())
                         @can('Cancel Reservation')
                             <form id="formOne" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate>
