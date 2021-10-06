@@ -37,9 +37,7 @@ class ProductController extends Controller
 
         $inventoryTypes = $this->getInventoryTypes();
 
-        $unitTypes = $this->getMeasurementUnits();
-
-        return view('products.create', compact('categories', 'suppliers', 'inventoryTypes', 'unitTypes'));
+        return view('products.create', compact('categories', 'suppliers', 'inventoryTypes'));
     }
 
     public function store(StoreProductRequest $request)
@@ -60,9 +58,7 @@ class ProductController extends Controller
 
         $inventoryTypes = $this->getInventoryTypes();
 
-        $unitTypes = $this->getMeasurementUnits();
-
-        return view('products.edit', compact('product', 'categories', 'suppliers', 'inventoryTypes', 'unitTypes'));
+        return view('products.edit', compact('product', 'categories', 'suppliers', 'inventoryTypes'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)

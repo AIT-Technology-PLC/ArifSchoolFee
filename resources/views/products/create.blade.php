@@ -100,10 +100,7 @@
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="unit_of_measurement" name="unit_of_measurement">
-                                        <option selected disabled>Category</option>
-                                        @foreach ($unitTypes as $unitType)
-                                            <option value="{{ $unitType }}" {{ old('unit_of_measurement') == $unitType ? 'selected' : '' }}>{{ $unitType }}</option>
-                                        @endforeach
+                                        <x-measurement-unit-options :selectedUnitType="old('unit_of_measurement')" />
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
