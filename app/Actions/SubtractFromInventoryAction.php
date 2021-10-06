@@ -14,17 +14,9 @@ class SubtractFromInventoryAction
 
     private const SUCCESS_MESSAGE = 'Products have been subtracted from inventory successfully';
 
-    public function execute($model, $notification, $permission, $from = 'available')
+    private function subtractFromInventory($model, $notification, $permission, $from)
     {
-        if (!$model->isApproved()) {
-            return [false, static::APPROVE_FAILED_MESSAGE];
-        }
-
-        if ($model->isSubtracted()) {
-            return [false, static::SUBTRACT_FAILED_MESSAGE];
-        }
-
-        DB::transaction(function () use ($model, $notification, $permission, $from) {
+        return DB::transaction(function () use ($model, $notification, $permission, $from) {
             $result = InventoryOperationService::subtract($model->details(), $from);
 
             if (!$result['isSubtracted']) {
@@ -37,8 +29,23 @@ class SubtractFromInventoryAction
                 notifiables($permission, $model->createdBy),
                 new $notification($model)
             );
-        });
 
-        return [true, static::SUCCESS_MESSAGE];
+            return [true, static::SUCCESS_MESSAGE];
+        });
+    }
+
+    public function execute($model, $notification, $permission, $from = 'available')
+    {
+        if (!$model->isApproved()) {
+            return [false, static::APPROVE_FAILED_MESSAGE];
+        }
+
+        if ($model->isSubtracted()) {
+            return [false, static::SUBTRACT_FAILED_MESSAGE];
+        }
+
+        $result = $this->subtractFromInventory($model, $notification, $permission, $from);
+
+        return $result;
     }
 }
