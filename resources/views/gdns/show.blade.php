@@ -298,25 +298,9 @@
                     <br>
                 @endforeach
             </div>
-            <div class="notification bg-green has-text-white has-text-weight-medium {{ session('successMessage') ? '' : 'is-hidden' }}">
-                <span class="icon">
-                    <i class="fas fa-check-circle"></i>
-                </span>
-                <span>
-                    {{ session('successMessage') }}
-                </span>
-            </div>
+            <x-success-message :message="session('successMessage')" :class="session('successMessage') ? '' : 'is-hidden'" />
             @if ($gdn->isApproved() && $gdn->isSubtracted())
-                <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
-                    <p class="has-text-grey text-green is-size-6">
-                        <span class="icon">
-                            <i class="fas fa-check-circle"></i>
-                        </span>
-                        <span>
-                            Products have been subtracted from inventory.
-                        </span>
-                    </p>
-                </div>
+                <x-success-message message="Products have been subtracted from inventory." />
             @endif
             @if ($gdn->isApproved() && !$gdn->isSubtracted())
                 @can('Subtract GDN')
