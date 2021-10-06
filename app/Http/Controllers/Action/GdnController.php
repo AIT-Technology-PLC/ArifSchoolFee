@@ -2,24 +2,34 @@
 
 namespace App\Http\Controllers\Action;
 
+use App\Actions\ApproveTransactionAction;
 use App\Actions\ConvertToSivAction;
 use App\Http\Controllers\Controller;
 use App\Models\Gdn;
 use App\Models\Siv;
-use App\Traits\ApproveInventory;
+use App\Notifications\GdnApproved;
 use App\Traits\SubtractInventory;
 
 class GdnController extends Controller
 {
-    use SubtractInventory, ApproveInventory;
-
-    private $permission;
+    use SubtractInventory;
 
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Gdn Management');
+    }
 
-        $this->permission = 'Subtract GDN';
+    public function approve(Gdn $gdn, ApproveTransactionAction $action)
+    {
+        $this->authorize('approve', $gdn);
+
+        [$isExecuted, $message] = $action->execute($gdn, GdnApproved::class, 'Subtract GDN');
+
+        if (!$isExecuted) {
+            return redirect()->back()->with('failedMessage', $message);
+        }
+
+        return redirect()->back()->with('successMessage', $message);
     }
 
     public function printed(Gdn $gdn)
