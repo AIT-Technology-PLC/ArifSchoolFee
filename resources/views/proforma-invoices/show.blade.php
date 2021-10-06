@@ -237,14 +237,7 @@
                     <br>
                 @endforeach
             </div>
-            <div class="notification bg-green has-text-white has-text-weight-medium {{ session('successMessage') ? '' : 'is-hidden' }}">
-                <span class="icon">
-                    <i class="fas fa-check-circle"></i>
-                </span>
-                <span>
-                    {{ session('successMessage') }}
-                </span>
-            </div>
+            <x-success-message :message="session('successMessage')" />
             @if ($proformaInvoice->isCancelled())
                 <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
                     <p class="text-purple is-size-6">
@@ -258,16 +251,7 @@
                 </div>
             @endif
             @if ($proformaInvoice->isConverted())
-                <div class="box is-shadowless bg-lightgreen has-text-left mb-6">
-                    <p class="text-green is-size-6">
-                        <span class="icon">
-                            <i class="fas fa-check-circle"></i>
-                        </span>
-                        <span>
-                            This Proforma Invoice has been confirmed.
-                        </span>
-                    </p>
-                </div>
+                <x-success-message message="This Proforma Invoice has been confirmed." />
             @endif
             @if ($proformaInvoice->isPending())
                 <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
