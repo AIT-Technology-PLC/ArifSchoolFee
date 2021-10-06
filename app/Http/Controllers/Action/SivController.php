@@ -2,21 +2,29 @@
 
 namespace App\Http\Controllers\Action;
 
+use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Siv;
-use App\Traits\ApproveInventory;
+use App\Notifications\SivApproved;
 
 class SivController extends Controller
 {
-    use ApproveInventory;
-
-    private $permission;
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Siv Management');
+    }
 
-        $this->permission = 'Approve SIV';
+    public function approve(Siv $siv, ApproveTransactionAction $action)
+    {
+        $this->authorize('approve', $siv);
+
+        [$isExecuted, $message] = $action->execute($siv, SivApproved::class, 'Approve SIV');
+
+        if (!$isExecuted) {
+            return redirect()->back()->with('failedMessage', $message);
+        }
+
+        return redirect()->back()->with('successMessage', $message);
     }
 
     public function printed(Siv $siv)
