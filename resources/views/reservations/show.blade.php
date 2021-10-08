@@ -259,7 +259,7 @@
                                     Edit
                                 </span>
                             </a>
-                            @if (!$reservation->reservable->isSubtracted())
+                            @if ($reservation->reservable && !$reservation->reservable->isSubtracted())
                                 @can('Cancel Reservation')
                                     <form id="formOne" class="is-inline" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate>
                                         @csrf

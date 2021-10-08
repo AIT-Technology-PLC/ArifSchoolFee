@@ -10,16 +10,20 @@ use App\Notifications\GdnPrepared;
 use App\Notifications\ReservationApproved;
 use App\Notifications\ReservationCancelled;
 use App\Notifications\ReservationConverted;
-use App\Notifications\ReservationMade;
 use App\Services\InventoryOperationService;
+use App\Services\ReservationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class ReservationController extends Controller
 {
-    public function __construct()
+    private $reservationService;
+
+    public function __construct(ReservationService $reservationService)
     {
         $this->middleware('isFeatureAccessible:Reservation Management');
+
+        $this->reservationService = $reservationService;
     }
 
     public function approve(Reservation $reservation, ApproveTransactionAction $action)
@@ -39,31 +43,13 @@ class ReservationController extends Controller
     {
         $this->authorize('reserve', $reservation);
 
-        if (!$reservation->isApproved()) {
-            return back()->with('failedMessage', 'This reservation is not approved yet.');
+        [$isExecuted, $message] = $this->reservationService->reserve($reservation);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
 
-        $result = DB::transaction(function () use ($reservation) {
-            $result = InventoryOperationService::reserve($reservation->reservationDetails);
-
-            if (!$result['isReserved']) {
-                DB::rollBack();
-
-                return $result;
-            }
-
-            $reservation->reserve();
-
-            Notification::send(
-                notifiables('Approve Reservation', $reservation->createdBy),
-                new ReservationMade($reservation)
-            );
-
-            return $result;
-        });
-
-        return $result['isReserved'] ? back() :
-        back()->with('failedMessage', $result['unavailableProducts']);
+        return back();
     }
 
     public function cancel(Reservation $reservation)
