@@ -139,7 +139,7 @@
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
             <div class="notification bg-lightpurple text-purple {{ session('failedMessage') ? '' : 'is-hidden' }}">
-                @foreach ((array) session('failedMessage') as $message)
+                @foreach (session('failedMessage', []) as $message)
                     <span class="icon">
                         <i class="fas fa-times-circle"></i>
                     </span>
