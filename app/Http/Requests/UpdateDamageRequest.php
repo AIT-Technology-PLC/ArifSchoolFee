@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -17,8 +18,8 @@ class UpdateDamageRequest extends FormRequest
         return [
             'code' => ['required', 'string', new UniqueReferenceNum('damages', $this->route('damage')->id)],
             'damage' => ['required', 'array'],
-            'damage.*.product_id' => ['required', 'integer'],
-            'damage.*.warehouse_id' => ['required', 'integer'],
+            'damage.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'damage.*.warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
             'damage.*.quantity' => ['required', 'numeric', 'min:1'],
             'damage.*.description' => ['nullable', 'string'],
             'issued_on' => ['required', 'date'],
