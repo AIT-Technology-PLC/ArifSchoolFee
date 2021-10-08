@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -17,10 +18,10 @@ class StoreSaleRequest extends FormRequest
         return [
             'code' => ['required', 'string', new UniqueReferenceNum('sales')],
             'sale' => ['required', 'array'],
-            'sale.*.product_id' => ['required', 'integer'],
+            'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'sale.*.quantity' => ['required', 'numeric', 'min:1'],
             'sale.*.unit_price' => ['required', 'numeric'],
-            'customer_id' => ['nullable', 'integer'],
+            'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
             'sold_on' => ['required', 'date'],
             'payment_type' => ['required', 'string'],
             'description' => ['nullable', 'string'],

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -19,8 +20,8 @@ class StoreSivRequest extends FormRequest
             'purpose' => ['nullable', 'string'],
             'ref_num' => ['nullable', 'required_unless:purpose,null', 'prohibited_if:purpose,null', 'string'],
             'siv' => ['required', 'array'],
-            'siv.*.product_id' => ['required', 'integer'],
-            'siv.*.warehouse_id' => ['required', 'integer'],
+            'siv.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'siv.*.warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
             'siv.*.quantity' => ['required', 'numeric', 'min:1'],
             'siv.*.description' => ['nullable', 'string'],
             'issued_on' => ['required', 'date'],

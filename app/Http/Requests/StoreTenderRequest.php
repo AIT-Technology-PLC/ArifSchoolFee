@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MustBelongToCompany;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTenderRequest extends FormRequest
@@ -29,10 +30,10 @@ class StoreTenderRequest extends FormRequest
             'clarify_on' => ['nullable', 'date', 'after:published_on'],
             'visit_on' => ['nullable', 'date', 'after:published_on'],
             'premeet_on' => ['nullable', 'date', 'after:published_on'],
-            'customer_id' => ['nullable', 'integer'],
+            'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
             'description' => ['nullable', 'string'],
             'tender' => ['required', 'array'],
-            'tender.*.product_id' => ['required', 'integer'],
+            'tender.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'tender.*.quantity' => ['required', 'numeric'],
             'tender.*.description' => ['nullable', 'string'],
         ];

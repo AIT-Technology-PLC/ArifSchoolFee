@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\UniqueReferenceNum;
+use App\Rules\MustBelongToCompany;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreGdnRequest extends FormRequest
@@ -17,14 +18,14 @@ class StoreGdnRequest extends FormRequest
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('gdns')],
             'gdn' => ['required', 'array'],
-            'gdn.*.product_id' => ['required', 'integer'],
-            'gdn.*.warehouse_id' => ['required', 'integer'],
+            'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'gdn.*.warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
             'gdn.*.unit_price' => ['nullable', 'numeric'],
             'gdn.*.quantity' => ['required', 'numeric', 'min:1'],
             'gdn.*.description' => ['nullable', 'string'],
             'gdn.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
-            'customer_id' => ['nullable', 'integer'],
-            'sale_id' => ['nullable', 'integer'],
+            'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
+            'sale_id' => ['nullable', 'integer', new MustBelongToCompany('sales')],
             'issued_on' => ['required', 'date'],
             'payment_type' => ['required', 'string'],
             'description' => ['nullable', 'string'],

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MustBelongToCompany;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProductRequest extends FormRequest
@@ -21,8 +22,8 @@ class StoreProductRequest extends FormRequest
             'min_on_hand' => ['required', 'numeric'],
             'description' => ['nullable', 'string'],
             'properties' => ['nullable', 'array'],
-            'product_category_id' => ['required', 'integer'],
-            'supplier_id' => ['nullable', 'integer'],
+            'product_category_id' => ['required', 'integer', new MustBelongToCompany('product_categories')],
+            'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
         ];
     }
 }
