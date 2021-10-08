@@ -45,55 +45,6 @@ class InventoryOperationService
         return ['isSubtracted' => true];
     }
 
-    public static function reserve($details)
-    {
-        if (static::unavailableProducts($details)->isNotEmpty()) {
-            return [
-                'isReserved' => false,
-                'unavailableProducts' => self::$unavailableProducts,
-            ];
-        }
-
-        foreach ($details as $detail) {
-            $type = InventoryTypeFactory::make($detail->product->type);
-
-            $type->subtract(
-                $detail->product_id,
-                $detail->warehouse_id,
-                $detail->quantity,
-            );
-
-            $type->add(
-                $detail->product_id,
-                $detail->warehouse_id,
-                $detail->quantity,
-                'reserved'
-            );
-        }
-
-        return ['isReserved' => true];
-    }
-
-    public static function cancelReservation($details)
-    {
-        foreach ($details as $detail) {
-            $type = InventoryTypeFactory::make($detail->product->type);
-
-            $type->subtract(
-                $detail->product_id,
-                $detail->warehouse_id,
-                $detail->quantity,
-                'reserved'
-            );
-
-            $type->add(
-                $detail->product_id,
-                $detail->warehouse_id,
-                $detail->quantity,
-            );
-        }
-    }
-
     public static function unavailableProducts($details, $in = 'available')
     {
         foreach ($details as $detail) {

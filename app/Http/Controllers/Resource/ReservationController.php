@@ -98,7 +98,8 @@ class ReservationController extends Controller
 
         DB::transaction(function () use ($request, $reservation) {
             if ($reservation->isReserved()) {
-                InventoryOperationService::cancelReservation($reservation->reservationDetails);
+                InventoryOperationService::subtract($reservation->reservationDetails, 'reserved');
+                InventoryOperationService::add($reservation->reservationDetails);
                 Notification::send(notifiables('Approve Reservation'), new ReservationPrepared($reservation));
             }
 
