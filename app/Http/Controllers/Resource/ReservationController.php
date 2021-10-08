@@ -8,17 +8,21 @@ use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Customer;
 use App\Models\Reservation;
 use App\Notifications\ReservationPrepared;
-use App\Services\InventoryOperationService;
+use App\Services\ReservationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class ReservationController extends Controller
 {
-    public function __construct()
+    private $reservationService;
+
+    public function __construct(ReservationService $reservationService)
     {
         $this->middleware('isFeatureAccessible:Reservation Management');
 
         $this->authorizeResource(Reservation::class, 'reservation');
+
+        $this->reservationService = $reservationService;
     }
 
     public function index()
@@ -92,23 +96,12 @@ class ReservationController extends Controller
 
     public function update(UpdateReservationRequest $request, Reservation $reservation)
     {
-        if ($reservation->isCancelled() || $reservation->isConverted()) {
-            return redirect()->route('reservations.show', $reservation->id);
+        [$isExecuted, $message] = $this->reservationService->update($request, $reservation);
+
+        if (!$isExecuted) {
+            return redirect()->route('reservations.show', $reservation->id)
+                ->with('failedMessage', $message);
         }
-
-        DB::transaction(function () use ($request, $reservation) {
-            if ($reservation->isReserved()) {
-                InventoryOperationService::subtract($reservation->reservationDetails, 'reserved');
-                InventoryOperationService::add($reservation->reservationDetails);
-                Notification::send(notifiables('Approve Reservation'), new ReservationPrepared($reservation));
-            }
-
-            $reservation->update($request->except('reservation'));
-
-            for ($i = 0; $i < count($request->reservation); $i++) {
-                $reservation->reservationDetails[$i]->update($request->reservation[$i]);
-            }
-        });
 
         return redirect()->route('reservations.show', $reservation->id);
     }

@@ -7,12 +7,46 @@ use App\Notifications\GdnPrepared;
 use App\Notifications\ReservationCancelled;
 use App\Notifications\ReservationConverted;
 use App\Notifications\ReservationMade;
+use App\Notifications\ReservationPrepared;
 use App\Services\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class ReservationService
 {
+    public function update($request, $reservation)
+    {
+        if ($reservation->isCancelled() || $reservation->isConverted()) {
+            return [false, 'Cancelled or converted reservations can not be edited.'];
+        }
+
+        DB::transaction(function () use ($request, $reservation) {
+            if ($reservation->isReserved()) {
+                InventoryOperationService::subtract($reservation->reservationDetails, 'reserved');
+
+                InventoryOperationService::add($reservation->reservationDetails);
+
+                $reservation->approved_by = null;
+
+                $reservation->reserved_by = null;
+
+                $reservation->save();
+            }
+
+            $reservation->update($request->except('reservation'));
+
+            $reservation
+                ->reservationDetails
+                ->each(function ($reservationDetail, $key) use ($request) {
+                    $reservationDetail->update($request->reservation[$key]);
+                });
+
+            Notification::send(notifiables('Approve Reservation'), new ReservationPrepared($reservation));
+        });
+
+        return [true, ''];
+    }
+
     public function reserve($reservation)
     {
         if (!$reservation->isApproved()) {
