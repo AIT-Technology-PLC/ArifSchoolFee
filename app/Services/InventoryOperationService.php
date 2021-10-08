@@ -24,13 +24,6 @@ class InventoryOperationService
 
     public static function subtract($details, $from = 'available')
     {
-        if (static::unavailableProducts($details, $from)->isNotEmpty()) {
-            return [
-                'isSubtracted' => false,
-                'unavailableProducts' => self::$unavailableProducts,
-            ];
-        }
-
         foreach ($details as $detail) {
             $type = InventoryTypeFactory::make($detail->product->type);
 
@@ -41,8 +34,6 @@ class InventoryOperationService
                 $from
             );
         }
-
-        return ['isSubtracted' => true];
     }
 
     public static function unavailableProducts($details, $in = 'available')
