@@ -44,45 +44,6 @@ class InventoryOperationService
         return ['isSubtracted' => true];
     }
 
-    public static function transfer($details, $isSubtracted)
-    {
-        if (!$isSubtracted) {
-
-            data_fill($details, '*.warehouse_id', $details->first()->transfer->transferred_from);
-
-            data_fill($details, '*.warehouse', $details->first()->transfer->transferredFrom);
-
-            if (static::unavailableProducts($details)->isNotEmpty()) {
-                return [
-                    'isTransferred' => false,
-                    'unavailableProducts' => self::$unavailableProducts,
-                ];
-            }
-        }
-
-        foreach ($details as $detail) {
-            $type = InventoryTypeFactory::make($detail->product->type);
-
-            if ($isSubtracted) {
-                $type->add(
-                    $detail->product_id,
-                    $detail->transfer->transferred_to,
-                    $detail->quantity,
-                );
-            }
-
-            if (!$isSubtracted) {
-                $type->subtract(
-                    $detail->product_id,
-                    $detail->transfer->transferred_from,
-                    $detail->quantity,
-                );
-            }
-        }
-
-        return ['isTransferred' => true];
-    }
-
     public static function reserve($details)
     {
         if (static::unavailableProducts($details)->isNotEmpty()) {
