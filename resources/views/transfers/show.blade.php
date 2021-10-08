@@ -188,9 +188,9 @@
                 @can('Make Transfer')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
-                            Product(s) listed below are still not subtracted.
+                            Product(s) listed below are not subtracted from {{ $transfer->transferredFrom->name }}.
                             <br>
-                            Click on the button below to subtract from inventory.
+                            Click on the button below to subtract.
                         </p>
                         <form id="formOne" action="{{ route('transfers.subtract', $transfer->id) }}" method="post" novalidate>
                             @csrf
@@ -211,7 +211,7 @@
                                 <i class="fas fa-exclamation-circle"></i>
                             </span>
                             <span>
-                                Product(s) listed below are subtracted from {{ $transfer->transferredFrom->name }}.
+                                Product(s) listed below are not subtracted from {{ $transfer->transferredFrom->name }}.
                             </span>
                         </p>
                     </div>
@@ -221,7 +221,7 @@
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
                             Product(s) listed below are subtracted from {{ $transfer->transferredFrom->name }}
-                            but not add to {{ $transfer->transferredTo->name }}.
+                            but not added to {{ $transfer->transferredTo->name }}.
                             <br>
                             Click on the button below to add to inventory.
                         </p>
@@ -244,7 +244,8 @@
                                 <i class="fas fa-exclamation-circle"></i>
                             </span>
                             <span>
-                                Product(s) listed below are still not add to {{ $transfer->transferredTo->name }}.
+                                Product(s) listed below are subtracted from {{ $transfer->transferredFrom->name }}
+                                but not added to {{ $transfer->transferredTo->name }}.
                             </span>
                         </p>
                     </div>
