@@ -8,7 +8,7 @@ class InventoryOperationService
 {
     private static $unavailableProducts = [];
 
-    public static function add($details)
+    public static function add($details, $to = 'available')
     {
         foreach ($details as $detail) {
             $type = InventoryTypeFactory::make($detail->product->type);
@@ -16,12 +16,13 @@ class InventoryOperationService
             $type->add(
                 $detail->product_id,
                 $detail->warehouse_id,
-                $detail->quantity
+                $detail->quantity,
+                $to
             );
         }
     }
 
-    public static function subtract($details, $from)
+    public static function subtract($details, $from = 'available')
     {
         if (static::unavailableProducts($details, $from)->isNotEmpty()) {
             return [

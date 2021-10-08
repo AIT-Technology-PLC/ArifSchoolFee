@@ -30,7 +30,7 @@ class DamageService
         }
 
         DB::transaction(function () use ($damage) {
-            InventoryOperationService::subtract($damage->details(), 'available');
+            InventoryOperationService::subtract($damage->damageDetails);
 
             $damage->subtract();
 

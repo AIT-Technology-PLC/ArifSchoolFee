@@ -26,7 +26,7 @@ class AdjustmentService
         }
 
         DB::transaction(function () use ($adjustment) {
-            InventoryOperationService::subtract($this->loadOnlySubtracts($adjustment), 'available');
+            InventoryOperationService::subtract($this->loadOnlySubtracts($adjustment));
 
             InventoryOperationService::add($this->loadOnlyAdds($adjustment));
 

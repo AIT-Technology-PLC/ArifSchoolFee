@@ -30,7 +30,7 @@ class TransferService
         }
 
         DB::transaction(function () use ($transfer) {
-            InventoryOperationService::subtract($transfer->transferDetails, 'available');
+            InventoryOperationService::subtract($transfer->transferDetails);
 
             $transfer->subtract();
 
