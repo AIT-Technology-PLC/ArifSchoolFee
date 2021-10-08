@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Action;
 
-use App\Actions\AddToInventoryAction;
 use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Returnn;
-use App\Notifications\ReturnAdded;
 use App\Notifications\ReturnApproved;
+use App\Services\ReturnService;
 
 class ReturnController extends Controller
 {
@@ -38,11 +37,11 @@ class ReturnController extends Controller
         return view('returns.print', compact('return'));
     }
 
-    public function add(Returnn $return, AddToInventoryAction $action)
+    public function add(Returnn $return, ReturnService $returnService)
     {
         $this->authorize('add', $return);
 
-        [$isExecuted, $message] = $action->execute($return, ReturnAdded::class, 'Approve Return');
+        [$isExecuted, $message] = $returnService->add($return);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
