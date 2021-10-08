@@ -24,7 +24,7 @@ class GrnService
         }
 
         DB::transaction(function () use ($grn) {
-            InventoryOperationService::add($grn->details());
+            InventoryOperationService::add($grn->grnDetails);
 
             $grn->add();
 

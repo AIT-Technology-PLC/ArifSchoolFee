@@ -24,7 +24,7 @@ class ReturnService
         }
 
         DB::transaction(function () use ($return) {
-            InventoryOperationService::add($return->details());
+            InventoryOperationService::add($return->returnDetails);
 
             $return->add();
 

@@ -23,7 +23,7 @@ class DamageService
             return [false, static::SUBTRACT_FAILED_MESSAGE];
         }
 
-        $unavailableProducts = InventoryOperationService::unavailableProducts($damage->details());
+        $unavailableProducts = InventoryOperationService::unavailableProducts($damage->damageDetails);
 
         if ($unavailableProducts->isNotEmpty()) {
             return [false, $unavailableProducts];

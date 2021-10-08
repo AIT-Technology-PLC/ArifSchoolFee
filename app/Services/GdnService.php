@@ -25,14 +25,14 @@ class GdnService
 
         $from = $gdn->reservation()->exists() ? 'reserved' : 'available';
 
-        $unavailableProducts = InventoryOperationService::unavailableProducts($gdn->details(), $from);
+        $unavailableProducts = InventoryOperationService::unavailableProducts($gdn->gdnDetails, $from);
 
         if ($unavailableProducts->isNotEmpty()) {
             return [false, $unavailableProducts];
         }
 
         DB::transaction(function () use ($gdn, $from) {
-            InventoryOperationService::subtract($gdn->details(), $from);
+            InventoryOperationService::subtract($gdn->gdnDetails, $from);
 
             $gdn->subtract();
 
