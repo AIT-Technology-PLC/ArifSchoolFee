@@ -29,10 +29,10 @@ class ReservationController extends Controller
         [$isExecuted, $message] = $action->execute($reservation, ReservationApproved::class, 'Make Reservation');
 
         if (!$isExecuted) {
-            return redirect()->back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
-        return redirect()->back()->with('successMessage', $message);
+        return back()->with('successMessage', $message);
     }
 
     public function reserve(Reservation $reservation)

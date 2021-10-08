@@ -27,10 +27,10 @@ class TransferController extends Controller
         [$isExecuted, $message] = $action->execute($transfer, TransferApproved::class, 'Make Transfer');
 
         if (!$isExecuted) {
-            return redirect()->back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
-        return redirect()->back()->with('successMessage', $message);
+        return back()->with('successMessage', $message);
     }
 
     public function transfer(Transfer $transfer)

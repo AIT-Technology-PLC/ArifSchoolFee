@@ -23,10 +23,10 @@ class ReturnController extends Controller
         [$isExecuted, $message] = $action->execute($return, ReturnApproved::class, 'Make Return');
 
         if (!$isExecuted) {
-            return redirect()->back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
-        return redirect()->back()->with('successMessage', $message);
+        return back()->with('successMessage', $message);
     }
 
     public function printed(Returnn $return)
@@ -45,9 +45,9 @@ class ReturnController extends Controller
         [$isExecuted, $message] = $action->execute($return, ReturnAdded::class, 'Approve Return');
 
         if (!$isExecuted) {
-            return redirect()->back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
-        return redirect()->back();
+        return back();
     }
 }

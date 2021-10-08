@@ -21,10 +21,10 @@ class SivController extends Controller
         [$isExecuted, $message] = $action->execute($siv, SivApproved::class, 'Approve SIV');
 
         if (!$isExecuted) {
-            return redirect()->back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
-        return redirect()->back();
+        return back();
     }
 
     public function printed(Siv $siv)

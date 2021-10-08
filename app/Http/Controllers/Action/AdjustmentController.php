@@ -25,10 +25,10 @@ class AdjustmentController extends Controller
         [$isExecuted, $message] = $action->execute($adjustment, AdjustmentApproved::class, 'Make Adjustment');
 
         if (!$isExecuted) {
-            return redirect()->back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
-        return redirect()->back()->with('successMessage', $message);
+        return back()->with('successMessage', $message);
     }
 
     public function adjust(Adjustment $adjustment)

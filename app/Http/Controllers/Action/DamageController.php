@@ -22,10 +22,10 @@ class DamageController extends Controller
         [$isExecuted, $message] = $action->execute($damage, DamageApproved::class, 'Subtract Damage');
 
         if (!$isExecuted) {
-            return redirect()->back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
-        return redirect()->back()->with('successMessage', $message);
+        return back()->with('successMessage', $message);
     }
 
     public function subtract(Damage $damage, DamageService $damageService)
@@ -35,9 +35,9 @@ class DamageController extends Controller
         [$isExecuted, $message] = $damageService->subtract($damage);
 
         if (!$isExecuted) {
-            return redirect()->back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
-        return redirect()->back();
+        return back();
     }
 }

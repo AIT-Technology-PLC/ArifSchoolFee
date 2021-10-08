@@ -23,10 +23,10 @@ class GrnController extends Controller
         [$isExecuted, $message] = $action->execute($grn, GrnApproved::class, 'Add GRN');
 
         if (!$isExecuted) {
-            return redirect()->back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
-        return redirect()->back()->with('successMessage', $message);
+        return back()->with('successMessage', $message);
     }
 
     public function add(Grn $grn, AddToInventoryAction $action)
@@ -36,9 +36,9 @@ class GrnController extends Controller
         [$isExecuted, $message] = $action->execute($grn, GrnAdded::class, 'Approve GRN');
 
         if (!$isExecuted) {
-            return redirect()->back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
-        return redirect()->back();
+        return back();
     }
 }
