@@ -6,10 +6,7 @@ use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Adjustment;
 use App\Notifications\AdjustmentApproved;
-use App\Notifications\AdjustmentMade;
-use App\Services\InventoryOperationService;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
+use App\Services\AdjustmentService;
 
 class AdjustmentController extends Controller
 {
@@ -31,35 +28,16 @@ class AdjustmentController extends Controller
         return back()->with('successMessage', $message);
     }
 
-    public function adjust(Adjustment $adjustment)
+    public function adjust(Adjustment $adjustment, AdjustmentService $adjustmentService)
     {
         $this->authorize('adjust', $adjustment);
 
-        if (!$adjustment->isApproved()) {
-            return back()->with('failedMessage', 'This Adjustment is not approved');
+        [$isExecuted, $message] = $adjustmentService->adjust($adjustment);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
 
-        $result = DB::transaction(function () use ($adjustment) {
-            $result = InventoryOperationService::adjust($adjustment->adjustmentDetails);
-
-            if (!$result['isAdjusted']) {
-                DB::rollBack();
-
-                return $result;
-            }
-
-            $adjustment->adjust();
-
-            Notification::send(
-                notifiables('Approve Adjustment', $adjustment->createdBy),
-                new AdjustmentMade($adjustment)
-            );
-
-            return $result;
-        });
-
-        return $result['isAdjusted'] ?
-        back() :
-        back()->with('failedMessage', $result['unavailableProducts']);
+        return back();
     }
 }
