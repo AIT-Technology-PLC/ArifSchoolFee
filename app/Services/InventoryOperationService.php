@@ -6,8 +6,6 @@ use App\Factory\InventoryTypeFactory;
 
 class InventoryOperationService
 {
-    private static $unavailableProducts = [];
-
     public static function add($details, $to = 'available')
     {
         foreach ($details as $detail) {
@@ -38,14 +36,18 @@ class InventoryOperationService
 
     public static function unavailableProducts($details, $in = 'available')
     {
+        $unavailableProducts = collect();
+
         foreach ($details as $detail) {
             $type = InventoryTypeFactory::make($detail->product->type);
 
             if (!$type->isAvailable($detail->product_id, $detail->warehouse_id, $detail->quantity, $in)) {
-                array_push(self::$unavailableProducts, "{$detail->product->name} is not available or not enough in {$detail->warehouse->name}");
+                $unavailableProducts->push(
+                    "'{$detail->product->name}' is not available or not enough in '{$detail->warehouse->name}'"
+                );
             }
         }
 
-        return collect(self::$unavailableProducts);
+        return $unavailableProducts;
     }
 }
