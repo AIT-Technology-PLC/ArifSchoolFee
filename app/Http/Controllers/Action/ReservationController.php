@@ -8,9 +8,7 @@ use App\Models\Gdn;
 use App\Models\Reservation;
 use App\Notifications\GdnPrepared;
 use App\Notifications\ReservationApproved;
-use App\Notifications\ReservationCancelled;
 use App\Notifications\ReservationConverted;
-use App\Services\InventoryOperationService;
 use App\Services\ReservationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -56,34 +54,11 @@ class ReservationController extends Controller
     {
         $this->authorize('cancel', $reservation);
 
-        if (!$reservation->isApproved()) {
-            return back()->with('failedMessage', 'This reservation is not approved yet.');
+        [$isExecuted, $message] = $this->reservationService->cancel($reservation);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
-
-        if ($reservation->isConverted() && $reservation->reservable->isSubtracted()) {
-            return back()->with('failedMessage', 'This reservation cannot be cancelled, it has been converted to DO.');
-        }
-
-        if (!$reservation->isConverted() && !$reservation->isReserved()) {
-            $reservation->cancel();
-
-            return back();
-        }
-
-        DB::transaction(function () use ($reservation) {
-            if ($reservation->isConverted() && !$reservation->reservable->isSubtracted()) {
-                $reservation->reservable()->forceDelete();
-            }
-
-            InventoryOperationService::cancelReservation($reservation->reservationDetails);
-
-            $reservation->cancel();
-
-            Notification::send(
-                notifiables('Approve Reservation', $reservation->createdBy),
-                new ReservationCancelled($reservation)
-            );
-        });
 
         return back();
     }
