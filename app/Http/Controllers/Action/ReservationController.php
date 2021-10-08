@@ -6,12 +6,8 @@ use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Gdn;
 use App\Models\Reservation;
-use App\Notifications\GdnPrepared;
 use App\Notifications\ReservationApproved;
-use App\Notifications\ReservationConverted;
 use App\Services\ReservationService;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
 
 class ReservationController extends Controller
 {
@@ -69,36 +65,11 @@ class ReservationController extends Controller
 
         $this->authorize('create', Gdn::class);
 
-        if (!$reservation->isReserved()) {
-            return back()->with('failedMessage', 'This reservation is not reserved yet.');
+        [$isExecuted, $message] = $this->reservationService->convertToGdn($reservation);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
-
-        DB::transaction(function () use ($reservation) {
-            $reservation->convert();
-
-            Notification::send(
-                notifiables('Approve Reservation', $reservation->createdBy),
-                new ReservationConverted($reservation)
-            );
-
-            $gdn = Gdn::create([
-                'code' => Gdn::byBranch()->max('code') + 1,
-                'customer_id' => $reservation->customer_id ?? null,
-                'issued_on' => today(),
-                'payment_type' => $reservation->payment_type,
-                'description' => $reservation->description ?? '',
-                'cash_received_in_percentage' => $reservation->cash_received_in_percentage,
-            ]);
-
-            $gdn->gdnDetails()->createMany($reservation->reservationDetails->toArray());
-
-            $gdn->reservation()->save($reservation);
-
-            Notification::send(
-                notifiables('Approve GDN', $gdn->createdBy),
-                new GdnPrepared($gdn)
-            );
-        });
 
         return back();
     }

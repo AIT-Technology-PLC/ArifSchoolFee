@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Gdn;
+use App\Notifications\GdnPrepared;
 use App\Notifications\ReservationCancelled;
+use App\Notifications\ReservationConverted;
 use App\Notifications\ReservationMade;
 use App\Services\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
@@ -77,6 +80,43 @@ class ReservationService
             $reservation->cancel();
 
             Notification::send(notifiables('Approve Reservation', $reservation->createdBy), new ReservationCancelled($reservation));
+        });
+
+        return [true, ''];
+    }
+
+    public function convertToGdn($reservation)
+    {
+        if (!$reservation->isReserved()) {
+            return [false, 'This reservation is not reserved yet.'];
+        }
+
+        if ($reservation->isConverted()) {
+            return [false, 'This reservation is already to Delivery Order.'];
+        }
+
+        DB::transaction(function () use ($reservation) {
+            $reservation->convert();
+
+            Notification::send(
+                notifiables('Approve Reservation', $reservation->createdBy),
+                new ReservationConverted($reservation)
+            );
+
+            $gdn = Gdn::create([
+                'code' => Gdn::byBranch()->max('code') + 1,
+                'customer_id' => $reservation->customer_id ?? null,
+                'issued_on' => today(),
+                'payment_type' => $reservation->payment_type,
+                'description' => $reservation->description ?? '',
+                'cash_received_in_percentage' => $reservation->cash_received_in_percentage,
+            ]);
+
+            $gdn->gdnDetails()->createMany($reservation->reservationDetails->toArray());
+
+            $gdn->reservation()->save($reservation);
+
+            Notification::send(notifiables('Approve GDN', $gdn->createdBy), new GdnPrepared($gdn));
         });
 
         return [true, ''];
