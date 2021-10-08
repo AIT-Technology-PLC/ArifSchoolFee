@@ -23,7 +23,7 @@ class InventoryOperationService
 
     public static function subtract($details, $from)
     {
-        if (!static::isAvailable($details, $from)) {
+        if (static::unavailableProducts($details, $from)->isNotEmpty()) {
             return [
                 'isSubtracted' => false,
                 'unavailableProducts' => self::$unavailableProducts,
@@ -52,7 +52,7 @@ class InventoryOperationService
 
             data_fill($details, '*.warehouse', $details->first()->transfer->transferredFrom);
 
-            if (!static::isAvailable($details)) {
+            if (static::unavailableProducts($details)->isNotEmpty()) {
                 return [
                     'isTransferred' => false,
                     'unavailableProducts' => self::$unavailableProducts,
@@ -85,7 +85,7 @@ class InventoryOperationService
 
     public static function adjust($details)
     {
-        if (!static::isAvailable($details->where('is_subtract', 1))) {
+        if (static::unavailableProducts($details->where('is_subtract', 1))->isNotEmpty()) {
             return [
                 'isAdjusted' => false,
                 'unavailableProducts' => self::$unavailableProducts,
@@ -117,7 +117,7 @@ class InventoryOperationService
 
     public static function reserve($details)
     {
-        if (!static::isAvailable($details)) {
+        if (static::unavailableProducts($details)->isNotEmpty()) {
             return [
                 'isReserved' => false,
                 'unavailableProducts' => self::$unavailableProducts,
@@ -164,7 +164,7 @@ class InventoryOperationService
         }
     }
 
-    public static function isAvailable($details, $in = 'available')
+    public static function unavailableProducts($details, $in = 'available')
     {
         foreach ($details as $detail) {
             $type = InventoryTypeFactory::make($detail->product->type);
@@ -174,6 +174,6 @@ class InventoryOperationService
             }
         }
 
-        return count(self::$unavailableProducts) ? false : true;
+        return collect(self::$unavailableProducts);
     }
 }

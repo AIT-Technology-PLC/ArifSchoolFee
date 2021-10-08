@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Action;
 
 use App\Actions\ApproveTransactionAction;
-use App\Actions\SubtractFromInventoryAction;
 use App\Http\Controllers\Controller;
 use App\Models\Damage;
 use App\Notifications\DamageApproved;
-use App\Notifications\DamageSubtracted;
+use App\Services\DamageService;
 
 class DamageController extends Controller
 {
@@ -29,11 +28,11 @@ class DamageController extends Controller
         return redirect()->back()->with('successMessage', $message);
     }
 
-    public function subtract(Damage $damage, SubtractFromInventoryAction $action)
+    public function subtract(Damage $damage, DamageService $damageService)
     {
         $this->authorize('subtract', $damage);
 
-        [$isExecuted, $message] = $action->execute($damage, DamageSubtracted::class, 'Approve Damage');
+        [$isExecuted, $message] = $damageService->subtract($damage);
 
         if (!$isExecuted) {
             return redirect()->back()->with('failedMessage', $message);
