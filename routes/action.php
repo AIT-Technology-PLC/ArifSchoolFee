@@ -26,18 +26,22 @@ Route::post('/transfers/{transfer}/approve',
     [Action\TransferController::class, 'approve'])
     ->name('transfers.approve');
 
-Route::post('/transfers/{transfer}/transfer',
-    [Action\TransferController::class, 'transfer'])
-    ->name('transfers.transfer');
+Route::post('/transfers/{transfer}/subtract',
+    [Action\TransferController::class, 'subtract'])
+    ->name('transfers.subtract');
 
-Route::get('/proforma-invoices/{proforma_invoice}/convert-to-gdn',
-    [Action\ProformaInvoiceController::class, 'convertToGdn'])
-    ->name('proforma-invoices.convert_to_gdn');
+Route::post('/transfers/{transfer}/add',
+    [Action\TransferController::class, 'add'])
+    ->name('transfers.add');
 
 // Proforma Invoices
 Route::get('/proforma-invoices/{proformaInvoice}/print',
     [Action\ProformaInvoiceController::class, 'printed'])
     ->name('proforma-invoices.print');
+
+Route::get('/proforma-invoices/{proforma_invoice}/convert-to-gdn',
+    [Action\ProformaInvoiceController::class, 'convertToGdn'])
+    ->name('proforma-invoices.convert_to_gdn');
 
 Route::post('/proforma-invoices/{proformaInvoice}/cancel',
     [Action\ProformaInvoiceController::class, 'cancel'])

@@ -8,10 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Siv;
 use App\Models\Transfer;
 use App\Notifications\TransferApproved;
-use App\Notifications\TransferMade;
-use App\Services\InventoryOperationService;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
+use App\Services\TransferService;
 
 class TransferController extends Controller
 {
@@ -33,35 +30,30 @@ class TransferController extends Controller
         return back()->with('successMessage', $message);
     }
 
-    public function transfer(Transfer $transfer)
+    public function subtract(Transfer $transfer, TransferService $transferService)
     {
         $this->authorize('transfer', $transfer);
 
-        if (!$transfer->isApproved()) {
-            return back()->with('failedMessage', 'This Transfer is not approved');
+        [$isExecuted, $message] = $transferService->subtract($transfer);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
 
-        $result = DB::transaction(function () use ($transfer) {
-            $result = InventoryOperationService::transfer($transfer->transferDetails, $transfer->isSubtracted());
+        return back();
+    }
 
-            if (!$result['isTransferred']) {
-                DB::rollBack();
+    public function add(Transfer $transfer, TransferService $transferService)
+    {
+        $this->authorize('transfer', $transfer);
 
-                return $result;
-            }
+        [$isExecuted, $message] = $transferService->add($transfer);
 
-            $transfer->transfer();
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
 
-            Notification::send(
-                notifiables('Approve Transfer', $transfer->createdBy),
-                new TransferMade($transfer)
-            );
-
-            return $result;
-        });
-
-        return $result['isTransferred'] ? back() :
-        back()->with('failedMessage', $result['unavailableProducts']);
+        return back();
     }
 
     public function convertToSiv(Transfer $transfer, ConvertToSivAction $action)

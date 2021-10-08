@@ -58,7 +58,7 @@
                                 {{ $transfer->transferredFrom->name }}
                             </div>
                             <div class="is-uppercase is-size-7">
-                                Tranferred From
+                                Transferred From
                             </div>
                         </div>
                     </div>
@@ -184,22 +184,22 @@
                         </p>
                     </div>
                 @endcan
-            @else
+            @elseif(!$transfer->isSubtracted())
                 @can('Make Transfer')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
-                            Product(s) listed below are still not transferred
+                            Product(s) listed below are still not subtracted.
                             <br>
-                            Click on the button below to transfer.
+                            Click on the button below to subtract from inventory.
                         </p>
-                        <form id="formOne" action="{{ route('transfers.transfer', $transfer->id) }}" method="post" novalidate>
+                        <form id="formOne" action="{{ route('transfers.subtract', $transfer->id) }}" method="post" novalidate>
                             @csrf
-                            <button data-type="Transfer" data-action="execute" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button data-type="Transfer" data-action="subtract" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-minus-circle"></i>
                                 </span>
                                 <span>
-                                    {{ $transfer->isSubtracted() ? 'Add to inventory' : 'Subtract from inventory' }}
+                                    Subtract from inventory
                                 </span>
                             </button>
                         </form>
@@ -211,7 +211,40 @@
                                 <i class="fas fa-exclamation-circle"></i>
                             </span>
                             <span>
-                                Product(s) listed below are still not transferred.
+                                Product(s) listed below are subtracted from {{ $transfer->transferredFrom->name }}.
+                            </span>
+                        </p>
+                    </div>
+                @endcan
+            @elseif($transfer->isSubtracted())
+                @can('Make Transfer')
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            Product(s) listed below are subtracted from {{ $transfer->transferredFrom->name }}
+                            but not add to {{ $transfer->transferredTo->name }}.
+                            <br>
+                            Click on the button below to add to inventory.
+                        </p>
+                        <form id="formOne" action="{{ route('transfers.add', $transfer->id) }}" method="post" novalidate>
+                            @csrf
+                            <button data-type="Transfer" data-action="execute" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                                <span class="icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </span>
+                                <span>
+                                    Add to inventory
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-6">
+                            <span class="icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </span>
+                            <span>
+                                Product(s) listed below are still not add to {{ $transfer->transferredTo->name }}.
                             </span>
                         </p>
                     </div>
