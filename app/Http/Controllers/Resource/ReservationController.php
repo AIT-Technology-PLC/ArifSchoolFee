@@ -96,7 +96,9 @@ class ReservationController extends Controller
 
     public function update(UpdateReservationRequest $request, Reservation $reservation)
     {
-        [$isExecuted, $message] = $this->reservationService->update($request, $reservation);
+        [$isExecuted, $message] = $this->reservationService->update(
+            $reservation, $request->except('reservation'), $request->reservation
+        );
 
         if (!$isExecuted) {
             return redirect()->route('reservations.show', $reservation->id)

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Notification;
 
 class ReservationService
 {
-    public function update($request, $reservation)
+    public function update($reservation, $updatedReservation, $updatedReservationDetails)
     {
         if ($reservation->isCancelled() || $reservation->isConverted()) {
             return [false, 'Cancelled or converted reservations can not be edited.'];
@@ -26,7 +26,7 @@ class ReservationService
             return [false, $unavailableProducts];
         }
 
-        DB::transaction(function () use ($request, $reservation) {
+        DB::transaction(function () use ($updatedReservation, $updatedReservationDetails, $reservation) {
             if ($reservation->isReserved()) {
                 InventoryOperationService::subtract($reservation->reservationDetails, 'reserved');
 
@@ -39,12 +39,12 @@ class ReservationService
                 $reservation->save();
             }
 
-            $reservation->update($request->except('reservation'));
+            $reservation->update($updatedReservation);
 
             $reservation
                 ->reservationDetails
-                ->each(function ($reservationDetail, $key) use ($request) {
-                    $reservationDetail->update($request->reservation[$key]);
+                ->each(function ($reservationDetail, $key) use ($updatedReservationDetails) {
+                    $reservationDetail->update($updatedReservationDetails[$key]);
                 });
 
             Notification::send(notifiables('Approve Reservation'), new ReservationPrepared($reservation));
