@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Action;
 
 use App\Actions\ApproveTransactionAction;
 use App\Actions\ConvertToSivAction;
-use App\Actions\SubtractFromInventoryAction;
 use App\Http\Controllers\Controller;
 use App\Models\Gdn;
 use App\Models\Siv;
 use App\Notifications\GdnApproved;
-use App\Notifications\GdnSubtracted;
+use App\Services\GdnService;
 
 class GdnController extends Controller
 {
@@ -59,18 +58,16 @@ class GdnController extends Controller
         return redirect()->route('sivs.show', $siv->id);
     }
 
-    public function subtract(Gdn $gdn, SubtractFromInventoryAction $action)
+    public function subtract(Gdn $gdn, GdnService $gdnService)
     {
         $this->authorize('subtract', $gdn);
 
-        $from = $gdn->reservation()->exists() ? 'reserved' : 'available';
-
-        [$isExecuted, $message] = $action->execute($gdn, GdnSubtracted::class, 'Approve GDN', $from);
+        [$isExecuted, $message] = $gdnService->subtract($gdn);
 
         if (!$isExecuted) {
-            return redirect()->back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
-        return redirect()->back();
+        return back();
     }
 }
