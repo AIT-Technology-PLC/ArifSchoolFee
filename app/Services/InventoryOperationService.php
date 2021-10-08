@@ -83,38 +83,6 @@ class InventoryOperationService
         return ['isTransferred' => true];
     }
 
-    public static function adjust($details)
-    {
-        if (static::unavailableProducts($details->where('is_subtract', 1))->isNotEmpty()) {
-            return [
-                'isAdjusted' => false,
-                'unavailableProducts' => self::$unavailableProducts,
-            ];
-        }
-
-        foreach ($details as $detail) {
-            $type = InventoryTypeFactory::make($detail->product->type);
-
-            if ($detail->is_subtract) {
-                $type->subtract(
-                    $detail->product_id,
-                    $detail->warehouse_id,
-                    $detail->quantity,
-                );
-            }
-
-            if (!$detail->is_subtract) {
-                $type->add(
-                    $detail->product_id,
-                    $detail->warehouse_id,
-                    $detail->quantity,
-                );
-            }
-        }
-
-        return ['isAdjusted' => true];
-    }
-
     public static function reserve($details)
     {
         if (static::unavailableProducts($details)->isNotEmpty()) {
