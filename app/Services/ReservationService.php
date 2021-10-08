@@ -20,6 +20,12 @@ class ReservationService
             return [false, 'Cancelled or converted reservations can not be edited.'];
         }
 
+        $unavailableProducts = InventoryOperationService::unavailableProducts($reservation->reservationDetails, 'reserved');
+
+        if ($reservation->isReserved() && $unavailableProducts->isNotEmpty()) {
+            return [false, $unavailableProducts];
+        }
+
         DB::transaction(function () use ($request, $reservation) {
             if ($reservation->isReserved()) {
                 InventoryOperationService::subtract($reservation->reservationDetails, 'reserved');
