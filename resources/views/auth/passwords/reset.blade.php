@@ -15,18 +15,6 @@
             @csrf
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
-                @if (session('failedMessage'))
-                    <div class="box is-shadowless bg-lightpurple has-text-left mb-0">
-                        <p class="has-text-grey text-purple is-size-6">
-                            <span class="icon">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </span>
-                            <span>
-                                {{ session('failedMessage') }}
-                            </span>
-                        </p>
-                    </div>
-                @endif
                 <x-success-message :message="session('successMessage')" />
                 <div class="columns is-marginless is-multiline is-centered">
                     <div class="column is-5">
