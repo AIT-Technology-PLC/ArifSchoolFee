@@ -173,16 +173,7 @@
                         </form>
                     </div>
                 @else
-                    <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-6">
-                            <span class="icon">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </span>
-                            <span>
-                                This Transfer has not been approved.
-                            </span>
-                        </p>
-                    </div>
+                    <x-fail-message message="This Transfer has not been approved." />
                 @endcan
             @elseif(!$transfer->isSubtracted())
                 @can('Make Transfer')
@@ -205,16 +196,7 @@
                         </form>
                     </div>
                 @else
-                    <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-6">
-                            <span class="icon">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </span>
-                            <span>
-                                Product(s) listed below are not subtracted from {{ $transfer->transferredFrom->name }}.
-                            </span>
-                        </p>
-                    </div>
+                    <x-fail-message message="Product(s) listed below are not subtracted from {{ $transfer->transferredFrom->name }}." />
                 @endcan
             @elseif($transfer->isSubtracted())
                 @can('Make Transfer')
@@ -238,17 +220,7 @@
                         </form>
                     </div>
                 @else
-                    <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-6">
-                            <span class="icon">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </span>
-                            <span>
-                                Product(s) listed below are subtracted from {{ $transfer->transferredFrom->name }}
-                                but not added to {{ $transfer->transferredTo->name }}.
-                            </span>
-                        </p>
-                    </div>
+                    <x-fail-message message="Product(s) listed below are subtracted from {{ $transfer->transferredFrom->name }} but not added to {{ $transfer->transferredTo->name }}." />
                 @endcan
             @endif
             <div class="table-container">
