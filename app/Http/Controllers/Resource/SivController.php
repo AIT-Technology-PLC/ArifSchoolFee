@@ -39,7 +39,7 @@ class SivController extends Controller
 
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $currentSivCode = Siv::max('code') + 1;
+        $currentSivCode = Siv::byBranch()->max('code') + 1;
 
         return view('sivs.create', compact('warehouses', 'customers', 'currentSivCode'));
     }

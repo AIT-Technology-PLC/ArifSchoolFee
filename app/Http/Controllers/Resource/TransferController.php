@@ -43,7 +43,7 @@ class TransferController extends Controller
 
         $toWarehouses = user()->getAllowedWarehouses('add');
 
-        $currentTransferCode = Transfer::max('code') + 1;
+        $currentTransferCode = Transfer::byBranch()->max('code') + 1;
 
         return view('transfers.create', compact('fromWarehouses', 'toWarehouses', 'currentTransferCode'));
     }

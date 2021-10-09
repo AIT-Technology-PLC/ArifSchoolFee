@@ -12,7 +12,7 @@ class ConvertToSivAction
     {
         $siv = DB::transaction(function () use ($purpose, $code, $issuedTo, $approvedBy, $details) {
             $siv = Siv::create([
-                'code' => Siv::max('code') + 1,
+                'code' => Siv::byBranch()->max('code') + 1,
                 'purpose' => $purpose,
                 'ref_num' => $code,
                 'issued_on' => now(),

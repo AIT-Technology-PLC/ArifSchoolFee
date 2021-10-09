@@ -38,7 +38,7 @@ class AdjustmentController extends Controller
     {
         $warehouses = user()->getAllowedWarehouses('adjustment');
 
-        $currentAdjustmentCode = Adjustment::max('code') + 1;
+        $currentAdjustmentCode = Adjustment::byBranch()->max('code') + 1;
 
         return view('adjustments.create', compact('warehouses', 'currentAdjustmentCode'));
     }

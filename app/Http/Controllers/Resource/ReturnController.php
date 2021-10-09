@@ -41,7 +41,7 @@ class ReturnController extends Controller
 
         $warehouses = user()->getAllowedWarehouses('add');
 
-        $currentReturnCode = Returnn::max('code') + 1;
+        $currentReturnCode = Returnn::byBranch()->max('code') + 1;
 
         return view('returns.create', compact('customers', 'warehouses', 'currentReturnCode'));
     }

@@ -38,7 +38,7 @@ class DamageController extends Controller
     {
         $warehouses = user()->getAllowedWarehouses('subtract');
 
-        $currentDamageCode = Damage::max('code') + 1;
+        $currentDamageCode = Damage::byBranch()->max('code') + 1;
 
         return view('damages.create', compact('warehouses', 'currentDamageCode'));
     }

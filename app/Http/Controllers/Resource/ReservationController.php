@@ -56,7 +56,7 @@ class ReservationController extends Controller
 
         $warehouses = user()->getAllowedWarehouses('sales');
 
-        $currentReservationCode = Reservation::max('code') + 1;
+        $currentReservationCode = Reservation::byBranch()->max('code') + 1;
 
         return view('reservations.create', compact('customers', 'warehouses', 'currentReservationCode'));
     }

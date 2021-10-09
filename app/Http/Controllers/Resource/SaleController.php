@@ -33,7 +33,7 @@ class SaleController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $currentReceiptNo = Sale::max('code') + 1;
+        $currentReceiptNo = Sale::byBranch()->max('code') + 1;
 
         return view('sales.create', compact('customers', 'currentReceiptNo'));
     }

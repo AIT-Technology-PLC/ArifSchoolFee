@@ -44,7 +44,7 @@ class GdnController extends Controller
 
         $warehouses = user()->getAllowedWarehouses('sales');
 
-        $currentGdnCode = Gdn::max('code') + 1;
+        $currentGdnCode = Gdn::byBranch()->max('code') + 1;
 
         return view('gdns.create', compact('customers', 'sales', 'warehouses', 'currentGdnCode'));
     }
