@@ -24,13 +24,4 @@ class Siv extends Model
     {
         return $this->hasMany(SivDetail::class);
     }
-
-    public function getAll()
-    {
-        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return $this->latest()->get();
-        }
-
-        return $this->latest()->get();
-    }
 }

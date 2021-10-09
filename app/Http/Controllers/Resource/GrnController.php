@@ -23,7 +23,7 @@ class GrnController extends Controller
 
     public function index()
     {
-        $grns = (new Grn)->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'supplier', 'purchase']);
+        $grns = Grn::with(['createdBy', 'updatedBy', 'approvedBy', 'supplier', 'purchase'])->latest()->get();
 
         $totalAdded = Grn::whereNotNull('added_by')->count();
 
@@ -42,7 +42,7 @@ class GrnController extends Controller
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        $purchases = (new Purchase)->getAll();
+        $purchases = Purchase::latest()->get();
 
         $currentGrnCode = Grn::byBranch()->max('code') + 1;
 
@@ -79,7 +79,7 @@ class GrnController extends Controller
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        $purchases = (new Purchase)->getAll();
+        $purchases = Purchase::latest()->get();
 
         return view('grns.edit', compact('grn', 'warehouses', 'suppliers', 'purchases'));
     }

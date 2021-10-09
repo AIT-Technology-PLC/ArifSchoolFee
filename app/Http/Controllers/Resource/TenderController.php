@@ -23,10 +23,9 @@ class TenderController extends Controller
 
     public function index()
     {
-        $tenders = (new Tender)
-            ->getAll()
-            ->loadCount('tenderDetails')
-            ->load(['customer', 'tenderChecklists', 'createdBy', 'updatedBy']);
+        $tenders = Tender::withCount('tenderDetails')
+            ->with(['customer', 'tenderChecklists', 'createdBy', 'updatedBy'])
+            ->latest()->get();
 
         $totalTenders = Tender::count();
 

@@ -23,7 +23,7 @@ class GdnController extends Controller
 
     public function index()
     {
-        $gdns = (new Gdn)->getAll()->load(['gdnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'sale', 'customer']);
+        $gdns = Gdn::with(['gdnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'sale', 'customer'])->latest()->get();
 
         $totalGdns = Gdn::count();
 
@@ -40,7 +40,7 @@ class GdnController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $sales = (new Sale)->getAll();
+        $sales = Sale::latest()->get();
 
         $warehouses = user()->getAllowedWarehouses('sales');
 
@@ -79,7 +79,7 @@ class GdnController extends Controller
 
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $sales = (new Sale)->getAll();
+        $sales = Sale::latest()->get();
 
         $warehouses = user()->getAllowedWarehouses('sales');
 

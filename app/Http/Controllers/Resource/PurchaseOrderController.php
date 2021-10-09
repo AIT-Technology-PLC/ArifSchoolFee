@@ -20,7 +20,7 @@ class PurchaseOrderController extends Controller
 
     public function index()
     {
-        $purchaseOrders = (new PurchaseOrder)->getAll()->load(['customer', 'createdBy', 'updatedBy']);
+        $purchaseOrders = PurchaseOrder::with(['customer', 'createdBy', 'updatedBy'])->latest()->get();
 
         $totalPurchaseOrders = PurchaseOrder::count();
 

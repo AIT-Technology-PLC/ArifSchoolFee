@@ -30,15 +30,6 @@ class Adjustment extends Model
         return $this->hasMany(AdjustmentDetail::class);
     }
 
-    public function getAll()
-    {
-        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return $this->latest()->get();
-        }
-
-        return $this->latest()->get();
-    }
-
     public function adjust()
     {
         $this->adjusted_by = auth()->id();

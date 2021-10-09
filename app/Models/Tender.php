@@ -57,13 +57,4 @@ class Tender extends Model
 
         return number_format($checklistCompletionRate * 100, 2);
     }
-
-    public function getAll()
-    {
-        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return $this->latest()->get();
-        }
-
-        return $this->latest()->get();
-    }
 }

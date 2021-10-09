@@ -38,13 +38,4 @@ class Returnn extends Model
     {
         return $this->returnDetails;
     }
-
-    public function getAll()
-    {
-        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return $this->latest()->get();
-        }
-
-        return $this->latest()->get();
-    }
 }

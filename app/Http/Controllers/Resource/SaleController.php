@@ -20,9 +20,7 @@ class SaleController extends Controller
 
     public function index()
     {
-        $sales = (new Sale)
-            ->getAll()
-            ->load(['createdBy', 'updatedBy', 'saleDetails']);
+        $sales = Sale::with(['createdBy', 'updatedBy', 'saleDetails'])->latest()->get();
 
         $totalSales = Sale::count();
 

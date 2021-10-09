@@ -20,9 +20,7 @@ class PurchaseController extends Controller
 
     public function index()
     {
-        $purchases = (new Purchase)
-            ->getAll()
-            ->load(['createdBy', 'updatedBy', 'purchaseDetails']);
+        $purchases = Purchase::with(['createdBy', 'updatedBy', 'purchaseDetails'])->latest()->get();
 
         $totalPurchases = Purchase::count();
 
