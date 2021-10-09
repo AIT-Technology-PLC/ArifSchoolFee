@@ -8,7 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Gdn;
 use App\Models\Siv;
 use App\Notifications\GdnApproved;
+use App\Notifications\GdnSubtracted;
 use App\Services\GdnService;
+use Barryvdh\DomPDF\PDF;
+use Illuminate\Support\Facades\Notification;
 
 class GdnController extends Controller
 {
@@ -67,6 +70,8 @@ class GdnController extends Controller
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(notifiables('Approve GDN', $gdn->createdBy), new GdnSubtracted($gdn));
 
         return back();
     }

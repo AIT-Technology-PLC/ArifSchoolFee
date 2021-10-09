@@ -2,10 +2,8 @@
 
 namespace App\Services;
 
-use App\Notifications\AdjustmentMade;
 use App\Services\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
 
 class AdjustmentService
 {
@@ -31,8 +29,6 @@ class AdjustmentService
             InventoryOperationService::add($this->loadOnlyAdds($adjustment));
 
             $adjustment->adjust();
-
-            Notification::send(notifiables('Approve Adjustment', $adjustment->createdBy), new AdjustmentMade($adjustment));
         });
 
         return [true, ''];

@@ -2,10 +2,8 @@
 
 namespace App\Services;
 
-use App\Notifications\GdnSubtracted;
 use App\Services\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
 
 class GdnService
 {
@@ -35,8 +33,6 @@ class GdnService
             InventoryOperationService::subtract($gdn->gdnDetails, $from);
 
             $gdn->subtract();
-
-            Notification::send(notifiables('Approve GDN', $gdn->createdBy), new GdnSubtracted($gdn));
         });
 
         return [true, ''];

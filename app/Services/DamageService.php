@@ -2,10 +2,8 @@
 
 namespace App\Services;
 
-use App\Notifications\DamageSubtracted;
 use App\Services\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
 
 class DamageService
 {
@@ -33,8 +31,6 @@ class DamageService
             InventoryOperationService::subtract($damage->damageDetails);
 
             $damage->subtract();
-
-            Notification::send(notifiables('Approve Damage', $damage->createdBy), new DamageSubtracted($damage));
         });
 
         return [true, ''];

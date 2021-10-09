@@ -6,7 +6,9 @@ use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Adjustment;
 use App\Notifications\AdjustmentApproved;
+use App\Notifications\AdjustmentMade;
 use App\Services\AdjustmentService;
+use Illuminate\Support\Facades\Notification;
 
 class AdjustmentController extends Controller
 {
@@ -37,6 +39,8 @@ class AdjustmentController extends Controller
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(notifiables('Approve Adjustment', $adjustment->createdBy), new AdjustmentMade($adjustment));
 
         return back();
     }

@@ -6,7 +6,9 @@ use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Damage;
 use App\Notifications\DamageApproved;
+use App\Notifications\DamageSubtracted;
 use App\Services\DamageService;
+use Illuminate\Support\Facades\Notification;
 
 class DamageController extends Controller
 {
@@ -37,6 +39,8 @@ class DamageController extends Controller
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(notifiables('Approve Damage', $damage->createdBy), new DamageSubtracted($damage));
 
         return back();
     }

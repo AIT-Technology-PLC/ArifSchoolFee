@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Action;
 use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Grn;
+use App\Notifications\GrnAdded;
 use App\Notifications\GrnApproved;
 use App\Services\GrnService;
+use Illuminate\Support\Facades\Notification;
 
 class GrnController extends Controller
 {
@@ -37,6 +39,8 @@ class GrnController extends Controller
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(notifiables('Approve GRN', $grn->createdBy), new GrnAdded($grn));
 
         return back();
     }

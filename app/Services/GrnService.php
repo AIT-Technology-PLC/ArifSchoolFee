@@ -2,10 +2,8 @@
 
 namespace App\Services;
 
-use App\Notifications\GrnAdded;
 use App\Services\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
 
 class GrnService
 {
@@ -27,8 +25,6 @@ class GrnService
             InventoryOperationService::add($grn->grnDetails);
 
             $grn->add();
-
-            Notification::send(notifiables('Approve GRN', $grn->createdBy), new GrnAdded($grn));
         });
 
         return [true, ''];
