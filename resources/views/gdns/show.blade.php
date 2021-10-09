@@ -287,17 +287,7 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            <div class="notification bg-lightpurple text-purple {{ session('failedMessage') ? '' : 'is-hidden' }}">
-                @foreach (session('failedMessage', []) as $message)
-                    <span class="icon">
-                        <i class="fas fa-times-circle"></i>
-                    </span>
-                    <span>
-                        {{ $message }}
-                    </span>
-                    <br>
-                @endforeach
-            </div>
+            <x-fail-message :message="session('failedMessage')" />
             <x-success-message :message="session('successMessage')" />
             @if ($gdn->isApproved() && $gdn->isSubtracted())
                 <x-success-message message="Products have been subtracted from inventory." />

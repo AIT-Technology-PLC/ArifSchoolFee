@@ -226,17 +226,6 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            <div class="notification bg-lightpurple text-purple {{ session('failedMessage') ? '' : 'is-hidden' }}">
-                @foreach (session('failedMessage', []) as $message)
-                    <span class="icon">
-                        <i class="fas fa-times-circle"></i>
-                    </span>
-                    <span>
-                        {{ $message }}
-                    </span>
-                    <br>
-                @endforeach
-            </div>
             <x-success-message :message="session('successMessage')" />
             @if ($proformaInvoice->isCancelled())
                 <x-fail-message message="This Proforma Invoice has been cancelled." />

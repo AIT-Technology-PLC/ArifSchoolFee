@@ -1,8 +1,8 @@
 @props(['message', 'marginBottom' => '5'])
 
-@if ($message)
-    <div class="box is-shadowless bg-lightpurple has-text-left mb-{{ $marginBottom }}">
-        <p class="has-text-grey text-purple is-size-6">
+@if (isset($message) && is_string($message))
+    <div class="box is-shadowless bg-lightpurple text-purple mb-{{ $marginBottom }}">
+        <p>
             <span class="icon">
                 <i class="fas fa-exclamation-circle"></i>
             </span>
@@ -11,5 +11,19 @@
             </span>
         </p>
         {{ $slot ?? '' }}
+    </div>
+@endif
+
+@if (isset($message) && count($message))
+    <div class="box is-shadowless bg-lightpurple text-purple mb-{{ $marginBottom }}">
+        @foreach ($message as $item)
+            <span class="icon">
+                <i class="fas fa-times-circle"></i>
+            </span>
+            <span>
+                {{ $item }}
+            </span>
+            <br>
+        @endforeach
     </div>
 @endif
