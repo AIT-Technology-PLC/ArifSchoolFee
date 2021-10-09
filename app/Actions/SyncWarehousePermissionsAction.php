@@ -12,11 +12,11 @@ class SyncWarehousePermissionsAction
 
     public function execute($user, $permissions = [])
     {
+        $user->warehouses()->detach();
+
         if (count($permissions) == 0) {
             return;
         }
-
-        $user->warehouses()->detach();
 
         foreach ($this->warehousePermissions as $permission) {
             if (!isset($permissions[$permission])) {

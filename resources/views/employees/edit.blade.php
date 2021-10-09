@@ -140,119 +140,121 @@
                         </div>
                     </div>
                 </section>
-                <section class="mt-5">
-                    <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3">
-                        <h1 class="text-green is-size-5">
-                            Branch Permissions
-                        </h1>
-                    </div>
-                    <div class="box is-radiusless">
-                        <div class="columns is-marginless is-multiline">
-                            <div class="column is-3">
-                                <label for="read[]" class="label text-green"> Inventory Level <sup class="has-text-danger"></sup> </label>
-                                <div class="field">
-                                    @foreach ($warehouses as $warehouse)
-                                        <label class="checkbox mr-3 has-text-grey has-text-weight-light">
-                                            <input name="read[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['read']) ? ($warehousePermissions['read']->contains($warehouse) ? 'checked' : '') : '' }}>
-                                            {{ $warehouse->name }}
-                                        </label>
-                                        <br>
-                                    @endforeach
-                                </div>
-                                @error('read.*')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="column is-3">
-                                <label for="sales[]" class="label text-green"> Sales <sup class="has-text-weight-light is-size-7">(Delivery Order, Reservation)</sup> </label>
-                                <div class="field">
-                                    @foreach ($warehouses as $warehouse)
-                                        <label class="checkbox mr-3 has-text-grey has-text-weight-light">
-                                            <input name="sales[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['sales']) ? ($warehousePermissions['sales']->contains($warehouse) ? 'checked' : '') : '' }}>
-                                            {{ $warehouse->name }}
-                                        </label>
-                                        <br>
-                                    @endforeach
-                                    @error('sales.*')
+                @if (!$employee->user->hasRole('System Manager'))
+                    <section class="mt-5">
+                        <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3">
+                            <h1 class="text-green is-size-5">
+                                Branch Permissions
+                            </h1>
+                        </div>
+                        <div class="box is-radiusless">
+                            <div class="columns is-marginless is-multiline">
+                                <div class="column is-3">
+                                    <label for="read[]" class="label text-green"> Inventory Level <sup class="has-text-danger"></sup> </label>
+                                    <div class="field">
+                                        @foreach ($warehouses as $warehouse)
+                                            <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                                <input name="read[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['read']) ? ($warehousePermissions['read']->contains($warehouse) ? 'checked' : '') : '' }}>
+                                                {{ $warehouse->name }}
+                                            </label>
+                                            <br>
+                                        @endforeach
+                                    </div>
+                                    @error('read.*')
                                         <span class="help has-text-danger" role="alert">
                                             {{ $message }}
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
-                            <div class="column is-3">
-                                <label for="subtract[]" class="label text-green"> Subtract <sup class="has-text-weight-light is-size-7">(Transfer, Damage)</sup> </label>
-                                <div class="field">
-                                    @foreach ($warehouses as $warehouse)
-                                        <label class="checkbox mr-3 has-text-grey has-text-weight-light">
-                                            <input name="subtract[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['subtract']) ? ($warehousePermissions['subtract']->contains($warehouse) ? 'checked' : '') : '' }}>
-                                            {{ $warehouse->name }}
-                                        </label>
-                                        <br>
-                                    @endforeach
-                                    @error('subtract.*')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
+                                <div class="column is-3">
+                                    <label for="sales[]" class="label text-green"> Sales <sup class="has-text-weight-light is-size-7">(Delivery Order, Reservation)</sup> </label>
+                                    <div class="field">
+                                        @foreach ($warehouses as $warehouse)
+                                            <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                                <input name="sales[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['sales']) ? ($warehousePermissions['sales']->contains($warehouse) ? 'checked' : '') : '' }}>
+                                                {{ $warehouse->name }}
+                                            </label>
+                                            <br>
+                                        @endforeach
+                                        @error('sales.*')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="column is-3">
-                                <label for="add[]" class="label text-green"> Add <sup class="has-text-weight-light is-size-7">(Transfer, Return, GRN)</sup> </label>
-                                <div class="field">
-                                    @foreach ($warehouses as $warehouse)
-                                        <label class="checkbox mr-3 has-text-grey has-text-weight-light">
-                                            <input name="add[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['add']) ? ($warehousePermissions['add']->contains($warehouse) == $warehouse->id ? 'checked' : '') : '' }}>
-                                            {{ $warehouse->name }}
-                                        </label>
-                                        <br>
-                                    @endforeach
-                                    @error('add.*')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
+                                <div class="column is-3">
+                                    <label for="subtract[]" class="label text-green"> Subtract <sup class="has-text-weight-light is-size-7">(Transfer, Damage)</sup> </label>
+                                    <div class="field">
+                                        @foreach ($warehouses as $warehouse)
+                                            <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                                <input name="subtract[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['subtract']) ? ($warehousePermissions['subtract']->contains($warehouse) ? 'checked' : '') : '' }}>
+                                                {{ $warehouse->name }}
+                                            </label>
+                                            <br>
+                                        @endforeach
+                                        @error('subtract.*')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="column is-3">
-                                <label for="adjustment[]" class="label text-green"> Adjustment <sup class="has-text-danger"></sup> </label>
-                                <div class="field">
-                                    @foreach ($warehouses as $warehouse)
-                                        <label class="checkbox mr-3 has-text-grey has-text-weight-light">
-                                            <input name="adjustment[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['adjustment']) ? ($warehousePermissions['adjustment']->contains($warehouse) == $warehouse->id ? 'checked' : '') : '' }}>
-                                            {{ $warehouse->name }}
-                                        </label>
-                                        <br>
-                                    @endforeach
-                                    @error('adjustment.*')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
+                                <div class="column is-3">
+                                    <label for="add[]" class="label text-green"> Add <sup class="has-text-weight-light is-size-7">(Transfer, Return, GRN)</sup> </label>
+                                    <div class="field">
+                                        @foreach ($warehouses as $warehouse)
+                                            <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                                <input name="add[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['add']) ? ($warehousePermissions['add']->contains($warehouse) == $warehouse->id ? 'checked' : '') : '' }}>
+                                                {{ $warehouse->name }}
+                                            </label>
+                                            <br>
+                                        @endforeach
+                                        @error('add.*')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="column is-3">
-                                <label for="siv[]" class="label text-green"> SIV <sup class="has-text-danger"></sup> </label>
-                                <div class="field">
-                                    @foreach ($warehouses as $warehouse)
-                                        <label class="checkbox mr-3 has-text-grey has-text-weight-light">
-                                            <input name="siv[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['siv']) ? ($warehousePermissions['siv']->contains($warehouse) == $warehouse->id ? 'checked' : '') : '' }}>
-                                            {{ $warehouse->name }}
-                                        </label>
-                                        <br>
-                                    @endforeach
-                                    @error('siv.*')
-                                        <span class="help has-text-danger" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
+                                <div class="column is-3">
+                                    <label for="adjustment[]" class="label text-green"> Adjustment <sup class="has-text-danger"></sup> </label>
+                                    <div class="field">
+                                        @foreach ($warehouses as $warehouse)
+                                            <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                                <input name="adjustment[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['adjustment']) ? ($warehousePermissions['adjustment']->contains($warehouse) == $warehouse->id ? 'checked' : '') : '' }}>
+                                                {{ $warehouse->name }}
+                                            </label>
+                                            <br>
+                                        @endforeach
+                                        @error('adjustment.*')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="column is-3">
+                                    <label for="siv[]" class="label text-green"> SIV <sup class="has-text-danger"></sup> </label>
+                                    <div class="field">
+                                        @foreach ($warehouses as $warehouse)
+                                            <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                                <input name="siv[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['siv']) ? ($warehousePermissions['siv']->contains($warehouse) == $warehouse->id ? 'checked' : '') : '' }}>
+                                                {{ $warehouse->name }}
+                                            </label>
+                                            <br>
+                                        @endforeach
+                                        @error('siv.*')
+                                            <span class="help has-text-danger" role="alert">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                @endif
             </div>
             <div class="box radius-top-0">
                 <div class="columns is-marginless">
