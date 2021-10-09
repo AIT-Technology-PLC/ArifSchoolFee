@@ -29,16 +29,7 @@
                     @if ($totalGeneralTenderChecklists > 0 && $totalGeneralTenderChecklists == $tender->tender_checklists_count)
                         <x-success-message message="All checklists are already selected" />
                     @elseif($totalGeneralTenderChecklists == 0)
-                        <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
-                            <p class="has-text-centered text-purple">
-                                <span class="icon">
-                                    <i class="fas fa-exclamation-circle"></i>
-                                </span>
-                                <span>
-                                    No checklists found
-                                </span>
-                            </p>
-                        </div>
+                        <x-fail-message message="No checklists found" />
                     @endif
                 </p>
                 <div class="columns is-marginless is-multiline">
