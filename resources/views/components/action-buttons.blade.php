@@ -8,7 +8,4 @@
         </span>
     </span>
 </a>
-<span>
-    @include('components.delete-button', ['model' => $model,
-    'id' => $id])
-</span>
+<x-delete-button :model="$model" :id="$id" />

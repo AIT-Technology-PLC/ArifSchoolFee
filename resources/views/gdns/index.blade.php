@@ -195,10 +195,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <span>
-                                        @include('components.delete-button', ['model' => 'gdns',
-                                        'id' => $gdn->id])
-                                    </span>
+                                    <x-delete-button model="gdns" :id="$gdn->id" />
                                 </td>
                             </tr>
                         @endforeach

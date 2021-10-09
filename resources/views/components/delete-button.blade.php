@@ -1,3 +1,5 @@
+@props(['model', 'id'])
+
 <form class="is-inline delete-form" action="{{ route($model . '.destroy', $id) }}" method="post">
     @csrf
     @method('DELETE')
