@@ -293,16 +293,7 @@
             </div>
             <x-success-message :message="session('successMessage')" />
             @if ($reservation->isCancelled())
-                <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
-                    <p class="has-text-grey text-purple is-size-6">
-                        <span class="icon">
-                            <i class="fas fa-times-circle"></i>
-                        </span>
-                        <span>
-                            This reservation is cancelled
-                        </span>
-                    </p>
-                </div>
+                <x-fail-message message="This reservation is cancelled" />
             @elseif ($reservation->isConverted())
                 <x-success-message message="This reservation is successfully converted to Delivery Order" />
             @elseif ($reservation->isReserved())
