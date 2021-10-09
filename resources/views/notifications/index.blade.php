@@ -78,7 +78,7 @@
             </div>
         </div>
         <div class="box radius-top-0">
-            @include('components.deleted-message', ['model' => 'Category'])
+            <x-success-message :message="session('deleted')" />
             <div>
                 <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[3,4]" data-numeric="[]">
                     <thead>

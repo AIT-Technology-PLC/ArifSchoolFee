@@ -93,6 +93,6 @@ class PurchaseOrderController extends Controller
 
         $purchaseOrder->forceDelete();
 
-        return back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }

@@ -129,6 +129,6 @@ class GdnController extends Controller
 
         $gdn->forceDelete();
 
-        return back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }

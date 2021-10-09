@@ -58,6 +58,6 @@ class TenderStatusController extends Controller
     {
         $tenderStatus->forceDelete();
 
-        return back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }

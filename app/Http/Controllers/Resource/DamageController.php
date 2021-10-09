@@ -99,6 +99,6 @@ class DamageController extends Controller
 
         $damage->forceDelete();
 
-        return back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }

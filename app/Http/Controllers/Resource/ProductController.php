@@ -65,6 +65,6 @@ class ProductController extends Controller
     {
         $product->forceDelete();
 
-        return back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }

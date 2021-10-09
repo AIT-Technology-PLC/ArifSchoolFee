@@ -84,7 +84,7 @@
             </h1>
         </div>
         <div class="box radius-top-0">
-            @include('components.deleted-message', ['model' => 'GRN'])
+            <x-success-message :message="session('deleted')" />
             <div>
                 <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[{{ isFeatureEnabled('Purchase Management') ? 6 : 5 }}]" data-numeric="[]">
                     <thead>

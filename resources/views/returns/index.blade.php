@@ -84,7 +84,7 @@
             </h1>
         </div>
         <div class="box radius-top-0">
-            @include('components.deleted-message', ['model' => 'Return'])
+            <x-success-message :message="session('deleted')" />
             <div>
                 <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[6]" data-numeric="[]">
                     <thead>

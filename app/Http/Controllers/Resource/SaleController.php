@@ -84,6 +84,6 @@ class SaleController extends Controller
     {
         $sale->forceDelete();
 
-        return back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }

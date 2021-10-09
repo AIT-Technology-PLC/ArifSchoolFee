@@ -63,6 +63,6 @@ class GeneralTenderChecklistController extends Controller
     {
         $generalTenderChecklist->forceDelete();
 
-        return back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }

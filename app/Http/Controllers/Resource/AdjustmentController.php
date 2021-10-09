@@ -103,6 +103,6 @@ class AdjustmentController extends Controller
 
         $adjustment->forceDelete();
 
-        return back()->with('deleted', 'Deleted Successfully');
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }
