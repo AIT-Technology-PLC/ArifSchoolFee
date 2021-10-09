@@ -105,6 +105,8 @@ class ReservationController extends Controller
                 ->with('failedMessage', $message);
         }
 
+        Notification::send(notifiables('Approve Reservation'), new ReservationPrepared($reservation));
+
         return redirect()->route('reservations.show', $reservation->id);
     }
 

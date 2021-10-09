@@ -6,8 +6,13 @@ use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Gdn;
 use App\Models\Reservation;
+use App\Notifications\GdnPrepared;
 use App\Notifications\ReservationApproved;
+use App\Notifications\ReservationCancelled;
+use App\Notifications\ReservationConverted;
+use App\Notifications\ReservationMade;
 use App\Services\ReservationService;
+use Illuminate\Support\Facades\Notification;
 
 class ReservationController extends Controller
 {
@@ -43,6 +48,8 @@ class ReservationController extends Controller
             return back()->with('failedMessage', $message);
         }
 
+        Notification::send(notifiables('Approve Reservation', $reservation->createdBy), new ReservationMade($reservation));
+
         return back();
     }
 
@@ -55,6 +62,8 @@ class ReservationController extends Controller
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(notifiables('Approve Reservation', $reservation->createdBy), new ReservationCancelled($reservation));
 
         return back();
     }
@@ -70,6 +79,10 @@ class ReservationController extends Controller
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(notifiables('Approve Reservation', $reservation->createdBy), new ReservationConverted($reservation));
+
+        Notification::send(notifiables('Approve GDN'), new GdnPrepared($reservation->reservable));
 
         return back();
     }

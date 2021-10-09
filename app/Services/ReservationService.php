@@ -3,14 +3,8 @@
 namespace App\Services;
 
 use App\Models\Gdn;
-use App\Notifications\GdnPrepared;
-use App\Notifications\ReservationCancelled;
-use App\Notifications\ReservationConverted;
-use App\Notifications\ReservationMade;
-use App\Notifications\ReservationPrepared;
 use App\Services\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
 
 class ReservationService
 {
@@ -46,8 +40,6 @@ class ReservationService
                 ->each(function ($reservationDetail, $key) use ($updatedReservationDetails) {
                     $reservationDetail->update($updatedReservationDetails[$key]);
                 });
-
-            Notification::send(notifiables('Approve Reservation'), new ReservationPrepared($reservation));
         });
 
         return [true, ''];
@@ -75,8 +67,6 @@ class ReservationService
             InventoryOperationService::add($reservation->reservationDetails, 'reserved');
 
             $reservation->reserve();
-
-            Notification::send(notifiables('Approve Reservation', $reservation->createdBy), new ReservationMade($reservation));
         });
 
         return [true, ''];
@@ -118,8 +108,6 @@ class ReservationService
             InventoryOperationService::add($reservation->reservationDetails);
 
             $reservation->cancel();
-
-            Notification::send(notifiables('Approve Reservation', $reservation->createdBy), new ReservationCancelled($reservation));
         });
 
         return [true, ''];
@@ -138,11 +126,6 @@ class ReservationService
         DB::transaction(function () use ($reservation) {
             $reservation->convert();
 
-            Notification::send(
-                notifiables('Approve Reservation', $reservation->createdBy),
-                new ReservationConverted($reservation)
-            );
-
             $gdn = Gdn::create([
                 'code' => Gdn::byBranch()->max('code') + 1,
                 'customer_id' => $reservation->customer_id ?? null,
@@ -155,8 +138,6 @@ class ReservationService
             $gdn->gdnDetails()->createMany($reservation->reservationDetails->toArray());
 
             $gdn->reservation()->save($reservation);
-
-            Notification::send(notifiables('Approve GDN', $gdn->createdBy), new GdnPrepared($gdn));
         });
 
         return [true, ''];
