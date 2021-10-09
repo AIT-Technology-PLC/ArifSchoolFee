@@ -123,19 +123,9 @@
                         </form>
                     </div>
                 @else
-                    <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-6">
-                            <span class="icon">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </span>
-                            <span>
-                                This Adjustment has not been approved.
-                            </span>
-                        </p>
-                    </div>
+                    <x-fail-message message="This Adjustment has not been approved yet." />
                 @endcan
-            @endif
-            @if ($adjustment->isApproved() && !$adjustment->isAdjusted())
+            @elseif (!$adjustment->isAdjusted())
                 @can('Make Adjustment')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
@@ -156,19 +146,9 @@
                         </form>
                     </div>
                 @else
-                    <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-6">
-                            <span class="icon">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </span>
-                            <span>
-                                Product(s) listed below are still not adjusted.
-                            </span>
-                        </p>
-                    </div>
+                    <x-fail-message message="Product(s) listed below are still not adjusted." />
                 @endcan
-            @endif
-            @if ($adjustment->isAdjusted())
+            @else
                 <x-success-message message="Products have been adjusted accordingly." />
             @endif
             <div class="table-container">
