@@ -12,9 +12,7 @@
         </p>
         {{ $slot ?? '' }}
     </div>
-@endif
-
-@if (isset($message) && count($message))
+@elseif (isset($message) && is_countable($message))
     <div class="box is-shadowless bg-lightpurple text-purple mb-{{ $marginBottom }}">
         @foreach ($message as $item)
             <span class="icon">
