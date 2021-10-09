@@ -2,10 +2,8 @@
 
 namespace App\Services;
 
-use App\Notifications\TransferMade;
 use App\Services\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
 
 class TransferService
 {
@@ -33,8 +31,6 @@ class TransferService
             InventoryOperationService::subtract($transfer->transferDetails);
 
             $transfer->subtract();
-
-            Notification::send(notifiables('Approve Transfer', $transfer->createdBy), new TransferMade($transfer));
         });
 
         return [true, ''];
@@ -60,8 +56,6 @@ class TransferService
             InventoryOperationService::add($transfer->transferDetails);
 
             $transfer->add();
-
-            Notification::send(notifiables('Approve Transfer', $transfer->createdBy), new TransferMade($transfer));
         });
 
         return [true, ''];

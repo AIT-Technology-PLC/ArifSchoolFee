@@ -8,7 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Siv;
 use App\Models\Transfer;
 use App\Notifications\TransferApproved;
+use App\Notifications\TransferMade;
 use App\Services\TransferService;
+use Illuminate\Support\Facades\Notification;
 
 class TransferController extends Controller
 {
@@ -40,6 +42,8 @@ class TransferController extends Controller
             return back()->with('failedMessage', $message);
         }
 
+        Notification::send(notifiables('Approve Transfer', $transfer->createdBy), new TransferMade($transfer));
+
         return back();
     }
 
@@ -52,6 +56,8 @@ class TransferController extends Controller
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(notifiables('Approve Transfer', $transfer->createdBy), new TransferMade($transfer));
 
         return back();
     }

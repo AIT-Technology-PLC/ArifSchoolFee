@@ -2,10 +2,8 @@
 
 namespace App\Services;
 
-use App\Notifications\ReturnAdded;
 use App\Services\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
 
 class ReturnService
 {
@@ -27,8 +25,6 @@ class ReturnService
             InventoryOperationService::add($return->returnDetails);
 
             $return->add();
-
-            Notification::send(notifiables('Approve Return', $return->createdBy), new ReturnAdded($return));
         });
 
         return [true, ''];

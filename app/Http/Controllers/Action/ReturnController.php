@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Action;
 use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Returnn;
+use App\Notifications\ReturnAdded;
 use App\Notifications\ReturnApproved;
 use App\Services\ReturnService;
+use Illuminate\Support\Facades\Notification;
 
 class ReturnController extends Controller
 {
@@ -46,6 +48,8 @@ class ReturnController extends Controller
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(notifiables('Approve Return', $return->createdBy), new ReturnAdded($return));
 
         return back();
     }
