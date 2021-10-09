@@ -22,6 +22,9 @@ trait Branchable
 
     public function scopeByBranch($query)
     {
-        return $query->where('warehouse_id', auth()->user()->warehouse_id);
+        return $query->when(!user()->hasRole('System Manager'), function ($query) {
+            return $query->where("{$this->getTable()}.warehouse_id", auth()->user()->warehouse_id);
+        });
+
     }
 }
