@@ -24,11 +24,11 @@ class SivController extends Controller
     {
         $sivs = (new Siv)->getAll()->load(['createdBy', 'updatedBy', 'approvedBy']);
 
-        $totalSivs = Siv::byBranch()->count();
+        $totalSivs = Siv::count();
 
-        $totalApproved = Siv::byBranch()->whereNotNull('approved_by')->count();
+        $totalApproved = Siv::whereNotNull('approved_by')->count();
 
-        $totalNotApproved = Siv::byBranch()->whereNull('approved_by')->count();
+        $totalNotApproved = Siv::whereNull('approved_by')->count();
 
         return view('sivs.index', compact('sivs', 'totalSivs', 'totalApproved', 'totalNotApproved'));
     }
@@ -39,7 +39,7 @@ class SivController extends Controller
 
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $currentSivCode = Siv::byBranch()->max('code') + 1;
+        $currentSivCode = Siv::max('code') + 1;
 
         return view('sivs.create', compact('warehouses', 'customers', 'currentSivCode'));
     }

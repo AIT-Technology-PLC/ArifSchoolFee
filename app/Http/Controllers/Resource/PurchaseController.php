@@ -24,7 +24,7 @@ class PurchaseController extends Controller
             ->getAll()
             ->load(['createdBy', 'updatedBy', 'purchaseDetails']);
 
-        $totalPurchases = Purchase::byBranch()->count();
+        $totalPurchases = Purchase::count();
 
         return view('purchases.index', compact('purchases', 'totalPurchases'));
     }
@@ -33,7 +33,7 @@ class PurchaseController extends Controller
     {
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        $currentPurchaseNo = Purchase::byBranch()->max('code') + 1;
+        $currentPurchaseNo = Purchase::max('code') + 1;
 
         return view('purchases.create', compact('suppliers', 'currentPurchaseNo'));
     }

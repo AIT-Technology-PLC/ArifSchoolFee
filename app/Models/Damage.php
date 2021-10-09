@@ -37,6 +37,6 @@ class Damage extends Model
             return $this->latest()->get();
         }
 
-        return $this->byBranch()->latest()->get();
+        return $this->latest()->get();
     }
 }

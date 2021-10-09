@@ -22,11 +22,11 @@ class PurchaseOrderController extends Controller
     {
         $purchaseOrders = (new PurchaseOrder)->getAll()->load(['customer', 'createdBy', 'updatedBy']);
 
-        $totalPurchaseOrders = PurchaseOrder::byBranch()->count();
+        $totalPurchaseOrders = PurchaseOrder::count();
 
-        $totalClosed = PurchaseOrder::byBranch()->where('is_closed', 1)->count();
+        $totalClosed = PurchaseOrder::where('is_closed', 1)->count();
 
-        $totalOpen = PurchaseOrder::byBranch()->where('is_closed', 0)->count();
+        $totalOpen = PurchaseOrder::where('is_closed', 0)->count();
 
         return view('purchase-orders.index', compact('purchaseOrders', 'totalPurchaseOrders', 'totalClosed', 'totalOpen'));
     }

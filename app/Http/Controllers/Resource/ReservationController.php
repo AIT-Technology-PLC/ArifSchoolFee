@@ -30,21 +30,21 @@ class ReservationController extends Controller
         $reservations = (new Reservation())->getAll()
             ->load(['reservationDetails', 'createdBy', 'updatedBy', 'approvedBy', 'customer', 'reservable']);
 
-        $totalReservations = Reservation::byBranch()->count();
+        $totalReservations = Reservation::count();
 
-        $totalConverted = Reservation::byBranch()->whereNotNull('converted_by')
+        $totalConverted = Reservation::whereNotNull('converted_by')
             ->whereNull('cancelled_by')->count();
 
-        $totalReserved = Reservation::byBranch()->whereNotNull('reserved_by')->whereNull('converted_by')
+        $totalReserved = Reservation::whereNotNull('reserved_by')->whereNull('converted_by')
             ->whereNull('cancelled_by')->count();
 
-        $totalNotApproved = Reservation::byBranch()->whereNull('approved_by')
+        $totalNotApproved = Reservation::whereNull('approved_by')
             ->whereNull('cancelled_by')->count();
 
-        $totalApproved = Reservation::byBranch()->whereNotNull('approved_by')->whereNull('reserved_by')->whereNull('converted_by')
+        $totalApproved = Reservation::whereNotNull('approved_by')->whereNull('reserved_by')->whereNull('converted_by')
             ->whereNull('cancelled_by')->count();
 
-        $totalCancelled = Reservation::byBranch()->whereNotNull('cancelled_by')->count();
+        $totalCancelled = Reservation::whereNotNull('cancelled_by')->count();
 
         return view('reservations.index',
             compact('reservations', 'totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalNotApproved', 'totalApproved'));
@@ -56,7 +56,7 @@ class ReservationController extends Controller
 
         $warehouses = user()->getAllowedWarehouses('sales');
 
-        $currentReservationCode = Reservation::byBranch()->max('code') + 1;
+        $currentReservationCode = Reservation::max('code') + 1;
 
         return view('reservations.create', compact('customers', 'warehouses', 'currentReservationCode'));
     }

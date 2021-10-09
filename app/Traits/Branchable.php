@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Warehouse;
+use App\Scopes\BranchScope;
 
 trait Branchable
 {
@@ -13,18 +14,12 @@ trait Branchable
                 $model->warehouse_id = auth()->user()->warehouse_id;
             }
         });
+
+        static::addGlobalScope(new BranchScope);
     }
 
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
-    }
-
-    public function scopeByBranch($query)
-    {
-        return $query->when(!user()->hasRole('System Manager'), function ($query) {
-            return $query->where("{$this->getTable()}.warehouse_id", auth()->user()->warehouse_id);
-        });
-
     }
 }

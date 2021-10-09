@@ -25,13 +25,13 @@ class GdnController extends Controller
     {
         $gdns = (new Gdn)->getAll()->load(['gdnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'sale', 'customer']);
 
-        $totalGdns = Gdn::byBranch()->count();
+        $totalGdns = Gdn::count();
 
-        $totalNotApproved = Gdn::byBranch()->whereNull('approved_by')->count();
+        $totalNotApproved = Gdn::whereNull('approved_by')->count();
 
-        $totalNotSubtracted = Gdn::byBranch()->whereNull('subtracted_by')->whereNotNull('approved_by')->count();
+        $totalNotSubtracted = Gdn::whereNull('subtracted_by')->whereNotNull('approved_by')->count();
 
-        $totalSubtracted = Gdn::byBranch()->whereNotNull('subtracted_by')->count();
+        $totalSubtracted = Gdn::whereNotNull('subtracted_by')->count();
 
         return view('gdns.index', compact('gdns', 'totalGdns', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }
@@ -44,7 +44,7 @@ class GdnController extends Controller
 
         $warehouses = user()->getAllowedWarehouses('sales');
 
-        $currentGdnCode = Gdn::byBranch()->max('code') + 1;
+        $currentGdnCode = Gdn::max('code') + 1;
 
         return view('gdns.create', compact('customers', 'sales', 'warehouses', 'currentGdnCode'));
     }

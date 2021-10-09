@@ -24,15 +24,15 @@ class TransferController extends Controller
     {
         $transfers = (new Transfer)->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'transferredFrom', 'transferredTo']);
 
-        $totalTransferred = Transfer::byBranch()->whereNotNull('added_by')->count();
+        $totalTransferred = Transfer::whereNotNull('added_by')->count();
 
-        $totalSubtracted = Transfer::byBranch()->whereNotNull('subtracted_by')->whereNull('added_by')->count();
+        $totalSubtracted = Transfer::whereNotNull('subtracted_by')->whereNull('added_by')->count();
 
-        $totalApproved = Transfer::byBranch()->whereNotNull('approved_by')->whereNull('subtracted_by')->count();
+        $totalApproved = Transfer::whereNotNull('approved_by')->whereNull('subtracted_by')->count();
 
-        $totalNotApproved = Transfer::byBranch()->whereNull('approved_by')->count();
+        $totalNotApproved = Transfer::whereNull('approved_by')->count();
 
-        $totalTransfers = Transfer::byBranch()->count();
+        $totalTransfers = Transfer::count();
 
         return view('transfers.index', compact('transfers', 'totalTransfers', 'totalTransferred', 'totalSubtracted', 'totalApproved', 'totalNotApproved'));
     }
@@ -43,7 +43,7 @@ class TransferController extends Controller
 
         $toWarehouses = user()->getAllowedWarehouses('add');
 
-        $currentTransferCode = Transfer::byBranch()->max('code') + 1;
+        $currentTransferCode = Transfer::max('code') + 1;
 
         return view('transfers.create', compact('fromWarehouses', 'toWarehouses', 'currentTransferCode'));
     }

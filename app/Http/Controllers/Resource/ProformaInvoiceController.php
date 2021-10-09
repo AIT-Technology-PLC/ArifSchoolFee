@@ -24,13 +24,13 @@ class ProformaInvoiceController extends Controller
     {
         $proformaInvoices = (new ProformaInvoice())->getAll()->load(['createdBy', 'updatedBy', 'convertedBy', 'customer']);
 
-        $totalProformaInvoices = ProformaInvoice::byBranch()->count();
+        $totalProformaInvoices = ProformaInvoice::count();
 
-        $totalConverted = ProformaInvoice::byBranch()->whereNotNull('converted_by')->count();
+        $totalConverted = ProformaInvoice::whereNotNull('converted_by')->count();
 
-        $totalPending = ProformaInvoice::byBranch()->where('is_pending', 1)->count();
+        $totalPending = ProformaInvoice::where('is_pending', 1)->count();
 
-        $totalCancelled = ProformaInvoice::byBranch()->where('is_pending', 0)->whereNull('converted_by')->count();
+        $totalCancelled = ProformaInvoice::where('is_pending', 0)->whereNull('converted_by')->count();
 
         return view('proforma-invoices.index', compact('proformaInvoices', 'totalProformaInvoices',
             'totalConverted', 'totalPending', 'totalCancelled'));
@@ -40,7 +40,7 @@ class ProformaInvoiceController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $currentProformaInvoiceCode = ProformaInvoice::byBranch()->max('code') + 1;
+        $currentProformaInvoiceCode = ProformaInvoice::max('code') + 1;
 
         return view('proforma-invoices.create', compact('customers', 'currentProformaInvoiceCode'));
     }

@@ -25,13 +25,13 @@ class GrnController extends Controller
     {
         $grns = (new Grn)->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'supplier', 'purchase']);
 
-        $totalAdded = Grn::byBranch()->whereNotNull('added_by')->count();
+        $totalAdded = Grn::whereNotNull('added_by')->count();
 
-        $totalNotApproved = Grn::byBranch()->whereNull('approved_by')->count();
+        $totalNotApproved = Grn::whereNull('approved_by')->count();
 
-        $totalNotAdded = Grn::byBranch()->whereNotNull('approved_by')->whereNull('added_by')->count();
+        $totalNotAdded = Grn::whereNotNull('approved_by')->whereNull('added_by')->count();
 
-        $totalGrns = Grn::byBranch()->count();
+        $totalGrns = Grn::count();
 
         return view('grns.index', compact('grns', 'totalGrns', 'totalAdded', 'totalNotApproved', 'totalNotAdded'));
     }
@@ -44,7 +44,7 @@ class GrnController extends Controller
 
         $purchases = (new Purchase)->getAll();
 
-        $currentGrnCode = Grn::byBranch()->max('code') + 1;
+        $currentGrnCode = Grn::max('code') + 1;
 
         return view('grns.create', compact('warehouses', 'suppliers', 'purchases', 'currentGrnCode'));
     }
