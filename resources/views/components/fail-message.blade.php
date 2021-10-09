@@ -10,5 +10,6 @@
                 {{ $message }}
             </span>
         </p>
+        {{ $slot ?? '' }}
     </div>
 @endif
