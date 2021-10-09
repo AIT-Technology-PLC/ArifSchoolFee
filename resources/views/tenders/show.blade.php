@@ -525,10 +525,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <span>
-                                        @include('components.delete-button', ['model' => 'tender-checklists',
-                                        'id' => $tenderChecklist->id])
-                                    </span>
+                                    <x-delete-button model="tender-checklists" :id="$tenderChecklist->id" />
                                 </td>
                             </tr>
                         @endforeach

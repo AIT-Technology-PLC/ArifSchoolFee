@@ -102,8 +102,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    @include('components.delete-button', ['model' => 'customers',
-                                    'id' => $customer->id])
+                                    <x-delete-button model="customers" :id="$customer->id" />
                                 </td>
                             </tr>
                         @endforeach

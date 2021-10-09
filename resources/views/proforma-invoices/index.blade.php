@@ -173,10 +173,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <span>
-                                        @include('components.delete-button', ['model' => 'proforma-invoices',
-                                        'id' => $proformaInvoice->id])
-                                    </span>
+                                    <x-delete-button model="proforma-invoices" :id="$proformaInvoice->id" />
                                 </td>
                             </tr>
                         @endforeach

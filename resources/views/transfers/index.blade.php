@@ -193,10 +193,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <span>
-                                        @include('components.delete-button', ['model' => 'transfers',
-                                        'id' => $transfer->id])
-                                    </span>
+                                    <x-delete-button model="transfers" :id="$transfer->id" />
                                 </td>
                             </tr>
                         @endforeach
