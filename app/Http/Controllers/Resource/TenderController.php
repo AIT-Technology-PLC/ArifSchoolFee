@@ -28,7 +28,7 @@ class TenderController extends Controller
             ->loadCount('tenderDetails')
             ->load(['customer', 'tenderChecklists', 'createdBy', 'updatedBy']);
 
-        $totalTenders = Tender::count();
+        $totalTenders = Tender::byBranch()->count();
 
         return view('tenders.index', compact('tenders', 'totalTenders'));
     }

@@ -25,13 +25,13 @@ class GdnController extends Controller
     {
         $gdns = (new Gdn)->getAll()->load(['gdnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'sale', 'customer']);
 
-        $totalGdns = Gdn::count();
+        $totalGdns = Gdn::byBranch()->count();
 
-        $totalNotApproved = Gdn::whereNull('approved_by')->count();
+        $totalNotApproved = Gdn::byBranch()->whereNull('approved_by')->count();
 
-        $totalNotSubtracted = Gdn::whereNull('subtracted_by')->whereNotNull('approved_by')->count();
+        $totalNotSubtracted = Gdn::byBranch()->whereNull('subtracted_by')->whereNotNull('approved_by')->count();
 
-        $totalSubtracted = Gdn::whereNotNull('subtracted_by')->count();
+        $totalSubtracted = Gdn::byBranch()->whereNotNull('subtracted_by')->count();
 
         return view('gdns.index', compact('gdns', 'totalGdns', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }

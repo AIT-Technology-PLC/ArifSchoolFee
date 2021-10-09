@@ -24,7 +24,7 @@ class PurchaseController extends Controller
             ->getAll()
             ->load(['createdBy', 'updatedBy', 'purchaseDetails']);
 
-        $totalPurchases = Purchase::count();
+        $totalPurchases = Purchase::byBranch()->count();
 
         return view('purchases.index', compact('purchases', 'totalPurchases'));
     }

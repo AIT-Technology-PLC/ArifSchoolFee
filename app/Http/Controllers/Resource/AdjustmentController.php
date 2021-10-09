@@ -23,13 +23,13 @@ class AdjustmentController extends Controller
     {
         $adjustments = (new Adjustment)->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'adjustedBy']);
 
-        $totalAdjustments = Adjustment::count();
+        $totalAdjustments = Adjustment::byBranch()->count();
 
-        $totalNotApproved = Adjustment::whereNull('approved_by')->count();
+        $totalNotApproved = Adjustment::byBranch()->whereNull('approved_by')->count();
 
-        $totalNotAdjusted = Adjustment::whereNotNull('approved_by')->whereNull('adjusted_by')->count();
+        $totalNotAdjusted = Adjustment::byBranch()->whereNotNull('approved_by')->whereNull('adjusted_by')->count();
 
-        $totalAdjusted = Adjustment::whereNotNull('adjusted_by')->count();
+        $totalAdjusted = Adjustment::byBranch()->whereNotNull('adjusted_by')->count();
 
         return view('adjustments.index', compact('adjustments', 'totalAdjustments', 'totalNotApproved', 'totalNotAdjusted', 'totalAdjusted'));
     }

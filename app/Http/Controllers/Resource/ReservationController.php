@@ -30,21 +30,21 @@ class ReservationController extends Controller
         $reservations = (new Reservation())->getAll()
             ->load(['reservationDetails', 'createdBy', 'updatedBy', 'approvedBy', 'customer', 'reservable']);
 
-        $totalReservations = Reservation::count();
+        $totalReservations = Reservation::byBranch()->count();
 
-        $totalConverted = Reservation::whereNotNull('converted_by')
+        $totalConverted = Reservation::byBranch()->whereNotNull('converted_by')
             ->whereNull('cancelled_by')->count();
 
-        $totalReserved = Reservation::whereNotNull('reserved_by')->whereNull('converted_by')
+        $totalReserved = Reservation::byBranch()->whereNotNull('reserved_by')->whereNull('converted_by')
             ->whereNull('cancelled_by')->count();
 
-        $totalNotApproved = Reservation::whereNull('approved_by')
+        $totalNotApproved = Reservation::byBranch()->whereNull('approved_by')
             ->whereNull('cancelled_by')->count();
 
-        $totalApproved = Reservation::whereNotNull('approved_by')->whereNull('reserved_by')->whereNull('converted_by')
+        $totalApproved = Reservation::byBranch()->whereNotNull('approved_by')->whereNull('reserved_by')->whereNull('converted_by')
             ->whereNull('cancelled_by')->count();
 
-        $totalCancelled = Reservation::whereNotNull('cancelled_by')->count();
+        $totalCancelled = Reservation::byBranch()->whereNotNull('cancelled_by')->count();
 
         return view('reservations.index',
             compact('reservations', 'totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalNotApproved', 'totalApproved'));

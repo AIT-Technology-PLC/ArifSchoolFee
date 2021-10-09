@@ -24,11 +24,11 @@ class SivController extends Controller
     {
         $sivs = (new Siv)->getAll()->load(['createdBy', 'updatedBy', 'approvedBy']);
 
-        $totalSivs = Siv::count();
+        $totalSivs = Siv::byBranch()->count();
 
-        $totalApproved = Siv::whereNotNull('approved_by')->count();
+        $totalApproved = Siv::byBranch()->whereNotNull('approved_by')->count();
 
-        $totalNotApproved = Siv::whereNull('approved_by')->count();
+        $totalNotApproved = Siv::byBranch()->whereNull('approved_by')->count();
 
         return view('sivs.index', compact('sivs', 'totalSivs', 'totalApproved', 'totalNotApproved'));
     }

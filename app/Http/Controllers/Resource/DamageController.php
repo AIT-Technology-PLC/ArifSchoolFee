@@ -23,13 +23,13 @@ class DamageController extends Controller
     {
         $damages = (new Damage)->getAll()->load(['damageDetails', 'createdBy', 'updatedBy', 'approvedBy']);
 
-        $totalDamages = Damage::count();
+        $totalDamages = Damage::byBranch()->count();
 
-        $totalNotApproved = Damage::whereNull('approved_by')->count();
+        $totalNotApproved = Damage::byBranch()->whereNull('approved_by')->count();
 
-        $totalNotSubtracted = Damage::whereNull('subtracted_by')->whereNotNull('approved_by')->count();
+        $totalNotSubtracted = Damage::byBranch()->whereNull('subtracted_by')->whereNotNull('approved_by')->count();
 
-        $totalSubtracted = Damage::whereNotNull('subtracted_by')->count();
+        $totalSubtracted = Damage::byBranch()->whereNotNull('subtracted_by')->count();
 
         return view('damages.index', compact('damages', 'totalDamages', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }

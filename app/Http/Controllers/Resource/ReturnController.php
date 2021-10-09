@@ -24,13 +24,13 @@ class ReturnController extends Controller
     {
         $returns = (new Returnn)->getAll()->load(['returnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'customer']);
 
-        $totalReturns = Returnn::count();
+        $totalReturns = Returnn::byBranch()->count();
 
-        $totalNotApproved = Returnn::whereNull('approved_by')->count();
+        $totalNotApproved = Returnn::byBranch()->whereNull('approved_by')->count();
 
-        $totalNotAdded = Returnn::whereNotNull('approved_by')->whereNull('added_by')->count();
+        $totalNotAdded = Returnn::byBranch()->whereNotNull('approved_by')->whereNull('added_by')->count();
 
-        $totalAdded = Returnn::whereNotNull('added_by')->count();
+        $totalAdded = Returnn::byBranch()->whereNotNull('added_by')->count();
 
         return view('returns.index', compact('returns', 'totalReturns', 'totalNotApproved', 'totalNotAdded', 'totalAdded'));
     }

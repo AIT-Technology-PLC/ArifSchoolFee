@@ -24,13 +24,13 @@ class ProformaInvoiceController extends Controller
     {
         $proformaInvoices = (new ProformaInvoice())->getAll()->load(['createdBy', 'updatedBy', 'convertedBy', 'customer']);
 
-        $totalProformaInvoices = ProformaInvoice::count();
+        $totalProformaInvoices = ProformaInvoice::byBranch()->count();
 
-        $totalConverted = ProformaInvoice::whereNotNull('converted_by')->count();
+        $totalConverted = ProformaInvoice::byBranch()->whereNotNull('converted_by')->count();
 
-        $totalPending = ProformaInvoice::where('is_pending', 1)->count();
+        $totalPending = ProformaInvoice::byBranch()->where('is_pending', 1)->count();
 
-        $totalCancelled = ProformaInvoice::where('is_pending', 0)->whereNull('converted_by')->count();
+        $totalCancelled = ProformaInvoice::byBranch()->where('is_pending', 0)->whereNull('converted_by')->count();
 
         return view('proforma-invoices.index', compact('proformaInvoices', 'totalProformaInvoices',
             'totalConverted', 'totalPending', 'totalCancelled'));

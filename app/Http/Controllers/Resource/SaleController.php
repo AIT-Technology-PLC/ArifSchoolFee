@@ -24,7 +24,7 @@ class SaleController extends Controller
             ->getAll()
             ->load(['createdBy', 'updatedBy', 'saleDetails']);
 
-        $totalSales = Sale::count();
+        $totalSales = Sale::byBranch()->count();
 
         return view('sales.index', compact('sales', 'totalSales'));
     }
