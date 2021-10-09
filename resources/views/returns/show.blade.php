@@ -182,16 +182,7 @@
                         </form>
                     </div>
                 @else
-                    <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-6">
-                            <span class="icon">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </span>
-                            <span>
-                                Product(s) listed below are still not added to the inventory.
-                            </span>
-                        </p>
-                    </div>
+                    <x-fail-message message="Product(s) listed below are still not added to the inventory." />
                 @endcan
             @endif
             @if (!$return->isApproved())
@@ -215,16 +206,7 @@
                         </form>
                     </div>
                 @else
-                    <div class="box is-shadowless bg-lightpurple has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-6">
-                            <span class="icon">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </span>
-                            <span>
-                                This Return has not been approved.
-                            </span>
-                        </p>
-                    </div>
+                    <x-fail-message message="This Return has not been approved." />
                 @endcan
             @endif
             <div class="table-container">
