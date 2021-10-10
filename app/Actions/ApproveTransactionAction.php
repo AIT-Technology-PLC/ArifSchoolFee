@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Notification;
 
 class ApproveTransactionAction
 {
-    private function sendNotification($model, $notification = null, $permission = null)
+    private function sendNotification($model, $notification, $permission)
     {
         if (isset($notification) && isset($permission)) {
             Notification::send(
