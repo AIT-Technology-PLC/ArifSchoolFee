@@ -16,18 +16,7 @@
             @csrf
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
-                @if (session()->has('message'))
-                    <div class="message is-success">
-                        <p class="message-body">
-                            <span class="icon">
-                                <i class="fas fa-check-circle"></i>
-                            </span>
-                            <span>
-                                {{ session('message') }}
-                            </span>
-                        </p>
-                    </div>
-                @endif
+                <x-success-message :message="session('message')" />
                 <div class="columns is-marginless is-multiline">
                     @foreach ($permissionCategories as $key => $value)
                         @continue(!isFeatureEnabled($value['feature']))
