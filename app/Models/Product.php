@@ -138,14 +138,18 @@ class Product extends Model
         });
     }
 
-    public function getOutOfOnHandMerchandiseProductsQuery()
+    public function getOutOfOnHandMerchandiseProductsQuery($warehouseId = null)
     {
         if (auth()->user()->getAllowedWarehouses('read')->isEmpty()) {
             return collect();
         }
 
-        return $this->whereDoesntHave('merchandises', function ($query) {
-            $query->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
+        return $this->whereNotIn('id', function ($query) use ($warehouseId) {
+            $query->select('product_id')
+                ->from('merchandises')
+                ->where('company_id', userCompany()->id)
+                ->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
+                ->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
                 ->where('available', '>', 0)
                 ->orWhere('reserved', '>', 0);
         });

@@ -18,20 +18,43 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
     {
         $this->authorize('viewAny', $merchandise);
 
-        $onHandMerchandises = $merchandise->getAllOnHand()->where('warehouse_id', $warehouse->id)->load('product.productCategory');
+        $onHandMerchandises = (new Product)->getOnHandMerchandiseProductsQuery()
+            ->with('merchandises.product.productCategory')
+            ->with('merchandises', function ($query) use ($warehouse) {
+                $query->where('warehouse_id', $warehouse->id);
+            })
+            ->get()
+            ->pluck('merchandises')
+            ->flatten();
 
-        $onHandMerchandiseProducts = $onHandMerchandises->pluck('product')->unique();
-
-        $totalDistinctOnHandMerchandises = $onHandMerchandiseProducts->count();
-
-        $totalDistinctLimitedMerchandises = $merchandise->getTotalDistinctLimitedMerchandises($onHandMerchandises);
-
-        $outOfStockMerchandises = $product->getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)->load('productCategory');
-
-        $totalOutOfStockMerchandises = $outOfStockMerchandises->count();
+        $outOfStockMerchandises = (new Product)->getOutOfOnHandMerchandiseProductsQuery($warehouse->id)
+            ->with('productCategory')
+            ->get();
 
         $warehouses = auth()->user()->getAllowedWarehouses('read');
 
-        return view('warehouses.merchandises.index', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'warehouses', 'warehouse'));
+        $insights = $this->insights($warehouse);
+
+        return view('warehouses.merchandises.index',
+            compact('onHandMerchandises', 'outOfStockMerchandises', 'warehouses', 'warehouse', 'insights'));
+    }
+
+    private function insights($warehouse)
+    {
+        $totalOnHandProducts = (new Product)->getOnHandMerchandiseProductsQuery()
+            ->whereHas('merchandises', function ($query) use ($warehouse) {
+                $query->where('warehouse_id', $warehouse->id);
+            })
+            ->count();
+
+        $totalOutOfStockProducts = (new Product)->getOutOfOnHandMerchandiseProductsQuery($warehouse->id)->count();
+
+        $totalLimitedProducts = (new Product)->getLimitedMerchandiseProductsQuery()
+            ->whereHas('merchandises', function ($query) use ($warehouse) {
+                $query->where('warehouse_id', $warehouse->id);
+            })
+            ->count();
+
+        return compact('totalOnHandProducts', 'totalOutOfStockProducts', 'totalLimitedProducts');
     }
 }
