@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Product;
+
 class MerchandiseProductService
 {
     public function getOnHandMerchandiseProductsQuery()
@@ -10,7 +12,7 @@ class MerchandiseProductService
             return collect();
         }
 
-        return $this->whereHas('merchandises', function ($query) {
+        return Product::whereHas('merchandises', function ($query) {
             $query->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
                 ->where('available', '>', 0)
                 ->orWhere('reserved', '>', 0);
@@ -23,7 +25,7 @@ class MerchandiseProductService
             return collect();
         }
 
-        return $this->whereNotIn('id', function ($query) use ($warehouseId) {
+        return Product::whereNotIn('id', function ($query) use ($warehouseId) {
             $query->select('product_id')
                 ->from('merchandises')
                 ->where('company_id', userCompany()->id)
@@ -40,7 +42,7 @@ class MerchandiseProductService
             return collect();
         }
 
-        return $this->whereHas('merchandises', function ($query) use ($warehouseId) {
+        return Product::whereHas('merchandises', function ($query) use ($warehouseId) {
             $query->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
                 ->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
                 ->whereRaw('products.min_on_hand != 0')
