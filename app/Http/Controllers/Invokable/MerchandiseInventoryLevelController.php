@@ -21,7 +21,7 @@ class MerchandiseInventoryLevelController extends Controller
 
         $insights = $this->insights();
 
-        $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
+        $warehouses = auth()->user()->getAllowedWarehouses('read');
 
         $datatable = InventoryDatatableFactory::make($type);
 

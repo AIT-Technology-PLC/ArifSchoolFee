@@ -117,21 +117,23 @@
                 </div>
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
-                        <div class="field">
-                            <div class="control has-icons-left">
-                                <div class="select">
-                                    <select id="warehouseId">
-                                        <option value="0" selected>All Warehouses</option>
-                                        @foreach ($warehouses as $availableWarehouse)
-                                            <option value="{{ $availableWarehouse->id }}" {{ ($warehouse->id ?? '') == $availableWarehouse->id ? 'selected' : '' }}>{{ $availableWarehouse->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-warehouse"></i>
+                        @if ($warehouses->isNotEmpty())
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <div class="select">
+                                        <select id="warehouseId">
+                                            <option value="0" selected>All Warehouses</option>
+                                            @foreach ($warehouses as $availableWarehouse)
+                                                <option value="{{ $availableWarehouse->id }}" {{ ($warehouse->id ?? '') == $availableWarehouse->id ? 'selected' : '' }}>{{ $availableWarehouse->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="icon is-small is-left">
+                                        <i class="fas fa-warehouse"></i>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

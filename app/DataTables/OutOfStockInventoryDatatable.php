@@ -4,7 +4,6 @@ namespace App\DataTables;
 
 use App\Models\Merchandise;
 use App\Models\Product;
-use App\Models\Warehouse;
 use App\Traits\DataTableHtmlBuilder;
 use Yajra\DataTables\Services\DataTable;
 
@@ -14,7 +13,7 @@ class OutOfStockInventoryDatatable extends DataTable
 
     public function __construct()
     {
-        $this->warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
+        $this->warehouses = auth()->user()->getAllowedWarehouses('read');
     }
 
     public function dataTable($query)
@@ -51,7 +50,19 @@ class OutOfStockInventoryDatatable extends DataTable
 
     public function query()
     {
-        $onHandMerchandiseProducts = (new Merchandise())->getAllOnHand()->load('product')->pluck('product')->unique();
+        if (auth()->user()->getAllowedWarehouses('read')->isEmpty()) {
+            return collect();
+        }
+
+        $onHandMerchandiseProducts = Merchandise::with('product')
+            ->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
+            ->where(function ($query) {
+                $query->where('merchandises.available', '>', 0)
+                    ->orWhere('merchandises.reserved', '>', 0);
+            })
+            ->get()
+            ->pluck('product')
+            ->unique();
 
         $outOfStockProducts = (new Product())->getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)->load('productCategory');
 

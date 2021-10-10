@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -52,20 +53,26 @@ class User extends Authenticatable
     {
         $withOnlyCanBeSoldFromBranches = $type == 'sales' ? true : false;
 
-        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return Warehouse::orderBy('name')
-                ->when($withOnlyCanBeSoldFromBranches, function ($query) {
-                    return $query->where('can_be_sold_from', 1);
-                })
-                ->get(['id', 'name']);
+        if (auth()->user()->hasRole('System Manager')) {
+            return Cache::store('array')
+                ->rememberForever(auth()->id() . '_' . 'allowedWarehouses', function () use ($withOnlyCanBeSoldFromBranches) {
+                    return Warehouse::orderBy('name')
+                        ->when($withOnlyCanBeSoldFromBranches, function ($query) {
+                            return $query->where('can_be_sold_from', 1);
+                        })
+                        ->get(['id', 'name']);
+                });
         }
 
-        return $this->warehouses()
-            ->wherePivot('type', $type)
-            ->orderBy('warehouses.name')
-            ->when($withOnlyCanBeSoldFromBranches, function ($query) {
-                return $query->where('warehouses.can_be_sold_from', 1);
-            })
-            ->get(['warehouses.id', 'warehouses.name']);
+        return Cache::store('array')
+            ->rememberForever(auth()->id() . '_' . 'allowedWarehouses', function () use ($type, $withOnlyCanBeSoldFromBranches) {
+                return $this->warehouses()
+                    ->wherePivot('type', $type)
+                    ->orderBy('warehouses.name')
+                    ->when($withOnlyCanBeSoldFromBranches, function ($query) {
+                        return $query->where('warehouses.can_be_sold_from', 1);
+                    })
+                    ->get(['warehouses.id', 'warehouses.name']);
+            });
     }
 }

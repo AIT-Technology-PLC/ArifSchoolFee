@@ -127,24 +127,39 @@ class Product extends Model
 
     public function getOnHandMerchandiseProductsQuery()
     {
+        if (auth()->user()->getAllowedWarehouses('read')->isEmpty()) {
+            return collect();
+        }
+
         return $this->whereHas('merchandises', function ($query) {
-            $query->where('available', '>', 0)
+            $query->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
+                ->where('available', '>', 0)
                 ->orWhere('reserved', '>', 0);
         });
     }
 
     public function getOutOfOnHandMerchandiseProductsQuery()
     {
+        if (auth()->user()->getAllowedWarehouses('read')->isEmpty()) {
+            return collect();
+        }
+
         return $this->whereDoesntHave('merchandises', function ($query) {
-            $query->where('available', '>', 0)
+            $query->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
+                ->where('available', '>', 0)
                 ->orWhere('reserved', '>', 0);
         });
     }
 
     public function getLimitedMerchandiseProductsQuery()
     {
+        if (auth()->user()->getAllowedWarehouses('read')->isEmpty()) {
+            return collect();
+        }
+
         return $this->whereHas('merchandises', function ($query) {
-            $query->whereRaw('products.min_on_hand != 0')
+            $query->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
+                ->whereRaw('products.min_on_hand != 0')
                 ->whereRaw('merchandises.available <= products.min_on_hand');
         });
     }

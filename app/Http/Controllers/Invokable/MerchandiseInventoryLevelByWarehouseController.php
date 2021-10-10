@@ -16,7 +16,7 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
 
     public function __invoke(Warehouse $warehouse, Merchandise $merchandise, Product $product)
     {
-        $this->authorize('view', $warehouse);
+        $this->authorize('viewAny', $merchandise);
 
         $onHandMerchandises = $merchandise->getAllOnHand()->where('warehouse_id', $warehouse->id)->load('product.productCategory');
 
@@ -30,7 +30,7 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
 
         $totalOutOfStockMerchandises = $outOfStockMerchandises->count();
 
-        $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
+        $warehouses = auth()->user()->getAllowedWarehouses('read');
 
         return view('warehouses.merchandises.index', compact('onHandMerchandises', 'outOfStockMerchandises', 'totalDistinctOnHandMerchandises', 'totalOutOfStockMerchandises', 'totalDistinctLimitedMerchandises', 'warehouses', 'warehouse'));
     }
