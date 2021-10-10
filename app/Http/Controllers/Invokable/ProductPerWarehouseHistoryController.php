@@ -19,6 +19,8 @@ class ProductPerWarehouseHistoryController extends Controller
     {
         $this->authorize('viewAny', Merchandise::class);
 
+        abort_if(!auth()->user()->hasWarehousePermission('read', $warehouse), 403);
+
         $history = $service->get($warehouse, $product);
 
         return view('warehouses-products.index', compact('warehouse', 'product', 'history'));
