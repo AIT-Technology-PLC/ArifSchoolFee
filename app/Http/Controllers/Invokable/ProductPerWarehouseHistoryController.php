@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Invokable;
 
 use App\Http\Controllers\Controller;
+use App\Models\Merchandise;
 use App\Models\Product;
 use App\Models\Warehouse;
 use App\Services\InventoryHistory\ProductPerWarehouseHistoryService;
@@ -16,9 +17,7 @@ class ProductPerWarehouseHistoryController extends Controller
 
     public function __invoke(Product $product, Warehouse $warehouse, ProductPerWarehouseHistoryService $service)
     {
-        $this->authorize('view', $warehouse);
-
-        $this->authorize('view', $product);
+        $this->authorize('viewAny', Merchandise::class);
 
         $history = $service->get($warehouse, $product);
 
