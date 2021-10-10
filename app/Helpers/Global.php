@@ -66,15 +66,3 @@ if (!function_exists('notifiables')) {
         return $users->except(auth()->id());
     }
 }
-
-if (!function_exists('user')) {
-
-    function user()
-    {
-        if (!auth()->check()) {
-            return;
-        }
-
-        return auth()->user();
-    }
-}

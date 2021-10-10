@@ -14,7 +14,7 @@ class BranchScope implements Scope
             return;
         }
 
-        if (user()->hasRole('System Manager')) {
+        if (auth()->user()->hasRole('System Manager')) {
             return;
         }
 

@@ -13,7 +13,7 @@ class AvailableInventoryDatatable extends DataTable
 
     public function __construct()
     {
-        $this->warehouses = user()->getAllowedWarehouses('read');
+        $this->warehouses = auth()->user()->getAllowedWarehouses('read');
     }
 
     public function dataTable($query)
@@ -67,7 +67,7 @@ class AvailableInventoryDatatable extends DataTable
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
             ->where('merchandises.company_id', '=', userCompany()->id)
             ->where('merchandises.available', '>', 0)
-            ->whereIn('warehouses.id', user()->getAllowedWarehouses('read')->pluck('id'))
+            ->whereIn('warehouses.id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
             ->select([
                 'merchandises.available as available',
                 'products.id as product_id',

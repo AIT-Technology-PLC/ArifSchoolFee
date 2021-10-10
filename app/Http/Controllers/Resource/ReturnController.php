@@ -39,7 +39,7 @@ class ReturnController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $warehouses = user()->getAllowedWarehouses('add');
+        $warehouses = auth()->user()->getAllowedWarehouses('add');
 
         $currentReturnCode = Returnn::byBranch()->max('code') + 1;
 
@@ -72,7 +72,7 @@ class ReturnController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $warehouses = user()->getAllowedWarehouses('add');
+        $warehouses = auth()->user()->getAllowedWarehouses('add');
 
         $return->load(['returnDetails.product', 'returnDetails.warehouse']);
 

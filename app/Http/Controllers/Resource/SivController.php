@@ -35,7 +35,7 @@ class SivController extends Controller
 
     public function create()
     {
-        $warehouses = user()->getAllowedWarehouses('siv');
+        $warehouses = auth()->user()->getAllowedWarehouses('siv');
 
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
@@ -70,7 +70,7 @@ class SivController extends Controller
     {
         $siv->load(['sivDetails.product', 'sivDetails.warehouse']);
 
-        $warehouses = user()->getAllowedWarehouses('siv');
+        $warehouses = auth()->user()->getAllowedWarehouses('siv');
 
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 

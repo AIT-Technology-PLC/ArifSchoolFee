@@ -36,7 +36,7 @@ class DamageController extends Controller
 
     public function create()
     {
-        $warehouses = user()->getAllowedWarehouses('subtract');
+        $warehouses = auth()->user()->getAllowedWarehouses('subtract');
 
         $currentDamageCode = Damage::byBranch()->max('code') + 1;
 
@@ -67,7 +67,7 @@ class DamageController extends Controller
 
     public function edit(Damage $damage)
     {
-        $warehouses = user()->getAllowedWarehouses('subtract');
+        $warehouses = auth()->user()->getAllowedWarehouses('subtract');
 
         $damage->load(['damageDetails.product', 'damageDetails.warehouse']);
 

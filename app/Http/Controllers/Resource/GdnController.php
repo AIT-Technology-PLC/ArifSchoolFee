@@ -42,7 +42,7 @@ class GdnController extends Controller
 
         $sales = Sale::latest()->get();
 
-        $warehouses = user()->getAllowedWarehouses('sales');
+        $warehouses = auth()->user()->getAllowedWarehouses('sales');
 
         $currentGdnCode = Gdn::byBranch()->max('code') + 1;
 
@@ -81,7 +81,7 @@ class GdnController extends Controller
 
         $sales = Sale::latest()->get();
 
-        $warehouses = user()->getAllowedWarehouses('sales');
+        $warehouses = auth()->user()->getAllowedWarehouses('sales');
 
         $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse']);
 

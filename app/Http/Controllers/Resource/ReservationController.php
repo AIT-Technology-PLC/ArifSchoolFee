@@ -54,7 +54,7 @@ class ReservationController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $warehouses = user()->getAllowedWarehouses('sales');
+        $warehouses = auth()->user()->getAllowedWarehouses('sales');
 
         $currentReservationCode = Reservation::byBranch()->max('code') + 1;
 
@@ -87,7 +87,7 @@ class ReservationController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $warehouses = user()->getAllowedWarehouses('sales');
+        $warehouses = auth()->user()->getAllowedWarehouses('sales');
 
         $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse']);
 

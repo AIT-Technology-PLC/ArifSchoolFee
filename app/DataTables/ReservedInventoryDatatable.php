@@ -13,7 +13,7 @@ class ReservedInventoryDatatable extends DataTable
 
     public function __construct()
     {
-        $this->warehouses = user()->getAllowedWarehouses('read');
+        $this->warehouses = auth()->user()->getAllowedWarehouses('read');
     }
 
     public function dataTable($query)
@@ -62,7 +62,7 @@ class ReservedInventoryDatatable extends DataTable
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
             ->where('merchandises.company_id', '=', userCompany()->id)
             ->where('merchandises.reserved', '>', 0)
-            ->whereIn('warehouses.id', user()->getAllowedWarehouses('read')->pluck('id'))
+            ->whereIn('warehouses.id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
             ->select([
                 'merchandises.reserved as reserved',
                 'products.id as product_id',
