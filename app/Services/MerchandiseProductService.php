@@ -34,8 +34,10 @@ class MerchandiseProductService
                 ->where('company_id', userCompany()->id)
                 ->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
                 ->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
-                ->where('available', '>', 0)
-                ->orWhere('reserved', '>', 0);
+                ->where(function ($query) {
+                    $query->where('available', '>', 0)
+                        ->orWhere('reserved', '>', 0);
+                });
         });
     }
 
