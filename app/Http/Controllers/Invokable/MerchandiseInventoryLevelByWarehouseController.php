@@ -27,7 +27,7 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
             ->pluck('merchandises')
             ->flatten();
 
-        $outOfStockMerchandises = (new Product)->getOutOfOnHandMerchandiseProductsQuery($warehouse->id)
+        $outOfStockMerchandises = (new Product)->getOutOfStockMerchandiseProductsQuery($warehouse->id)
             ->with('productCategory')
             ->get();
 
@@ -47,7 +47,7 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
             })
             ->count();
 
-        $totalOutOfStockProducts = (new Product)->getOutOfOnHandMerchandiseProductsQuery($warehouse->id)->count();
+        $totalOutOfStockProducts = (new Product)->getOutOfStockMerchandiseProductsQuery($warehouse->id)->count();
 
         $totalLimitedProducts = (new Product)->getLimitedMerchandiseProductsQuery()
             ->whereHas('merchandises', function ($query) use ($warehouse) {

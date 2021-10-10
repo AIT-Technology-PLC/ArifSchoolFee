@@ -32,7 +32,7 @@ class MerchandiseInventoryLevelController extends Controller
     {
         return [
             'totalOnHandProducts' => (new Product)->getOnHandMerchandiseProductsQuery()->count(),
-            'totalOutOfStockProducts' => (new Product)->getOutOfOnHandMerchandiseProductsQuery()->count(),
+            'totalOutOfStockProducts' => (new Product)->getOutOfStockMerchandiseProductsQuery()->count(),
             'totalLimitedProducts' => (new Product)->getLimitedMerchandiseProductsQuery()->count(),
             'totalWarehousesInUse' => (new Warehouse)->getWarehousesInUseQuery()->count(),
         ];

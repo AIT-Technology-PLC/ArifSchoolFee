@@ -138,7 +138,7 @@ class Product extends Model
         });
     }
 
-    public function getOutOfOnHandMerchandiseProductsQuery($warehouseId = null)
+    public function getOutOfStockMerchandiseProductsQuery($warehouseId = null)
     {
         if (auth()->user()->getAllowedWarehouses('read')->isEmpty()) {
             return collect();
