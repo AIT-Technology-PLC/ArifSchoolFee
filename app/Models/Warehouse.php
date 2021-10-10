@@ -83,8 +83,10 @@ class Warehouse extends Model
         return $this
             ->whereIn('id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
             ->whereHas('merchandises', function ($query) {
-                $query->where('available', '>', 0)
-                    ->orWhere('reserved', '>', 0);
+                $query->where(function ($query) {
+                    $query->where('available', '>', 0)
+                        ->orWhere('reserved', '>', 0);
+                });
             });
     }
 }
