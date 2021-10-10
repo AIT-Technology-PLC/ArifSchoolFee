@@ -147,14 +147,15 @@ class Product extends Model
         });
     }
 
-    public function getLimitedMerchandiseProductsQuery()
+    public function getLimitedMerchandiseProductsQuery($warehouseId = null)
     {
         if (auth()->user()->getAllowedWarehouses('read')->isEmpty()) {
             return collect();
         }
 
-        return $this->whereHas('merchandises', function ($query) {
+        return $this->whereHas('merchandises', function ($query) use ($warehouseId) {
             $query->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
+                ->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
                 ->whereRaw('products.min_on_hand != 0')
                 ->whereRaw('merchandises.available <= products.min_on_hand');
         });

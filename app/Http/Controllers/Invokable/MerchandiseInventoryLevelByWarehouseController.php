@@ -49,11 +49,7 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
 
         $totalOutOfStockProducts = (new Product)->getOutOfStockMerchandiseProductsQuery($warehouse->id)->count();
 
-        $totalLimitedProducts = (new Product)->getLimitedMerchandiseProductsQuery()
-            ->whereHas('merchandises', function ($query) use ($warehouse) {
-                $query->where('warehouse_id', $warehouse->id);
-            })
-            ->count();
+        $totalLimitedProducts = (new Product)->getLimitedMerchandiseProductsQuery($warehouse->id)->count();
 
         return compact('totalOnHandProducts', 'totalOutOfStockProducts', 'totalLimitedProducts');
     }
