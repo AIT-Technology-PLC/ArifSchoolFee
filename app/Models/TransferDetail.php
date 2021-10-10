@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\BranchScope;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -41,6 +42,11 @@ class TransferDetail extends Model
                     });
             })
             ->get()
-            ->load(['transfer.transferredFrom', 'transfer.transferredTo']);
+            ->load([
+                'transfer' => function ($query) {
+                    return $query->withoutGlobalScopes([BranchScope::class])
+                        ->with(['transferredTo', 'transferredFrom']);
+                }]
+            );
     }
 }

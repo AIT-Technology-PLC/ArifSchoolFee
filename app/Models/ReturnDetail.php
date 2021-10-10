@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\BranchScope;
 use App\Traits\PricingProduct;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -47,6 +48,10 @@ class ReturnDetail extends Model
                     ->whereNotNull('added_by');
             })
             ->get()
-            ->load(['returnn.customer']);
+            ->load([
+                'returnn' => function ($query) {
+                    return $query->withoutGlobalScopes([BranchScope::class])->with(['customer']);
+                }]
+            );
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\BranchScope;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -45,7 +46,11 @@ class GrnDetail extends Model
                     ->whereNotNull('added_by');
             })
             ->get()
-            ->load(['grn.supplier']);
+            ->load([
+                'grn' => function ($query) {
+                    return $query->withoutGlobalScopes([BranchScope::class])->with(['supplier']);
+                }]
+            );
     }
 
 }

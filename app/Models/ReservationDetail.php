@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\BranchScope;
 use App\Traits\Discountable;
 use App\Traits\PricingProduct;
 use App\Traits\TouchParentUserstamp;
@@ -50,16 +51,22 @@ class ReservationDetail extends Model
                     ->whereNotNull('reserved_by')
                     ->whereNull('cancelled_by')
                     ->whereNotIn('id',
-                        Reservation::whereHasMorph(
-                            'reservable',
-                            [Gdn::class],
-                            function (Builder $query) {
-                                $query->whereNotNull('subtracted_by');
-                            })
+                        Reservation::withoutGlobalScopes([BranchScope::class])
+                            ->whereHasMorph(
+                                'reservable',
+                                [Gdn::class],
+                                function (Builder $query) {
+                                    $query->withoutGlobalScopes([BranchScope::class])
+                                        ->whereNotNull('subtracted_by');
+                                })
                             ->pluck('id')
                     );
             })
             ->get()
-            ->load(['reservation.customer']);
+            ->load([
+                'reservation' => function ($query) {
+                    return $query->withoutGlobalScopes([BranchScope::class])->with(['customer']);
+                }]
+            );
     }
 }

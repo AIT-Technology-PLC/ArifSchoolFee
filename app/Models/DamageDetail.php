@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\BranchScope;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -46,6 +47,10 @@ class DamageDetail extends Model
                     ->whereNotNull('subtracted_by');
             })
             ->get()
-            ->load(['damage']);
+            ->load([
+                'damage' => function ($query) {
+                    return $query->withoutGlobalScopes([BranchScope::class]);
+                }]
+            );
     }
 }

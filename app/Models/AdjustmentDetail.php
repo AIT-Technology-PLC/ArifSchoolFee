@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\BranchScope;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -50,6 +51,10 @@ class AdjustmentDetail extends Model
                     ->whereNotNull('adjusted_by');
             })
             ->get()
-            ->load(['adjustment']);
+            ->load([
+                'adjustment' => function ($query) {
+                    return $query->withoutGlobalScopes([BranchScope::class]);
+                }]
+            );
     }
 }

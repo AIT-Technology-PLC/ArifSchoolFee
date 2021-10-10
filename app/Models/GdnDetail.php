@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\BranchScope;
 use App\Traits\Discountable;
 use App\Traits\PricingProduct;
 use App\Traits\TouchParentUserstamp;
@@ -47,6 +48,10 @@ class GdnDetail extends Model
                     ->whereNotNull('subtracted_by');
             })
             ->get()
-            ->load(['gdn.customer']);
+            ->load([
+                'gdn' => function ($query) {
+                    return $query->withoutGlobalScopes([BranchScope::class])->with(['customer']);
+                }]
+            );
     }
 }
