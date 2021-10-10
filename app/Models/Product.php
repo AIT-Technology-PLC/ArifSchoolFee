@@ -112,14 +112,6 @@ class Product extends Model
         $this->attributes['properties'] = json_encode($properties);
     }
 
-    public function getOutOfStockMerchandiseProducts($onHandMerchandiseProducts)
-    {
-        return $this
-            ->where('type', 'Merchandise Inventory')
-            ->whereNotIn('id', $onHandMerchandiseProducts->pluck('id'))
-            ->get();
-    }
-
     public function isProductLimited($onHandQuantity)
     {
         return $this->min_on_hand >= $onHandQuantity;

@@ -29,28 +29,4 @@ class Merchandise extends Model
             2, '.', ''
         );
     }
-
-    public function getAllOnHand()
-    {
-        return $this
-            ->where(function ($query) {
-                $query->where('merchandises.available', '>', 0)
-                    ->orWhere('merchandises.reserved', '>', 0);
-            })
-            ->get();
-    }
-
-    public function getTotalDistinctLimitedMerchandises($onHandMerchandises)
-    {
-        $distinctTotalLimitedMerchandises = $onHandMerchandises
-            ->filter(
-                function ($onHandMerchandise) {
-                    return $onHandMerchandise->product->isProductLimited($onHandMerchandise->on_hand);
-                }
-            )
-            ->groupBy('product_id')
-            ->count();
-
-        return $distinctTotalLimitedMerchandises;
-    }
 }
