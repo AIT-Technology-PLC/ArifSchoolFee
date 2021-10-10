@@ -6,19 +6,24 @@ use App\Http\Controllers\Controller;
 use App\Models\Merchandise;
 use App\Models\Product;
 use App\Models\Warehouse;
+use App\Services\MerchandiseProductService;
 
 class MerchandiseInventoryLevelByWarehouseController extends Controller
 {
-    public function __construct()
+    private $service;
+
+    public function __construct(MerchandiseProductService $service)
     {
         $this->middleware('isFeatureAccessible:Merchandise Inventory');
+
+        $this->service = $service;
     }
 
     public function __invoke(Warehouse $warehouse, Merchandise $merchandise, Product $product)
     {
         $this->authorize('viewAny', $merchandise);
 
-        $onHandMerchandises = (new Product)->getOnHandMerchandiseProductsQuery()
+        $onHandMerchandises = $this->service->getOnHandMerchandiseProductsQuery()
             ->with('merchandises.product.productCategory')
             ->with('merchandises', function ($query) use ($warehouse) {
                 $query->where('warehouse_id', $warehouse->id);
@@ -27,7 +32,7 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
             ->pluck('merchandises')
             ->flatten();
 
-        $outOfStockMerchandises = (new Product)->getOutOfStockMerchandiseProductsQuery($warehouse->id)
+        $outOfStockMerchandises = $this->service->getOutOfStockMerchandiseProductsQuery($warehouse->id)
             ->with('productCategory')
             ->get();
 
@@ -41,15 +46,15 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
 
     private function insights($warehouse)
     {
-        $totalOnHandProducts = (new Product)->getOnHandMerchandiseProductsQuery()
+        $totalOnHandProducts = $this->service->getOnHandMerchandiseProductsQuery()
             ->whereHas('merchandises', function ($query) use ($warehouse) {
                 $query->where('warehouse_id', $warehouse->id);
             })
             ->count();
 
-        $totalOutOfStockProducts = (new Product)->getOutOfStockMerchandiseProductsQuery($warehouse->id)->count();
+        $totalOutOfStockProducts = $this->service->getOutOfStockMerchandiseProductsQuery($warehouse->id)->count();
 
-        $totalLimitedProducts = (new Product)->getLimitedMerchandiseProductsQuery($warehouse->id)->count();
+        $totalLimitedProducts = $this->service->getLimitedMerchandiseProductsQuery($warehouse->id)->count();
 
         return compact('totalOnHandProducts', 'totalOutOfStockProducts', 'totalLimitedProducts');
     }

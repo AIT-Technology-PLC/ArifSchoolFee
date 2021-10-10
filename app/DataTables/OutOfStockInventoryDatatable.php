@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Product;
+use App\Services\MerchandiseProductService;
 use App\Traits\DataTableHtmlBuilder;
 use Yajra\DataTables\Services\DataTable;
 
@@ -10,9 +10,13 @@ class OutOfStockInventoryDatatable extends DataTable
 {
     use DataTableHtmlBuilder;
 
+    private $warehouses, $service;
+
     public function __construct()
     {
         $this->warehouses = auth()->user()->getAllowedWarehouses('read');
+
+        $this->service = new MerchandiseProductService;
     }
 
     public function dataTable($query)
@@ -53,7 +57,7 @@ class OutOfStockInventoryDatatable extends DataTable
             return collect();
         }
 
-        $outOfStockProducts = (new Product)->getOutOfStockMerchandiseProductsQuery()->with('productCategory')->get();
+        $outOfStockProducts = $this->service->getOutOfStockMerchandiseProductsQuery()->with('productCategory')->get();
 
         $organizedoutOfStockProducts = collect();
 

@@ -5,14 +5,18 @@ namespace App\Http\Controllers\Invokable;
 use App\Factory\InventoryDatatableFactory;
 use App\Http\Controllers\Controller;
 use App\Models\Merchandise;
-use App\Models\Product;
 use App\Models\Warehouse;
+use App\Services\MerchandiseProductService;
 
 class MerchandiseInventoryLevelController extends Controller
 {
-    public function __construct()
+    private $service;
+
+    public function __construct(MerchandiseProductService $service)
     {
         $this->middleware('isFeatureAccessible:Merchandise Inventory');
+
+        $this->service = $service;
     }
 
     public function __invoke($type)
@@ -31,9 +35,9 @@ class MerchandiseInventoryLevelController extends Controller
     private function insights()
     {
         return [
-            'totalOnHandProducts' => (new Product)->getOnHandMerchandiseProductsQuery()->count(),
-            'totalOutOfStockProducts' => (new Product)->getOutOfStockMerchandiseProductsQuery()->count(),
-            'totalLimitedProducts' => (new Product)->getLimitedMerchandiseProductsQuery()->count(),
+            'totalOnHandProducts' => $this->service->getOnHandMerchandiseProductsQuery()->count(),
+            'totalOutOfStockProducts' => $this->service->getOutOfStockMerchandiseProductsQuery()->count(),
+            'totalLimitedProducts' => $this->service->getLimitedMerchandiseProductsQuery()->count(),
             'totalWarehousesInUse' => (new Warehouse)->getWarehousesInUseQuery()->count(),
         ];
     }
