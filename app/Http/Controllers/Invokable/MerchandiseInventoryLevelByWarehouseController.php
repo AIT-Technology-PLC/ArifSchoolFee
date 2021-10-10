@@ -23,16 +23,17 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
     {
         $this->authorize('viewAny', $merchandise);
 
-        $onHandMerchandises = $this->service->getOnHandMerchandiseProductsQuery()
-            ->with('merchandises.product.productCategory')
-            ->with('merchandises', function ($query) use ($warehouse) {
-                $query->where('warehouse_id', $warehouse->id);
+        $onHandMerchandises = Merchandise::with('product.productCategory')
+            ->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
+            ->where('warehouse_id', $warehouse->id)
+            ->where(function ($query) {
+                $query->where('available', '>', 0)
+                    ->orWhere('reserved', '>', 0);
             })
-            ->get()
-            ->pluck('merchandises')
-            ->flatten();
+            ->get();
 
-        $outOfStockMerchandises = $this->service->getOutOfStockMerchandiseProductsQuery($warehouse->id)
+        $outOfStockMerchandises = $this->service
+            ->getOutOfStockMerchandiseProductsQuery($warehouse->id)
             ->with('productCategory')
             ->get();
 
@@ -40,22 +41,18 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
 
         $insights = $this->insights($warehouse);
 
-        return view('warehouses.merchandises.index',
-            compact('onHandMerchandises', 'outOfStockMerchandises', 'warehouses', 'warehouse', 'insights'));
+        return view(
+            'warehouses.merchandises.index',
+            compact('onHandMerchandises', 'outOfStockMerchandises', 'warehouses', 'warehouse', 'insights')
+        );
     }
 
     private function insights($warehouse)
     {
-        $totalOnHandProducts = $this->service->getOnHandMerchandiseProductsQuery()
-            ->whereHas('merchandises', function ($query) use ($warehouse) {
-                $query->where('warehouse_id', $warehouse->id);
-            })
-            ->count();
-
-        $totalOutOfStockProducts = $this->service->getOutOfStockMerchandiseProductsQuery($warehouse->id)->count();
-
-        $totalLimitedProducts = $this->service->getLimitedMerchandiseProductsQuery($warehouse->id)->count();
-
-        return compact('totalOnHandProducts', 'totalOutOfStockProducts', 'totalLimitedProducts');
+        return [
+            'totalOnHandProducts' => $this->service->getOnHandMerchandiseProductsQuery($warehouse->id)->count(),
+            'totalOutOfStockProducts' => $this->service->getOutOfStockMerchandiseProductsQuery($warehouse->id)->count(),
+            'totalLimitedProducts' => $this->service->getLimitedMerchandiseProductsQuery($warehouse->id)->count(),
+        ];
     }
 }
