@@ -7,25 +7,28 @@ use Illuminate\Support\Facades\Notification;
 
 class ApproveTransactionAction
 {
-    private const FAILED_MESSAGE = 'This transaction is already approved';
+    private function sendNotification($model, $notification = null, $permission = null)
+    {
+        if (isset($notification) && isset($permission)) {
+            Notification::send(
+                notifiables($permission, $model->createdBy),
+                new $notification($model)
+            );
+        }
+    }
 
-    private const SUCCESS_MESSAGE = 'You have approved this transaction successfully';
-
-    public function execute($model, $notification, $permission)
+    public function execute($model, $notification = null, $permission = null)
     {
         if ($model->isApproved()) {
-            return [false, static::FAILED_MESSAGE];
+            return [false, 'This transaction is already approved.'];
         }
 
         DB::transaction(function () use ($model, $notification, $permission) {
             $model->approve();
 
-            Notification::send(
-                notifiables($permission, $model->createdBy),
-                new $notification($model)
-            );
+            $this->sendNotification($model, $notification, $permission);
         });
 
-        return [true, static::SUCCESS_MESSAGE];
+        return [true, 'You have approved this transaction successfully.'];
     }
 }
