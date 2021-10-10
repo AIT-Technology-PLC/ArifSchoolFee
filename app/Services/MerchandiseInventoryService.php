@@ -13,7 +13,7 @@ class MerchandiseInventoryService
         $this->merchandise = new Merchandise();
     }
 
-    public function add($productId, $warehouseId, $quantity, $to = 'available')
+    public function add($productId, $warehouseId, $quantity, $to)
     {
         $merchandise = $this->merchandise->firstOrCreate(
             [
@@ -39,7 +39,7 @@ class MerchandiseInventoryService
         ])->exists();
     }
 
-    public function subtract($productId, $warehouseId, $quantity, $from = 'available')
+    public function subtract($productId, $warehouseId, $quantity, $from)
     {
         $merchandise = $this->merchandise->where([
             ['product_id', $productId],
