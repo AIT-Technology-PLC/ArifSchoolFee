@@ -9,6 +9,13 @@ class Notifications extends Component
 {
     public $readNotifications, $unreadNotifications;
 
+    public function mount()
+    {
+        $this->readNotifications = auth()->user()->readNotifications()->take(5)->get();
+
+        $this->unreadNotifications = auth()->user()->unreadNotifications;
+    }
+
     public function markAsRead(Notification $notification)
     {
         $notification->markAsRead();
@@ -21,14 +28,17 @@ class Notifications extends Component
         return redirect($endpoint);
     }
 
-    public function render()
+    public function updateNotifications()
     {
         $this->readNotifications = auth()->user()->readNotifications()->take(5)->get();
 
         $this->unreadNotifications = auth()->user()->unreadNotifications;
 
         $this->emit("notificationComponentRefreshed");
+    }
 
+    public function render()
+    {
         return view('livewire.notifications');
     }
 }

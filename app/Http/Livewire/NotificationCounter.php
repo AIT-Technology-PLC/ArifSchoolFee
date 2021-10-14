@@ -10,16 +10,27 @@ class NotificationCounter extends Component
     public $totalUnreadNotifications, $class;
 
     protected $listeners = [
-        'notificationComponentRefreshed' => 'render',
+        'notificationComponentRefreshed' => 'getTotalUnreadNotifications',
     ];
 
-    public function render()
+    public function mount()
     {
         $this->totalUnreadNotifications = Cache::store('array')
             ->rememberForever(auth()->id() . '_' . 'totalUnreadNotifications', function () {
                 return auth()->user()->unreadNotifications()->count();
             });
+    }
 
+    public function getTotalUnreadNotifications()
+    {
+        $this->totalUnreadNotifications = Cache::store('array')
+            ->rememberForever(auth()->id() . '_' . 'totalUnreadNotifications', function () {
+                return auth()->user()->unreadNotifications()->count();
+            });
+    }
+
+    public function render()
+    {
         return view('livewire.notification-counter');
     }
 }
