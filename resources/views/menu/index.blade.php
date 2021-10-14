@@ -469,6 +469,22 @@
                             </div>
                         @endif
                     @endcan
+
+                    @can('Update Company')
+                        @if (isFeatureEnabled('General Settings'))
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                <a href="{{ route('companies.edit', userCompany()->id) }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
+                                    <span class="icon is-size-5">
+                                        <i class="fas fa-building"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile text-green">
+                                    Company Profile
+                                </span>
+                            </div>
+                        @endif
+                    @endcan
                 </div>
             </div>
         </div>
