@@ -6,7 +6,7 @@
     <div class="columns is-marginless is-centered">
         <div class="column">
             <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-                <h1 class="title text-green has-text-weight-medium is-size-5">
+                <h1 class="title text-green has-text-weight-medium is-size-5 is-size-6-mobile">
                     <span class="icon">
                         <i class="fas fa-warehouse"></i>
                     </span>
@@ -19,7 +19,7 @@
                 <div class="columns is-marginless is-multiline is-mobile">
                     @can('Read Merchandise')
                         @if (isFeatureEnabled('Merchandise Inventory'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('merchandises.index', 'on-hand') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-chart-bar"></i>
@@ -35,7 +35,7 @@
 
                     @can('Read Warehouse')
                         @if (isFeatureEnabled('Warehouse Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('warehouses.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-warehouse"></i>
@@ -51,7 +51,7 @@
 
                     @can('Read GRN')
                         @if (isFeatureEnabled('Grn Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('grns.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-file-signature"></i>
@@ -67,7 +67,7 @@
 
                     @can('Read Transfer')
                         @if (isFeatureEnabled('Transfer Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('transfers.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-exchange-alt"></i>
@@ -83,7 +83,7 @@
 
                     @can('Read Damage')
                         @if (isFeatureEnabled('Damage Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('damages.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-bolt"></i>
@@ -99,7 +99,7 @@
 
                     @can('Read Adjustment')
                         @if (isFeatureEnabled('Inventory Adjustment'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('adjustments.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-eraser"></i>
@@ -115,7 +115,7 @@
 
                     @can('Read SIV')
                         @if (isFeatureEnabled('Siv Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('sivs.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-file-export"></i>
@@ -136,7 +136,7 @@
     <div class="columns is-marginless is-centered">
         <div class="column">
             <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-                <h1 class="title text-green has-text-weight-medium is-size-5">
+                <h1 class="title text-green has-text-weight-medium is-size-5 is-size-6-mobile">
                     <span class="icon">
                         <i class="fas fa-tags"></i>
                     </span>
@@ -149,7 +149,7 @@
                 <div class="columns is-marginless is-multiline is-mobile">
                     @can('Read Sale')
                         @if (isFeatureEnabled('Sale Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('sales.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-tags"></i>
@@ -165,7 +165,7 @@
 
                     @can('Read GDN')
                         @if (isFeatureEnabled('Gdn Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('gdns.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-file-invoice"></i>
@@ -181,7 +181,7 @@
 
                     @can('Read Proforma Invoice')
                         @if (isFeatureEnabled('Proforma Invoice'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('proforma-invoices.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-receipt"></i>
@@ -197,7 +197,7 @@
 
                     @can('Read Reservation')
                         @if (isFeatureEnabled('Reservation Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('reservations.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-archive"></i>
@@ -213,7 +213,7 @@
 
                     @can('Read Return')
                         @if (isFeatureEnabled('Return Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('returns.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-arrow-alt-circle-left"></i>
@@ -229,7 +229,7 @@
 
                     @can('Read PO')
                         @if (isFeatureEnabled('Purchase Order'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('purchase-orders.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-file-alt"></i>
@@ -245,7 +245,7 @@
 
                     @can('Read Customer')
                         @if (isFeatureEnabled('Customer Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('customers.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-user"></i>
@@ -266,7 +266,7 @@
     <div class="columns is-marginless is-centered">
         <div class="column">
             <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-                <h1 class="title text-green has-text-weight-medium is-size-5">
+                <h1 class="title text-green has-text-weight-medium is-size-5 is-size-6-mobile">
                     <span class="icon">
                         <i class="fas fa-project-diagram"></i>
                     </span>
@@ -279,7 +279,7 @@
                 <div class="columns is-marginless is-multiline is-mobile">
                     @can('Read Tender')
                         @if (isFeatureEnabled('Tender Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('tenders.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-project-diagram"></i>
@@ -295,7 +295,7 @@
 
                     @can('Read Tender')
                         @if (isFeatureEnabled('Tender Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('tender-checklist-types.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-tasks"></i>
@@ -311,7 +311,7 @@
 
                     @can('Read Tender')
                         @if (isFeatureEnabled('Tender Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('general-tender-checklists.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-check-double"></i>
@@ -327,7 +327,7 @@
 
                     @can('Read Tender')
                         @if (isFeatureEnabled('Tender Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('tender-statuses.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-info"></i>
@@ -348,7 +348,7 @@
     <div class="columns is-marginless is-centered">
         <div class="column">
             <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-                <h1 class="title text-green has-text-weight-medium is-size-5">
+                <h1 class="title text-green has-text-weight-medium is-size-5 is-size-6-mobile">
                     <span class="icon">
                         <i class="fas fa-shopping-bag"></i>
                     </span>
@@ -361,7 +361,7 @@
                 <div class="columns is-marginless is-multiline is-mobile">
                     @can('Read Purchase')
                         @if (isFeatureEnabled('Purchase Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('purchases.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-shopping-bag"></i>
@@ -377,7 +377,7 @@
 
                     @can('Read Supplier')
                         @if (isFeatureEnabled('Supplier Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('suppliers.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-address-card"></i>
@@ -398,7 +398,7 @@
     <div class="columns is-marginless is-centered">
         <div class="column">
             <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-                <h1 class="title text-green has-text-weight-medium is-size-5">
+                <h1 class="title text-green has-text-weight-medium is-size-5 is-size-6-mobile">
                     <span class="icon">
                         <i class="fas fa-th"></i>
                     </span>
@@ -411,7 +411,7 @@
                 <div class="columns is-marginless is-multiline is-mobile">
                     @can('Read Product')
                         @if (isFeatureEnabled('Product Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('categories.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-layer-group"></i>
@@ -422,7 +422,7 @@
                                     Categories
                                 </span>
                             </div>
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('products.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-th"></i>
@@ -443,7 +443,7 @@
     <div class="columns is-marginless is-centered">
         <div class="column">
             <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-                <h1 class="title text-green has-text-weight-medium is-size-5">
+                <h1 class="title text-green has-text-weight-medium is-size-5 is-size-6-mobile">
                     <span class="icon">
                         <i class="fas fa-cog"></i>
                     </span>
@@ -456,7 +456,7 @@
                 <div class="columns is-marginless is-multiline is-mobile">
                     @can('Read Employee')
                         @if (isFeatureEnabled('User Management'))
-                            <div class="column is-3 has-text-centered has-text-grey">
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                 <a href="{{ route('employees.index') }}" class="general-menu-item button text-green bg-lightgreen is-borderless">
                                     <span class="icon is-size-5">
                                         <i class="fas fa-users"></i>
