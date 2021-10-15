@@ -28,13 +28,11 @@ class Notifications extends Component
         return redirect($endpoint);
     }
 
-    public function updateNotifications()
+    public function getLatestUnreadNotifications()
     {
-        $this->readNotifications = auth()->user()->readNotifications()->take(5)->get();
-
         $this->unreadNotifications = auth()->user()->unreadNotifications;
 
-        $this->emit("notificationComponentRefreshed");
+        $this->emit("notificationComponentRefreshed", $this->unreadNotifications->count());
     }
 
     public function render()

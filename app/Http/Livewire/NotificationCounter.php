@@ -21,12 +21,9 @@ class NotificationCounter extends Component
             });
     }
 
-    public function getTotalUnreadNotifications()
+    public function getTotalUnreadNotifications($value)
     {
-        $this->totalUnreadNotifications = Cache::store('array')
-            ->rememberForever(auth()->id() . '_' . 'totalUnreadNotifications', function () {
-                return auth()->user()->unreadNotifications()->count();
-            });
+        $this->totalUnreadNotifications = $value;
     }
 
     public function render()
