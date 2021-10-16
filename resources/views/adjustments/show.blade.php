@@ -5,64 +5,73 @@
 @endsection
 
 @section('content')
-    <div class="box mt-3 mx-3 m-lr-0">
-        <div class="columns is-marginless is-multiline">
-            <div class="column is-6">
-                <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-green">
-                        <div class="column is-1">
-                            <span class="icon is-size-3">
-                                <i class="fas fa-file-invoice"></i>
-                            </span>
-                        </div>
-                        <div class="column m-lr-20">
-                            <div class="is-size- has-text-weight-bold">
-                                {{ $adjustment->code ?? 'N/A' }}
+    <x-content-wrapper>
+
+        <x-content.header>
+            General Information
+        </x-content.header>
+
+        <x-content.footer>
+            <div class="columns is-marginless is-multiline">
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-file-invoice"></i>
+                                </span>
                             </div>
-                            <div class="is-uppercase is-size-7">
-                                Adjustment No
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ $adjustment->code ?? 'N/A' }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Adjustment No
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-calendar-day"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ $adjustment->issued_on->toFormattedDateString() ?? 'N/A' }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Issued On
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-12">
+                    <div>
+                        <div class="columns is-marginless is-vcentered text-green">
+                            <div class="column">
+                                <div class="has-text-weight-bold">
+                                    Details
+                                </div>
+                                <div class="is-size-7 mt-3">
+                                    {!! is_null($adjustment->description) ? 'N/A' : nl2br(e($adjustment->description)) !!}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="column is-6">
-                <div>
-                    <div class="columns is-marginless is-vcentered is-mobile text-green">
-                        <div class="column is-1">
-                            <span class="icon is-size-3">
-                                <i class="fas fa-calendar-day"></i>
-                            </span>
-                        </div>
-                        <div class="column m-lr-20">
-                            <div class="is-size- has-text-weight-bold">
-                                {{ $adjustment->issued_on->toFormattedDateString() ?? 'N/A' }}
-                            </div>
-                            <div class="is-uppercase is-size-7">
-                                Issued On
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="column is-12">
-                <div>
-                    <div class="columns is-marginless is-vcentered text-green">
-                        <div class="column">
-                            <div class="has-text-weight-bold">
-                                Details
-                            </div>
-                            <div class="is-size-7 mt-3">
-                                {!! is_null($adjustment->description) ? 'N/A' : nl2br(e($adjustment->description)) !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
+        </x-content.footer>
+    </x-content-wrapper>
+
+    <x-content-wrapper>
+
+        <x-content.header>
             <div class="level">
                 <div class="level-left">
                     <div class="level-item is-justify-content-left">
@@ -88,10 +97,13 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="box radius-bottom-0 mb-0 radius-top-0">
+        </x-content.header>
+
+        <x-content.footer>
             <x-fail-message :message="session('failedMessage')" />
+
             <x-success-message :message="session('successMessage')" />
+
             @if (!$adjustment->isApproved())
                 @can('Approve Adjustment')
                     <div class="box has-background-white-ter has-text-left mb-6">
@@ -175,6 +187,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-    </section>
+        </x-content.footer>
+
+    </x-content-wrapper>
 @endsection
