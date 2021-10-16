@@ -5,15 +5,16 @@
 @endsection
 
 @section('content')
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                New Adjustment
-            </h1>
-        </div>
+    <x-content-wrapper>
+
+        <x-content.header>
+            New Adjustment
+        </x-content.header>
+
         <form id="formOne" action="{{ route('adjustments.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
-            <div class="box radius-bottom-0 mb-0 radius-top-0">
+
+            <x-content.main>
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
@@ -177,10 +178,13 @@
                 <button id="addNewAdjustmentForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-6">
                     Add More Item
                 </button>
-            </div>
-            <div class="box radius-top-0">
+            </x-content.main>
+
+            <x-content.footer>
                 <x-save-button />
-            </div>
+            </x-content.footer>
+
         </form>
-    </section>
+
+    </x-content-wrapper>
 @endsection
