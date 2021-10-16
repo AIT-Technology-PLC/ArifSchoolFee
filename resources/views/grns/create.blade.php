@@ -277,28 +277,7 @@
                 </button>
             </div>
             <div class="box radius-top-0">
-                <div class="columns is-marginless">
-                    <div class="column is-paddingless">
-                        <div class="buttons is-right">
-                            <button class="button is-white text-green" type="reset">
-                                <span class="icon">
-                                    <i class="fas fa-times"></i>
-                                </span>
-                                <span>
-                                    Cancel
-                                </span>
-                            </button>
-                            <button id="saveButton" class="button bg-green has-text-white">
-                                <span class="icon">
-                                    <i class="fas fa-save"></i>
-                                </span>
-                                <span>
-                                    Save
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <x-save-button />
             </div>
         </form>
     </section>
