@@ -3,19 +3,19 @@
 @section('title', 'Main Menu')
 
 @section('content')
-    <div class="columns is-marginless is-centered">
-        <div class="column">
-            <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-                <h1 class="title text-green has-text-weight-medium is-size-5 is-size-6-mobile">
-                    <span class="icon">
-                        <i class="fas fa-warehouse"></i>
-                    </span>
-                    <span class="ml-2">
-                        Warehouse & Inventory
-                    </span>
-                </h1>
-            </div>
-            <div class="box radius-top-0">
+    <x-content-wrapper>
+
+        <section class="mb-5">
+            <x-content.header>
+                <span class="icon">
+                    <i class="fas fa-warehouse"></i>
+                </span>
+                <span class="ml-2">
+                    Warehouse & Inventory
+                </span>
+            </x-content.header>
+
+            <x-content.footer>
                 <div class="columns is-marginless is-multiline is-mobile">
                     @can('Read Merchandise')
                         @if (isFeatureEnabled('Merchandise Inventory'))
@@ -129,23 +129,20 @@
                         @endif
                     @endcan
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-content.footer>
+        </section>
 
-    <div class="columns is-marginless is-centered">
-        <div class="column">
-            <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-                <h1 class="title text-green has-text-weight-medium is-size-5 is-size-6-mobile">
-                    <span class="icon">
-                        <i class="fas fa-tags"></i>
-                    </span>
-                    <span class="ml-2">
-                        Sales & Customers
-                    </span>
-                </h1>
-            </div>
-            <div class="box radius-top-0">
+        <section class="mb-5">
+            <x-content.header>
+                <span class="icon">
+                    <i class="fas fa-tags"></i>
+                </span>
+                <span class="ml-2">
+                    Sales & Customers
+                </span>
+            </x-content.header>
+
+            <x-content.footer>
                 <div class="columns is-marginless is-multiline is-mobile">
                     @can('Read Sale')
                         @if (isFeatureEnabled('Sale Management'))
@@ -259,23 +256,20 @@
                         @endif
                     @endcan
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-content.footer>
+        </section>
 
-    <div class="columns is-marginless is-centered">
-        <div class="column">
-            <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-                <h1 class="title text-green has-text-weight-medium is-size-5 is-size-6-mobile">
-                    <span class="icon">
-                        <i class="fas fa-project-diagram"></i>
-                    </span>
-                    <span class="ml-2">
-                        Tenders
-                    </span>
-                </h1>
-            </div>
-            <div class="box radius-top-0">
+        <section class="mb-5">
+            <x-content.header>
+                <span class="icon">
+                    <i class="fas fa-project-diagram"></i>
+                </span>
+                <span class="ml-2">
+                    Tenders
+                </span>
+            </x-content.header>
+
+            <x-content.footer>
                 <div class="columns is-marginless is-multiline is-mobile">
                     @can('Read Tender')
                         @if (isFeatureEnabled('Tender Management'))
@@ -341,23 +335,20 @@
                         @endif
                     @endcan
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-content.footer>
+        </section>
 
-    <div class="columns is-marginless is-centered">
-        <div class="column">
-            <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-                <h1 class="title text-green has-text-weight-medium is-size-5 is-size-6-mobile">
-                    <span class="icon">
-                        <i class="fas fa-shopping-bag"></i>
-                    </span>
-                    <span class="ml-2">
-                        Purchases & Suppliers
-                    </span>
-                </h1>
-            </div>
-            <div class="box radius-top-0">
+        <section class="mb-5">
+            <x-content.header>
+                <span class="icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </span>
+                <span class="ml-2">
+                    Purchases & Suppliers
+                </span>
+            </x-content.header>
+
+            <x-content.footer>
                 <div class="columns is-marginless is-multiline is-mobile">
                     @can('Read Purchase')
                         @if (isFeatureEnabled('Purchase Management'))
@@ -391,23 +382,20 @@
                         @endif
                     @endcan
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-content.footer>
+        </section>
 
-    <div class="columns is-marginless is-centered">
-        <div class="column">
-            <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-                <h1 class="title text-green has-text-weight-medium is-size-5 is-size-6-mobile">
-                    <span class="icon">
-                        <i class="fas fa-th"></i>
-                    </span>
-                    <span class="ml-2">
-                        Products & Categories
-                    </span>
-                </h1>
-            </div>
-            <div class="box radius-top-0">
+        <section class="mb-5">
+            <x-content.header>
+                <span class="icon">
+                    <i class="fas fa-th"></i>
+                </span>
+                <span class="ml-2">
+                    Products & Categories
+                </span>
+            </x-content.header>
+
+            <x-content.footer>
                 <div class="columns is-marginless is-multiline is-mobile">
                     @can('Read Product')
                         @if (isFeatureEnabled('Product Management'))
@@ -436,23 +424,20 @@
                         @endif
                     @endcan
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-content.footer>
+        </section>
 
-    <div class="columns is-marginless is-centered">
-        <div class="column">
-            <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-                <h1 class="title text-green has-text-weight-medium is-size-5 is-size-6-mobile">
-                    <span class="icon">
-                        <i class="fas fa-cog"></i>
-                    </span>
-                    <span class="ml-2">
-                        General Settings
-                    </span>
-                </h1>
-            </div>
-            <div class="box radius-top-0">
+        <section>
+            <x-content.header>
+                <span class="icon">
+                    <i class="fas fa-cog"></i>
+                </span>
+                <span class="ml-2">
+                    General Settings
+                </span>
+            </x-content.header>
+
+            <x-content.footer>
                 <div class="columns is-marginless is-multiline is-mobile">
                     @can('Read Employee')
                         @if (isFeatureEnabled('User Management'))
@@ -486,7 +471,8 @@
                         @endif
                     @endcan
                 </div>
-            </div>
-        </div>
-    </div>
+            </x-content.footer>
+        </section>
+
+    </x-content-wrapper>
 @endsection
