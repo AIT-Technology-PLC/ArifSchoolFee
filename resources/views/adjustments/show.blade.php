@@ -69,7 +69,7 @@
         </x-content.footer>
     </x-content-wrapper>
 
-    <x-content-wrapper>
+    <x-content-wrapper class="mt-5">
 
         <x-content.header>
             <div class="level">
