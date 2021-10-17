@@ -24,11 +24,10 @@ class OutOfStockInventoryDatatable extends DataTable
         $datatable = datatables()->collection($query->all());
 
         $datatable->editColumn('product', function ($row) {
-            if ($row['code']) {
-                return $row['product'] . "<span class='has-text-grey has-has-text-weight-bold'> - " . $row['code'] . "</span>";
-            }
-
-            return $row['product'];
+            return view('components.datatables.product-code', [
+                'product' => $row['product'],
+                'code' => $row['code'],
+            ]);
         });
 
         $this->warehouses->each(function ($warehouse) use ($datatable) {
