@@ -30,9 +30,10 @@ class OnHandInventoryDatatable extends DataTable
         $this->warehouses->each(function ($warehouse) use ($datatable) {
 
             $datatable->editColumn($warehouse->name, function ($row) use ($warehouse) {
-                $content = Arr::has($row, $warehouse->name) ? $row[$warehouse->name] : 0.00;
-
-                return "<span class='tag is-small btn-green is-outlined'>" . number_format($content, 2, '.', '') . ' ' . $row['unit'] . '</span>';
+                return view('components.datatables.green-outlined-tag', [
+                    'amount' => Arr::has($row, $warehouse->name) ? $row[$warehouse->name] : 0.00,
+                    'unit' => $row['unit'],
+                ]);
             });
 
             $datatable->editColumn('total balance', function ($row) {
