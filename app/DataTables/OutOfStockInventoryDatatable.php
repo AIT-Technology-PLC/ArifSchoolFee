@@ -33,11 +33,10 @@ class OutOfStockInventoryDatatable extends DataTable
         $this->warehouses->each(function ($warehouse) use ($datatable) {
 
             $datatable->addColumn($warehouse->name, function ($row) use ($warehouse) {
-                return "
-                    <a href='/history/products/" . $row['product_id'] . "/warehouses/" . $warehouse->id . "'" . "data-title='View Product History'>
-                        <span class='tag is-small btn-green is-outlined'> Track History </span>
-                    </a>
-                ";
+                return view('components.datatables.history-link', [
+                    'productId' => $row['product_id'],
+                    'warehouseId' => $warehouse->id,
+                ]);
             });
 
         });

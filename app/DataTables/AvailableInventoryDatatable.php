@@ -30,15 +30,12 @@ class AvailableInventoryDatatable extends DataTable
         $this->warehouses->each(function ($warehouse) use ($datatable) {
 
             $datatable->editColumn($warehouse->name, function ($row) use ($warehouse) {
-                $content = Arr::has($row, $warehouse->name) ? $row[$warehouse->name] : 0.00;
-
-                return "
-                    <span class='is-hidden'>" . number_format($content, 2, '.', '') . "</span>" . "
-                    <a href='/history/products/" . $row['product_id'] . "/warehouses/" . $warehouse->id . "'" . "data-title='View Product History'>
-                        <span class='tag is-small btn-green is-outlined'>" . number_format($content, 2, '.', '') . ' ' . $row['unit'] .
-                    '</span>' .
-                    '</a>';
-
+                return view('components.datatables.history-link', [
+                    'amount' => Arr::has($row, $warehouse->name) ? $row[$warehouse->name] : 0.00,
+                    'productId' => $row['product_id'],
+                    'warehouseId' => $warehouse->id,
+                    'unit' => $row['unit'],
+                ]);
             });
 
             $datatable->editColumn('total balance', function ($row) {
