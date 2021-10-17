@@ -39,9 +39,10 @@ class AvailableInventoryDatatable extends DataTable
             });
 
             $datatable->editColumn('total balance', function ($row) {
-                $content = $row['total balance'] ?: 0.00;
-
-                return "<span class='tag is-small bg-green has-text-white'>" . number_format($content, 2, '.', '') . ' ' . $row['unit'] . '</span>';
+                return view('components.datatables.green-solid-tag', [
+                    'amount' => $row['total balance'] ?: 0.00,
+                    'unit' => $row['unit'],
+                ]);
             });
 
         });
