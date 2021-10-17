@@ -16,7 +16,7 @@
             @csrf
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
-                <x-success-message :message="session('message')" />
+                <x-common.success-message :message="session('message')" />
                 <div class="columns is-marginless is-multiline">
                     @foreach ($permissionCategories as $key => $value)
                         @continue(!isFeatureEnabled($value['feature']))
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="box radius-top-0">
-                <x-save-button />
+                <x-common.save-button />
             </div>
         </form>
     </section>

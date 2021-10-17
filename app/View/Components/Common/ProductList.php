@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Common;
 
 use App\Models\Product;
 use Illuminate\Support\Facades\Cache;
@@ -28,6 +28,6 @@ class ProductList extends Component
 
     public function render()
     {
-        return view('components.product-list');
+        return view('components.common.product-list');
     }
 }

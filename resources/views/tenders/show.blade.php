@@ -525,7 +525,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-delete-button model="tender-checklists" :id="$tenderChecklist->id" />
+                                    <x-common.delete-button model="tender-checklists" :id="$tenderChecklist->id" />
                                 </td>
                             </tr>
                         @endforeach

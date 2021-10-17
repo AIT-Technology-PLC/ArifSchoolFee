@@ -196,7 +196,7 @@
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
             @if ($siv->isApproved())
-                <x-success-message message="This SIV has been approved successfully." />
+                <x-common.success-message message="This SIV has been approved successfully." />
             @endif
             @if (!$siv->isApproved())
                 @can('Approve SIV')
@@ -219,7 +219,7 @@
                         </form>
                     </div>
                 @else
-                    <x-fail-message message="This SIV is not approved." />
+                    <x-common.fail-message message="This SIV is not approved." />
                 @endcan
             @endif
             <div class="table-container">

@@ -78,14 +78,14 @@
         </div>
     </div>
 
-    <x-content-wrapper>
+    <x-common.content-wrapper>
 
         <x-content.header>
             Adjustment Management
         </x-content.header>
 
         <x-content.footer>
-            <x-success-message :message="session('deleted')" />
+            <x-common.success-message :message="session('deleted')" />
 
             <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[4]" data-numeric="[]">
                 <thead>
@@ -173,7 +173,7 @@
                                         </span>
                                     </span>
                                 </a>
-                                <x-delete-button model="adjustments" :id="$adjustment->id" />
+                                <x-common.delete-button model="adjustments" :id="$adjustment->id" />
                             </td>
                         </tr>
                     @endforeach
@@ -181,5 +181,5 @@
             </table>
         </x-content.footer>
 
-    </x-content-wrapper>
+    </x-common.content-wrapper>
 @endsection

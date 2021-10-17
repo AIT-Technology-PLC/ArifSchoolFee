@@ -3,7 +3,7 @@
 @section('title', 'Main Menu')
 
 @section('content')
-    <x-content-wrapper>
+    <x-common.content-wrapper>
 
         <section class="mb-5">
             <x-content.header>
@@ -474,5 +474,5 @@
             </x-content.footer>
         </section>
 
-    </x-content-wrapper>
+    </x-common.content-wrapper>
 @endsection

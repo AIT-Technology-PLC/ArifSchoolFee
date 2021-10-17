@@ -14,7 +14,7 @@
         <form id="formOne" action="{{ route('warehouses.store') }}" method="post" enctype="multipart/form-data" novalidate>
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
-                <x-fail-message :message="session('limitReachedMessage')" />
+                <x-common.fail-message :message="session('limitReachedMessage')" />
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
@@ -139,7 +139,7 @@
                 </div>
             </div>
             <div class="box radius-top-0">
-                <x-save-button />
+                <x-common.save-button />
             </div>
         </form>
     </section>

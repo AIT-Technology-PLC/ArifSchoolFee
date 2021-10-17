@@ -138,10 +138,10 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            <x-fail-message :message="session('failedMessage')" />
-            <x-success-message :message="session('successMessage')" />
+            <x-common.fail-message :message="session('failedMessage')" />
+            <x-common.success-message :message="session('successMessage')" />
             @if ($transfer->isAdded())
-                <x-success-message message="Products have been transferred successfully." />
+                <x-common.success-message message="Products have been transferred successfully." />
             @elseif(!$transfer->isApproved())
                 @can('Approve Transfer')
                     <div class="box has-background-white-ter has-text-left mb-6">
@@ -163,7 +163,7 @@
                         </form>
                     </div>
                 @else
-                    <x-fail-message message="This Transfer has not been approved." />
+                    <x-common.fail-message message="This Transfer has not been approved." />
                 @endcan
             @elseif(!$transfer->isSubtracted())
                 @can('Make Transfer')
@@ -186,7 +186,7 @@
                         </form>
                     </div>
                 @else
-                    <x-fail-message message="Product(s) listed below are not subtracted from {{ $transfer->transferredFrom->name }}." />
+                    <x-common.fail-message message="Product(s) listed below are not subtracted from {{ $transfer->transferredFrom->name }}." />
                 @endcan
             @elseif($transfer->isSubtracted())
                 @can('Make Transfer')
@@ -210,7 +210,7 @@
                         </form>
                     </div>
                 @else
-                    <x-fail-message message="Product(s) listed below are subtracted from {{ $transfer->transferredFrom->name }} but not added to {{ $transfer->transferredTo->name }}." />
+                    <x-common.fail-message message="Product(s) listed below are subtracted from {{ $transfer->transferredFrom->name }} but not added to {{ $transfer->transferredTo->name }}." />
                 @endcan
             @endif
             <div class="table-container">

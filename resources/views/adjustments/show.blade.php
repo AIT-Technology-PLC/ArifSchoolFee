@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <x-content-wrapper>
+    <x-common.content-wrapper>
 
         <x-content.header>
             General Information
@@ -67,9 +67,9 @@
                 </div>
             </div>
         </x-content.footer>
-    </x-content-wrapper>
+    </x-common.content-wrapper>
 
-    <x-content-wrapper class="mt-5">
+    <x-common.content-wrapper class="mt-5">
 
         <x-content.header>
             <div class="level">
@@ -100,9 +100,9 @@
         </x-content.header>
 
         <x-content.footer>
-            <x-fail-message :message="session('failedMessage')" />
+            <x-common.fail-message :message="session('failedMessage')" />
 
-            <x-success-message :message="session('successMessage')" />
+            <x-common.success-message :message="session('successMessage')" />
 
             @if (!$adjustment->isApproved())
                 @can('Approve Adjustment')
@@ -125,7 +125,7 @@
                         </form>
                     </div>
                 @else
-                    <x-fail-message message="This Adjustment has not been approved yet." />
+                    <x-common.fail-message message="This Adjustment has not been approved yet." />
                 @endcan
             @elseif (!$adjustment->isAdjusted())
                 @can('Make Adjustment')
@@ -148,10 +148,10 @@
                         </form>
                     </div>
                 @else
-                    <x-fail-message message="Product(s) listed below are still not adjusted." />
+                    <x-common.fail-message message="Product(s) listed below are still not adjusted." />
                 @endcan
             @else
-                <x-success-message message="Products have been adjusted accordingly." />
+                <x-common.success-message message="Products have been adjusted accordingly." />
             @endif
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
@@ -189,5 +189,5 @@
             </div>
         </x-content.footer>
 
-    </x-content-wrapper>
+    </x-common.content-wrapper>
 @endsection

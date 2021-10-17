@@ -104,7 +104,7 @@
             </h1>
         </div>
         <div class="box radius-top-0">
-            <x-success-message :message="session('deleted')" />
+            <x-common.success-message :message="session('deleted')" />
             <div>
                 <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[7,8]" data-numeric="[]">
                     <thead>
@@ -233,7 +233,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-delete-button model="reservations" :id="$reservation->id" />
+                                    <x-common.delete-button model="reservations" :id="$reservation->id" />
                                 </td>
                             </tr>
                         @endforeach

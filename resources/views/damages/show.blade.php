@@ -90,10 +90,10 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            <x-fail-message :message="session('failedMessage')" />
-            <x-success-message :message="session('successMessage')" />
+            <x-common.fail-message :message="session('failedMessage')" />
+            <x-common.success-message :message="session('successMessage')" />
             @if ($damage->isApproved() && $damage->isSubtracted())
-                <x-success-message message="Products have been subtracted from inventory." />
+                <x-common.success-message message="Products have been subtracted from inventory." />
             @endif
             @if ($damage->isApproved() && !$damage->isSubtracted())
                 @can('Subtract Damage')
@@ -116,7 +116,7 @@
                         </form>
                     </div>
                 @else
-                    <x-fail-message message="Product(s) listed below are still not subtracted from your inventory." />
+                    <x-common.fail-message message="Product(s) listed below are still not subtracted from your inventory." />
                 @endcan
             @endif
             @if (!$damage->isApproved())
@@ -140,7 +140,7 @@
                         </form>
                     </div>
                 @else
-                    <x-fail-message message="This Damage has not been approved." />
+                    <x-common.fail-message message="This Damage has not been approved." />
                 @endcan
             @endif
             <div class="table-container">

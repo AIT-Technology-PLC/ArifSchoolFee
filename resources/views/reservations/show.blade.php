@@ -280,12 +280,12 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            <x-fail-message :message="session('failedMessage')" />
-            <x-success-message :message="session('successMessage')" />
+            <x-common.fail-message :message="session('failedMessage')" />
+            <x-common.success-message :message="session('successMessage')" />
             @if ($reservation->isCancelled())
-                <x-fail-message message="This reservation is cancelled" />
+                <x-common.fail-message message="This reservation is cancelled" />
             @elseif ($reservation->isConverted())
-                <x-success-message message="This reservation is successfully converted to Delivery Order" />
+                <x-common.success-message message="This reservation is successfully converted to Delivery Order" />
             @elseif ($reservation->isReserved())
                 <div class="box has-background-white-ter has-text-left mb-6">
                     <p class="has-text-grey text-purple is-size-6">

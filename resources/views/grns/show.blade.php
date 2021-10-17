@@ -130,9 +130,9 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            <x-success-message :message="session('successMessage')" />
+            <x-common.success-message :message="session('successMessage')" />
             @if ($grn->isApproved() && $grn->isAdded())
-                <x-success-message message="Product(s) listed below have been added to your Inventory." />
+                <x-common.success-message message="Product(s) listed below have been added to your Inventory." />
             @endif
             @if ($grn->isApproved() && !$grn->isAdded())
                 @can('Add GRN')
@@ -155,7 +155,7 @@
                         </form>
                     </div>
                 @else
-                    <x-fail-message message="Product(s) listed below are still not added to your Inventory." />
+                    <x-common.fail-message message="Product(s) listed below are still not added to your Inventory." />
                 @endcan
             @endif
             @if (!$grn->isApproved())
@@ -179,7 +179,7 @@
                         </form>
                     </div>
                 @else
-                    <x-fail-message message="This GRN has not been approved." />
+                    <x-common.fail-message message="This GRN has not been approved." />
                 @endcan
             @endif
             <div class="table-container">

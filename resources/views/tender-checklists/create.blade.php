@@ -27,9 +27,9 @@
                 </div>
                 <p class="mx-3">
                     @if ($totalGeneralTenderChecklists > 0 && $totalGeneralTenderChecklists == $tender->tender_checklists_count)
-                        <x-success-message message="All checklists are already selected" />
+                        <x-common.success-message message="All checklists are already selected" />
                     @elseif($totalGeneralTenderChecklists == 0)
-                        <x-fail-message message="No checklists found" />
+                        <x-common.fail-message message="No checklists found" />
                     @endif
                 </p>
                 <div class="columns is-marginless is-multiline">
@@ -53,7 +53,7 @@
                 @enderror
             </div>
             <div class="box radius-top-0">
-                <x-save-button />
+                <x-common.save-button />
             </div>
         </form>
     </section>

@@ -77,7 +77,7 @@
                                 <div class="field">
                                     <label for="damage[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
-                                        <x-product-list tags="false" name="damage[{{ $loop->index }}]" selected-product-id="{{ $damageDetail->product_id }}" />
+                                        <x-common.product-list tags="false" name="damage[{{ $loop->index }}]" selected-product-id="{{ $damageDetail->product_id }}" />
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-th"></i>
                                         </div>
@@ -151,7 +151,7 @@
                 @endforeach
             </div>
             <div class="box radius-top-0">
-                <x-save-button />
+                <x-common.save-button />
             </div>
         </form>
     </section>

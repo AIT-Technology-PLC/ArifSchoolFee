@@ -184,7 +184,7 @@
                     </form>
                 </div>
             @else
-                <x-success-message message="This PO is closed." />
+                <x-common.success-message message="This PO is closed." />
             @endif
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">

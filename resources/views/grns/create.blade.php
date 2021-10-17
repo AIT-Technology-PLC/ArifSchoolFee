@@ -112,7 +112,7 @@
                             <div class="field">
                                 <label for="grn[0][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
-                                    <x-product-list tags="false" name="grn[0]" selected-product-id="{{ old('grn.0.product_id') }}" />
+                                    <x-common.product-list tags="false" name="grn[0]" selected-product-id="{{ old('grn.0.product_id') }}" />
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-th"></i>
                                     </div>
@@ -196,7 +196,7 @@
                                     <div class="field">
                                         <label for="grn[{{ $i }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                         <div class="control has-icons-left">
-                                            <x-product-list tags="false" name="grn[{{ $i }}]" selected-product-id="{{ old('grn.' . $i . '.product_id') }}" />
+                                            <x-common.product-list tags="false" name="grn[{{ $i }}]" selected-product-id="{{ old('grn.' . $i . '.product_id') }}" />
                                             <div class="icon is-small is-left">
                                                 <i class="fas fa-th"></i>
                                             </div>
@@ -277,7 +277,7 @@
                 </button>
             </div>
             <div class="box radius-top-0">
-                <x-save-button />
+                <x-common.save-button />
             </div>
         </form>
     </section>

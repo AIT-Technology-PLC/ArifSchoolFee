@@ -15,7 +15,7 @@
             @csrf
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
-                <x-success-message :message="session('successMessage')" />
+                <x-common.success-message :message="session('successMessage')" />
                 <div class="columns is-marginless is-multiline is-centered">
                     <div class="column is-5">
                         <div class="field">

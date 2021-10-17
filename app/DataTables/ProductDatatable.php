@@ -38,7 +38,7 @@ class ProductDatatable extends DataTable
                 return $product->updatedBy->name;
             })
             ->editColumn('actions', function ($product) {
-                return view('components.action-buttons')->with([
+                return view('components.common.action-buttons')->with([
                     'model' => 'products',
                     'id' => $product->id,
                 ]);

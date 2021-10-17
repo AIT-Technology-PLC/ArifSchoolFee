@@ -226,15 +226,15 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            <x-success-message :message="session('successMessage')" />
+            <x-common.success-message :message="session('successMessage')" />
             @if ($proformaInvoice->isCancelled())
-                <x-fail-message message="This Proforma Invoice has been cancelled." />
+                <x-common.fail-message message="This Proforma Invoice has been cancelled." />
             @endif
             @if ($proformaInvoice->isConverted())
-                <x-success-message message="This Proforma Invoice has been confirmed." />
+                <x-common.success-message message="This Proforma Invoice has been confirmed." />
             @endif
             @if ($proformaInvoice->isPending())
-                <x-fail-message message="This Proforma Invoice is still pending.">
+                <x-common.fail-message message="This Proforma Invoice is still pending.">
                     @can('Convert Proforma Invoice')
                         <form action="{{ route('proforma-invoices.convert', $proformaInvoice->id) }}" method="post" novalidate class="is-inline">
                             @csrf
@@ -261,7 +261,7 @@
                             </button>
                         </form>
                     @endcan
-                </x-fail-message>
+                </x-common.fail-message>
             @endif
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <x-content-wrapper>
+    <x-common.content-wrapper>
 
         <x-content.header>
             Edit Adjustment
@@ -78,7 +78,7 @@
                                 <div class="field">
                                     <label for="adjustment[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
-                                        <x-product-list tags="false" name="adjustment[{{ $loop->index }}]" selected-product-id="{{ $adjustmentDetail->product_id }}" />
+                                        <x-common.product-list tags="false" name="adjustment[{{ $loop->index }}]" selected-product-id="{{ $adjustmentDetail->product_id }}" />
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-th"></i>
                                         </div>
@@ -174,10 +174,10 @@
             </x-content.main>
 
             <x-content.footer>
-                <x-save-button />
+                <x-common.save-button />
             </x-content.footer>
 
         </form>
 
-    </x-content-wrapper>
+    </x-common.content-wrapper>
 @endsection

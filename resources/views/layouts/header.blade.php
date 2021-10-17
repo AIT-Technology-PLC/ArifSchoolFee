@@ -112,7 +112,7 @@
                 </div>
             </div>
         </div>
-        <x-create-menu />
+        <x-common.create-menu />
         <livewire:notifications />
     </div>
 </nav>

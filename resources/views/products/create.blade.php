@@ -21,7 +21,7 @@
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="type" name="type">
-                                        <x-inventory-type-options :type="old('type')" />
+                                        <x-common.inventory-type-options :type="old('type')" />
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
@@ -98,7 +98,7 @@
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
                                     <select id="unit_of_measurement" name="unit_of_measurement">
-                                        <x-measurement-unit-options :selectedUnitType="old('unit_of_measurement')" />
+                                        <x-common.measurement-unit-options :selectedUnitType="old('unit_of_measurement')" />
                                     </select>
                                 </div>
                                 <div class="icon is-small is-left">
@@ -183,7 +183,7 @@
                 </div>
             </div>
             <div class="box radius-top-0">
-                <x-save-button />
+                <x-common.save-button />
             </div>
         </form>
     </section>
