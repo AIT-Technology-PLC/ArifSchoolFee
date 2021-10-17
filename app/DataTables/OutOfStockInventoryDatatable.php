@@ -21,32 +21,33 @@ class OutOfStockInventoryDatatable extends DataTable
 
     public function dataTable($query)
     {
-        $datatable = datatables()->collection($query->all());
+        return $this
+            ->editWarehouses(datatables()->collection($query->all()))
+            ->editColumn('product', function ($row) {
+                return view('components.datatables.product-code', [
+                    'product' => $row['product'],
+                    'code' => $row['code'],
+                ]);
+            })
+            ->rawColumns([
+                ...$this->warehouses->pluck('name')->toArray(),
+                'product',
+            ])
+            ->addIndexColumn();
+    }
 
-        $datatable->editColumn('product', function ($row) {
-            return view('components.datatables.product-code', [
-                'product' => $row['product'],
-                'code' => $row['code'],
-            ]);
-        });
-
+    private function editWarehouses($datatable)
+    {
         $this->warehouses->each(function ($warehouse) use ($datatable) {
-
             $datatable->addColumn($warehouse->name, function ($row) use ($warehouse) {
                 return view('components.datatables.history-link', [
                     'productId' => $row['product_id'],
                     'warehouseId' => $warehouse->id,
                 ]);
             });
-
         });
 
-        return $datatable
-            ->rawColumns([
-                ...$this->warehouses->pluck('name')->toArray(),
-                'product',
-            ])
-            ->addIndexColumn();
+        return $datatable;
     }
 
     public function query()

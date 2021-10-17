@@ -18,40 +18,41 @@ class OnHandInventoryDatatable extends DataTable
 
     public function dataTable($query)
     {
-        $datatable = datatables()->collection($query->all());
-
-        $datatable->editColumn('product', function ($row) {
-            return view('components.datatables.product-code', [
-                'product' => $row['product'],
-                'code' => $row['code'],
-            ]);
-        });
-
-        $this->warehouses->each(function ($warehouse) use ($datatable) {
-
-            $datatable->editColumn($warehouse->name, function ($row) use ($warehouse) {
-                return view('components.datatables.green-outlined-tag', [
-                    'amount' => Arr::has($row, $warehouse->name) ? $row[$warehouse->name] : 0.00,
-                    'unit' => $row['unit'],
+        return $this
+            ->editWarehouses(datatables()->collection($query->all()))
+            ->editColumn('product', function ($row) {
+                return view('components.datatables.product-code', [
+                    'product' => $row['product'],
+                    'code' => $row['code'],
                 ]);
-            });
-
-            $datatable->editColumn('total balance', function ($row) {
-                return view('components.datatables.green-solid-tag', [
-                    'amount' => $row['total balance'] ?: 0.00,
-                    'unit' => $row['unit'],
-                ]);
-            });
-
-        });
-
-        return $datatable
+            })
             ->rawColumns([
                 ...$this->warehouses->pluck('name')->toArray(),
                 'total balance',
                 'product',
             ])
             ->addIndexColumn();
+    }
+
+    private function editWarehouses($datatable)
+    {
+        $this->warehouses->each(function ($warehouse) use ($datatable) {
+            $datatable
+                ->editColumn($warehouse->name, function ($row) use ($warehouse) {
+                    return view('components.datatables.green-outlined-tag', [
+                        'amount' => Arr::has($row, $warehouse->name) ? $row[$warehouse->name] : 0.00,
+                        'unit' => $row['unit'],
+                    ]);
+                })
+                ->editColumn('total balance', function ($row) {
+                    return view('components.datatables.green-solid-tag', [
+                        'amount' => $row['total balance'] ?: 0.00,
+                        'unit' => $row['unit'],
+                    ]);
+                });
+        });
+
+        return $datatable;
     }
 
     public function query()
