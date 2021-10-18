@@ -78,7 +78,7 @@
                                 @endif
                             </td>
                             <td>
-                                {!! nl2br(e(substr($adjustment->description, 0, 40))) ?? 'N/A' !!}
+                                {!! nl2br(e(substr($adjustment->description, 0, 40))) ?: 'N/A' !!}
                                 <span class="is-hidden">
                                     {!! $adjustment->description ?? '' !!}
                                 </span>
