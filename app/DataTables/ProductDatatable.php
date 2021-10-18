@@ -41,6 +41,7 @@ class ProductDatatable extends DataTable
                 return view('components.common.action-buttons', [
                     'model' => 'products',
                     'id' => $product->id,
+                    'buttons' => ['edit', 'delete'],
                 ]);
             })
             ->rawColumns(['actions'])

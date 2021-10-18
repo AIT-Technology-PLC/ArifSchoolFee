@@ -151,27 +151,7 @@
                             <td> {{ $adjustment->adjustedBy->name ?? 'N/A' }} </td>
                             <td> {{ $adjustment->updatedBy->name ?? 'N/A' }} </td>
                             <td class="actions">
-                                <a href="{{ route('adjustments.show', $adjustment->id) }}" data-title="View Details">
-                                    <span class="tag is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
-                                        <span class="icon">
-                                            <i class="fas fa-info-circle"></i>
-                                        </span>
-                                        <span>
-                                            Details
-                                        </span>
-                                    </span>
-                                </a>
-                                <a href="{{ route('adjustments.edit', $adjustment->id) }}" data-title="Modify Adjustments Data">
-                                    <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
-                                        <span class="icon">
-                                            <i class="fas fa-pen-square"></i>
-                                        </span>
-                                        <span>
-                                            Edit
-                                        </span>
-                                    </span>
-                                </a>
-                                <x-common.delete-button route="adjustments.destroy" :id="$adjustment->id" />
+                                <x-common.action-buttons buttons="all" model="adjustments" :id="$adjustment->id" />
                             </td>
                         </tr>
                     @endforeach
