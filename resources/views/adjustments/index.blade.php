@@ -80,9 +80,7 @@
 
     <x-common.content-wrapper>
 
-        <x-content.header>
-            Adjustment Management
-        </x-content.header>
+        <x-content.header title="Adjustments" />
 
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />

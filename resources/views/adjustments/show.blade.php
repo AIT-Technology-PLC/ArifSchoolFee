@@ -7,9 +7,7 @@
 @section('content')
     <x-common.content-wrapper>
 
-        <x-content.header>
-            General Information
-        </x-content.header>
+        <x-content.header title="General Information" />
 
         <x-content.footer>
             <div class="columns is-marginless is-multiline">
@@ -71,32 +69,15 @@
 
     <x-common.content-wrapper class="mt-5">
 
-        <x-content.header>
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item is-justify-content-left">
-                        <div>
-                            <h1 class="title text-green has-text-weight-medium is-size-5">
-                                Adjustment Details
-                            </h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="level-right">
-                    <div class="level-item is-justify-content-left">
-                        <div>
-                            <a href="{{ route('adjustments.edit', $adjustment->id) }}" class="button is-small bg-green has-text-white">
-                                <span class="icon">
-                                    <i class="fas fa-pen"></i>
-                                </span>
-                                <span>
-                                    Edit
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <x-content.header title="Adjustment Details">
+            <a href="{{ route('adjustments.edit', $adjustment->id) }}" class="button is-small bg-green has-text-white">
+                <span class="icon">
+                    <i class="fas fa-pen"></i>
+                </span>
+                <span>
+                    Edit
+                </span>
+            </a>
         </x-content.header>
 
         <x-content.footer>

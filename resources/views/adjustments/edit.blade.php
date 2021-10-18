@@ -7,9 +7,7 @@
 @section('content')
     <x-common.content-wrapper>
 
-        <x-content.header>
-            Edit Adjustment
-        </x-content.header>
+        <x-content.header title="Edit Adjustment" />
 
         <form id="formOne" action="{{ route('adjustments.update', $adjustment->id) }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf

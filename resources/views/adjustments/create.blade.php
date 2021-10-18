@@ -7,9 +7,7 @@
 @section('content')
     <x-common.content-wrapper>
 
-        <x-content.header>
-            New Adjustment
-        </x-content.header>
+        <x-content.header title="New Adjustment" />
 
         <form id="formOne" action="{{ route('adjustments.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf

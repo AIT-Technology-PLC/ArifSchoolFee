@@ -7,12 +7,14 @@
 
         <section class="mb-5">
             <x-content.header>
-                <span class="icon">
-                    <i class="fas fa-warehouse"></i>
-                </span>
-                <span class="ml-2">
-                    Warehouse & Inventory
-                </span>
+                <x-slot name="header">
+                    <span class="icon">
+                        <i class="fas fa-warehouse"></i>
+                    </span>
+                    <span class="ml-2">
+                        Warehouse & Inventory
+                    </span>
+                </x-slot>
             </x-content.header>
 
             <x-content.footer>
@@ -134,12 +136,14 @@
 
         <section class="mb-5">
             <x-content.header>
-                <span class="icon">
-                    <i class="fas fa-tags"></i>
-                </span>
-                <span class="ml-2">
-                    Sales & Customers
-                </span>
+                <x-slot name="header">
+                    <span class="icon">
+                        <i class="fas fa-tags"></i>
+                    </span>
+                    <span class="ml-2">
+                        Sales & Customers
+                    </span>
+                </x-slot>
             </x-content.header>
 
             <x-content.footer>
@@ -261,12 +265,14 @@
 
         <section class="mb-5">
             <x-content.header>
-                <span class="icon">
-                    <i class="fas fa-project-diagram"></i>
-                </span>
-                <span class="ml-2">
-                    Tenders
-                </span>
+                <x-slot name="header">
+                    <span class="icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </span>
+                    <span class="ml-2">
+                        Tenders
+                    </span>
+                </x-slot>
             </x-content.header>
 
             <x-content.footer>
@@ -340,12 +346,14 @@
 
         <section class="mb-5">
             <x-content.header>
-                <span class="icon">
-                    <i class="fas fa-shopping-bag"></i>
-                </span>
-                <span class="ml-2">
-                    Purchases & Suppliers
-                </span>
+                <x-slot name="header">
+                    <span class="icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </span>
+                    <span class="ml-2">
+                        Purchases & Suppliers
+                    </span>
+                </x-slot>
             </x-content.header>
 
             <x-content.footer>
@@ -387,12 +395,14 @@
 
         <section class="mb-5">
             <x-content.header>
-                <span class="icon">
-                    <i class="fas fa-th"></i>
-                </span>
-                <span class="ml-2">
-                    Products & Categories
-                </span>
+                <x-slot name="header">
+                    <span class="icon">
+                        <i class="fas fa-th"></i>
+                    </span>
+                    <span class="ml-2">
+                        Products & Categories
+                    </span>
+                </x-slot>
             </x-content.header>
 
             <x-content.footer>
@@ -429,12 +439,14 @@
 
         <section>
             <x-content.header>
-                <span class="icon">
-                    <i class="fas fa-cog"></i>
-                </span>
-                <span class="ml-2">
-                    General Settings
-                </span>
+                <x-slot name="header">
+                    <span class="icon">
+                        <i class="fas fa-cog"></i>
+                    </span>
+                    <span class="ml-2">
+                        General Settings
+                    </span>
+                </x-slot>
             </x-content.header>
 
             <x-content.footer>
