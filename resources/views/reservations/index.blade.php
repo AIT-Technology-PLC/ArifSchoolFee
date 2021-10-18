@@ -233,7 +233,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-common.delete-button model="reservations" :id="$reservation->id" />
+                                    <x-common.delete-button route="reservations.destroy" :id="$reservation->id" />
                                 </td>
                             </tr>
                         @endforeach

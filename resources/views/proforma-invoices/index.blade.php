@@ -173,7 +173,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-common.delete-button model="proforma-invoices" :id="$proformaInvoice->id" />
+                                    <x-common.delete-button route="proforma-invoices.destroy" :id="$proformaInvoice->id" />
                                 </td>
                             </tr>
                         @endforeach

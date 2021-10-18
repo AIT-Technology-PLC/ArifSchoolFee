@@ -179,7 +179,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-common.delete-button model="returns" :id="$return->id" />
+                                    <x-common.delete-button route="returns.destroy" :id="$return->id" />
                                 </td>
                             </tr>
                         @endforeach

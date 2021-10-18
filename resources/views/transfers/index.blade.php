@@ -193,7 +193,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-common.delete-button model="transfers" :id="$transfer->id" />
+                                    <x-common.delete-button route="transfers.destroy" :id="$transfer->id" />
                                 </td>
                             </tr>
                         @endforeach

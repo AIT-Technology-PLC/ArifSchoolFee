@@ -125,7 +125,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-common.delete-button model="purchases" :id="$purchase->id" />
+                                    <x-common.delete-button route="purchases.destroy" :id="$purchase->id" />
                                 </td>
                             </tr>
                         @endforeach

@@ -98,7 +98,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-common.delete-button model="general-tender-checklists" :id="$generalTenderChecklist->id" />
+                                    <x-common.delete-button route="general-tender-checklists.destroy" :id="$generalTenderChecklist->id" />
                                 </td>
                             </tr>
                         @endforeach

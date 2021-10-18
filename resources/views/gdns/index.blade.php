@@ -195,7 +195,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-common.delete-button model="gdns" :id="$gdn->id" />
+                                    <x-common.delete-button route="gdns.destroy" :id="$gdn->id" />
                                 </td>
                             </tr>
                         @endforeach

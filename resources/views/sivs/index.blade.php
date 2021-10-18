@@ -163,7 +163,7 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-common.delete-button model="sivs" :id="$siv->id" />
+                                    <x-common.delete-button route="sivs.destroy" :id="$siv->id" />
                                 </td>
                             </tr>
                         @endforeach
