@@ -16,12 +16,8 @@
                         </div>
                         <div class="is-size-3">
                             <a href="{{ route('adjustments.create') }}" class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    Create New Adjustments
-                                </span>
+                                <x-common.icon name="fas fa-plus-circle" />
+                                <span> Create Adjustment </span>
                             </a>
                         </div>
                     </div>
@@ -41,10 +37,8 @@
 
     <x-common.content-wrapper>
         <x-content.header title="Adjustments" />
-
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
-
             <x-common.client-datatable date-columns="[4]">
                 <x-slot name="headings">
                     <th> # </th>
@@ -65,33 +59,21 @@
                             <td class="is-capitalized has-text-centered">
                                 {{ $adjustment->code }}
                             </td>
-                            <td class="is-capitalized">
+                            <td>
                                 @if (!$adjustment->isApproved())
                                     <span class="tag is-small bg-purple has-text-white">
-                                        <span class="icon">
-                                            <i class="fas fa-clock"></i>
-                                        </span>
-                                        <span>
-                                            Waiting Approval
-                                        </span>
+                                        <x-common.icon name="fas fa-clock" />
+                                        <span> Waiting Approval </span>
                                     </span>
                                 @elseif ($adjustment->isAdjusted())
                                     <span class="tag is-small bg-green has-text-white">
-                                        <span class="icon">
-                                            <i class="fas fa-check-circle"></i>
-                                        </span>
-                                        <span>
-                                            Adjusted
-                                        </span>
+                                        <x-common.icon name="fas fa-check-circle" />
+                                        <span> Adjusted </span>
                                     </span>
                                 @else
                                     <span class="tag is-small bg-gold has-text-white">
-                                        <span class="icon">
-                                            <i class="fas fa-exclamation-circle"></i>
-                                        </span>
-                                        <span>
-                                            Approved (Not Adjusted)
-                                        </span>
+                                        <x-common.icon name="fas fa-exclamation-circle" />
+                                        <span> Approved </span>
                                     </span>
                                 @endif
                             </td>
