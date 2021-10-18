@@ -10,7 +10,7 @@
                 {{ $amount }}
             </div>
             <div class="is-size-7 is-uppercase">
-                Total {{ $model }}
+                {{ $model }}
             </div>
         </div>
     </div>

@@ -1,29 +1,11 @@
 @extends('layouts.app')
 
-@section('title')
-    Adjustment Management
-@endsection
+@section('title', 'Adjustments')
 
 @section('content')
     <div class="columns is-marginless is-multiline">
         <div class="column is-6 p-lr-0">
-            <div class="box text-green">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-eraser"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalAdjustments }}
-                        </div>
-                        <div class="is-uppercase is-size-7">
-                            Total Adjustments
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-common.total-model model="adjustments" :amount="$totalAdjustments" icon="fas fa-eraser" />
         </div>
         <div class="column is-6 p-lr-0">
             <div class="box text-purple">
@@ -47,60 +29,36 @@
             </div>
         </div>
         <div class="column is-4 p-lr-0">
-            <div class="box text-green has-text-centered" style="border-left: 2px solid #3d8660;">
-                <div class="is-size-3 has-text-weight-bold">
-                    {{ $totalAdjusted }}
-                </div>
-                <div class="is-uppercase is-size-7">
-                    Adjusted
-                </div>
-            </div>
+            <x-common.index-insight :amount="$totalAdjusted" border-color="#3d8660" text-color="text-green" label="Adjusted" />
         </div>
         <div class="column is-4 p-lr-0">
-            <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
-                <div class="is-size-3 has-text-weight-bold">
-                    {{ $totalNotAdjusted }}
-                </div>
-                <div class="is-uppercase is-size-7">
-                    Approved (Not Adjusted)
-                </div>
-            </div>
+            <x-common.index-insight :amount="$totalNotAdjusted" border-color="#86843d" text-color="text-gold" label="Approved" />
         </div>
         <div class="column is-4 p-lr-0">
-            <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
-                <div class="is-size-3 has-text-weight-bold">
-                    {{ $totalNotApproved }}
-                </div>
-                <div class="is-uppercase is-size-7">
-                    Waiting Approval
-                </div>
-            </div>
+            <x-common.index-insight :amount="$totalNotApproved" border-color="#863d63" text-color="text-purple" label="Waiting Approval" />
         </div>
     </div>
 
     <x-common.content-wrapper>
-
         <x-content.header title="Adjustments" />
 
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
 
-            <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[4]" data-numeric="[]">
-                <thead>
-                    <tr>
-                        <th><abbr> # </abbr></th>
-                        <th class="has-text-centered"><abbr> Adjustment No </abbr></th>
-                        <th><abbr> Status </abbr></th>
-                        <th><abbr> Description </abbr></th>
-                        <th class="has-text-right"><abbr> Issued On </abbr></th>
-                        <th><abbr> Prepared By </abbr></th>
-                        <th><abbr> Approved By </abbr></th>
-                        <th><abbr> Adjusted By </abbr></th>
-                        <th><abbr> Edited By </abbr></th>
-                        <th><abbr> Actions </abbr></th>
-                    </tr>
-                </thead>
-                <tbody class="list">
+            <x-common.client-datatable date-columns="[4]">
+                <x-slot name="headings">
+                    <th> # </th>
+                    <th class="has-text-centered"> Adjustment No </th>
+                    <th> Status </th>
+                    <th> Description </th>
+                    <th class="has-text-right"> Issued On </th>
+                    <th> Prepared By </th>
+                    <th> Approved By </th>
+                    <th> Adjusted By </th>
+                    <th> Edited By </th>
+                    <th> Actions </th>
+                </x-slot>
+                <x-slot name="body">
                     @foreach ($adjustments as $adjustment)
                         <tr class="showRowDetails is-clickable" data-id="{{ route('adjustments.show', $adjustment->id) }}">
                             <td> {{ $loop->index + 1 }} </td>
@@ -155,9 +113,8 @@
                             </td>
                         </tr>
                     @endforeach
-                </tbody>
-            </table>
+                </x-slot>
+            </x-common.client-datatable>
         </x-content.footer>
-
     </x-common.content-wrapper>
 @endsection
