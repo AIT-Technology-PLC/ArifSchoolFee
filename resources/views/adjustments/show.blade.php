@@ -29,7 +29,7 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Adjustment Details">
+        <x-content.header title="Details">
             @if (!$adjustment->isApproved() &&
         auth()->user()->can('Approve Adjustment'))
                 <x-common.transaction-button :route="route('adjustments.approve', $adjustment->id)"
@@ -61,41 +61,32 @@
             @elseif ($adjustment->isAdjusted())
                 <x-common.success-message message="Products have been adjusted accordingly." />
             @endif
-            <div class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7">
-                    <thead>
+            <x-common.bulma-table>
+                <x-slot name="headings">
+                    <th> # </th>
+                    <th> Operation </th>
+                    <th> Product </th>
+                    <th> Quantity </th>
+                    <th> Reason </th>
+                </x-slot>
+                <x-slot name="body">
+                    @foreach ($adjustment->adjustmentDetails as $adjustmentDetail)
                         <tr>
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> Operation </abbr></th>
-                            <th><abbr> Product </abbr></th>
-                            <th><abbr> Quantity </abbr></th>
-                            <th><abbr> Reason </abbr></th>
+                            <td> {{ $loop->index + 1 }} </td>
+                            <td class="is-capitalized">
+                                {{ $adjustmentDetail->is_subtract ? 'Subtract From ' : 'Add To ' }}
+                                {{ $adjustmentDetail->warehouse->name }}
+                            </td>
+                            <td class="is-capitalized"> {{ $adjustmentDetail->product->name }} </td>
+                            <td>
+                                {{ number_format($adjustmentDetail->quantity, 2) }}
+                                {{ $adjustmentDetail->product->unit_of_measurement }}
+                            </td>
+                            <td> {!! nl2br(e($adjustmentDetail->reason)) !!} </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($adjustment->adjustmentDetails as $adjustmentDetail)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    {{ $adjustmentDetail->is_subtract ? 'Subtract From ' : 'Add To ' }}
-                                    {{ $adjustmentDetail->warehouse->name }}
-                                </td>
-                                <td class="is-capitalized">
-                                    {{ $adjustmentDetail->product->name }}
-                                </td>
-                                <td>
-                                    {{ number_format($adjustmentDetail->quantity, 2) }}
-                                    {{ $adjustmentDetail->product->unit_of_measurement }}
-                                </td>
-                                <td>
-                                    {!! nl2br(e($adjustmentDetail->reason)) !!}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    @endforeach
+                </x-slot>
+            </x-common.bulma-table>
         </x-content.footer>
-
     </x-common.content-wrapper>
 @endsection
