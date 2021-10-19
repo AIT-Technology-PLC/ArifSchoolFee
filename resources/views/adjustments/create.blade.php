@@ -1,188 +1,190 @@
 @extends('layouts.app')
 
-@section('title')
-    Create New Adjustment
-@endsection
+@section('title', 'Create Adjustment')
 
 @section('content')
     <x-common.content-wrapper>
-
         <x-content.header title="New Adjustment" />
-
-        <form id="formOne" action="{{ route('adjustments.store') }}" method="POST" enctype="multipart/form-data" novalidate>
+        <form id="formOne"
+              action="{{ route('adjustments.store') }}"
+              method="POST"
+              enctype="multipart/form-data"
+              novalidate>
             @csrf
-
             <x-content.main>
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <div class="field">
-                            <label for="code" class="label text-green has-text-weight-normal">Adjustment Number <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="number" name="code" id="code" value="{{ $currentAdjustmentCode }}">
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-hashtag"></i>
-                                </span>
-                                @error('code')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label for="code">
+                                Adjustment Number <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input type="number"
+                                               name="code"
+                                               id="code"
+                                               value="{{ $currentAdjustmentCode }}" />
+                                <x-common.icon name="fas fa-hashtag"
+                                               class="is-large is-left" />
+                                <x-common.validation-error property="code" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label for="issued_on" class="label text-green has-text-weight-normal"> Issued On <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="date" name="issued_on" id="issued_on" placeholder="mm/dd/yyyy" value="{{ old('issued_on') ?? now()->toDateString() }}">
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                @error('issued_on')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label for="issued_on">
+                                Issued On <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input type="date"
+                                               name="issued_on"
+                                               id="issued_on"
+                                               placeholder="mm/dd/yyyy"
+                                               value="{{ old('issued_on') ?? now()->toDateString() }}" />
+                                <x-common.icon name="fas fa-calendar-alt"
+                                               class="is-large is-left" />
+                                <x-common.validation-error property="issued_on" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label for="description" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
-                            <div class="control has-icons-left">
-                                <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ old('description') ?? '' }}</textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                @error('description')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label for="description">
+                                Description <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.textarea name="description"
+                                                  id="description"
+                                                  class="pl-6"
+                                                  placeholder="Description or note to be taken">
+                                    {{ old('description') ?? '' }}
+                                </x-forms.textarea>
+                                <x-common.icon name="fas fa-edit"
+                                               class="is-large is-left" />
+                                <x-common.validation-error property="description" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                 </div>
                 <div id="adjustment-details">
                     @foreach (old('adjustment', [0]) as $adjustmentDetail)
                         <div class="adjustment-detail mx-3">
                             <div class="has-text-weight-medium has-text-left mt-5">
-                                <span name="item-number" class="tag bg-green has-text-white is-medium radius-bottom-0">
+                                <span name="item-number"
+                                      class="tag bg-green has-text-white is-medium radius-bottom-0">
                                     Item {{ $loop->iteration }}
                                 </span>
                             </div>
                             <div class="box has-background-white-bis radius-top-0">
                                 <div class="columns is-marginless is-multiline">
                                     <div class="column is-6">
-                                        <div class="field">
-                                            <label for="adjustment[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
-                                            <div class="control has-icons-left">
-                                                <x-common.product-list tags="false" name="adjustment[{{ $loop->index }}]" selected-product-id="{{ $adjustmentDetail['product_id'] ?? '' }}" />
-                                                <div class="icon is-small is-left">
-                                                    <i class="fas fa-th"></i>
-                                                </div>
-                                                @error('adjustment.' . $loop->index . '.product_id')
-                                                    <span class="help has-text-danger" role="alert">
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
+                                        <x-forms.field>
+                                            <x-forms.label for="adjustment[{{ $loop->index }}][product_id]">
+                                                Product <sup class="has-text-danger">*</sup>
+                                            </x-forms.label>
+                                            <x-forms.control class="has-icons-left">
+                                                <x-common.product-list tags="false"
+                                                                       name="adjustment[{{ $loop->index }}]"
+                                                                       selected-product-id="{{ $adjustmentDetail['product_id'] ?? '' }}" />
+                                                <x-common.icon name="fas fa-th"
+                                                               class="is-large is-left" />
+                                                <x-common.validation-error property="adjustment.{{ $loop->index }}.product_id" />
+                                            </x-forms.control>
+                                        </x-forms.field>
                                     </div>
                                     <div class="column is-6">
-                                        <label for="adjustment[{{ $loop->index }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
-                                        <div class="field has-addons">
-                                            <div class="control has-icons-left is-expanded">
-                                                <input id="adjustment[{{ $loop->index }}][quantity]" name="adjustment[{{ $loop->index }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ $adjustmentDetail['quantity'] ?? '' }}">
-                                                <span class="icon is-small is-left">
-                                                    <i class="fas fa-balance-scale"></i>
-                                                </span>
-                                                @error('adjustment.' . $loop->index . '.quantity')
-                                                    <span class="help has-text-danger" role="alert">
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                            <div class="control">
-                                                <button id="adjustment[{{ $loop->index }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
-                                            </div>
-                                        </div>
+                                        <x-forms.label for="adjustment[{{ $loop->index }}][quantity]">
+                                            Quantity <sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.field class="has-addons">
+                                            <x-forms.control class="has-icons-left is-expanded">
+                                                <x-forms.input id="adjustment[{{ $loop->index }}][quantity]"
+                                                               name="adjustment[{{ $loop->index }}][quantity]"
+                                                               type="number"
+                                                               placeholder="Quantity"
+                                                               value="{{ $adjustmentDetail['quantity'] ?? '' }}" />
+                                                <x-common.icon name="fas fa-balance-scale"
+                                                               class="is-small is-left" />
+                                                <x-common.validation-error property="adjustment.{{ $loop->index }}.quantity" />
+                                            </x-forms.control>
+                                            <x-forms.control>
+                                                <button id="adjustment[{{ $loop->index }}][product_id]Quantity"
+                                                        class="button bg-green has-text-white"
+                                                        type="button"></button>
+                                            </x-forms.control>
+                                        </x-forms.field>
                                     </div>
                                     <div class="column is-6">
-                                        <div class="field">
-                                            <label for="adjustment[{{ $loop->index }}][is_subtract]" class="label text-green has-text-weight-normal"> Operation <sup class="has-text-danger">*</sup> </label>
-                                            <div class="control has-icons-left">
-                                                <div class="select is-fullwidth">
-                                                    <select id="adjustment[{{ $loop->index }}][is_subtract]" name="adjustment[{{ $loop->index }}][is_subtract]">
-                                                        <option value="0" {{ ($adjustmentDetail['is_subtract'] ?? '') == 0 ? 'selected' : '' }}> Add </option>
-                                                        <option value="1" {{ ($adjustmentDetail['is_subtract'] ?? '') == 1 ? 'selected' : '' }}> Subtract </option>
-                                                    </select>
-                                                </div>
-                                                <div class="icon is-small is-left">
-                                                    <i class="fas fa-sort"></i>
-                                                </div>
-                                                @error('adjustment.' . $loop->index . '.is_subtract')
-                                                    <span class="help has-text-danger" role="alert">
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
+                                        <x-forms.field>
+                                            <x-forms.label for="adjustment[{{ $loop->index }}][is_subtract]">
+                                                Operation <sup class="has-text-danger">*</sup>
+                                            </x-forms.label>
+                                            <x-forms.control class="has-icons-left">
+                                                <x-forms.select class="is-fullwidth"
+                                                                id="adjustment[{{ $loop->index }}][is_subtract]"
+                                                                name="adjustment[{{ $loop->index }}][is_subtract]">
+                                                    <option value="0"
+                                                            {{ ($adjustmentDetail['is_subtract'] ?? '') == 0 ? 'selected' : '' }}> Add </option>
+                                                    <option value="1"
+                                                            {{ ($adjustmentDetail['is_subtract'] ?? '') == 1 ? 'selected' : '' }}> Subtract </option>
+                                                </x-forms.select>
+                                                <x-common.icon name="fas fa-sort"
+                                                               class="is-small is-left" />
+                                                <x-common.validation-error property="adjustment.{{ $loop->index }}.is_subtract" />
+                                            </x-forms.control>
+                                        </x-forms.field>
                                     </div>
                                     <div class="column is-6">
-                                        <div class="field">
-                                            <label for="adjustment[{{ $loop->index }}][warehouse_id]" class="label text-green has-text-weight-normal"> Warehouse <sup class="has-text-danger">*</sup> </label>
-                                            <div class="control has-icons-left">
-                                                <div class="select is-fullwidth">
-                                                    <select id="adjustment[{{ $loop->index }}][warehouse_id]" name="adjustment[{{ $loop->index }}][warehouse_id]">
-                                                        @foreach ($warehouses as $warehouse)
-                                                            <option value="{{ $warehouse->id }}" {{ ($adjustmentDetail['warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="icon is-small is-left">
-                                                    <i class="fas fa-warehouse"></i>
-                                                </div>
-                                                @error('adjustment.' . $loop->index . '.warehouse_id')
-                                                    <span class="help has-text-danger" role="alert">
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
+                                        <x-forms.field>
+                                            <x-forms.label for="adjustment[{{ $loop->index }}][warehouse_id]">
+                                                Warehouse <sup class="has-text-danger">*</sup>
+                                            </x-forms.label>
+                                            <x-forms.control class="has-icons-left">
+                                                <x-forms.select class="is-fullwidth"
+                                                                id="adjustment[{{ $loop->index }}][warehouse_id]"
+                                                                name="adjustment[{{ $loop->index }}][warehouse_id]">
+                                                    @foreach ($warehouses as $warehouse)
+                                                        <option value="{{ $warehouse->id }}"
+                                                                {{ ($adjustmentDetail['warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                                    @endforeach
+                                                </x-forms.select>
+                                                <x-common.icon name="fas fa-warehouse"
+                                                               class="is-small is-left" />
+                                                <x-common.validation-error property="adjustment.{{ $loop->index }}.warehouse_id" />
+                                            </x-forms.control>
+                                        </x-forms.field>
                                     </div>
                                     <div class="column is-6">
-                                        <div class="field">
-                                            <label for="adjustment[{{ $loop->index }}][reason]" class="label text-green has-text-weight-normal">Reason <sup class="has-text-danger">*</sup></label>
-                                            <div class="control has-icons-left">
-                                                <textarea name="adjustment[{{ $loop->index }}][reason]" id="adjustment[{{ $loop->index }}][reason]" cols="30" rows="3" class="textarea pl-6"
-                                                    placeholder="Describe reason for adjusting this product level">{{ $adjustmentDetail['reason'] ?? '' }}</textarea>
-                                                <span class="icon is-large is-left">
-                                                    <i class="fas fa-edit"></i>
-                                                </span>
-                                                @error('adjustment.' . $loop->index . '.reason')
-                                                    <span class="help has-text-danger" role="alert">
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
+                                        <x-forms.field>
+                                            <x-forms.label for="adjustment[{{ $loop->index }}][reason]">
+                                                Reason <sup class="has-text-danger">*</sup>
+                                            </x-forms.label>
+                                            <x-forms.control class="has-icons-left">
+                                                <x-forms.textarea name="adjustment[{{ $loop->index }}][reason]"
+                                                                  id="adjustment[{{ $loop->index }}][reason]"
+                                                                  class="pl-6"
+                                                                  placeholder="Describe reason for adjusting this product level">
+                                                    {{ $adjustmentDetail['reason'] ?? '' }}
+                                                </x-forms.textarea>
+                                                <x-common.icon name="fas fa-edit"
+                                                               class="is-large is-left" />
+                                                <x-common.validation-error property="adjustment.{{ $loop->index }}.reason" />
+                                            </x-forms.control>
+                                        </x-forms.field>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
-                <button id="addNewAdjustmentForm" type="button" class="button bg-purple has-text-white is-small ml-3 mt-6">
+                <button id="addNewAdjustmentForm"
+                        type="button"
+                        class="button bg-purple has-text-white is-small ml-3 mt-6">
                     Add More Item
                 </button>
             </x-content.main>
-
             <x-content.footer>
                 <x-common.save-button />
             </x-content.footer>
-
         </form>
-
     </x-common.content-wrapper>
 @endsection
