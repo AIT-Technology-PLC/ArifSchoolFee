@@ -6,9 +6,7 @@
 
 @section('content')
     <x-common.content-wrapper>
-
         <x-content.header title="General Information" />
-
         <x-content.footer>
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
@@ -25,23 +23,15 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-
         <x-content.header title="Adjustment Details">
             <a href="{{ route('adjustments.edit', $adjustment->id) }}" class="button is-small bg-green has-text-white">
-                <span class="icon">
-                    <i class="fas fa-pen"></i>
-                </span>
-                <span>
-                    Edit
-                </span>
+                <x-common.icon name="fas fa-pen" />
+                <span> Edit </span>
             </a>
         </x-content.header>
-
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
-
             <x-common.success-message :message="session('successMessage')" />
-
             @if (!$adjustment->isApproved())
                 @can('Approve Adjustment')
                     <div class="box has-background-white-ter has-text-left mb-6">
