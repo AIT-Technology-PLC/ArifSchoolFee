@@ -10,13 +10,19 @@
         <x-content.footer>
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
-                    <x-common.show-data-section icon="fas fa-file-invoice" :data="$adjustment->code" label="Adjustment No" />
+                    <x-common.show-data-section icon="fas fa-file-invoice"
+                                                :data="$adjustment->code"
+                                                label="Adjustment No" />
                 </div>
                 <div class="column is-6">
-                    <x-common.show-data-section icon="fas fa-calendar-day" :data="$adjustment->issued_on->toFormattedDateString()" label="Issued On" />
+                    <x-common.show-data-section icon="fas fa-calendar-day"
+                                                :data="$adjustment->issued_on->toFormattedDateString()"
+                                                label="Issued On" />
                 </div>
                 <div class="column is-12">
-                    <x-common.show-data-section type="long" :data="$adjustment->description" label="Details" />
+                    <x-common.show-data-section type="long"
+                                                :data="$adjustment->description"
+                                                label="Details" />
                 </div>
             </div>
         </x-content.footer>
@@ -24,10 +30,18 @@
 
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Adjustment Details">
-            @if (!$adjustment->isApproved() && auth()->user()->can('Approve Adjustment'))
-                <form id="formOne" class="is-inline" action="{{ route('adjustments.approve', $adjustment->id) }}" method="post" novalidate>
+            @if (!$adjustment->isApproved() &&
+        auth()->user()->can('Approve Adjustment'))
+                <form id="formOne"
+                      class="is-inline"
+                      action="{{ route('adjustments.approve', $adjustment->id) }}"
+                      method="post"
+                      novalidate>
                     @csrf
-                    <button data-type="Adjustment" data-action="approve" data-description="" class="swal button btn-purple is-outlined is-small">
+                    <button data-type="Adjustment"
+                            data-action="approve"
+                            data-description=""
+                            class="swal button btn-purple is-outlined is-small">
                         <span class="icon">
                             <i class="fas fa-signature"></i>
                         </span>
@@ -37,9 +51,16 @@
                     </button>
                 </form>
             @elseif(!$adjustment->isAdjusted() && auth()->user()->can('Make Adjustment'))
-                <form id="formOne" class="is-inline" action="{{ route('adjustments.adjust', $adjustment->id) }}" method="post" novalidate>
+                <form id="formOne"
+                      class="is-inline"
+                      action="{{ route('adjustments.adjust', $adjustment->id) }}"
+                      method="post"
+                      novalidate>
                     @csrf
-                    <button data-type="Adjustment" data-action="execute" data-description="" class="swal button btn-purple is-outlined is-small">
+                    <button data-type="Adjustment"
+                            data-action="execute"
+                            data-description=""
+                            class="swal button btn-purple is-outlined is-small">
                         <span class="icon">
                             <i class="fas fa-eraser"></i>
                         </span>
@@ -49,7 +70,8 @@
                     </button>
                 </form>
             @endif
-            <a href="{{ route('adjustments.edit', $adjustment->id) }}" class="button is-small bg-green has-text-white">
+            <a href="{{ route('adjustments.edit', $adjustment->id) }}"
+               class="button is-small bg-green has-text-white">
                 <x-common.icon name="fas fa-pen" />
                 <span> Edit </span>
             </a>
@@ -57,7 +79,8 @@
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('successMessage')" />
-            @if (!$adjustment->isApproved() && !auth()->user()->can('Approve Adjustment'))
+            @if (!$adjustment->isApproved() &&
+        !auth()->user()->can('Approve Adjustment'))
                 <x-common.fail-message message="This Adjustment has not been approved yet." />
             @elseif (!$adjustment->isAdjusted() && !auth()->user()->can('Make Adjustment'))
                 <x-common.fail-message message="Product(s) listed below are still not adjusted." />
