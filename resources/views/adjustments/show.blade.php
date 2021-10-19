@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-    Adjustment Details
-@endsection
+@section('title', 'Adjustment Details')
 
 @section('content')
     <x-common.content-wrapper>
