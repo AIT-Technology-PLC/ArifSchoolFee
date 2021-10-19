@@ -24,6 +24,31 @@
 
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Adjustment Details">
+            @if (!$adjustment->isApproved() && auth()->user()->can('Approve Adjustment'))
+                <form id="formOne" class="is-inline" action="{{ route('adjustments.approve', $adjustment->id) }}" method="post" novalidate>
+                    @csrf
+                    <button data-type="Adjustment" data-action="approve" data-description="" class="swal button btn-purple is-outlined is-small">
+                        <span class="icon">
+                            <i class="fas fa-signature"></i>
+                        </span>
+                        <span>
+                            Approve
+                        </span>
+                    </button>
+                </form>
+            @elseif(!$adjustment->isAdjusted() && auth()->user()->can('Make Adjustment'))
+                <form id="formOne" class="is-inline" action="{{ route('adjustments.adjust', $adjustment->id) }}" method="post" novalidate>
+                    @csrf
+                    <button data-type="Adjustment" data-action="execute" data-description="" class="swal button btn-purple is-outlined is-small">
+                        <span class="icon">
+                            <i class="fas fa-eraser"></i>
+                        </span>
+                        <span>
+                            Execute Adjustment
+                        </span>
+                    </button>
+                </form>
+            @endif
             <a href="{{ route('adjustments.edit', $adjustment->id) }}" class="button is-small bg-green has-text-white">
                 <x-common.icon name="fas fa-pen" />
                 <span> Edit </span>
@@ -32,53 +57,11 @@
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('successMessage')" />
-            @if (!$adjustment->isApproved())
-                @can('Approve Adjustment')
-                    <div class="box has-background-white-ter has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-7">
-                            This Adjustment has not been approved.
-                            <br>
-                            Click on the button below to approve this Adjustment.
-                        </p>
-                        <form id="formOne" action="{{ route('adjustments.approve', $adjustment->id) }}" method="post" novalidate>
-                            @csrf
-                            <button data-type="Adjustment" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
-                                <span class="icon">
-                                    <i class="fas fa-signature"></i>
-                                </span>
-                                <span>
-                                    Approve Adjustment
-                                </span>
-                            </button>
-                        </form>
-                    </div>
-                @else
-                    <x-common.fail-message message="This Adjustment has not been approved yet." />
-                @endcan
-            @elseif (!$adjustment->isAdjusted())
-                @can('Make Adjustment')
-                    <div class="box has-background-white-ter has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-7">
-                            Product(s) listed below are still not adjusted.
-                            <br>
-                            Click on the button below to adjust product(s) in inventory.
-                        </p>
-                        <form id="formOne" action="{{ route('adjustments.adjust', $adjustment->id) }}" method="post" novalidate>
-                            @csrf
-                            <button data-type="Adjustment" data-action="execute" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
-                                <span class="icon">
-                                    <i class="fas fa-eraser"></i>
-                                </span>
-                                <span>
-                                    Execute Adjustment
-                                </span>
-                            </button>
-                        </form>
-                    </div>
-                @else
-                    <x-common.fail-message message="Product(s) listed below are still not adjusted." />
-                @endcan
-            @else
+            @if (!$adjustment->isApproved() && !auth()->user()->can('Approve Adjustment'))
+                <x-common.fail-message message="This Adjustment has not been approved yet." />
+            @elseif (!$adjustment->isAdjusted() && !auth()->user()->can('Make Adjustment'))
+                <x-common.fail-message message="Product(s) listed below are still not adjusted." />
+            @elseif ($adjustment->isAdjusted())
                 <x-common.success-message message="Products have been adjusted accordingly." />
             @endif
             <div class="table-container">
