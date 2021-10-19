@@ -32,43 +32,17 @@
         <x-content.header title="Adjustment Details">
             @if (!$adjustment->isApproved() &&
         auth()->user()->can('Approve Adjustment'))
-                <form id="formOne"
-                      class="is-inline"
-                      action="{{ route('adjustments.approve', $adjustment->id) }}"
-                      method="post"
-                      novalidate>
-                    @csrf
-                    <button data-type="Adjustment"
-                            data-action="approve"
-                            data-description=""
-                            class="swal button btn-purple is-outlined is-small">
-                        <span class="icon">
-                            <i class="fas fa-signature"></i>
-                        </span>
-                        <span>
-                            Approve
-                        </span>
-                    </button>
-                </form>
+                <x-common.transaction-button :route="route('adjustments.approve', $adjustment->id)"
+                                             type="Adjustment"
+                                             action="approve"
+                                             icon="fas fa-signature"
+                                             label="Approve Adjustment" />
             @elseif(!$adjustment->isAdjusted() && auth()->user()->can('Make Adjustment'))
-                <form id="formOne"
-                      class="is-inline"
-                      action="{{ route('adjustments.adjust', $adjustment->id) }}"
-                      method="post"
-                      novalidate>
-                    @csrf
-                    <button data-type="Adjustment"
-                            data-action="execute"
-                            data-description=""
-                            class="swal button btn-purple is-outlined is-small">
-                        <span class="icon">
-                            <i class="fas fa-eraser"></i>
-                        </span>
-                        <span>
-                            Execute Adjustment
-                        </span>
-                    </button>
-                </form>
+                <x-common.transaction-button :route="route('adjustments.adjust', $adjustment->id)"
+                                             type="Adjustment"
+                                             action="execute"
+                                             icon="fas fa-eraser"
+                                             label="Execute Adjustment" />
             @endif
             <a href="{{ route('adjustments.edit', $adjustment->id) }}"
                class="button is-small bg-green has-text-white">
