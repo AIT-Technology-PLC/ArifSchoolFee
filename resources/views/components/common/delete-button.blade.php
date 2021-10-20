@@ -12,26 +12,52 @@
     </button>
 </form>
 
-<script type="text/javascript"
-        defer>
-    for (const element of d.getElementsByClassName("delete-form")) {
-        element.addEventListener("submit", (event) => {
-            event.preventDefault();
+@if (request()->ajax())
+    <script type="text/javascript">
+        for (const element of d.getElementsByClassName("delete-form")) {
+            element.addEventListener("submit", (event) => {
+                event.preventDefault();
 
-            swal({
-                title: "Delete Permanently?",
-                text: "The selected element will be deleted permanently!",
-                icon: "error",
-                buttons: ["Not now", "Yes, Delete Forever"],
-                dangerMode: true,
-            }).then((willDelete) => {
-                if (willDelete) {
-                    let deleteButton = this.querySelector("button");
-                    deleteButton.innerText = "Deleting ...";
-                    deleteButton.disabled = true;
-                    this.submit();
-                }
+                swal({
+                    title: "Delete Permanently?",
+                    text: "The selected element will be deleted permanently!",
+                    icon: "error",
+                    buttons: ["Not now", "Yes, Delete Forever"],
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        let deleteButton = this.querySelector("button");
+                        deleteButton.innerText = "Deleting ...";
+                        deleteButton.disabled = true;
+                        this.submit();
+                    }
+                });
             });
-        });
-    }
-</script>
+        }
+    </script>
+@else
+    @push('scripts')
+        <script type="text/javascript">
+            for (const element of d.getElementsByClassName("delete-form")) {
+                element.addEventListener("submit", (event) => {
+                    event.preventDefault();
+
+                    swal({
+                        title: "Delete Permanently?",
+                        text: "The selected element will be deleted permanently!",
+                        icon: "error",
+                        buttons: ["Not now", "Yes, Delete Forever"],
+                        dangerMode: true,
+                    }).then((willDelete) => {
+                        if (willDelete) {
+                            let deleteButton = this.querySelector("button");
+                            deleteButton.innerText = "Deleting ...";
+                            deleteButton.disabled = true;
+                            this.submit();
+                        }
+                    });
+                });
+            }
+        </script>
+    @endpush
+@endif
