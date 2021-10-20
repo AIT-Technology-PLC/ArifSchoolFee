@@ -31,11 +31,13 @@
 
     <x-common.content-wrapper>
         <x-content.header title="Adjustments">
-            <a href="{{ route('adjustments.create') }}"
-               class="button btn-green is-outlined is-small">
-                <x-common.icon name="fas fa-plus-circle" />
-                <span> Create Adjustment </span>
-            </a>
+            @can('Create Adjustment')
+                <a href="{{ route('adjustments.create') }}"
+                   class="button btn-green is-outlined is-small">
+                    <x-common.icon name="fas fa-plus-circle" />
+                    <span> Create Adjustment </span>
+                </a>
+            @endcan
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
