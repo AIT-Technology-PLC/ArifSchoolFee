@@ -149,25 +149,6 @@ function toggleLeftMenuOnMobile() {
     }
 }
 
-function disableDeleteForm(event) {
-    event.preventDefault();
-
-    swal({
-        title: "Delete Permanently??",
-        text: "The selected element will be deleted permanently!",
-        icon: "error",
-        buttons: ["Not now", "Yes, Delete Forever"],
-        dangerMode: true,
-    }).then((willDelete) => {
-        if (willDelete) {
-            let deleteButton = this.querySelector("button");
-            deleteButton.innerText = "Deleting ...";
-            deleteButton.disabled = true;
-            this.submit();
-        }
-    });
-}
-
 const addGrnForm = (function () {
     const grnFormGroup = d.getElementsByName("grnFormGroup");
     const grnFormWrapper = d.getElementById("grnFormWrapper");

@@ -76,12 +76,6 @@ if (d.getElementById("addNewGdnForm")) {
     d.getElementById("addNewGdnForm").addEventListener("click", addGdnDetail);
 }
 
-if (d.getElementsByClassName("delete-form").length) {
-    for (const element of d.getElementsByClassName("delete-form")) {
-        element.addEventListener("submit", disableDeleteForm);
-    }
-}
-
 if (d.getElementById("addNewTransferForm")) {
     d.getElementById("addNewTransferForm").addEventListener(
         "click",
