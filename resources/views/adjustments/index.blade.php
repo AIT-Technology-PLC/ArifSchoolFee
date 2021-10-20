@@ -48,7 +48,13 @@
     </div>
 
     <x-common.content-wrapper>
-        <x-content.header title="Adjustments" />
+        <x-content.header title="Adjustments">
+            <a href="{{ route('adjustments.create') }}"
+               class="button btn-green is-outlined is-small">
+                <x-common.icon name="fas fa-plus-circle" />
+                <span> Create Adjustment </span>
+            </a>
+        </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
             <x-common.client-datatable date-columns="[4]">
