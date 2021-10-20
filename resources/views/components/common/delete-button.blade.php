@@ -26,10 +26,10 @@
                     dangerMode: true,
                 }).then((willDelete) => {
                     if (willDelete) {
-                        let deleteButton = this.querySelector("button");
+                        let deleteButton = element.querySelector("button");
                         deleteButton.innerText = "Deleting ...";
                         deleteButton.disabled = true;
-                        this.submit();
+                        element.submit();
                     }
                 });
             });
@@ -50,10 +50,10 @@
                         dangerMode: true,
                     }).then((willDelete) => {
                         if (willDelete) {
-                            let deleteButton = this.querySelector("button");
+                            let deleteButton = element.querySelector("button");
                             deleteButton.innerText = "Deleting ...";
                             deleteButton.disabled = true;
-                            this.submit();
+                            element.submit();
                         }
                     });
                 });
