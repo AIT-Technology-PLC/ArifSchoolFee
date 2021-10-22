@@ -9,21 +9,21 @@
     <div class="modal-content p-lr-20">
         <div class="box is-radiusless">
             <h1 class="has-text-centered mb-3 is-uppercase text-purple has-text-weight-bold">
-                <span class="icon">
-                    <i class="fas fa-plus"></i>
-                </span>
-                <span>
-                    Create New
-                </span>
+                <x-common.icon name="fas fa-plus" />
+                <span> Create New </span>
             </h1>
 
             @canany(['Create Merchandise', 'Create Warehouse', 'Create GRN', 'Create Transfer', 'Create Damage', 'Create Adjustment', 'Create SIV'])
-                <div class="box has-background-white-bis">
-                    <h2 class="mb-3 text-purple has-text-weight-bold">
-                        <span>
-                            Warehouse & Inventory
-                        </span>
-                    </h2>
+                <x-content.header>
+                    <x-slot name="header">
+                        <x-common.icon
+                            name="fas fa-warehouse"
+                            class="is-size-6 text-purple"
+                        />
+                        <span class="ml-2 is-size-6 text-purple"> Warehouse & Inventory </span>
+                    </x-slot>
+                </x-content.header>
+                <x-content.footer>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Warehouse')
                             @if (isFeatureEnabled('Warehouse Management'))
@@ -37,11 +37,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Warehouse
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Warehouse </span>
                                 </div>
                             @endif
                         @endcan
@@ -58,11 +54,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New GRN
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New GRN </span>
                                 </div>
                             @endif
                         @endcan
@@ -79,11 +71,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Transfer
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Transfer </span>
                                 </div>
                             @endif
                         @endcan
@@ -100,11 +88,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Damage
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Damage </span>
                                 </div>
                             @endif
                         @endcan
@@ -121,11 +105,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Adjustment
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Adjustment </span>
                                 </div>
                             @endif
                         @endcan
@@ -142,25 +122,25 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New SIV
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New SIV </span>
                                 </div>
                             @endif
                         @endcan
                     </div>
-                </div>
+                </x-content.footer>
             @endcanany
 
             @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create PO', 'Create Customer'])
-                <div class="box has-background-white-bis">
-                    <h2 class="mb-3 text-purple has-text-weight-bold">
-                        <span>
-                            Sales & Customers
-                        </span>
-                    </h2>
+                <x-content.header>
+                    <x-slot name="header">
+                        <x-common.icon
+                            name="fas fa-tags"
+                            class="is-size-6 text-purple"
+                        />
+                        <span class="ml-2 is-size-6 text-purple"> Sales & Customers </span>
+                    </x-slot>
+                </x-content.header>
+                <x-content.footer>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Sale')
                             @if (isFeatureEnabled('Sale Management'))
@@ -174,11 +154,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Invoice
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Invoice </span>
                                 </div>
                             @endif
                         @endcan
@@ -195,11 +171,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New DO
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New DO </span>
                                 </div>
                             @endif
                         @endcan
@@ -216,11 +188,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Proforma Invoices
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Proforma Invoices </span>
                                 </div>
                             @endif
                         @endcan
@@ -237,11 +205,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Reservation
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Reservation </span>
                                 </div>
                             @endif
                         @endcan
@@ -258,11 +222,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Return
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Return </span>
                                 </div>
                             @endif
                         @endcan
@@ -279,10 +239,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Purchase Order
-                                        </span>
+                                    <span class="is-size-7"> New Purchase Order </span>
                                     </span>
                                 </div>
                             @endif
@@ -300,25 +257,25 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Customer
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Customer </span>
                                 </div>
                             @endif
                         @endcan
                     </div>
-                </div>
+                </x-content.footer>
             @endcanany
 
             @can('Create Tender')
-                <div class="box has-background-white-bis">
-                    <h2 class="mb-3 text-purple has-text-weight-bold">
-                        <span>
-                            Tenders
-                        </span>
-                    </h2>
+                <x-content.header>
+                    <x-slot name="header">
+                        <x-common.icon
+                            name="fas fa-project-diagram"
+                            class="is-size-6 text-purple"
+                        />
+                        <span class="ml-2 is-size-6 text-purple"> Tenders </span>
+                    </x-slot>
+                </x-content.header>
+                <x-content.footer>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Tender')
                             @if (isFeatureEnabled('Tender Management'))
@@ -332,11 +289,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Tender
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Tender </span>
                                 </div>
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a
@@ -348,11 +301,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Checklist Category
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Checklist Category </span>
                                 </div>
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a
@@ -364,11 +313,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Checklist
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Checklist </span>
                                 </div>
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a
@@ -389,16 +334,20 @@
                             @endif
                         @endcan
                     </div>
-                </div>
+                </x-content.footer>
             @endcan
 
             @canany(['Create Purchase', 'Create Supplier'])
-                <div class="box has-background-white-bis">
-                    <h2 class="mb-3 text-purple has-text-weight-bold">
-                        <span>
-                            Purchases & Suppliers
-                        </span>
-                    </h2>
+                <x-content.header>
+                    <x-slot name="header">
+                        <x-common.icon
+                            name="fas fa-shopping-bag"
+                            class="is-size-6 text-purple"
+                        />
+                        <span class="ml-2 is-size-6 text-purple"> Purchases & Suppliers </span>
+                    </x-slot>
+                </x-content.header>
+                <x-content.footer>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Purchase')
                             @if (isFeatureEnabled('Purchase Management'))
@@ -412,11 +361,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Purchase
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Purchase </span>
                                 </div>
                             @endif
                         @endcan
@@ -433,25 +378,25 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Supplier
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Supplier </span>
                                 </div>
                             @endif
                         @endcan
                     </div>
-                </div>
+                </x-content.footer>
             @endcanany
 
             @can('Create Product')
-                <div class="box has-background-white-bis">
-                    <h2 class="mb-3 text-purple has-text-weight-bold">
-                        <span>
-                            Products & Categories
-                        </span>
-                    </h2>
+                <x-content.header>
+                    <x-slot name="header">
+                        <x-common.icon
+                            name="fas fa-th"
+                            class="is-size-6 text-purple"
+                        />
+                        <span class="ml-2 is-size-6 text-purple"> Products & Categories </span>
+                    </x-slot>
+                </x-content.header>
+                <x-content.footer>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Product')
                             @if (isFeatureEnabled('Product Management'))
@@ -465,11 +410,7 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Category
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Category </span>
                                 </div>
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
                                     <a
@@ -481,25 +422,25 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Product
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Product </span>
                                 </div>
                             @endif
                         @endcan
                     </div>
-                </div>
+                </x-content.footer>
             @endcan
 
             @can('Create Employee')
-                <div class="box has-background-white-bis">
-                    <h2 class="mb-3 text-purple has-text-weight-bold">
-                        <span>
-                            Employees
-                        </span>
-                    </h2>
+                <x-content.header>
+                    <x-slot name="header">
+                        <x-common.icon
+                            name="fas fa-users"
+                            class="is-size-6 text-purple"
+                        />
+                        <span class="ml-2 is-size-6 text-purple"> Employees </span>
+                    </x-slot>
+                </x-content.header>
+                <x-content.footer>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Employee')
                             @if (isFeatureEnabled('User Management'))
@@ -513,22 +454,18 @@
                                         </span>
                                     </a>
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Employee
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Employee </span>
                                 </div>
                             @endif
                         @endcan
                     </div>
-                </div>
+                </x-content.footer>
             @endcan
         </div>
     </div>
-    <button
+    <x-common.button
+        tag="button"
         name="createMenuModal"
         class="modal-close is-large"
-        aria-label="close"
-    ></button>
+    />
 </div>
