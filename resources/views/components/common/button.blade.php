@@ -11,6 +11,7 @@
         @if (!is_null($label))
             <span> {{ $label }} </span>
         @endif
+        {{ $slot ?? '' }}
     </button>
 @elseif($tag == 'a')
     <a {{ $attributes->class([
@@ -23,5 +24,6 @@
         @if (!is_null($label))
             <span> {{ $label }} </span>
         @endif
+        {{ $slot ?? '' }}
     </a>
 @endif
