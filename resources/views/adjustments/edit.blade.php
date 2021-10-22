@@ -106,9 +106,12 @@
                                         <x-common.validation-error property="adjustment.{{ $loop->index }}.quantity" />
                                     </x-forms.control>
                                     <x-forms.control>
-                                        <button id="adjustment[{{ $loop->index }}][product_id]Quantity"
-                                                class="button bg-green has-text-white"
-                                                type="button">{{ $adjustmentDetail->product->unit_of_measurement }}</button>
+                                        <x-common.button tag="button"
+                                                         type="button"
+                                                         mode="button"
+                                                         id="adjustment[{{ $loop->index }}][product_id]Quantity"
+                                                         label="{{ $adjustmentDetail->product->unit_of_measurement }}"
+                                                         class="bg-green has-text-white" />
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
