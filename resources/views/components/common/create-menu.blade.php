@@ -308,11 +308,7 @@
                                         class="text-purple bg-lightpurple is-borderless"
                                     />
                                     <br>
-                                    <span class="is-size-7">
-                                        <span>
-                                            New Status
-                                        </span>
-                                    </span>
+                                    <span class="is-size-7"> New Status </span>
                                 </div>
                             @endif
                         @endcan
