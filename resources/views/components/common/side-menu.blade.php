@@ -20,29 +20,23 @@
                 </div>
             </div>
             <div class="buttons is-hidden-tablet ml-3 mt-5">
-                <a
-                    class="button bg-green has-text-white is-small"
+                <x-common.button
+                    tag="a"
+                    mode="button"
                     href="{{ route('employees.show', auth()->user()->employee->id) }}"
-                >
-                    <span class="icon">
-                        <i class="fas fa-address-card"></i>
-                    </span>
-                    <span>
-                        My Profile
-                    </span>
-                </a>
-                <a
-                    class="button btn-purple is-outlined is-small"
+                    icon="fas fa-address-card"
+                    label="My Profile"
+                    class="bg-green has-text-white is-small"
+                />
+                <x-common.button
+                    tag="a"
+                    mode="button"
                     href="{{ route('logout') }}"
                     onclick="event.preventDefault();document.getElementById('logout-form').submit();"
-                >
-                    <span class="icon">
-                        <i class="fas fa-power-off"></i>
-                    </span>
-                    <span>
-                        Logout
-                    </span>
-                </a>
+                    icon="fas fa-power-off"
+                    label="Logout"
+                    class="btn-purple is-outlined is-small"
+                />
                 <form
                     action="{{ route('logout') }}"
                     method="POST"
@@ -98,91 +92,91 @@
                     @can('Read Merchandise')
                         @if (isFeatureEnabled('Merchandise Inventory'))
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('merchandises.index', 'on-hand') }}"
+                                    name="menuTitles"
+                                    label="Inventory Level"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('merchandises') ? 'is-active' : '' }}"
-                                >
-                                    Inventory Level
-                                </a>
+                                />
                             </li>
                         @endif
                     @endcan
                     @can('Read Warehouse')
                         @if (isFeatureEnabled('Warehouse Management'))
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('warehouses.index') }}"
+                                    name="menuTitles"
+                                    label="Warehouses"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('warehouses') ? 'is-active' : '' }}"
-                                >
-                                    Warehouses
-                                </a>
+                                />
                             </li>
                         @endif
                     @endcan
                     @if (isFeatureEnabled('Grn Management'))
                         @can('Read GRN')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('grns.index') }}"
+                                    name="menuTitles"
+                                    label="Goods Received Notes"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('grns') ? 'is-active' : '' }}"
-                                >
-                                    Goods Received Note
-                                </a>
+                                />
                             </li>
                         @endif
                     @endcan
                     @if (isFeatureEnabled('Transfer Management'))
                         @can('Read Transfer')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('transfers.index') }}"
+                                    name="menuTitles"
+                                    label="Transfers"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('transfers') ? 'is-active' : '' }}"
-                                >
-                                    Transfers
-                                </a>
+                                />
                             </li>
                         @endif
                     @endcan
                     @if (isFeatureEnabled('Damage Management'))
                         @can('Read Damage')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('damages.index') }}"
+                                    name="menuTitles"
+                                    label="Damages"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages') ? 'is-active' : '' }}"
-                                >
-                                    Damages
-                                </a>
+                                />
                             </li>
                         @endcan
                     @endif
                     @if (isFeatureEnabled('Inventory Adjustment'))
                         @can('Read Adjustment')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('adjustments.index') }}"
+                                    name="menuTitles"
+                                    label="Adjustments"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('adjustments') ? 'is-active' : '' }}"
-                                >
-                                    Adjustments
-                                </a>
+                                />
                             </li>
                         @endcan
                     @endif
                     @if (isFeatureEnabled('Siv Management'))
                         @can('Read SIV')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('sivs.index') }}"
+                                    name="menuTitles"
+                                    label="Store Issue Vouchers"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs') ? 'is-active' : '' }}"
-                                >
-                                    Store Issue Voucher
-                                </a>
+                                />
                             </li>
                         @endcan
                     @endif
@@ -216,91 +210,91 @@
                     @if (isFeatureEnabled('Sale Management'))
                         @can('Read Sale')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('sales.index') }}"
+                                    name="menuTitles"
+                                    label="Sales"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'is-active' : '' }}"
-                                >
-                                    Invoices
-                                </a>
+                                />
                             </li>
                         @endcan
                     @endif
                     @if (isFeatureEnabled('Gdn Management'))
                         @can('Read GDN')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('gdns.index') }}"
+                                    name="menuTitles"
+                                    label="Delivery Orders"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('gdns') ? 'is-active' : '' }}"
-                                >
-                                    Delivery Orders
-                                </a>
+                                />
                             </li>
                         @endcan
                     @endif
                     @if (isFeatureEnabled('Proforma Invoice'))
                         @can('Read Proforma Invoice')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('proforma-invoices.index') }}"
+                                    name="menuTitles"
+                                    label="Proforma Invoices"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('proforma-invoices') ? 'is-active' : '' }}"
-                                >
-                                    Proforma Invoices
-                                </a>
+                                />
                             </li>
                         @endcan
                     @endif
                     @if (isFeatureEnabled('Reservation Management'))
                         @can('Read Reservation')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('reservations.index') }}"
+                                    name="menuTitles"
+                                    label="Reservations"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('reservations') ? 'is-active' : '' }}"
-                                >
-                                    Reservations
-                                </a>
+                                />
                             </li>
                         @endcan
                     @endif
                     @if (isFeatureEnabled('Return Management'))
                         @can('Read Return')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('returns.index') }}"
+                                    name="menuTitles"
+                                    label="Returns"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('returns') ? 'is-active' : '' }}"
-                                >
-                                    Returns
-                                </a>
+                                />
                             </li>
                         @endcan
                     @endif
                     @can('Read PO')
                         @if (isFeatureEnabled('Purchase Order'))
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('purchase-orders.index') }}"
+                                    name="menuTitles"
+                                    label="Purchase Orders"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchase-orders') ? 'is-active' : '' }}"
-                                >
-                                    Purchase Orders
-                                </a>
+                                />
                             </li>
                         @endcan
                     @endif
                     @if (isFeatureEnabled('Customer Management'))
                         @can('Read Customer')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('customers.index') }}"
+                                    name="menuTitles"
+                                    label="Customers"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('customers') ? 'is-active' : '' }}"
-                                >
-                                    Customers
-                                </a>
+                                />
                             </li>
                         @endcan
                     @endif
@@ -333,40 +327,40 @@
                 <li>
                     <ul class="mt-0 ml-5 is-hidden">
                         <li>
-                            <a
-                                name="menuTitles"
+                            <x-common.button
+                                tag="a"
                                 href="{{ route('tenders.index') }}"
+                                name="menuTitles"
+                                label="Tenders"
                                 class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tenders') ? 'is-active' : '' }}"
-                            >
-                                Tenders
-                            </a>
+                            />
                         </li>
                         <li>
-                            <a
-                                name="menuTitles"
+                            <x-common.button
+                                tag="a"
                                 href="{{ route('tender-checklist-types.index') }}"
+                                name="menuTitles"
+                                label="Checklist Categories"
                                 class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tender-checklist-types') ? 'is-active' : '' }}"
-                            >
-                                Checklist Categories
-                            </a>
+                            />
                         </li>
                         <li>
-                            <a
-                                name="menuTitles"
+                            <x-common.button
+                                tag="a"
                                 href="{{ route('general-tender-checklists.index') }}"
+                                name="menuTitles"
+                                label="Available Checklists"
                                 class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('general-tender-checklists') ? 'is-active' : '' }}"
-                            >
-                                Available Checklists
-                            </a>
+                            />
                         </li>
                         <li>
-                            <a
-                                name="menuTitles"
+                            <x-common.button
+                                tag="a"
                                 href="{{ route('tender-statuses.index') }}"
+                                name="menuTitles"
+                                label="Available Statuses"
                                 class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tender-statuses') ? 'is-active' : '' }}"
-                            >
-                                Available Statuses
-                            </a>
+                            />
                         </li>
                     </ul>
                 </li>
@@ -399,26 +393,26 @@
                     @if (isFeatureEnabled('Purchase Management'))
                         @can('Read Purchase')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('purchases.index') }}"
+                                    name="menuTitles"
+                                    label="Purchases"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases') ? 'is-active' : '' }}"
-                                >
-                                    Purchases
-                                </a>
+                                />
                             </li>
                         @endcan
                     @endif
                     @if (isFeatureEnabled('Supplier Management'))
                         @can('Read Supplier')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('suppliers.index') }}"
+                                    name="menuTitles"
+                                    label="Suppliers"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'is-active' : '' }}"
-                                >
-                                    Suppliers
-                                </a>
+                                />
                             </li>
                         @endcan
                     @endif
@@ -451,22 +445,22 @@
                 <li>
                     <ul class="mt-0 ml-5 is-hidden">
                         <li>
-                            <a
-                                name="menuTitles"
+                            <x-common.button
+                                tag="a"
                                 href="{{ route('products.index') }}"
+                                name="menuTitles"
+                                label="Products"
                                 class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('products') ? 'is-active' : '' }}"
-                            >
-                                Products
-                            </a>
+                            />
                         </li>
                         <li>
-                            <a
-                                name="menuTitles"
+                            <x-common.button
+                                tag="a"
                                 href="{{ route('categories.index') }}"
+                                name="menuTitles"
+                                label="Categories"
                                 class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories') ? 'is-active' : '' }}"
-                            >
-                                Categories
-                            </a>
+                            />
                         </li>
                     </ul>
                 </li>
@@ -499,26 +493,26 @@
                     @if (isFeatureEnabled('User Management'))
                         @can('Read Employee')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('employees.index') }}"
+                                    name="menuTitles"
+                                    label="Users"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees') ? 'is-active' : '' }}"
-                                >
-                                    Users
-                                </a>
+                                />
                             </li>
                         @endcan
                     @endif
                     @if (isFeatureEnabled('General Settings'))
                         @can('Update Company')
                             <li>
-                                <a
-                                    name="menuTitles"
+                                <x-common.button
+                                    tag="a"
                                     href="{{ route('companies.edit', userCompany()->id) }}"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('companies.edit') ? 'is-active' : '' }}"
-                                >
-                                    Company Profile
-                                </a>
+                                    name="menuTitles"
+                                    label="Company Profile"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('companies') ? 'is-active' : '' }}"
+                                />
                             </li>
                         @endcan
                     @endif
