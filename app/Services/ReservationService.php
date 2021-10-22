@@ -120,7 +120,7 @@ class ReservationService
         }
 
         if ($reservation->isConverted()) {
-            return [false, 'This reservation is already to Delivery Order.'];
+            return [false, 'This reservation is already converted to Delivery Order.'];
         }
 
         DB::transaction(function () use ($reservation) {
