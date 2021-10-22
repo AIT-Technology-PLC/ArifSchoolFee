@@ -34,7 +34,7 @@
             @can('Create Adjustment')
                 <x-common.button tag="a"
                                  href="{{ route('adjustments.create') }}"
-                                 type="button"
+                                 mode="button"
                                  icon="fas fa-plus-circle"
                                  label="Create Adjustment"
                                  class="btn-green is-outlined is-small" />

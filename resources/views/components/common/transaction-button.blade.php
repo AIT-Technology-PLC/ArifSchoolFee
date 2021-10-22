@@ -7,7 +7,7 @@
       novalidate>
     @csrf
     <x-common.button tag="button"
-                     type="button"
+                     mode="button"
                      label="{{ $label }}"
                      icon="{{ $icon }}"
                      data-type="{{ $type }}"
