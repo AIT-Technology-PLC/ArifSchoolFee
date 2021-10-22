@@ -1,7 +1,11 @@
-<div id="menuModal"
-     class="modal">
-    <div name="createMenuModal"
-         class="modal-background"></div>
+<div
+    id="menuModal"
+    class="modal"
+>
+    <div
+        name="createMenuModal"
+        class="modal-background"
+    ></div>
     <div class="modal-content p-lr-20">
         <div class="box is-radiusless">
             <h1 class="has-text-centered mb-3 is-uppercase text-purple has-text-weight-bold">
@@ -24,8 +28,10 @@
                         @can('Create Warehouse')
                             @if (isFeatureEnabled('Warehouse Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('warehouses.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('warehouses.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-warehouse"></i>
                                         </span>
@@ -43,8 +49,10 @@
                         @can('Create GRN')
                             @if (isFeatureEnabled('Grn Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('grns.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('grns.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-file-signature"></i>
                                         </span>
@@ -62,8 +70,10 @@
                         @can('Create Transfer')
                             @if (isFeatureEnabled('Transfer Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('transfers.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('transfers.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-exchange-alt"></i>
                                         </span>
@@ -81,8 +91,10 @@
                         @can('Create Damage')
                             @if (isFeatureEnabled('Damage Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('damages.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('damages.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-bolt"></i>
                                         </span>
@@ -100,8 +112,10 @@
                         @can('Create Adjustment')
                             @if (isFeatureEnabled('Inventory Adjustment'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('adjustments.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('adjustments.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-eraser"></i>
                                         </span>
@@ -119,8 +133,10 @@
                         @can('Create SIV')
                             @if (isFeatureEnabled('Siv Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('sivs.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('sivs.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-file-export"></i>
                                         </span>
@@ -149,8 +165,10 @@
                         @can('Create Sale')
                             @if (isFeatureEnabled('Sale Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('sales.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('sales.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-tags"></i>
                                         </span>
@@ -168,8 +186,10 @@
                         @can('Create GDN')
                             @if (isFeatureEnabled('Gdn Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('gdns.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('gdns.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-file-invoice"></i>
                                         </span>
@@ -187,8 +207,10 @@
                         @can('Create Proforma Invoice')
                             @if (isFeatureEnabled('Proforma Invoice'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('proforma-invoices.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('proforma-invoices.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-receipt"></i>
                                         </span>
@@ -206,8 +228,10 @@
                         @can('Create Reservation')
                             @if (isFeatureEnabled('Reservation Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('reservations.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('reservations.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-archive"></i>
                                         </span>
@@ -225,8 +249,10 @@
                         @can('Create Return')
                             @if (isFeatureEnabled('Return Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('returns.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('returns.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-arrow-alt-circle-left"></i>
                                         </span>
@@ -244,8 +270,10 @@
                         @can('Create PO')
                             @if (isFeatureEnabled('Purchase Order'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('purchase-orders.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('purchase-orders.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-file-alt"></i>
                                         </span>
@@ -263,8 +291,10 @@
                         @can('Create Customer')
                             @if (isFeatureEnabled('Customer Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('customers.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('customers.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-user"></i>
                                         </span>
@@ -293,8 +323,10 @@
                         @can('Create Tender')
                             @if (isFeatureEnabled('Tender Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('tenders.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('tenders.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-project-diagram"></i>
                                         </span>
@@ -307,8 +339,10 @@
                                     </span>
                                 </div>
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('tender-checklist-types.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('tender-checklist-types.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-tasks"></i>
                                         </span>
@@ -321,8 +355,10 @@
                                     </span>
                                 </div>
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('general-tender-checklists.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('general-tender-checklists.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-check-double"></i>
                                         </span>
@@ -335,8 +371,10 @@
                                     </span>
                                 </div>
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('tender-statuses.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('tender-statuses.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-info"></i>
                                         </span>
@@ -365,8 +403,10 @@
                         @can('Create Purchase')
                             @if (isFeatureEnabled('Purchase Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('purchases.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('purchases.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-shopping-bag"></i>
                                         </span>
@@ -384,8 +424,10 @@
                         @can('Create Supplier')
                             @if (isFeatureEnabled('Supplier Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('suppliers.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('suppliers.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-address-card"></i>
                                         </span>
@@ -414,8 +456,10 @@
                         @can('Create Product')
                             @if (isFeatureEnabled('Product Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('categories.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('categories.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-layer-group"></i>
                                         </span>
@@ -428,8 +472,10 @@
                                     </span>
                                 </div>
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('products.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('products.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-th"></i>
                                         </span>
@@ -458,8 +504,10 @@
                         @can('Create Employee')
                             @if (isFeatureEnabled('User Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
-                                    <a href="{{ route('employees.create') }}"
-                                       class="button text-purple bg-lightpurple is-borderless">
+                                    <a
+                                        href="{{ route('employees.create') }}"
+                                        class="button text-purple bg-lightpurple is-borderless"
+                                    >
                                         <span class="icon">
                                             <i class="fas fa-users"></i>
                                         </span>
@@ -478,7 +526,9 @@
             @endcan
         </div>
     </div>
-    <button name="createMenuModal"
-            class="modal-close is-large"
-            aria-label="close"></button>
+    <button
+        name="createMenuModal"
+        class="modal-close is-large"
+        aria-label="close"
+    ></button>
 </div>

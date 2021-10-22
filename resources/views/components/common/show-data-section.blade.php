@@ -10,7 +10,10 @@
 @else
     <div class="columns is-marginless is-vcentered is-mobile text-green">
         <div class="column is-1">
-            <x-common.icon name="{{ $icon }}" class="is-size-3" />
+            <x-common.icon
+                name="{{ $icon }}"
+                class="is-size-3"
+            />
         </div>
         <div class="column m-lr-20">
             <div class="is-size- has-text-weight-bold"> {{ $data ?? 'N/A' }} </div>

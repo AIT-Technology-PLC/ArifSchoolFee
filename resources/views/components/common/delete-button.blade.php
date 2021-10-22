@@ -1,16 +1,20 @@
 @props(['route', 'id'])
 
-<form class="is-inline delete-form"
-      action="{{ route($route, $id) }}"
-      method="post">
+<form
+    class="is-inline delete-form"
+    action="{{ route($route, $id) }}"
+    method="post"
+>
     @csrf
     @method('DELETE')
-    <x-common.button tag="button"
-                     mode="tag"
-                     data-title="Delete permanently"
-                     icon="fas fa-trash"
-                     label="Delete"
-                     class="is-black has-text-white has-text-weight-medium" />
+    <x-common.button
+        tag="button"
+        mode="tag"
+        data-title="Delete permanently"
+        icon="fas fa-trash"
+        label="Delete"
+        class="is-black has-text-white has-text-weight-medium"
+    />
 </form>
 
 @if (request()->ajax())

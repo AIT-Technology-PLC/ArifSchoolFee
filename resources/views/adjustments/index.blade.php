@@ -5,39 +5,49 @@
 @section('content')
     <div class="columns is-marginless is-multiline">
         <div class="column is-3 p-lr-0">
-            <x-common.total-model model="adjustments"
-                                  :amount="$totalAdjustments"
-                                  icon="fas fa-eraser" />
+            <x-common.total-model
+                model="adjustments"
+                :amount="$totalAdjustments"
+                icon="fas fa-eraser"
+            />
         </div>
         <div class="column is-3 p-lr-0">
-            <x-common.index-insight :amount="$totalAdjusted"
-                                    border-color="#3d8660"
-                                    text-color="text-green"
-                                    label="Adjusted" />
+            <x-common.index-insight
+                :amount="$totalAdjusted"
+                border-color="#3d8660"
+                text-color="text-green"
+                label="Adjusted"
+            />
         </div>
         <div class="column is-3 p-lr-0">
-            <x-common.index-insight :amount="$totalNotAdjusted"
-                                    border-color="#86843d"
-                                    text-color="text-gold"
-                                    label="Approved" />
+            <x-common.index-insight
+                :amount="$totalNotAdjusted"
+                border-color="#86843d"
+                text-color="text-gold"
+                label="Approved"
+            />
         </div>
         <div class="column is-3 p-lr-0">
-            <x-common.index-insight :amount="$totalNotApproved"
-                                    border-color="#863d63"
-                                    text-color="text-purple"
-                                    label="Waiting Approval" />
+            <x-common.index-insight
+                :amount="$totalNotApproved"
+                border-color="#863d63"
+                text-color="text-purple"
+                label="Waiting Approval"
+            />
         </div>
     </div>
 
     <x-common.content-wrapper>
         <x-content.header title="Adjustments">
             @can('Create Adjustment')
-                <x-common.button tag="a"
-                                 href="{{ route('adjustments.create') }}"
-                                 mode="button"
-                                 icon="fas fa-plus-circle"
-                                 label="Create Adjustment"
-                                 class="btn-green is-outlined is-small" />
+                <x-common.button
+                    tag="a"
+                    href="{{ route('adjustments.create') }}"
+                    mode="button"
+                    icon="fas fa-plus-circle"
+                    label="Create Adjustment"
+                    class="btn-green is-outlined is-small"
+                />
             @endcan
         </x-content.header>
         <x-content.footer>
@@ -57,8 +67,10 @@
                 </x-slot>
                 <x-slot name="body">
                     @foreach ($adjustments as $adjustment)
-                        <tr class="showRowDetails is-clickable"
-                            data-id="{{ route('adjustments.show', $adjustment->id) }}">
+                        <tr
+                            class="showRowDetails is-clickable"
+                            data-id="{{ route('adjustments.show', $adjustment->id) }}"
+                        >
                             <td> {{ $loop->index + 1 }} </td>
                             <td class="is-capitalized has-text-centered">
                                 {{ $adjustment->code }}
@@ -95,9 +107,11 @@
                             <td> {{ $adjustment->adjustedBy->name ?? 'N/A' }} </td>
                             <td> {{ $adjustment->updatedBy->name ?? 'N/A' }} </td>
                             <td class="actions">
-                                <x-common.action-buttons buttons="all"
-                                                         model="adjustments"
-                                                         :id="$adjustment->id" />
+                                <x-common.action-buttons
+                                    buttons="all"
+                                    model="adjustments"
+                                    :id="$adjustment->id"
+                                />
                             </td>
                         </tr>
                     @endforeach
