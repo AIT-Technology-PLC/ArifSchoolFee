@@ -45,11 +45,12 @@
                                                  label="Execute Adjustment" />
                 @endcan
             @endif
-            <a href="{{ route('adjustments.edit', $adjustment->id) }}"
-               class="button is-small bg-green has-text-white">
-                <x-common.icon name="fas fa-pen" />
-                <span> Edit </span>
-            </a>
+            <x-common.button tag="a"
+                             href="{{ route('adjustments.edit', $adjustment->id) }}"
+                             mode="button"
+                             icon="fas fa-pen"
+                             label="Edit"
+                             class="is-small bg-green has-text-white" />
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
