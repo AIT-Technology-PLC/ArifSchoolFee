@@ -107,9 +107,11 @@
                                                 <x-common.validation-error property="adjustment.{{ $loop->index }}.quantity" />
                                             </x-forms.control>
                                             <x-forms.control>
-                                                <button id="adjustment[{{ $loop->index }}][product_id]Quantity"
-                                                        class="button bg-green has-text-white"
-                                                        type="button"></button>
+                                                <x-common.button tag="button"
+                                                                 type="button"
+                                                                 mode="button"
+                                                                 id="adjustment[{{ $loop->index }}][product_id]Quantity"
+                                                                 class="bg-green has-text-white" />
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
@@ -176,11 +178,12 @@
                         </div>
                     @endforeach
                 </div>
-                <button id="addNewAdjustmentForm"
-                        type="button"
-                        class="button bg-purple has-text-white is-small ml-3 mt-6">
-                    Add More Item
-                </button>
+                <x-common.button tag="button"
+                                 type="button"
+                                 mode="button"
+                                 id="addNewAdjustmentForm"
+                                 label="Add More Item"
+                                 class="bg-purple has-text-white is-small ml-3 mt-6" />
             </x-content.main>
             <x-content.footer>
                 <x-common.save-button />
