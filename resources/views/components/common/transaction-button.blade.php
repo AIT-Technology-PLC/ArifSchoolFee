@@ -6,11 +6,12 @@
       method="post"
       novalidate>
     @csrf
-    <button data-type="{{ $type }}"
-            data-action="{{ $action }}"
-            data-description="{{ $description }}"
-            class="swal button btn-purple is-outlined is-small">
-        <x-common.icon name="{{ $icon }}" />
-        <span> {{ $label }} </span>
-    </button>
+    <x-common.button tag="button"
+                     type="button"
+                     label="{{ $label }}"
+                     icon="{{ $icon }}"
+                     data-type="{{ $type }}"
+                     data-action="{{ $action }}"
+                     data-description="{{ $description }}"
+                     class="swal btn-purple is-outlined is-small" />
 </form>

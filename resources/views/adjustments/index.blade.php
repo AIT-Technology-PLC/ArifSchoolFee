@@ -32,11 +32,12 @@
     <x-common.content-wrapper>
         <x-content.header title="Adjustments">
             @can('Create Adjustment')
-                <a href="{{ route('adjustments.create') }}"
-                   class="button btn-green is-outlined is-small">
-                    <x-common.icon name="fas fa-plus-circle" />
-                    <span> Create Adjustment </span>
-                </a>
+                <x-common.button tag="a"
+                                 href="{{ route('adjustments.create') }}"
+                                 type="button"
+                                 icon="fas fa-plus-circle"
+                                 label="Create Adjustment"
+                                 class="btn-green is-outlined is-small" />
             @endcan
         </x-content.header>
         <x-content.footer>
