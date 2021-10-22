@@ -7,8 +7,8 @@
         class="modal-background"
     ></div>
     <div class="modal-content p-lr-20">
-        <div class="box is-radiusless">
-            <h1 class="has-text-centered mb-3 is-uppercase text-purple has-text-weight-bold">
+        <div class="box is-radiusless bg-lightgreen">
+            <h1 class="has-text-centered mb-3 is-uppercase text-green has-text-weight-bold">
                 <x-common.icon name="fas fa-plus" />
                 <span> Create New </span>
             </h1>
@@ -18,22 +18,22 @@
                     <x-slot name="header">
                         <x-common.icon
                             name="fas fa-warehouse"
-                            class="is-size-6 text-purple"
+                            class="is-size-6 text-green"
                         />
-                        <span class="ml-2 is-size-6 text-purple"> Warehouse & Inventory </span>
+                        <span class="ml-2 is-size-6 text-green"> Warehouse & Inventory </span>
                     </x-slot>
                 </x-content.header>
                 <x-content.footer>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Warehouse')
                             @if (isFeatureEnabled('Warehouse Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('warehouses.create') }}"
                                         icon="fas fa-warehouse"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Warehouse </span>
@@ -43,13 +43,13 @@
 
                         @can('Create GRN')
                             @if (isFeatureEnabled('Grn Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('grns.create') }}"
                                         icon="fas fa-file-signature"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New GRN </span>
@@ -59,13 +59,13 @@
 
                         @can('Create Transfer')
                             @if (isFeatureEnabled('Transfer Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('transfers.create') }}"
                                         icon="fas fa-exchange-alt"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Transfer </span>
@@ -75,13 +75,13 @@
 
                         @can('Create Damage')
                             @if (isFeatureEnabled('Damage Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('damages.create') }}"
                                         icon="fas fa-bolt"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Damage </span>
@@ -91,13 +91,13 @@
 
                         @can('Create Adjustment')
                             @if (isFeatureEnabled('Inventory Adjustment'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('adjustments.create') }}"
                                         icon="fas fa-eraser"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Adjustment </span>
@@ -107,13 +107,13 @@
 
                         @can('Create SIV')
                             @if (isFeatureEnabled('Siv Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('sivs.create') }}"
                                         icon="fas fa-file-export"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New SIV </span>
@@ -129,22 +129,22 @@
                     <x-slot name="header">
                         <x-common.icon
                             name="fas fa-tags"
-                            class="is-size-6 text-purple"
+                            class="is-size-6 text-green"
                         />
-                        <span class="ml-2 is-size-6 text-purple"> Sales & Customers </span>
+                        <span class="ml-2 is-size-6 text-green"> Sales & Customers </span>
                     </x-slot>
                 </x-content.header>
                 <x-content.footer>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Sale')
                             @if (isFeatureEnabled('Sale Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('sales.create') }}"
                                         icon="fas fa-tags"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Invoice </span>
@@ -154,13 +154,13 @@
 
                         @can('Create GDN')
                             @if (isFeatureEnabled('Gdn Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('gdns.create') }}"
                                         icon="fas fa-file-invoice"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New DO </span>
@@ -170,13 +170,13 @@
 
                         @can('Create Proforma Invoice')
                             @if (isFeatureEnabled('Proforma Invoice'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('proforma-invoices.create') }}"
                                         icon="fas fa-receipt"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Proforma Invoices </span>
@@ -186,13 +186,13 @@
 
                         @can('Create Reservation')
                             @if (isFeatureEnabled('Reservation Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('reservations.create') }}"
                                         icon="fas fa-archive"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Reservation </span>
@@ -202,13 +202,13 @@
 
                         @can('Create Return')
                             @if (isFeatureEnabled('Return Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('returns.create') }}"
                                         icon="fas fa-arrow-alt-circle-left"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Return </span>
@@ -218,13 +218,13 @@
 
                         @can('Create PO')
                             @if (isFeatureEnabled('Purchase Order'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('purchase-orders.create') }}"
                                         icon="fas fa-file-alt"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Purchase Order </span>
@@ -235,13 +235,13 @@
 
                         @can('Create Customer')
                             @if (isFeatureEnabled('Customer Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('customers.create') }}"
                                         icon="fas fa-user"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Customer </span>
@@ -257,55 +257,55 @@
                     <x-slot name="header">
                         <x-common.icon
                             name="fas fa-project-diagram"
-                            class="is-size-6 text-purple"
+                            class="is-size-6 text-green"
                         />
-                        <span class="ml-2 is-size-6 text-purple"> Tenders </span>
+                        <span class="ml-2 is-size-6 text-green"> Tenders </span>
                     </x-slot>
                 </x-content.header>
                 <x-content.footer>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Tender')
                             @if (isFeatureEnabled('Tender Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('tenders.create') }}"
                                         icon="fas fa-project-diagram"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Tender </span>
                                 </div>
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('tender-checklist-types.create') }}"
                                         icon="fas fa-tasks"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Checklist Category </span>
                                 </div>
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('general-tender-checklists.create') }}"
                                         icon="fas fa-check-double"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Checklist </span>
                                 </div>
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('tender-statuses.create') }}"
                                         icon="fas fa-info"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Status </span>
@@ -321,22 +321,22 @@
                     <x-slot name="header">
                         <x-common.icon
                             name="fas fa-shopping-bag"
-                            class="is-size-6 text-purple"
+                            class="is-size-6 text-green"
                         />
-                        <span class="ml-2 is-size-6 text-purple"> Purchases & Suppliers </span>
+                        <span class="ml-2 is-size-6 text-green"> Purchases & Suppliers </span>
                     </x-slot>
                 </x-content.header>
                 <x-content.footer>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Purchase')
                             @if (isFeatureEnabled('Purchase Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('purchases.create') }}"
                                         icon="fas fa-shopping-bag"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Purchase </span>
@@ -346,13 +346,13 @@
 
                         @can('Create Supplier')
                             @if (isFeatureEnabled('Supplier Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('suppliers.create') }}"
                                         icon="fas fa-address-card"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Supplier </span>
@@ -368,33 +368,33 @@
                     <x-slot name="header">
                         <x-common.icon
                             name="fas fa-th"
-                            class="is-size-6 text-purple"
+                            class="is-size-6 text-green"
                         />
-                        <span class="ml-2 is-size-6 text-purple"> Products & Categories </span>
+                        <span class="ml-2 is-size-6 text-green"> Products & Categories </span>
                     </x-slot>
                 </x-content.header>
                 <x-content.footer>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Product')
                             @if (isFeatureEnabled('Product Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('categories.create') }}"
                                         icon="fas fa-layer-group"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Category </span>
                                 </div>
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('products.create') }}"
                                         icon="fas fa-th"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Product </span>
@@ -410,22 +410,22 @@
                     <x-slot name="header">
                         <x-common.icon
                             name="fas fa-users"
-                            class="is-size-6 text-purple"
+                            class="is-size-6 text-green"
                         />
-                        <span class="ml-2 is-size-6 text-purple"> Employees </span>
+                        <span class="ml-2 is-size-6 text-green"> Employees </span>
                     </x-slot>
                 </x-content.header>
                 <x-content.footer>
                     <div class="columns is-marginless is-multiline is-mobile">
                         @can('Create Employee')
                             @if (isFeatureEnabled('User Management'))
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-purple">
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
                                         mode="button"
                                         href="{{ route('employees.create') }}"
                                         icon="fas fa-users"
-                                        class="text-purple bg-lightpurple is-borderless"
+                                        class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
                                     <span class="is-size-7"> New Employee </span>
