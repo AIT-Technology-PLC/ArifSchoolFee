@@ -1,9 +1,10 @@
-@props(['tag', 'icon' => null, 'label' => null, 'mode'])
+@props(['tag', 'icon' => null, 'label' => null, 'mode' => null])
 
 @if ($tag == 'button')
     <button {{ $attributes->class([
     'tag is-pointer is-borderless' => $mode == 'tag',
     'button' => $mode == 'button',
+    '' => is_null($mode),
 ]) }}>
         @if (!is_null($icon))
             <x-common.icon name="{{ $icon }}" />
@@ -17,6 +18,7 @@
     <a {{ $attributes->class([
     'tag' => $mode == 'tag',
     'button' => $mode == 'button',
+    '' => is_null($mode),
 ]) }}>
         @if (!is_null($icon))
             <x-common.icon name="{{ $icon }}" />
