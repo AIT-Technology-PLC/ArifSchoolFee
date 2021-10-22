@@ -1,8 +1,9 @@
 @props(['route', 'id'])
 
-<a href="{{ route($route, $id) }}" data-title="Edit data">
-    <span class="tag is-white btn-green is-outlined has-text-weight-medium">
-        <x-common.icon name="fas fa-pen-square" />
-        <span> Edit </span>
-    </span>
-</a>
+<x-common.button tag="a"
+                 href="{{ route($route, $id) }}"
+                 mode="tag"
+                 data-title="Edit data"
+                 icon="fas fa-pen-square"
+                 label="Edit"
+                 class="is-white btn-green is-outlined has-text-weight-medium is-not-underlined" />

@@ -5,11 +5,12 @@
       method="post">
     @csrf
     @method('DELETE')
-    <button data-title="Delete permanently"
-            class="tag is-black has-text-white has-text-weight-medium is-pointer is-borderless">
-        <x-common.icon name="fas fa-trash" />
-        <span> Delete </span>
-    </button>
+    <x-common.button tag="button"
+                     mode="tag"
+                     data-title="Delete permanently"
+                     icon="fas fa-trash"
+                     label="Delete"
+                     class="is-black has-text-white has-text-weight-medium" />
 </form>
 
 @if (request()->ajax())
