@@ -38,10 +38,9 @@ class ReservationController extends Controller
         $totalReserved = Reservation::whereNotNull('reserved_by')->whereNull('converted_by')
             ->whereNull('cancelled_by')->count();
 
-        $totalNotApproved = Reservation::whereNull('approved_by')
-            ->whereNull('cancelled_by')->count();
+        $totalNotApproved = Reservation::notApproved()->whereNull('cancelled_by')->count();
 
-        $totalApproved = Reservation::whereNotNull('approved_by')->whereNull('reserved_by')->whereNull('converted_by')
+        $totalApproved = Reservation::approved()->whereNull('reserved_by')->whereNull('converted_by')
             ->whereNull('cancelled_by')->count();
 
         $totalCancelled = Reservation::whereNotNull('cancelled_by')->count();

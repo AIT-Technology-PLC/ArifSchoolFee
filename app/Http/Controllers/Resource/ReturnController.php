@@ -26,9 +26,9 @@ class ReturnController extends Controller
 
         $totalReturns = Returnn::count();
 
-        $totalNotApproved = Returnn::whereNull('approved_by')->count();
+        $totalNotApproved = Returnn::notApproved()->count();
 
-        $totalNotAdded = Returnn::whereNotNull('approved_by')->notAdded()->count();
+        $totalNotAdded = Returnn::approved()->notAdded()->count();
 
         $totalAdded = Returnn::added()->count();
 

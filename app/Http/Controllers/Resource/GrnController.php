@@ -27,9 +27,9 @@ class GrnController extends Controller
 
         $totalAdded = Grn::added()->count();
 
-        $totalNotApproved = Grn::whereNull('approved_by')->count();
+        $totalNotApproved = Grn::notApproved()->count();
 
-        $totalNotAdded = Grn::whereNotNull('approved_by')->notAdded()->count();
+        $totalNotAdded = Grn::approved()->notAdded()->count();
 
         $totalGrns = Grn::count();
 

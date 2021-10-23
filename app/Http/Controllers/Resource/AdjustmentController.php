@@ -25,9 +25,9 @@ class AdjustmentController extends Controller
 
         $totalAdjustments = Adjustment::count();
 
-        $totalNotApproved = Adjustment::whereNull('approved_by')->count();
+        $totalNotApproved = Adjustment::notApproved()->count();
 
-        $totalNotAdjusted = Adjustment::whereNotNull('approved_by')->whereNull('adjusted_by')->count();
+        $totalNotAdjusted = Adjustment::approved()->whereNull('adjusted_by')->count();
 
         $totalAdjusted = Adjustment::whereNotNull('adjusted_by')->count();
 

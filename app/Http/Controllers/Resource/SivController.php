@@ -26,9 +26,9 @@ class SivController extends Controller
 
         $totalSivs = Siv::count();
 
-        $totalApproved = Siv::whereNotNull('approved_by')->count();
+        $totalApproved = Siv::approved()->count();
 
-        $totalNotApproved = Siv::whereNull('approved_by')->count();
+        $totalNotApproved = Siv::notApproved()->count();
 
         return view('sivs.index', compact('sivs', 'totalSivs', 'totalApproved', 'totalNotApproved'));
     }

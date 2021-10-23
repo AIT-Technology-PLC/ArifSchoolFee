@@ -26,4 +26,14 @@ trait Approvable
 
         return true;
     }
+
+    public function scopeApproved($query)
+    {
+        return $query->whereNotNull('approved_by');
+    }
+
+    public function scopeNotApproved($query)
+    {
+        return $query->whereNull('approved_by');
+    }
 }

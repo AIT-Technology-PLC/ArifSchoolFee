@@ -25,9 +25,9 @@ class DamageController extends Controller
 
         $totalDamages = Damage::count();
 
-        $totalNotApproved = Damage::whereNull('approved_by')->count();
+        $totalNotApproved = Damage::notApproved()->count();
 
-        $totalNotSubtracted = Damage::whereNull('subtracted_by')->whereNotNull('approved_by')->count();
+        $totalNotSubtracted = Damage::whereNull('subtracted_by')->approved()->count();
 
         $totalSubtracted = Damage::whereNotNull('subtracted_by')->count();
 
