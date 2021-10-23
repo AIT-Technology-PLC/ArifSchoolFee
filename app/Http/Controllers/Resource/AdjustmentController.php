@@ -27,9 +27,9 @@ class AdjustmentController extends Controller
 
         $totalNotApproved = Adjustment::notApproved()->count();
 
-        $totalNotAdjusted = Adjustment::approved()->whereNull('adjusted_by')->count();
+        $totalNotAdjusted = Adjustment::approved()->notAdjusted()->count();
 
-        $totalAdjusted = Adjustment::whereNotNull('adjusted_by')->count();
+        $totalAdjusted = Adjustment::adjusted()->count();
 
         return view('adjustments.index', compact('adjustments', 'totalAdjustments', 'totalNotApproved', 'totalNotAdjusted', 'totalAdjusted'));
     }

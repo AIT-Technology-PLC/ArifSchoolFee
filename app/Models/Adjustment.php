@@ -30,6 +30,16 @@ class Adjustment extends Model
         return $this->hasMany(AdjustmentDetail::class);
     }
 
+    public function scopeAdjusted($query)
+    {
+        return $query->whereNotNull('adjusted_by');
+    }
+
+    public function scopeNotAdjusted($query)
+    {
+        return $query->whereNull('adjusted_by');
+    }
+
     public function adjust()
     {
         $this->adjusted_by = auth()->id();
