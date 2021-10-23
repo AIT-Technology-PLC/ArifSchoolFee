@@ -3,12 +3,30 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
     <title> SIV #{{ $siv->code }} - {{ userCompany()->name }} </title>
-    <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link
+        rel="shortcut icon"
+        type="image/png"
+        href="{{ asset('img/favicon.png') }}"
+    />
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+        integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM="
+        crossorigin="anonymous"
+    >
+    <link
+        href="{{ asset('css/app.css') }}"
+        rel="stylesheet"
+    >
     <style>
         .page-break {
             page-break-inside: avoid;
@@ -32,7 +50,10 @@
 <body>
     <header class="is-clearfix pt-5 has-background-white-ter">
         <aside class="is-pulled-left ml-6 mt-5 pt-4">
-            <img src="{{ asset('storage/' . $siv->company->logo) }}" style="width: 300px !important; height: 130px !important">
+            <img
+                src="{{ asset('storage/' . $siv->company->logo) }}"
+                style="width: 300px !important; height: 130px !important"
+            >
         </aside>
         <aside class="is-pulled-right mr-6">
             <h1 class="heading is-capitalized has-text-black has-text-weight-medium is-size-5">
@@ -113,10 +134,16 @@
             <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
                 <thead>
                     <tr class="is-borderless">
-                        <td colspan="5" class="is-borderless">&nbsp;</td>
+                        <td
+                            colspan="5"
+                            class="is-borderless"
+                        >&nbsp;</td>
                     </tr>
                     <tr class="is-borderless">
-                        <td colspan="5" class="is-borderless">&nbsp;</td>
+                        <td
+                            colspan="5"
+                            class="is-borderless"
+                        >&nbsp;</td>
                     </tr>
                     <tr>
                         <th>#</th>
@@ -141,12 +168,20 @@
         </section>
     </main>
 
-    <div class="has-background-white-bis" style="position:absolute;bottom: 14%;left: 0;right: 0;margin-top: 132px">
+    <div>&nbsp;</div>
+
+    <div
+        class="has-background-white-bis"
+        style="position:absolute;bottom: 14%;left: 0;right: 0;margin-top: 132px"
+    >
         <aside class="pl-6">
             <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                 Received By
                 @if (!$siv->received_by)
-                    : <div class="is-inline-block" style="border: 1px solid lightgrey;width: 18%"></div>
+                    : <div
+                        class="is-inline-block"
+                        style="border: 1px solid lightgrey;width: 18%"
+                    ></div>
                 @endif
             </h1>
             @if ($siv->received_by)
@@ -158,16 +193,25 @@
                 <div>
                     Signature
                 </div>
-                <div class="mt-6" style="border: 1px solid lightgrey;width: 30%"></div>
+                <div
+                    class="mt-6"
+                    style="border: 1px solid lightgrey;width: 30%"
+                ></div>
             </h1>
         </aside>
     </div>
-    <div class="has-background-white-bis" style="position:absolute;bottom: 14%;left: 15%;right: 0;margin-left: 40%">
+    <div
+        class="has-background-white-bis"
+        style="position:absolute;bottom: 14%;left: 15%;right: 0;margin-left: 40%"
+    >
         <aside class="pl-6">
             <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                 Delivered By
                 @if (!$siv->delivered_by)
-                    : <div class="is-inline-block" style="border: 1px solid lightgrey;width: 38%"></div>
+                    : <div
+                        class="is-inline-block"
+                        style="border: 1px solid lightgrey;width: 38%"
+                    ></div>
                 @endif
             </h1>
             @if ($siv->delivered_by)
@@ -179,12 +223,18 @@
                 <div>
                     Signature
                 </div>
-                <div class="mt-6" style="border: 1px solid lightgrey;width: 70%"></div>
+                <div
+                    class="mt-6"
+                    style="border: 1px solid lightgrey;width: 70%"
+                ></div>
             </h1>
         </aside>
     </div>
     @if ($siv->createdBy->is($siv->approvedBy))
-        <footer class="has-background-white-ter" style="position:absolute;bottom: 0%;left: 0;right: 0;">
+        <footer
+            class="has-background-white-ter"
+            style="position:absolute;bottom: 0%;left: 0;right: 0;"
+        >
             <aside class="pl-6">
                 <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                     Prepared & Approved By
@@ -196,12 +246,18 @@
                     <div>
                         Signature
                     </div>
-                    <div class="mt-6" style="border: 1px solid lightgrey;width: 30%"></div>
+                    <div
+                        class="mt-6"
+                        style="border: 1px solid lightgrey;width: 30%"
+                    ></div>
                 </h1>
             </aside>
         </footer>
     @else
-        <footer class="has-background-white-ter" style="position:absolute;bottom: 0%;left: 0;right: 0;">
+        <footer
+            class="has-background-white-ter"
+            style="position:absolute;bottom: 0%;left: 0;right: 0;"
+        >
             <aside class="pl-6">
                 <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                     Prepared By
@@ -213,11 +269,17 @@
                     <div>
                         Signature
                     </div>
-                    <div class="mt-6" style="border: 1px solid lightgrey;width: 30%"></div>
+                    <div
+                        class="mt-6"
+                        style="border: 1px solid lightgrey;width: 30%"
+                    ></div>
                 </h1>
             </aside>
         </footer>
-        <footer class="has-background-white-ter" style="position:absolute;bottom: 0%;left: 15%;right: 0;margin-left: 40%">
+        <footer
+            class="has-background-white-ter"
+            style="position:absolute;bottom: 0%;left: 15%;right: 0;margin-left: 40%"
+        >
             <aside class="pl-6">
                 <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                     Approved By
@@ -229,7 +291,10 @@
                     <div>
                         Signature
                     </div>
-                    <div class="mt-6" style="border: 1px solid lightgrey;width: 70%"></div>
+                    <div
+                        class="mt-6"
+                        style="border: 1px solid lightgrey;width: 70%"
+                    ></div>
                 </h1>
             </aside>
         </footer>
