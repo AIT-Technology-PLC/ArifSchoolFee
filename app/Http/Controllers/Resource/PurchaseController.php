@@ -7,6 +7,7 @@ use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
 use App\Models\Purchase;
 use App\Models\Supplier;
+use App\Services\NextReferenceNumService;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
@@ -31,7 +32,7 @@ class PurchaseController extends Controller
     {
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        $currentPurchaseNo = Purchase::byBranch()->max('code') + 1;
+        $currentPurchaseNo = NextReferenceNumService::table('purchases');
 
         return view('purchases.create', compact('suppliers', 'currentPurchaseNo'));
     }

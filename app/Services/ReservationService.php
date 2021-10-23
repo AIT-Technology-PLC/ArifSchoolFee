@@ -127,7 +127,7 @@ class ReservationService
             $reservation->convert();
 
             $gdn = Gdn::create([
-                'code' => Gdn::byBranch()->max('code') + 1,
+                'code' => NextReferenceNumService::table('gdns'),
                 'customer_id' => $reservation->customer_id ?? null,
                 'issued_on' => now(),
                 'payment_type' => $reservation->payment_type,

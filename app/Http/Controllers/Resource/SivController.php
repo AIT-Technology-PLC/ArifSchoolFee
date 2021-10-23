@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateSivRequest;
 use App\Models\Customer;
 use App\Models\Siv;
 use App\Notifications\SivPrepared;
+use App\Services\NextReferenceNumService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -39,7 +40,7 @@ class SivController extends Controller
 
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $currentSivCode = Siv::byBranch()->max('code') + 1;
+        $currentSivCode = NextReferenceNumService::table('sivs');
 
         return view('sivs.create', compact('warehouses', 'customers', 'currentSivCode'));
     }

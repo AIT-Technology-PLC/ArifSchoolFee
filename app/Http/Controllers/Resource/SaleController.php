@@ -7,6 +7,7 @@ use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
 use App\Models\Customer;
 use App\Models\Sale;
+use App\Services\NextReferenceNumService;
 use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
@@ -31,7 +32,7 @@ class SaleController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $currentReceiptNo = Sale::byBranch()->max('code') + 1;
+        $currentReceiptNo = NextReferenceNumService::table('sales');
 
         return view('sales.create', compact('customers', 'currentReceiptNo'));
     }

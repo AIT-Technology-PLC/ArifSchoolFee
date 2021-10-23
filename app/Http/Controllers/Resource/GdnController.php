@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Gdn;
 use App\Models\Sale;
 use App\Notifications\GdnPrepared;
+use App\Services\NextReferenceNumService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -44,7 +45,7 @@ class GdnController extends Controller
 
         $warehouses = auth()->user()->getAllowedWarehouses('sales');
 
-        $currentGdnCode = Gdn::byBranch()->max('code') + 1;
+        $currentGdnCode = NextReferenceNumService::table('gdns');
 
         return view('gdns.create', compact('customers', 'sales', 'warehouses', 'currentGdnCode'));
     }

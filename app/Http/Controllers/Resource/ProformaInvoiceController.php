@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateProformaInvoiceRequest;
 use App\Models\Customer;
 use App\Models\ProformaInvoice;
 use App\Notifications\ProformaInvoicePrepared;
+use App\Services\NextReferenceNumService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -40,7 +41,7 @@ class ProformaInvoiceController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $currentProformaInvoiceCode = ProformaInvoice::byBranch()->max('code') + 1;
+        $currentProformaInvoiceCode = NextReferenceNumService::table('proforma_invoices');
 
         return view('proforma-invoices.create', compact('customers', 'currentProformaInvoiceCode'));
     }

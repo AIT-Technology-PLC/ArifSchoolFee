@@ -3,6 +3,7 @@ namespace App\Actions;
 
 use App\Models\Siv;
 use App\Notifications\SivPrepared;
+use App\Services\NextReferenceNumService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -12,7 +13,7 @@ class ConvertToSivAction
     {
         $siv = DB::transaction(function () use ($purpose, $code, $issuedTo, $approvedBy, $details) {
             $siv = Siv::create([
-                'code' => Siv::byBranch()->max('code') + 1,
+                'code' => NextReferenceNumService::table('sivs'),
                 'purpose' => $purpose,
                 'ref_num' => $code,
                 'issued_on' => now(),

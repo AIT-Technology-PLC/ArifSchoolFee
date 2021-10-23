@@ -9,6 +9,7 @@ use App\Models\Grn;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Notifications\GrnPrepared;
+use App\Services\NextReferenceNumService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -44,7 +45,7 @@ class GrnController extends Controller
 
         $purchases = Purchase::latest()->get();
 
-        $currentGrnCode = Grn::byBranch()->max('code') + 1;
+        $currentGrnCode = NextReferenceNumService::table('grns');
 
         return view('grns.create', compact('warehouses', 'suppliers', 'purchases', 'currentGrnCode'));
     }

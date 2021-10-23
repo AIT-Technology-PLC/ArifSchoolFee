@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateTransferRequest;
 use App\Models\Transfer;
 use App\Models\Warehouse;
 use App\Notifications\TransferPrepared;
+use App\Services\NextReferenceNumService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -43,7 +44,7 @@ class TransferController extends Controller
 
         $toWarehouses = auth()->user()->getAllowedWarehouses('add');
 
-        $currentTransferCode = Transfer::byBranch()->max('code') + 1;
+        $currentTransferCode = NextReferenceNumService::table('transfers');
 
         return view('transfers.create', compact('fromWarehouses', 'toWarehouses', 'currentTransferCode'));
     }

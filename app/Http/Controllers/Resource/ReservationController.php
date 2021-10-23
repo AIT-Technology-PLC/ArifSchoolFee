@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Customer;
 use App\Models\Reservation;
 use App\Notifications\ReservationPrepared;
+use App\Services\NextReferenceNumService;
 use App\Services\ReservationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -54,7 +55,7 @@ class ReservationController extends Controller
 
         $warehouses = auth()->user()->getAllowedWarehouses('sales');
 
-        $currentReservationCode = Reservation::byBranch()->max('code') + 1;
+        $currentReservationCode = NextReferenceNumService::table('reservations');
 
         return view('reservations.create', compact('customers', 'warehouses', 'currentReservationCode'));
     }
