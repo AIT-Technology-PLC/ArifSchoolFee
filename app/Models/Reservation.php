@@ -54,6 +54,36 @@ class Reservation extends Model
         return $this->hasMany(ReservationDetail::class);
     }
 
+    public function scopeConverted($query)
+    {
+        return $query->whereNotNull('converted_by');
+    }
+
+    public function scopeNotConverted($query)
+    {
+        return $query->whereNull('converted_by');
+    }
+
+    public function scopeReserved($query)
+    {
+        return $query->whereNotNull('reserved_by');
+    }
+
+    public function scopeNotReserved($query)
+    {
+        return $query->whereNull('reserved_by');
+    }
+
+    public function scopeCancelled($query)
+    {
+        return $query->whereNotNull('cancelled_by');
+    }
+
+    public function scopeNotCancelled($query)
+    {
+        return $query->whereNull('cancelled_by');
+    }
+
     public function details()
     {
         return $this->reservationDetails;
