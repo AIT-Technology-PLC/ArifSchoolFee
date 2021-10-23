@@ -26,11 +26,11 @@ class ProformaInvoiceController extends Controller
 
         $totalProformaInvoices = ProformaInvoice::count();
 
-        $totalConverted = ProformaInvoice::whereNotNull('converted_by')->count();
+        $totalConverted = ProformaInvoice::converted()->count();
 
-        $totalPending = ProformaInvoice::where('is_pending', 1)->count();
+        $totalPending = ProformaInvoice::pending()->count();
 
-        $totalCancelled = ProformaInvoice::where('is_pending', 0)->whereNull('converted_by')->count();
+        $totalCancelled = ProformaInvoice::notPending()->notConverted()->count();
 
         return view('proforma-invoices.index', compact('proformaInvoices', 'totalProformaInvoices',
             'totalConverted', 'totalPending', 'totalCancelled'));

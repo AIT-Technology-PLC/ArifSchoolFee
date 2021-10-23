@@ -58,6 +58,26 @@ class ProformaInvoice extends Model
         return Str::of($prefix)->append('/', $this->code);
     }
 
+    public function scopeConverted($query)
+    {
+        return $query->whereNotNull('converted_by');
+    }
+
+    public function scopeNotConverted($query)
+    {
+        return $query->whereNull('converted_by');
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('is_pending', 1);
+    }
+
+    public function scopeNotPending($query)
+    {
+        return $query->where('is_pending', 0);
+    }
+
     public function details()
     {
         return $this->proformaInvoiceDetails;
