@@ -25,11 +25,11 @@ class GrnController extends Controller
     {
         $grns = Grn::with(['createdBy', 'updatedBy', 'approvedBy', 'supplier', 'purchase'])->latest()->get();
 
-        $totalAdded = Grn::whereNotNull('added_by')->count();
+        $totalAdded = Grn::added()->count();
 
         $totalNotApproved = Grn::whereNull('approved_by')->count();
 
-        $totalNotAdded = Grn::whereNotNull('approved_by')->whereNull('added_by')->count();
+        $totalNotAdded = Grn::whereNotNull('approved_by')->notAdded()->count();
 
         $totalGrns = Grn::count();
 

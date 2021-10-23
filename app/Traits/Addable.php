@@ -24,4 +24,14 @@ trait Addable
 
         return true;
     }
+
+    public function scopeAdded($query)
+    {
+        return $query->whereNotNull('added_by');
+    }
+
+    public function scopeNotAdded($query)
+    {
+        return $query->whereNull('added_by');
+    }
 }

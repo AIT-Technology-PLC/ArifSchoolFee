@@ -24,9 +24,9 @@ class TransferController extends Controller
     {
         $transfers = (new Transfer)->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'transferredFrom', 'transferredTo']);
 
-        $totalTransferred = Transfer::whereNotNull('added_by')->count();
+        $totalTransferred = Transfer::added()->count();
 
-        $totalSubtracted = Transfer::whereNotNull('subtracted_by')->whereNull('added_by')->count();
+        $totalSubtracted = Transfer::whereNotNull('subtracted_by')->notAdded()->count();
 
         $totalApproved = Transfer::whereNotNull('approved_by')->whereNull('subtracted_by')->count();
 
