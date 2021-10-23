@@ -24,4 +24,14 @@ trait Subtractable
 
         return true;
     }
+
+    public function scopeSubtracted($query)
+    {
+        return $query->whereNotNull('subtracted_by');
+    }
+
+    public function scopeNotSubtracted($query)
+    {
+        return $query->whereNull('subtracted_by');
+    }
 }

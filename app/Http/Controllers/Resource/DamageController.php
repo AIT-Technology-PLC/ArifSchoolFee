@@ -27,9 +27,9 @@ class DamageController extends Controller
 
         $totalNotApproved = Damage::notApproved()->count();
 
-        $totalNotSubtracted = Damage::whereNull('subtracted_by')->approved()->count();
+        $totalNotSubtracted = Damage::notSubtracted()->approved()->count();
 
-        $totalSubtracted = Damage::whereNotNull('subtracted_by')->count();
+        $totalSubtracted = Damage::subtracted()->count();
 
         return view('damages.index', compact('damages', 'totalDamages', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }

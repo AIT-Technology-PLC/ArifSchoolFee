@@ -26,9 +26,9 @@ class TransferController extends Controller
 
         $totalTransferred = Transfer::added()->count();
 
-        $totalSubtracted = Transfer::whereNotNull('subtracted_by')->notAdded()->count();
+        $totalSubtracted = Transfer::subtracted()->notAdded()->count();
 
-        $totalApproved = Transfer::approved()->whereNull('subtracted_by')->count();
+        $totalApproved = Transfer::approved()->notSubtracted()->count();
 
         $totalNotApproved = Transfer::notApproved()->count();
 
