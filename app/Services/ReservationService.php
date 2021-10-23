@@ -129,7 +129,7 @@ class ReservationService
             $gdn = Gdn::create([
                 'code' => Gdn::byBranch()->max('code') + 1,
                 'customer_id' => $reservation->customer_id ?? null,
-                'issued_on' => today(),
+                'issued_on' => now(),
                 'payment_type' => $reservation->payment_type,
                 'description' => $reservation->description ?? '',
                 'cash_received_in_percentage' => $reservation->cash_received_in_percentage,
