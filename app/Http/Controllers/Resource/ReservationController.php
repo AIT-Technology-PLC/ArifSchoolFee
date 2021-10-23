@@ -27,8 +27,10 @@ class ReservationController extends Controller
 
     public function index()
     {
-        $reservations = Reservation::with(['reservationDetails', 'createdBy', 'updatedBy', 'approvedBy', 'customer', 'reservable'])
-            ->latest()->get();
+        $reservations = Reservation::query()
+            ->with(['reservationDetails', 'createdBy', 'updatedBy', 'approvedBy', 'customer', 'reservable'])
+            ->latest()
+            ->get();
 
         $totalReservations = Reservation::count();
 
