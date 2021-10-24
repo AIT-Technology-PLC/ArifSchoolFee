@@ -101,6 +101,7 @@ class ReservationService
         DB::transaction(function () use ($reservation) {
             if ($reservation->isConverted() && !$reservation->reservable->isSubtracted()) {
                 $reservation->reservable()->forceDelete();
+                $reservation->reservable()->dissociate();
             }
 
             InventoryOperationService::subtract($reservation->reservationDetails, 'reserved');
