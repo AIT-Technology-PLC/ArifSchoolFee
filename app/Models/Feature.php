@@ -29,7 +29,7 @@ class Feature extends Model
 
     public static function enableOrDisable($featureName, $value)
     {
-        (new self())->where('name', $featureName)
+        static::where('name', $featureName)
             ->firstOrFail()
             ->update([
                 'is_enabled' => $value,
@@ -38,7 +38,7 @@ class Feature extends Model
 
     public static function status($featureName)
     {
-        $feature = (new self())->where('name', $featureName)->firstOrFail();
+        $feature = static::where('name', $featureName)->firstOrFail();
 
         if ($feature->is_enabled) {
             return 'Enabled';
@@ -49,7 +49,7 @@ class Feature extends Model
 
     public static function enableOrDisableForCompany($featureName, $companyId, $value)
     {
-        $feature = (new self())->where('name', $featureName)->firstOrFail();
+        $feature = static::where('name', $featureName)->firstOrFail();
 
         $company = Company::where('id', $companyId)->firstOrFail();
 
@@ -62,7 +62,7 @@ class Feature extends Model
 
     public static function deleteForCompany($featureName, $companyId)
     {
-        $feature = (new self())->where('name', $featureName)->firstOrFail();
+        $feature = static::where('name', $featureName)->firstOrFail();
 
         $company = Company::where('id', $companyId)->firstOrFail();
 
@@ -71,7 +71,7 @@ class Feature extends Model
 
     public static function enableOrDisableForPlan($featureName, $planName, $value)
     {
-        $feature = (new self())->where('name', $featureName)->firstOrFail();
+        $feature = static::where('name', $featureName)->firstOrFail();
 
         $plan = Plan::where('name', $planName)->firstOrFail();
 
