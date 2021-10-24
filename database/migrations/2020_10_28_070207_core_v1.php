@@ -25,8 +25,6 @@ class CoreV1 extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         // Failed Jobs - Queue
@@ -149,6 +147,10 @@ class CoreV1 extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+        });
+
+        Schema::create('users', function (Blueprint $table) {
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         // Suppliers
