@@ -18,7 +18,6 @@ class StoreTenderRequest extends FormRequest
             'code' => ['required', 'string', 'max:255'],
             'type' => ['required', 'string', 'max:255'],
             'status' => ['required', 'string', 'max:255'],
-            'participants' => ['nullable', 'integer', 'min:1'],
             'bid_bond_amount' => ['nullable', 'string'],
             'bid_bond_type' => ['nullable', 'string'],
             'bid_bond_validity' => ['nullable', 'integer'],

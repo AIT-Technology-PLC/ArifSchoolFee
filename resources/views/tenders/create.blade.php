@@ -85,22 +85,6 @@
                         </div>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label for="participants" class="label text-green has-text-weight-normal">Participants <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input class="input" type="number" name="participants" id="participants" value="{{ old('participants') ?? '' }}">
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-users"></i>
-                                </span>
-                                @error('participants')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
                         <label for="bid_bond_type" class="label text-green has-text-weight-normal"> Bid Bond <span class="has-text-weight-light is-size-7">(Type, Amount, Validity)</span> <sup class="has-text-danger"></sup> </label>
                         <div class="field has-addons">
                             <p class="control">
