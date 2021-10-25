@@ -9,7 +9,7 @@ class ApproveTransactionAction
 {
     private function sendNotification($model, $notification, $permission)
     {
-        if (isset($notification) && isset($permission)) {
+        if (!is_null($notification) && !is_null($permission)) {
             Notification::send(
                 notifiables($permission, $model->createdBy),
                 new $notification($model)
