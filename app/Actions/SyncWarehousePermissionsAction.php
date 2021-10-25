@@ -24,11 +24,12 @@ class SyncWarehousePermissionsAction
             }
 
             foreach ($permissions[$permission] as $warehouseId) {
-                DB::table('user_warehouse')->updateOrInsert([
-                    'user_id' => $user->id,
-                    'warehouse_id' => $warehouseId,
-                    'type' => $permission,
-                ]);
+                DB::table('user_warehouse')
+                    ->insert([
+                        'user_id' => $user->id,
+                        'warehouse_id' => $warehouseId,
+                        'type' => $permission,
+                    ]);
             }
         }
     }
