@@ -43,15 +43,19 @@ class MerchandiseProductService
 
     public function getLimitedMerchandiseProductsQuery($warehouseId = null)
     {
-        if (auth()->user()->getAllowedWarehouses('read')->isEmpty()) {
+        if (auth()->check() && auth()->user()->getAllowedWarehouses('read')->isEmpty()) {
             return collect();
         }
 
-        return Product::whereHas('merchandises', function ($query) use ($warehouseId) {
-            $query->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
-                ->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
-                ->whereRaw('products.min_on_hand != 0')
-                ->whereRaw('merchandises.available <= products.min_on_hand');
-        });
+        return Product::query()
+            ->where('min_on_hand', '>', 0)
+            ->whereHas('merchandises', function ($query) use ($warehouseId) {
+                $query->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
+                    ->when(auth()->check(), function ($query) {
+                        $query->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'));
+                    })
+                    ->where('merchandises.available', '>', 0)
+                    ->whereRaw('merchandises.available <= products.min_on_hand');
+            });
     }
 }
