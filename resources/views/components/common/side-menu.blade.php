@@ -214,7 +214,7 @@
                                     tag="a"
                                     href="{{ route('sales.index') }}"
                                     name="menuTitles"
-                                    label="Sales"
+                                    label="Invoices"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'is-active' : '' }}"
                                 />
                             </li>
