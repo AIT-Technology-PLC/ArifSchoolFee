@@ -11,7 +11,7 @@
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
                         <span class="icon is-large is-size-1">
-                            <i class="fas fa-file-invoice"></i>
+                            <i class="fas fa-archive"></i>
                         </span>
                     </div>
                     <div class="column is-paddingless">
@@ -33,7 +33,10 @@
                             Create new Reservation to hold products for customers
                         </div>
                         <div class="is-size-3">
-                            <a href="{{ route('reservations.create') }}" class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3">
+                            <a
+                                href="{{ route('reservations.create') }}"
+                                class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
@@ -47,7 +50,10 @@
             </div>
         </div>
         <div class="column is-4 p-lr-0">
-            <div class="box text-green has-text-centered" style="border-left: 2px solid #3d8660;">
+            <div
+                class="box text-green has-text-centered"
+                style="border-left: 2px solid #3d8660;"
+            >
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalConverted }}
                 </div>
@@ -57,7 +63,10 @@
             </div>
         </div>
         <div class="column is-4 p-lr-0">
-            <div class="box text-blue has-text-centered" style="border-left: 2px solid #3d6386;">
+            <div
+                class="box text-blue has-text-centered"
+                style="border-left: 2px solid #3d6386;"
+            >
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalReserved }}
                 </div>
@@ -67,7 +76,10 @@
             </div>
         </div>
         <div class="column is-4 p-lr-0">
-            <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
+            <div
+                class="box text-gold has-text-centered"
+                style="border-left: 2px solid #86843d;"
+            >
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalCancelled }}
                 </div>
@@ -77,7 +89,10 @@
             </div>
         </div>
         <div class="column is-4 is-offset-2 p-lr-0">
-            <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
+            <div
+                class="box text-purple has-text-centered"
+                style="border-left: 2px solid #863d63;"
+            >
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalApproved }}
                 </div>
@@ -87,7 +102,10 @@
             </div>
         </div>
         <div class="column is-4 p-lr-0">
-            <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
+            <div
+                class="box text-purple has-text-centered"
+                style="border-left: 2px solid #863d63;"
+            >
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalNotApproved }}
                 </div>
@@ -106,7 +124,11 @@
         <div class="box radius-top-0">
             <x-common.success-message :message="session('deleted')" />
             <div>
-                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[7,8]" data-numeric="[]">
+                <table
+                    class="regular-datatable is-hoverable is-size-7 display nowrap"
+                    data-date="[7,8]"
+                    data-numeric="[]"
+                >
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
@@ -126,7 +148,10 @@
                     </thead>
                     <tbody class="list">
                         @foreach ($reservations as $reservation)
-                            <tr class="showRowDetails is-clickable" data-id="{{ route('reservations.show', $reservation->id) }}">
+                            <tr
+                                class="showRowDetails is-clickable"
+                                data-id="{{ route('reservations.show', $reservation->id) }}"
+                            >
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized has-text-centered">
                                     {{ $reservation->code }}
@@ -213,7 +238,10 @@
                                 <td> {{ $reservation->approvedBy->name ?? 'N/A' }} </td>
                                 <td> {{ $reservation->updatedBy->name ?? 'N/A' }} </td>
                                 <td class="actions">
-                                    <a href="{{ route('reservations.show', $reservation->id) }}" data-title="View Details">
+                                    <a
+                                        href="{{ route('reservations.show', $reservation->id) }}"
+                                        data-title="View Details"
+                                    >
                                         <span class="tag is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-info-circle"></i>
@@ -223,7 +251,10 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <a href="{{ route('reservations.edit', $reservation->id) }}" data-title="Modify Reservation Data">
+                                    <a
+                                        href="{{ route('reservations.edit', $reservation->id) }}"
+                                        data-title="Modify Reservation Data"
+                                    >
                                         <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
@@ -233,7 +264,10 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-common.delete-button route="reservations.destroy" :id="$reservation->id" />
+                                    <x-common.delete-button
+                                        route="reservations.destroy"
+                                        :id="$reservation->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach
