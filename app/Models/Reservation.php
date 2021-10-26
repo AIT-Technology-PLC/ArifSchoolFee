@@ -84,6 +84,11 @@ class Reservation extends Model
         return $query->whereNull('cancelled_by');
     }
 
+    public function scopeExpired($query)
+    {
+        return $query->whereDate('expires_on', '<', today());
+    }
+
     public function details()
     {
         return $this->reservationDetails;
@@ -123,7 +128,13 @@ class Reservation extends Model
 
     public function cancel()
     {
-        $this->cancelled_by = auth()->id();
+        if (auth()->check()) {
+            $this->cancelled_by = auth()->id();
+        }
+
+        if (!auth()->check()) {
+            $this->cancelled_by = $this->created_by;
+        }
 
         $this->save();
     }
