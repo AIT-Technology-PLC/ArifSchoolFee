@@ -39,7 +39,8 @@ class SendLowInventoryNotification extends Command
                 continue;
             }
 
-            $users = User::role(['System Manager', 'Store Keeper', 'Analyst'])
+            $users = User::query()
+                ->role(['System Manager', 'Analyst', 'Store Keeper'])
                 ->whereHas('employee', function (Builder $query) use ($company) {
                     $query->where('company_id', $company->id);
                 })

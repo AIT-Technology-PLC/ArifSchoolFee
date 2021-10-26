@@ -43,6 +43,10 @@ class SendBidBondValidityNotification extends Command
 
             $users = User::query()
                 ->role(['System Manager', 'Analyst', 'Tender Officer'])
+                ->where(function ($query) use ($tenders) {
+                    $query->whereNull('warehouse_id')
+                        ->orWhereIn('warehouse_id', $tenders->pluck('warehouse_id'));
+                })
                 ->whereHas('employee', function (Builder $query) use ($company) {
                     $query->where('company_id', $company->id);
                 })

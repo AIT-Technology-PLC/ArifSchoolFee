@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
 use App\Models\Company;
 use App\Models\ProformaInvoice;
+use App\Models\User;
+use App\Notifications\ProformaInvoiceExpirationIsClose;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\ProformaInvoiceExpirationIsClose;
 
 class SendProformaInvoiceExpiryDateNotifications extends Command
 {
@@ -39,7 +39,12 @@ class SendProformaInvoiceExpiryDateNotifications extends Command
                 continue;
             }
 
-            $users = User::role(['Sales Officer', 'System Manager'])
+            $users = User::query()
+                ->role(['System Manager', 'Analyst', 'Sales Officer'])
+                ->where(function ($query) use ($proformaInvoices) {
+                    $query->whereNull('warehouse_id')
+                        ->orWhereIn('warehouse_id', $proformaInvoices->pluck('warehouse_id'));
+                })
                 ->whereHas('employee', function (Builder $query) use ($company) {
                     $query->where('company_id', $company->id);
                 })
