@@ -78,6 +78,11 @@ class ProformaInvoice extends Model
         return $query->where('is_pending', 0);
     }
 
+    public function scopeExpired($query)
+    {
+        return $query->whereDate('expires_on', '<', today());
+    }
+
     public function details()
     {
         return $this->proformaInvoiceDetails;
