@@ -44,17 +44,17 @@
                         <i class="fas fa-home"></i>
                     </span>
                 </a>
-                <a id="backButton" class="navbar-item has-text-white link-text" data-title="Back">
+                <a x-data class="navbar-item has-text-white link-text" data-title="Back" @click="history.back()">
                     <span class="icon">
                         <i class="fas fa-arrow-left"></i>
                     </span>
                 </a>
-                <a id="forwardButton" class="navbar-item has-text-white link-text" data-title="Forward">
+                <a x-data class="navbar-item has-text-white link-text" data-title="Forward" @click="history.forward()">
                     <span class="icon">
                         <i class="fas fa-arrow-right"></i>
                     </span>
                 </a>
-                <a id="refreshButton" class="navbar-item has-text-white link-text" data-title="Refresh">
+                <a x-data class="navbar-item has-text-white link-text" data-title="Refresh" @click="location.reload()">
                     <span class="icon">
                         <i class="fas fa-redo-alt"></i>
                     </span>

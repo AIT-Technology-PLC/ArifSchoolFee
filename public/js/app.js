@@ -92,18 +92,6 @@ function jumpToCurrentPageMenuTitle() {
     targetMenu.scrollIntoView();
 }
 
-function goToPreviousPage() {
-    return history.back();
-}
-
-function goToNextPage() {
-    return history.forward();
-}
-
-function refreshPage() {
-    return location.reload();
-}
-
 function openAddToInventoryModal() {
     d.getElementById("addToInventoryModal").classList.toggle("is-active");
 }

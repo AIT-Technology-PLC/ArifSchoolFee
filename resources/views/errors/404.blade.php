@@ -25,7 +25,7 @@
                     <h2 class="subtitle has-text-grey-light has-text-weight-normal">
                         The page you are looking for was not found.
                     </h2>
-                    <button id="backButton" class="button btn-green is-outlined is-uppercase has-text-weight-medium px-5 py-5">
+                    <button x-data class="button btn-green is-outlined is-uppercase has-text-weight-medium px-5 py-5" @click="history.back()">
                         <span class="icon">
                             <i class="fas fa-arrow-left"></i>
                         </span>

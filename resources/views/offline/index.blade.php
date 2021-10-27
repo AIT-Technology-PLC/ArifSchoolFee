@@ -31,7 +31,7 @@
                         Please check your internet connection and try again.
                     </h2>
                     <div class="buttons is-centered mt-6">
-                        <button id="backButton" class="button btn-green is-outlined is-uppercase has-text-weight-medium px-5 py-5">
+                        <button x-data class="button btn-green is-outlined is-uppercase has-text-weight-medium px-5 py-5" @click="history.back()">
                             <span class="icon">
                                 <i class="fas fa-arrow-left"></i>
                             </span>

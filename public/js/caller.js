@@ -22,18 +22,6 @@ if (d.getElementById("addNewSaleForm")) {
 
 window.addEventListener("load", jumpToCurrentPageMenuTitle);
 
-if (d.getElementById("backButton")) {
-    d.getElementById("backButton").addEventListener("click", goToPreviousPage);
-}
-
-if (d.getElementById("forwardButton")) {
-    d.getElementById("forwardButton").addEventListener("click", goToNextPage);
-}
-
-if (d.getElementById("refreshButton")) {
-    d.getElementById("refreshButton").addEventListener("click", refreshPage);
-}
-
 if (d.getElementById("addToInventoryModal")) {
     d.getElementById("openAddToInventoryModal").addEventListener(
         "click",
