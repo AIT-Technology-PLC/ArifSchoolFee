@@ -1,4 +1,8 @@
-<section id="outOf" class="mx-3 m-lr-0 is-hidden">
+<section
+    id="outOf"
+    class="mx-3 m-lr-0 is-hidden"
+    :class="{ 'is-hidden': isOnHand }"
+>
     <div class="box radius-top-0">
         <div class="table-container">
             <table class="table is-hoverable is-fullwidth is-size-7">
@@ -25,7 +29,10 @@
                             </td>
                             <td class="is-capitalized"> {{ $product->productCategory->name ?? 'N/A' }} </td>
                             <td>
-                                <a href="{{ route('warehouses-products', [$product->id, $warehouse->id]) }}" data-title="View Product History">
+                                <a
+                                    href="{{ route('warehouses-products', [$product->id, $warehouse->id]) }}"
+                                    data-title="View Product History"
+                                >
                                     <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                         <span class="icon">
                                             <i class="fas fa-history"></i>

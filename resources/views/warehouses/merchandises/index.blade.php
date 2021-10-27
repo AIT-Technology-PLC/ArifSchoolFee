@@ -101,63 +101,78 @@
             </div>
         @endif
     </div>
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item">
-                        <div>
-                            <h1 class="title text-green has-text-weight-medium is-size-5">
-                                Current Inventory Level in {{ isset($warehouse) ? $warehouse->name : 'all Warehouses' }}
-                            </h1>
-                            <div></div>
-                            <h2 class="subtitle has-text-grey is-size-7">
-                                On hand, Limited, and Out of Stock
-                            </h2>
+    <section x-data="inventoryTypeToggler">
+        <div class="mt-3 mx-3 m-lr-0">
+            <div class="box radius-bottom-0 mb-0 has-background-white-bis">
+                <div class="level">
+                    <div class="level-left">
+                        <div class="level-item">
+                            <div>
+                                <h1 class="title text-green has-text-weight-medium is-size-5">
+                                    Current Inventory Level in {{ isset($warehouse) ? $warehouse->name : 'all Warehouses' }}
+                                </h1>
+                                <div></div>
+                                <h2 class="subtitle has-text-grey is-size-7">
+                                    On hand, Limited, and Out of Stock
+                                </h2>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="level-right">
-                    <div class="level-item is-justify-content-left">
-                        <div class="field">
-                            <div class="control has-icons-left">
-                                <div class="select">
-                                    <select id="warehouseId">
-                                        <option value="0" selected>All Warehouses</option>
-                                        @foreach ($warehouses as $availableWarehouse)
-                                            <option value="{{ $availableWarehouse->id }}" {{ ($warehouse->id ?? '') == $availableWarehouse->id ? 'selected' : '' }}>{{ $availableWarehouse->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-warehouse"></i>
+                    <div class="level-right">
+                        <div class="level-item is-justify-content-left">
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <div class="select">
+                                        <select id="warehouseId">
+                                            <option
+                                                value="0"
+                                                selected
+                                            >All Warehouses</option>
+                                            @foreach ($warehouses as $availableWarehouse)
+                                                <option
+                                                    value="{{ $availableWarehouse->id }}"
+                                                    {{ ($warehouse->id ?? '') == $availableWarehouse->id ? 'selected' : '' }}
+                                                >{{ $availableWarehouse->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="icon is-small is-left">
+                                        <i class="fas fa-warehouse"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="tabs is-toggle is-fullwidth has-background-white-bis">
+                <ul>
+                    <li
+                        id="onHandTab"
+                        class="on-hand"
+                        :class="{ 'is-active': isOnHand }"
+                    >
+                        <a @click="showOnHand">
+                            <span class="icon is-small"><i class="fas fa-check-circle"></i></span>
+                            <span>On Hand</span>
+                        </a>
+                    </li>
+                    <li
+                        id="outOfTab"
+                        class="out-of-stock"
+                        :class="{ 'is-active': !isOnHand }"
+                    >
+                        <a @click="showOutOf">
+                            <span class="icon is-small"><i class="fas fa-times-circle"></i></span>
+                            <span>Out of Stock</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="tabs is-toggle is-fullwidth has-background-white-bis">
-            <ul>
-                <li id="onHandTab" class="on-hand is-active">
-                    <a class="">
-                        <span class="icon is-small"><i class="fas fa-check-circle"></i></span>
-                        <span>On Hand</span>
-                    </a>
-                </li>
-                <li id="outOfTab" class="out-of-stock">
-                    <a>
-                        <span class="icon is-small"><i class="fas fa-times-circle"></i></span>
-                        <span>Out of Stock</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+
+        @include('warehouses.merchandises.on-hand')
+
+        @include('warehouses.merchandises.out-of')
     </section>
-
-    @include('warehouses.merchandises.on-hand')
-
-    @include('warehouses.merchandises.out-of')
-
 @endsection

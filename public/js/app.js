@@ -755,3 +755,15 @@ function disableInputTypeNumberMouseWheel() {
         d.activeElement.blur();
     }
 }
+
+document.addEventListener("alpine:init", () => {
+    Alpine.data("inventoryTypeToggler", () => ({
+        isOnHand: true,
+        showOnHand() {
+            this.isOnHand = true;
+        },
+        showOutOf() {
+            this.isOnHand = false;
+        },
+    }));
+});

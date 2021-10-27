@@ -73,6 +73,10 @@ precacheAndRoute(
             revision: null,
         },
         {
+            url: "https://unpkg.com/alpinejs@3.4.2/dist/cdn.min.js",
+            revision: null,
+        },
+        {
             url: "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js",
             revision: null,
         },

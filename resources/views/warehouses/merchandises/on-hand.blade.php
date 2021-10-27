@@ -1,7 +1,15 @@
-<section id="onHand" class="mx-3 m-lr-0">
+<section
+    id="onHand"
+    class="mx-3 m-lr-0"
+    :class="{ 'is-hidden': !isOnHand }"
+>
     <div class="box radius-top-0">
         <div>
-            <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[]" data-numeric="[3,4,5]">
+            <table
+                class="regular-datatable is-hoverable is-size-7 display nowrap"
+                data-date="[]"
+                data-numeric="[3,4,5]"
+            >
                 <thead>
                     <tr>
                         <th><abbr> # </abbr></th>
@@ -68,7 +76,10 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('warehouses-products', [$merchandise->product->id, $warehouse->id]) }}" data-title="View Product History">
+                                <a
+                                    href="{{ route('warehouses-products', [$merchandise->product->id, $warehouse->id]) }}"
+                                    data-title="View Product History"
+                                >
                                     <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                         <span class="icon">
                                             <i class="fas fa-history"></i>
