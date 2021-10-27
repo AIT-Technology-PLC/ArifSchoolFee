@@ -15,8 +15,8 @@ trait DataTableHtmlBuilder
             ->minifiedAjax()
             ->dom('lBfrtip')
             ->lengthMenu([
-                [10, 25, 50, 75, 100, -1],
-                [10, 25, 50, 75, 100, "All"],
+                [10, 25, 50, 75, 100],
+                [10, 25, 50, 75, 100],
             ])
             ->buttons([
                 'colvis', 'excelHtml5', 'print', 'pdfHtml5',
