@@ -1,13 +1,29 @@
-<div wire:poll.keep-alive.300000ms="getLatestUnreadNotifications">
-    <section id="notificationBox" class="notification-box mt-1 is-hidden">
+<div
+    x-data="toggler"
+    @display-notifications.window="toggle"
+    wire:poll.keep-alive.300000ms="getLatestUnreadNotifications"
+>
+    <section
+        class="notification-box mt-1 is-hidden"
+        :class="{'is-hidden': isHidden}"
+    >
         <article class="message m-lr-10">
             <div class="message-header bg-green has-text-white">
                 <p class="is-size-7">Notifications</p>
-                <button id="closeNotificationButton" class="delete"></button>
+                <button
+                    class="delete"
+                    @click="toggle"
+                ></button>
             </div>
-            <div class="message-body is-overflow has-background-white p-0" style="max-height: 300px !important">
+            <div
+                class="message-body is-overflow has-background-white p-0"
+                style="max-height: 300px !important"
+            >
                 @foreach ($unreadNotifications as $unreadNotification)
-                    <div wire:click="markAsRead('{{ $unreadNotification->id }}')" class="columns is-marginless has-background-white-ter text-green py-1 is-size-6-5 is-mobile is-clickable">
+                    <div
+                        wire:click="markAsRead('{{ $unreadNotification->id }}')"
+                        class="columns is-marginless has-background-white-ter text-green py-1 is-size-6-5 is-mobile is-clickable"
+                    >
                         <div class="column is-1 pb-0">
                             <span class="icon is-small">
                                 <i class="fas fa-{{ $unreadNotification->data['icon'] }}"></i>
@@ -25,7 +41,10 @@
                     </div>
                 @endforeach
                 @foreach ($readNotifications as $readNotification)
-                    <div wire:click="redirectToEndpoint('{{ $readNotification->data['endpoint'] }}')" class="columns is-marginless has-background-white text-green py-1 is-size-6-5 is-mobile is-clickable">
+                    <div
+                        wire:click="redirectToEndpoint('{{ $readNotification->data['endpoint'] }}')"
+                        class="columns is-marginless has-background-white text-green py-1 is-size-6-5 is-mobile is-clickable"
+                    >
                         <div class="column is-1 pb-0">
                             <span class="icon is-small">
                                 <i class="fas fa-{{ $readNotification->data['icon'] }}"></i>
@@ -53,7 +72,10 @@
                 @endif
             </div>
             <div class="box radius-top-0 has-background-white-bis has-text-centered p-3">
-                <a href="{{ route('notifications.index') }}" class="is-size-7 text-green has-text-weight-bold is-not-underlined">
+                <a
+                    href="{{ route('notifications.index') }}"
+                    class="is-size-7 text-green has-text-weight-bold is-not-underlined"
+                >
                     See all notifications
                 </a>
             </div>

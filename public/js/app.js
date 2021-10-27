@@ -418,10 +418,6 @@ function showOfflineBoxPermanent() {
     }
 }
 
-function toggleNotificationBox() {
-    d.getElementById("notificationBox").classList.toggle("is-hidden");
-}
-
 function openMarkAllNotificationsAsReadModal(event) {
     event.preventDefault();
     swal({
@@ -764,6 +760,13 @@ document.addEventListener("alpine:init", () => {
         },
         showOutOf() {
             this.isOnHand = false;
+        },
+    }));
+
+    Alpine.data("toggler", () => ({
+        isHidden: true,
+        toggle() {
+            this.isHidden = !this.isHidden;
         },
     }));
 });

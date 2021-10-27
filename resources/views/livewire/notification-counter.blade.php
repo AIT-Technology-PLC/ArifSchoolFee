@@ -1,4 +1,8 @@
-<a class="{{ $class }}">
+<a
+    x-data
+    @click="$dispatch('display-notifications')"
+    class="{{ $class }}"
+>
     <span class="icon">
         <i class="fas fa-bell"></i>
     </span>

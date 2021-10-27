@@ -111,17 +111,6 @@ window.addEventListener("offline", showOfflineBox);
 
 window.addEventListener("load", showOfflineBoxPermanent);
 
-if (d.getElementById("notificationBox")) {
-    d.querySelectorAll(".notification-bell-button").forEach((element) => {
-        element.addEventListener("click", toggleNotificationBox);
-    });
-
-    d.getElementById("closeNotificationButton").addEventListener(
-        "click",
-        toggleNotificationBox
-    );
-}
-
 if (d.getElementById("markAllNotificationsAsRead")) {
     d.getElementById("markAllNotificationsAsRead").addEventListener(
         "click",
