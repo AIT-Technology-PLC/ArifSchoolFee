@@ -35,10 +35,6 @@ const addKeyValueInputFields = (function () {
     };
 })();
 
-function toggleCreateMenu() {
-    d.getElementById("menuModal").classList.toggle("is-active");
-}
-
 async function getProductSelected(elementId, productId) {
     const response = await axios.get(
         `/api/products/${productId}/unit-of-measurement`

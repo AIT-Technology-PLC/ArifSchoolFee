@@ -1,10 +1,12 @@
 <div
-    id="menuModal"
+    x-data="toggler"
+    @open-create-modal.window="toggle"
     class="modal"
+    :class="{ 'is-active': !isHidden }"
 >
     <div
-        name="createMenuModal"
         class="modal-background"
+        @click="toggle"
     ></div>
     <div class="modal-content p-lr-20">
         <div class="box is-radiusless bg-lightgreen">
@@ -439,7 +441,7 @@
     </div>
     <x-common.button
         tag="button"
-        name="createMenuModal"
         class="modal-close is-large"
+        @click="toggle"
     />
 </div>

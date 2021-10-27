@@ -13,7 +13,7 @@
                     SmartWork
                 </span>
             </a>
-            <a name="createMenuModal" class="navbar-item has-text-white is-size-5 is-hidden-desktop to-the-right" data-title="Add new product, supplier, purchase ...">
+            <a x-data @click="$dispatch('open-create-modal')" class="navbar-item has-text-white is-size-5 is-hidden-desktop to-the-right" data-title="Create New ...">
                 <span class="icon">
                     <i class="fas fa-plus"></i>
                 </span>
@@ -59,7 +59,7 @@
                         <i class="fas fa-redo-alt"></i>
                     </span>
                 </a>
-                <a name="createMenuModal" class="navbar-item has-text-white link-text" data-title="Create New ...">
+                <a x-data @click="$dispatch('open-create-modal')" class="navbar-item has-text-white link-text" data-title="Create New ...">
                     <span class="icon">
                         <i class="fas fa-plus"></i>
                     </span>

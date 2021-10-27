@@ -9,12 +9,6 @@ if (d.getElementById("addNewForm")) {
     );
 }
 
-if (d.getElementsByName("createMenuModal").length) {
-    for (let element of d.getElementsByName("createMenuModal")) {
-        element.addEventListener("click", toggleCreateMenu);
-    }
-}
-
 if (d.getElementById("addNewPurchaseForm")) {
     d.getElementById("addNewPurchaseForm").addEventListener(
         "click",
