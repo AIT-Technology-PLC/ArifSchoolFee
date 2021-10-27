@@ -92,14 +92,6 @@ function jumpToCurrentPageMenuTitle() {
     targetMenu.scrollIntoView();
 }
 
-function toggleMenu() {
-    this.children[2].firstElementChild.classList.toggle("fa-caret-up");
-
-    this.parentElement.nextElementSibling.firstElementChild.classList.toggle(
-        "is-hidden"
-    );
-}
-
 function goToPreviousPage() {
     return history.back();
 }

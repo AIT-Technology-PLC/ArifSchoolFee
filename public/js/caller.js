@@ -178,12 +178,6 @@ if (d.getElementsByClassName("summernote-table").length) {
     modifySummernoteTableClass();
 }
 
-if (d.getElementsByName("menu-accordion").length) {
-    for (let element of d.getElementsByName("menu-accordion")) {
-        element.addEventListener("click", toggleMenu);
-    }
-}
-
 if (d.getElementsByClassName("select2-products").length) {
     initializeSelect2Products();
 }

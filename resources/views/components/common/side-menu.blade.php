@@ -68,27 +68,35 @@
     </ul>
 
     @canany(['Read Merchandise', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
-        <ul class="menu-list mb-2">
+        <ul
+            x-data="toggler"
+            class="menu-list mb-2"
+        >
             <li>
                 <x-common.button
                     tag="button"
                     mode="button"
-                    name="menu-accordion"
                     class="is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0"
+                    @click="toggle"
                 >
                     <x-common.icon
                         name="fas fa-warehouse"
                         class="m-0"
                     />
                     <span class="ml-2"> Warehouse & Inventory </span>
-                    <x-common.icon
-                        name="fas fa-caret-down"
-                        class="ml-auto"
-                    />
+                    <span class="icon ml-auto">
+                        <i
+                            class="fas fa-caret-down"
+                            :class="{ 'fa-caret-up': !isHidden }"
+                        ></i>
+                    </span>
                 </x-common.button>
             </li>
             <li>
-                <ul class="mt-0 ml-5 is-hidden">
+                <ul
+                    class="mt-0 ml-5 is-hidden"
+                    :class="{ 'is-hidden': isHidden }"
+                >
                     @can('Read Merchandise')
                         @if (isFeatureEnabled('Merchandise Inventory'))
                             <li>
@@ -186,27 +194,35 @@
     @endcanany
 
     @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read PO', 'Read Customer'])
-        <ul class="menu-list mb-2">
+        <ul
+            x-data="toggler"
+            class="menu-list mb-2"
+        >
             <li>
                 <x-common.button
                     tag="button"
                     mode="button"
-                    name="menu-accordion"
                     class="is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0"
+                    @click="toggle"
                 >
                     <x-common.icon
                         name="fas fa-tags"
                         class="m-0"
                     />
                     <span class="ml-2"> Sales & Customers </span>
-                    <x-common.icon
-                        name="fas fa-caret-down"
-                        class="ml-auto"
-                    />
+                    <span class="icon ml-auto">
+                        <i
+                            class="fas fa-caret-down"
+                            :class="{ 'fa-caret-up': !isHidden }"
+                        ></i>
+                    </span>
                 </x-common.button>
             </li>
             <li>
-                <ul class="mt-0 ml-5 is-hidden">
+                <ul
+                    class="mt-0 ml-5 is-hidden"
+                    :class="{ 'is-hidden': isHidden }"
+                >
                     @if (isFeatureEnabled('Sale Management'))
                         @can('Read Sale')
                             <li>
@@ -305,27 +321,35 @@
 
     @can('Read Tender')
         @if (isFeatureEnabled('Tender Management'))
-            <ul class="menu-list mb-2">
+            <ul
+                x-data="toggler"
+                class="menu-list mb-2"
+            >
                 <li>
                     <x-common.button
                         tag="button"
                         mode="button"
-                        name="menu-accordion"
                         class="is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0"
+                        @click="toggle"
                     >
                         <x-common.icon
                             name="fas fa-project-diagram"
                             class="m-0"
                         />
                         <span class="ml-2"> Tenders </span>
-                        <x-common.icon
-                            name="fas fa-caret-down"
-                            class="ml-auto"
-                        />
+                        <span class="icon ml-auto">
+                            <i
+                                class="fas fa-caret-down"
+                                :class="{ 'fa-caret-up': !isHidden }"
+                            ></i>
+                        </span>
                     </x-common.button>
                 </li>
                 <li>
-                    <ul class="mt-0 ml-5 is-hidden">
+                    <ul
+                        class="mt-0 ml-5 is-hidden"
+                        :class="{ 'is-hidden': isHidden }"
+                    >
                         <li>
                             <x-common.button
                                 tag="a"
@@ -369,27 +393,35 @@
     @endcan
 
     @canany(['Read Purchase', 'Read Supplier'])
-        <ul class="menu-list mb-2">
+        <ul
+            x-data="toggler"
+            class="menu-list mb-2"
+        >
             <li>
                 <x-common.button
                     tag="button"
                     mode="button"
-                    name="menu-accordion"
                     class="is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0"
+                    @click="toggle"
                 >
                     <x-common.icon
                         name="fas fa-shopping-bag"
                         class="m-0"
                     />
                     <span class="ml-2"> Purchases & Suppliers </span>
-                    <x-common.icon
-                        name="fas fa-caret-down"
-                        class="ml-auto"
-                    />
+                    <span class="icon ml-auto">
+                        <i
+                            class="fas fa-caret-down"
+                            :class="{ 'fa-caret-up': !isHidden }"
+                        ></i>
+                    </span>
                 </x-common.button>
             </li>
             <li>
-                <ul class="mt-0 ml-5 is-hidden">
+                <ul
+                    class="mt-0 ml-5 is-hidden"
+                    :class="{ 'is-hidden': isHidden }"
+                >
                     @if (isFeatureEnabled('Purchase Management'))
                         @can('Read Purchase')
                             <li>
@@ -423,27 +455,35 @@
 
     @can('Read Product')
         @if (isFeatureEnabled('Product Management'))
-            <ul class="menu-list mb-2">
+            <ul
+                x-data="toggler"
+                class="menu-list mb-2"
+            >
                 <li>
                     <x-common.button
                         tag="button"
                         mode="button"
-                        name="menu-accordion"
                         class="is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0"
+                        @click="toggle"
                     >
                         <x-common.icon
                             name="fas fa-th"
                             class="m-0"
                         />
                         <span class="ml-2"> Products & Categories </span>
-                        <x-common.icon
-                            name="fas fa-caret-down"
-                            class="ml-auto"
-                        />
+                        <span class="icon ml-auto">
+                            <i
+                                class="fas fa-caret-down"
+                                :class="{ 'fa-caret-up': !isHidden }"
+                            ></i>
+                        </span>
                     </x-common.button>
                 </li>
                 <li>
-                    <ul class="mt-0 ml-5 is-hidden">
+                    <ul
+                        class="mt-0 ml-5 is-hidden"
+                        :class="{ 'is-hidden': isHidden }"
+                    >
                         <li>
                             <x-common.button
                                 tag="a"
@@ -469,27 +509,35 @@
     @endcan
 
     @canany(['Read Employee', 'Update Company'])
-        <ul class="menu-list mb-2">
+        <ul
+            x-data="toggler"
+            class="menu-list mb-2"
+        >
             <li>
                 <x-common.button
                     tag="button"
                     mode="button"
-                    name="menu-accordion"
                     class="is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0"
+                    @click="toggle"
                 >
                     <x-common.icon
                         name="fas fa-cog"
                         class="m-0"
                     />
                     <span class="ml-2"> Settings </span>
-                    <x-common.icon
-                        name="fas fa-caret-down"
-                        class="ml-auto"
-                    />
+                    <span class="icon ml-auto">
+                        <i
+                            class="fas fa-caret-down"
+                            :class="{ 'fa-caret-up': !isHidden }"
+                        ></i>
+                    </span>
                 </x-common.button>
             </li>
             <li>
-                <ul class="mt-0 ml-5 is-hidden">
+                <ul
+                    class="mt-0 ml-5 is-hidden"
+                    :class="{ 'is-hidden': isHidden }"
+                >
                     @if (isFeatureEnabled('User Management'))
                         @can('Read Employee')
                             <li>
