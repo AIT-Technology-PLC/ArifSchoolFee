@@ -116,7 +116,10 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('grns.edit', $grn->id) }}" class="button is-small bg-green has-text-white">
+                            <a
+                                href="{{ route('grns.edit', $grn->id) }}"
+                                class="button is-small bg-green has-text-white"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
                                 </span>
@@ -142,9 +145,19 @@
                             <br>
                             Add product(s) automatically by clicking on the button.
                         </p>
-                        <form id="formOne" action="{{ route('grns.add', $grn->id) }}" method="post" novalidate>
+                        <form
+                            id="formOne"
+                            action="{{ route('grns.add', $grn->id) }}"
+                            method="post"
+                            novalidate
+                        >
                             @csrf
-                            <button data-type="GRN" data-action="execute" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="GRN"
+                                data-action="execute"
+                                data-description=""
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
@@ -166,9 +179,19 @@
                             <br>
                             Click on the button below to approve this GRN.
                         </p>
-                        <form id="formOne" action="{{ route('grns.approve', $grn->id) }}" method="post" novalidate>
+                        <form
+                            id="formOne"
+                            action="{{ route('grns.approve', $grn->id) }}"
+                            method="post"
+                            novalidate
+                        >
                             @csrf
-                            <button data-type="GRN" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="GRN"
+                                data-action="approve"
+                                data-description=""
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>
@@ -182,6 +205,7 @@
                     <x-common.fail-message message="This GRN has not been approved." />
                 @endcan
             @endif
+            <x-common.success-message :message="session('deleted')" />
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
@@ -191,6 +215,7 @@
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -209,6 +234,13 @@
                                 </td>
                                 <td>
                                     {!! nl2br(e($grnDetail->description)) !!}
+                                </td>
+                                <td>
+                                    <x-common.action-buttons
+                                        :buttons="['delete']"
+                                        model="grn-details"
+                                        :id="$grnDetail->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach
