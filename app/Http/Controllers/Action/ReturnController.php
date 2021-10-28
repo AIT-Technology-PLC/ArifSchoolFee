@@ -36,7 +36,9 @@ class ReturnController extends Controller
 
         $return->load(['returnDetails.product', 'customer', 'company', 'createdBy', 'approvedBy']);
 
-        return view('returns.print', compact('return'));
+        return \PDF::loadView('returns.print', compact('return'))
+            ->setPaper('a4', 'portrait')
+            ->stream();
     }
 
     public function add(Returnn $return, ReturnService $returnService)
