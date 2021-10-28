@@ -168,11 +168,11 @@
         </section>
     </main>
 
-    <div>&nbsp;</div>
+    <div style="margin-top: 20%">&nbsp;</div>
 
     <div
         class="has-background-white-bis"
-        style="position:absolute;bottom: 14%;left: 0;right: 0;margin-top: 132px"
+        style="position:absolute;bottom: 14%;left: 0;right: 0;"
     >
         <aside class="pl-6">
             <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
