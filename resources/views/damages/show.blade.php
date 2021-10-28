@@ -76,7 +76,10 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('damages.edit', $damage->id) }}" class="button is-small bg-green has-text-white">
+                            <a
+                                href="{{ route('damages.edit', $damage->id) }}"
+                                class="button is-small bg-green has-text-white"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
                                 </span>
@@ -103,9 +106,19 @@
                             <br>
                             Click on the button below to subtract product(s) from the inventory.
                         </p>
-                        <form id="formOne" action="{{ route('damages.subtract', $damage->id) }}" method="post" novalidate>
+                        <form
+                            id="formOne"
+                            action="{{ route('damages.subtract', $damage->id) }}"
+                            method="post"
+                            novalidate
+                        >
                             @csrf
-                            <button data-type="Damage" data-action="subtract" data-description="the damaged products" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Damage"
+                                data-action="subtract"
+                                data-description="the damaged products"
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-minus-circle"></i>
                                 </span>
@@ -127,9 +140,19 @@
                             <br>
                             Click on the button below to approve this Damage.
                         </p>
-                        <form id="formOne" action="{{ route('damages.approve', $damage->id) }}" method="post" novalidate>
+                        <form
+                            id="formOne"
+                            action="{{ route('damages.approve', $damage->id) }}"
+                            method="post"
+                            novalidate
+                        >
                             @csrf
-                            <button data-type="Damage" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Damage"
+                                data-action="approve"
+                                data-description=""
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>
@@ -143,6 +166,7 @@
                     <x-common.fail-message message="This Damage has not been approved." />
                 @endcan
             @endif
+            <x-common.success-message :message="session('deleted')" />
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
@@ -152,6 +176,7 @@
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            <th><abbr> Action </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -170,6 +195,13 @@
                                 </td>
                                 <td>
                                     {!! nl2br(e($damageDetail->description)) !!}
+                                </td>
+                                <td>
+                                    <x-common.action-buttons
+                                        :buttons="['delete']"
+                                        model="damage-details"
+                                        :id="$damageDetail->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach
