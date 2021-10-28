@@ -172,7 +172,11 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             @if ($siv->isApproved())
-                                <button id="printSiv" class="button is-small bg-purple has-text-white is-hidden-mobile  " onclick="openInNewTab('/sivs/{{ $siv->id }}/print')">
+                                <button
+                                    id="printSiv"
+                                    class="button is-small bg-purple has-text-white is-hidden-mobile  "
+                                    onclick="openInNewTab('/sivs/{{ $siv->id }}/print')"
+                                >
                                     <span class="icon">
                                         <i class="fas fa-print"></i>
                                     </span>
@@ -181,7 +185,10 @@
                                     </span>
                                 </button>
                             @endif
-                            <a href="{{ route('sivs.edit', $siv->id) }}" class="button is-small bg-green has-text-white">
+                            <a
+                                href="{{ route('sivs.edit', $siv->id) }}"
+                                class="button is-small bg-green has-text-white"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
                                 </span>
@@ -206,9 +213,19 @@
                             <br>
                             Click on the button below to approve this SIV.
                         </p>
-                        <form id="formOne" action="{{ route('sivs.approve', $siv->id) }}" method="post" novalidate>
+                        <form
+                            id="formOne"
+                            action="{{ route('sivs.approve', $siv->id) }}"
+                            method="post"
+                            novalidate
+                        >
                             @csrf
-                            <button data-type="SIV" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="SIV"
+                                data-action="approve"
+                                data-description=""
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>
@@ -222,6 +239,7 @@
                     <x-common.fail-message message="This SIV is not approved." />
                 @endcan
             @endif
+            <x-common.success-message :message="session('deleted')" />
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
@@ -231,6 +249,7 @@
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -249,6 +268,13 @@
                                 </td>
                                 <td>
                                     {!! nl2br(e($sivDetail->description)) !!}
+                                </td>
+                                <td>
+                                    <x-common.action-buttons
+                                        :buttons="['delete']"
+                                        model="siv-details"
+                                        :id="$sivDetail->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach

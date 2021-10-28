@@ -99,7 +99,7 @@ class SivController extends Controller
 
     public function destroy(Siv $siv)
     {
-        if ($siv->isApproved() && !auth()->user()->can('Delete Approved SIV')) {
+        if ($siv->isApproved()) {
             abort(403);
         }
 
