@@ -152,7 +152,10 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('purchase-orders.edit', $purchaseOrder->id) }}" class="button is-small bg-green has-text-white">
+                            <a
+                                href="{{ route('purchase-orders.edit', $purchaseOrder->id) }}"
+                                class="button is-small bg-green has-text-white"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
                                 </span>
@@ -171,9 +174,19 @@
                     <p class="has-text-grey text-purple is-size-7">
                         This PO is still not closed. <br> Click the button below to close this PO.
                     </p>
-                    <form id="formOne" action="{{ route('purchase-orders.close', $purchaseOrder->id) }}" method="post" novalidate>
+                    <form
+                        id="formOne"
+                        action="{{ route('purchase-orders.close', $purchaseOrder->id) }}"
+                        method="post"
+                        novalidate
+                    >
                         @csrf
-                        <button data-type="Purchase Order" data-action="close" data-description="and the remaining quantities will be set to '0'." class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                        <button
+                            data-type="Purchase Order"
+                            data-action="close"
+                            data-description="and the remaining quantities will be set to '0'."
+                            class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                        >
                             <span class="icon">
                                 <i class="fas fa-file-alt"></i>
                             </span>
@@ -186,6 +199,7 @@
             @else
                 <x-common.success-message message="This PO is closed." />
             @endif
+            <x-common.success-message :message="session('deleted')" />
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
@@ -197,6 +211,7 @@
                             <th><abbr> Unit Price </abbr></th>
                             <th><abbr> Total </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -224,6 +239,13 @@
                                 </td>
                                 <td>
                                     {!! nl2br(e($purchaseOrderDetail->description)) !!}
+                                </td>
+                                <td>
+                                    <x-common.action-buttons
+                                        :buttons="['delete']"
+                                        model="purchase-order-details"
+                                        :id="$purchaseOrderDetail->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach
