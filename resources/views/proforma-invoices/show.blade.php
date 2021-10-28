@@ -193,7 +193,10 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             @if ($proformaInvoice->isConverted())
-                                <a href="{{ route('proforma-invoices.convert_to_gdn', $proformaInvoice->id) }}" class="button is-small btn-green is-outlined has-text-white">
+                                <a
+                                    href="{{ route('proforma-invoices.convert_to_gdn', $proformaInvoice->id) }}"
+                                    class="button is-small btn-green is-outlined has-text-white"
+                                >
                                     <span class="icon">
                                         <i class="fas fa-file-invoice"></i>
                                     </span>
@@ -203,7 +206,11 @@
                                 </a>
                             @endif
                             @if (!$proformaInvoice->isCancelled())
-                                <button id="printGdn" class="button is-small bg-purple has-text-white is-hidden-mobile" onclick="openInNewTab('/proforma-invoices/{{ $proformaInvoice->id }}/print')">
+                                <button
+                                    id="printGdn"
+                                    class="button is-small bg-purple has-text-white is-hidden-mobile"
+                                    onclick="openInNewTab('/proforma-invoices/{{ $proformaInvoice->id }}/print')"
+                                >
                                     <span class="icon">
                                         <i class="fas fa-print"></i>
                                     </span>
@@ -212,7 +219,10 @@
                                     </span>
                                 </button>
                             @endif
-                            <a href="{{ route('proforma-invoices.edit', $proformaInvoice->id) }}" class="button is-small bg-green has-text-white">
+                            <a
+                                href="{{ route('proforma-invoices.edit', $proformaInvoice->id) }}"
+                                class="button is-small bg-green has-text-white"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
                                 </span>
@@ -236,9 +246,19 @@
             @if ($proformaInvoice->isPending())
                 <x-common.fail-message message="This Proforma Invoice is still pending.">
                     @can('Convert Proforma Invoice')
-                        <form action="{{ route('proforma-invoices.convert', $proformaInvoice->id) }}" method="post" novalidate class="is-inline">
+                        <form
+                            action="{{ route('proforma-invoices.convert', $proformaInvoice->id) }}"
+                            method="post"
+                            novalidate
+                            class="is-inline"
+                        >
                             @csrf
-                            <button data-type="Proforma Invoice" data-action="confirm" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Proforma Invoice"
+                                data-action="confirm"
+                                data-description=""
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-check-circle"></i>
                                 </span>
@@ -249,9 +269,19 @@
                         </form>
                     @endcan
                     @can('Cancel Proforma Invoice')
-                        <form action="{{ route('proforma-invoices.cancel', $proformaInvoice->id) }}" method="post" novalidate class="is-inline">
+                        <form
+                            action="{{ route('proforma-invoices.cancel', $proformaInvoice->id) }}"
+                            method="post"
+                            novalidate
+                            class="is-inline"
+                        >
                             @csrf
-                            <button data-type="Proforma Invoice" data-action="cancel" data-description="" class="swal button bg-lightpurple text-purple mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Proforma Invoice"
+                                data-action="cancel"
+                                data-description=""
+                                class="swal button bg-lightpurple text-purple mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-times"></i>
                                 </span>
@@ -263,6 +293,7 @@
                     @endcan
                 </x-common.fail-message>
             @endif
+            <x-common.success-message :message="session('deleted')" />
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
@@ -275,6 +306,7 @@
                                 <th><abbr> Discount </abbr></th>
                             @endif
                             <th><abbr> Total </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -299,6 +331,13 @@
                                 @endif
                                 <td>
                                     {{ number_format($proformaInvoiceDetail->totalPrice, 2) }}
+                                </td>
+                                <td>
+                                    <x-common.action-buttons
+                                        :buttons="['delete']"
+                                        model="proforma-invoice-details"
+                                        :id="$proformaInvoiceDetail->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach
