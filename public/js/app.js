@@ -367,25 +367,17 @@ const addTenderForm = (function () {
 })();
 
 function showOnlineBox() {
-    let backOffline = d.getElementById("backOffline");
-    backOffline.classList.add("is-hidden");
+    d.getElementById("backOffline").classList.add("is-hidden");
 
-    let backOnline = d.getElementById("backOnline");
-    backOnline.classList.remove("is-hidden");
+    d.getElementById("backOnline").classList.remove("is-hidden");
 
-    setTimeout(() => backOnline.classList.add("is-hidden"), 2000);
-
-    if (backOnline.dataset.offline === "true") {
-        return setTimeout(() => goToPreviousPage(), 500);
-    }
+    location.reload();
 }
 
 function showOfflineBox() {
-    let backOnline = d.getElementById("backOnline");
-    backOnline.classList.add("is-hidden");
+    d.getElementById("backOnline").classList.add("is-hidden");
 
-    let backOffline = d.getElementById("backOffline");
-    backOffline.classList.remove("is-hidden");
+    d.getElementById("backOffline").classList.remove("is-hidden");
 }
 
 function showOfflineBoxPermanent() {

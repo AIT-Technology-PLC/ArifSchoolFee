@@ -51,7 +51,7 @@
                 </div>
             </div>
         </section>
-        <div id="backOnline" style="position: fixed; bottom: 0;left: 0;right: 0;" class="bg-green has-text-white has-text-centered is-hidden" data-offline="true">
+        <div id="backOnline" style="position: fixed; bottom: 0;left: 0;right: 0;" class="bg-green has-text-white has-text-centered is-hidden">
             <span class="icon">
                 <i class="fas fa-globe"></i>
             </span>
