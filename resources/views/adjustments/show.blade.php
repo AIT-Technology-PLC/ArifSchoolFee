@@ -86,9 +86,7 @@
                     <th> Product </th>
                     <th> Quantity </th>
                     <th> Reason </th>
-                    @if (!$adjustment->isAdjusted())
-                        <th> Actions </th>
-                    @endif
+                    <th> Actions </th>
                 </x-slot>
                 <x-slot name="body">
                     @foreach ($adjustment->adjustmentDetails as $adjustmentDetail)
@@ -104,15 +102,13 @@
                                 {{ $adjustmentDetail->product->unit_of_measurement }}
                             </td>
                             <td> {!! nl2br(e($adjustmentDetail->reason)) !!} </td>
-                            @if (!$adjustment->isAdjusted())
-                                <td>
-                                    <x-common.action-buttons
-                                        :buttons="['delete']"
-                                        model="adjustment-details"
-                                        :id="$adjustmentDetail->id"
-                                    />
-                                </td>
-                            @endif
+                            <td>
+                                <x-common.action-buttons
+                                    :buttons="['delete']"
+                                    model="adjustment-details"
+                                    :id="$adjustmentDetail->id"
+                                />
+                            </td>
                         </tr>
                     @endforeach
                 </x-slot>
