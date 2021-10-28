@@ -251,7 +251,10 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('reservations.edit', $reservation->id) }}" class="button is-small bg-green has-text-white">
+                            <a
+                                href="{{ route('reservations.edit', $reservation->id) }}"
+                                class="button is-small bg-green has-text-white"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
                                 </span>
@@ -261,9 +264,20 @@
                             </a>
                             @if ($reservation->reservable && !$reservation->reservable->isSubtracted())
                                 @can('Cancel Reservation')
-                                    <form id="formOne" class="is-inline" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate>
+                                    <form
+                                        id="formOne"
+                                        class="is-inline"
+                                        action="{{ route('reservations.cancel', $reservation->id) }}"
+                                        method="post"
+                                        novalidate
+                                    >
                                         @csrf
-                                        <button data-type="Reservation" data-action="cancel" data-description="" class="swal button bg-purple has-text-white is-small is-inline">
+                                        <button
+                                            data-type="Reservation"
+                                            data-action="cancel"
+                                            data-description=""
+                                            class="swal button bg-purple has-text-white is-small is-inline"
+                                        >
                                             <span class="icon">
                                                 <i class="fas fa-times-circle"></i>
                                             </span>
@@ -297,9 +311,20 @@
                         </span>
                     </p>
                     @can('Convert Reservation')
-                        <form id="formOne" action="{{ route('reservations.convert', $reservation->id) }}" method="post" novalidate class="is-inline">
+                        <form
+                            id="formOne"
+                            action="{{ route('reservations.convert', $reservation->id) }}"
+                            method="post"
+                            novalidate
+                            class="is-inline"
+                        >
                             @csrf
-                            <button data-type="Reservation" data-action="convert" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Reservation"
+                                data-action="convert"
+                                data-description=""
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-check-circle"></i>
                                 </span>
@@ -310,9 +335,20 @@
                         </form>
                     @endcan
                     @can('Cancel Reservation')
-                        <form id="formOne" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate class="is-inline">
+                        <form
+                            id="formOne"
+                            action="{{ route('reservations.cancel', $reservation->id) }}"
+                            method="post"
+                            novalidate
+                            class="is-inline"
+                        >
                             @csrf
-                            <button data-type="Reservation" data-action="cancel" data-description="" class="swal button btn-purple is-outlined mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Reservation"
+                                data-action="cancel"
+                                data-description=""
+                                class="swal button btn-purple is-outlined mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-times-circle"></i>
                                 </span>
@@ -334,9 +370,20 @@
                         </span>
                     </p>
                     @can('Make Reservation')
-                        <form id="formOne" action="{{ route('reservations.reserve', $reservation->id) }}" method="post" novalidate class="is-inline">
+                        <form
+                            id="formOne"
+                            action="{{ route('reservations.reserve', $reservation->id) }}"
+                            method="post"
+                            novalidate
+                            class="is-inline"
+                        >
                             @csrf
-                            <button data-type="Reservation" data-action="reserve" data-description="products of" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Reservation"
+                                data-action="reserve"
+                                data-description="products of"
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>
@@ -347,9 +394,20 @@
                         </form>
                     @endcan
                     @can('Cancel Reservation')
-                        <form id="formOne" action="{{ route('reservations.cancel', $reservation->id) }}" method="post" novalidate class="is-inline">
+                        <form
+                            id="formOne"
+                            action="{{ route('reservations.cancel', $reservation->id) }}"
+                            method="post"
+                            novalidate
+                            class="is-inline"
+                        >
                             @csrf
-                            <button data-type="Reservation" data-action="cancel" data-description="" class="swal button btn-purple is-outlined mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Reservation"
+                                data-action="cancel"
+                                data-description=""
+                                class="swal button btn-purple is-outlined mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-times-circle"></i>
                                 </span>
@@ -371,9 +429,19 @@
                         </span>
                     </p>
                     @can('Approve Reservation')
-                        <form id="formOne" action="{{ route('reservations.approve', $reservation->id) }}" method="post" novalidate>
+                        <form
+                            id="formOne"
+                            action="{{ route('reservations.approve', $reservation->id) }}"
+                            method="post"
+                            novalidate
+                        >
                             @csrf
-                            <button data-type="Reservation" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Reservation"
+                                data-action="approve"
+                                data-description=""
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>
@@ -385,6 +453,7 @@
                     @endcan
                 </div>
             @endif
+            <x-common.success-message :message="session('deleted')" />
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
@@ -399,6 +468,7 @@
                             @endif
                             <th><abbr> Total </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -429,6 +499,13 @@
                                 </td>
                                 <td>
                                     {!! nl2br(e($reservationDetail->description)) !!}
+                                </td>
+                                <td>
+                                    <x-common.action-buttons
+                                        :buttons="['delete']"
+                                        model="reservation-details"
+                                        :id="$reservationDetail->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach
