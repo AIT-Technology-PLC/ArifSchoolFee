@@ -385,7 +385,7 @@
                             @endif
                             <th><abbr> Total </abbr></th>
                             <th><abbr> Description </abbr></th>
-                            <th><abbr> Action </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>

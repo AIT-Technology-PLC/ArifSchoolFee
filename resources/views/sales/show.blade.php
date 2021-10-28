@@ -192,7 +192,10 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('sales.edit', $sale->id) }}" class="button is-small bg-green has-text-white">
+                            <a
+                                href="{{ route('sales.edit', $sale->id) }}"
+                                class="button is-small bg-green has-text-white"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
                                 </span>
@@ -214,6 +217,7 @@
                     {{ session('message') }}
                 </span>
             </div>
+            <x-common.success-message :message="session('deleted')" />
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
                     <thead>
@@ -226,6 +230,7 @@
                                 <th><abbr> Discount </abbr></th>
                             @endif
                             <th><abbr> Total </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -252,6 +257,13 @@
                                     {{ userCompany()->currency }}.
                                     {{ number_format($saleDetail->totalPrice, 2) }}
                                 </td>
+                                <td>
+                                    <x-common.action-buttons
+                                        :buttons="['delete']"
+                                        model="sale-details"
+                                        :id="$saleDetail->id"
+                                    />
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -276,7 +288,10 @@
                                 <tr>
                                     <td> {{ $loop->index + 1 }} </td>
                                     <td class="is-capitalized">
-                                        <a class="is-underlined" href="{{ route('gdns.show', $gdn->id) }}">
+                                        <a
+                                            class="is-underlined"
+                                            href="{{ route('gdns.show', $gdn->id) }}"
+                                        >
                                             {{ $gdn->code }}
                                         </a>
                                     </td>
