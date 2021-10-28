@@ -215,7 +215,10 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('purchases.convert_to_grn', $purchase->id) }}" class="button is-small bg-purple has-text-white">
+                            <a
+                                href="{{ route('purchases.convert_to_grn', $purchase->id) }}"
+                                class="button is-small bg-purple has-text-white"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
@@ -223,7 +226,10 @@
                                     New GRN
                                 </span>
                             </a>
-                            <a href="{{ route('purchases.edit', $purchase->id) }}" class="button is-small bg-green has-text-white">
+                            <a
+                                href="{{ route('purchases.edit', $purchase->id) }}"
+                                class="button is-small bg-green has-text-white"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
                                 </span>
@@ -237,6 +243,7 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0 pb-0">
+            <x-common.success-message :message="session('deleted')" />
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7 has-text-centered">
                     <thead>
@@ -249,6 +256,7 @@
                                 <th><abbr> Discount </abbr></th>
                             @endif
                             <th><abbr> Total </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -274,6 +282,13 @@
                                 <td>
                                     {{ number_format($purchaseDetail->totalPrice, 2) }}
                                 </td>
+                                <td>
+                                    <x-common.action-buttons
+                                        :buttons="['delete']"
+                                        model="purchase-details"
+                                        :id="$purchaseDetail->id"
+                                    />
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -298,7 +313,10 @@
                                 <tr>
                                     <td> {{ $loop->index + 1 }} </td>
                                     <td class="is-capitalized">
-                                        <a class="is-underlined" href="{{ route('grns.show', $grn->id) }}">
+                                        <a
+                                            class="is-underlined"
+                                            href="{{ route('grns.show', $grn->id) }}"
+                                        >
                                             {{ $grn->code }}
                                         </a>
                                     </td>
