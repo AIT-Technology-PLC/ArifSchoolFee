@@ -14,6 +14,8 @@ class GdnDetailController extends Controller
 
     public function destroy(GdnDetail $gdnDetail)
     {
+        $this->authorize('delete', $gdnDetail->gdn);
+
         if ($gdnDetail->gdn->reservation()->exists()) {
             return back()
                 ->with('failedMessage', "You cannot delete a DO that belongs to a reservation, instead cancel the reservation.");
