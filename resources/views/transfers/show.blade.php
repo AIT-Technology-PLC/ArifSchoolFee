@@ -115,7 +115,10 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             @if ($transfer->isSubtracted())
-                                <a href="{{ route('transfers.convert_to_siv', $transfer->id) }}" class="button is-small btn-green is-outlined has-text-white">
+                                <a
+                                    href="{{ route('transfers.convert_to_siv', $transfer->id) }}"
+                                    class="button is-small btn-green is-outlined has-text-white"
+                                >
                                     <span class="icon">
                                         <i class="fas fa-file-export"></i>
                                     </span>
@@ -124,7 +127,10 @@
                                     </span>
                                 </a>
                             @endif
-                            <a href="{{ route('transfers.edit', $transfer->id) }}" class="button is-small bg-green has-text-white">
+                            <a
+                                href="{{ route('transfers.edit', $transfer->id) }}"
+                                class="button is-small bg-green has-text-white"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
                                 </span>
@@ -150,9 +156,19 @@
                             <br>
                             Click on the button below to approve this Transfer.
                         </p>
-                        <form id="formOne" action="{{ route('transfers.approve', $transfer->id) }}" method="post" novalidate>
+                        <form
+                            id="formOne"
+                            action="{{ route('transfers.approve', $transfer->id) }}"
+                            method="post"
+                            novalidate
+                        >
                             @csrf
-                            <button data-type="Transfer" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Transfer"
+                                data-action="approve"
+                                data-description=""
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>
@@ -173,9 +189,19 @@
                             <br>
                             Click on the button below to subtract.
                         </p>
-                        <form id="formOne" action="{{ route('transfers.subtract', $transfer->id) }}" method="post" novalidate>
+                        <form
+                            id="formOne"
+                            action="{{ route('transfers.subtract', $transfer->id) }}"
+                            method="post"
+                            novalidate
+                        >
                             @csrf
-                            <button data-type="Transfer" data-action="subtract" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Transfer"
+                                data-action="subtract"
+                                data-description=""
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-minus-circle"></i>
                                 </span>
@@ -197,9 +223,19 @@
                             <br>
                             Click on the button below to add to inventory.
                         </p>
-                        <form id="formOne" action="{{ route('transfers.add', $transfer->id) }}" method="post" novalidate>
+                        <form
+                            id="formOne"
+                            action="{{ route('transfers.add', $transfer->id) }}"
+                            method="post"
+                            novalidate
+                        >
                             @csrf
-                            <button data-type="Transfer" data-action="execute" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Transfer"
+                                data-action="execute"
+                                data-description=""
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
@@ -213,6 +249,7 @@
                     <x-common.fail-message message="Product(s) listed below are subtracted from {{ $transfer->transferredFrom->name }} but not added to {{ $transfer->transferredTo->name }}." />
                 @endcan
             @endif
+            <x-common.success-message :message="session('deleted')" />
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
@@ -221,6 +258,7 @@
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -236,6 +274,13 @@
                                 </td>
                                 <td>
                                     {!! nl2br(e($transferDetail->description)) !!}
+                                </td>
+                                <td>
+                                    <x-common.action-buttons
+                                        :buttons="['delete']"
+                                        model="transfer-details"
+                                        :id="$transferDetail->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach
