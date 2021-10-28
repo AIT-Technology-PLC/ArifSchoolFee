@@ -134,7 +134,11 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             @if ($return->isApproved())
-                                <button id="printReturn" class="button is-small bg-purple has-text-white is-hidden-mobile" onclick="openInNewTab('/returns/{{ $return->id }}/print')">
+                                <button
+                                    id="printReturn"
+                                    class="button is-small bg-purple has-text-white is-hidden-mobile"
+                                    onclick="openInNewTab('/returns/{{ $return->id }}/print')"
+                                >
                                     <span class="icon">
                                         <i class="fas fa-print"></i>
                                     </span>
@@ -143,7 +147,10 @@
                                     </span>
                                 </button>
                             @endif
-                            <a href="{{ route('returns.edit', $return->id) }}" class="button is-small bg-green has-text-white">
+                            <a
+                                href="{{ route('returns.edit', $return->id) }}"
+                                class="button is-small bg-green has-text-white"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
                                 </span>
@@ -169,9 +176,19 @@
                             <br>
                             Click on the button below to add product(s) to the inventory.
                         </p>
-                        <form id="formOne" action="{{ route('returns.add', $return->id) }}" method="post" novalidate>
+                        <form
+                            id="formOne"
+                            action="{{ route('returns.add', $return->id) }}"
+                            method="post"
+                            novalidate
+                        >
                             @csrf
-                            <button data-type="Return" data-action="add" data-description="the returned products" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Return"
+                                data-action="add"
+                                data-description="the returned products"
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
@@ -193,9 +210,19 @@
                             <br>
                             Click on the button below to approve this Return.
                         </p>
-                        <form id="formOne" action="{{ route('returns.approve', $return->id) }}" method="post" novalidate>
+                        <form
+                            id="formOne"
+                            action="{{ route('returns.approve', $return->id) }}"
+                            method="post"
+                            novalidate
+                        >
                             @csrf
-                            <button data-type="Return" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Return"
+                                data-action="approve"
+                                data-description=""
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>
@@ -209,6 +236,7 @@
                     <x-common.fail-message message="This Return has not been approved." />
                 @endcan
             @endif
+            <x-common.success-message :message="session('deleted')" />
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
@@ -220,6 +248,7 @@
                             <th><abbr> Unit Price </abbr></th>
                             <th><abbr> Total </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -246,6 +275,13 @@
                                 </td>
                                 <td>
                                     {!! nl2br(e($returnDetail->description)) !!}
+                                </td>
+                                <td>
+                                    <x-common.action-buttons
+                                        :buttons="['delete']"
+                                        model="return-details"
+                                        :id="$returnDetail->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach
