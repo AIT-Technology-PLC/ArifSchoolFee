@@ -345,7 +345,10 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             @if (!$tender->financial_reading && !$tender->technical_reading)
-                                <a href="{{ route('tender-readings.edit', $tender->id) }}" class="button is-small btn-green is-outlined has-text-white">
+                                <a
+                                    href="{{ route('tender-readings.edit', $tender->id) }}"
+                                    class="button is-small btn-green is-outlined has-text-white"
+                                >
                                     <span class="icon">
                                         <i class="fas fa-table"></i>
                                     </span>
@@ -354,7 +357,10 @@
                                     </span>
                                 </a>
                             @endif
-                            <a href="{{ route('tenders.edit', $tender->id) }}" class="button is-small bg-green has-text-white">
+                            <a
+                                href="{{ route('tenders.edit', $tender->id) }}"
+                                class="button is-small bg-green has-text-white"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
                                 </span>
@@ -368,6 +374,7 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-common.success-message :message="session('deleted')" />
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
@@ -376,6 +383,7 @@
                             <th><abbr> Product </abbr></th>
                             <th><abbr> Quantity </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -391,6 +399,13 @@
                                 </td>
                                 <td>
                                     {!! nl2br(e($tenderDetail->description)) !!}
+                                </td>
+                                <td>
+                                    <x-common.action-buttons
+                                        :buttons="['delete']"
+                                        model="tender-details"
+                                        :id="$tenderDetail->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach
@@ -413,7 +428,10 @@
                     <div class="level-right">
                         <div class="level-item is-justify-content-left">
                             <div>
-                                <a href="{{ route('tender-readings.edit', $tender->id) }}" class="button is-small bg-green has-text-white">
+                                <a
+                                    href="{{ route('tender-readings.edit', $tender->id) }}"
+                                    class="button is-small bg-green has-text-white"
+                                >
                                     <span class="icon">
                                         <i class="fas fa-table"></i>
                                     </span>
@@ -454,7 +472,10 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a href="{{ route('tender-checklists.create', 'tender=' . $tender->id) }}" class="button is-small btn-purple is-outlined has-text-white">
+                            <a
+                                href="{{ route('tender-checklists.create', 'tender=' . $tender->id) }}"
+                                class="button is-small btn-purple is-outlined has-text-white"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
@@ -462,7 +483,11 @@
                                     Add New Checklist
                                 </span>
                             </a>
-                            <button id="printTender" class="button is-small bg-purple has-text-white is-hidden-mobile" onclick="openInNewTab('/tenders/{{ $tender->id }}/print')">
+                            <button
+                                id="printTender"
+                                class="button is-small bg-purple has-text-white is-hidden-mobile"
+                                onclick="openInNewTab('/tenders/{{ $tender->id }}/print')"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-print"></i>
                                 </span>
@@ -515,7 +540,10 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('tender-checklists.edit', $tenderChecklist->id) }}" data-title="Update Checklist">
+                                    <a
+                                        href="{{ route('tender-checklists.edit', $tenderChecklist->id) }}"
+                                        data-title="Update Checklist"
+                                    >
                                         <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
@@ -525,7 +553,10 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-common.delete-button route="tender-checklists.destroy" :id="$tenderChecklist->id" />
+                                    <x-common.delete-button
+                                        route="tender-checklists.destroy"
+                                        :id="$tenderChecklist->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach
