@@ -254,7 +254,11 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             @if ($gdn->isApproved())
-                                <button id="printGdn" class="button is-small bg-purple has-text-white is-hidden-mobile  " onclick="openInNewTab('/gdns/{{ $gdn->id }}/print')">
+                                <button
+                                    id="printGdn"
+                                    class="button is-small bg-purple has-text-white is-hidden-mobile  "
+                                    onclick="openInNewTab('/gdns/{{ $gdn->id }}/print')"
+                                >
                                     <span class="icon">
                                         <i class="fas fa-print"></i>
                                     </span>
@@ -264,7 +268,10 @@
                                 </button>
                             @endif
                             @if ($gdn->isSubtracted())
-                                <a href="{{ route('gdns.convert_to_siv', $gdn->id) }}" class="button is-small btn-green is-outlined has-text-white">
+                                <a
+                                    href="{{ route('gdns.convert_to_siv', $gdn->id) }}"
+                                    class="button is-small btn-green is-outlined has-text-white"
+                                >
                                     <span class="icon">
                                         <i class="fas fa-file-export"></i>
                                     </span>
@@ -273,7 +280,10 @@
                                     </span>
                                 </a>
                             @endif
-                            <a href="{{ route('gdns.edit', $gdn->id) }}" class="button is-small bg-green has-text-white">
+                            <a
+                                href="{{ route('gdns.edit', $gdn->id) }}"
+                                class="button is-small bg-green has-text-white"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-pen"></i>
                                 </span>
@@ -300,9 +310,19 @@
                             <br>
                             Click on the button below to subtract product(s) from the inventory.
                         </p>
-                        <form id="formOne" action="{{ route('gdns.subtract', $gdn->id) }}" method="post" novalidate>
+                        <form
+                            id="formOne"
+                            action="{{ route('gdns.subtract', $gdn->id) }}"
+                            method="post"
+                            novalidate
+                        >
                             @csrf
-                            <button data-type="Delivery Order" data-action="execute" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Delivery Order"
+                                data-action="execute"
+                                data-description=""
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-minus-circle"></i>
                                 </span>
@@ -324,9 +344,19 @@
                             <br>
                             Click on the button below to approve this Delivery Order.
                         </p>
-                        <form id="formOne" action="{{ route('gdns.approve', $gdn->id) }}" method="post" novalidate>
+                        <form
+                            id="formOne"
+                            action="{{ route('gdns.approve', $gdn->id) }}"
+                            method="post"
+                            novalidate
+                        >
                             @csrf
-                            <button data-type="Delivery Order" data-action="approve" data-description="" class="swal button bg-purple has-text-white mt-5 is-size-7-mobile">
+                            <button
+                                data-type="Delivery Order"
+                                data-action="approve"
+                                data-description=""
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>
@@ -340,6 +370,7 @@
                     <x-common.fail-message message="This Delivery Order has not been approved." />
                 @endcan
             @endif
+            <x-common.success-message :message="session('deleted')" />
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
@@ -354,6 +385,7 @@
                             @endif
                             <th><abbr> Total </abbr></th>
                             <th><abbr> Description </abbr></th>
+                            <th><abbr> Action </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -384,6 +416,13 @@
                                 </td>
                                 <td>
                                     {!! nl2br(e($gdnDetail->description)) !!}
+                                </td>
+                                <td>
+                                    <x-common.action-buttons
+                                        :buttons="['delete']"
+                                        model="gdn-details"
+                                        :id="$gdnDetail->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach
