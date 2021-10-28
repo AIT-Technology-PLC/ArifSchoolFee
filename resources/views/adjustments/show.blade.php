@@ -78,6 +78,7 @@
             @elseif ($adjustment->isAdjusted())
                 <x-common.success-message message="Products have been adjusted accordingly." />
             @endif
+            <x-common.success-message :message="session('deleted')" />
             <x-common.bulma-table>
                 <x-slot name="headings">
                     <th> # </th>
@@ -85,6 +86,9 @@
                     <th> Product </th>
                     <th> Quantity </th>
                     <th> Reason </th>
+                    @if (!$adjustment->isAdjusted())
+                        <th> Actions </th>
+                    @endif
                 </x-slot>
                 <x-slot name="body">
                     @foreach ($adjustment->adjustmentDetails as $adjustmentDetail)
@@ -100,6 +104,15 @@
                                 {{ $adjustmentDetail->product->unit_of_measurement }}
                             </td>
                             <td> {!! nl2br(e($adjustmentDetail->reason)) !!} </td>
+                            @if (!$adjustment->isAdjusted())
+                                <td>
+                                    <x-common.action-buttons
+                                        :buttons="['delete']"
+                                        model="adjustment-details"
+                                        :id="$adjustmentDetail->id"
+                                    />
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 </x-slot>
