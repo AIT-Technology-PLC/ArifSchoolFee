@@ -176,6 +176,8 @@ function addProformaInvoiceDetail() {
 
     initializeSelect2Products();
 
+    attachListenersToRemoveDetailButton();
+
     initializeSummernote();
 
     $(
@@ -325,6 +327,8 @@ function addGdnDetail() {
     gdnDetailsWrapper.appendChild(gdnDetail);
 
     initializeSelect2Products();
+
+    attachListenersToRemoveDetailButton();
 }
 
 function addReservationDetail() {
@@ -519,6 +523,8 @@ function addReservationDetail() {
     reservationDetailsWrapper.appendChild(reservationDetail);
 
     initializeSelect2Products();
+
+    attachListenersToRemoveDetailButton();
 }
 
 function addPurchaseOrderDetail() {
@@ -673,6 +679,8 @@ function addPurchaseOrderDetail() {
     purchaseOrderDetailsWrapper.appendChild(purchaseOrderDetail);
 
     initializeSelect2Products();
+
+    attachListenersToRemoveDetailButton();
 }
 
 function addAdjustmentDetail() {
@@ -823,6 +831,8 @@ function addAdjustmentDetail() {
     adjustmentDetailsWrapper.appendChild(adjustmentDetail);
 
     initializeSelect2Products();
+
+    attachListenersToRemoveDetailButton();
 }
 
 function addTransferDetail() {
@@ -929,6 +939,8 @@ function addTransferDetail() {
     transferDetailsWrapper.appendChild(transferDetail);
 
     initializeSelect2Products();
+
+    attachListenersToRemoveDetailButton();
 }
 
 function addReturnDetail() {
@@ -1080,6 +1092,8 @@ function addReturnDetail() {
     returnDetailsWrapper.appendChild(returnDetail);
 
     initializeSelect2Products();
+
+    attachListenersToRemoveDetailButton();
 }
 
 function addPurchaseDetail() {
@@ -1215,6 +1229,8 @@ function addPurchaseDetail() {
     purchaseDetailsWrapper.appendChild(purchaseDetail);
 
     initializeSelect2Products();
+
+    attachListenersToRemoveDetailButton();
 }
 
 function addSaleDetail() {
@@ -1331,6 +1347,8 @@ function addSaleDetail() {
     saleDetailsWrapper.appendChild(saleDetail);
 
     initializeSelect2Products();
+
+    attachListenersToRemoveDetailButton();
 }
 
 function addTenderDetail() {
@@ -1435,6 +1453,8 @@ function addTenderDetail() {
     tenderDetailsWrapper.appendChild(tenderDetail);
 
     initializeSelect2Products();
+
+    attachListenersToRemoveDetailButton();
 }
 
 function addDamageDetail() {
@@ -1556,6 +1576,8 @@ function addDamageDetail() {
     damageDetailsWrapper.appendChild(damageDetail);
 
     initializeSelect2Products();
+
+    attachListenersToRemoveDetailButton();
 }
 
 function addSivDetail() {
@@ -1661,6 +1683,8 @@ function addSivDetail() {
     sivDetailsWrapper.appendChild(sivDetail);
 
     initializeSelect2Products();
+
+    attachListenersToRemoveDetailButton();
 }
 
 function addGrnDetail() {

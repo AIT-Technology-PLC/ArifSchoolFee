@@ -82,14 +82,30 @@
                 <div id="adjustment-details">
                     @foreach (old('adjustment', [0]) as $adjustmentDetail)
                         <div class="adjustment-detail mx-3">
-                            <div class="has-text-weight-medium has-text-left mt-5">
-                                <span
-                                    name="item-number"
-                                    class="tag bg-green has-text-white is-medium radius-bottom-0"
-                                >
-                                    Item {{ $loop->iteration }}
-                                </span>
-                            </div>
+                            <x-forms.field class="has-addons mb-0 mt-5">
+                                <x-forms.control>
+                                    <span
+                                        name="item-number"
+                                        class="tag bg-green has-text-white is-medium is-radiusless"
+                                    >
+                                        Item {{ $loop->iteration }}
+                                    </span>
+                                </x-forms.control>
+                                <x-forms.control>
+                                    <x-common.button
+                                        tag="button"
+                                        mode="tag"
+                                        type="button"
+                                        name="remove-detail-button"
+                                        class="bg-lightgreen has-text-white is-medium is-radiusless"
+                                    >
+                                        <x-common.icon
+                                            name="fas fa-times-circle"
+                                            class="text-green"
+                                        />
+                                    </x-common.button>
+                                </x-forms.control>
+                            </x-forms.field>
                             <div class="box has-background-white-bis radius-top-0">
                                 <div class="columns is-marginless is-multiline">
                                     <div class="column is-6">

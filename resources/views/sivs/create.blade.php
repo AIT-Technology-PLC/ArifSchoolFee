@@ -270,13 +270,26 @@
                 <div id="siv-details">
                     @foreach (old('siv', [0]) as $sivDetail)
                         <div class="siv-detail mx-3">
-                            <div class="has-text-weight-medium has-text-left mt-5">
-                                <span
-                                    name="item-number"
-                                    class="tag bg-green has-text-white is-medium radius-bottom-0"
-                                >
-                                    Item {{ $loop->iteration }}
-                                </span>
+                            <div class="field has-addons mb-0 mt-5">
+                                <div class="control">
+                                    <span
+                                        name="item-number"
+                                        class="tag bg-green has-text-white is-medium is-radiusless"
+                                    >
+                                        Item {{ $loop->iteration }}
+                                    </span>
+                                </div>
+                                <div class="control">
+                                    <button
+                                        name="remove-detail-button"
+                                        type="button"
+                                        class="tag bg-lightgreen has-text-white is-medium is-radiusless is-pointer"
+                                    >
+                                        <span class="icon text-green">
+                                            <i class="fas fa-times-circle"></i>
+                                        </span>
+                                    </button>
+                                </div>
                             </div>
                             <div class="box has-background-white-bis radius-top-0">
                                 <div
