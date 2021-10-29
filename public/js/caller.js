@@ -73,7 +73,7 @@ if (d.getElementById("addNewPurchaseOrderForm")) {
 }
 
 if (d.getElementById("addNewGrnForm")) {
-    d.getElementById("addNewGrnForm").addEventListener("click", addGrnForm);
+    d.getElementById("addNewGrnForm").addEventListener("click", addGrnDetail);
 }
 
 if (d.querySelectorAll("table.regular-datatable").length) {
