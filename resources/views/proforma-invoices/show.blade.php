@@ -192,10 +192,17 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            @if ($proformaInvoice->isConverted())
+                            @if ($proformaInvoice->isConverted() && !$proformaInvoice->isClosed())
+                                <x-common.transaction-button
+                                    :route="route('proforma-invoices.close', $proformaInvoice->id)"
+                                    type="Proforma Invoice"
+                                    action="close"
+                                    icon="fas fa-ban"
+                                    label="Close"
+                                />
                                 <a
                                     href="{{ route('proforma-invoices.convert_to_gdn', $proformaInvoice->id) }}"
-                                    class="button is-small btn-green is-outlined has-text-white"
+                                    class="button btn-purple is-outlined is-small"
                                 >
                                     <span class="icon">
                                         <i class="fas fa-file-invoice"></i>
@@ -208,7 +215,7 @@
                             @if (!$proformaInvoice->isCancelled())
                                 <button
                                     id="printGdn"
-                                    class="button is-small bg-purple has-text-white is-hidden-mobile"
+                                    class="button btn-purple is-outlined is-small is-hidden-mobile"
                                     onclick="openInNewTab('/proforma-invoices/{{ $proformaInvoice->id }}/print')"
                                 >
                                     <span class="icon">

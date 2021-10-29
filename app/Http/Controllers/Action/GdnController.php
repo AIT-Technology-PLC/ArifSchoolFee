@@ -50,6 +50,10 @@ class GdnController extends Controller
 
         $this->authorize('create', Siv::class);
 
+        if ($gdn->isClosed()) {
+            return back()->with('failedMessage', 'This Delivery Order is closed.');
+        }
+
         $siv = $action->execute(
             'DO',
             $gdn->code,
@@ -74,5 +78,18 @@ class GdnController extends Controller
         Notification::send(notifiables('Approve GDN', $gdn->createdBy), new GdnSubtracted($gdn));
 
         return back();
+    }
+
+    public function close(Gdn $gdn)
+    {
+        $this->authorize('approve', $gdn);
+
+        if ($gdn->isClosed()) {
+            return back()->with('failedMessage', 'This Delivery Order is already closed.');
+        }
+
+        $gdn->close();
+
+        return back()->with('successMessage', 'Delivery Order closed and archived successfully.');
     }
 }

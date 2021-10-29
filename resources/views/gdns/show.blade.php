@@ -253,10 +253,19 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
+                            @if ($gdn->isSubtracted() && !$gdn->isClosed())
+                                <x-common.transaction-button
+                                    :route="route('gdns.close', $gdn->id)"
+                                    type="Delivery Order"
+                                    action="close"
+                                    icon="fas fa-ban"
+                                    label="Close"
+                                />
+                            @endif
                             @if ($gdn->isApproved())
                                 <button
                                     id="printGdn"
-                                    class="button is-small bg-purple has-text-white is-hidden-mobile  "
+                                    class="button btn-purple is-outlined is-small is-hidden-mobile"
                                     onclick="openInNewTab('/gdns/{{ $gdn->id }}/print')"
                                 >
                                     <span class="icon">
@@ -267,10 +276,10 @@
                                     </span>
                                 </button>
                             @endif
-                            @if ($gdn->isSubtracted())
+                            @if ($gdn->isSubtracted() && !$gdn->isClosed())
                                 <a
                                     href="{{ route('gdns.convert_to_siv', $gdn->id) }}"
-                                    class="button is-small btn-green is-outlined has-text-white"
+                                    class="button btn-purple is-outlined is-small"
                                 >
                                     <span class="icon">
                                         <i class="fas fa-file-export"></i>

@@ -65,6 +65,10 @@ class ProformaInvoiceController extends Controller
 
         $this->authorize('create', Gdn::class);
 
+        if ($proformaInvoice->isClosed()) {
+            return back()->with('failedMessage', 'This Proforma Invoice is closed.');
+        }
+
         $proformaInvoiceDetails = collect($proformaInvoice->proformaInvoiceDetails->toArray())
             ->map(function ($item) {
                 $item['unit_price'] = $item['originalUnitPrice'];
@@ -79,5 +83,18 @@ class ProformaInvoiceController extends Controller
         ]);
 
         return redirect()->route('gdns.create')->withInput($request->all());
+    }
+
+    public function close(ProformaInvoice $proformaInvoice)
+    {
+        $this->authorize('convert', $proformaInvoice);
+
+        if ($proformaInvoice->isClosed()) {
+            return back()->with('failedMessage', 'This Proforma Invoice is already closed.');
+        }
+
+        $proformaInvoice->close();
+
+        return back()->with('successMessage', 'Proforma Invoice closed and archived successfully.');
     }
 }
