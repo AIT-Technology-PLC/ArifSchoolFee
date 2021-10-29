@@ -137,7 +137,7 @@ if (d.querySelectorAll(".swal").length) {
 if (d.getElementById("addNewDamageForm")) {
     d.getElementById("addNewDamageForm").addEventListener(
         "click",
-        addDamageForm
+        addDamageDetail
     );
 }
 
