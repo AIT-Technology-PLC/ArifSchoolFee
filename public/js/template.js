@@ -1332,3 +1332,107 @@ function addSaleDetail() {
 
     initializeSelect2Products();
 }
+
+function addTenderDetail() {
+    let tenderDetailsWrapper = d.getElementById("tender-details");
+
+    let tenderDetails = d.getElementsByClassName("tender-detail");
+
+    let totalTenderDetails = tenderDetails.length;
+
+    let tenderDetail = tenderDetails[0].cloneNode(true);
+
+    let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    tenderDetail.querySelector("[name=item-number]").innerText = `Item ${
+        totalTenderDetails + 1
+    }`;
+
+    tenderDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("label")
+        .setAttribute("for", `tender[${totalTenderDetails}][product_id]`);
+
+    tenderDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select").innerHTML = "";
+
+    tenderDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select")
+        .appendChild(originalSelect);
+
+    tenderDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).id = `tender[${totalTenderDetails}][product_id]`;
+
+    tenderDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).name = `tender[${totalTenderDetails}][product_id]`;
+
+    tenderDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("select").classList = "select2-products";
+
+    tenderDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".control > select")
+        .remove();
+
+    tenderDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("label")
+        .setAttribute("for", `tender[${totalTenderDetails}][quantity]`);
+
+    tenderDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("input").id = `tender[${totalTenderDetails}][quantity]`;
+
+    tenderDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "input"
+        ).name = `tender[${totalTenderDetails}][quantity]`;
+
+    tenderDetail.querySelectorAll(".column")[1].querySelector("input").value =
+        "";
+
+    tenderDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "button"
+        ).id = `tender[${totalTenderDetails}][product_id]Quantity`;
+
+    tenderDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("button").innerText = "";
+
+    tenderDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("label")
+        .setAttribute("for", `tender[${totalTenderDetails}][description]`);
+
+    tenderDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "textarea"
+        ).id = `tender[${totalTenderDetails}][description]`;
+
+    tenderDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "textarea"
+        ).name = `tender[${totalTenderDetails}][description]`;
+
+    tenderDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("textarea").value = "";
+
+    tenderDetailsWrapper.appendChild(tenderDetail);
+
+    initializeSelect2Products();
+}

@@ -83,7 +83,7 @@ if (d.querySelectorAll("table.regular-datatable").length) {
 if (d.getElementById("addNewTenderForm")) {
     d.getElementById("addNewTenderForm").addEventListener(
         "click",
-        addTenderForm
+        addTenderDetail
     );
 }
 
