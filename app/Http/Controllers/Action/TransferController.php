@@ -68,6 +68,10 @@ class TransferController extends Controller
 
         $this->authorize('create', Siv::class);
 
+        if ($transfer->isClosed()) {
+            return back()->with('failedMessage', 'This transfer is already closed.');
+        }
+
         $transferDetails = $transfer->transferDetails()->get(['product_id', 'quantity'])->toArray();
 
         data_fill($transferDetails, '*.warehouse_id', $transfer->transferred_from);
@@ -81,5 +85,18 @@ class TransferController extends Controller
         );
 
         return redirect()->route('sivs.show', $siv->id);
+    }
+
+    public function close(Transfer $transfer)
+    {
+        $this->authorize('approve', $transfer);
+
+        if ($transfer->isClosed()) {
+            return back()->with('failedMessage', 'This transfer is already closed.');
+        }
+
+        $transfer->close();
+
+        return back()->with('successMessage', 'Transfer closed and archived successfully.');
     }
 }

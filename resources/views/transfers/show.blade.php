@@ -114,7 +114,16 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            @if ($transfer->isSubtracted())
+                            @if ($transfer->isAdded() && !$transfer->isClosed())
+                                <x-common.transaction-button
+                                    :route="route('transfers.close', $transfer->id)"
+                                    type="Transfer"
+                                    action="close"
+                                    icon="fas fa-ban"
+                                    label="Close"
+                                />
+                            @endif
+                            @if ($transfer->isSubtracted() && !$transfer->isClosed())
                                 <a
                                     href="{{ route('transfers.convert_to_siv', $transfer->id) }}"
                                     class="button is-small btn-green is-outlined has-text-white"

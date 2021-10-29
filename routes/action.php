@@ -38,6 +38,10 @@ Route::post('/transfers/{transfer}/add',
     [Action\TransferController::class, 'add'])
     ->name('transfers.add');
 
+Route::post('/transfers/{transfer}/close',
+    [Action\TransferController::class, 'close'])
+    ->name('transfers.close');
+
 // Proforma Invoices
 Route::get('/proforma-invoices/{proformaInvoice}/print',
     [Action\ProformaInvoiceController::class, 'printed'])
