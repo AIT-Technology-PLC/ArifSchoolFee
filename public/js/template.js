@@ -1766,4 +1766,30 @@ function addGrnDetail() {
     grnDetailsWrapper.appendChild(grnDetail);
 
     initializeSelect2Products();
+
+    attachListenersToRemoveDetailButton();
+}
+
+function rearrangeDetailItemNumber() {
+    let itemNumberElements = document.getElementsByName("item-number");
+
+    itemNumberElements.forEach((element, index) => {
+        element.innerText = `Item ${index + 1}`;
+    });
+}
+
+function removeDetail() {
+    if (document.getElementsByName("remove-detail-button").length <= 1) {
+        return;
+    }
+
+    this.parentElement.parentElement.parentElement.remove();
+
+    rearrangeDetailItemNumber();
+}
+
+function attachListenersToRemoveDetailButton() {
+    document.getElementsByName("remove-detail-button").forEach((element) => {
+        element.addEventListener("click", removeDetail);
+    });
 }

@@ -173,3 +173,7 @@ if (d.getElementsByClassName("select2-products").length) {
 if (d.querySelectorAll("input[type=number]").length) {
     document.addEventListener("wheel", disableInputTypeNumberMouseWheel);
 }
+
+if (d.getElementsByName("remove-detail-button").length) {
+    attachListenersToRemoveDetailButton();
+}
