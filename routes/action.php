@@ -59,10 +59,18 @@ Route::post('/proforma-invoices/{proformaInvoice}/convert',
     [Action\ProformaInvoiceController::class, 'convert'])
     ->name('proforma-invoices.convert');
 
+Route::post('/proforma-invoices/{proformaInvoice}/close',
+    [Action\ProformaInvoiceController::class, 'close'])
+    ->name('proforma-invoices.close');
+
 // Gdns
 Route::get('/gdns/{gdn}/convert-to-siv',
     [Action\GdnController::class, 'convertToSiv'])
     ->name('gdns.convert_to_siv');
+
+Route::post('/gdns/{gdn}/close',
+    [Action\GdnController::class, 'close'])
+    ->name('gdns.close');
 
 Route::get('/gdns/{gdn}/print',
     [Action\GdnController::class, 'printed'])
