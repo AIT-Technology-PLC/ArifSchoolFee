@@ -43,6 +43,6 @@ class PurchaseController extends Controller
 
         $purchase->close();
 
-        return back()->with('failedMessage', 'Purchase closed and archived successfully.');
+        return back()->with('successMessage', 'Purchase closed and archived successfully.');
     }
 }
