@@ -118,7 +118,7 @@ if (d.getElementsByClassName("summernote").length) {
 }
 
 if (d.getElementById("addNewSivForm")) {
-    d.getElementById("addNewSivForm").addEventListener("click", addSivForm);
+    d.getElementById("addNewSivForm").addEventListener("click", addSivDetail);
 }
 
 if (d.getElementById("addNewProformaInvoiceForm")) {

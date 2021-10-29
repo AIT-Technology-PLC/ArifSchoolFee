@@ -1557,3 +1557,124 @@ function addDamageDetail() {
 
     initializeSelect2Products();
 }
+
+function addSivDetail() {
+    let sivDetailsWrapper = d.getElementById("siv-details");
+
+    let sivDetails = d.getElementsByClassName("siv-detail");
+
+    let totalSivDetails = sivDetails.length;
+
+    let sivDetail = sivDetails[0].cloneNode(true);
+
+    let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    sivDetail.querySelector("[name=item-number]").innerText = `Item ${
+        totalSivDetails + 1
+    }`;
+
+    sivDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("label")
+        .setAttribute("for", `siv[${totalSivDetails}][product_id]`);
+
+    sivDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select").innerHTML = "";
+
+    sivDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select")
+        .appendChild(originalSelect);
+
+    sivDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).id = `siv[${totalSivDetails}][product_id]`;
+
+    sivDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).name = `siv[${totalSivDetails}][product_id]`;
+
+    sivDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("select").classList = "select2-products";
+
+    sivDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".control > select")
+        .remove();
+
+    sivDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("label")
+        .setAttribute("for", `siv[${totalSivDetails}][warehouse_id]`);
+
+    sivDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "select"
+        ).id = `siv[${totalSivDetails}][warehouse_id]`;
+
+    sivDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "select"
+        ).name = `siv[${totalSivDetails}][warehouse_id]`;
+
+    sivDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("label")
+        .setAttribute("for", `siv[${totalSivDetails}][quantity]`);
+
+    sivDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("input").id = `siv[${totalSivDetails}][quantity]`;
+
+    sivDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "input"
+        ).name = `siv[${totalSivDetails}][quantity]`;
+
+    sivDetail.querySelectorAll(".column")[2].querySelector("input").value =
+        "";
+
+    sivDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "button"
+        ).id = `siv[${totalSivDetails}][product_id]Quantity`;
+
+    sivDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("button").innerText = "";
+
+    sivDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("label")
+        .setAttribute("for", `siv[${totalSivDetails}][description]`);
+
+    sivDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "textarea"
+        ).id = `siv[${totalSivDetails}][description]`;
+
+    sivDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "textarea"
+        ).name = `siv[${totalSivDetails}][description]`;
+
+    sivDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("textarea").value = "";
+
+    sivDetailsWrapper.appendChild(sivDetail);
+
+    initializeSelect2Products();
+}
