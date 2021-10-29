@@ -17,6 +17,10 @@ Route::get('/purchases/{purchase}/convert-to-grn',
     [Action\PurchaseController::class, 'convertToGrn'])
     ->name('purchases.convert_to_grn');
 
+Route::post('/purchases/{purchase}/close',
+    [Action\PurchaseController::class, 'close'])
+    ->name('purchases.close');
+
 // Transfers
 Route::get('/transfers/{transfer}/convert-to-siv',
     [Action\TransferController::class, 'convertToSiv'])

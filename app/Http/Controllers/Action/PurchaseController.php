@@ -20,6 +20,10 @@ class PurchaseController extends Controller
 
         $this->authorize('create', Grn::class);
 
+        if ($purchase->isClosed()) {
+            return back()->with('failedMessage', 'This purchase is closed.');
+        }
+
         $request->merge([
             'purchase_id' => $purchase->id,
             'supplier_id' => $purchase->supplier_id,
@@ -27,5 +31,18 @@ class PurchaseController extends Controller
         ]);
 
         return redirect()->route('grns.create')->withInput($request->all());
+    }
+
+    public function close(Purchase $purchase)
+    {
+        $this->authorize('create', $purchase);
+
+        if ($purchase->isClosed()) {
+            return back()->with('failedMessage', 'This purchase is already closed.');
+        }
+
+        $purchase->close();
+
+        return back()->with('failedMessage', 'Purchase closed and archived successfully.');
     }
 }

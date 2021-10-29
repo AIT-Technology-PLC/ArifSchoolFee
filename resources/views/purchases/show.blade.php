@@ -215,17 +215,26 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a
-                                href="{{ route('purchases.convert_to_grn', $purchase->id) }}"
-                                class="button is-small bg-purple has-text-white"
-                            >
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    New GRN
-                                </span>
-                            </a>
+                            @if (!$purchase->isClosed())
+                                <x-common.transaction-button
+                                    :route="route('purchases.close', $purchase->id)"
+                                    type="Purchase"
+                                    action="close"
+                                    icon="fas fa-ban"
+                                    label="Close"
+                                />
+                                <a
+                                    href="{{ route('purchases.convert_to_grn', $purchase->id) }}"
+                                    class="button btn-purple is-outlined is-small"
+                                >
+                                    <span class="icon">
+                                        <i class="fas fa-plus"></i>
+                                    </span>
+                                    <span>
+                                        New GRN
+                                    </span>
+                                </a>
+                            @endif
                             <a
                                 href="{{ route('purchases.edit', $purchase->id) }}"
                                 class="button is-small bg-green has-text-white"
