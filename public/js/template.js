@@ -1438,106 +1438,122 @@ function addTenderDetail() {
 }
 
 function addDamageDetail() {
-	let damageDetailsWrapper = d.getElementById("damage-details");
+    let damageDetailsWrapper = d.getElementById("damage-details");
 
-	let damageDetails = d.getElementsByClassName("damage-detail");
+    let damageDetails = d.getElementsByClassName("damage-detail");
 
-	let totalDamageDetails = damageDetails.length;
+    let totalDamageDetails = damageDetails.length;
 
-	let damageDetail = damageDetails[0].cloneNode(true);
+    let damageDetail = damageDetails[0].cloneNode(true);
 
-	let originalSelect = d.getElementById("original-select").cloneNode(true);
+    let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-	damageDetail.querySelector("[name=item-number]").innerText = `Item ${
-		totalDamageDetails + 1
-	}`;
+    damageDetail.querySelector("[name=item-number]").innerText = `Item ${
+        totalDamageDetails + 1
+    }`;
 
-	damageDetail
-		.querySelectorAll(".column")[0]
-		.querySelector("label")
-		.setAttribute("for", `damage[${totalDamageDetails}][product_id]`);
+    damageDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("label")
+        .setAttribute("for", `damage[${totalDamageDetails}][product_id]`);
 
-	damageDetail
-		.querySelectorAll(".column")[0]
-		.querySelector(".select").innerHTML = "";
+    damageDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select").innerHTML = "";
 
-	damageDetail
-		.querySelectorAll(".column")[0]
-		.querySelector(".select")
-		.appendChild(originalSelect);
+    damageDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".select")
+        .appendChild(originalSelect);
 
-	damageDetail
-		.querySelectorAll(".column")[0]
-		.querySelector("select").id = `damage[${totalDamageDetails}][product_id]`;
+    damageDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).id = `damage[${totalDamageDetails}][product_id]`;
 
-	damageDetail
-		.querySelectorAll(".column")[0]
-		.querySelector("select").name = `damage[${totalDamageDetails}][product_id]`;
+    damageDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(
+            "select"
+        ).name = `damage[${totalDamageDetails}][product_id]`;
 
-	damageDetail.querySelectorAll(".column")[0].querySelector("select").classList =
-		"select2-products";
+    damageDetail
+        .querySelectorAll(".column")[0]
+        .querySelector("select").classList = "select2-products";
 
-	damageDetail
-		.querySelectorAll(".column")[0]
-		.querySelector(".control > select")
-		.remove();
+    damageDetail
+        .querySelectorAll(".column")[0]
+        .querySelector(".control > select")
+        .remove();
 
-	damageDetail
-		.querySelectorAll(".column")[1]
-		.querySelector("label")
-		.setAttribute("for", `gdn[${totalDamageDetails}][warehouse_id]`);
+    damageDetail
+        .querySelectorAll(".column")[1]
+        .querySelector("label")
+        .setAttribute("for", `damage[${totalDamageDetails}][warehouse_id]`);
 
-	damageDetail
-		.querySelectorAll(".column")[1]
-		.querySelector("select").id = `gdn[${totalDamageDetails}][warehouse_id]`;
+    damageDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "select"
+        ).id = `damage[${totalDamageDetails}][warehouse_id]`;
 
-	damageDetail
-		.querySelectorAll(".column")[1]
-		.querySelector("select").name = `gdn[${totalDamageDetails}][warehouse_id]`;
+    damageDetail
+        .querySelectorAll(".column")[1]
+        .querySelector(
+            "select"
+        ).name = `damage[${totalDamageDetails}][warehouse_id]`;
 
-	damageDetail
-		.querySelectorAll(".column")[2]
-		.querySelector("label")
-		.setAttribute("for", `damage[${totalDamageDetails}][quantity]`);
+    damageDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("label")
+        .setAttribute("for", `damage[${totalDamageDetails}][quantity]`);
 
-	damageDetail
-		.querySelectorAll(".column")[2]
-		.querySelector("input").id = `damage[${totalDamageDetails}][quantity]`;
+    damageDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("input").id = `damage[${totalDamageDetails}][quantity]`;
 
-	damageDetail
-		.querySelectorAll(".column")[2]
-		.querySelector("input").name = `damage[${totalDamageDetails}][quantity]`;
+    damageDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "input"
+        ).name = `damage[${totalDamageDetails}][quantity]`;
 
-	damageDetail.querySelectorAll(".column")[2].querySelector("input").value = "";
+    damageDetail.querySelectorAll(".column")[2].querySelector("input").value =
+        "";
 
-	damageDetail
-		.querySelectorAll(".column")[2]
-		.querySelector(
-			"button",
-		).id = `damage[${totalDamageDetails}][product_id]Quantity`;
+    damageDetail
+        .querySelectorAll(".column")[2]
+        .querySelector(
+            "button"
+        ).id = `damage[${totalDamageDetails}][product_id]Quantity`;
 
-	damageDetail.querySelectorAll(".column")[2].querySelector("button").innerText =
-		"";
+    damageDetail
+        .querySelectorAll(".column")[2]
+        .querySelector("button").innerText = "";
 
-	damageDetail
-		.querySelectorAll(".column")[3]
-		.querySelector("label")
-		.setAttribute("for", `damage[${totalDamageDetails}][description]`);
+    damageDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("label")
+        .setAttribute("for", `damage[${totalDamageDetails}][description]`);
 
-	damageDetail
-		.querySelectorAll(".column")[3]
-		.querySelector("textarea").id = `damage[${totalDamageDetails}][description]`;
+    damageDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "textarea"
+        ).id = `damage[${totalDamageDetails}][description]`;
 
-	damageDetail
-		.querySelectorAll(".column")[3]
-		.querySelector(
-			"textarea",
-		).name = `damage[${totalDamageDetails}][description]`;
+    damageDetail
+        .querySelectorAll(".column")[3]
+        .querySelector(
+            "textarea"
+        ).name = `damage[${totalDamageDetails}][description]`;
 
-	damageDetail.querySelectorAll(".column")[3].querySelector("textarea").value =
-		"";
+    damageDetail
+        .querySelectorAll(".column")[3]
+        .querySelector("textarea").value = "";
 
-	damageDetailsWrapper.appendChild(damageDetail);
+    damageDetailsWrapper.appendChild(damageDetail);
 
-	initializeSelect2Products();
+    initializeSelect2Products();
 }
