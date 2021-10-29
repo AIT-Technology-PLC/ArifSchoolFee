@@ -1783,7 +1783,15 @@ function removeDetail() {
         return;
     }
 
-    this.parentElement.parentElement.parentElement.remove();
+    let detailElement = this.parentElement.parentElement.parentElement;
+
+    if (
+        detailElement.isEqualNode(detailElement.parentElement.firstElementChild)
+    ) {
+        return;
+    }
+
+    detailElement.remove();
 
     rearrangeDetailItemNumber();
 }
