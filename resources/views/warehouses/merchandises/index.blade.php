@@ -149,7 +149,7 @@
                 <ul>
                     <li
                         id="onHandTab"
-                        class="on-hand"
+                        class="on-hand is-active"
                         :class="{ 'is-active': isOnHand }"
                     >
                         <a @click="showOnHand">
