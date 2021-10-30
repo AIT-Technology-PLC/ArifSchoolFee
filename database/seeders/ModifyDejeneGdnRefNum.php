@@ -30,13 +30,12 @@ class ModifyDejeneGdnRefNum extends Seeder
 
     public function gurdShola()
     {
-        $newRefNum = 3316;
+        $newRefNum = 145;
 
         $gdns = Gdn::query()
             ->where('company_id', 12)
             ->where('warehouse_id', 24)
-            ->whereDate('created_at', '<=', '2021-10-10')
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->get();
 
         foreach ($gdns as $gdn) {
@@ -48,13 +47,12 @@ class ModifyDejeneGdnRefNum extends Seeder
 
     public function meri()
     {
-        $newRefNum = 3332;
+        $newRefNum = 3573;
 
         $gdns = Gdn::query()
             ->where('company_id', 12)
             ->where('warehouse_id', 25)
-            ->whereDate('created_at', '<=', '2021-10-10')
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->get();
 
         foreach ($gdns as $gdn) {
@@ -66,13 +64,12 @@ class ModifyDejeneGdnRefNum extends Seeder
 
     public function jacros()
     {
-        $newRefNum = 16436;
+        $newRefNum = 16504;
 
         $gdns = Gdn::query()
             ->where('company_id', 12)
             ->where('warehouse_id', 26)
-            ->whereDate('created_at', '<=', '2021-10-10')
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->get();
 
         foreach ($gdns as $gdn) {
@@ -84,13 +81,12 @@ class ModifyDejeneGdnRefNum extends Seeder
 
     public function signal()
     {
-        $newRefNum = 2755;
+        $newRefNum = 26875;
 
         $gdns = Gdn::query()
             ->where('company_id', 12)
             ->where('warehouse_id', 27)
-            ->whereDate('created_at', '<=', '2021-10-10')
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->get();
 
         foreach ($gdns as $gdn) {
@@ -102,13 +98,12 @@ class ModifyDejeneGdnRefNum extends Seeder
 
     public function urael()
     {
-        $newRefNum = 17648;
+        $newRefNum = 26876;
 
         $gdns = Gdn::query()
             ->where('company_id', 12)
             ->where('warehouse_id', 28)
-            ->whereDate('created_at', '<=', '2021-10-10')
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->get();
 
         foreach ($gdns as $gdn) {
