@@ -69,8 +69,8 @@ class ProformaInvoiceController extends Controller
 
         $this->authorize('create', Gdn::class);
 
-        if ($proformaInvoice->isCancelled()) {
-            return back()->with('failedMessage', 'This Proforma Invoice is cancelled.');
+        if (!$proformaInvoice->isConverted()) {
+            return back()->with('failedMessage', 'This Proforma Invoice is not confirmed yet.');
         }
 
         if ($proformaInvoice->isClosed()) {

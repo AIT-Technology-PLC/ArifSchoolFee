@@ -202,9 +202,6 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            @if ($siv->isApproved())
-                <x-common.success-message message="This SIV has been approved successfully." />
-            @endif
             @if (!$siv->isApproved())
                 @can('Approve SIV')
                     <div class="box has-background-white-ter has-text-left mb-6">
@@ -238,6 +235,8 @@
                 @else
                     <x-common.fail-message message="This SIV is not approved." />
                 @endcan
+            @elseif ($siv->isApproved())
+                <x-common.success-message message="This SIV has been approved successfully." />
             @endif
             <x-common.success-message :message="session('deleted')" />
             <div class="table-container">

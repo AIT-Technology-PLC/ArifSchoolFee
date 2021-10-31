@@ -246,11 +246,9 @@
             <x-common.success-message :message="session('successMessage')" />
             @if ($proformaInvoice->isCancelled())
                 <x-common.fail-message message="This Proforma Invoice has been cancelled." />
-            @endif
-            @if ($proformaInvoice->isConverted())
+            @elseif ($proformaInvoice->isConverted())
                 <x-common.success-message message="This Proforma Invoice has been confirmed." />
-            @endif
-            @if ($proformaInvoice->isPending())
+            @elseif ($proformaInvoice->isPending())
                 <x-common.fail-message message="This Proforma Invoice is still pending.">
                     @can('Convert Proforma Invoice')
                         <form

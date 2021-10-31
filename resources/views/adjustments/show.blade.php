@@ -44,7 +44,7 @@
                         label="Approve Adjustment"
                     />
                 @endcan
-            @elseif(!$adjustment->isAdjusted())
+            @elseif($adjustment->isApproved())
                 @can('Make Adjustment')
                     <x-common.transaction-button
                         :route="route('adjustments.adjust', $adjustment->id)"
@@ -71,7 +71,7 @@
                 @cannot('Approve Adjustment')
                     <x-common.fail-message message="This Adjustment has not been approved yet." />
                 @endcannot
-            @elseif (!$adjustment->isAdjusted())
+            @elseif ($adjustment->isApproved())
                 @cannot('Make Adjustment')
                     <x-common.fail-message message="Product(s) listed below are still not adjusted." />
                 @endcannot
