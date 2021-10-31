@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\MustBelongToCompany;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreEmployeeRequest extends FormRequest
 {
@@ -20,7 +21,7 @@ class StoreEmployeeRequest extends FormRequest
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'position' => ['required', 'string'],
             'enabled' => ['required', 'integer', 'max:1'],
-            'role' => ['required', 'string'],
+            'role' => ['required', 'string', Rule::notIn(['System Manager'])],
             'warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
             'read' => ['nullable', 'array'],
             'subtract' => ['nullable', 'array'],

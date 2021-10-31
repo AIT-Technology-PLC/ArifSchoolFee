@@ -39,13 +39,9 @@ class Transfer extends Model
 
     public function getAll()
     {
-        if (auth()->user()->hasRole('System Manager') || auth()->user()->hasRole('Analyst')) {
-            return $this->latest()->get();
-        }
-
         return $this
-            ->where(function ($query) {
-                $query->where('transferred_from', auth()->user()->warehouse_id)
+            ->when(!auth()->user()->hasRole('System Manager'), function ($query) {
+                return $query->where('transferred_from', auth()->user()->warehouse_id)
                     ->orWhere('transferred_to', auth()->user()->warehouse_id);
             })
             ->latest()
