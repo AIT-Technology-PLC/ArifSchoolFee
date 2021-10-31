@@ -7,18 +7,14 @@ use Illuminate\Support\Facades\DB;
 
 class GdnService
 {
-    private const SUBTRACT_FAILED_MESSAGE = 'This transaction is already subtracted from inventory';
-
-    private const APPROVE_FAILED_MESSAGE = 'This transaction is not approved yet.';
-
     public function subtract($gdn)
     {
         if (!$gdn->isApproved()) {
-            return [false, static::APPROVE_FAILED_MESSAGE];
+            return [false, 'This Delivery Order is not approved yet.'];
         }
 
         if ($gdn->isSubtracted()) {
-            return [false, static::SUBTRACT_FAILED_MESSAGE];
+            return [false, 'This Delivery Order is already subtracted from inventory'];
         }
 
         $from = $gdn->reservation()->exists() ? 'reserved' : 'available';

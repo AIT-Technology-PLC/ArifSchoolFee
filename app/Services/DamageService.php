@@ -7,18 +7,14 @@ use Illuminate\Support\Facades\DB;
 
 class DamageService
 {
-    private const SUBTRACT_FAILED_MESSAGE = 'This transaction is already subtracted from inventory';
-
-    private const APPROVE_FAILED_MESSAGE = 'This transaction is not approved yet.';
-
     public function subtract($damage)
     {
         if (!$damage->isApproved()) {
-            return [false, static::APPROVE_FAILED_MESSAGE];
+            return [false, 'This damage is not approved yet.'];
         }
 
         if ($damage->isSubtracted()) {
-            return [false, static::SUBTRACT_FAILED_MESSAGE];
+            return [false, 'This damage is already subtracted from inventory'];
         }
 
         $unavailableProducts = InventoryOperationService::unavailableProducts($damage->damageDetails);
