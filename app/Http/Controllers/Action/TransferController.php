@@ -68,6 +68,10 @@ class TransferController extends Controller
 
         $this->authorize('create', Siv::class);
 
+        if (!$transfer->isSubtracted()) {
+            return back()->with('failedMessage', 'This transfer is not subtracted yet.');
+        }
+
         if ($transfer->isClosed()) {
             return back()->with('failedMessage', 'This transfer is already closed.');
         }
@@ -90,6 +94,10 @@ class TransferController extends Controller
     public function close(Transfer $transfer)
     {
         $this->authorize('approve', $transfer);
+
+        if (!$transfer->isAdded()) {
+            return back()->with('failedMessage', 'This transfer is not added to destination yet.');
+        }
 
         if ($transfer->isClosed()) {
             return back()->with('failedMessage', 'This transfer is already closed.');

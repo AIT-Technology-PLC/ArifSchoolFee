@@ -17,6 +17,10 @@ class PurchaseOrderController extends Controller
     {
         $this->authorize('update', $purchaseOrder);
 
+        if ($purchaseOrder->isClosed()) {
+            return back()->with('failedMessage', 'This Purchase Order is already closed.');
+        }
+
         DB::transaction(function () use ($purchaseOrder) {
             $purchaseOrder->purchaseOrderDetails()->update([
                 'quantity_left' => 0,

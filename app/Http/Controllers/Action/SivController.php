@@ -31,6 +31,10 @@ class SivController extends Controller
     {
         $this->authorize('view', $siv);
 
+        if (!$siv->isApproved()) {
+            return back()->with('failedMessage', 'This Store Issue Voucher is not approve yet.');
+        }
+
         $siv->load(['sivDetails.product', 'sivDetails.warehouse', 'company', 'createdBy', 'approvedBy']);
 
         return \PDF::loadView('sivs.print', compact('siv'))

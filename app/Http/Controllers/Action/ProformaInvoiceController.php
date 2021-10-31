@@ -18,12 +18,12 @@ class ProformaInvoiceController extends Controller
     {
         $this->authorize('convert', $proformaInvoice);
 
-        if ($proformaInvoice->isConverted()) {
-            return back()->with('failedMessage', 'This Proforma Invoice is already confirmed');
-        }
-
         if ($proformaInvoice->isCancelled()) {
             return back()->with('failedMessage', 'This Proforma Invoice is cancelled');
+        }
+
+        if ($proformaInvoice->isConverted()) {
+            return back()->with('failedMessage', 'This Proforma Invoice is already confirmed');
         }
 
         $proformaInvoice->convert();
@@ -52,6 +52,10 @@ class ProformaInvoiceController extends Controller
     {
         $this->authorize('view', $proformaInvoice);
 
+        if ($proformaInvoice->isCancelled()) {
+            return back()->with('failedMessage', 'This Proforma Invoice is cancelled.');
+        }
+
         $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'company']);
 
         return \PDF::loadView('proforma-invoices.print', compact('proformaInvoice'))
@@ -64,6 +68,10 @@ class ProformaInvoiceController extends Controller
         $this->authorize('view', $proformaInvoice);
 
         $this->authorize('create', Gdn::class);
+
+        if ($proformaInvoice->isCancelled()) {
+            return back()->with('failedMessage', 'This Proforma Invoice is cancelled.');
+        }
 
         if ($proformaInvoice->isClosed()) {
             return back()->with('failedMessage', 'This Proforma Invoice is closed.');
@@ -88,6 +96,10 @@ class ProformaInvoiceController extends Controller
     public function close(ProformaInvoice $proformaInvoice)
     {
         $this->authorize('convert', $proformaInvoice);
+
+        if (!$proformaInvoice->isConverted()) {
+            return back()->with('failedMessage', 'This Proforma Invoice is not confirmed yet.');
+        }
 
         if ($proformaInvoice->isClosed()) {
             return back()->with('failedMessage', 'This Proforma Invoice is already closed.');

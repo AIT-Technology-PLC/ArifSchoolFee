@@ -37,6 +37,10 @@ class GdnController extends Controller
     {
         $this->authorize('view', $gdn);
 
+        if (!$gdn->isApproved()) {
+            return back()->with('failedMessage', 'This Delivery Order is not approved yet.');
+        }
+
         $gdn->load(['gdnDetails.product', 'customer', 'company', 'createdBy', 'approvedBy']);
 
         return \PDF::loadView('gdns.print', compact('gdn'))
@@ -49,6 +53,10 @@ class GdnController extends Controller
         $this->authorize('view', $gdn);
 
         $this->authorize('create', Siv::class);
+
+        if (!$gdn->isSubtracted()) {
+            return back()->with('failedMessage', 'This Delivery Order is not subtracted yet.');
+        }
 
         if ($gdn->isClosed()) {
             return back()->with('failedMessage', 'This Delivery Order is closed.');
@@ -83,6 +91,10 @@ class GdnController extends Controller
     public function close(Gdn $gdn)
     {
         $this->authorize('approve', $gdn);
+
+        if (!$gdn->isSubtracted()) {
+            return back()->with('failedMessage', 'This Delivery Order is not subtracted yet.');
+        }
 
         if ($gdn->isClosed()) {
             return back()->with('failedMessage', 'This Delivery Order is already closed.');

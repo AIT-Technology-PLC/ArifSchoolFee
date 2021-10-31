@@ -34,6 +34,10 @@ class ReturnController extends Controller
     {
         $this->authorize('view', $return);
 
+        if (!$return->isApproved()) {
+            return back()->with('failedMessage', 'This return is not approved yet.');
+        }
+
         $return->load(['returnDetails.product', 'customer', 'company', 'createdBy', 'approvedBy']);
 
         return \PDF::loadView('returns.print', compact('return'))
