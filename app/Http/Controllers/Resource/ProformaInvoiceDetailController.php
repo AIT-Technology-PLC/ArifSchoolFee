@@ -16,13 +16,9 @@ class ProformaInvoiceDetailController extends Controller
     {
         $this->authorize('delete', $proformaInvoiceDetail->proformaInvoice);
 
-        if ($proformaInvoiceDetail->proformaInvoice->isConverted()) {
-            abort(403);
-        }
+        abort_if($proformaInvoiceDetail->proformaInvoice->isConverted(), 403);
 
-        if ($proformaInvoiceDetail->proformaInvoice->isCancelled() && !auth()->user()->can('Delete Cancelled Proforma Invoice')) {
-            abort(403);
-        }
+        abort_if($proformaInvoiceDetail->proformaInvoice->isCancelled() && !auth()->user()->can('Delete Cancelled Proforma Invoice'), 403);
 
         $proformaInvoiceDetail->forceDelete();
 

@@ -16,15 +16,11 @@ class ReservationDetailController extends Controller
     {
         $this->authorize('delete', $reservationDetail->reservation);
 
-        if (($reservationDetail->reservation->isConverted() || $reservationDetail->reservation->isReserved()) &&
-            !$reservationDetail->reservation->isCancelled()) {
-            abort(403);
-        }
+        abort_if(($reservationDetail->reservation->isConverted() || $reservationDetail->reservation->isReserved()) &&
+            !$reservationDetail->reservation->isCancelled(), 403);
 
-        if (($reservationDetail->reservation->isApproved() || $reservationDetail->reservation->isCancelled()) &&
-            !auth()->user()->can('Delete Approved Reservation')) {
-            abort(403);
-        }
+        abort_if(($reservationDetail->reservation->isApproved() || $reservationDetail->reservation->isCancelled()) &&
+            !auth()->user()->can('Delete Approved Reservation'), 403);
 
         $reservationDetail->forceDelete();
 

@@ -111,13 +111,9 @@ class ReservationController extends Controller
 
     public function destroy(Reservation $reservation)
     {
-        if (($reservation->isConverted() || $reservation->isReserved()) && !$reservation->isCancelled()) {
-            abort(403);
-        }
+        abort_if(($reservation->isConverted() || $reservation->isReserved()) && !$reservation->isCancelled(), 403);
 
-        if (($reservation->isApproved() || $reservation->isCancelled()) && !auth()->user()->can('Delete Approved Reservation')) {
-            abort(403);
-        }
+        abort_if(($reservation->isApproved() || $reservation->isCancelled()) && !auth()->user()->can('Delete Approved Reservation'), 403);
 
         $reservation->forceDelete();
 

@@ -81,7 +81,7 @@ class ProformaInvoiceController extends Controller
     {
         if (!$proformaInvoice->isPending()) {
             return redirect()->route('proforma-invoices.show', $proformaInvoice->id)
-                ->with('failedMessage', 'Confirmed/Cancelled Proforma Inovices can not be edited.');
+                ->with('failedMessage', 'Confirmed or cancelled proforma inovices cannot be edited.');
         }
 
         DB::transaction(function () use ($request, $proformaInvoice) {
@@ -99,13 +99,9 @@ class ProformaInvoiceController extends Controller
 
     public function destroy(ProformaInvoice $proformaInvoice)
     {
-        if ($proformaInvoice->isConverted()) {
-            abort(403);
-        }
+        abort_if($proformaInvoice->isConverted(), 403);
 
-        if ($proformaInvoice->isCancelled() && !auth()->user()->can('Delete Cancelled Proforma Invoice')) {
-            abort(403);
-        }
+        abort_if($proformaInvoice->isCancelled() && !auth()->user()->can('Delete Cancelled Proforma Invoice'), 403);
 
         $proformaInvoice->forceDelete();
 

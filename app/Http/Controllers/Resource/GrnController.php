@@ -106,13 +106,9 @@ class GrnController extends Controller
 
     public function destroy(Grn $grn)
     {
-        if ($grn->isAdded()) {
-            abort(403);
-        }
+        abort_if($grn->isAdded(), 403);
 
-        if ($grn->isApproved() && !auth()->user()->can('Delete Approved GRN')) {
-            abort(403);
-        }
+        abort_if($grn->isApproved() && !auth()->user()->can('Delete Approved GRN'), 403);
 
         $grn->forceDelete();
 

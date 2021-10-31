@@ -16,13 +16,9 @@ class ReturnDetailController extends Controller
     {
         $this->authorize('delete', $returnDetail->returnn);
 
-        if ($returnDetail->returnn->isAdded()) {
-            abort(403);
-        }
+        abort_if($returnDetail->returnn->isAdded(), 403);
 
-        if ($returnDetail->returnn->isApproved() && !auth()->user()->can('Delete Approved Return')) {
-            abort(403);
-        }
+        abort_if($returnDetail->returnn->isApproved() && !auth()->user()->can('Delete Approved Return'), 403);
 
         $returnDetail->forceDelete();
 

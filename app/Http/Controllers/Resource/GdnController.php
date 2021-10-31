@@ -74,10 +74,6 @@ class GdnController extends Controller
 
     public function edit(Gdn $gdn)
     {
-        if ($gdn->reservation()->exists()) {
-            return back()->with('failedMessage', 'You cannot edit a DO that belongs to a reservation.');
-        }
-
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
         $sales = Sale::latest()->get();
@@ -93,7 +89,7 @@ class GdnController extends Controller
     {
         if ($gdn->reservation()->exists()) {
             return redirect()->route('gdns.show', $gdn->id)
-                ->with('failedMessage', 'You cannot edit a DO that belongs to a reservation.');
+                ->with('failedMessage', 'Delivery orders issued from reservations cannot be edited.');
         }
 
         if ($gdn->isApproved()) {
@@ -116,17 +112,12 @@ class GdnController extends Controller
     public function destroy(Gdn $gdn)
     {
         if ($gdn->reservation()->exists()) {
-            return back()
-                ->with('failedMessage', "You cannot delete a DO that belongs to a reservation, instead cancel the reservation.");
+            return back()->with('failedMessage', "Delivery orders issued from reservations cannot be deleted.");
         }
 
-        if ($gdn->isSubtracted()) {
-            abort(403);
-        }
+        abort_if($gdn->isSubtracted(), 403);
 
-        if ($gdn->isApproved() && !auth()->user()->can('Delete Approved GDN')) {
-            abort(403);
-        }
+        abort_if($gdn->isApproved() && !auth()->user()->can('Delete Approved GDN'), 403);
 
         $gdn->forceDelete();
 

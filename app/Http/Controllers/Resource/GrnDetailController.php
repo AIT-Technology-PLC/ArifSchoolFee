@@ -16,13 +16,9 @@ class GrnDetailController extends Controller
     {
         $this->authorize('delete', $grnDetail->grn);
 
-        if ($grnDetail->grn->isAdded()) {
-            abort(403);
-        }
+        abort_if($grnDetail->grn->isAdded(), 403);
 
-        if ($grnDetail->grn->isApproved() && !auth()->user()->can('Delete Approved GRN')) {
-            abort(403);
-        }
+        abort_if($grnDetail->grn->isApproved() && !auth()->user()->can('Delete Approved GRN'), 403);
 
         $grnDetail->forceDelete();
 

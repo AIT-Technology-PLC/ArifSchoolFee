@@ -16,18 +16,11 @@ class GdnDetailController extends Controller
     {
         $this->authorize('delete', $gdnDetail->gdn);
 
-        if ($gdnDetail->gdn->reservation()->exists()) {
-            return back()
-                ->with('failedMessage', "You cannot delete a DO that belongs to a reservation, instead cancel the reservation.");
-        }
+        abort_if($gdnDetail->gdn->reservation()->exists(), 403);
 
-        if ($gdnDetail->gdn->isSubtracted()) {
-            abort(403);
-        }
+        abort_if($gdnDetail->gdn->isSubtracted(), 403);
 
-        if ($gdnDetail->gdn->isApproved() && !auth()->user()->can('Delete Approved GDN')) {
-            abort(403);
-        }
+        abort_if($gdnDetail->gdn->isApproved() && !auth()->user()->can('Delete Approved GDN'), 403);
 
         $gdnDetail->forceDelete();
 

@@ -78,7 +78,8 @@ class AdjustmentController extends Controller
     public function update(UpdateAdjustmentRequest $request, Adjustment $adjustment)
     {
         if ($adjustment->isApproved()) {
-            return redirect()->route('adjustments.show', $adjustment->id);
+            return redirect()->route('adjustments.show', $adjustment->id)
+                ->with('failedMessage', 'Approved adjustments cannot be edited.');
         }
 
         DB::transaction(function () use ($request, $adjustment) {
@@ -94,13 +95,9 @@ class AdjustmentController extends Controller
 
     public function destroy(Adjustment $adjustment)
     {
-        if ($adjustment->isAdjusted()) {
-            abort(403);
-        }
+        abort_if($adjustment->isAdjusted(), 403);
 
-        if ($adjustment->isApproved() && !auth()->user()->can('Delete Approved Adjustment')) {
-            abort(403);
-        }
+        abort_if($adjustment->isApproved() && !auth()->user()->can('Delete Approved Adjustment'), 403);
 
         $adjustment->forceDelete();
 

@@ -16,9 +16,7 @@ class PurchaseOrderDetailController extends Controller
     {
         $this->authorize('delete', $purchaseOrderDetail->purchaseOrder);
 
-        if ($purchaseOrderDetail->purchaseOrder->isClosed()) {
-            abort(403);
-        }
+        abort_if($purchaseOrderDetail->purchaseOrder->isClosed(), 403);
 
         $purchaseOrderDetail->forceDelete();
 

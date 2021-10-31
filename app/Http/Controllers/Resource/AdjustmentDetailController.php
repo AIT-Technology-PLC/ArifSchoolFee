@@ -16,13 +16,9 @@ class AdjustmentDetailController extends Controller
     {
         $this->authorize('delete', $adjustmentDetail->adjustment);
 
-        if ($adjustmentDetail->adjustment->isAdjusted()) {
-            abort(403);
-        }
+        abort_if($adjustmentDetail->adjustment->isAdjusted(), 403);
 
-        if ($adjustmentDetail->adjustment->isApproved() && !auth()->user()->can('Delete Approved Adjustment')) {
-            abort(403);
-        }
+        abort_if($adjustmentDetail->adjustment->isApproved() && !auth()->user()->can('Delete Approved Adjustment'), 403);
 
         $adjustmentDetail->forceDelete();
 

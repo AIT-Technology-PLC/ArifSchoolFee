@@ -99,9 +99,7 @@ class SivController extends Controller
 
     public function destroy(Siv $siv)
     {
-        if ($siv->isApproved()) {
-            abort(403);
-        }
+        abort_if($siv->isApproved(), 403);
 
         $siv->forceDelete();
 

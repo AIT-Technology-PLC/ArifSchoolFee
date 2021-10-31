@@ -85,7 +85,8 @@ class TransferController extends Controller
     public function update(UpdateTransferRequest $request, Transfer $transfer)
     {
         if ($transfer->isApproved()) {
-            return redirect()->route('transfers.show', $transfer->id);
+            return redirect()->route('transfers.show', $transfer->id)
+                ->with('failedMessage', 'Approved transfers cannot be edited.');
         }
 
         DB::transaction(function () use ($request, $transfer) {
@@ -101,13 +102,9 @@ class TransferController extends Controller
 
     public function destroy(Transfer $transfer)
     {
-        if ($transfer->isSubtracted()) {
-            abort(403);
-        }
+        abort_if($transfer->isSubtracted(), 403);
 
-        if ($transfer->isApproved() && !auth()->user()->can('Delete Approved Transfer')) {
-            abort(403);
-        }
+        abort_if($transfer->isApproved() && !auth()->user()->can('Delete Approved Transfer'), 403);
 
         $transfer->forceDelete();
 

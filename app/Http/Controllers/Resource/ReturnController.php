@@ -83,7 +83,8 @@ class ReturnController extends Controller
     public function update(UpdateReturnRequest $request, Returnn $return)
     {
         if ($return->isApproved()) {
-            return redirect()->route('returns.show', $return->id);
+            return redirect()->route('returns.show', $return->id)
+                ->with('failedMessage', 'Approved returns cannot be edited.');
         }
 
         DB::transaction(function () use ($request, $return) {
@@ -99,13 +100,9 @@ class ReturnController extends Controller
 
     public function destroy(Returnn $return)
     {
-        if ($return->isAdded()) {
-            abort(403);
-        }
+        abort_if($return->isAdded(), 403);
 
-        if ($return->isApproved() && !auth()->user()->can('Delete Approved Return')) {
-            abort(403);
-        }
+        abort_if($return->isApproved() && !auth()->user()->can('Delete Approved Return'), 403);
 
         $return->forceDelete();
 

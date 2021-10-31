@@ -16,13 +16,9 @@ class TransferDetailController extends Controller
     {
         $this->authorize('delete', $transferDetail->transfer);
 
-        if ($transferDetail->transfer->isSubtracted()) {
-            abort(403);
-        }
+        abort_if($transferDetail->transfer->isSubtracted(), 403);
 
-        if ($transferDetail->transfer->isApproved() && !auth()->user()->can('Delete Approved Transfer')) {
-            abort(403);
-        }
+        abort_if($transferDetail->transfer->isApproved() && !auth()->user()->can('Delete Approved Transfer'), 403);
 
         $transferDetail->forceDelete();
 

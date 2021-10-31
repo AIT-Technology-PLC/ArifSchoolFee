@@ -77,6 +77,11 @@ class DamageController extends Controller
 
     public function update(UpdateDamageRequest $request, Damage $damage)
     {
+        if ($damage->isApproved()) {
+            return redirect()->route('damages.show', $damage->id)
+                ->with('failedMessage', 'Approved damages cannot be edited.');
+        }
+
         DB::transaction(function () use ($request, $damage) {
             $damage->update($request->except('damage'));
 
@@ -90,13 +95,9 @@ class DamageController extends Controller
 
     public function destroy(Damage $damage)
     {
-        if ($damage->isSubtracted()) {
-            abort(403);
-        }
+        abort_if($damage->isSubtracted(), 403);
 
-        if ($damage->isApproved() && !auth()->user()->can('Delete Approved Damage')) {
-            abort(403);
-        }
+        abort_if($damage->isApproved() && !auth()->user()->can('Delete Approved Damage'), 403);
 
         $damage->forceDelete();
 

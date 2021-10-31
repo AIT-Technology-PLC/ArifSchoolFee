@@ -70,7 +70,8 @@ class PurchaseOrderController extends Controller
     public function update(UpdatePurchaseOrderRequest $request, PurchaseOrder $purchaseOrder)
     {
         if ($purchaseOrder->isClosed()) {
-            return back();
+            return redirect()->route('purchase-orders.show', $purchaseOrder->id)
+                ->with('failedMessage', 'Closed purchase orders cannot be edited.');
         }
 
         DB::transaction(function () use ($request, $purchaseOrder) {
@@ -82,14 +83,11 @@ class PurchaseOrderController extends Controller
         });
 
         return redirect()->route('purchase-orders.show', $purchaseOrder->id);
-
     }
 
     public function destroy(PurchaseOrder $purchaseOrder)
     {
-        if ($purchaseOrder->isClosed()) {
-            abort(403);
-        }
+        abort_if($purchaseOrder->isClosed(), 403);
 
         $purchaseOrder->forceDelete();
 
