@@ -72,6 +72,7 @@ class ModifyCodeColumns extends Migration
 
         DB::transaction(function () {
             Schema::table('purchases', function (Blueprint $table) {
+                $table->renameIndex('purchases_purchase_no_unqiue', 'purchases_purchase_no_unique');
                 $table->dropUnique(['purchase_no']);
                 $table->renameColumn('purchase_no', 'code');
             });
