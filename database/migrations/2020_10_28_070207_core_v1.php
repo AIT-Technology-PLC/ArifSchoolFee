@@ -236,7 +236,7 @@ class CoreV1 extends Migration
             $table->bigInteger('supplier_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('purchase_no')->unique();
+            $table->bigInteger('code');
             $table->boolean('is_closed')->default(0);
             $table->decimal('discount', 22)->nullable();
             $table->string('type');
@@ -248,6 +248,7 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
             $table->index('supplier_id');
+            $table->unique(['company_id', 'warehouse_id', 'code']);
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null')->onUpdate('cascade');
@@ -307,7 +308,7 @@ class CoreV1 extends Migration
             $table->bigInteger('customer_id')->nullable()->unsigned();
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->string('receipt_no')->unique();
+            $table->bigInteger('code');
             $table->decimal('discount', 22)->nullable();
             $table->string('payment_type');
             $table->dateTime('sold_on')->nullable();
@@ -317,6 +318,7 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
             $table->index('customer_id');
+            $table->unique(['company_id', 'warehouse_id', 'code']);
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
@@ -431,7 +433,7 @@ class CoreV1 extends Migration
             $table->bigInteger('added_by')->nullable()->unsigned();
             $table->bigInteger('transferred_from')->nullable()->unsigned();
             $table->bigInteger('transferred_to')->nullable()->unsigned();
-            $table->string('code')->unique();
+            $table->bigInteger('code');
             $table->boolean('is_closed')->default(0);
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
@@ -439,6 +441,7 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('company_id');
+            $table->unique(['company_id', 'warehouse_id', 'code']);
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
@@ -516,7 +519,7 @@ class CoreV1 extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->bigInteger('approved_by')->nullable()->unsigned();
             $table->bigInteger('added_by')->nullable()->unsigned();
-            $table->string('code')->unique();
+            $table->bigInteger('code');
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->timestamps();
@@ -524,6 +527,7 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
             $table->index('purchase_id');
+            $table->unique(['company_id', 'warehouse_id', 'code']);
 
             $table->foreign('purchase_id')->references('id')->on('purchases')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null')->onUpdate('cascade');
@@ -693,7 +697,7 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->bigInteger('approved_by')->nullable()->unsigned();
-            $table->string('code')->unique();
+            $table->bigInteger('code');
             $table->string('purpose')->nullable();
             $table->string('ref_num')->nullable();
             $table->longText('description')->nullable();
@@ -705,6 +709,7 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('company_id');
+            $table->unique(['company_id', 'warehouse_id', 'code']);
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
@@ -739,7 +744,7 @@ class CoreV1 extends Migration
             $table->bigInteger('converted_by')->nullable()->unsigned();
             $table->bigInteger('customer_id')->nullable()->unsigned();
             $table->string('prefix')->nullable();
-            $table->string('code')->unique();
+            $table->bigInteger('code');
             $table->boolean('is_closed')->default(0);
             $table->string('discount')->nullable();
             $table->boolean('is_pending');
@@ -751,6 +756,7 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
             $table->index('customer_id');
+            $table->unique(['company_id', 'warehouse_id', 'code']);
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
@@ -786,13 +792,14 @@ class CoreV1 extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->bigInteger('approved_by')->nullable()->unsigned();
             $table->bigInteger('subtracted_by')->nullable()->unsigned();
-            $table->string('code')->unique();
+            $table->bigInteger('code');
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('company_id');
+            $table->unique(['company_id', 'warehouse_id', 'code']);
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
@@ -827,13 +834,14 @@ class CoreV1 extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->bigInteger('approved_by')->nullable()->unsigned();
             $table->bigInteger('adjusted_by')->nullable()->unsigned();
-            $table->string('code')->unique();
+            $table->bigInteger('code');
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('company_id');
+            $table->unique(['company_id', 'warehouse_id', 'code']);
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
@@ -870,7 +878,7 @@ class CoreV1 extends Migration
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->bigInteger('approved_by')->nullable()->unsigned();
             $table->bigInteger('added_by')->nullable()->unsigned();
-            $table->string('code')->unique();
+            $table->bigInteger('code');
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->timestamps();
@@ -878,6 +886,7 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
             $table->index('customer_id');
+            $table->unique(['company_id', 'warehouse_id', 'code']);
 
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
@@ -918,7 +927,7 @@ class CoreV1 extends Migration
             $table->bigInteger('cancelled_by')->nullable()->unsigned();
             $table->bigInteger('converted_by')->nullable()->unsigned();
             $table->nullableMorphs('reservable');
-            $table->string('code')->unique();
+            $table->bigInteger('code');
             $table->string('discount')->nullable();
             $table->string('payment_type');
             $table->decimal('cash_received_in_percentage', 22);
@@ -929,6 +938,7 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('company_id');
+            $table->unique(['company_id', 'warehouse_id', 'code']);
 
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
