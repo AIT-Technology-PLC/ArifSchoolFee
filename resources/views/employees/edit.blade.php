@@ -150,6 +150,23 @@
                         <div class="box is-radiusless">
                             <div class="columns is-marginless is-multiline">
                                 <div class="column is-3">
+                                    <label for="transactions[]" class="label text-green"> Transactions <sup class="has-text-danger"></sup> </label>
+                                    <div class="field">
+                                        @foreach ($warehouses as $warehouse)
+                                            <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                                <input name="transactions[]" value="{{ $warehouse->id }}" type="checkbox" {{ isset($warehousePermissions['transactions']) ? ($warehousePermissions['transactions']->contains($warehouse) ? 'checked' : '') : '' }}>
+                                                {{ $warehouse->name }}
+                                            </label>
+                                            <br>
+                                        @endforeach
+                                    </div>
+                                    @error('transactions.*')
+                                        <span class="help has-text-danger" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="column is-3">
                                     <label for="read[]" class="label text-green"> Inventory Level <sup class="has-text-danger"></sup> </label>
                                     <div class="field">
                                         @foreach ($warehouses as $warehouse)

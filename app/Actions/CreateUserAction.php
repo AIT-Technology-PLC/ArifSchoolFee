@@ -34,7 +34,7 @@ class CreateUserAction
 
             $this->action->execute(
                 $user,
-                $request->only('read', 'subtract', 'add', 'sales', 'adjustment', 'siv')
+                $request->only('transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv')
             );
 
             $user->assignRole($request->role);
