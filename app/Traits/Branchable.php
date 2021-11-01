@@ -15,7 +15,9 @@ trait Branchable
             }
         });
 
-        static::addGlobalScope(new BranchScope);
+        if (static::withBranchScope()) {
+            static::addGlobalScope(new BranchScope);
+        }
     }
 
     public function warehouse()
@@ -26,5 +28,10 @@ trait Branchable
     public function scopeByBranch($query)
     {
         return $query->where("{$this->getTable()}.warehouse_id", auth()->user()->warehouse_id);
+    }
+
+    public static function withBranchScope()
+    {
+        return true;
     }
 }
