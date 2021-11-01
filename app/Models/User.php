@@ -53,9 +53,11 @@ class User extends Authenticatable
     {
         $withOnlyCanBeSoldFromBranches = $type == 'sales' ? true : false;
 
+        $cacheKey = auth()->id() . '_' . $type . '_' . 'allowedWarehouses';
+
         if (auth()->user()->hasRole('System Manager')) {
             return Cache::store('array')
-                ->rememberForever(auth()->id() . '_' . 'allowedWarehouses', function () use ($withOnlyCanBeSoldFromBranches) {
+                ->rememberForever($cacheKey, function () use ($withOnlyCanBeSoldFromBranches) {
                     return Warehouse::orderBy('name')
                         ->when($withOnlyCanBeSoldFromBranches, function ($query) {
                             return $query->where('can_be_sold_from', 1);
@@ -65,7 +67,7 @@ class User extends Authenticatable
         }
 
         return Cache::store('array')
-            ->rememberForever(auth()->id() . '_' . 'allowedWarehouses', function () use ($type, $withOnlyCanBeSoldFromBranches) {
+            ->rememberForever($cacheKey, function () use ($type, $withOnlyCanBeSoldFromBranches) {
                 return $this->warehouses()
                     ->wherePivot('type', $type)
                     ->orderBy('warehouses.name')
