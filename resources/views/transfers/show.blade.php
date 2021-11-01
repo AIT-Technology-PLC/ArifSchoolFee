@@ -155,7 +155,9 @@
         <div class="box radius-bottom-0 mb-0 radius-top-0">
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('successMessage')" />
-            @if (!$transfer->isApproved())
+            @if ($transfer->isAdded())
+                <x-common.success-message message="Products have been transferred successfully." />
+            @elseif(!$transfer->isApproved())
                 @can('Approve Transfer')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
@@ -255,8 +257,6 @@
                 @else
                     <x-common.fail-message message="Product(s) listed below are subtracted from {{ $transfer->transferredFrom->name }} but not added to {{ $transfer->transferredTo->name }}." />
                 @endcan
-            @elseif ($transfer->isAdded())
-                <x-common.success-message message="Products have been transferred successfully." />
             @endif
             <x-common.success-message :message="session('deleted')" />
             <div class="table-container">
