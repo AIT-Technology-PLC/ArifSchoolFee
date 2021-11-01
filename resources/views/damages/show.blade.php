@@ -95,44 +95,9 @@
         <div class="box radius-bottom-0 mb-0 radius-top-0">
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('successMessage')" />
-            @if ($damage->isApproved() && $damage->isSubtracted())
+            @if ($damage->isSubtracted())
                 <x-common.success-message message="Products have been subtracted from inventory." />
-            @endif
-            @if ($damage->isApproved() && !$damage->isSubtracted())
-                @can('Subtract Damage')
-                    <div class="box has-background-white-ter has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-7">
-                            Product(s) listed below are still not subtracted from your inventory.
-                            <br>
-                            Click on the button below to subtract product(s) from the inventory.
-                        </p>
-                        <form
-                            id="formOne"
-                            action="{{ route('damages.subtract', $damage->id) }}"
-                            method="post"
-                            novalidate
-                        >
-                            @csrf
-                            <button
-                                data-type="Damage"
-                                data-action="subtract"
-                                data-description="the damaged products"
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
-                            >
-                                <span class="icon">
-                                    <i class="fas fa-minus-circle"></i>
-                                </span>
-                                <span>
-                                    Subtract from inventory
-                                </span>
-                            </button>
-                        </form>
-                    </div>
-                @else
-                    <x-common.fail-message message="Product(s) listed below are still not subtracted from your inventory." />
-                @endcan
-            @endif
-            @if (!$damage->isApproved())
+            @elseif (!$damage->isApproved())
                 @can('Approve Damage')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
@@ -164,6 +129,39 @@
                     </div>
                 @else
                     <x-common.fail-message message="This Damage has not been approved." />
+                @endcan
+            @elseif (!$damage->isSubtracted())
+                @can('Subtract Damage')
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            Product(s) listed below are still not subtracted from your inventory.
+                            <br>
+                            Click on the button below to subtract product(s) from the inventory.
+                        </p>
+                        <form
+                            id="formOne"
+                            action="{{ route('damages.subtract', $damage->id) }}"
+                            method="post"
+                            novalidate
+                        >
+                            @csrf
+                            <button
+                                data-type="Damage"
+                                data-action="subtract"
+                                data-description="the damaged products"
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
+                                <span class="icon">
+                                    <i class="fas fa-minus-circle"></i>
+                                </span>
+                                <span>
+                                    Subtract from inventory
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <x-common.fail-message message="Product(s) listed below are still not subtracted from your inventory." />
                 @endcan
             @endif
             <x-common.success-message :message="session('deleted')" />

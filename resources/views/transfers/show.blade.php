@@ -223,7 +223,7 @@
                 @else
                     <x-common.fail-message message="Product(s) listed below are not subtracted from {{ $transfer->transferredFrom->name }}." />
                 @endcan
-            @elseif($transfer->isSubtracted())
+            @elseif(!$transfer->isAdded())
                 @can('Make Transfer')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">

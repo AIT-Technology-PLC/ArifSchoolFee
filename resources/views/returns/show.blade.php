@@ -165,44 +165,9 @@
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
             <x-common.success-message :message="session('successMessage')" />
-            @if ($return->isApproved() && $return->isAdded())
+            @if ($return->isAdded())
                 <x-common.success-message message="Products have been added to the inventory." />
-            @endif
-            @if ($return->isApproved() && !$return->isAdded())
-                @can('Make Return')
-                    <div class="box has-background-white-ter has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-7">
-                            Product(s) listed below are still not added to the inventory.
-                            <br>
-                            Click on the button below to add product(s) to the inventory.
-                        </p>
-                        <form
-                            id="formOne"
-                            action="{{ route('returns.add', $return->id) }}"
-                            method="post"
-                            novalidate
-                        >
-                            @csrf
-                            <button
-                                data-type="Return"
-                                data-action="add"
-                                data-description="the returned products"
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
-                            >
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    Add to Inventory
-                                </span>
-                            </button>
-                        </form>
-                    </div>
-                @else
-                    <x-common.fail-message message="Product(s) listed below are still not added to the inventory." />
-                @endcan
-            @endif
-            @if (!$return->isApproved())
+            @elseif (!$return->isApproved())
                 @can('Approve Return')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
@@ -234,6 +199,39 @@
                     </div>
                 @else
                     <x-common.fail-message message="This Return has not been approved." />
+                @endcan
+            @elseif (!$return->isAdded())
+                @can('Make Return')
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            Product(s) listed below are still not added to the inventory.
+                            <br>
+                            Click on the button below to add product(s) to the inventory.
+                        </p>
+                        <form
+                            id="formOne"
+                            action="{{ route('returns.add', $return->id) }}"
+                            method="post"
+                            novalidate
+                        >
+                            @csrf
+                            <button
+                                data-type="Return"
+                                data-action="add"
+                                data-description="the returned products"
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
+                                <span class="icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </span>
+                                <span>
+                                    Add to Inventory
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <x-common.fail-message message="Product(s) listed below are still not added to the inventory." />
                 @endcan
             @endif
             <x-common.success-message :message="session('deleted')" />

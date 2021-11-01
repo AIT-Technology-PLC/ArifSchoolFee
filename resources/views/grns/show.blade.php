@@ -134,44 +134,9 @@
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
             <x-common.success-message :message="session('successMessage')" />
-            @if ($grn->isApproved() && $grn->isAdded())
+            @if ($grn->isAdded())
                 <x-common.success-message message="Product(s) listed below have been added to your Inventory." />
-            @endif
-            @if ($grn->isApproved() && !$grn->isAdded())
-                @can('Add GRN')
-                    <div class="box has-background-white-ter has-text-left mb-6">
-                        <p class="has-text-grey text-purple is-size-7">
-                            Product(s) listed below are still not added to your Inventory.
-                            <br>
-                            Add product(s) automatically by clicking on the button.
-                        </p>
-                        <form
-                            id="formOne"
-                            action="{{ route('grns.add', $grn->id) }}"
-                            method="post"
-                            novalidate
-                        >
-                            @csrf
-                            <button
-                                data-type="GRN"
-                                data-action="execute"
-                                data-description=""
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
-                            >
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    Add to Inventory
-                                </span>
-                            </button>
-                        </form>
-                    </div>
-                @else
-                    <x-common.fail-message message="Product(s) listed below are still not added to your Inventory." />
-                @endcan
-            @endif
-            @if (!$grn->isApproved())
+            @elseif (!$grn->isApproved())
                 @can('Approve GRN')
                     <div class="box has-background-white-ter has-text-left mb-6">
                         <p class="has-text-grey text-purple is-size-7">
@@ -203,6 +168,39 @@
                     </div>
                 @else
                     <x-common.fail-message message="This GRN has not been approved." />
+                @endcan
+            @elseif (!$grn->isAdded())
+                @can('Add GRN')
+                    <div class="box has-background-white-ter has-text-left mb-6">
+                        <p class="has-text-grey text-purple is-size-7">
+                            Product(s) listed below are still not added to your Inventory.
+                            <br>
+                            Add product(s) automatically by clicking on the button.
+                        </p>
+                        <form
+                            id="formOne"
+                            action="{{ route('grns.add', $grn->id) }}"
+                            method="post"
+                            novalidate
+                        >
+                            @csrf
+                            <button
+                                data-type="GRN"
+                                data-action="execute"
+                                data-description=""
+                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            >
+                                <span class="icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </span>
+                                <span>
+                                    Add to Inventory
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    <x-common.fail-message message="Product(s) listed below are still not added to your Inventory." />
                 @endcan
             @endif
             <x-common.success-message :message="session('deleted')" />

@@ -67,7 +67,9 @@
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('successMessage')" />
-            @if (!$adjustment->isApproved())
+            @if ($adjustment->isAdjusted())
+                <x-common.success-message message="Products have been adjusted accordingly." />
+            @elseif (!$adjustment->isApproved())
                 @cannot('Approve Adjustment')
                     <x-common.fail-message message="This Adjustment has not been approved yet." />
                 @endcannot
@@ -75,8 +77,6 @@
                 @cannot('Make Adjustment')
                     <x-common.fail-message message="Product(s) listed below are still not adjusted." />
                 @endcannot
-            @elseif ($adjustment->isAdjusted())
-                <x-common.success-message message="Products have been adjusted accordingly." />
             @endif
             <x-common.success-message :message="session('deleted')" />
             <x-common.bulma-table>
