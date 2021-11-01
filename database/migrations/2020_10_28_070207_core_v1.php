@@ -13,10 +13,8 @@ class CoreV1 extends Migration
      */
     public function up()
     {
-        // Users
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -27,7 +25,6 @@ class CoreV1 extends Migration
             $table->softDeletes();
         });
 
-        // Failed Jobs - Queue
         Schema::create('failed_jobs', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
@@ -38,7 +35,6 @@ class CoreV1 extends Migration
             $table->timestamp('failed_at')->useCurrent();
         });
 
-        // Plans
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -86,7 +82,6 @@ class CoreV1 extends Migration
             $table->foreign('feature_id')->references('id')->on('features')->onDelete('cascade')->onUpdate('cascade');
         });
 
-        // Companies
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('plan_id')->nullable()->unsigned();
@@ -109,7 +104,6 @@ class CoreV1 extends Migration
             $table->foreign('plan_id')->references('id')->on('plans')->onDelete('set null')->onUpdate('cascade');
         });
 
-        // Employees
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->nullable()->unsigned();
@@ -130,7 +124,6 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
-        // Warehouses
         Schema::create('warehouses', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('company_id')->nullable()->unsigned();
@@ -153,11 +146,11 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
-        Schema::create('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
+            $table->bigInteger('warehouse_id')->nullable()->unsigned()->after('id');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
-        // Suppliers
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('company_id')->nullable()->unsigned();
@@ -180,7 +173,6 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
-        // Product Categories
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('company_id')->nullable()->unsigned();
@@ -199,7 +191,6 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
-        // Products
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('product_category_id')->nullable()->unsigned();
@@ -228,7 +219,6 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
-        // Purchases
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
@@ -257,7 +247,6 @@ class CoreV1 extends Migration
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
-        // Purchase Details
         Schema::create('purchase_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('purchase_id')->nullable()->unsigned();
@@ -277,7 +266,6 @@ class CoreV1 extends Migration
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
         });
 
-        // Customers
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('company_id')->nullable()->unsigned();
@@ -300,7 +288,6 @@ class CoreV1 extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
-        // Sales
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
@@ -327,7 +314,6 @@ class CoreV1 extends Migration
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
-        // Sale Details
         Schema::create('sale_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('sale_id')->nullable()->unsigned();
@@ -347,7 +333,6 @@ class CoreV1 extends Migration
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
         });
 
-        // Merchandise Products
         Schema::create('merchandises', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('product_id')->nullable()->unsigned();
