@@ -52,14 +52,12 @@ class CoreV1 extends Migration
 
         Schema::create('limitables', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('limit_id')->nullable()->unsigned();
+            $table->foreignId('limit_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('limitable_id');
             $table->string('limitable_type');
             $table->bigInteger('amount');
 
             $table->unique(['limit_id', 'limitable_id', 'limitable_type']);
-
-            $table->foreign('limit_id')->references('id')->on('limits')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('features', function (Blueprint $table) {
@@ -72,19 +70,17 @@ class CoreV1 extends Migration
 
         Schema::create('featurables', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('feature_id')->nullable()->unsigned();
+            $table->foreignId('feature_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('featurable_id');
             $table->string('featurable_type');
             $table->boolean('is_enabled')->default(1);
 
             $table->unique(['feature_id', 'featurable_id', 'featurable_type']);
-
-            $table->foreign('feature_id')->references('id')->on('features')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('plan_id')->nullable()->unsigned();
+            $table->foreignId('plan_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
@@ -100,16 +96,14 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('plan_id');
-
-            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('position');
             $table->boolean('enabled');
             $table->timestamps();
@@ -117,18 +111,13 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
             $table->index('user_id');
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('warehouses', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('name');
             $table->string('location');
             $table->boolean('is_sales_store')->default(1);
@@ -140,22 +129,17 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('company_id');
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::table('users', function (Blueprint $table) {
-            $table->bigInteger('warehouse_id')->nullable()->unsigned()->after('id');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->after('id')->constrained()->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('company_name');
             $table->string('tin')->nullable();
             $table->string('address')->nullable();
@@ -167,17 +151,13 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('company_id');
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('name');
             $table->json('properties')->nullable();
             $table->longText('description')->nullable();
@@ -185,19 +165,15 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('company_id');
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('product_category_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('supplier_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('product_category_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->string('name');
             $table->string('type');
             $table->string('code')->nullable();
@@ -211,21 +187,15 @@ class CoreV1 extends Migration
             $table->index('product_category_id');
             $table->index('company_id');
             $table->index('supplier_id');
-
-            $table->foreign('product_category_id')->references('id')->on('product_categories')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('supplier_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->boolean('is_closed')->default(0);
             $table->decimal('discount', 22)->nullable();
@@ -239,19 +209,13 @@ class CoreV1 extends Migration
             $table->index('company_id');
             $table->index('supplier_id');
             $table->unique(['company_id', 'warehouse_id', 'code']);
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('purchase_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('purchase_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
+            $table->foreignId('purchase_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22);
             $table->decimal('discount', 22)->nullable();
@@ -260,17 +224,13 @@ class CoreV1 extends Migration
 
             $table->index('purchase_id');
             $table->index('product_id');
-
-            $table->foreign('purchase_id')->references('id')->on('purchases')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('company_name');
             $table->string('tin')->nullable();
             $table->string('address')->nullable();
@@ -282,19 +242,15 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('company_id');
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('customer_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->decimal('discount', 22)->nullable();
             $table->string('payment_type');
@@ -306,19 +262,13 @@ class CoreV1 extends Migration
             $table->index('company_id');
             $table->index('customer_id');
             $table->unique(['company_id', 'warehouse_id', 'code']);
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('sale_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('sale_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
+            $table->foreignId('sale_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22);
             $table->decimal('discount', 22)->nullable();
@@ -327,43 +277,35 @@ class CoreV1 extends Migration
 
             $table->index('sale_id');
             $table->index('product_id');
-
-            $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('merchandises', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('product_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('available', 22);
             $table->decimal('reserved', 22)->default(0.00);
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('product_id');
             $table->index('company_id');
+            $table->index('product_id');
             $table->index('warehouse_id');
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
 
             $table->unique(['product_id', 'warehouse_id']);
         });
 
         Schema::create('gdns', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('sale_id')->nullable()->unsigned();
-            $table->bigInteger('customer_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->bigInteger('approved_by')->nullable()->unsigned();
-            $table->bigInteger('subtracted_by')->nullable()->unsigned();
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('sale_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('subtracted_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->boolean('is_closed')->default(0);
             $table->string('discount')->nullable();
@@ -377,22 +319,13 @@ class CoreV1 extends Migration
             $table->index('company_id');
             $table->index('sale_id');
             $table->unique(['company_id', 'warehouse_id', 'code']);
-
-            $table->foreign('sale_id')->references('id')->on('sales')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('subtracted_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('gdn_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('gdn_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->foreignId('gdn_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22)->nullable();
             $table->string('discount')->nullable();
@@ -401,23 +334,19 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('gdn_id');
-
-            $table->foreign('gdn_id')->references('id')->on('gdns')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('transfers', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->bigInteger('approved_by')->nullable()->unsigned();
-            $table->bigInteger('subtracted_by')->nullable()->unsigned();
-            $table->bigInteger('added_by')->nullable()->unsigned();
-            $table->bigInteger('transferred_from')->nullable()->unsigned();
-            $table->bigInteger('transferred_to')->nullable()->unsigned();
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('subtracted_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('added_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('transferred_from')->nullable()->constrained('warehouses')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('transferred_to')->nullable()->constrained('warehouses')->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->boolean('is_closed')->default(0);
             $table->longText('description')->nullable();
@@ -427,40 +356,27 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
             $table->unique(['company_id', 'warehouse_id', 'code']);
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('subtracted_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('added_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('transferred_from')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('transferred_to')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('transfer_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('transfer_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->foreignId('transfer_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('transfer_id');
-
-            $table->foreign('transfer_id')->references('id')->on('transfers')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('customer_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->string('code')->nullable();
             $table->boolean('is_closed');
             $table->longText('description')->nullable();
@@ -469,18 +385,12 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('company_id');
-
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('purchase_order_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('purchase_order_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->foreignId('purchase_order_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->decimal('quantity_left', 22);
             $table->decimal('unit_price', 22);
@@ -489,21 +399,18 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('purchase_order_id');
-
-            $table->foreign('purchase_order_id')->references('id')->on('purchase_orders')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('grns', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('purchase_id')->nullable()->unsigned();
-            $table->bigInteger('supplier_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->bigInteger('approved_by')->nullable()->unsigned();
-            $table->bigInteger('added_by')->nullable()->unsigned();
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('purchase_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('added_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
@@ -513,39 +420,26 @@ class CoreV1 extends Migration
             $table->index('company_id');
             $table->index('purchase_id');
             $table->unique(['company_id', 'warehouse_id', 'code']);
-
-            $table->foreign('purchase_id')->references('id')->on('purchases')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('added_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('grn_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('grn_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->foreignId('grn_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('grn_id');
-
-            $table->foreign('grn_id')->references('id')->on('grns')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('tender_checklist_types', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('name');
             $table->boolean('is_sensitive');
             $table->longText('description')->nullable();
@@ -554,55 +448,42 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
             $table->unique(['name', 'company_id']);
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('general_tender_checklists', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('tender_checklist_type_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('tender_checklist_type_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->string('item');
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('company_id');
-
-            $table->foreign('tender_checklist_type_id')->references('id')->on('tender_checklist_types')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('tender_statuses', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('status');
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('company_id');
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('tenders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('customer_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('code')->nullable();
             $table->string('type');
             $table->string('status');
@@ -626,18 +507,12 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
             $table->index('customer_id');
-
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('tender_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('tender_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->foreignId('tender_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->longText('description')->nullable();
             $table->timestamps();
@@ -645,25 +520,18 @@ class CoreV1 extends Migration
 
             $table->index('tender_id');
             $table->index('product_id');
-
-            $table->foreign('tender_id')->references('id')->on('tenders')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
-
         });
 
         Schema::create('tender_checklists', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('tender_id')->nullable()->unsigned();
-            $table->bigInteger('general_tender_checklist_id')->nullable()->unsigned();
+            $table->foreignId('tender_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('general_tender_checklist_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->string('status')->nullable();
             $table->string('comment')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('tender_id');
-
-            $table->foreign('general_tender_checklist_id')->references('id')->on('general_tender_checklists')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('tender_id')->references('id')->on('tenders')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('notifications', function (Blueprint $table) {
@@ -677,11 +545,11 @@ class CoreV1 extends Migration
 
         Schema::create('sivs', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->bigInteger('approved_by')->nullable()->unsigned();
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->string('purpose')->nullable();
             $table->string('ref_num')->nullable();
@@ -695,39 +563,29 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
             $table->unique(['company_id', 'warehouse_id', 'code']);
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('siv_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('siv_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->foreignId('siv_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('siv_id');
-
-            $table->foreign('siv_id')->references('id')->on('sivs')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('proforma_invoices', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->bigInteger('converted_by')->nullable()->unsigned();
-            $table->bigInteger('customer_id')->nullable()->unsigned();
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('converted_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->string('prefix')->nullable();
             $table->bigInteger('code');
             $table->boolean('is_closed')->default(0);
@@ -742,19 +600,12 @@ class CoreV1 extends Migration
             $table->index('company_id');
             $table->index('customer_id');
             $table->unique(['company_id', 'warehouse_id', 'code']);
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('converted_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('proforma_invoice_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('proforma_invoice_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->foreignId('proforma_invoice_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('custom_product')->nullable();
             $table->longText('specification')->nullable();
             $table->decimal('quantity', 22);
@@ -764,19 +615,16 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('proforma_invoice_id');
-
-            $table->foreign('proforma_invoice_id')->references('id')->on('proforma_invoices')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('damages', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->bigInteger('approved_by')->nullable()->unsigned();
-            $table->bigInteger('subtracted_by')->nullable()->unsigned();
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('subtracted_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
@@ -785,40 +633,29 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
             $table->unique(['company_id', 'warehouse_id', 'code']);
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('subtracted_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('damage_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('damage_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->foreignId('damage_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('damage_id');
-
-            $table->foreign('damage_id')->references('id')->on('damages')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('adjustments', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->bigInteger('approved_by')->nullable()->unsigned();
-            $table->bigInteger('adjusted_by')->nullable()->unsigned();
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('adjusted_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
@@ -827,20 +664,13 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
             $table->unique(['company_id', 'warehouse_id', 'code']);
-
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('adjusted_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('adjustment_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('adjustment_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->foreignId('adjustment_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->boolean('is_subtract');
             $table->decimal('quantity', 22);
             $table->longText('reason');
@@ -848,21 +678,17 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('adjustment_id');
-
-            $table->foreign('adjustment_id')->references('id')->on('adjustments')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('returns', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('customer_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->bigInteger('approved_by')->nullable()->unsigned();
-            $table->bigInteger('added_by')->nullable()->unsigned();
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('added_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
@@ -872,21 +698,13 @@ class CoreV1 extends Migration
             $table->index('company_id');
             $table->index('customer_id');
             $table->unique(['company_id', 'warehouse_id', 'code']);
-
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('added_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('return_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('return_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->foreignId('return_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22)->nullable();
             $table->longText('description')->nullable();
@@ -894,23 +712,19 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('return_id');
-
-            $table->foreign('return_id')->references('id')->on('returns')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('customer_id')->nullable()->unsigned();
-            $table->bigInteger('company_id')->nullable()->unsigned();
-            $table->bigInteger('created_by')->nullable()->unsigned();
-            $table->bigInteger('updated_by')->nullable()->unsigned();
-            $table->bigInteger('approved_by')->nullable()->unsigned();
-            $table->bigInteger('reserved_by')->nullable()->unsigned();
-            $table->bigInteger('cancelled_by')->nullable()->unsigned();
-            $table->bigInteger('converted_by')->nullable()->unsigned();
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('reserved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('cancelled_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('converted_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->nullableMorphs('reservable');
             $table->bigInteger('code');
             $table->string('discount')->nullable();
@@ -924,23 +738,13 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
             $table->unique(['company_id', 'warehouse_id', 'code']);
-
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('reserved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('cancelled_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('converted_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::create('reservation_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('reservation_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
-            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->foreignId('reservation_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22)->nullable();
             $table->string('discount')->nullable();
@@ -949,23 +753,16 @@ class CoreV1 extends Migration
             $table->softDeletes();
 
             $table->index('reservation_id');
-
-            $table->foreign('reservation_id')->references('id')->on('reservations')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('user_warehouse', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->nullable()->unsigned();
-            $table->bigInteger('warehouse_id')->nullable()->unsigned();
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('type');
             $table->timestamps();
 
             $table->unique(['user_id', 'warehouse_id', 'type']);
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::enableForeignKeyConstraints();
