@@ -62,6 +62,8 @@ class CoreV1 extends Migration
             $table->bigInteger('amount');
 
             $table->unique(['limit_id', 'limitable_id', 'limitable_type']);
+
+            $table->foreign('limit_id')->references('id')->on('limits')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('features', function (Blueprint $table) {
@@ -80,6 +82,8 @@ class CoreV1 extends Migration
             $table->boolean('is_enabled')->default(1);
 
             $table->unique(['feature_id', 'featurable_id', 'featurable_type']);
+
+            $table->foreign('feature_id')->references('id')->on('features')->onDelete('cascade')->onUpdate('cascade');
         });
 
         // Companies
@@ -233,6 +237,8 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('purchase_no')->unique();
+            $table->boolean('is_closed')->default(0);
+            $table->decimal('discount', 22)->nullable();
             $table->string('type');
             $table->string('payment_type');
             $table->dateTime('purchased_on')->nullable();
@@ -258,6 +264,7 @@ class CoreV1 extends Migration
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22);
+            $table->decimal('discount', 22)->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -301,6 +308,7 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->string('receipt_no')->unique();
+            $table->decimal('discount', 22)->nullable();
             $table->string('payment_type');
             $table->dateTime('sold_on')->nullable();
             $table->longText('description')->nullable();
@@ -325,6 +333,7 @@ class CoreV1 extends Migration
             $table->bigInteger('warehouse_id')->nullable()->unsigned();
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22);
+            $table->decimal('discount', 22)->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -367,9 +376,10 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->bigInteger('approved_by')->nullable()->unsigned();
-            $table->string('code')->unique();
+            $table->bigInteger('subtracted_by')->nullable()->unsigned();
+            $table->bigInteger('code');
+            $table->boolean('is_closed')->default(0);
             $table->string('discount')->nullable();
-            $table->string('status');
             $table->string('payment_type');
             $table->decimal('cash_received_in_percentage', 22);
             $table->longText('description')->nullable();
@@ -379,6 +389,7 @@ class CoreV1 extends Migration
 
             $table->index('company_id');
             $table->index('sale_id');
+            $table->unique(['company_id', 'warehouse_id', 'code']);
 
             $table->foreign('sale_id')->references('id')->on('sales')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null')->onUpdate('cascade');
@@ -386,6 +397,7 @@ class CoreV1 extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('subtracted_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
@@ -420,6 +432,7 @@ class CoreV1 extends Migration
             $table->bigInteger('transferred_from')->nullable()->unsigned();
             $table->bigInteger('transferred_to')->nullable()->unsigned();
             $table->string('code')->unique();
+            $table->boolean('is_closed')->default(0);
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->timestamps();
@@ -502,8 +515,8 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->bigInteger('approved_by')->nullable()->unsigned();
+            $table->bigInteger('added_by')->nullable()->unsigned();
             $table->string('code')->unique();
-            $table->string('status');
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->timestamps();
@@ -518,6 +531,7 @@ class CoreV1 extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('added_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
@@ -726,6 +740,7 @@ class CoreV1 extends Migration
             $table->bigInteger('customer_id')->nullable()->unsigned();
             $table->string('prefix')->nullable();
             $table->string('code')->unique();
+            $table->boolean('is_closed')->default(0);
             $table->string('discount')->nullable();
             $table->boolean('is_pending');
             $table->longText('terms')->nullable();
@@ -770,8 +785,8 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->bigInteger('approved_by')->nullable()->unsigned();
+            $table->bigInteger('subtracted_by')->nullable()->unsigned();
             $table->string('code')->unique();
-            $table->string('status');
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->timestamps();
@@ -783,6 +798,7 @@ class CoreV1 extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('subtracted_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
@@ -853,7 +869,7 @@ class CoreV1 extends Migration
             $table->bigInteger('created_by')->nullable()->unsigned();
             $table->bigInteger('updated_by')->nullable()->unsigned();
             $table->bigInteger('approved_by')->nullable()->unsigned();
-            $table->bigInteger('returned_by')->nullable()->unsigned();
+            $table->bigInteger('added_by')->nullable()->unsigned();
             $table->string('code')->unique();
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
@@ -868,7 +884,7 @@ class CoreV1 extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreign('returned_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('added_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('set null')->onUpdate('cascade');
         });
 
