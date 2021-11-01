@@ -23,17 +23,20 @@ class TransferController extends Controller
 
     public function index()
     {
-        $transfers = (new Transfer)->getAll()->load(['createdBy', 'updatedBy', 'approvedBy', 'transferredFrom', 'transferredTo']);
+        $transfers = Transfer::branched()
+            ->with(['createdBy', 'updatedBy', 'approvedBy', 'transferredFrom', 'transferredTo'])
+            ->latest()
+            ->get();
 
-        $totalTransferred = Transfer::added()->count();
+        $totalTransferred = Transfer::branched()->added()->count();
 
-        $totalSubtracted = Transfer::subtracted()->notAdded()->count();
+        $totalSubtracted = Transfer::branched()->subtracted()->notAdded()->count();
 
-        $totalApproved = Transfer::approved()->notSubtracted()->count();
+        $totalApproved = Transfer::branched()->approved()->notSubtracted()->count();
 
-        $totalNotApproved = Transfer::notApproved()->count();
+        $totalNotApproved = Transfer::branched()->notApproved()->count();
 
-        $totalTransfers = Transfer::count();
+        $totalTransfers = Transfer::branched()->count();
 
         return view('transfers.index', compact('transfers', 'totalTransfers', 'totalTransferred', 'totalSubtracted', 'totalApproved', 'totalNotApproved'));
     }

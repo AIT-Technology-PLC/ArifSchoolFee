@@ -96,7 +96,7 @@
         <div class="box radius-top-0">
             <x-common.success-message :message="session('deleted')" />
             <div>
-                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[4]" data-numeric="[]">
+                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[6]" data-numeric="[]">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
