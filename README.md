@@ -18,17 +18,6 @@ With its number of modules & features, **Onrica SmartWork** allows businesses to
 -   Full Multi-tenant Architecture (i.e. single database and single app instance)
 -   PWA App
 
-## Branches
-
--   ims/main
-    -   Should always be the same branch as the production server
-    -   Do not fork this branch
-    -   Do not submit PR to this branch
--   ims/dev
-    -   Always use this branch for development and making changes
-    -   Could be forked
-    -   Always submit PRs to this branch
-
 ## Frameworks & Tools Used
 
 At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) uses [**Laravel**](https://laravel.com) as a fullstack framework.
@@ -45,6 +34,17 @@ At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) us
 | Select2 Dropdown   |                            |
 | Sweetalert         |                            |
 | Workbox            |                            |
+
+## Branches
+
+-   ims/main
+    -   Should always be the same branch as the production server
+    -   Do not fork this branch
+    -   Do not submit PR to this branch
+-   ims/dev
+    -   Always use this branch for development and making changes
+    -   Could be forked
+    -   Always submit PRs to this branch
 
 ## Requirements
 
