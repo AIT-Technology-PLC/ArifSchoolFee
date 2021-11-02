@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Actions\CreateUserAction;
 use App\Models\Company;
 use App\Models\Plan;
+use App\Models\User;
 use App\Models\Warehouse;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
@@ -32,7 +33,7 @@ class CreateNewCompany extends Seeder
 
             $request = new Request([
                 'name' => 'Abebe Kebede',
-                'email' => $faker->unique()->safeEmail,
+                'email' => User::count() ? $faker->unique()->safeEmail : 'admin@onrica.com',
                 'password' => 'password',
                 'warehouse_id' => $warehouse->id,
                 'enabled' => 1,
