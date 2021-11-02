@@ -32,7 +32,7 @@ class CreateNewCompany extends Seeder
             ]);
 
             $request = new Request([
-                'name' => 'Abebe Kebede',
+                'name' => $faker->name,
                 'email' => User::count() ? $faker->unique()->safeEmail : 'admin@onrica.com',
                 'password' => 'password',
                 'warehouse_id' => $warehouse->id,
