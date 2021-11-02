@@ -1,6 +1,8 @@
-<p align="center">
+<p>
 	<img src="https://onricatech.com/img/logo.png" width="200" />
 </p>
+
+<br/>
 
 ## About Onrica SmartWork
 
