@@ -16,13 +16,15 @@
                     </div>
                 </div>
             </div>
-            <div class="level-right">
-                <div class="level-item is-justify-content-left">
-                    <div>
-                        {{ $slot ?? '' }}
+            @if (strlen($slot))
+                <div class="level-right">
+                    <div class="level-item is-justify-content-left">
+                        <div>
+                            {{ $slot }}
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
     </h1>
 </div>
