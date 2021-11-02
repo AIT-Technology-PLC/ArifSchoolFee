@@ -57,6 +57,8 @@ At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) us
 
 ```bash
 git clone https://github.com/onrica/ims.git
+cd ims
+composer install
 cp .env.example .env
 php artisan key:generate
 ```
