@@ -14,27 +14,37 @@ With its number of modules & features, **Onrica SmartWork** allows businesses to
 
 ##### Characteristics:
 
--   Could be deployed as on Cloud/SaaS or on Premise
 -   Monolithic Architecture
 -   Full Multi-tenant Architecture (i.e. single database and single app instance)
 -   PWA App
+
+## Branches
+
+-   ims/main
+    -   Should always be the same branch as the production server
+    -   Do not fork this branch
+    -   Do not submit PR to this branch
+-   ims/dev
+    -   Always use this branch for development and making changes
+    -   Could be forked
+    -   Always submit PRs to this branch
 
 ## Frameworks & Tools Used
 
 At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) uses [**Laravel**](https://laravel.com) as a fullstack framework.
 
-| Frontend Tools         | Backend Tools              |
-| ---------------------- | -------------------------- |
-| Bulma                  | Laravel                    |
-| Font Awesome Icons     | Livewire                   |
-| jQuery                 | Laravel DomPDF             |
-| AlpineJS               | Doctrine Dbal              |
-| Axios                  | Spaite Laravel Permission  |
-| jQuery DataTables      | Yajra - Laravel DataTables |
-| Summernote Text Editor | Laravel Debugbar           |
-| Select2 Dropdown       |                            |
-| Sweetalert             |                            |
-| Workbox                |                            |
+| Frontend Tools     | Backend Tools              |
+| ------------------ | -------------------------- |
+| Bulma              | Laravel                    |
+| Font Awesome Icons | Livewire                   |
+| jQuery             | Laravel DomPDF             |
+| AlpineJS           | Doctrine Dbal              |
+| Axios              | Spaite Laravel Permission  |
+| jQuery DataTables  | Yajra - Laravel DataTables |
+| Summernote Editor  | Laravel Debugbar           |
+| Select2 Dropdown   |                            |
+| Sweetalert         |                            |
+| Workbox            |                            |
 
 ## Requirements
 
@@ -43,7 +53,7 @@ At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) us
 -   MySQL
 -   [PHP extensions required by Laravel](https://laravel.com/docs/8.x/deployment#server-requirements "PHP extensions required by Laravel")
 
-## Installation Steps
+## Installation
 
 ```bash
 git clone https://github.com/onrica/ims.git
