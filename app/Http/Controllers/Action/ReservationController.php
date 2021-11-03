@@ -29,6 +29,11 @@ class ReservationController extends Controller
     {
         $this->authorize('approve', $reservation);
 
+        if (!auth()->user()->hasWarehousePermission('sales',
+            $reservation->reservationDetails->pluck('warehouse_id')->toArray())) {
+            return back()->with('failedMessage', 'You do not have permissions to approve in one or more of the warehouses.');
+        }
+
         [$isExecuted, $message] = $action->execute($reservation, ReservationApproved::class, 'Make Reservation');
 
         if (!$isExecuted) {

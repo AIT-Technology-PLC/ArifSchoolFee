@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreReservationRequest extends FormRequest
 {
@@ -19,7 +20,7 @@ class StoreReservationRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('reservations')],
             'reservation' => ['required', 'array'],
             'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            'reservation.*.warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
+            'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('sales')->pluck('id'))],
             'reservation.*.unit_price' => ['nullable', 'numeric'],
             'reservation.*.quantity' => ['required', 'numeric', 'min:1'],
             'reservation.*.description' => ['nullable', 'string'],

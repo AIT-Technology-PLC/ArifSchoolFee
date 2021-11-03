@@ -47,6 +47,11 @@ class ReservationService
 
     public function reserve($reservation)
     {
+        if (!auth()->user()->hasWarehousePermission('sales',
+            $reservation->reservationDetails->pluck('warehouse_id')->toArray())) {
+            return back()->with('failedMessage', 'You do not have permissions to reserve from one or more of the warehouses.');
+        }
+
         if (!$reservation->isApproved()) {
             return [false, 'This reservation is not approved yet.'];
         }
@@ -74,6 +79,11 @@ class ReservationService
 
     public function cancel($reservation)
     {
+        if (!auth()->user()->hasWarehousePermission('sales',
+            $reservation->reservationDetails->pluck('warehouse_id')->toArray())) {
+            return back()->with('failedMessage', 'You do not have permissions to cancel from one or more of the warehouses.');
+        }
+
         if (!$reservation->isApproved()) {
             return [false, 'This reservation is not approved yet.'];
         }
@@ -116,6 +126,11 @@ class ReservationService
 
     public function convertToGdn($reservation)
     {
+        if (!auth()->user()->hasWarehousePermission('sales',
+            $reservation->reservationDetails->pluck('warehouse_id')->toArray())) {
+            return back()->with('failedMessage', 'You do not have permissions to convert to one or more of the warehouses.');
+        }
+
         if (!$reservation->isReserved()) {
             return [false, 'This reservation is not reserved yet.'];
         }
