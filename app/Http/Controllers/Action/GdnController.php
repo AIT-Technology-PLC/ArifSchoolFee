@@ -26,7 +26,7 @@ class GdnController extends Controller
 
         if (!auth()->user()->hasWarehousePermission('sales',
             $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have delivery order permission for one or more of the warehouses.');
+            return back()->with('failedMessage', 'You do not have permission to approve in one or more of the warehouses.');
         }
 
         [$isExecuted, $message] = $action->execute($gdn, GdnApproved::class, 'Subtract GDN');
@@ -61,7 +61,7 @@ class GdnController extends Controller
 
         if (!auth()->user()->hasWarehousePermission('siv',
             $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have delivery order permission for one or more of the warehouses.');
+            return back()->with('failedMessage', 'You do not have permission to convert to one or more of the warehouses.');
         }
 
         if (!$gdn->isSubtracted()) {
@@ -104,7 +104,7 @@ class GdnController extends Controller
 
         if (!auth()->user()->hasWarehousePermission('sales',
             $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have delivery order permission for one or more of the warehouses.');
+            return back()->with('failedMessage', 'You do not have permission to close in one or more of the warehouses.');
         }
 
         if (!$gdn->isSubtracted()) {

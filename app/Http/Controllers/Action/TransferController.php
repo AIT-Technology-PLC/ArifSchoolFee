@@ -104,7 +104,7 @@ class TransferController extends Controller
         $this->authorize('approve', $transfer);
 
         if (!auth()->user()->hasWarehousePermission('add', $transfer->transferred_to)) {
-            return back()->with('failedMessage', 'You do not have permission to close from one or more of the warehouses.');
+            return back()->with('failedMessage', 'You do not have permission to close in one or more of the warehouses.');
         }
 
         if (!$transfer->isAdded()) {
