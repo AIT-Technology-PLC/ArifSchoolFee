@@ -9,6 +9,11 @@ class DamageService
 {
     public function subtract($damage)
     {
+        if (!auth()->user()->hasWarehousePermission('subtract',
+            $damage->damageDetails->pluck('warehouse_id')->toArray())) {
+            return back()->with('failedMessage', 'You do not have permission to subtract from one or more of the warehouses.');
+        }
+
         if (!$damage->isApproved()) {
             return [false, 'This damage is not approved yet.'];
         }

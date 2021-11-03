@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateDamageRequest extends FormRequest
 {
@@ -19,7 +20,7 @@ class UpdateDamageRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('damages', $this->route('damage')->id)],
             'damage' => ['required', 'array'],
             'damage.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            'damage.*.warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
+            'damage.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('subtract')->pluck('id'))],
             'damage.*.quantity' => ['required', 'numeric', 'min:1'],
             'damage.*.description' => ['nullable', 'string'],
             'issued_on' => ['required', 'date'],
