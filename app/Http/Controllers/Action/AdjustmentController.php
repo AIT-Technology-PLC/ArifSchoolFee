@@ -21,6 +21,11 @@ class AdjustmentController extends Controller
     {
         $this->authorize('approve', $adjustment);
 
+        if (!auth()->user()->hasWarehousePermission('adjustment',
+            $adjustment->adjustmentDetails->pluck('warehouse_id')->toArray())) {
+            return back()->with('failedMessage', 'You do not have permission to approve in one or more of the warehouses.');
+        }
+
         [$isExecuted, $message] = $action->execute($adjustment, AdjustmentApproved::class, 'Make Adjustment');
 
         if (!$isExecuted) {
