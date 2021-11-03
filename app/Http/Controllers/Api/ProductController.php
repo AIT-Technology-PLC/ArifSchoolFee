@@ -14,10 +14,6 @@ class ProductController extends Controller
 
     public function getProductUOM(Product $product)
     {
-        $this->authorize('create', $product);
-
-        $this->authorize('update', $product);
-
         return $product->unit_of_measurement;
     }
 }
