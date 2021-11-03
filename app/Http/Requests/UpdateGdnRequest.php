@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateGdnRequest extends FormRequest
 {
@@ -19,7 +20,7 @@ class UpdateGdnRequest extends FormRequest
             'code' => ['required', 'integer', new UniqueReferenceNum('gdns', $this->route('gdn')->id)],
             'gdn' => ['required', 'array'],
             'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            'gdn.*.warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
+            'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('sales')->pluck('id'))],
             'gdn.*.unit_price' => ['nullable', 'numeric'],
             'gdn.*.quantity' => ['required', 'numeric', 'min:1'],
             'gdn.*.description' => ['nullable', 'string'],

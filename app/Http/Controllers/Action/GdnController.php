@@ -24,6 +24,11 @@ class GdnController extends Controller
     {
         $this->authorize('approve', $gdn);
 
+        if (!auth()->user()->hasWarehousePermission('sales',
+            $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
+            return back()->with('failedMessage', 'You do not have delivery order permission for one or more of the warehouses.');
+        }
+
         [$isExecuted, $message] = $action->execute($gdn, GdnApproved::class, 'Subtract GDN');
 
         if (!$isExecuted) {
@@ -53,6 +58,11 @@ class GdnController extends Controller
         $this->authorize('view', $gdn);
 
         $this->authorize('create', Siv::class);
+
+        if (!auth()->user()->hasWarehousePermission('siv',
+            $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
+            return back()->with('failedMessage', 'You do not have delivery order permission for one or more of the warehouses.');
+        }
 
         if (!$gdn->isSubtracted()) {
             return back()->with('failedMessage', 'This Delivery Order is not subtracted yet.');
@@ -91,6 +101,11 @@ class GdnController extends Controller
     public function close(Gdn $gdn)
     {
         $this->authorize('approve', $gdn);
+
+        if (!auth()->user()->hasWarehousePermission('sales',
+            $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
+            return back()->with('failedMessage', 'You do not have delivery order permission for one or more of the warehouses.');
+        }
 
         if (!$gdn->isSubtracted()) {
             return back()->with('failedMessage', 'This Delivery Order is not subtracted yet.');

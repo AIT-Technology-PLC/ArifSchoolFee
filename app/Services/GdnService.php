@@ -9,6 +9,11 @@ class GdnService
 {
     public function subtract($gdn)
     {
+        if (!auth()->user()->hasWarehousePermission('sales',
+            $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
+            return back()->with('failedMessage', 'You do not have delivery order permission for one or more of the warehouses.');
+        }
+
         if (!$gdn->isApproved()) {
             return [false, 'This Delivery Order is not approved yet.'];
         }
