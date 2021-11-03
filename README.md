@@ -50,7 +50,7 @@ At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) us
 
 -   PHP >= 7.3
 -   Composer
--   MySQL
+-   MySQL or MariaDB
 -   [PHP extensions required by Laravel](https://laravel.com/docs/8.x/deployment#server-requirements "PHP extensions required by Laravel")
 
 ## Installation
