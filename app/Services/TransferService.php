@@ -9,6 +9,10 @@ class TransferService
 {
     public function subtract($transfer)
     {
+        if (!auth()->user()->hasWarehousePermission('subtract', $transfer->transferred_from)) {
+            return back()->with('failedMessage', 'You do not have permission to subtract from one or more of the warehouses.');
+        }
+
         if (!$transfer->isApproved()) {
             return [false, 'This Transfer is not approved yet.'];
         }
@@ -38,6 +42,10 @@ class TransferService
 
     public function add($transfer)
     {
+        if (!auth()->user()->hasWarehousePermission('add', $transfer->transferred_to)) {
+            return back()->with('failedMessage', 'You do not have permission to add to one or more of the warehouses.');
+        }
+
         if (!$transfer->isApproved()) {
             return [false, 'This Transfer is not approved yet.'];
         }

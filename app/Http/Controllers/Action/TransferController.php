@@ -23,6 +23,10 @@ class TransferController extends Controller
     {
         $this->authorize('approve', $transfer);
 
+        if (!auth()->user()->hasWarehousePermission('add', $transfer->transferred_to)) {
+            return back()->with('failedMessage', 'You do not have permission to approve in one or more of the warehouses.');
+        }
+
         [$isExecuted, $message] = $action->execute($transfer, TransferApproved::class, 'Make Transfer');
 
         if (!$isExecuted) {
@@ -68,6 +72,10 @@ class TransferController extends Controller
 
         $this->authorize('create', Siv::class);
 
+        if (!auth()->user()->hasWarehousePermission('siv', $transfer->transferred_from)) {
+            return back()->with('failedMessage', 'You do not have permission to convert to one or more of the warehouses.');
+        }
+
         if (!$transfer->isSubtracted()) {
             return back()->with('failedMessage', 'This transfer is not subtracted yet.');
         }
@@ -94,6 +102,10 @@ class TransferController extends Controller
     public function close(Transfer $transfer)
     {
         $this->authorize('approve', $transfer);
+
+        if (!auth()->user()->hasWarehousePermission('add', $transfer->transferred_to)) {
+            return back()->with('failedMessage', 'You do not have permission to close from one or more of the warehouses.');
+        }
 
         if (!$transfer->isAdded()) {
             return back()->with('failedMessage', 'This transfer is not added to destination yet.');
