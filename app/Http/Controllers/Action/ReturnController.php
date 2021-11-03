@@ -21,6 +21,11 @@ class ReturnController extends Controller
     {
         $this->authorize('approve', $return);
 
+        if (!auth()->user()->hasWarehousePermission('add',
+            $return->returnDetails->pluck('warehouse_id')->toArray())) {
+            return back()->with('failedMessage', 'You do not have permission to approve in one or more of the warehouses.');
+        }
+
         [$isExecuted, $message] = $action->execute($return, ReturnApproved::class, 'Make Return');
 
         if (!$isExecuted) {
