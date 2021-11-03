@@ -44,9 +44,25 @@ class User extends Authenticatable
         return $this->employee->enabled;
     }
 
-    public function hasWarehousePermission($type, $warehouse)
+    public function hasWarehousePermission($type, $warehouses)
     {
-        return $this->getAllowedWarehouses($type)->contains($warehouse);
+        if (is_numeric($warehouses) || $warehouses instanceof Warehouse) {
+            return $this->getAllowedWarehouses($type)->contains($warehouses);
+        }
+
+        if (!is_array($warehouses)) {
+            return false;
+        }
+
+        $allowedWarehouseIds = $this->getAllowedWarehouses($type)->pluck('id')->toArray();
+
+        foreach ($warehouses as $warehouse) {
+            if (!in_array($warehouse, $allowedWarehouseIds)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function getAllowedWarehouses($type)
