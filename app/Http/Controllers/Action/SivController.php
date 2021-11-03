@@ -18,6 +18,11 @@ class SivController extends Controller
     {
         $this->authorize('approve', $siv);
 
+        if (!auth()->user()->hasWarehousePermission('siv',
+            $siv->sivDetails->pluck('warehouse_id')->toArray())) {
+            return back()->with('failedMessage', 'You do not have store issue voucher permission for one or more of the warehouses.');
+        }
+
         [$isExecuted, $message] = $action->execute($siv, SivApproved::class, 'Approve SIV');
 
         if (!$isExecuted) {

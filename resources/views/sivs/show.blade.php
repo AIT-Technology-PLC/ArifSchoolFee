@@ -202,6 +202,7 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-common.fail-message :message="session('failedMessage')" />
             @if ($siv->isApproved())
                 <x-common.success-message message="This SIV has been approved successfully." />
             @elseif (!$siv->isApproved())

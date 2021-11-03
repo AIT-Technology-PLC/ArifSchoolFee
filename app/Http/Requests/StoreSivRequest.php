@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreSivRequest extends FormRequest
 {
@@ -21,7 +22,7 @@ class StoreSivRequest extends FormRequest
             'ref_num' => ['nullable', 'required_unless:purpose,null', 'prohibited_if:purpose,null', 'string'],
             'siv' => ['required', 'array'],
             'siv.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            'siv.*.warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
+            'siv.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('siv')->pluck('id'))],
             'siv.*.quantity' => ['required', 'numeric', 'min:1'],
             'siv.*.description' => ['nullable', 'string'],
             'issued_on' => ['required', 'date'],
