@@ -9,6 +9,11 @@ class AdjustmentService
 {
     public function adjust($adjustment)
     {
+        if (!auth()->user()->hasWarehousePermission('adjustment',
+            $adjustment->adjustmentDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have adjustment permission for one or more of the warehouses.'];
+        }
+
         if (!$adjustment->isApproved()) {
             return [false, 'This Adjustment is not approved.'];
         }
