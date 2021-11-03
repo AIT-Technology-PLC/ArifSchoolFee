@@ -11,7 +11,7 @@ class GdnService
     {
         if (!auth()->user()->hasWarehousePermission('sales',
             $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have delivery order permission for one or more of the warehouses.');
+            return [false, 'You do not have permission to sell from one or more of the warehouses.'];
         }
 
         if (!$gdn->isApproved()) {

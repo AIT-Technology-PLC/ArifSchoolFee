@@ -49,7 +49,7 @@ class ReservationService
     {
         if (!auth()->user()->hasWarehousePermission('sales',
             $reservation->reservationDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have permissions to reserve from one or more of the warehouses.');
+            return [false, 'You do not have permissions to reserve from one or more of the warehouses.'];
         }
 
         if (!$reservation->isApproved()) {
@@ -81,7 +81,7 @@ class ReservationService
     {
         if (!auth()->user()->hasWarehousePermission('sales',
             $reservation->reservationDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have permissions to cancel from one or more of the warehouses.');
+            return [false, 'You do not have permissions to cancel reservation in one or more of the warehouses.'];
         }
 
         if (!$reservation->isApproved()) {
@@ -128,7 +128,7 @@ class ReservationService
     {
         if (!auth()->user()->hasWarehousePermission('sales',
             $reservation->reservationDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have permissions to convert to one or more of the warehouses.');
+            return [false, 'You do not have permissions to convert to one or more of the warehouses.'];
         }
 
         if (!$reservation->isReserved()) {

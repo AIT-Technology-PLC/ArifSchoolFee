@@ -11,7 +11,7 @@ class GrnService
     {
         if (!auth()->user()->hasWarehousePermission('add',
             $grn->grnDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have permission to add to one or more of the warehouses.');
+            return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
 
         if (!$grn->isApproved()) {

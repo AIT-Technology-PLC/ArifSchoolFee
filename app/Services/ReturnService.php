@@ -11,7 +11,7 @@ class ReturnService
     {
         if (!auth()->user()->hasWarehousePermission('add',
             $return->returnDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have permission to add to one or more of the warehouses.');
+            return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
 
         if (!$return->isApproved()) {
