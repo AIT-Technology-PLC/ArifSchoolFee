@@ -28,7 +28,7 @@ class AdjustmentPolicy
 
     public function update(User $user, Adjustment $adjustment)
     {
-        return $this->isIssuedByMyCompany($user, $adjustment) && $user->can('Update Adjustment');
+        return $this->isIssuedByMyCompany($user, $adjustment, true) && $user->can('Update Adjustment');
     }
 
     public function delete(User $user, Adjustment $adjustment)

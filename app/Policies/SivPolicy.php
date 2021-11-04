@@ -28,7 +28,7 @@ class SivPolicy
 
     public function update(User $user, Siv $siv)
     {
-        return $this->isIssuedByMyCompany($user, $siv) && $user->can('Update SIV');
+        return $this->isIssuedByMyCompany($user, $siv, true) && $user->can('Update SIV');
     }
 
     public function delete(User $user, Siv $siv)

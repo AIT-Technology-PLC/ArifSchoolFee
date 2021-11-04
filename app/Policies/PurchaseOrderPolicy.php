@@ -28,7 +28,7 @@ class PurchaseOrderPolicy
 
     public function update(User $user, PurchaseOrder $purchaseOrder)
     {
-        return $this->isIssuedByMyCompany($user, $purchaseOrder) && $user->can('Update PO');
+        return $this->isIssuedByMyCompany($user, $purchaseOrder, true) && $user->can('Update PO');
     }
 
     public function delete(User $user, PurchaseOrder $purchaseOrder)

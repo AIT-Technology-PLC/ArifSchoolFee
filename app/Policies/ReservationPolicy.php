@@ -28,7 +28,7 @@ class ReservationPolicy
 
     public function update(User $user, Reservation $reservation)
     {
-        return $this->isIssuedByMyCompany($user, $reservation) && $user->can('Update Reservation');
+        return $this->isIssuedByMyCompany($user, $reservation, true) && $user->can('Update Reservation');
     }
 
     public function delete(User $user, Reservation $reservation)

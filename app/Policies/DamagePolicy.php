@@ -28,7 +28,7 @@ class DamagePolicy
 
     public function update(User $user, Damage $damage)
     {
-        return $this->isIssuedByMyCompany($user, $damage) && $user->can('Update Damage');
+        return $this->isIssuedByMyCompany($user, $damage, true) && $user->can('Update Damage');
     }
 
     public function delete(User $user, Damage $damage)

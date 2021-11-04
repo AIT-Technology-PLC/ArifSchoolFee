@@ -28,7 +28,7 @@ class ProformaInvoicePolicy
 
     public function update(User $user, ProformaInvoice $proformaInvoice)
     {
-        return $this->isIssuedByMyCompany($user, $proformaInvoice) && $user->can('Update Proforma Invoice');
+        return $this->isIssuedByMyCompany($user, $proformaInvoice, true) && $user->can('Update Proforma Invoice');
     }
 
     public function delete(User $user, ProformaInvoice $proformaInvoice)

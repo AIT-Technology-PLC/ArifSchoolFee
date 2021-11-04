@@ -28,7 +28,7 @@ class ReturnPolicy
 
     public function update(User $user, Returnn $returnn)
     {
-        return $this->isIssuedByMyCompany($user, $returnn) && $user->can('Update Return');
+        return $this->isIssuedByMyCompany($user, $returnn, true) && $user->can('Update Return');
     }
 
     public function delete(User $user, Returnn $returnn)

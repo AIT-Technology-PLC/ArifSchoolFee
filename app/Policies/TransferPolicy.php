@@ -28,7 +28,7 @@ class TransferPolicy
 
     public function update(User $user, Transfer $transfer)
     {
-        return $this->isIssuedByMyCompany($user, $transfer) && $user->can('Update Transfer');
+        return $this->isIssuedByMyCompany($user, $transfer, true) && $user->can('Update Transfer');
     }
 
     public function delete(User $user, Transfer $transfer)

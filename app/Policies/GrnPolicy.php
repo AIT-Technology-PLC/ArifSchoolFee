@@ -28,7 +28,7 @@ class GrnPolicy
 
     public function update(User $user, Grn $grn)
     {
-        return $this->isIssuedByMyCompany($user, $grn) && $user->can('Update GRN');
+        return $this->isIssuedByMyCompany($user, $grn, true) && $user->can('Update GRN');
     }
 
     public function delete(User $user, Grn $grn)

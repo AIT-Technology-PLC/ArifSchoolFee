@@ -28,7 +28,7 @@ class GdnPolicy
 
     public function update(User $user, Gdn $gdn)
     {
-        return $this->isIssuedByMyCompany($user, $gdn) && $user->can('Update GDN');
+        return $this->isIssuedByMyCompany($user, $gdn, true) && $user->can('Update GDN');
     }
 
     public function delete(User $user, Gdn $gdn)

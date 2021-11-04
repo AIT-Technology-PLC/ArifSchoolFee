@@ -28,7 +28,7 @@ class PurchasePolicy
 
     public function update(User $user, Purchase $purchase)
     {
-        return $this->isIssuedByMyCompany($user, $purchase) && $user->can('Update Purchase');
+        return $this->isIssuedByMyCompany($user, $purchase, true) && $user->can('Update Purchase');
     }
 
     public function delete(User $user, Purchase $purchase)

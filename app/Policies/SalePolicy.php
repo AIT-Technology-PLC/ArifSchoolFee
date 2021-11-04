@@ -28,7 +28,7 @@ class SalePolicy
 
     public function update(User $user, Sale $sale)
     {
-        return $this->isIssuedByMyCompany($user, $sale) && $user->can('Update Sale');
+        return $this->isIssuedByMyCompany($user, $sale, true) && $user->can('Update Sale');
     }
 
     public function delete(User $user, Sale $sale)

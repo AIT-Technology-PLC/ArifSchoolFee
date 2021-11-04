@@ -28,7 +28,7 @@ class TenderPolicy
 
     public function update(User $user, Tender $tender)
     {
-        return $this->isIssuedByMyCompany($user, $tender) && $user->can('Update Tender');
+        return $this->isIssuedByMyCompany($user, $tender, true) && $user->can('Update Tender');
     }
 
     public function delete(User $user, Tender $tender)
