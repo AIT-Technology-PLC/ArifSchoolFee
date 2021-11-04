@@ -33,7 +33,10 @@
                             Create new Delivery Order for new sales
                         </div>
                         <div class="is-size-3">
-                            <a href="{{ route('gdns.create') }}" class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3">
+                            <a
+                                href="{{ route('gdns.create') }}"
+                                class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
@@ -47,7 +50,10 @@
             </div>
         </div>
         <div class="column is-4 p-lr-0">
-            <div class="box text-green has-text-centered" style="border-left: 2px solid #3d8660;">
+            <div
+                class="box text-green has-text-centered"
+                style="border-left: 2px solid #3d8660;"
+            >
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalSubtracted }}
                 </div>
@@ -57,7 +63,10 @@
             </div>
         </div>
         <div class="column is-4 p-lr-0">
-            <div class="box text-gold has-text-centered" style="border-left: 2px solid #86843d;">
+            <div
+                class="box text-gold has-text-centered"
+                style="border-left: 2px solid #86843d;"
+            >
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalNotSubtracted }}
                 </div>
@@ -67,7 +76,10 @@
             </div>
         </div>
         <div class="column is-4 p-lr-0">
-            <div class="box text-purple has-text-centered" style="border-left: 2px solid #863d63;">
+            <div
+                class="box text-purple has-text-centered"
+                style="border-left: 2px solid #863d63;"
+            >
                 <div class="is-size-3 has-text-weight-bold">
                     {{ $totalNotApproved }}
                 </div>
@@ -86,122 +98,12 @@
         <div class="box radius-top-0">
             <x-common.success-message :message="session('deleted')" />
             <div>
-                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[{{ isFeatureEnabled('Sale Management') ? 8 : 7 }}]" data-numeric="[]">
-                    <thead>
-                        <tr>
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> DO No </abbr></th>
-                            @if (isFeatureEnabled('Sale Management'))
-                                <th><abbr> Receipt No </abbr></th>
-                            @endif
-                            <th><abbr> Status </abbr></th>
-                            <th><abbr> Payment Method </abbr></th>
-                            <th class="has-text-right"><abbr> Total Price </abbr></th>
-                            <th><abbr> Customer </abbr></th>
-                            <th><abbr> Description </abbr></th>
-                            <th class="has-text-right"><abbr> Issued On </abbr></th>
-                            <th><abbr> Prepared By </abbr></th>
-                            <th><abbr> Approved By </abbr></th>
-                            <th><abbr> Edited By </abbr></th>
-                            <th><abbr> Actions </abbr></th>
-                        </tr>
-                    </thead>
-                    <tbody class="list">
-                        @foreach ($gdns as $gdn)
-                            <tr class="showRowDetails is-clickable" data-id="{{ route('gdns.show', $gdn->id) }}">
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized has-text-centered">
-                                    {{ $gdn->code }}
-                                </td>
-                                @if (isFeatureEnabled('Sale Management'))
-                                    <td class="is-capitalized">
-                                        {{ is_null($gdn->sale) ? 'N/A' : $gdn->sale->code }}
-                                    </td>
-                                @endif
-                                <td class="is-capitalized">
-                                    @if (!$gdn->isApproved())
-                                        <span class="tag is-small bg-purple has-text-white">
-                                            <span class="icon">
-                                                <i class="fas fa-clock"></i>
-                                            </span>
-                                            <span>
-                                                Waiting Approval
-                                            </span>
-                                        </span>
-                                    @elseif ($gdn->isSubtracted())
-                                        <span class="tag is-small bg-green has-text-white">
-                                            <span class="icon">
-                                                <i class="fas fa-check-circle"></i>
-                                            </span>
-                                            <span>
-                                                Subtracted
-                                            </span>
-                                        </span>
-                                    @else
-                                        <span class="tag is-small bg-gold has-text-white">
-                                            <span class="icon">
-                                                <i class="fas fa-exclamation-circle"></i>
-                                            </span>
-                                            <span>
-                                                Approved (not Subtracted)
-                                            </span>
-                                        </span>
-                                    @endif
-                                </td>
-                                <td class="is-capitalized">
-                                    {{ $gdn->payment_type ?? 'N/A' }}
-                                </td>
-                                <td class="has-text-right">
-                                    {{ userCompany()->currency }}.
-                                    @if (userCompany()->isDiscountBeforeVAT())
-                                        {{ number_format($gdn->grandTotalPrice, 2) }}
-                                    @else
-                                        {{ number_format($gdn->grandTotalPriceAfterDiscount, 2) }}
-                                    @endif
-                                </td>
-                                <td>
-                                    {{ $gdn->customer->company_name ?? 'N/A' }}
-                                </td>
-                                <td class="description">
-                                    {!! is_null($gdn->description) ? 'N/A' : substr(strip_tags($gdn->description), 0, 20) . '...' !!}
-                                    <span class="is-hidden">
-                                        {!! $gdn->description ?? '' !!}
-                                    </span>
-                                </td>
-                                <td class="has-text-right">
-                                    {{ $gdn->issued_on->toFormattedDateString() }}
-                                </td>
-                                <td> {{ $gdn->createdBy->name ?? 'N/A' }} </td>
-                                <td> {{ $gdn->approvedBy->name ?? 'N/A' }} </td>
-                                <td> {{ $gdn->updatedBy->name ?? 'N/A' }} </td>
-                                <td class="actions">
-                                    <a href="{{ route('gdns.show', $gdn->id) }}" data-title="View Details">
-                                        <span class="tag is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
-                                            <span class="icon">
-                                                <i class="fas fa-info-circle"></i>
-                                            </span>
-                                            <span>
-                                                Details
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <a href="{{ route('gdns.edit', $gdn->id) }}" data-title="Modify DO Data">
-                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
-                                            <span class="icon">
-                                                <i class="fas fa-pen-square"></i>
-                                            </span>
-                                            <span>
-                                                Edit
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <x-common.delete-button route="gdns.destroy" :id="$gdn->id" />
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                {{ $dataTable->table() }}
             </div>
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush

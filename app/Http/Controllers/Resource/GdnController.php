@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\GdnDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGdnRequest;
 use App\Http\Requests\UpdateGdnRequest;
@@ -22,10 +23,8 @@ class GdnController extends Controller
         $this->authorizeResource(Gdn::class, 'gdn');
     }
 
-    public function index()
+    public function index(GdnDatatable $datatable)
     {
-        $gdns = Gdn::with(['gdnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'sale', 'customer'])->latest()->get();
-
         $totalGdns = Gdn::count();
 
         $totalNotApproved = Gdn::notApproved()->count();
@@ -34,7 +33,7 @@ class GdnController extends Controller
 
         $totalSubtracted = Gdn::subtracted()->count();
 
-        return view('gdns.index', compact('gdns', 'totalGdns', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
+        return $datatable->render('gdns.index', compact('totalGdns', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }
 
     public function create()
