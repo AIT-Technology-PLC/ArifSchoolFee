@@ -18,7 +18,7 @@ class ProformaInvoicePolicy
 
     public function view(User $user, ProformaInvoice $proformaInvoice)
     {
-        return $this->doesModelBelongToMyCompany($user, $proformaInvoice) && $user->can('Read Proforma Invoice');
+        return $this->isIssuedByMyCompany($user, $proformaInvoice) && $user->can('Read Proforma Invoice');
     }
 
     public function create(User $user)
@@ -28,21 +28,21 @@ class ProformaInvoicePolicy
 
     public function update(User $user, ProformaInvoice $proformaInvoice)
     {
-        return $this->doesModelBelongToMyCompany($user, $proformaInvoice) && $user->can('Update Proforma Invoice');
+        return $this->isIssuedByMyCompany($user, $proformaInvoice) && $user->can('Update Proforma Invoice');
     }
 
     public function delete(User $user, ProformaInvoice $proformaInvoice)
     {
-        return $this->doesModelBelongToMyCompany($user, $proformaInvoice) && $user->can('Delete Proforma Invoice');
+        return $this->isIssuedByMyCompany($user, $proformaInvoice) && $user->can('Delete Proforma Invoice');
     }
 
     public function convert(User $user, ProformaInvoice $proformaInvoice)
     {
-        return $this->doesModelBelongToMyCompany($user, $proformaInvoice) && $user->can('Convert Proforma Invoice');
+        return $this->isIssuedByMyCompany($user, $proformaInvoice) && $user->can('Convert Proforma Invoice');
     }
 
     public function cancel(User $user, ProformaInvoice $proformaInvoice)
     {
-        return $this->doesModelBelongToMyCompany($user, $proformaInvoice) && $user->can('Cancel Proforma Invoice');
+        return $this->isIssuedByMyCompany($user, $proformaInvoice) && $user->can('Cancel Proforma Invoice');
     }
 }

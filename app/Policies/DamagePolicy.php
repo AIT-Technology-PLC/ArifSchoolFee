@@ -18,7 +18,7 @@ class DamagePolicy
 
     public function view(User $user, Damage $damage)
     {
-        return $this->doesModelBelongToMyCompany($user, $damage) && $user->can('Read Damage');
+        return $this->isIssuedByMyCompany($user, $damage) && $user->can('Read Damage');
     }
 
     public function create(User $user)
@@ -28,21 +28,21 @@ class DamagePolicy
 
     public function update(User $user, Damage $damage)
     {
-        return $this->doesModelBelongToMyCompany($user, $damage) && $user->can('Update Damage');
+        return $this->isIssuedByMyCompany($user, $damage) && $user->can('Update Damage');
     }
 
     public function delete(User $user, Damage $damage)
     {
-        return $this->doesModelBelongToMyCompany($user, $damage) && $user->can('Delete Damage');
+        return $this->isIssuedByMyCompany($user, $damage) && $user->can('Delete Damage');
     }
 
     public function approve(User $user, Damage $damage)
     {
-        return $this->doesModelBelongToMyCompany($user, $damage) && $user->can('Approve Damage');
+        return $this->isIssuedByMyCompany($user, $damage) && $user->can('Approve Damage');
     }
 
     public function subtract(User $user, Damage $damage)
     {
-        return $this->doesModelBelongToMyCompany($user, $damage) && $user->can('Subtract Damage');
+        return $this->isIssuedByMyCompany($user, $damage) && $user->can('Subtract Damage');
     }
 }

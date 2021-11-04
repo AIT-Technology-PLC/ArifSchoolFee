@@ -18,7 +18,7 @@ class GeneralTenderChecklistPolicy
 
     public function view(User $user, GeneralTenderChecklist $generalTenderChecklist)
     {
-        return $this->doesModelBelongToMyCompany($user, $generalTenderChecklist) && $user->can('Read Tender');
+        return $this->isIssuedByMyCompany($user, $generalTenderChecklist) && $user->can('Read Tender');
     }
 
     public function create(User $user)
@@ -28,11 +28,11 @@ class GeneralTenderChecklistPolicy
 
     public function update(User $user, GeneralTenderChecklist $generalTenderChecklist)
     {
-        return $this->doesModelBelongToMyCompany($user, $generalTenderChecklist) && $user->can('Update Tender');
+        return $this->isIssuedByMyCompany($user, $generalTenderChecklist) && $user->can('Update Tender');
     }
 
     public function delete(User $user, GeneralTenderChecklist $generalTenderChecklist)
     {
-        return $this->doesModelBelongToMyCompany($user, $generalTenderChecklist) && $user->can('Delete Tender');
+        return $this->isIssuedByMyCompany($user, $generalTenderChecklist) && $user->can('Delete Tender');
     }
 }

@@ -18,7 +18,7 @@ class ReservationPolicy
 
     public function view(User $user, Reservation $reservation)
     {
-        return $this->doesModelBelongToMyCompany($user, $reservation) && $user->can('Read Reservation');
+        return $this->isIssuedByMyCompany($user, $reservation) && $user->can('Read Reservation');
     }
 
     public function create(User $user)
@@ -28,31 +28,31 @@ class ReservationPolicy
 
     public function update(User $user, Reservation $reservation)
     {
-        return $this->doesModelBelongToMyCompany($user, $reservation) && $user->can('Update Reservation');
+        return $this->isIssuedByMyCompany($user, $reservation) && $user->can('Update Reservation');
     }
 
     public function delete(User $user, Reservation $reservation)
     {
-        return $this->doesModelBelongToMyCompany($user, $reservation) && $user->can('Delete Reservation');
+        return $this->isIssuedByMyCompany($user, $reservation) && $user->can('Delete Reservation');
     }
 
     public function approve(User $user, Reservation $reservation)
     {
-        return $this->doesModelBelongToMyCompany($user, $reservation) && $user->can('Approve Reservation');
+        return $this->isIssuedByMyCompany($user, $reservation) && $user->can('Approve Reservation');
     }
 
     public function reserve(User $user, Reservation $reservation)
     {
-        return $this->doesModelBelongToMyCompany($user, $reservation) && $user->can('Make Reservation');
+        return $this->isIssuedByMyCompany($user, $reservation) && $user->can('Make Reservation');
     }
 
     public function cancel(User $user, Reservation $reservation)
     {
-        return $this->doesModelBelongToMyCompany($user, $reservation) && $user->can('Cancel Reservation');
+        return $this->isIssuedByMyCompany($user, $reservation) && $user->can('Cancel Reservation');
     }
 
     public function convert(User $user, Reservation $reservation)
     {
-        return $this->doesModelBelongToMyCompany($user, $reservation) && $user->can('Convert Reservation');
+        return $this->isIssuedByMyCompany($user, $reservation) && $user->can('Convert Reservation');
     }
 }

@@ -18,7 +18,7 @@ class WarehousePolicy
 
     public function view(User $user, Warehouse $warehouse)
     {
-        return $this->doesModelBelongToMyCompany($user, $warehouse) && $user->can('Read Warehouse');
+        return $this->isIssuedByMyCompany($user, $warehouse) && $user->can('Read Warehouse');
     }
 
     public function create(User $user)
@@ -28,11 +28,11 @@ class WarehousePolicy
 
     public function update(User $user, Warehouse $warehouse)
     {
-        return $this->doesModelBelongToMyCompany($user, $warehouse) && $user->can('Update Warehouse');
+        return $this->isIssuedByMyCompany($user, $warehouse) && $user->can('Update Warehouse');
     }
 
     public function delete(User $user, Warehouse $warehouse)
     {
-        return $this->doesModelBelongToMyCompany($user, $warehouse) && $user->can('Delete Warehouse');
+        return $this->isIssuedByMyCompany($user, $warehouse) && $user->can('Delete Warehouse');
     }
 }

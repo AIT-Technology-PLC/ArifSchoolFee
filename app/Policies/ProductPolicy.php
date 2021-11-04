@@ -18,7 +18,7 @@ class ProductPolicy
 
     public function view(User $user, Product $product)
     {
-        return $this->doesModelBelongToMyCompany($user, $product) & $user->can('Read Product');
+        return $this->isIssuedByMyCompany($user, $product) & $user->can('Read Product');
     }
 
     public function create(User $user)
@@ -28,11 +28,11 @@ class ProductPolicy
 
     public function update(User $user, Product $product)
     {
-        return $this->doesModelBelongToMyCompany($user, $product) && $user->can('Update Product');
+        return $this->isIssuedByMyCompany($user, $product) && $user->can('Update Product');
     }
 
     public function delete(User $user, Product $product)
     {
-        return $this->doesModelBelongToMyCompany($user, $product) && $user->can('Delete Product');
+        return $this->isIssuedByMyCompany($user, $product) && $user->can('Delete Product');
     }
 }

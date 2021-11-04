@@ -18,7 +18,7 @@ class SalePolicy
 
     public function view(User $user, Sale $sale)
     {
-        return $this->doesModelBelongToMyCompany($user, $sale) && $user->can('Read Sale');
+        return $this->isIssuedByMyCompany($user, $sale) && $user->can('Read Sale');
     }
 
     public function create(User $user)
@@ -28,11 +28,11 @@ class SalePolicy
 
     public function update(User $user, Sale $sale)
     {
-        return $this->doesModelBelongToMyCompany($user, $sale) && $user->can('Update Sale');
+        return $this->isIssuedByMyCompany($user, $sale) && $user->can('Update Sale');
     }
 
     public function delete(User $user, Sale $sale)
     {
-        return $this->doesModelBelongToMyCompany($user, $sale) && $user->can('Delete Sale');
+        return $this->isIssuedByMyCompany($user, $sale) && $user->can('Delete Sale');
     }
 }

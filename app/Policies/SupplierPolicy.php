@@ -18,7 +18,7 @@ class SupplierPolicy
 
     public function view(User $user, Supplier $supplier)
     {
-        return $this->doesModelBelongToMyCompany($user, $supplier) && $user->can('Read Supplier');
+        return $this->isIssuedByMyCompany($user, $supplier) && $user->can('Read Supplier');
     }
 
     public function create(User $user)
@@ -28,11 +28,11 @@ class SupplierPolicy
 
     public function update(User $user, Supplier $supplier)
     {
-        return $this->doesModelBelongToMyCompany($user, $supplier) && $user->can('Update Supplier');
+        return $this->isIssuedByMyCompany($user, $supplier) && $user->can('Update Supplier');
     }
 
     public function delete(User $user, Supplier $supplier)
     {
-        return $this->doesModelBelongToMyCompany($user, $supplier) && $user->can('Delete Supplier');
+        return $this->isIssuedByMyCompany($user, $supplier) && $user->can('Delete Supplier');
     }
 }

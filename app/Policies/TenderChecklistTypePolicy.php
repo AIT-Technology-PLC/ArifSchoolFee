@@ -18,7 +18,7 @@ class TenderChecklistTypePolicy
 
     public function view(User $user, TenderChecklistType $tenderChecklistType)
     {
-        return $this->doesModelBelongToMyCompany($user, $tenderChecklistType) && $user->can('Read Tender');
+        return $this->isIssuedByMyCompany($user, $tenderChecklistType) && $user->can('Read Tender');
     }
 
     public function create(User $user)
@@ -28,11 +28,11 @@ class TenderChecklistTypePolicy
 
     public function update(User $user, TenderChecklistType $tenderChecklistType)
     {
-        return $this->doesModelBelongToMyCompany($user, $tenderChecklistType) && $user->can('Update Tender');
+        return $this->isIssuedByMyCompany($user, $tenderChecklistType) && $user->can('Update Tender');
     }
 
     public function delete(User $user, TenderChecklistType $tenderChecklistType)
     {
-        return $this->doesModelBelongToMyCompany($user, $tenderChecklistType) && $user->can('Delete Tender');
+        return $this->isIssuedByMyCompany($user, $tenderChecklistType) && $user->can('Delete Tender');
     }
 }

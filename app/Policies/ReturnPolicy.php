@@ -18,7 +18,7 @@ class ReturnPolicy
 
     public function view(User $user, Returnn $returnn)
     {
-        return $this->doesModelBelongToMyCompany($user, $returnn) && $user->can('Read Return');
+        return $this->isIssuedByMyCompany($user, $returnn) && $user->can('Read Return');
     }
 
     public function create(User $user)
@@ -28,21 +28,21 @@ class ReturnPolicy
 
     public function update(User $user, Returnn $returnn)
     {
-        return $this->doesModelBelongToMyCompany($user, $returnn) && $user->can('Update Return');
+        return $this->isIssuedByMyCompany($user, $returnn) && $user->can('Update Return');
     }
 
     public function delete(User $user, Returnn $returnn)
     {
-        return $this->doesModelBelongToMyCompany($user, $returnn) && $user->can('Delete Return');
+        return $this->isIssuedByMyCompany($user, $returnn) && $user->can('Delete Return');
     }
 
     public function approve(User $user, Returnn $returnn)
     {
-        return $this->doesModelBelongToMyCompany($user, $returnn) && $user->can('Approve Return');
+        return $this->isIssuedByMyCompany($user, $returnn) && $user->can('Approve Return');
     }
 
     public function add(User $user, Returnn $returnn)
     {
-        return $this->doesModelBelongToMyCompany($user, $returnn) && $user->can('Make Return');
+        return $this->isIssuedByMyCompany($user, $returnn) && $user->can('Make Return');
     }
 }

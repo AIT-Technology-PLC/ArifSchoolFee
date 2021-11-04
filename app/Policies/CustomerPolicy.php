@@ -18,7 +18,7 @@ class CustomerPolicy
 
     public function view(User $user, Customer $customer)
     {
-        return $this->doesModelBelongToMyCompany($user, $customer) && $user->can('Read Customer');
+        return $this->isIssuedByMyCompany($user, $customer) && $user->can('Read Customer');
     }
 
     public function create(User $user)
@@ -28,12 +28,12 @@ class CustomerPolicy
 
     public function update(User $user, Customer $customer)
     {
-        return $this->doesModelBelongToMyCompany($user, $customer) && $user->can('Update Customer');
+        return $this->isIssuedByMyCompany($user, $customer) && $user->can('Update Customer');
 
     }
 
     public function delete(User $user, Customer $customer)
     {
-        return $this->doesModelBelongToMyCompany($user, $customer) && $user->can('Delete Customer');
+        return $this->isIssuedByMyCompany($user, $customer) && $user->can('Delete Customer');
     }
 }

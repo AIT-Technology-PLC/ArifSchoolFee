@@ -27,12 +27,12 @@ class EmployeePolicy
             return true;
         }
 
-        return $this->doesModelBelongToMyCompany($user, $employee) && $user->can('Read Employee');
+        return $this->isIssuedByMyCompany($user, $employee) && $user->can('Read Employee');
     }
 
     public function update(User $user, Employee $employee)
     {
-        if (!$this->doesModelBelongToMyCompany($user, $employee) || !$user->can('Update Employee')) {
+        if (!$this->isIssuedByMyCompany($user, $employee) || !$user->can('Update Employee')) {
             return false;
         }
 
@@ -49,7 +49,7 @@ class EmployeePolicy
 
     public function delete(User $user, Employee $employee)
     {
-        if (!$this->doesModelBelongToMyCompany($user, $employee) || !$user->can('Delete Employee')) {
+        if (!$this->isIssuedByMyCompany($user, $employee) || !$user->can('Delete Employee')) {
             return false;
         }
 

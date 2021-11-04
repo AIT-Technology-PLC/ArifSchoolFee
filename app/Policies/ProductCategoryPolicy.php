@@ -18,7 +18,7 @@ class ProductCategoryPolicy
 
     public function view(User $user, ProductCategory $category)
     {
-        return $this->doesModelBelongToMyCompany($user, $category) && $user->can('Read Product');
+        return $this->isIssuedByMyCompany($user, $category) && $user->can('Read Product');
     }
 
     public function create(User $user)
@@ -28,11 +28,11 @@ class ProductCategoryPolicy
 
     public function update(User $user, ProductCategory $category)
     {
-        return $this->doesModelBelongToMyCompany($user, $category) && $user->can('Update Product');
+        return $this->isIssuedByMyCompany($user, $category) && $user->can('Update Product');
     }
 
     public function delete(User $user, ProductCategory $category)
     {
-        return $this->doesModelBelongToMyCompany($user, $category) && $user->can('Delete Product');
+        return $this->isIssuedByMyCompany($user, $category) && $user->can('Delete Product');
     }
 }

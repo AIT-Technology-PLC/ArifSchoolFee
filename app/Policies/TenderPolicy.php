@@ -18,7 +18,7 @@ class TenderPolicy
 
     public function view(User $user, Tender $tender)
     {
-        return $this->doesModelBelongToMyCompany($user, $tender) && $user->can('Read Tender');
+        return $this->isIssuedByMyCompany($user, $tender) && $user->can('Read Tender');
     }
 
     public function create(User $user)
@@ -28,11 +28,11 @@ class TenderPolicy
 
     public function update(User $user, Tender $tender)
     {
-        return $this->doesModelBelongToMyCompany($user, $tender) && $user->can('Update Tender');
+        return $this->isIssuedByMyCompany($user, $tender) && $user->can('Update Tender');
     }
 
     public function delete(User $user, Tender $tender)
     {
-        return $this->doesModelBelongToMyCompany($user, $tender) && $user->can('Delete Tender');
+        return $this->isIssuedByMyCompany($user, $tender) && $user->can('Delete Tender');
     }
 }
