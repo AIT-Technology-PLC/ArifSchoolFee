@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Action;
 
 use App\Actions\ApproveTransactionAction;
 use App\Actions\ConvertToSivAction;
+use App\Events\TransferApprovedEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Siv;
 use App\Models\Transfer;
-use App\Notifications\TransferApproved;
 use App\Notifications\TransferMade;
 use App\Services\TransferService;
 use Illuminate\Support\Facades\Notification;
@@ -27,11 +27,13 @@ class TransferController extends Controller
             return back()->with('failedMessage', 'You do not have permission to approve in one or more of the warehouses.');
         }
 
-        [$isExecuted, $message] = $action->execute($transfer, TransferApproved::class, 'Make Transfer');
+        [$isExecuted, $message] = $action->execute($transfer);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        event(new TransferApprovedEvent($transfer));
 
         return back()->with('successMessage', $message);
     }
