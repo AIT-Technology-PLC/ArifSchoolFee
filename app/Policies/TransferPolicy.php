@@ -18,7 +18,11 @@ class TransferPolicy
 
     public function view(User $user, Transfer $transfer)
     {
-        return $this->isIssuedByMyCompany($user, $transfer) && $user->can('Read Transfer');
+        if (!$this->isIssuedByMyCompany($user, $transfer) || !$user->can('Read Transfer')) {
+            return false;
+        }
+
+        return $transfer->transferred_from == $user->warehouse_id || $transfer->transferred_to == $user->warehouse_id;
     }
 
     public function create(User $user)
