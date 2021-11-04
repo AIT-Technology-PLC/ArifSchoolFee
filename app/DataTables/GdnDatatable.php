@@ -15,45 +15,23 @@ class GdnDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => function ($gdn) {
-                    return route('gdns.show', $gdn->id);
-                },
+                'data-url' => fn($gdn) => route('gdns.show', $gdn->id),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('do no', function ($gdn) {
-                return $gdn->code;
-            })
-            ->editColumn('status', function ($gdn) {
-                return view('components.datatables.gdn-status', compact('gdn'));
-            })
+            ->editColumn('do no', fn($gdn) => $gdn->code)
+            ->editColumn('status', fn($gdn) => view('components.datatables.gdn-status', compact('gdn')))
             ->editColumn('total price', function ($gdn) {
-                if (userCompany()->isDiscountBeforeVAT()) {
-                    return userCompany()->currency . '. ' . number_format($gdn->grandTotalPrice, 2);
-                }
-
-                if (!userCompany()->isDiscountBeforeVAT()) {
-                    return userCompany()->currency . '. ' . number_format($gdn->grandTotalPriceAfterDiscount, 2);
-                }
+                return userCompany()->isDiscountBeforeVAT() ?
+                userCompany()->currency . '. ' . number_format($gdn->grandTotalPrice, 2) :
+                userCompany()->currency . '. ' . number_format($gdn->grandTotalPriceAfterDiscount, 2);
             })
-            ->addColumn('customer', function ($gdn) {
-                return $gdn->customer->company_name ?? 'N/A';
-            })
-            ->editColumn('description', function ($gdn) {
-                return view('components.datatables.searchable-description', ['description' => $gdn->description]);
-            })
-            ->editColumn('issued on', function ($gdn) {
-                return $gdn->issued_on->toFormattedDateString();
-            })
-            ->editColumn('prepared by', function ($gdn) {
-                return $gdn->createdBy->name;
-            })
-            ->editColumn('approved by', function ($gdn) {
-                return $gdn->approvedBy->name ?? 'N/A';
-            })
-            ->editColumn('edited by', function ($gdn) {
-                return $gdn->updatedBy->name;
-            })
+            ->addColumn('customer', fn($gdn) => $gdn->customer->company_name ?? 'N/A')
+            ->editColumn('description', fn($gdn) => view('components.datatables.searchable-description', ['description' => $gdn->description]))
+            ->editColumn('issued on', fn($gdn) => $gdn->issued_on->toFormattedDateString())
+            ->editColumn('prepared by', fn($gdn) => $gdn->createdBy->name)
+            ->editColumn('approved by', fn($gdn) => $gdn->approvedBy->name ?? 'N/A')
+            ->editColumn('edited by', fn($gdn) => $gdn->updatedBy->name)
             ->editColumn('actions', function ($gdn) {
                 return view('components.common.action-buttons', [
                     'model' => 'gdns',
@@ -61,7 +39,6 @@ class GdnDatatable extends DataTable
                     'buttons' => 'all',
                 ]);
             })
-            ->rawColumns(['actions'])
             ->addIndexColumn();
     }
 
@@ -92,6 +69,7 @@ class GdnDatatable extends DataTable
             Column::make('customer', 'customer.company_name'),
             Column::make('description', 'description'),
             Column::make('issued on', 'issued_on'),
+            Column::make('created_at', 'created_at')->visible(false),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name'),
             Column::make('edited by', 'updatedBy.name'),
@@ -126,7 +104,7 @@ class GdnDatatable extends DataTable
             ->language([
                 'processing' => '<i class="fas fa-spinner fa-spin text-green is-size-3"></i>',
             ])
-            ->orderBy(isFeatureEnabled('Sale Management') ? 8 : 7, 'desc');
+            ->orderBy(isFeatureEnabled('Sale Management') ? 9 : 8, 'desc');
     }
 
     protected function filename()
