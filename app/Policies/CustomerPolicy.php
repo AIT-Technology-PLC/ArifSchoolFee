@@ -29,7 +29,6 @@ class CustomerPolicy
     public function update(User $user, Customer $customer)
     {
         return $this->isIssuedByMyCompany($user, $customer) && $user->can('Update Customer');
-
     }
 
     public function delete(User $user, Customer $customer)
