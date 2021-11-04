@@ -66,3 +66,15 @@ if (!function_exists('notifiables')) {
         return $users->except(auth()->id());
     }
 }
+
+if (!function_exists('notifiablesByBranch')) {
+
+    function notifiablesByBranch($permission, $warehouseId)
+    {
+        return User::query()
+            ->permission($permission)
+            ->where('warehouse_id', $warehouseId)
+            ->where('id', '<>', auth()->id())
+            ->get();
+    }
+}
