@@ -33,7 +33,7 @@ class ProformaInvoicePolicy
 
     public function delete(User $user, ProformaInvoice $proformaInvoice)
     {
-        return $this->isIssuedByMyCompany($user, $proformaInvoice) && $user->can('Delete Proforma Invoice');
+        return $this->isIssuedByMyCompany($user, $proformaInvoice, true) && $user->can('Delete Proforma Invoice');
     }
 
     public function convert(User $user, ProformaInvoice $proformaInvoice)

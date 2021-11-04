@@ -33,6 +33,6 @@ class TenderPolicy
 
     public function delete(User $user, Tender $tender)
     {
-        return $this->isIssuedByMyCompany($user, $tender) && $user->can('Delete Tender');
+        return $this->isIssuedByMyCompany($user, $tender, true) && $user->can('Delete Tender');
     }
 }

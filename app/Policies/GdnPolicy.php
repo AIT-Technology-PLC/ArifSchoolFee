@@ -33,7 +33,7 @@ class GdnPolicy
 
     public function delete(User $user, Gdn $gdn)
     {
-        return $this->isIssuedByMyCompany($user, $gdn) && $user->can('Delete GDN');
+        return $this->isIssuedByMyCompany($user, $gdn, true) && $user->can('Delete GDN');
     }
 
     public function approve(User $user, Gdn $gdn)

@@ -33,6 +33,6 @@ class SalePolicy
 
     public function delete(User $user, Sale $sale)
     {
-        return $this->isIssuedByMyCompany($user, $sale) && $user->can('Delete Sale');
+        return $this->isIssuedByMyCompany($user, $sale, true) && $user->can('Delete Sale');
     }
 }

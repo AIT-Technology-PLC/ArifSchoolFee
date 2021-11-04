@@ -33,6 +33,6 @@ class PurchasePolicy
 
     public function delete(User $user, Purchase $purchase)
     {
-        return $this->isIssuedByMyCompany($user, $purchase) && $user->can('Delete Purchase');
+        return $this->isIssuedByMyCompany($user, $purchase, true) && $user->can('Delete Purchase');
     }
 }

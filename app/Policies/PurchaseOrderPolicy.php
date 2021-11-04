@@ -33,6 +33,6 @@ class PurchaseOrderPolicy
 
     public function delete(User $user, PurchaseOrder $purchaseOrder)
     {
-        return $this->isIssuedByMyCompany($user, $purchaseOrder) && $user->can('Delete PO');
+        return $this->isIssuedByMyCompany($user, $purchaseOrder, true) && $user->can('Delete PO');
     }
 }

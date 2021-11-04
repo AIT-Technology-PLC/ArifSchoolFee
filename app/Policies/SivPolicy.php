@@ -33,7 +33,7 @@ class SivPolicy
 
     public function delete(User $user, Siv $siv)
     {
-        return $this->isIssuedByMyCompany($user, $siv) && $user->can('Delete SIV');
+        return $this->isIssuedByMyCompany($user, $siv, true) && $user->can('Delete SIV');
     }
 
     public function approve(User $user, Siv $siv)

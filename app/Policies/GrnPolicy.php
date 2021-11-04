@@ -33,7 +33,7 @@ class GrnPolicy
 
     public function delete(User $user, Grn $grn)
     {
-        return $this->isIssuedByMyCompany($user, $grn) && $user->can('Delete GRN');
+        return $this->isIssuedByMyCompany($user, $grn, true) && $user->can('Delete GRN');
     }
 
     public function approve(User $user, Grn $grn)

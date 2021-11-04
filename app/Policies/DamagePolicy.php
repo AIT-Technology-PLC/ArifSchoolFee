@@ -33,7 +33,7 @@ class DamagePolicy
 
     public function delete(User $user, Damage $damage)
     {
-        return $this->isIssuedByMyCompany($user, $damage) && $user->can('Delete Damage');
+        return $this->isIssuedByMyCompany($user, $damage, true) && $user->can('Delete Damage');
     }
 
     public function approve(User $user, Damage $damage)

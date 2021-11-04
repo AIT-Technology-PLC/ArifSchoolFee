@@ -33,7 +33,7 @@ class ReservationPolicy
 
     public function delete(User $user, Reservation $reservation)
     {
-        return $this->isIssuedByMyCompany($user, $reservation) && $user->can('Delete Reservation');
+        return $this->isIssuedByMyCompany($user, $reservation, true) && $user->can('Delete Reservation');
     }
 
     public function approve(User $user, Reservation $reservation)

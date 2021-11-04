@@ -33,7 +33,7 @@ class ReturnPolicy
 
     public function delete(User $user, Returnn $returnn)
     {
-        return $this->isIssuedByMyCompany($user, $returnn) && $user->can('Delete Return');
+        return $this->isIssuedByMyCompany($user, $returnn, true) && $user->can('Delete Return');
     }
 
     public function approve(User $user, Returnn $returnn)

@@ -33,7 +33,7 @@ class AdjustmentPolicy
 
     public function delete(User $user, Adjustment $adjustment)
     {
-        return $this->isIssuedByMyCompany($user, $adjustment) && $user->can('Delete Adjustment');
+        return $this->isIssuedByMyCompany($user, $adjustment, true) && $user->can('Delete Adjustment');
     }
 
     public function approve(User $user, Adjustment $adjustment)

@@ -33,7 +33,7 @@ class TransferPolicy
 
     public function delete(User $user, Transfer $transfer)
     {
-        return $this->isIssuedByMyCompany($user, $transfer) && $user->can('Delete Transfer');
+        return $this->isIssuedByMyCompany($user, $transfer, true) && $user->can('Delete Transfer');
     }
 
     public function approve(User $user, Transfer $transfer)
