@@ -91,7 +91,7 @@ class GdnDatatable extends DataTable
             Column::computed('total price'),
             Column::make('customer', 'customer.company_name'),
             Column::make('description', 'description'),
-            Column::make('issued on', 'created_at'),
+            Column::make('issued on', 'issued_on'),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name'),
             Column::make('edited by', 'updatedBy.name'),
@@ -126,7 +126,7 @@ class GdnDatatable extends DataTable
             ->language([
                 'processing' => '<i class="fas fa-spinner fa-spin text-green is-size-3"></i>',
             ])
-            ->orderBy(8, 'desc');
+            ->orderBy(isFeatureEnabled('Sale Management') ? 8 : 7, 'desc');
     }
 
     protected function filename()
