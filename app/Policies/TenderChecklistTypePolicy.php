@@ -3,13 +3,13 @@
 namespace App\Policies;
 
 use App\Models\TenderChecklistType;
-use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\Models\User;
+use App\Traits\VerifyModelIssuer;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TenderChecklistTypePolicy
 {
-    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
+    use HandlesAuthorization, VerifyModelIssuer;
 
     public function viewAny(User $user)
     {

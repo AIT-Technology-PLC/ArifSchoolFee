@@ -2,14 +2,14 @@
 
 namespace App\Policies;
 
-use App\Models\Warehouse;
-use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\Models\User;
+use App\Models\Warehouse;
+use App\Traits\VerifyModelIssuer;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class WarehousePolicy
 {
-    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
+    use HandlesAuthorization, VerifyModelIssuer;
 
     public function viewAny(User $user)
     {

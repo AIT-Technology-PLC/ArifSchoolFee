@@ -3,16 +3,16 @@
 namespace App\Policies;
 
 use App\Models\Company;
-use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\Models\User;
+use App\Traits\VerifyModelIssuer;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CompanyPolicy
 {
-    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
+    use HandlesAuthorization, VerifyModelIssuer;
 
     public function update(User $user, Company $company)
     {
-        return $this->doesModelBelongToMyCompany($user, $company->id) && $user->can('Update Company');
+        return $this->isIssuedByMyCompany($user, $company) && $user->can('Update Company');
     }
 }

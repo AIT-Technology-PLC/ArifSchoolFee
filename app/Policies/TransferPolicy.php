@@ -4,12 +4,12 @@ namespace App\Policies;
 
 use App\Models\Transfer;
 use App\Models\User;
-use App\Traits\ModelToCompanyBelongingnessChecker;
+use App\Traits\VerifyModelIssuer;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TransferPolicy
 {
-    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
+    use HandlesAuthorization, VerifyModelIssuer;
 
     public function viewAny(User $user)
     {

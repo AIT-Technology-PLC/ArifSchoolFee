@@ -3,13 +3,13 @@
 namespace App\Policies;
 
 use App\Models\TenderStatus;
-use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\Models\User;
+use App\Traits\VerifyModelIssuer;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TenderStatusPolicy
 {
-    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
+    use HandlesAuthorization, VerifyModelIssuer;
 
     public function viewAny(User $user)
     {

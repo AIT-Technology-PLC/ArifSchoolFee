@@ -3,13 +3,13 @@
 namespace App\Policies;
 
 use App\Models\Customer;
-use App\Traits\ModelToCompanyBelongingnessChecker;
 use App\Models\User;
+use App\Traits\VerifyModelIssuer;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CustomerPolicy
 {
-    use HandlesAuthorization, ModelToCompanyBelongingnessChecker;
+    use HandlesAuthorization, VerifyModelIssuer;
 
     public function viewAny(User $user)
     {
