@@ -46,13 +46,15 @@ if (!function_exists('notifiables')) {
             return $creator ?? [];
         }
 
-        $users = User::permission($permission)
+        $users = User::query()
+            ->permission($permission)
             ->whereIn('id', function ($query) {
                 $query->select('user_id')
                     ->from('employees')
                     ->where('company_id', userCompany()->id)
                     ->where('id', '<>', auth()->user()->employee->id);
-            })->get();
+            })
+            ->get();
 
         if ($users->contains('warehouse_id', auth()->user()->warehouse_id)) {
             $users = $users->where('warehouse_id', auth()->user()->warehouse_id);
@@ -69,8 +71,12 @@ if (!function_exists('notifiables')) {
 
 if (!function_exists('notifiablesByBranch')) {
 
-    function notifiablesByBranch($permission, $warehouseId)
+    function notifiablesByBranch($permission, $operation, $warehouseId)
     {
+        if (auth()->user()->can($permission) && auth()->user()->hasWarehousePermission($operation, $warehouseId)) {
+            return [];
+        }
+
         return User::query()
             ->permission($permission)
             ->where('warehouse_id', $warehouseId)
