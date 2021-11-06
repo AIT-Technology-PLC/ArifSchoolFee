@@ -158,6 +158,8 @@ class ReservationService
 
                     $detail['unit_price'] = $detail['original_unit_price'];
 
+                    $detail['discount'] = $detail['discount'] * 100;
+
                     unset($detail['original_unit_price']);
 
                     return $detail;
