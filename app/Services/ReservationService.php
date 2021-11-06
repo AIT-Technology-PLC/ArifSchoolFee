@@ -143,15 +143,28 @@ class ReservationService
             $reservation->convert();
 
             $gdn = Gdn::create([
-                'code' => NextReferenceNumService::table('gdns'),
                 'customer_id' => $reservation->customer_id ?? null,
-                'issued_on' => now(),
+                'code' => NextReferenceNumService::table('gdns'),
+                'discount' => $reservation->discount * 100,
                 'payment_type' => $reservation->payment_type,
-                'description' => $reservation->description ?? '',
                 'cash_received_in_percentage' => $reservation->cash_received_in_percentage,
+                'description' => $reservation->description ?? '',
+                'issued_on' => now(),
             ]);
 
-            $gdn->gdnDetails()->createMany($reservation->reservationDetails->toArray());
+            $reservationDetails = $reservation->reservationDetails
+                ->map(function ($detail) {
+                    $detail = $detail->only('warehouse_id', 'product_id', 'quantity', 'original_unit_price', 'discount', 'description');
+
+                    $detail['unit_price'] = $detail['original_unit_price'];
+
+                    unset($detail['original_unit_price']);
+
+                    return $detail;
+                })
+                ->toArray();
+
+            $gdn->gdnDetails()->createMany($reservationDetails);
 
             $gdn->reservation()->save($reservation);
         });
