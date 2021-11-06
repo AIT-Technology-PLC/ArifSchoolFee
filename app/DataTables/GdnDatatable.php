@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Gdn;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -20,13 +21,20 @@ class GdnDatatable extends DataTable
                 '@click' => 'showDetails',
             ])
             ->editColumn('do no', fn($gdn) => $gdn->code)
+            ->editColumn('receipt no', fn($gdn) => $gdn->sale->code ?? 'N/A')
             ->editColumn('status', fn($gdn) => view('components.datatables.gdn-status', compact('gdn')))
+            ->filterColumn('status', function ($query, $keyword) {
+                $query
+                    ->when(Str::contains('waiting approval', $keyword), fn($query) => $query->notApproved())
+                    ->when(Str::contains('approved', $keyword), fn($query) => $query->notSubtracted()->approved())
+                    ->when(Str::contains('subtracted', $keyword), fn($query) => $query->subtracted());
+            })
             ->editColumn('total price', function ($gdn) {
                 return userCompany()->isDiscountBeforeVAT() ?
                 userCompany()->currency . '. ' . number_format($gdn->grandTotalPrice, 2) :
                 userCompany()->currency . '. ' . number_format($gdn->grandTotalPriceAfterDiscount, 2);
             })
-            ->addColumn('customer', fn($gdn) => $gdn->customer->company_name ?? 'N/A')
+            ->editColumn('customer', fn($gdn) => $gdn->customer->company_name ?? 'N/A')
             ->editColumn('description', fn($gdn) => view('components.datatables.searchable-description', ['description' => $gdn->description]))
             ->editColumn('issued on', fn($gdn) => $gdn->issued_on->toFormattedDateString())
             ->editColumn('prepared by', fn($gdn) => $gdn->createdBy->name)
@@ -63,7 +71,7 @@ class GdnDatatable extends DataTable
             Column::computed('#'),
             Column::make('do no', 'code')->title('DO No'),
             isFeatureEnabled('Sale Management') ? Column::make('receipt no', 'sale.code')->content('N/A') : null,
-            Column::computed('status'),
+            Column::make('status', 'status')->orderable(false),
             Column::make('payment_type', 'payment_type'),
             Column::computed('total price'),
             Column::make('customer', 'customer.company_name'),
