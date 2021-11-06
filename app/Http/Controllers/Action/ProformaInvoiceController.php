@@ -86,7 +86,7 @@ class ProformaInvoiceController extends Controller
 
         $request->merge([
             'customer_id' => $proformaInvoice->customer_id ?? '',
-            'discount' => number_format($proformaInvoice->discount * 100, 2),
+            'discount' => $proformaInvoice->discount * 100,
             'gdn' => $proformaInvoiceDetails,
         ]);
 

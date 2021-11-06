@@ -152,19 +152,14 @@ class ReservationService
                 'issued_on' => now(),
             ]);
 
-            $reservationDetails = $reservation->reservationDetails
-                ->map(function ($detail) {
-                    $detail = $detail->only('warehouse_id', 'product_id', 'quantity', 'original_unit_price', 'discount', 'description');
+            $reservationDetails = collect($reservation->reservationDetails)
+                ->map(function ($item) {
+                    $item['unit_price'] = $item['originalUnitPrice'];
 
-                    $detail['unit_price'] = $detail['original_unit_price'];
+                    return $item;
+                });
 
-                    unset($detail['original_unit_price']);
-
-                    return $detail;
-                })
-                ->toArray();
-
-            $gdn->gdnDetails()->createMany($reservationDetails);
+            $gdn->gdnDetails()->createMany($reservationDetails->toArray());
 
             $gdn->reservation()->save($reservation);
         });
