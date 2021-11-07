@@ -73,6 +73,11 @@ class Features extends Seeder
             ]);
 
             Feature::firstOrCreate([
+                'name' => 'Credit Management',
+                'is_enabled' => 1,
+            ]);
+
+            Feature::firstOrCreate([
                 'name' => 'Purchase Order',
                 'is_enabled' => 1,
             ]);

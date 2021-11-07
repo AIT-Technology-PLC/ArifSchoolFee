@@ -77,6 +77,10 @@ class PermissionCategorizationService
             'label' => 'Customer',
             'feature' => 'Customer Management',
         ],
+        'credit' => [
+            'label' => 'Credit',
+            'feature' => 'Credit Management',
+        ],
         'tender' => [
             'label' => 'Tender',
             'feature' => 'Tender Management',

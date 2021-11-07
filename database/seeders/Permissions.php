@@ -172,6 +172,12 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Update Customer']);
             Permission::firstOrCreate(['name' => 'Delete Customer']);
 
+            // Credit
+            Permission::firstOrCreate(['name' => 'Create Credit']);
+            Permission::firstOrCreate(['name' => 'Read Credit']);
+            Permission::firstOrCreate(['name' => 'Update Credit']);
+            Permission::firstOrCreate(['name' => 'Delete Credit']);
+
             // Tender
             Permission::firstOrCreate(['name' => 'Create Tender']);
             Permission::firstOrCreate(['name' => 'Read Tender']);
@@ -198,6 +204,7 @@ class Permissions extends Seeder
                 'Read Product',
                 'Read Supplier',
                 'Read Customer',
+                'Read Credit',
                 'Read Reservation',
             ]);
 
@@ -216,6 +223,7 @@ class Permissions extends Seeder
                 'Create Sale',
                 'Create Proforma Invoice',
                 'Create Customer',
+                'Create Credit',
                 'Create PO',
                 'Create Return',
                 'Create Reservation',
@@ -223,6 +231,7 @@ class Permissions extends Seeder
                 'Read Sale',
                 'Read Proforma Invoice',
                 'Read Customer',
+                'Read Credit',
                 'Read PO',
                 'Read Return',
                 'Read Product',
@@ -231,6 +240,7 @@ class Permissions extends Seeder
                 'Update Sale',
                 'Update Proforma Invoice',
                 'Update Customer',
+                'Update Credit',
                 'Update PO',
                 'Update Return',
                 'Update Reservation',
