@@ -301,6 +301,19 @@
                             </li>
                         @endcan
                     @endif
+                    @can('Read Credit')
+                        @if (isFeatureEnabled('Credit Management'))
+                            <li>
+                                <x-common.button
+                                    tag="a"
+                                    href="{{ route('credits.index') }}"
+                                    name="menuTitles"
+                                    label="Credits"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('credits') ? 'is-active' : '' }}"
+                                />
+                            </li>
+                        @endcan
+                    @endif
                     @if (isFeatureEnabled('Customer Management'))
                         @can('Read Customer')
                             <li>
