@@ -16,7 +16,6 @@ class Credit extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
-        'issued_on' => 'datetime',
         'last_settled_at' => 'datetime',
         'due_date' => 'datetime',
     ];

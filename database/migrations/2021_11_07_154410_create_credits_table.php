@@ -27,7 +27,6 @@ class CreateCreditsTable extends Migration
             $table->decimal('credit_amount', 22);
             $table->decimal('credit_amount_settled', 22);
             $table->longText('description')->nullable();
-            $table->dateTime('issued_on')->nullable();
             $table->dateTime('due_date')->nullable();
             $table->dateTime('last_settled_at')->nullable();
             $table->timestamps();
