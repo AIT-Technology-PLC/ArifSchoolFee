@@ -17,6 +17,7 @@ class Credit extends Model
 
     protected $casts = [
         'last_settled_at' => 'datetime',
+        'due_date' => 'datetime',
     ];
 
     public function gdn()
