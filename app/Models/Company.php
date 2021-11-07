@@ -148,6 +148,11 @@ class Company extends Model
         return $this->hasMany(TenderChecklistType::class);
     }
 
+    public function credits()
+    {
+        return $this->hasMany(Credit::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);

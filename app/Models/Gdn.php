@@ -44,6 +44,11 @@ class Gdn extends Model
         return $this->morphOne(Reservation::class, 'reservable');
     }
 
+    public function credit()
+    {
+        return $this->hasOne(Credit::class);
+    }
+
     public function details()
     {
         return $this->gdnDetails;

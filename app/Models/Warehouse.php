@@ -78,6 +78,11 @@ class Warehouse extends Model
         return $this->hasMany(Warehouse::class, 'transferred_to');
     }
 
+    public function credits()
+    {
+        return $this->hasMany(Credit::class);
+    }
+
     public function getWarehousesInUseQuery()
     {
         return $this
