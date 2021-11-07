@@ -19,6 +19,7 @@ class DailyRunCommands extends Command
         'inventory:low-level-notification',
         'proforma-invoice:expiry-date-notification',
         'tender:daily-deadline-notification',
+        'credit:due-date-notification',
     ];
 
     public function __construct()
