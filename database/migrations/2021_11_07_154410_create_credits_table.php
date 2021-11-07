@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateCreditsTable extends Migration
@@ -49,6 +50,18 @@ class CreateCreditsTable extends Migration
 
             $table->index('credit_id');
         });
+
+        Schema::table('customers', function (Blueprint $table) {
+            $table->decimal('credit_amount_limit', 22)->nullable()->after('country');
+        });
+
+        DB::statement('
+            UPDATE customers set credit_amount_limit = 0.00
+        ');
+
+        Schema::table('customers', function (Blueprint $table) {
+            $table->decimal('credit_amount_limit', 22)->nullable(false)->change();
+        });
     }
 
     /**
@@ -60,5 +73,9 @@ class CreateCreditsTable extends Migration
     {
         Schema::drop('credit_settlements');
         Schema::drop('credits');
+
+        Schema::table('customers', function (Blueprint $table) {
+            $table->dropColumn('credit_amount_limit');
+        });
     }
 }
