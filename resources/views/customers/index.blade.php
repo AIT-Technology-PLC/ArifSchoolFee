@@ -33,7 +33,10 @@
                             Add new customer and assign products to them
                         </div>
                         <div class="is-size-3">
-                            <a href="{{ route('customers.create') }}" class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3">
+                            <a
+                                href="{{ route('customers.create') }}"
+                                class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
@@ -56,12 +59,17 @@
         <div class="box radius-top-0">
             <x-common.success-message :message="session('deleted')" />
             <div>
-                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[8]" data-numeric="[]">
+                <table
+                    class="regular-datatable is-hoverable is-size-7 display nowrap"
+                    data-date="[8]"
+                    data-numeric="[]"
+                >
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th class="text-purple"><abbr> Company </abbr></th>
                             <th><abbr> TIN </abbr></th>
+                            <th><abbr> Credit Limit </abbr></th>
                             <th><abbr> Address </abbr></th>
                             <th><abbr> Contact </abbr></th>
                             <th><abbr> Email </abbr></th>
@@ -83,6 +91,7 @@
                                     </span>
                                 </td>
                                 <td> {{ $customer->tin ?? 'N/A' }} </td>
+                                <td> {{ userCompany()->currency . '. ' . number_format($customer->credit_amount_limit, 2) }} </td>
                                 <td> {{ $customer->address ?? 'N/A' }} </td>
                                 <td class="is-capitalized">{{ $customer->contact_name ?? 'N/A' }}</td>
                                 <td>{{ $customer->email ?? 'N/A' }}</td>
@@ -92,7 +101,10 @@
                                 <td> {{ $customer->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $customer->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
-                                    <a href="{{ route('customers.edit', $customer->id) }}" data-title="Modify Customer Data">
+                                    <a
+                                        href="{{ route('customers.edit', $customer->id) }}"
+                                        data-title="Modify Customer Data"
+                                    >
                                         <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
@@ -102,7 +114,10 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-common.delete-button route="customers.destroy" :id="$customer->id" />
+                                    <x-common.delete-button
+                                        route="customers.destroy"
+                                        :id="$customer->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach

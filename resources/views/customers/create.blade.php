@@ -11,20 +11,39 @@
                 New Customer
             </h1>
         </div>
-        <form id="formOne" action="{{ route('customers.store') }}" method="POST" enctype="multipart/form-data" novalidate>
+        <form
+            id="formOne"
+            action="{{ route('customers.store') }}"
+            method="POST"
+            enctype="multipart/form-data"
+            novalidate
+        >
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
-                            <label for="company_name" class="label text-green has-text-weight-normal">Company Name <sup class="has-text-danger">*</sup> </label>
+                            <label
+                                for="company_name"
+                                class="label text-green has-text-weight-normal"
+                            >Company Name <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input id="company_name" name="company_name" type="text" class="input" placeholder="Company Name" value="{{ old('company_name') ?? '' }}">
+                                <input
+                                    id="company_name"
+                                    name="company_name"
+                                    type="text"
+                                    class="input"
+                                    placeholder="Company Name"
+                                    value="{{ old('company_name') ?? '' }}"
+                                >
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-building"></i>
                                 </span>
                                 @error('company_name')
-                                    <span class="help has-text-danger" role="alert">
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
                                         {{ $message }}
                                     </span>
                                 @enderror
@@ -33,14 +52,56 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="tin" class="label text-green has-text-weight-normal">TIN <sup class="has-text-danger"></sup> </label>
+                            <label
+                                for="credit_amount_limit"
+                                class="label text-green has-text-weight-normal"
+                            >Credit Limit <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input id="tin" name="tin" type="number" class="input" placeholder="Tin No" value="{{ old('tin') ?? '' }}">
+                                <input
+                                    id="credit_amount_limit"
+                                    name="credit_amount_limit"
+                                    type="number"
+                                    class="input"
+                                    placeholder="Credit Limit"
+                                    value="{{ old('credit_amount_limit') ?? 0.0 }}"
+                                >
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </span>
+                                @error('credit_amount_limit')
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label
+                                for="tin"
+                                class="label text-green has-text-weight-normal"
+                            >TIN <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <input
+                                    id="tin"
+                                    name="tin"
+                                    type="number"
+                                    class="input"
+                                    placeholder="Tin No"
+                                    value="{{ old('tin') ?? '' }}"
+                                >
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-hashtag"></i>
                                 </span>
                                 @error('tin')
-                                    <span class="help has-text-danger" role="alert">
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
                                         {{ $message }}
                                     </span>
                                 @enderror
@@ -49,14 +110,27 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="address" class="label text-green has-text-weight-normal">Address <sup class="has-text-danger"></sup> </label>
+                            <label
+                                for="address"
+                                class="label text-green has-text-weight-normal"
+                            >Address <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input id="address" name="address" type="text" class="input" placeholder="Address" value="{{ old('address') ?? '' }}">
+                                <input
+                                    id="address"
+                                    name="address"
+                                    type="text"
+                                    class="input"
+                                    placeholder="Address"
+                                    value="{{ old('address') ?? '' }}"
+                                >
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-map-marker-alt"></i>
                                 </span>
                                 @error('address')
-                                    <span class="help has-text-danger" role="alert">
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
                                         {{ $message }}
                                     </span>
                                 @enderror
@@ -65,14 +139,27 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="contact_name" class="label text-green has-text-weight-normal">Contact Name <sup class="has-text-danger"></sup> </label>
+                            <label
+                                for="contact_name"
+                                class="label text-green has-text-weight-normal"
+                            >Contact Name <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input id="contact_name" name="contact_name" type="text" class="input" placeholder="Contact Name" value="{{ old('contact_name') ?? '' }}">
+                                <input
+                                    id="contact_name"
+                                    name="contact_name"
+                                    type="text"
+                                    class="input"
+                                    placeholder="Contact Name"
+                                    value="{{ old('contact_name') ?? '' }}"
+                                >
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-address-book"></i>
                                 </span>
                                 @error('contact_name')
-                                    <span class="help has-text-danger" role="alert">
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
                                         {{ $message }}
                                     </span>
                                 @enderror
@@ -81,14 +168,27 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="email" class="label text-green has-text-weight-normal">Email <sup class="has-text-danger"></sup> </label>
+                            <label
+                                for="email"
+                                class="label text-green has-text-weight-normal"
+                            >Email <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input id="email" name="email" type="text" class="input" placeholder="Email Address" value="{{ old('email') ?? '' }}">
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="text"
+                                    class="input"
+                                    placeholder="Email Address"
+                                    value="{{ old('email') ?? '' }}"
+                                >
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-at"></i>
                                 </span>
                                 @error('email')
-                                    <span class="help has-text-danger" role="alert">
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
                                         {{ $message }}
                                     </span>
                                 @enderror
@@ -97,14 +197,27 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="phone" class="label text-green has-text-weight-normal">Phone <sup class="has-text-danger"></sup> </label>
+                            <label
+                                for="phone"
+                                class="label text-green has-text-weight-normal"
+                            >Phone <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
-                                <input id="phone" name="phone" type="text" class="input" placeholder="Phone/Telephone" value="{{ old('phone') ?? '' }}">
+                                <input
+                                    id="phone"
+                                    name="phone"
+                                    type="text"
+                                    class="input"
+                                    placeholder="Phone/Telephone"
+                                    value="{{ old('phone') ?? '' }}"
+                                >
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-phone"></i>
                                 </span>
                                 @error('phone')
-                                    <span class="help has-text-danger" role="alert">
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
                                         {{ $message }}
                                     </span>
                                 @enderror
@@ -113,13 +226,25 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="country" class="label text-green has-text-weight-normal"> Country <sup class="has-text-danger"></sup> </label>
+                            <label
+                                for="country"
+                                class="label text-green has-text-weight-normal"
+                            > Country <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select id="country" name="country">
-                                        <option selected disabled> Select Country/City </option>
+                                    <select
+                                        id="country"
+                                        name="country"
+                                    >
+                                        <option
+                                            selected
+                                            disabled
+                                        > Select Country/City </option>
                                         @if (old('country'))
-                                            <option value="{{ old('country') }}" selected> {{ old('country') }} </option>
+                                            <option
+                                                value="{{ old('country') }}"
+                                                selected
+                                            > {{ old('country') }} </option>
                                         @endif
                                         <optgroup label="Ethiopian Cities">
                                             @include('lists.cities')
@@ -134,7 +259,10 @@
                                     <i class="fas fa-globe"></i>
                                 </div>
                                 @error('country')
-                                    <span class="help has-text-danger" role="alert">
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
                                         {{ $message }}
                                     </span>
                                 @enderror
