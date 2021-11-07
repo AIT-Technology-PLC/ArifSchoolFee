@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Credit Settlements')
+@section('title', 'Credit Details')
 
 @section('content')
     <x-common.content-wrapper>
@@ -59,7 +59,7 @@
                 @can('Settle Credit')
                     <x-common.button
                         tag="a"
-                        href="{{ route('credit-settlements.create', $credit->id) }}"
+                        href="{{ route('credits.credit-settlements.create', $credit->id) }}"
                         mode="button"
                         icon="fas fa-money-check"
                         label="Add New Settlement"
@@ -100,7 +100,7 @@
                             <td> {!! nl2br(e($creditSettlement->description)) !!} </td>
                             <td>
                                 <x-common.action-buttons
-                                    :buttons="['delete']"
+                                    :buttons="['edit', 'delete']"
                                     model="credit-settlements"
                                     :id="$creditSettlement->id"
                                 />

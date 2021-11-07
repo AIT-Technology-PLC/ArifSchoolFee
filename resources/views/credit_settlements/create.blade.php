@@ -7,7 +7,7 @@
         <x-content.header title="New Credit Settlement" />
         <form
             id="formOne"
-            action="{{ route('credit-settlements.store', $credit->id) }}"
+            action="{{ route('credits.credit-settlements.store', $credit->id) }}"
             method="POST"
             enctype="multipart/form-data"
             novalidate
