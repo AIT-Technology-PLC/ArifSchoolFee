@@ -80,3 +80,7 @@ Route::resource('return-details', Resource\ReturnDetailController::class);
 Route::resource('reservations', Resource\ReservationController::class);
 
 Route::resource('reservation-details', Resource\ReservationDetailController::class);
+
+Route::resource('credits', CreditController::class);
+
+Route::resource('credits.credit-settlements', CreditSettlementController::class);
