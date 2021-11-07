@@ -177,6 +177,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Read Credit']);
             Permission::firstOrCreate(['name' => 'Update Credit']);
             Permission::firstOrCreate(['name' => 'Delete Credit']);
+            Permission::firstOrCreate(['name' => 'Settle Credit']);
 
             // Tender
             Permission::firstOrCreate(['name' => 'Create Tender']);

@@ -35,4 +35,9 @@ class CreditPolicy
     {
         return $this->isIssuedByMyCompany($user, $credit, true) && $user->can('Update Credit');
     }
+
+    public function settle(User $user, Credit $credit)
+    {
+        return $this->isIssuedByMyCompany($user, $credit) && $user->can('Settle Credit');
+    }
 }

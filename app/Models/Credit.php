@@ -31,7 +31,7 @@ class Credit extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function credit_settlements()
+    public function creditSettlements()
     {
         return $this->hasMany(CreditSettlement::class);
     }
