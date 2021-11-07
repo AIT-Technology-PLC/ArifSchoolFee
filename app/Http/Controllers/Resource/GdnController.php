@@ -25,6 +25,8 @@ class GdnController extends Controller
 
     public function index(GdnDatatable $datatable)
     {
+        $datatable->builder()->orderBy(isFeatureEnabled('Sale Management') ? 9 : 8, 'desc');
+
         $totalGdns = Gdn::count();
 
         $totalNotApproved = Gdn::notApproved()->count();
