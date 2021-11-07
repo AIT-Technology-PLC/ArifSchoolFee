@@ -54,7 +54,7 @@ class CreditDatatable extends DataTable
             Column::computed('#'),
             Column::make('credit no', 'code'),
             Column::make('delivery order no', 'gdn.code'),
-            Column::computed('status', 'status'),
+            Column::computed('status'),
             Column::make('credit amount', 'credit_amount'),
             Column::make('amount settled', 'credit_amount_settled'),
             Column::make('issued on', 'created_at'),

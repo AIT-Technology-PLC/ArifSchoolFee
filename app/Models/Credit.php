@@ -40,6 +40,23 @@ class Credit extends Model
         return $this->credit_amount_settled / $this->credit_amount;
     }
 
+    public function scopeSettled($query)
+    {
+        return $query->whereColumn('credit_amount', 'credit_amount_settled');
+    }
+
+    public function scopePartiallySettled($query)
+    {
+        return $query
+            ->where('credit_amount_settled', '>', 0)
+            ->whereColumn('credit_amount', '>', 'credit_amount_settled');
+    }
+
+    public function scopeNoSettlements($query)
+    {
+        return $query->where('credit_amount_settled', 0);
+    }
+
     public function isSettled()
     {
         return $this->credit_amount == $this->credit_amount_settled;
