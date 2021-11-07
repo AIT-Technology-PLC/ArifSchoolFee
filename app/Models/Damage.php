@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Damage extends Model
 {
-    use MultiTenancy, HasFactory, SoftDeletes, Approvable, HasUserstamps, Branchable, Subtractable;
+    use MultiTenancy, Branchable, HasFactory, SoftDeletes, Approvable, HasUserstamps, Subtractable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 

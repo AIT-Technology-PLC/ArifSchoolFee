@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tender extends Model
 {
-    use MultiTenancy, SoftDeletes, HasUserstamps, Branchable;
+    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 

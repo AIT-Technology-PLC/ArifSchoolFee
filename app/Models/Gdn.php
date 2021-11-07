@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Gdn extends Model
 {
-    use MultiTenancy, SoftDeletes, Approvable, PricingTicket, Discountable, HasUserstamps, Branchable, Subtractable, CalculateCreditPayment, Closable;
+    use MultiTenancy, Branchable, SoftDeletes, Approvable, PricingTicket, Discountable, HasUserstamps, Subtractable, CalculateCreditPayment, Closable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 

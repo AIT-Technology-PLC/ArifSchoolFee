@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reservation extends Model
 {
-    use MultiTenancy, HasFactory, SoftDeletes, Approvable, PricingTicket, Discountable, HasUserstamps, Branchable, CalculateCreditPayment;
+    use MultiTenancy, Branchable, HasFactory, SoftDeletes, Approvable, PricingTicket, Discountable, HasUserstamps, CalculateCreditPayment;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 

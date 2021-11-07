@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transfer extends Model
 {
-    use MultiTenancy, SoftDeletes, Approvable, HasUserstamps, Branchable, Addable, Subtractable, Closable;
+    use MultiTenancy, Branchable, SoftDeletes, Approvable, HasUserstamps, Addable, Subtractable, Closable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 

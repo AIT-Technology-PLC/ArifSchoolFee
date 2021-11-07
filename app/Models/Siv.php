@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Siv extends Model
 {
-    use MultiTenancy, HasFactory, SoftDeletes, Approvable, HasUserstamps, Branchable;
+    use MultiTenancy, Branchable, HasFactory, SoftDeletes, Approvable, HasUserstamps;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 

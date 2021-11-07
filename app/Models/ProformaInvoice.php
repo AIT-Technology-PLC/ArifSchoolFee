@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 
 class ProformaInvoice extends Model
 {
-    use MultiTenancy, HasFactory, SoftDeletes, PricingTicket, Discountable, HasUserstamps, Branchable, Closable;
+    use MultiTenancy, Branchable, HasFactory, SoftDeletes, PricingTicket, Discountable, HasUserstamps, Closable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 

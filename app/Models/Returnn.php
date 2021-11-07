@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Returnn extends Model
 {
-    use MultiTenancy, HasFactory, SoftDeletes, Approvable, PricingTicket, HasUserstamps, Branchable, Addable;
+    use MultiTenancy, Branchable, HasFactory, SoftDeletes, Approvable, PricingTicket, HasUserstamps, Addable;
 
     protected $table = "returns";
 

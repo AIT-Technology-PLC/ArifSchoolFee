@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sale extends Model
 {
-    use MultiTenancy, SoftDeletes, HasUserstamps, Branchable, PricingTicket, Discountable;
+    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Discountable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 

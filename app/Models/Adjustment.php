@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Adjustment extends Model
 {
-    use MultiTenancy, HasFactory, Approvable, SoftDeletes, HasUserstamps, Branchable;
+    use MultiTenancy, Branchable, HasFactory, Approvable, SoftDeletes, HasUserstamps;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
