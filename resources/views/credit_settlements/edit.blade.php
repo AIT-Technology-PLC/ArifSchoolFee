@@ -62,7 +62,7 @@
                                     > Cash </option>
                                 </x-forms.select>
                                 <x-common.icon
-                                    name="fas fa-sort"
+                                    name="fas fa-hand-holding-usd"
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="method" />
