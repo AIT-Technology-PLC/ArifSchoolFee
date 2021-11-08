@@ -70,19 +70,21 @@
                         label="Settled Amount in {{ userCompany()->currency }}"
                     />
                 </div>
-                <div class="column is-12">
-                    <x-common.show-data-section
-                        type="long"
-                        :data="$credit->description"
-                        label="Details"
-                    />
-                </div>
+                @if (!is_null($credit->description))
+                    <div class="column is-12">
+                        <x-common.show-data-section
+                            type="long"
+                            :data="$credit->description"
+                            label="Details"
+                        />
+                    </div>
+                @endif
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Settlements">
+        <x-content.header title="Credit Settlements">
             @if (!$credit->isSettled())
                 @can('Settle Credit')
                     <x-common.button
@@ -90,7 +92,7 @@
                         href="{{ route('credits.credit-settlements.create', $credit->id) }}"
                         mode="button"
                         icon="fas fa-money-check"
-                        label="Add New Settlement"
+                        label="Add Settlement"
                         class="is-small btn-purple is-outlined"
                     />
                 @endcan

@@ -10,7 +10,7 @@
 @elseif ($credit->settlementPercentage)
     <span class="tag is-small bg-gold has-text-white">
         <span class="icon">
-            <i class="fas fa-exclamation-circle"></i>
+            <i class="fas fa-spinner"></i>
         </span>
         <span>
             {{ number_format($credit->settlement_percentage, 2) }}%
