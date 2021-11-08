@@ -17,8 +17,22 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-file-invoice"
-                        :data="$credit->gdn->code"
+                        :data="$credit->gdn->code ?? 'N/A'"
                         label="Delivery Order No"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-user"
+                        :data="$credit->customer->company_name"
+                        label="Customer"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-spinner"
+                        data="{{ number_format($credit->settlement_percentage, 2) }}%"
+                        label="Settlement Percentage"
                     />
                 </div>
                 <div class="column is-6">
@@ -40,13 +54,6 @@
                         icon="fas fa-calendar-day"
                         :data="$credit->last_settled_at ? $credit->last_settled_at->toFormattedDateString() : 'N/A'"
                         label="Last Settlement Date"
-                    />
-                </div>
-                <div class="column is-6">
-                    <x-common.show-data-section
-                        icon="fas fa-spinner"
-                        data="{{ number_format($credit->settlement_percentage, 2) }}%"
-                        label="Settlement Percentage"
                     />
                 </div>
                 <div class="column is-6">
