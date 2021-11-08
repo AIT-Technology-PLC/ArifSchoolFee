@@ -62,8 +62,8 @@ class CreditDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('credit no', 'code'),
-            Column::make('delivery order no', 'gdn.code'),
+            Column::make('credit no', 'code')->className('has-text-centered'),
+            Column::make('delivery order no', 'gdn.code')->className('has-text-centered'),
             Column::make('customer', 'customer.company_name'),
             Column::make('status')->orderable(false),
             Column::make('credit amount', 'credit_amount'),
