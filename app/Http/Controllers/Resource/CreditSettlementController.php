@@ -17,7 +17,7 @@ class CreditSettlementController extends Controller
 
     public function create(Credit $credit)
     {
-        $this->authorize('create', $credit);
+        $this->authorize('settle', $credit);
 
         if ($credit->isSettled()) {
             return back()->with('failedMessage', 'This credit is fully settled.');
@@ -28,7 +28,7 @@ class CreditSettlementController extends Controller
 
     public function store(Credit $credit, StoreCreditSettlementRequest $request)
     {
-        $this->authorize('create', $credit);
+        $this->authorize('settle', $credit);
 
         if ($credit->isSettled()) {
             return redirect()->route('credits.show', $credit->id)->with('failedMessage', 'This credit is fully settled.');
@@ -46,7 +46,7 @@ class CreditSettlementController extends Controller
 
     public function edit(CreditSettlement $creditSettlement)
     {
-        $this->authorize('update', $creditSettlement->credit);
+        $this->authorize('settle', $creditSettlement->credit);
 
         if ($creditSettlement->credit->isSettled()) {
             return back()->with('failedMessage', 'This credit is fully settled.');
@@ -57,17 +57,17 @@ class CreditSettlementController extends Controller
 
     public function update(CreditSettlement $creditSettlement, UpdateCreditSettlementRequest $request)
     {
-        $this->authorize('update', $creditSettlement->credit);
+        $this->authorize('settle', $creditSettlement->credit);
 
         if ($creditSettlement->credit->isSettled()) {
             return redirect()->route('credits.show', $creditSettlement->credit->id)->with('failedMessage', 'This credit is fully settled.');
         }
 
-        $totalSettlementsAmount = $creditSettlement->where('id', '<>', $creditSettlement->id)->sum('amount');
+        $totalSettlementsAmount = $creditSettlement->credit->creditSettlements()->where('id', '<>', $creditSettlement->id)->sum('amount');
 
         if (($totalSettlementsAmount + $request->amount) > $creditSettlement->credit->credit_amount) {
             return redirect()->route('credits.show', $creditSettlement->credit->id)
-                ->with('failedMessage', 'The total amount settled has exceed the credit amount.');
+                ->with('failedMessage', 'The total amount settled has exceeded the credit amount.');
         }
 
         $creditSettlement->update($request->validated());

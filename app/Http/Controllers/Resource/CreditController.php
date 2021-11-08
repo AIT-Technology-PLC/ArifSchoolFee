@@ -40,7 +40,7 @@ class CreditController extends Controller
     public function destroy(Credit $credit)
     {
         if ($credit->settlement_percentage > 0) {
-            return back()->with('failedMessage', 'Deleting a credit that has settlements is not allowed.');
+            return back()->with('failedMessage', 'Deleting a credit that has one or more settlements is not allowed.');
         }
 
         $credit->forceDelete();

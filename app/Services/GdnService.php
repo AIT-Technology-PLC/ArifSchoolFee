@@ -48,7 +48,7 @@ class GdnService
         }
 
         if ($gdn->credit()->exists()) {
-            return [false, 'A credit that belongs to this delivery order already exists.'];
+            return [false, 'A credit for this delivery order was already created.'];
         }
 
         if ($gdn->payment_in_credit == 0) {

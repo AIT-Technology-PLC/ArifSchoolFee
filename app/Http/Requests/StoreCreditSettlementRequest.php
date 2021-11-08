@@ -14,7 +14,7 @@ class StoreCreditSettlementRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => ['nullable', 'numeric'],
+            'amount' => ['nullable', 'numeric', 'gt:0'],
             'method' => ['required', 'string'],
             'reference_number' => ['nullable', 'string'],
             'settled_at' => ['required', 'date'],
