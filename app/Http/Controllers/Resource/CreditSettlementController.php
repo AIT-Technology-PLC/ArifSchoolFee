@@ -62,7 +62,7 @@ class CreditSettlementController extends Controller
             return back()->with('This credit is fully settled.');
         }
 
-        $totalSettlementsAmount = $creditSettlement->credit->creditSettlements()->where('id', '<>', $creditSettlement->id)->sum('amount');
+        $totalSettlementsAmount = $creditSettlement->where('id', '<>', $creditSettlement->id)->sum('amount');
 
         if (($totalSettlementsAmount + $request->amount) > $creditSettlement->credit->credit_amount) {
             return back()->with('The total amount settled has exceed the credit amount.');
