@@ -21,7 +21,7 @@
                             Amount <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field>
-                            <x-forms.control>
+                            <x-forms.control class="has-icons-left">
                                 <x-forms.input
                                     id="amount"
                                     name="amount"
@@ -74,7 +74,7 @@
                             Reference No <sup class="has-text-danger"></sup>
                         </x-forms.label>
                         <x-forms.field>
-                            <x-forms.control>
+                            <x-forms.control class="has-icons-left">
                                 <x-forms.input
                                     id="reference_number"
                                     name="reference_number"

@@ -23,13 +23,6 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-clock"
-                        :data="number_format($credit->settlement_percentage, 2)"
-                        label="Settlement Percentage"
-                    />
-                </div>
-                <div class="column is-6">
-                    <x-common.show-data-section
                         icon="fas fa-calendar-day"
                         :data="$credit->created_at->toFormattedDateString()"
                         label="Issued On"
@@ -40,6 +33,34 @@
                         icon="fas fa-calendar-day"
                         :data="$credit->due_date->toFormattedDateString()"
                         label="Due Date"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-calendar-day"
+                        :data="$credit->last_settled_at->toFormattedDateString()"
+                        label="Last Settlement Date"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-spinner"
+                        data="{{ number_format($credit->settlement_percentage, 2) }}%"
+                        label="Settlement Percentage"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-money-check"
+                        data="{{ number_format($credit->credit_amount, 2) }}"
+                        label="Credit Amount in {{ userCompany()->currency }}"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-money-check"
+                        data="{{ number_format($credit->credit_amount_settled, 2) }}"
+                        label="Settled Amount in {{ userCompany()->currency }}"
                     />
                 </div>
                 <div class="column is-12">
@@ -70,7 +91,7 @@
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
-            <x-common.success-message :message="session('successMessage')" />
+            <x-common.success-message :message="session('deleted')" />
             @if ($credit->isSettled())
                 <x-common.success-message message="This credit is fully settled." />
             @elseif ($credit->settlement_percentage)
@@ -78,7 +99,6 @@
             @else
                 <x-common.fail-message message="No settlements was made to this credit." />
             @endif
-            <x-common.success-message :message="session('deleted')" />
             <x-common.bulma-table>
                 <x-slot name="headings">
                     <th> # </th>
@@ -95,8 +115,8 @@
                             <td> {{ $loop->index + 1 }} </td>
                             <td class="is-capitalized"> {{ $creditSettlement->method }} </td>
                             <td class="is-capitalized"> {{ $creditSettlement->reference_number ?? 'N/A' }} </td>
-                            <td> {{ $creditSettlement->settled_on->toFormattedDateString() }}</td>
-                            <td>{{ userCompany() . '. ' . number_format($creditSettlement->amount, 2) }}</td>
+                            <td> {{ $creditSettlement->settled_at->toFormattedDateString() }}</td>
+                            <td>{{ userCompany()->currency . '. ' . number_format($creditSettlement->amount, 2) }}</td>
                             <td> {!! nl2br(e($creditSettlement->description)) !!} </td>
                             <td>
                                 <x-common.action-buttons

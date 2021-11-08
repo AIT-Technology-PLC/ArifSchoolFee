@@ -45,6 +45,6 @@ trait CalculateCreditPayment
 
     public function isPaymentCredit()
     {
-        return $this->payment_type = 'Credit Payment';
+        return $this->payment_type == 'Credit Payment';
     }
 }

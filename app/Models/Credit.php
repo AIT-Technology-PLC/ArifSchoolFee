@@ -37,7 +37,7 @@ class Credit extends Model
 
     public function getSettlementPercentageAttribute()
     {
-        return $this->credit_amount_settled / $this->credit_amount;
+        return ($this->credit_amount_settled / $this->credit_amount) * 100;
     }
 
     public function scopeSettled($query)

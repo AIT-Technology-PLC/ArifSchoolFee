@@ -85,4 +85,4 @@ Route::resource('credits', Resource\CreditController::class)
     ->only(['index', 'show', 'destroy']);
 
 Route::resource('credits.credit-settlements', Resource\CreditSettlementController::class)
-    ->only(['create', 'store', 'edit', 'update', 'destroy']);
+    ->only(['create', 'store', 'edit', 'update', 'destroy'])->shallow();

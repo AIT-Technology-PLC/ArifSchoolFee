@@ -20,7 +20,7 @@ class CreditSettlementController extends Controller
         $this->authorize('create', $credit);
 
         if ($credit->isSettled()) {
-            return back()->with('This credit is fully settled.');
+            return back()->with('failedMessage', 'This credit is fully settled.');
         }
 
         return view('credit_settlements.create', compact('credit'));
@@ -31,16 +31,17 @@ class CreditSettlementController extends Controller
         $this->authorize('create', $credit);
 
         if ($credit->isSettled()) {
-            return back()->with('This credit is fully settled.');
+            return redirect()->route('credits.show', $credit->id)->with('failedMessage', 'This credit is fully settled.');
         }
 
         if (($credit->creditSettlements()->sum('amount') + $request->amount) > $credit->credit_amount) {
-            return back()->with('The total amount settled has exceeded the credit amount.');
+            return redirect()->route('credits.show', $credit->id)
+                ->with('failedMessage', 'The total amount settled has exceeded the credit amount.');
         }
 
         $credit->creditSettlements()->create($request->validated());
 
-        return redirect()->route('credits.index', $credit);
+        return redirect()->route('credits.show', $credit->id);
     }
 
     public function edit(CreditSettlement $creditSettlement)
@@ -48,7 +49,7 @@ class CreditSettlementController extends Controller
         $this->authorize('update', $creditSettlement->credit);
 
         if ($creditSettlement->credit->isSettled()) {
-            return back()->with('This credit is fully settled.');
+            return back()->with('failedMessage', 'This credit is fully settled.');
         }
 
         return view('credit_settlements.edit', compact('creditSettlement'));
@@ -59,18 +60,19 @@ class CreditSettlementController extends Controller
         $this->authorize('update', $creditSettlement->credit);
 
         if ($creditSettlement->credit->isSettled()) {
-            return back()->with('This credit is fully settled.');
+            return redirect()->route('credits.show', $creditSettlement->credit->id)->with('failedMessage', 'This credit is fully settled.');
         }
 
         $totalSettlementsAmount = $creditSettlement->where('id', '<>', $creditSettlement->id)->sum('amount');
 
         if (($totalSettlementsAmount + $request->amount) > $creditSettlement->credit->credit_amount) {
-            return back()->with('The total amount settled has exceed the credit amount.');
+            return redirect()->route('credits.show', $creditSettlement->credit->id)
+                ->with('failedMessage', 'The total amount settled has exceed the credit amount.');
         }
 
         $creditSettlement->update($request->validated());
 
-        return redirect()->route('credits.index', $creditSettlement);
+        return redirect()->route('credits.show', $creditSettlement->credit->id);
     }
 
     public function destroy(CreditSettlement $creditSettlement)
