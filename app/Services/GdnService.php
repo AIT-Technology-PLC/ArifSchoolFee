@@ -59,6 +59,10 @@ class GdnService
             return [false, 'Creating a credit for delivery order that has no customer is not allowed.'];
         }
 
+        if ($gdn->customer->hasReachedCreditLimit($gdn->payment_in_credit)) {
+            return [false, 'The customer has exceeded the credit amount limit.'];
+        }
+
         $gdn->credit()->create([
             'customer_id' => $gdn->customer_id,
             'code' => NextReferenceNumService::table('credits'),
