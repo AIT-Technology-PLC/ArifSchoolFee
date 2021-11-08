@@ -31,7 +31,9 @@ class SendProformaInvoiceExpiryDateNotifications extends Command
 
         foreach ($companies as $company) {
 
-            $proformaInvoices = ProformaInvoice::where('company_id', $company->id)
+            $proformaInvoices = ProformaInvoice::query()
+                ->where('company_id', $company->id)
+                ->pending()
                 ->whereRaw('DATEDIFF(expires_on, CURRENT_DATE) BETWEEN 1 AND 5')
                 ->get();
 
