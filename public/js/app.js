@@ -141,7 +141,10 @@ function changeDtButton() {
 }
 
 function removeDtSearchLabel() {
-    $(".dataTables_filter label input").attr("placeholder", "Search");
+    input = $(".dataTables_filter label input");
+    $(".dataTables_filter label").html(input);
+    input.attr("placeholder", "Search");
+    input.addClass("mt-2");
 }
 
 function adjustDataTablesColumns(className) {
