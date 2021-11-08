@@ -7,6 +7,7 @@ use App\Models\Credit;
 use App\Models\User;
 use App\Notifications\CreditDueDateIsClose;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Notification;
 
 class SendCreditDueDateNotification extends Command

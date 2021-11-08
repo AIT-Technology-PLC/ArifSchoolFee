@@ -2,9 +2,9 @@
 
 namespace App\Notifications;
 
-use Illuminate\Support\Str;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 
 class CreditDueDateIsClose extends Notification
 {
@@ -26,7 +26,7 @@ class CreditDueDateIsClose extends Notification
     {
         $message = Str::of($this->totalCredits)
             ->append(
-                Str::plural('credit', $this->totalCredits),
+                Str::plural(' credit', $this->totalCredits),
                 ' will be due',
                 ' after 5 days or less'
             );
@@ -34,7 +34,7 @@ class CreditDueDateIsClose extends Notification
         return [
             'icon' => 'fas fa-money-check',
             'message' => $message,
-            'endpoint' => '/credits/due',
+            'endpoint' => '/credits?type=due',
         ];
     }
 }

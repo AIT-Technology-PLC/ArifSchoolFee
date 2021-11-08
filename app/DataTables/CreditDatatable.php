@@ -44,6 +44,7 @@ class CreditDatatable extends DataTable
         return $credit
             ->newQuery()
             ->select('credits.*')
+            ->when(request('type') == 'due', fn($query) => $query->whereRaw('DATEDIFF(due_date, CURRENT_DATE) BETWEEN 1 AND 5'))
             ->with([
                 'gdn:id,code',
                 'customer:id,company_name',
