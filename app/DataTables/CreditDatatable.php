@@ -23,7 +23,12 @@ class CreditDatatable extends DataTable
                 '@click' => 'showDetails',
             ])
             ->editColumn('credit no', fn($credit) => $credit->code)
-            ->editColumn('delivery order no', fn($credit) => $credit->gdn->code)
+            ->editColumn('delivery order no', function ($credit) {
+                return view('components.datatables.link', [
+                    'url' => route('gdns.show', $credit->gdn->id),
+                    'label' => $credit->gdn->code,
+                ]);
+            })
             ->editColumn('customer', fn($credit) => $credit->customer->company_name)
             ->editColumn('status', fn($credit) => view('components.datatables.credit-status', compact('credit')))
             ->filterColumn('status', function ($query, $keyword) {
@@ -63,7 +68,7 @@ class CreditDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('credit no', 'code')->className('has-text-centered'),
-            Column::make('delivery order no', 'gdn.code')->className('has-text-centered'),
+            Column::make('delivery order no', 'gdn.code')->className('has-text-centered actions'),
             Column::make('customer', 'customer.company_name'),
             Column::make('status')->orderable(false),
             Column::make('credit amount', 'credit_amount'),

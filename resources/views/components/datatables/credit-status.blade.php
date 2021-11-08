@@ -13,7 +13,7 @@
             <i class="fas fa-spinner"></i>
         </span>
         <span>
-            {{ number_format($credit->settlement_percentage, 2) }}%
+            {{ number_format($credit->settlement_percentage, 2) }}% Settled
         </span>
     </span>
 @else
