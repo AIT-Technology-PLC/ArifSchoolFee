@@ -24,8 +24,8 @@ class CreditDatatable extends DataTable
             ->editColumn('credit no', fn($credit) => $credit->code)
             ->editColumn('delivery order no', fn($credit) => $credit->gdn->code)
             ->editColumn('status', fn($credit) => view('components.datatables.credit-status', compact('credit')))
-            ->editColumn('credit amount', fn($credit) => userCompany() . '. ' . $credit->credit_amount)
-            ->editColumn('amount settled', fn($credit) => userCompany() . '. ' . $credit->credit_amount_settled)
+            ->editColumn('credit amount', fn($credit) => userCompany()->currency . '. ' . number_format($credit->credit_amount, 2))
+            ->editColumn('amount settled', fn($credit) => userCompany()->currency . '. ' . number_format($credit->credit_amount_settled, 2))
             ->editColumn('issued on', fn($credit) => $credit->created_at->toFormattedDateString())
             ->editColumn('due date', fn($credit) => $credit->due_date->toFormattedDateString())
             ->editColumn('actions', function ($credit) {
@@ -43,9 +43,7 @@ class CreditDatatable extends DataTable
         return $credit
             ->newQuery()
             ->select('credits.*')
-            ->with([
-                'gdn:id, code',
-            ]);
+            ->with('gdn:id,code');
     }
 
     protected function getColumns()

@@ -31,14 +31,14 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$credit->issued_on->toFormattedDateString()"
+                        :data="$credit->created_at->toFormattedDateString()"
                         label="Issued On"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$credit->issued_on->toFormattedDateString()"
+                        :data="$credit->due_date->toFormattedDateString()"
                         label="Due Date"
                     />
                 </div>
@@ -63,7 +63,7 @@
                         mode="button"
                         icon="fas fa-money-check"
                         label="Add New Settlement"
-                        class="is-small btn-purple is-outlined is-small"
+                        class="is-small btn-purple is-outlined"
                     />
                 @endcan
             @endif

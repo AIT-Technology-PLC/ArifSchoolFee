@@ -253,6 +253,15 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
+                            @if ($gdn->isApproved() && !$gdn->credit()->exists() && $gdn->payment_in_credit > 0 && $gdn->customer()->exists())
+                                <x-common.transaction-button
+                                    :route="route('gdns.convert_to_credit', $gdn->id)"
+                                    type="delivery order to credit"
+                                    action="convert"
+                                    icon="fas fa-money-check"
+                                    label="Convert to Credit"
+                                />
+                            @endif
                             @if ($gdn->isSubtracted() && !$gdn->isClosed())
                                 <x-common.transaction-button
                                     :route="route('gdns.close', $gdn->id)"

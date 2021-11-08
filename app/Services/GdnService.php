@@ -44,14 +44,22 @@ class GdnService
     public function convertToCredit($gdn)
     {
         if (!$gdn->isApproved()) {
-            return [false, 'This delivery order is not approved yet.'];
+            return [false, 'Creating a credit for delivery order that is not approved is not allowed.'];
         }
 
         if ($gdn->credit()->exists()) {
-            return [false, 'This delivery order already has a credit record.'];
+            return [false, 'A credit that belongs to this delivery order already exists.'];
         }
 
-        Credit::create([
+        if ($gdn->payment_in_credit == 0) {
+            return [false, 'Creating a credit for delivery order that has no credit is not allowed.'];
+        }
+
+        if (!$gdn->customer()->exists()) {
+            return [false, 'Creating a credit for delivery order that has no customer is not allowed.'];
+        }
+
+        $gdn->credit()->create([
             'code' => NextReferenceNumService::table('credits'),
             'cash_amount' => $gdn->payment_in_cash,
             'credit_amount' => $gdn->payment_in_credit,
