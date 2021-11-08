@@ -55,10 +55,6 @@ class Customer extends Model
 
     public function hasReachedCreditLimit($newCreditAmount)
     {
-        if ($this->credit_amount_limit <= 0) {
-            return false;
-        }
-
         $currentCreditAmount = $this->credits()->sum('credit_amount') - $this->credits()->sum('credit_amount_settled');
 
         if (($currentCreditAmount + $newCreditAmount) > $this->credit_amount_limit) {
