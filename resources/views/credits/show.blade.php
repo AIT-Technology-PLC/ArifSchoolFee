@@ -38,7 +38,7 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$credit->last_settled_at->toFormattedDateString()"
+                        :data="$credit->last_settled_at ? $credit->last_settled_at->toFormattedDateString() : 'N/A'"
                         label="Last Settlement Date"
                     />
                 </div>

@@ -60,6 +60,7 @@ class GdnService
         }
 
         $gdn->credit()->create([
+            'customer_id' => $gdn->customer_id,
             'code' => NextReferenceNumService::table('credits'),
             'cash_amount' => $gdn->payment_in_cash,
             'credit_amount' => $gdn->payment_in_credit,
