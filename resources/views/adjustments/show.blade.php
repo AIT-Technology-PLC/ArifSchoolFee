@@ -70,13 +70,9 @@
             @if ($adjustment->isAdjusted())
                 <x-common.success-message message="Products have been adjusted accordingly." />
             @elseif (!$adjustment->isApproved())
-                @cannot('Approve Adjustment')
-                    <x-common.fail-message message="This Adjustment has not been approved yet." />
-                @endcannot
+                <x-common.fail-message message="This Adjustment has not been approved yet." />
             @elseif (!$adjustment->isAdjusted())
-                @cannot('Make Adjustment')
-                    <x-common.fail-message message="Product(s) listed below are still not adjusted." />
-                @endcannot
+                <x-common.fail-message message="Product(s) listed below are still not adjusted." />
             @endif
             <x-common.success-message :message="session('deleted')" />
             <x-common.bulma-table>

@@ -16,6 +16,6 @@
         data-type="{{ $type }}"
         data-action="{{ $action }}"
         data-description="{{ $description }}"
-        class="swal btn-purple is-outlined is-small"
+        {{ $attributes->merge(['class' => 'swal btn-purple is-outlined is-small']) }}
     />
 </form>
