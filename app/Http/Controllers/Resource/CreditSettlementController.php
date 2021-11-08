@@ -38,7 +38,7 @@ class CreditSettlementController extends Controller
             return back()->with('The total amount settled has exceeded the credit amount.');
         }
 
-        $credit->create($request->validated());
+        $credit->creditSettlements()->create($request->validated());
 
         return redirect()->route('credits.index', $credit);
     }
