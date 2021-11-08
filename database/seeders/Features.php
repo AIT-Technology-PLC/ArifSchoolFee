@@ -17,120 +17,120 @@ class Features extends Seeder
     public function run()
     {
         DB::transaction(function () {
-            Feature::firstOrCreate([
-                'name' => 'Merchandise Inventory',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Merchandise Inventory'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Inventory History',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Inventory History'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Gdn Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Gdn Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Grn Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Grn Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Transfer Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Transfer Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Damage Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Damage Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Inventory Adjustment',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Inventory Adjustment'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Siv Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Siv Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Sale Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Sale Management'],
+                ['is_enabled' => 0]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Proforma Invoice',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Proforma Invoice'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Customer Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Customer Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Credit Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Credit Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Purchase Order',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Purchase Order'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Tender Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Tender Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Purchase Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Purchase Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Supplier Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Supplier Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Product Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Product Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Warehouse Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Warehouse Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'User Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'User Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'General Settings',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'General Settings'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Notification Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Notification Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Return Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Return Management'],
+                ['is_enabled' => 1]
+            );
 
-            Feature::firstOrCreate([
-                'name' => 'Reservation Management',
-                'is_enabled' => 1,
-            ]);
+            Feature::updateOrCreate(
+                ['name' => 'Reservation Management'],
+                ['is_enabled' => 1]
+            );
 
             $professional = Plan::where('name', 'professional')->first();
             $premium = Plan::where('name', 'premium')->first();
