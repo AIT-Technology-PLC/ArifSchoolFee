@@ -28,14 +28,11 @@ class CreditController extends Controller
         return $datatable->render('credits.index', compact('totalCredits', 'totalSettled', 'totalPartiallySettled', 'totalNotSettledAtAll'));
     }
 
-    public function store()
-    {
-        //
-    }
-
     public function show(Credit $credit)
     {
-        //
+        $credit->load(['gdn', 'customer', 'creditSettlements']);
+
+        return view('credits.show', compact('credit'));
     }
 
     public function destroy(Credit $credit)

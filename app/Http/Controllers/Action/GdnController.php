@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Action;
 use App\Actions\ApproveTransactionAction;
 use App\Actions\ConvertToSivAction;
 use App\Http\Controllers\Controller;
+use App\Models\Credit;
 use App\Models\Gdn;
 use App\Models\Siv;
 use App\Notifications\GdnApproved;
@@ -118,5 +119,18 @@ class GdnController extends Controller
         $gdn->close();
 
         return back()->with('successMessage', 'Delivery Order closed and archived successfully.');
+    }
+
+    public function convertToCredit(Gdn $gdn, GdnService $service)
+    {
+        $this->authorize('create', Credit::class);
+
+        [$isExecuted, $message] = $service->convertToCredit($gdn);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        return redirect()->route('credits.show', $gdn->credit->id);
     }
 }

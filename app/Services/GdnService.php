@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Credit;
 use App\Services\InventoryOperationService;
+use App\Services\NextReferenceNumService;
 use Illuminate\Support\Facades\DB;
 
 class GdnService
@@ -35,6 +37,27 @@ class GdnService
 
             $gdn->subtract();
         });
+
+        return [true, ''];
+    }
+
+    public function convertToCredit($gdn)
+    {
+        if (!$gdn->isApproved()) {
+            return [false, 'This delivery order is not approved yet.'];
+        }
+
+        if ($gdn->credit()->exists()) {
+            return [false, 'This delivery order already has a credit record.'];
+        }
+
+        Credit::create([
+            'code' => NextReferenceNumService::table('credits'),
+            'cash_amount' => $gdn->payment_in_cash,
+            'credit_amount' => $gdn->payment_in_credit,
+            'credit_amount_settled' => 0.00,
+            'due_date' => $gdn->due_date,
+        ]);
 
         return [true, ''];
     }
