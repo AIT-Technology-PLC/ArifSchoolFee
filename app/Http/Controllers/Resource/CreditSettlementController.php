@@ -79,6 +79,6 @@ class CreditSettlementController extends Controller
 
         $creditSettlement->forceDelete();
 
-        return back()->with('failedMessage', 'Deleted successfully.');
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }

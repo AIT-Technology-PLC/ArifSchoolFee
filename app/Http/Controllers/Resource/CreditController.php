@@ -43,6 +43,6 @@ class CreditController extends Controller
 
         $credit->forceDelete();
 
-        return back()->with('successMessage', 'Deleted successfully');
+        return back()->with('deleted', 'Deleted successfully');
     }
 }
