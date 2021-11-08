@@ -75,7 +75,7 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Details">
+        <x-content.header title="Settlements">
             @if (!$credit->isSettled())
                 @can('Settle Credit')
                     <x-common.button
@@ -105,7 +105,7 @@
                     <th> Method </th>
                     <th> Reference No </th>
                     <th> Settlement Date </th>
-                    <th> Amount </th>
+                    <th class="has-text-right"> Amount </th>
                     <th> Description </th>
                     <th> Actions </th>
                 </x-slot>
@@ -116,7 +116,7 @@
                             <td class="is-capitalized"> {{ $creditSettlement->method }} </td>
                             <td class="is-capitalized"> {{ $creditSettlement->reference_number ?? 'N/A' }} </td>
                             <td> {{ $creditSettlement->settled_at->toFormattedDateString() }}</td>
-                            <td>{{ userCompany()->currency . '. ' . number_format($creditSettlement->amount, 2) }}</td>
+                            <td class="has-text-right">{{ userCompany()->currency . '. ' . number_format($creditSettlement->amount, 2) }}</td>
                             <td> {!! nl2br(e($creditSettlement->description)) !!} </td>
                             <td>
                                 <x-common.action-buttons
