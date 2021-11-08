@@ -42,4 +42,9 @@ trait CalculateCreditPayment
 
         return $price * ($this->credit_payable_in_percentage / 100);
     }
+
+    public function isPaymentCredit()
+    {
+        return $this->payment_type = 'Credit Payment';
+    }
 }

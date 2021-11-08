@@ -104,6 +104,27 @@
                     </div>
                 </div>
             </div>
+            @if ($gdn->isPaymentCredit() || $gdn->payment_in_credit > 0)
+                <div class="column is-6">
+                    <div>
+                        <div class="columns is-marginless is-vcentered is-mobile text-green">
+                            <div class="column is-1">
+                                <span class="icon is-size-3">
+                                    <i class="fas fa-calendar-day"></i>
+                                </span>
+                            </div>
+                            <div class="column m-lr-20">
+                                <div class="is-size- has-text-weight-bold">
+                                    {{ $gdn->due_date->toFormattedDateString() ?? 'N/A' }}
+                                </div>
+                                <div class="is-uppercase is-size-7">
+                                    Credit Due Date
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="column is-6">
                 <div>
                     <div class="columns is-marginless is-vcentered is-mobile text-green">

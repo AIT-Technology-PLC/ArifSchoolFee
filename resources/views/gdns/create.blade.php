@@ -142,110 +142,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
-                        <label
-                            for="discount"
-                            class="label text-green has-text-weight-normal"
-                        >Discount<sup class="has-text-danger"></sup> </label>
-                        <div class="field">
-                            <div class="control has-icons-left is-expanded">
-                                <input
-                                    id="discount"
-                                    name="discount"
-                                    type="number"
-                                    class="input"
-                                    placeholder="Discount in Percentage"
-                                    value="{{ old('discount') ?? '' }}"
-                                >
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-percent"></i>
-                                </span>
-                                @error('discount')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="payment_type"
-                                class="label text-green has-text-weight-normal"
-                            >Payment Method <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select
-                                        id="payment_type"
-                                        name="payment_type"
-                                    >
-                                        <option
-                                            selected
-                                            disabled
-                                        >Select Payment</option>
-                                        <option
-                                            value="Cash Payment"
-                                            {{ old('payment_type') == 'Cash Payment' ? 'selected' : '' }}
-                                        >Cash Payment</option>
-                                        <option
-                                            value="Credit Payment"
-                                            {{ old('payment_type') == 'Credit Payment' ? 'selected' : '' }}
-                                        >Credit Payment</option>
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-credit-card"></i>
-                                </div>
-                            </div>
-                            @error('payment_type')
-                                <span
-                                    class="help has-text-danger"
-                                    role="alert"
-                                >
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <label
-                            for="cash_received_in_percentage"
-                            class="label text-green has-text-weight-normal"
-                        >Cash Received <sup class="has-text-danger">*</sup> <sup class="has-text-weight-light"> (In Percentage)</sup> </label>
-                        <div class="field has-addons">
-                            <div class="control has-icons-left is-expanded">
-                                <input
-                                    class="input"
-                                    type="number"
-                                    name="cash_received_in_percentage"
-                                    id="cash_received_in_percentage"
-                                    placeholder="eg. 50"
-                                    value="{{ old('cash_received_in_percentage') ?? '' }}"
-                                >
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-money-bill"></i>
-                                </span>
-                                @error('cash_received_in_percentage')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="control">
-                                <button
-                                    class="button bg-green has-text-white"
-                                    type="button"
-                                >%</button>
-                            </div>
-                        </div>
-                    </div>
                     <div class="column is-12">
                         <div class="field">
                             <label
@@ -269,6 +165,149 @@
                                         {{ $message }}
                                     </span>
                                 @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box radius-bottom-0 has-background-white-bis p-3 mx-3 mt-5 mb-0">
+                    <h1 class="text-green is-size-5">
+                        Payment Details
+                    </h1>
+                </div>
+                <div class="box is-radiusless mx-3 mb-6">
+                    <div class="columns is-marginless is-multiline">
+                        <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
+                            <label
+                                for="discount"
+                                class="label text-green has-text-weight-normal"
+                            >Discount<sup class="has-text-danger"></sup> </label>
+                            <div class="field">
+                                <div class="control has-icons-left is-expanded">
+                                    <input
+                                        id="discount"
+                                        name="discount"
+                                        type="number"
+                                        class="input"
+                                        placeholder="Discount in Percentage"
+                                        value="{{ old('discount') ?? '' }}"
+                                    >
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-percent"></i>
+                                    </span>
+                                    @error('discount')
+                                        <span
+                                            class="help has-text-danger"
+                                            role="alert"
+                                        >
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-6">
+                            <div class="field">
+                                <label
+                                    for="payment_type"
+                                    class="label text-green has-text-weight-normal"
+                                >Payment Method <sup class="has-text-danger">*</sup> </label>
+                                <div class="control has-icons-left">
+                                    <div class="select is-fullwidth">
+                                        <select
+                                            id="payment_type"
+                                            name="payment_type"
+                                        >
+                                            <option
+                                                selected
+                                                disabled
+                                            >Select Payment</option>
+                                            <option
+                                                value="Cash Payment"
+                                                {{ old('payment_type') == 'Cash Payment' ? 'selected' : '' }}
+                                            >Cash Payment</option>
+                                            <option
+                                                value="Credit Payment"
+                                                {{ old('payment_type') == 'Credit Payment' ? 'selected' : '' }}
+                                            >Credit Payment</option>
+                                        </select>
+                                    </div>
+                                    <div class="icon is-small is-left">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                </div>
+                                @error('payment_type')
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="column is-6">
+                            <label
+                                for="cash_received_in_percentage"
+                                class="label text-green has-text-weight-normal"
+                            >Cash Received <sup class="has-text-danger">*</sup> <sup class="has-text-weight-light"> (In Percentage)</sup> </label>
+                            <div class="field has-addons">
+                                <div class="control has-icons-left is-expanded">
+                                    <input
+                                        class="input"
+                                        type="number"
+                                        name="cash_received_in_percentage"
+                                        id="cash_received_in_percentage"
+                                        placeholder="eg. 50"
+                                        value="{{ old('cash_received_in_percentage') ?? '' }}"
+                                    >
+                                    <span class="icon is-large is-left">
+                                        <i class="fas fa-money-bill"></i>
+                                    </span>
+                                    @error('cash_received_in_percentage')
+                                        <span
+                                            class="help has-text-danger"
+                                            role="alert"
+                                        >
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="control">
+                                    <button
+                                        class="button bg-green has-text-white"
+                                        type="button"
+                                    >%</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-6">
+                            <div class="field">
+                                <label
+                                    for="due_date"
+                                    class="label text-green has-text-weight-normal"
+                                > Credit Due Date <sup class="has-text-danger"></sup> </label>
+                                <div class="control has-icons-left">
+                                    <input
+                                        class="input"
+                                        type="date"
+                                        name="due_date"
+                                        id="due_date"
+                                        placeholder="mm/dd/yyyy"
+                                        value="{{ old('due_date') ??
+    now()->addDays(10)->toDateString() }}"
+                                    >
+                                    <div class="icon is-small is-left">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    @error('due_date')
+                                        <span
+                                            class="help has-text-danger"
+                                            role="alert"
+                                        >
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                     </div>

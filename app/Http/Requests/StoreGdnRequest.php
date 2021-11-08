@@ -31,6 +31,7 @@ class StoreGdnRequest extends FormRequest
             'payment_type' => ['required', 'string'],
             'description' => ['nullable', 'string'],
             'cash_received_in_percentage' => ['required', 'numeric', 'between:0,100'],
+            'due_date' => ['nullable', 'required_if:payment_type,Credit Payment', 'date'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
         ];
     }

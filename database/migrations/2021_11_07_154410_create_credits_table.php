@@ -52,12 +52,25 @@ class CreateCreditsTable extends Migration
             $table->index('credit_id');
         });
 
+        // GDNS
+        Schema::table('gdns', function (Blueprint $table) {
+            $table->dateTime('due_date')->nullable()->after('issued_on');
+        });
+
+        DB::statement('
+            UPDATE gdns
+            SET due_date = DATE_ADD(issued_on, INTERVAL 10 DAY)
+            WHERE payment_type = "Credit Payment" || cash_received_in_percentage < 100
+        ');
+
+        // CUSTOMERS
         Schema::table('customers', function (Blueprint $table) {
             $table->decimal('credit_amount_limit', 22)->nullable()->after('country');
         });
 
         DB::statement('
-            UPDATE customers set credit_amount_limit = 0.00
+            UPDATE customers
+            SET credit_amount_limit = 0.00
         ');
 
         Schema::table('customers', function (Blueprint $table) {
@@ -74,6 +87,10 @@ class CreateCreditsTable extends Migration
     {
         Schema::drop('credit_settlements');
         Schema::drop('credits');
+
+        Schema::table('gdns', function (Blueprint $table) {
+            $table->dropColumn('due_date');
+        });
 
         Schema::table('customers', function (Blueprint $table) {
             $table->dropColumn('credit_amount_limit');
