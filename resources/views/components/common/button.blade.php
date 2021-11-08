@@ -5,7 +5,6 @@
         'tag is-pointer is-borderless' => $mode == 'tag',
         'button' => $mode == 'button',
         '' => is_null($mode),
-        'has-text-weight-medium' => true,
     ]) }}>
         @if (!is_null($icon))
             <x-common.icon name="{{ $icon }}" />
@@ -20,7 +19,6 @@
         'tag' => $mode == 'tag',
         'button' => $mode == 'button',
         '' => is_null($mode),
-        'has-text-weight-medium' => true,
     ]) }}>
         @if (!is_null($icon))
             <x-common.icon name="{{ $icon }}" />

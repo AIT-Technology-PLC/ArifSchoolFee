@@ -42,6 +42,7 @@
                         action="approve"
                         icon="fas fa-signature"
                         label="Approve Adjustment"
+                        class="has-text-weight-medium"
                     />
                 @endcan
             @elseif(!$adjustment->isAdjusted())
@@ -52,6 +53,7 @@
                         action="execute"
                         icon="fas fa-eraser"
                         label="Execute Adjustment"
+                        class="has-text-weight-medium"
                     />
                 @endcan
             @endif
