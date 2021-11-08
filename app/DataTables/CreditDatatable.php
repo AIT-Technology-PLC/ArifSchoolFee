@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Credit;
 use App\Traits\DataTableHtmlBuilder;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -25,6 +26,12 @@ class CreditDatatable extends DataTable
             ->editColumn('delivery order no', fn($credit) => $credit->gdn->code)
             ->editColumn('customer', fn($credit) => $credit->customer->company_name)
             ->editColumn('status', fn($credit) => view('components.datatables.credit-status', compact('credit')))
+            ->filterColumn('status', function ($query, $keyword) {
+                $query
+                    ->when(Str::contains('no', $keyword), fn($query) => $query->noSettlements())
+                    ->when(Str::contains('partial', $keyword), fn($query) => $query->partiallySettled())
+                    ->when(Str::contains('full', $keyword), fn($query) => $query->settled());
+            })
             ->editColumn('credit amount', fn($credit) => userCompany()->currency . '. ' . number_format($credit->credit_amount, 2))
             ->editColumn('amount settled', fn($credit) => userCompany()->currency . '. ' . number_format($credit->credit_amount_settled, 2))
             ->editColumn('issued on', fn($credit) => $credit->created_at->toFormattedDateString())
@@ -58,7 +65,7 @@ class CreditDatatable extends DataTable
             Column::make('credit no', 'code'),
             Column::make('delivery order no', 'gdn.code'),
             Column::make('customer', 'customer.company_name'),
-            Column::computed('status'),
+            Column::make('status')->orderable(false),
             Column::make('credit amount', 'credit_amount'),
             Column::make('amount settled', 'credit_amount_settled'),
             Column::make('issued on', 'created_at'),
