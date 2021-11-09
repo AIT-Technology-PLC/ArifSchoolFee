@@ -45,7 +45,7 @@ class CreditDatatable extends DataTable
                 return view('components.common.action-buttons', [
                     'model' => 'credits',
                     'id' => $credit->id,
-                    'buttons' => ['details', 'delete'],
+                    'buttons' => 'all',
                 ]);
             })
             ->addIndexColumn();

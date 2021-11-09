@@ -4,7 +4,18 @@
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="General Information" />
+        <x-content.header title="General Information">
+            @can('Update Credit')
+                <x-common.button
+                    tag="a"
+                    href="{{ route('credits.edit', $credit->id) }}"
+                    mode="button"
+                    icon="fas fa-pen"
+                    label="Edit Credit"
+                    class="btn-purple is-outlined is-small"
+                />
+            @endcan
+        </x-content.header>
         <x-content.footer>
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">

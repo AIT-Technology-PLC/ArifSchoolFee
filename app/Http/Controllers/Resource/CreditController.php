@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Resource;
 use App\DataTables\CreditDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCreditRequest;
+use App\Http\Requests\UpdateCreditRequest;
 use App\Models\Credit;
 use App\Models\Customer;
 use App\Services\NextReferenceNumService;
@@ -45,6 +46,43 @@ class CreditController extends Controller
     public function store(StoreCreditRequest $request)
     {
         $credit = Credit::create($request->validated());
+
+        return redirect()->route('credits.show', $credit->id);
+    }
+
+    public function edit(Credit $credit)
+    {
+        if ($credit->isSettled()) {
+            return back()->with('failedMessage', 'Editing a fully settled credit is not allowed.');
+        }
+
+        if ($credit->gdn()->exists()) {
+            return back()->with('failedMessage', 'Editing a credit that belongs to a delivery order is not allowed.');
+        }
+
+        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
+
+        return view('credits.edit', compact('credit', 'customers'));
+    }
+
+    public function update(Credit $credit, UpdateCreditRequest $request)
+    {
+        if ($credit->isSettled()) {
+            return redirect()->route('credits.show', $credit->id)
+                ->with('failedMessage', 'Editing a fully settled credit is not allowed.');
+        }
+
+        if ($credit->gdn()->exists()) {
+            return redirect()->route('credits.show', $credit->id)
+                ->with('failedMessage', 'Editing a credit that belongs to a delivery order is not allowed.');
+        }
+
+        if ($request->credit_amount < $credit->credit_amount_settled) {
+            return redirect()->route('credits.show', $credit->id)
+                ->with('failedMessage', 'Credit amount cannot be less than credit settlements.');
+        }
+
+        $credit->update($request->validated());
 
         return redirect()->route('credits.show', $credit->id);
     }
