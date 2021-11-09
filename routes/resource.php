@@ -81,8 +81,7 @@ Route::resource('reservations', Resource\ReservationController::class);
 
 Route::resource('reservation-details', Resource\ReservationDetailController::class);
 
-Route::resource('credits', Resource\CreditController::class)
-    ->only(['index', 'show', 'destroy']);
+Route::resource('credits', Resource\CreditController::class);
 
 Route::resource('credits.credit-settlements', Resource\CreditSettlementController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])->shallow();

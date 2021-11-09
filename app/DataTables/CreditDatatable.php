@@ -25,8 +25,8 @@ class CreditDatatable extends DataTable
             ->editColumn('credit no', fn($credit) => $credit->code)
             ->editColumn('delivery order no', function ($credit) {
                 return view('components.datatables.link', [
-                    'url' => route('gdns.show', $credit->gdn->id),
-                    'label' => $credit->gdn->code,
+                    'url' => $credit->gdn()->exists() ? route('gdns.show', $credit->gdn->id) : 'javascript:void(0)',
+                    'label' => $credit->gdn()->exists() ? $credit->gdn->code : 'N/A',
                 ]);
             })
             ->editColumn('customer', fn($credit) => $credit->customer->company_name)

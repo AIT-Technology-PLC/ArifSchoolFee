@@ -21,6 +21,11 @@ class Credit extends Model
         'due_date' => 'datetime',
     ];
 
+    protected $attributes = [
+        'cash_amount' => 0,
+        'credit_amount_settled' => 0,
+    ];
+
     public function gdn()
     {
         return $this->belongsTo(Gdn::class);
