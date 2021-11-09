@@ -38,7 +38,18 @@
     </div>
 
     <x-common.content-wrapper>
-        <x-content.header title="Credits" />
+        <x-content.header title="Credits">
+            @can('Create Credit')
+                <x-common.button
+                    tag="a"
+                    href="{{ route('credits.create') }}"
+                    mode="button"
+                    icon="fas fa-plus-circle"
+                    label="Create Credit"
+                    class="btn-green is-outlined is-small"
+                />
+            @endcan
+        </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
             {{ $dataTable->table() }}
