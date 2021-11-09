@@ -74,12 +74,12 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Credit Management'],
-                ['is_enabled' => 1]
+                ['is_enabled' => 0]
             );
 
             Feature::updateOrCreate(
                 ['name' => 'Purchase Order'],
-                ['is_enabled' => 1]
+                ['is_enabled' => 0]
             );
 
             Feature::updateOrCreate(
