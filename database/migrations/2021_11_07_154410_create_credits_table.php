@@ -64,6 +64,17 @@ class CreateCreditsTable extends Migration
             WHERE payment_type = "Credit Payment" || cash_received_in_percentage < 100
         ');
 
+        // RESERVATIONS
+        Schema::table('reservations', function (Blueprint $table) {
+            $table->dateTime('due_date')->nullable()->after('expires_on');
+        });
+
+        DB::statement('
+            UPDATE reservations
+            SET due_date = DATE_ADD(issued_on, INTERVAL 10 DAY)
+            WHERE payment_type = "Credit Payment" || cash_received_in_percentage < 100
+        ');
+
         // CUSTOMERS
         Schema::table('customers', function (Blueprint $table) {
             $table->decimal('credit_amount_limit', 22)->nullable()->after('country');
@@ -90,6 +101,10 @@ class CreateCreditsTable extends Migration
         Schema::drop('credits');
 
         Schema::table('gdns', function (Blueprint $table) {
+            $table->dropColumn('due_date');
+        });
+
+        Schema::table('reservations', function (Blueprint $table) {
             $table->dropColumn('due_date');
         });
 

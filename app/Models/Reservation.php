@@ -22,6 +22,7 @@ class Reservation extends Model
     protected $casts = [
         'issued_on' => 'datetime',
         'expires_on' => 'datetime',
+        'due_date' => 'datetime',
     ];
 
     public function reservedBy()

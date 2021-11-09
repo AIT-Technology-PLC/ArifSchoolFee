@@ -150,6 +150,7 @@ class ReservationService
                 'cash_received_in_percentage' => $reservation->cash_received_in_percentage,
                 'description' => $reservation->description ?? '',
                 'issued_on' => now(),
+                'due_date' => $reservation->due_date,
             ]);
 
             $reservationDetails = $reservation->reservationDetails
