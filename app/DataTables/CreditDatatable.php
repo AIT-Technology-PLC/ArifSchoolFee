@@ -65,10 +65,13 @@ class CreditDatatable extends DataTable
 
     protected function getColumns()
     {
+        $isHidden = isFeatureEnabled('Gdn Management') ? '' : 'is-hidden';
+
         return [
             Column::computed('#'),
             Column::make('credit no', 'code')->className('has-text-centered'),
-            Column::make('delivery order no', 'gdn.code')->className('has-text-centered actions'),
+            Column::make('delivery order no', 'gdn.code')
+                ->className('has-text-centered actions ' . $isHidden),
             Column::make('customer', 'customer.company_name'),
             Column::make('status')->orderable(false),
             Column::make('credit amount', 'credit_amount'),
