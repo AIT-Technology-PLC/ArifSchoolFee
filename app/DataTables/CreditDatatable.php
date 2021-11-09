@@ -72,12 +72,12 @@ class CreditDatatable extends DataTable
             Column::make('credit no', 'code')->className('has-text-centered'),
             Column::make('delivery order no', 'gdn.code')
                 ->className('has-text-centered actions ' . $isHidden),
-            Column::make('customer', 'customer.company_name'),
             Column::make('status')->orderable(false),
+            Column::make('customer', 'customer.company_name'),
             Column::make('credit amount', 'credit_amount'),
-            Column::make('amount settled', 'credit_amount_settled'),
+            Column::make('amount settled', 'credit_amount_settled')->visible(false),
             Column::make('issued on', 'issued_on'),
-            Column::make('due date', 'due_date'),
+            Column::make('due date', 'due_date')->visible(false),
             Column::computed('actions')->className('actions'),
         ];
     }

@@ -23,7 +23,7 @@ class GdnDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('do no', fn($gdn) => $gdn->code)
+            ->editColumn('delivery order no', fn($gdn) => $gdn->code)
             ->editColumn('receipt no', fn($gdn) => $gdn->sale->code ?? 'N/A')
             ->editColumn('status', fn($gdn) => view('components.datatables.gdn-status', compact('gdn')))
             ->filterColumn('status', function ($query, $keyword) {
@@ -72,18 +72,18 @@ class GdnDatatable extends DataTable
     {
         $columns = [
             Column::computed('#'),
-            Column::make('do no', 'code')->title('DO No'),
+            Column::make('delivery order no', 'code')->className('has-text-centered'),
             isFeatureEnabled('Sale Management') ? Column::make('receipt no', 'sale.code')->content('N/A') : null,
             Column::make('status', 'status')->orderable(false),
-            Column::make('payment_type', 'payment_type'),
-            Column::computed('total price'),
+            Column::make('payment_type', 'payment_type')->visible(false),
+            Column::computed('total price')->visible(false),
             Column::make('customer', 'customer.company_name'),
-            Column::make('description', 'description'),
+            Column::make('description', 'description')->visible(false),
             Column::make('issued on', 'issued_on'),
             Column::make('created_at', 'created_at')->visible(false),
             Column::make('prepared by', 'createdBy.name'),
-            Column::make('approved by', 'approvedBy.name'),
-            Column::make('edited by', 'updatedBy.name'),
+            Column::make('approved by', 'approvedBy.name')->visible(false),
+            Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
         ];
 
