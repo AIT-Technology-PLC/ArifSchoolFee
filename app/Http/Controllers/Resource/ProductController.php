@@ -21,6 +21,8 @@ class ProductController extends Controller
 
     public function index(ProductDatatable $datatable)
     {
+        $datatable->builder()->orderBy(1, 'asc');
+
         $totalProductsOfCompany = Product::count();
 
         return $datatable->render('products.index', compact('totalProductsOfCompany'));

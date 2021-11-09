@@ -20,7 +20,7 @@ class CreditController extends Controller
 
     public function index(CreditDatatable $datatable)
     {
-        $datatable->builder()->orderBy(7, 'desc');
+        $datatable->builder()->orderBy(isFeatureEnabled('Gdn Management') ? 7 : 6, 'desc');
 
         $totalCredits = Credit::count();
 

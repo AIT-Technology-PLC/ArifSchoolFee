@@ -141,9 +141,7 @@ function changeDtButton() {
 }
 
 function removeDtSearchLabel() {
-    input = $(".dataTables_filter label input")
-        .attr("placeholder", "Search")
-        .addClass("m-top-10");
+    input = $(".dataTables_filter label input").addClass("m-top-10");
 }
 
 function adjustDataTablesColumns(className) {

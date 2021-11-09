@@ -29,6 +29,8 @@ class MerchandiseInventoryLevelController extends Controller
 
         $datatable = InventoryDatatableFactory::make($type);
 
+        $datatable->builder()->orderBy(1, 'asc');
+
         return $datatable->render('merchandises.index', compact('insights', 'warehouses'));
     }
 
