@@ -16,7 +16,25 @@ trait DataTableHtmlBuilder
             ->dom('lBfrtip')
             ->lengthMenu([10, 25, 50, 75, 100])
             ->buttons([
-                'colvis', 'excelHtml5', 'print', 'pdfHtml5',
+                'colvis',
+                [
+                    'extend' => 'excelHtml5',
+                    'exportOptions' => [
+                        'columns' => ':visible',
+                    ],
+                ],
+                [
+                    'extend' => 'print',
+                    'exportOptions' => [
+                        'columns' => ':visible',
+                    ],
+                ],
+                [
+                    'extend' => 'pdfHtml5',
+                    'exportOptions' => [
+                        'columns' => ':visible',
+                    ],
+                ],
             ])
             ->addTableClass('display is-hoverable is-size-7 nowrap')
             ->preDrawCallback("
