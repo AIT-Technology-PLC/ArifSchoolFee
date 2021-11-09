@@ -38,7 +38,7 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$credit->created_at->toFormattedDateString()"
+                        :data="$credit->issued_on->toFormattedDateString()"
                         label="Issued On"
                     />
                 </div>

@@ -17,6 +17,7 @@ class Credit extends Model
 
     protected $casts = [
         'last_settled_at' => 'datetime',
+        'issued_on' => 'datetime',
         'due_date' => 'datetime',
     ];
 

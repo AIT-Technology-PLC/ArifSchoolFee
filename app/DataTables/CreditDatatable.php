@@ -39,7 +39,7 @@ class CreditDatatable extends DataTable
             })
             ->editColumn('credit amount', fn($credit) => userCompany()->currency . '. ' . number_format($credit->credit_amount, 2))
             ->editColumn('amount settled', fn($credit) => userCompany()->currency . '. ' . number_format($credit->credit_amount_settled, 2))
-            ->editColumn('issued on', fn($credit) => $credit->created_at->toFormattedDateString())
+            ->editColumn('issued on', fn($credit) => $credit->issued_on->toFormattedDateString())
             ->editColumn('due date', fn($credit) => $credit->due_date->toFormattedDateString())
             ->editColumn('actions', function ($credit) {
                 return view('components.common.action-buttons', [
@@ -73,7 +73,7 @@ class CreditDatatable extends DataTable
             Column::make('status')->orderable(false),
             Column::make('credit amount', 'credit_amount'),
             Column::make('amount settled', 'credit_amount_settled'),
-            Column::make('issued on', 'created_at'),
+            Column::make('issued on', 'issued_on'),
             Column::make('due date', 'due_date'),
             Column::computed('actions')->className('actions'),
         ];
