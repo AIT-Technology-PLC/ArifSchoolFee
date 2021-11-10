@@ -37,11 +37,11 @@ At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) us
 
 ## Branches
 
--   ims/main
+-   main
     -   Should always be the same branch as the production server
     -   Do not fork this branch
     -   Do not submit PR to this branch
--   ims/dev
+-   dev
     -   Always use this branch for development and making changes
     -   Could be forked
     -   Always submit PRs to this branch
@@ -60,8 +60,8 @@ At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) us
 ## Installation
 
 ```bash
-git clone https://github.com/onrica/ims.git
-cd ims
+git clone https://github.com/onrica/smartwork.git
+cd smartwork
 composer install
 cp .env.example .env
 php artisan key:generate
