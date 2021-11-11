@@ -92,10 +92,6 @@ function jumpToCurrentPageMenuTitle() {
     targetMenu.scrollIntoView();
 }
 
-function openAddToInventoryModal() {
-    d.getElementById("addToInventoryModal").classList.toggle("is-active");
-}
-
 function disableSaveButton() {
     let saveButton = d.getElementById("saveButton");
     saveButton.classList.add("is-loading");

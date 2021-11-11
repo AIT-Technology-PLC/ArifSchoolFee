@@ -22,23 +22,6 @@ if (d.getElementById("addNewSaleForm")) {
 
 window.addEventListener("load", jumpToCurrentPageMenuTitle);
 
-if (d.getElementById("addToInventoryModal")) {
-    d.getElementById("openAddToInventoryModal").addEventListener(
-        "click",
-        openAddToInventoryModal
-    );
-
-    d.getElementById("closeModal").addEventListener(
-        "click",
-        openAddToInventoryModal
-    );
-
-    d.getElementById("addToInventoryNotNow").addEventListener(
-        "click",
-        openAddToInventoryModal
-    );
-}
-
 if (d.getElementById("formOne")) {
     d.getElementById("formOne").addEventListener("submit", disableSaveButton);
 }
