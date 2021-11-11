@@ -61,7 +61,7 @@ class CreateCreditsTable extends Migration
         DB::statement('
             UPDATE gdns
             SET due_date = DATE_ADD(issued_on, INTERVAL 10 DAY)
-            WHERE payment_type = "Credit Payment" || cash_received_in_percentage < 100
+            WHERE cash_received_in_percentage < 100
         ');
 
         // RESERVATIONS
@@ -72,7 +72,7 @@ class CreateCreditsTable extends Migration
         DB::statement('
             UPDATE reservations
             SET due_date = DATE_ADD(issued_on, INTERVAL 10 DAY)
-            WHERE payment_type = "Credit Payment" || cash_received_in_percentage < 100
+            WHERE cash_received_in_percentage < 100
         ');
 
         // CUSTOMERS

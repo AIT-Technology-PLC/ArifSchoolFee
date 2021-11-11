@@ -51,7 +51,7 @@ class GdnService
             return [false, 'A credit for this delivery order was already created.'];
         }
 
-        if ($gdn->payment_in_credit == 0) {
+        if ($gdn->cash_received_in_percentage == 100) {
             return [false, 'Creating a credit for delivery order that has no credit is not allowed.'];
         }
 
