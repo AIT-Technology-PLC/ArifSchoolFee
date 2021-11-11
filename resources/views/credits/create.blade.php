@@ -14,6 +14,7 @@
         >
             @csrf
             <x-content.main>
+                <x-common.fail-message :message="session('failedMessage')" />
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <x-forms.field>

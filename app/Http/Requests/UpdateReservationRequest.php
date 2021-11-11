@@ -28,10 +28,18 @@ class UpdateReservationRequest extends FormRequest
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
             'issued_on' => ['required', 'date'],
             'expires_on' => ['required', 'date', 'after_or_equal:issued_on'],
-            'payment_type' => ['required', 'string'],
+            'payment_type' => ['required', 'string', function ($attribute, $value, $fail) {
+                if ($this->get('cash_received_in_percentage') == 100 && $value == 'Credit Payment') {
+                    $fail('If "Cash Received" is 100%, then "Payment Type" should be "Cash Payment"');
+                }
+
+                if ($this->get('cash_received_in_percentage') < 100 && $value == 'Cash Payment') {
+                    $fail('If "Cash Received" is less than 100%, then "Payment Type" should be "Credit Payment"');
+                }
+            }],
             'description' => ['nullable', 'string'],
             'cash_received_in_percentage' => ['required', 'numeric', 'between:0,100'],
-            'due_date' => ['nullable', 'date', 'after:issued_on', 'prohibited_if:cash_received_in_percentage,100'],
+            'due_date' => ['nullable', 'date', 'after:issued_on', 'required_unless:cash_received_in_percentage,100', 'prohibited_if:cash_received_in_percentage,100'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
         ];
     }

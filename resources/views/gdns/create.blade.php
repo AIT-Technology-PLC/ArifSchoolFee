@@ -293,8 +293,7 @@
                                         name="due_date"
                                         id="due_date"
                                         placeholder="mm/dd/yyyy"
-                                        value="{{ old('due_date') ??
-                                            now()->addDays(10)->toDateString() }}"
+                                        value="{{ old('due_date') ?? '' }}"
                                     >
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-calendar-alt"></i>

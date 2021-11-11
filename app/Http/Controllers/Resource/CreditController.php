@@ -45,6 +45,12 @@ class CreditController extends Controller
 
     public function store(StoreCreditRequest $request)
     {
+        $customer = Customer::findOrFail($request->validated()['customer_id']);
+
+        if ($customer->hasReachedCreditLimit($request->validated()['credit_amount'])) {
+            return back()->withInput()->with('failedMessage', 'The customer has exceeded the credit amount limit');
+        }
+
         $credit = Credit::create($request->validated());
 
         return redirect()->route('credits.show', $credit->id);
