@@ -53,9 +53,17 @@ class Customer extends Model
         return $this->hasMany(Credit::class);
     }
 
-    public function hasReachedCreditLimit($newCreditAmount)
+    public function hasReachedCreditLimit($newCreditAmount, $excludedCreditId = null)
     {
-        $currentCreditAmount = $this->credits()->sum('credit_amount') - $this->credits()->sum('credit_amount_settled');
+        $totalCreditAmount = $this->credits()
+            ->when($excludedCreditId, fn($query) => $query->where('id', '<>', $excludedCreditId))
+            ->sum('credit_amount');
+
+        $totalCreditAmountSettled = $this->credits()
+            ->when($excludedCreditId, fn($query) => $query->where('id', '<>', $excludedCreditId))
+            ->sum('credit_amount_settled');
+
+        $currentCreditAmount = $totalCreditAmount - $totalCreditAmountSettled;
 
         if (($currentCreditAmount + $newCreditAmount) > $this->credit_amount_limit) {
             return true;
