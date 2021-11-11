@@ -193,7 +193,7 @@
         </ul>
     @endcanany
 
-    @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read PO', 'Read Customer'])
+    @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read PO', 'Read Credit', 'Read Customer'])
         <ul
             x-data="toggler"
             class="menu-list mb-2"

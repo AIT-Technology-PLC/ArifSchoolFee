@@ -126,7 +126,7 @@
                 </x-content.footer>
             @endcanany
 
-            @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create PO', 'Create Customer'])
+            @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create PO', 'Create Credit', 'Create Customer'])
                 <x-content.header>
                     <x-slot name="header">
                         <x-common.icon

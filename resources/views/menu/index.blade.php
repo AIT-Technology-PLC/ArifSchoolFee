@@ -155,7 +155,7 @@
             </section>
         @endcanany
 
-        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read PO', 'Read Customer'])
+        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read PO', 'Read Credit', 'Read Customer'])
             <section class="mb-5">
                 <x-content.header>
                     <x-slot name="header">
