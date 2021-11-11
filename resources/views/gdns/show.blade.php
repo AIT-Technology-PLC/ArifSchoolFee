@@ -274,7 +274,7 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            @if ($gdn->isApproved() && !$gdn->credit()->exists() && $gdn->cash_received_in_percentage < 100 && $gdn->customer()->exists())
+                            @if (isFeatureEnabled('Credit Management') && $gdn->isApproved() && !$gdn->credit()->exists() && $gdn->cash_received_in_percentage < 100 && $gdn->customer()->exists())
                                 @can('Create Credit')
                                     <x-common.transaction-button
                                         :route="route('gdns.convert_to_credit', $gdn->id)"

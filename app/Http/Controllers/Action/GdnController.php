@@ -19,6 +19,8 @@ class GdnController extends Controller
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Gdn Management');
+
+        $this->middleware('isFeatureAccessible:Credit Management')->only('convertToCredit');
     }
 
     public function approve(Gdn $gdn, ApproveTransactionAction $action)
