@@ -11,64 +11,139 @@
                 <div class="columns is-marginless is-centered">
                     <div class="column is-5">
                         <div class="has-text-centered">
-                            <img src="{{ asset('img/logo.png') }}" width="200">
+                            <img
+                                src="{{ asset('img/logo.webp') }}"
+                                width="200"
+                            >
                         </div>
-                        <div class="box" style="background: #509270;">
-                            <form method="POST" action="{{ route('register') }}" novalidate>
+                        <div
+                            class="box"
+                            style="background: #509270;"
+                        >
+                            <form
+                                method="POST"
+                                action="{{ route('register') }}"
+                                novalidate
+                            >
                                 @csrf
                                 <div class="field">
-                                    <label for="company_name" class="label has-text-white is-uppercase is-size-7"> Company Name </label>
+                                    <label
+                                        for="company_name"
+                                        class="label has-text-white is-uppercase is-size-7"
+                                    > Company Name </label>
                                     <div class="control">
-                                        <input id="company_name" type="text" class="input bg-lightgreen @error('company_name') is-danger @enderror" name="company_name" value="{{ old('company_name') }}" autocomplete="company_name" autofocus>
+                                        <input
+                                            id="company_name"
+                                            type="text"
+                                            class="input bg-lightgreen @error('company_name') is-danger @enderror"
+                                            name="company_name"
+                                            value="{{ old('company_name') }}"
+                                            autocomplete="company_name"
+                                            autofocus
+                                        >
                                         @error('company_name')
-                                            <span class="help has-text-white" role="alert">
+                                            <span
+                                                class="help has-text-white"
+                                                role="alert"
+                                            >
                                                 {{ $message }}
                                             </span>
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="field mt-5">
-                                    <label for="name" class="label has-text-white is-uppercase is-size-7"> Your Name </label>
+                                    <label
+                                        for="name"
+                                        class="label has-text-white is-uppercase is-size-7"
+                                    > Your Name </label>
                                     <div class="control">
-                                        <input id="name" type="text" class="input bg-lightgreen @error('name') is-danger @enderror" name="name" value="{{ old('name') }}" autocomplete="name" autofocus>
+                                        <input
+                                            id="name"
+                                            type="text"
+                                            class="input bg-lightgreen @error('name') is-danger @enderror"
+                                            name="name"
+                                            value="{{ old('name') }}"
+                                            autocomplete="name"
+                                            autofocus
+                                        >
                                         @error('name')
-                                            <span class="help has-text-white" role="alert">
+                                            <span
+                                                class="help has-text-white"
+                                                role="alert"
+                                            >
                                                 {{ $message }}
                                             </span>
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="field mt-5">
-                                    <label for="email" class="label has-text-white is-uppercase is-size-7"> Email Address </label>
+                                    <label
+                                        for="email"
+                                        class="label has-text-white is-uppercase is-size-7"
+                                    > Email Address </label>
                                     <div class="control">
-                                        <input id="email" type="email" class="input bg-lightgreen @error('email') is-danger @enderror" name="email" value="{{ old('email') }}" autocomplete="email">
+                                        <input
+                                            id="email"
+                                            type="email"
+                                            class="input bg-lightgreen @error('email') is-danger @enderror"
+                                            name="email"
+                                            value="{{ old('email') }}"
+                                            autocomplete="email"
+                                        >
                                         @error('email')
-                                            <span class="help has-text-white" role="alert">
+                                            <span
+                                                class="help has-text-white"
+                                                role="alert"
+                                            >
                                                 {{ $message }}
                                             </span>
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="field mt-5">
-                                    <label for="password" class="label has-text-white is-uppercase is-size-7"> Password </label>
+                                    <label
+                                        for="password"
+                                        class="label has-text-white is-uppercase is-size-7"
+                                    > Password </label>
                                     <div class="control">
-                                        <input id="password" type="password" class="input bg-lightgreen @error('password') is-danger @enderror" name="password" autocomplete="new-password">
+                                        <input
+                                            id="password"
+                                            type="password"
+                                            class="input bg-lightgreen @error('password') is-danger @enderror"
+                                            name="password"
+                                            autocomplete="new-password"
+                                        >
                                         @error('password')
-                                            <span class="help has-text-white" role="alert">
+                                            <span
+                                                class="help has-text-white"
+                                                role="alert"
+                                            >
                                                 {{ $message }}
                                             </span>
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="field mt-5">
-                                    <label for="password-confirm" class="label has-text-white is-uppercase is-size-7"> Confirm Password </label>
+                                    <label
+                                        for="password-confirm"
+                                        class="label has-text-white is-uppercase is-size-7"
+                                    > Confirm Password </label>
                                     <div class="control">
-                                        <input id="password-confirm" type="password" class="input bg-lightgreen" name="password_confirmation" autocomplete="new-password">
+                                        <input
+                                            id="password-confirm"
+                                            type="password"
+                                            class="input bg-lightgreen"
+                                            name="password_confirmation"
+                                            autocomplete="new-password"
+                                        >
                                     </div>
                                 </div>
                                 <div class="field mt-6 has-text-centered">
                                     <div class="control">
-                                        <button type="submit" class="button has-text-white bg-blue is-fullwidth is-uppercase is-size-7 has-text-weight-semibold py-5 px-5">
+                                        <button
+                                            type="submit"
+                                            class="button has-text-white bg-blue is-fullwidth is-uppercase is-size-7 has-text-weight-semibold py-5 px-5"
+                                        >
                                             Register
                                         </button>
                                     </div>

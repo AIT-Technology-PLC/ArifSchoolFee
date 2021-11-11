@@ -1,7 +1,7 @@
 <br/>
 
 <p>
-	<img src="https://onricatech.com/img/logo.png" width="200" />
+	<img src="https://onricatech.com/img/logo.webp" width="200" />
 </p>
 
 <br/>

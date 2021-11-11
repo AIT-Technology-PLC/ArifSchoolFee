@@ -6,7 +6,7 @@
                 href="/"
             >
                 <img
-                    src="{{ asset('img/logo.png') }}"
+                    src="{{ asset('img/logo.webp') }}"
                     width="120"
                     style="max-height: 70px"
                 >

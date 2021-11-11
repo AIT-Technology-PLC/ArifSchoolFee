@@ -26,7 +26,7 @@ precacheAndRoute(
         { url: "/offline", revision: VERSION },
         { url: "/manifest.json", revision: null },
         { url: "/img/favicon.png", revision: null },
-        { url: "/img/logo.png", revision: null },
+        { url: "/img/logo.webp", revision: null },
         { url: "/pwa/pwa-192x192.png", revision: null },
         { url: "/pwa/pwa-512x512.png", revision: null },
         { url: "/js/caller.js", revision: VERSION },
