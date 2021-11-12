@@ -53,45 +53,6 @@ async function getProductSelected(elementId, productId) {
     }
 }
 
-function jumpToCurrentPageMenuTitle() {
-    let menuTitles = d.querySelector(".menu .is-active");
-
-    if (location.pathname.endsWith("/")) {
-        return;
-    }
-
-    if (!menuTitles) {
-        d.getElementsByName("menuTitles").forEach((element) => {
-            if (element.href.includes(location.pathname.split("/")[1])) {
-                menuTitles = element;
-                return;
-            }
-        });
-    }
-
-    if (!menuTitles) {
-        return;
-    }
-
-    let targetMenu =
-        menuTitles.parentElement.parentElement.parentElement
-            .previousElementSibling.firstElementChild;
-
-    let menuAccordion = menuTitles.parentElement.parentElement;
-
-    menuAccordion.classList.remove("is-hidden");
-
-    targetMenu.classList.add("is-active");
-
-    targetMenu.children[2].firstElementChild.classList.toggle("fa-caret-up");
-
-    menuTitles.classList.remove("is-active");
-
-    menuTitles.classList.add("has-text-weight-bold", "text-green");
-
-    targetMenu.scrollIntoView();
-}
-
 function disableSaveButton() {
     let saveButton = d.getElementById("saveButton");
     saveButton.classList.add("is-loading");
@@ -395,6 +356,19 @@ document.addEventListener("alpine:init", () => {
             }
 
             location.href = targetElement.dataset.url;
+        },
+    }));
+
+    Alpine.data("sideMenuAccordion", () => ({
+        isAccordionActive: false,
+        isAccordionOpen: false,
+
+        toggleAccordion() {
+            this.isAccordionOpen = !this.isAccordionOpen;
+        },
+        activateAccordion() {
+            this.isAccordionActive = true;
+            this.isAccordionOpen = true;
         },
     }));
 });

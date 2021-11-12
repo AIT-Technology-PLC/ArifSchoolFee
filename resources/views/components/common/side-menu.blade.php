@@ -50,13 +50,17 @@
 
     <hr>
 
-    <ul class="menu-list mb-2">
+    <ul
+        x-data="sideMenuAccordion"
+        class="menu-list mb-2"
+    >
         <li>
             <x-common.button
                 tag="a"
                 href="/"
-                name="menuTitles"
-                class="text-green is-size-6-5 has-text-left {{ request()->is('/') ? 'is-active' : '' }}"
+                class="text-green is-size-6-5 has-text-left"
+                ::class="{ 'is-active': isAccordionActive }"
+                x-init="{{ request()->is('/') ? 'activateAccordion' : '' }}"
             >
                 <x-common.icon
                     name="fas fa-bars"
@@ -69,7 +73,7 @@
 
     @canany(['Read Merchandise', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
         <ul
-            x-data="toggler"
+            x-data="sideMenuAccordion"
             class="menu-list mb-2"
         >
             <li>
@@ -77,7 +81,8 @@
                     tag="button"
                     mode="button"
                     class="is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0"
-                    @click="toggle"
+                    ::class="{ 'is-active': isAccordionActive }"
+                    @click="toggleAccordion"
                 >
                     <x-common.icon
                         name="fas fa-warehouse"
@@ -87,7 +92,7 @@
                     <span class="icon ml-auto">
                         <i
                             class="fas fa-caret-down"
-                            :class="{ 'fa-caret-up': !isHidden }"
+                            :class="{ 'fa-caret-up': isAccordionOpen }"
                         ></i>
                     </span>
                 </x-common.button>
@@ -95,7 +100,7 @@
             <li>
                 <ul
                     class="mt-0 ml-5 is-hidden"
-                    :class="{ 'is-hidden': isHidden }"
+                    :class="{ 'is-hidden': !isAccordionOpen }"
                 >
                     @can('Read Merchandise')
                         @if (isFeatureEnabled('Merchandise Inventory'))
@@ -103,9 +108,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('merchandises.index', 'on-hand') }}"
-                                    name="menuTitles"
                                     label="Inventory Level"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('merchandises') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('merchandises/*') ? 'text-green has-text-weight-bold' : '' }} "
+                                    x-init="{{ request()->is('merchandises/*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endif
@@ -116,9 +121,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('warehouses.index') }}"
-                                    name="menuTitles"
                                     label="Warehouses"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('warehouses') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('warehouses') ? 'text-green has-text-weight-bold' : '' }} "
+                                    x-init="{{ request()->is('warehouses') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endif
@@ -129,9 +134,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('grns.index') }}"
-                                    name="menuTitles"
                                     label="Goods Received Notes"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('grns') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('grns') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('grns') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endif
@@ -142,9 +147,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('transfers.index') }}"
-                                    name="menuTitles"
                                     label="Transfers"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('transfers') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('transfers') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('transfers') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endif
@@ -155,9 +160,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('damages.index') }}"
-                                    name="menuTitles"
                                     label="Damages"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('damages') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -168,9 +173,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('adjustments.index') }}"
-                                    name="menuTitles"
                                     label="Adjustments"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('adjustments') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('adjustments') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('adjustments') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -181,9 +186,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('sivs.index') }}"
-                                    name="menuTitles"
                                     label="Store Issue Vouchers"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('sivs') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -195,7 +200,7 @@
 
     @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read PO', 'Read Credit', 'Read Customer'])
         <ul
-            x-data="toggler"
+            x-data="sideMenuAccordion"
             class="menu-list mb-2"
         >
             <li>
@@ -203,7 +208,8 @@
                     tag="button"
                     mode="button"
                     class="is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0"
-                    @click="toggle"
+                    ::class="{ 'is-active': isAccordionActive }"
+                    @click="toggleAccordion"
                 >
                     <x-common.icon
                         name="fas fa-tags"
@@ -213,7 +219,7 @@
                     <span class="icon ml-auto">
                         <i
                             class="fas fa-caret-down"
-                            :class="{ 'fa-caret-up': !isHidden }"
+                            :class="{ 'fa-caret-up': isAccordionOpen }"
                         ></i>
                     </span>
                 </x-common.button>
@@ -221,7 +227,7 @@
             <li>
                 <ul
                     class="mt-0 ml-5 is-hidden"
-                    :class="{ 'is-hidden': isHidden }"
+                    :class="{ 'is-hidden': !isAccordionOpen }"
                 >
                     @if (isFeatureEnabled('Sale Management'))
                         @can('Read Sale')
@@ -229,9 +235,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('sales.index') }}"
-                                    name="menuTitles"
                                     label="Invoices"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('sales') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -242,9 +248,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('gdns.index') }}"
-                                    name="menuTitles"
                                     label="Delivery Orders"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('gdns') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('gdns') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('gdns') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -255,9 +261,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('proforma-invoices.index') }}"
-                                    name="menuTitles"
                                     label="Proforma Invoices"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('proforma-invoices') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('proforma-invoices') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('proforma-invoices') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -268,9 +274,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('reservations.index') }}"
-                                    name="menuTitles"
                                     label="Reservations"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('reservations') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('reservations') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('reservations') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -281,9 +287,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('returns.index') }}"
-                                    name="menuTitles"
                                     label="Returns"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('returns') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('returns') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('returns') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -294,9 +300,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('purchase-orders.index') }}"
-                                    name="menuTitles"
                                     label="Purchase Orders"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchase-orders') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchase-orders') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('purchase-orders') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -307,9 +313,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('credits.index') }}"
-                                    name="menuTitles"
                                     label="Credits"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('credits') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('credits') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('credits') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -320,9 +326,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('customers.index') }}"
-                                    name="menuTitles"
                                     label="Customers"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('customers') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('customers') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('customers') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -335,7 +341,7 @@
     @can('Read Tender')
         @if (isFeatureEnabled('Tender Management'))
             <ul
-                x-data="toggler"
+                x-data="sideMenuAccordion"
                 class="menu-list mb-2"
             >
                 <li>
@@ -343,7 +349,8 @@
                         tag="button"
                         mode="button"
                         class="is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0"
-                        @click="toggle"
+                        ::class="{ 'is-active': isAccordionActive }"
+                        @click="toggleAccordion"
                     >
                         <x-common.icon
                             name="fas fa-project-diagram"
@@ -353,7 +360,7 @@
                         <span class="icon ml-auto">
                             <i
                                 class="fas fa-caret-down"
-                                :class="{ 'fa-caret-up': !isHidden }"
+                                :class="{ 'fa-caret-up': isAccordionOpen }"
                             ></i>
                         </span>
                     </x-common.button>
@@ -361,42 +368,42 @@
                 <li>
                     <ul
                         class="mt-0 ml-5 is-hidden"
-                        :class="{ 'is-hidden': isHidden }"
+                        :class="{ 'is-hidden': !isAccordionOpen }"
                     >
                         <li>
                             <x-common.button
                                 tag="a"
                                 href="{{ route('tenders.index') }}"
-                                name="menuTitles"
                                 label="Tenders"
-                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tenders') ? 'is-active' : '' }}"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tenders') ? 'text-green has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->is('tenders') ? 'activateAccordion' : '' }}"
                             />
                         </li>
                         <li>
                             <x-common.button
                                 tag="a"
                                 href="{{ route('tender-checklist-types.index') }}"
-                                name="menuTitles"
                                 label="Checklist Categories"
-                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tender-checklist-types') ? 'is-active' : '' }}"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tender-checklist-types') ? 'text-green has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->is('tender-checklist-types') ? 'activateAccordion' : '' }}"
                             />
                         </li>
                         <li>
                             <x-common.button
                                 tag="a"
                                 href="{{ route('general-tender-checklists.index') }}"
-                                name="menuTitles"
                                 label="Available Checklists"
-                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('general-tender-checklists') ? 'is-active' : '' }}"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('general-tender-checklists') ? 'text-green has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->is('general-tender-checklists') ? 'activateAccordion' : '' }}"
                             />
                         </li>
                         <li>
                             <x-common.button
                                 tag="a"
                                 href="{{ route('tender-statuses.index') }}"
-                                name="menuTitles"
                                 label="Available Statuses"
-                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tender-statuses') ? 'is-active' : '' }}"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tender-statuses') ? 'text-green has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->is('tender-statuses') ? 'activateAccordion' : '' }}"
                             />
                         </li>
                     </ul>
@@ -407,7 +414,7 @@
 
     @canany(['Read Purchase', 'Read Supplier'])
         <ul
-            x-data="toggler"
+            x-data="sideMenuAccordion"
             class="menu-list mb-2"
         >
             <li>
@@ -415,7 +422,8 @@
                     tag="button"
                     mode="button"
                     class="is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0"
-                    @click="toggle"
+                    ::class="{ 'is-active': isAccordionActive }"
+                    @click="toggleAccordion"
                 >
                     <x-common.icon
                         name="fas fa-shopping-bag"
@@ -425,7 +433,7 @@
                     <span class="icon ml-auto">
                         <i
                             class="fas fa-caret-down"
-                            :class="{ 'fa-caret-up': !isHidden }"
+                            :class="{ 'fa-caret-up': isAccordionOpen }"
                         ></i>
                     </span>
                 </x-common.button>
@@ -433,7 +441,7 @@
             <li>
                 <ul
                     class="mt-0 ml-5 is-hidden"
-                    :class="{ 'is-hidden': isHidden }"
+                    :class="{ 'is-hidden': !isAccordionOpen }"
                 >
                     @if (isFeatureEnabled('Purchase Management'))
                         @can('Read Purchase')
@@ -441,9 +449,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('purchases.index') }}"
-                                    name="menuTitles"
                                     label="Purchases"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('purchases') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -454,9 +462,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('suppliers.index') }}"
-                                    name="menuTitles"
                                     label="Suppliers"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('suppliers') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -469,7 +477,7 @@
     @can('Read Product')
         @if (isFeatureEnabled('Product Management'))
             <ul
-                x-data="toggler"
+                x-data="sideMenuAccordion"
                 class="menu-list mb-2"
             >
                 <li>
@@ -477,7 +485,8 @@
                         tag="button"
                         mode="button"
                         class="is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0"
-                        @click="toggle"
+                        ::class="{ 'is-active': isAccordionActive }"
+                        @click="toggleAccordion"
                     >
                         <x-common.icon
                             name="fas fa-th"
@@ -487,7 +496,7 @@
                         <span class="icon ml-auto">
                             <i
                                 class="fas fa-caret-down"
-                                :class="{ 'fa-caret-up': !isHidden }"
+                                :class="{ 'fa-caret-up': isAccordionOpen }"
                             ></i>
                         </span>
                     </x-common.button>
@@ -495,24 +504,24 @@
                 <li>
                     <ul
                         class="mt-0 ml-5 is-hidden"
-                        :class="{ 'is-hidden': isHidden }"
+                        :class="{ 'is-hidden': !isAccordionOpen }"
                     >
                         <li>
                             <x-common.button
                                 tag="a"
                                 href="{{ route('products.index') }}"
-                                name="menuTitles"
                                 label="Products"
-                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('products') ? 'is-active' : '' }}"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('products') ? 'text-green has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->is('products') ? 'activateAccordion' : '' }}"
                             />
                         </li>
                         <li>
                             <x-common.button
                                 tag="a"
                                 href="{{ route('categories.index') }}"
-                                name="menuTitles"
                                 label="Categories"
-                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories') ? 'is-active' : '' }}"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories') ? 'text-green has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->is('categories') ? 'activateAccordion' : '' }}"
                             />
                         </li>
                     </ul>
@@ -523,7 +532,7 @@
 
     @canany(['Read Employee', 'Update Company'])
         <ul
-            x-data="toggler"
+            x-data="sideMenuAccordion"
             class="menu-list mb-2"
         >
             <li>
@@ -531,7 +540,8 @@
                     tag="button"
                     mode="button"
                     class="is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0"
-                    @click="toggle"
+                    ::class="{ 'is-active': isAccordionActive }"
+                    @click="toggleAccordion"
                 >
                     <x-common.icon
                         name="fas fa-cog"
@@ -541,7 +551,7 @@
                     <span class="icon ml-auto">
                         <i
                             class="fas fa-caret-down"
-                            :class="{ 'fa-caret-up': !isHidden }"
+                            :class="{ 'fa-caret-up': isAccordionOpen }"
                         ></i>
                     </span>
                 </x-common.button>
@@ -549,7 +559,7 @@
             <li>
                 <ul
                     class="mt-0 ml-5 is-hidden"
-                    :class="{ 'is-hidden': isHidden }"
+                    :class="{ 'is-hidden': !isAccordionOpen }"
                 >
                     @if (isFeatureEnabled('User Management'))
                         @can('Read Employee')
@@ -557,9 +567,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('employees.index') }}"
-                                    name="menuTitles"
                                     label="Users"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('employees') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -570,9 +580,9 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('companies.edit', userCompany()->id) }}"
-                                    name="menuTitles"
                                     label="Company Profile"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('companies') ? 'is-active' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('companies') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->is('companies') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan

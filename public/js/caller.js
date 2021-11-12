@@ -20,8 +20,6 @@ if (d.getElementById("addNewSaleForm")) {
     d.getElementById("addNewSaleForm").addEventListener("click", addSaleDetail);
 }
 
-window.addEventListener("load", jumpToCurrentPageMenuTitle);
-
 if (d.getElementById("formOne")) {
     d.getElementById("formOne").addEventListener("submit", disableSaveButton);
 }
