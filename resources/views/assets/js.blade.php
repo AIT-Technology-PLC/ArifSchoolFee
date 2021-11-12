@@ -5,8 +5,8 @@
 <script type="text/javascript" src="https://unpkg.com/alpinejs@3.4.2/dist/cdn.min.js" defer></script>
 {{-- Datatable Library --}}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-{{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script> --}}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="{{ asset('js/datatables-plugins.js') }}"></script>
 {{-- Other Library --}}
@@ -18,4 +18,14 @@
 <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/template.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/caller.js') }}"></script>
+{{-- Global site tag (gtag.js) - Google Analytics --}}
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-212816628-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-212816628-1');
+</script>
+
 @stack('scripts')
