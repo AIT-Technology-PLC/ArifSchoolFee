@@ -25,7 +25,7 @@ class TransferController extends Controller
     {
         $transfers = Transfer::branched()
             ->with(['createdBy', 'updatedBy', 'approvedBy', 'transferredFrom', 'transferredTo'])
-            ->latest()
+            ->latest('code')
             ->get();
 
         $totalTransferred = Transfer::branched()->added()->count();

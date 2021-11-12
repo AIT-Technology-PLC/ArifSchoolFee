@@ -21,7 +21,7 @@ class PurchaseController extends Controller
 
     public function index()
     {
-        $purchases = Purchase::with(['createdBy', 'updatedBy', 'purchaseDetails'])->latest()->get();
+        $purchases = Purchase::with(['createdBy', 'updatedBy', 'purchaseDetails'])->latest('code')->get();
 
         $totalPurchases = Purchase::count();
 

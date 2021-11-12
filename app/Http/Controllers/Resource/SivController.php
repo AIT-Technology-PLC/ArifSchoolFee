@@ -23,7 +23,7 @@ class SivController extends Controller
 
     public function index()
     {
-        $sivs = Siv::with(['createdBy', 'updatedBy', 'approvedBy'])->latest()->get();
+        $sivs = Siv::with(['createdBy', 'updatedBy', 'approvedBy'])->latest('code')->get();
 
         $totalSivs = Siv::count();
 

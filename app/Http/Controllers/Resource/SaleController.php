@@ -21,7 +21,7 @@ class SaleController extends Controller
 
     public function index()
     {
-        $sales = Sale::with(['createdBy', 'updatedBy', 'saleDetails'])->latest()->get();
+        $sales = Sale::with(['createdBy', 'updatedBy', 'saleDetails'])->latest('code')->get();
 
         $totalSales = Sale::count();
 

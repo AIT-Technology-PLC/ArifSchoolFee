@@ -23,7 +23,7 @@ class ReturnController extends Controller
 
     public function index()
     {
-        $returns = Returnn::with(['returnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'customer'])->latest()->get();
+        $returns = Returnn::with(['returnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'customer'])->latest('code')->get();
 
         $totalReturns = Returnn::count();
 

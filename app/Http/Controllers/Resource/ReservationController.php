@@ -30,7 +30,7 @@ class ReservationController extends Controller
     {
         $reservations = Reservation::query()
             ->with(['reservationDetails', 'createdBy', 'updatedBy', 'approvedBy', 'customer', 'reservable'])
-            ->latest()
+            ->latest('code')
             ->get();
 
         $totalReservations = Reservation::count();

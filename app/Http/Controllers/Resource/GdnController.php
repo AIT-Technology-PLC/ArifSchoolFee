@@ -25,7 +25,7 @@ class GdnController extends Controller
 
     public function index(GdnDatatable $datatable)
     {
-        $datatable->builder()->orderBy(isFeatureEnabled('Sale Management') ? 9 : 8, 'desc');
+        $datatable->builder()->orderBy(1, 'desc');
 
         $totalGdns = Gdn::count();
 
@@ -42,7 +42,7 @@ class GdnController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $sales = Sale::latest()->get();
+        $sales = Sale::latest('id')->get();
 
         $warehouses = auth()->user()->getAllowedWarehouses('sales');
 
@@ -77,7 +77,7 @@ class GdnController extends Controller
     {
         $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $sales = Sale::latest()->get();
+        $sales = Sale::latest('code')->get();
 
         $warehouses = auth()->user()->getAllowedWarehouses('sales');
 
