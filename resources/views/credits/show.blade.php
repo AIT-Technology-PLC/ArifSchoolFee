@@ -81,6 +81,13 @@
                         label="Settled Amount in {{ userCompany()->currency }}"
                     />
                 </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-money-check"
+                        data="{{ number_format($credit->credit_amount_unsettled, 2) }}"
+                        label="Unsettled Amount in {{ userCompany()->currency }}"
+                    />
+                </div>
                 @if (!is_null($credit->description))
                     <div class="column is-12">
                         <x-common.show-data-section

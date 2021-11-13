@@ -46,6 +46,11 @@ class Credit extends Model
         return ($this->credit_amount_settled / $this->credit_amount) * 100;
     }
 
+    public function getCreditAmountUnsettledAttribute()
+    {
+        return $this->credit_amount - $this->credit_amount_settled;
+    }
+
     public function scopeSettled($query)
     {
         return $query->whereColumn('credit_amount', 'credit_amount_settled');
