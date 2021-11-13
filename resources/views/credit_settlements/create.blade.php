@@ -90,10 +90,11 @@
                                     class="is-fullwidth"
                                     id="bank_name"
                                     name="bank_name"
+                                    x-ref="bankName"
                                 >
                                     <option
                                         selected
-                                        disabled
+                                        value=""
                                     > Select Bank </option>
                                     @if (old('bank_name'))
                                         <option
@@ -126,6 +127,7 @@
                                     type="text"
                                     placeholder="Reference No"
                                     value="{{ old('reference_number') ?? '' }}"
+                                    x-ref="referenceNumber"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"

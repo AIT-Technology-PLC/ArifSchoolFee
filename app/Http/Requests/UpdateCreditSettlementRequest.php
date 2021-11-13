@@ -16,8 +16,8 @@ class UpdateCreditSettlementRequest extends FormRequest
         return [
             'amount' => ['required', 'numeric', 'gt:0'],
             'method' => ['required', 'string'],
-            'bank_name' => ['nullable', 'string', 'required_unless:method,Cash', 'exclude_if:method,Cash'],
-            'reference_number' => ['nullable', 'string', 'required_unless:method,Cash', 'exclude_if:method,Cash'],
+            'bank_name' => ['nullable', 'string', 'required_unless:method,Cash'],
+            'reference_number' => ['nullable', 'string', 'required_unless:method,Cash'],
             'settled_at' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];

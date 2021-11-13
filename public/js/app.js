@@ -378,6 +378,8 @@ document.addEventListener("alpine:init", () => {
         changeMethod() {
             if (this.$el.value === "Cash") {
                 this.isMethodCash = true;
+                this.$refs.bankName.value = "";
+                this.$refs.referenceNumber.value = "";
             }
 
             if (this.$el.value !== "Cash") {
