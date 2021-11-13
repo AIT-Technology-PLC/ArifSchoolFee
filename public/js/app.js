@@ -371,4 +371,18 @@ document.addEventListener("alpine:init", () => {
             this.isAccordionOpen = true;
         },
     }));
+
+    Alpine.data("verifyCashMethod", () => ({
+        isMethodCash: false,
+
+        changeMethod() {
+            if (this.$el.value === "Cash") {
+                this.isMethodCash = true;
+            }
+
+            if (this.$el.value !== "Cash") {
+                this.isMethodCash = false;
+            }
+        },
+    }));
 });

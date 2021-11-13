@@ -15,7 +15,10 @@
             @csrf
             @method('PATCH')
             <x-content.main>
-                <div class="columns is-marginless is-multiline">
+                <div
+                    x-data="verifyCashMethod"
+                    class="columns is-marginless is-multiline"
+                >
                     <div class="column is-6">
                         <x-forms.label for="amount">
                             Amount <sup class="has-text-danger">*</sup>
@@ -47,11 +50,17 @@
                                     class="is-fullwidth"
                                     id="method"
                                     name="method"
+                                    @change="changeMethod"
+                                    x-init="changeMethod"
                                 >
                                     <option
                                         value="Bank Deposit"
                                         {{ $creditSettlement->method == 'Bank Deposit' ? 'selected' : '' }}
                                     > Bank Deposit </option>
+                                    <option
+                                        value="Bank Transfer"
+                                        {{ old('method') == 'Bank Transfer' ? 'selected' : '' }}
+                                    > Bank Transfer </option>
                                     <option
                                         value="Cheque"
                                         {{ $creditSettlement->method == 'Cheque' ? 'selected' : '' }}
@@ -69,9 +78,46 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div
+                        class="column is-6 is-hidden"
+                        :class="{ 'is-hidden': isMethodCash }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="bank_name">
+                                Bank <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="bank_name"
+                                    name="bank_name"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    > Select Bank </option>
+                                    @if ($creditSettlement->bank_name)
+                                        <option
+                                            value="{{ $creditSettlement->bank_name }}"
+                                            selected
+                                        > {{ $creditSettlement->bank_name }} </option>
+                                    @endif
+                                    @include('lists.banks')
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-university"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="bank_name" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6 is-hidden"
+                        :class="{ 'is-hidden': isMethodCash }"
+                    >
                         <x-forms.label for="reference_number">
-                            Reference No <sup class="has-text-danger"></sup>
+                            Reference No <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field>
                             <x-forms.control class="has-icons-left">

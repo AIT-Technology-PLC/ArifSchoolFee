@@ -1,9 +1,10 @@
 @props(['id', 'name'])
 
-<div {{ $attributes->merge(['class' => 'select']) }}>
+<div {{ $attributes->class(['select'])->whereStartsWith('class') }}>
     <select
         id="{{ $id }}"
         name="{{ $name }}"
+        {{ $attributes->whereDoesntStartWith('class') }}
     >
         {{ $slot }}
     </select>

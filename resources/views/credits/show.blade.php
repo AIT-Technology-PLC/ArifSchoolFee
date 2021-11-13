@@ -130,6 +130,7 @@
                 <x-slot name="headings">
                     <th> # </th>
                     <th> Method </th>
+                    <th> Bank </th>
                     <th> Reference No </th>
                     <th> Settlement Date </th>
                     <th class="has-text-right"> Amount </th>
@@ -141,6 +142,7 @@
                         <tr>
                             <td> {{ $loop->index + 1 }} </td>
                             <td class="is-capitalized"> {{ $creditSettlement->method }} </td>
+                            <td class="is-capitalized"> {{ $creditSettlement->bank_name ?? 'N/A' }} </td>
                             <td class="is-capitalized"> {{ $creditSettlement->reference_number ?? 'N/A' }} </td>
                             <td> {{ $creditSettlement->settled_at->toFormattedDateString() }}</td>
                             <td class="has-text-right">{{ userCompany()->currency . '. ' . number_format($creditSettlement->amount, 2) }}</td>
