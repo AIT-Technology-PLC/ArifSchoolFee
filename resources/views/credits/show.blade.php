@@ -126,7 +126,7 @@
             @else
                 <x-common.fail-message message="No settlements was made to this credit." />
             @endif
-            <x-common.bulma-table>
+            <x-common.client-datatable date-columns="[4]">
                 <x-slot name="headings">
                     <th> # </th>
                     <th> Method </th>
@@ -157,7 +157,7 @@
                         </tr>
                     @endforeach
                 </x-slot>
-            </x-common.bulma-table>
+            </x-common.client-datatable>
         </x-content.footer>
     </x-common.content-wrapper>
 @endsection
