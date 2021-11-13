@@ -31,7 +31,11 @@ class CreditController extends Controller
 
         $totalNotSettledAtAll = Credit::noSettlements()->count();
 
-        return $datatable->render('credits.index', compact('totalCredits', 'totalSettled', 'totalPartiallySettled', 'totalNotSettledAtAll'));
+        $currentCreditBalance = Credit::sum('credit_amount') - Credit::sum('credit_amount_settled');
+
+        $averageCreditSettlementDays = Credit::settled()->averageCreditSettlementDays();
+
+        return $datatable->render('credits.index', compact('totalCredits', 'totalSettled', 'totalPartiallySettled', 'totalNotSettledAtAll', 'currentCreditBalance', 'averageCreditSettlementDays'));
     }
 
     public function create()

@@ -63,6 +63,13 @@ class Credit extends Model
         return $query->where('credit_amount_settled', 0);
     }
 
+    public function scopeAverageCreditSettlementDays($query, $customerId = null)
+    {
+        return $query
+            ->when($customerId, fn($query) => $query->where('customer_id', $customerId))
+            ->selectRaw('SUM(DATEDIFF(issued_on, last_settled_at)) / COUNT(id) as days')->first()->days;
+    }
+
     public function isSettled()
     {
         return $this->credit_amount == $this->credit_amount_settled;

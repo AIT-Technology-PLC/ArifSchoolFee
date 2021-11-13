@@ -35,6 +35,22 @@
                 label="No Settlements"
             />
         </div>
+        <div class="column is-6 p-lr-0">
+            <x-common.index-insight
+                amount="{{ userCompany()->currency }} {{ number_format($currentCreditBalance, 2) }}"
+                border-color="#3d8660"
+                text-color="text-green"
+                label="Unsettled Credit Balance"
+            />
+        </div>
+        <div class="column is-6 p-lr-0">
+            <x-common.index-insight
+                amount="{{ number_format(abs($averageCreditSettlementDays), 2) }}"
+                border-color="#863d63"
+                text-color="text-purple"
+                label="Average Credit Settlement Period (in Days)"
+            />
+        </div>
     </div>
 
     <x-common.content-wrapper>

@@ -21,7 +21,7 @@ class CreditSettlement extends Model
         static::created(function ($creditSettlement) {
             $credit = $creditSettlement->credit;
             $credit->credit_amount_settled = $credit->creditSettlements()->sum('amount');
-            $credit->last_settled_at = $creditSettlement->created_at;
+            $credit->last_settled_at = $creditSettlement->settled_at;
 
             $credit->save();
         });
@@ -29,6 +29,7 @@ class CreditSettlement extends Model
         static::updated(function ($creditSettlement) {
             $credit = $creditSettlement->credit;
             $credit->credit_amount_settled = $credit->creditSettlements()->sum('amount');
+            $credit->last_settled_at = $creditSettlement->settled_at;
 
             $credit->save();
         });
@@ -36,6 +37,7 @@ class CreditSettlement extends Model
         static::deleted(function ($creditSettlement) {
             $credit = $creditSettlement->credit;
             $credit->credit_amount_settled = $credit->creditSettlements()->sum('amount');
+            $credit->last_settled_at = $credit->creditSettlements()->max('settled_at');
 
             $credit->save();
         });
