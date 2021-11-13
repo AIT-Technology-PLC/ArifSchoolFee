@@ -45,7 +45,7 @@
         </div>
         <div class="column is-6 p-lr-0">
             <x-common.index-insight
-                amount="{{ number_format(abs($averageCreditSettlementDays), 2) }}"
+                amount="{{ number_format($averageCreditSettlementDays, 2) }}"
                 border-color="#863d63"
                 text-color="text-purple"
                 label="Average Credit Settlement Period (in Days)"
