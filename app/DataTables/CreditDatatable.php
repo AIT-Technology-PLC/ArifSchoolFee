@@ -4,7 +4,6 @@ namespace App\DataTables;
 
 use App\Models\Credit;
 use App\Traits\DataTableHtmlBuilder;
-use Illuminate\Support\Str;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -33,9 +32,9 @@ class CreditDatatable extends DataTable
             ->editColumn('status', fn($credit) => view('components.datatables.credit-status', compact('credit')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when(Str::contains('no', $keyword), fn($query) => $query->noSettlements())
-                    ->when(Str::contains('partial', $keyword), fn($query) => $query->partiallySettled())
-                    ->when(Str::contains('full', $keyword), fn($query) => $query->settled());
+                    ->when(strtolower($keyword) == 'no-settlements', fn($query) => $query->noSettlements())
+                    ->when(strtolower($keyword) == 'partial-settlements', fn($query) => $query->partiallySettled())
+                    ->when(strtolower($keyword) == 'settled', fn($query) => $query->settled());
             })
             ->editColumn('credit amount', fn($credit) => userCompany()->currency . '. ' . number_format($credit->credit_amount, 2))
             ->editColumn('amount settled', fn($credit) => userCompany()->currency . '. ' . number_format($credit->credit_amount_settled, 2))
@@ -77,7 +76,7 @@ class CreditDatatable extends DataTable
             Column::make('customer', 'customer.company_name'),
             Column::make('credit amount', 'credit_amount'),
             Column::make('amount settled', 'credit_amount_settled')->visible(false),
-            Column::make('amount unsettled', 'credit_amount_unsettled')->visible(false),
+            Column::computed('amount unsettled')->visible(false),
             Column::make('issued on', 'issued_on'),
             Column::make('due date', 'due_date')->visible(false),
             Column::computed('actions')->className('actions'),
