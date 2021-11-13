@@ -60,7 +60,7 @@
                 href="/"
                 class="text-green is-size-6-5 has-text-left"
                 ::class="{ 'is-active': isAccordionActive }"
-                x-init="{{ request()->is('/') ? 'activateAccordion' : '' }}"
+                x-init="{{ request()->routeIs('home') ? 'activateAccordion' : '' }}"
             >
                 <x-common.icon
                     name="fas fa-bars"
@@ -109,8 +109,8 @@
                                     tag="a"
                                     href="{{ route('merchandises.index', 'on-hand') }}"
                                     label="Inventory Level"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('merchandises/*') ? 'text-green has-text-weight-bold' : '' }} "
-                                    x-init="{{ request()->is('merchandises/*') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('merchandises.*') ? 'text-green has-text-weight-bold' : '' }} "
+                                    x-init="{{ request()->routeIs('merchandises.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endif
@@ -122,8 +122,8 @@
                                     tag="a"
                                     href="{{ route('warehouses.index') }}"
                                     label="Warehouses"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('warehouses') ? 'text-green has-text-weight-bold' : '' }} "
-                                    x-init="{{ request()->is('warehouses') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('warehouses.*') ? 'text-green has-text-weight-bold' : '' }} "
+                                    x-init="{{ request()->routeIs('warehouses.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endif
@@ -135,8 +135,8 @@
                                     tag="a"
                                     href="{{ route('grns.index') }}"
                                     label="Goods Received Notes"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('grns') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('grns') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('grns.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('grns.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endif
@@ -148,8 +148,8 @@
                                     tag="a"
                                     href="{{ route('transfers.index') }}"
                                     label="Transfers"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('transfers') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('transfers') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('transfers.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('transfers.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endif
@@ -161,8 +161,8 @@
                                     tag="a"
                                     href="{{ route('damages.index') }}"
                                     label="Damages"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('damages') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('damages') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('damages.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('damages.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -174,8 +174,8 @@
                                     tag="a"
                                     href="{{ route('adjustments.index') }}"
                                     label="Adjustments"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('adjustments') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('adjustments') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('adjustments.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('adjustments.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -187,8 +187,8 @@
                                     tag="a"
                                     href="{{ route('sivs.index') }}"
                                     label="Store Issue Vouchers"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sivs') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('sivs') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('sivs.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('sivs.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -236,8 +236,8 @@
                                     tag="a"
                                     href="{{ route('sales.index') }}"
                                     label="Invoices"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('sales') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('sales') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('sales.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('sales.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -249,8 +249,8 @@
                                     tag="a"
                                     href="{{ route('gdns.index') }}"
                                     label="Delivery Orders"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('gdns') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('gdns') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('gdns.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('gdns.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -262,8 +262,8 @@
                                     tag="a"
                                     href="{{ route('proforma-invoices.index') }}"
                                     label="Proforma Invoices"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('proforma-invoices') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('proforma-invoices') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('proforma.*-invoices') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('proforma.*-invoices') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -275,8 +275,8 @@
                                     tag="a"
                                     href="{{ route('reservations.index') }}"
                                     label="Reservations"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('reservations') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('reservations') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reservations.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('reservations.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -288,8 +288,8 @@
                                     tag="a"
                                     href="{{ route('returns.index') }}"
                                     label="Returns"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('returns') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('returns') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('returns.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('returns.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -301,8 +301,8 @@
                                     tag="a"
                                     href="{{ route('purchase-orders.index') }}"
                                     label="Purchase Orders"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchase-orders') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('purchase-orders') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('purchase-orders.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('purchase-orders.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -314,8 +314,8 @@
                                     tag="a"
                                     href="{{ route('credits.index') }}"
                                     label="Credits"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('credits') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('credits') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('credits.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('credits.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -327,8 +327,8 @@
                                     tag="a"
                                     href="{{ route('customers.index') }}"
                                     label="Customers"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('customers') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('customers') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('customers.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('customers.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -375,8 +375,8 @@
                                 tag="a"
                                 href="{{ route('tenders.index') }}"
                                 label="Tenders"
-                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tenders') ? 'text-green has-text-weight-bold' : '' }}"
-                                x-init="{{ request()->is('tenders') ? 'activateAccordion' : '' }}"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('tenders.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('tenders.*') ? 'activateAccordion' : '' }}"
                             />
                         </li>
                         <li>
@@ -384,8 +384,8 @@
                                 tag="a"
                                 href="{{ route('tender-checklist-types.index') }}"
                                 label="Checklist Categories"
-                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tender-checklist-types') ? 'text-green has-text-weight-bold' : '' }}"
-                                x-init="{{ request()->is('tender-checklist-types') ? 'activateAccordion' : '' }}"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('tender-checklist-types.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('tender-checklist-types.*') ? 'activateAccordion' : '' }}"
                             />
                         </li>
                         <li>
@@ -393,8 +393,8 @@
                                 tag="a"
                                 href="{{ route('general-tender-checklists.index') }}"
                                 label="Available Checklists"
-                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('general-tender-checklists') ? 'text-green has-text-weight-bold' : '' }}"
-                                x-init="{{ request()->is('general-tender-checklists') ? 'activateAccordion' : '' }}"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('general-tender-checklists.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('general-tender-checklists.*') ? 'activateAccordion' : '' }}"
                             />
                         </li>
                         <li>
@@ -402,8 +402,8 @@
                                 tag="a"
                                 href="{{ route('tender-statuses.index') }}"
                                 label="Available Statuses"
-                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('tender-statuses') ? 'text-green has-text-weight-bold' : '' }}"
-                                x-init="{{ request()->is('tender-statuses') ? 'activateAccordion' : '' }}"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('tender-statuses.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('tender-statuses.*') ? 'activateAccordion' : '' }}"
                             />
                         </li>
                     </ul>
@@ -450,8 +450,8 @@
                                     tag="a"
                                     href="{{ route('purchases.index') }}"
                                     label="Purchases"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('purchases') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('purchases') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('purchases.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('purchases.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -463,8 +463,8 @@
                                     tag="a"
                                     href="{{ route('suppliers.index') }}"
                                     label="Suppliers"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('suppliers') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('suppliers') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('suppliers.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('suppliers.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -511,8 +511,8 @@
                                 tag="a"
                                 href="{{ route('products.index') }}"
                                 label="Products"
-                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('products') ? 'text-green has-text-weight-bold' : '' }}"
-                                x-init="{{ request()->is('products') ? 'activateAccordion' : '' }}"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('products.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('products.*') ? 'activateAccordion' : '' }}"
                             />
                         </li>
                         <li>
@@ -520,8 +520,8 @@
                                 tag="a"
                                 href="{{ route('categories.index') }}"
                                 label="Categories"
-                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('categories') ? 'text-green has-text-weight-bold' : '' }}"
-                                x-init="{{ request()->is('categories') ? 'activateAccordion' : '' }}"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('categories.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('categories.*') ? 'activateAccordion' : '' }}"
                             />
                         </li>
                     </ul>
@@ -568,8 +568,8 @@
                                     tag="a"
                                     href="{{ route('employees.index') }}"
                                     label="Users"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('employees') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('employees') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('employees.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('employees.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -581,8 +581,8 @@
                                     tag="a"
                                     href="{{ route('companies.edit', userCompany()->id) }}"
                                     label="Company Profile"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->is('companies') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->is('companies') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('companies.edit') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('companies.edit') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
