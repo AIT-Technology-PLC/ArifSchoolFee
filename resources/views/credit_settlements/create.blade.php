@@ -26,7 +26,7 @@
                                     name="amount"
                                     type="number"
                                     placeholder="Amount"
-                                    value="{{ old('amount') ?? 0.0 }}"
+                                    value="{{ old('amount') ?? '.00' }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-check"
@@ -51,6 +51,10 @@
                                         value="Bank Deposit"
                                         {{ old('method') == 'Bank Deposit' ? 'selected' : '' }}
                                     > Bank Deposit </option>
+                                    <option
+                                        value="Bank Transfer"
+                                        {{ old('method') == 'Bank Transfer' ? 'selected' : '' }}
+                                    > Bank Transfer </option>
                                     <option
                                         value="Cheque"
                                         {{ old('method') == 'Cheque' ? 'selected' : '' }}
