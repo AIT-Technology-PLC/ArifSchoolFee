@@ -33,7 +33,7 @@ class SendCreditDueDateNotification extends Command
             $totalCredits = Credit::query()
                 ->where('company_id', $company->id)
                 ->whereColumn('credit_amount', '>', 'credit_amount_settled')
-                ->whereRaw('DATEDIFF(due_date, CURRENT_DATE) BETWEEN 1 AND 5')
+                ->whereRaw('DATEDIFF(due_date, CURRENT_DATE) BETWEEN 1 AND 7')
                 ->count();
 
             if ($totalCredits == 0) {
