@@ -14,9 +14,10 @@ class UpdateCreditSettlementRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => ['nullable', 'numeric', 'gt:0'],
+            'amount' => ['required', 'numeric', 'gt:0'],
             'method' => ['required', 'string'],
-            'reference_number' => ['nullable', 'string'],
+            'bank_name' => ['nullable', 'string', 'required_unless:method,Cash', 'prohibited_if:method,Cash'],
+            'reference_number' => ['nullable', 'string', 'required_unless:method,Cash', 'prohibited_if:method,Cash'],
             'settled_at' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];
