@@ -127,7 +127,7 @@ registerRoute(
     "POST"
 );
 
-registerRoute(({ request }) => request.mode == "navigate", new NetworkFirst());
+registerRoute(({ request }) => request.mode === "navigate", new NetworkFirst());
 
 const handler = async (options) => {
     const dest = options.request.destination;
