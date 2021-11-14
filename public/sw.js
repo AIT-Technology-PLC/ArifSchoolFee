@@ -11,8 +11,8 @@ skipWaiting();
 clientsClaim();
 
 const VERSION = 43;
-const PRECACHE = "precache-v" + VERSION;
-const RUNTIME = "runtime-v" + VERSION;
+const PRECACHE = "precache-v4";
+const RUNTIME = "runtime-v4";
 
 setCacheNameDetails({
     prefix: "",
@@ -122,16 +122,12 @@ registerRoute(
 );
 
 registerRoute(
-    ({ request }) => request.method === "POST",
+    ({ request }) => request.method !== "GET",
     new NetworkOnly(),
     "POST"
 );
 
-registerRoute(({ request }) => {
-    if (request.mode == "navigate") {
-        return true;
-    }
-}, new NetworkFirst());
+registerRoute(({ request }) => request.mode == "navigate", new NetworkFirst());
 
 const handler = async (options) => {
     const dest = options.request.destination;

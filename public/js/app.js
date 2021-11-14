@@ -160,7 +160,10 @@ function showOnlineBox() {
 
     d.getElementById("backOnline").classList.remove("is-hidden");
 
-    location.reload();
+    setTimeout(
+        () => d.getElementById("backOnline").classList.add("is-hidden"),
+        5000
+    );
 }
 
 function showOfflineBox() {
