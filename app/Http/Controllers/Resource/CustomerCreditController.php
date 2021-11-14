@@ -34,7 +34,7 @@ class CustomerCreditController extends Controller
 
         $totalCreditAmountProvided = $customer->credits()->sum('credit_amount');
 
-        $currentCreditBalance = $customer->credits()->sum('credit_amount') - $customer->credits()->sum('credit_amount_settled');
+        $currentCreditBalance = $totalCreditAmountProvided - $customer->credits()->sum('credit_amount_settled');
 
         $averageCreditSettlementDays = $customer->credits()->settled()->averageCreditSettlementDays();
 

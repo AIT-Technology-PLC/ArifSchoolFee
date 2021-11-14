@@ -111,26 +111,26 @@
                 </div>
                 <div class="column is-6 p-lr-0">
                     <x-common.index-insight
-                        amount="{{ userCompany()->currency }} {{ number_format($customer->credit_amount_limit, 2) }}"
+                        amount="{{ number_format($customer->credit_amount_limit, 2) }}"
                         border-color="#3d6386"
                         text-color="text-blue"
-                        label="Credit Limit"
+                        label="Credit Limit (in {{ userCompany()->currency }})"
                     />
                 </div>
                 <div class="column is-6 p-lr-0">
                     <x-common.index-insight
-                        amount="{{ userCompany()->currency }} {{ number_format($totalCreditAmountProvided, 2) }}"
+                        amount="{{ number_format($totalCreditAmountProvided, 2) }}"
                         border-color="#3d8660"
                         text-color="text-green"
-                        label="Credit Provided To Date"
+                        label="Credit Provided To Date (in {{ userCompany()->currency }})"
                     />
                 </div>
                 <div class="column is-6 p-lr-0">
                     <x-common.index-insight
-                        amount="{{ userCompany()->currency }} {{ number_format($currentCreditBalance, 2) }}"
+                        amount="{{ number_format($currentCreditBalance, 2) }}"
                         border-color="#86843d"
                         text-color="text-gold"
-                        label="Unsettled Credit Balance"
+                        label="Unsettled Credit Balance (in {{ userCompany()->currency }})"
                     />
                 </div>
                 <div class="column is-6 p-lr-0">
