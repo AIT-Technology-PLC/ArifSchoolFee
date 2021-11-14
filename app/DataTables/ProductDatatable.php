@@ -68,12 +68,12 @@ class ProductDatatable extends DataTable
             Column::make('product', 'name'),
             Column::make('code')->className('text-purple has-text-weight-medium'),
             Column::make('category', 'productCategory.name'),
-            Column::make('type'),
+            Column::make('type')->visible(false),
             Column::make('supplier', 'supplier.company_name'),
-            Column::make('description'),
+            Column::make('description')->visible(false),
             Column::make('reorder level', 'min_on_hand'),
-            Column::make('added by', 'createdBy.name'),
-            Column::make('edited by', 'updatedBy.name'),
+            Column::make('added by', 'createdBy.name')->visible(false),
+            Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions'),
         ];
 
