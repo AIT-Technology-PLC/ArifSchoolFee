@@ -798,6 +798,7 @@ class CoreV1 extends Migration
             $table->foreignId('credit_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('amount', 22);
             $table->string('method');
+            $table->string('bank_name')->nullable();
             $table->string('reference_number')->nullable();
             $table->dateTime('settled_at')->nullable();
             $table->longText('description')->nullable();
