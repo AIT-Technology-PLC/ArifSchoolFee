@@ -56,7 +56,12 @@ class CreditDatatable extends DataTable
         return $credit
             ->newQuery()
             ->select('credits.*')
-            ->when(request('type') == 'due', fn($query) => $query->whereRaw('DATEDIFF(due_date, CURRENT_DATE) BETWEEN 1 AND 5'))
+            ->when(request()->routeIs('customers.credits.index'), function ($query) {
+                return $query->where('customer_id', request()->route('customer')->id);
+            })
+            ->when(request('type') == 'due', function ($query) {
+                return $query->whereRaw('DATEDIFF(due_date, CURRENT_DATE) BETWEEN 1 AND 5');
+            })
             ->with([
                 'gdn:id,code',
                 'customer:id,company_name',
@@ -66,6 +71,7 @@ class CreditDatatable extends DataTable
     protected function getColumns()
     {
         $isHidden = isFeatureEnabled('Gdn Management') ? '' : 'is-hidden';
+        $requestHasCustomer = request()->routeIs('customers.credits.index');
 
         return [
             Column::computed('#'),
@@ -73,7 +79,7 @@ class CreditDatatable extends DataTable
             Column::make('delivery order no', 'gdn.code')
                 ->className('has-text-centered actions ' . $isHidden),
             Column::make('status')->orderable(false),
-            Column::make('customer', 'customer.company_name'),
+            Column::make('customer', 'customer.company_name')->visible(!$requestHasCustomer),
             Column::make('credit amount', 'credit_amount'),
             Column::make('amount settled', 'credit_amount_settled')->visible(false),
             Column::computed('amount unsettled')->visible(false),
