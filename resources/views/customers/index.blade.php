@@ -101,6 +101,15 @@
                                 <td> {{ $customer->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $customer->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('customers.credits.index', $customer->id) }}"
+                                        mode="tag"
+                                        data-title="View Credit Analytics"
+                                        icon="fas fa-money-check"
+                                        label="Credits"
+                                        class="is-white btn-purple is-outlined has-text-weight-medium is-not-underlined"
+                                    />
                                     <a
                                         href="{{ route('customers.edit', $customer->id) }}"
                                         data-title="Modify Customer Data"
