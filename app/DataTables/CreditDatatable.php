@@ -29,6 +29,12 @@ class CreditDatatable extends DataTable
                 ]);
             })
             ->editColumn('customer', fn($credit) => $credit->customer->company_name)
+            ->editColumn('customer', function ($credit) {
+                return view('components.datatables.link', [
+                    'url' => route('customers.credits.index', $credit->customer_id),
+                    'label' => $credit->customer->company_name,
+                ]);
+            })
             ->editColumn('status', fn($credit) => view('components.datatables.credit-status', compact('credit')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
@@ -79,7 +85,7 @@ class CreditDatatable extends DataTable
             Column::make('delivery order no', 'gdn.code')
                 ->className('has-text-centered actions ' . $isHidden),
             Column::make('status')->orderable(false),
-            Column::make('customer', 'customer.company_name')->visible(!$requestHasCustomer),
+            Column::make('customer', 'customer.company_name')->className('actions')->visible(!$requestHasCustomer),
             Column::make('credit amount', 'credit_amount'),
             Column::make('amount settled', 'credit_amount_settled')->visible(false),
             Column::computed('amount unsettled')->visible(false),
