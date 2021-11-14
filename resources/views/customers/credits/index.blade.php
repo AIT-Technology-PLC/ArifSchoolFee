@@ -4,14 +4,14 @@
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="Customer Information" />
+        <x-content.header title="Customer Profile" />
         <x-content.footer>
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-user"
                         :data="$customer->company_name"
-                        label="Customer Profile"
+                        label="Name"
                     />
                 </div>
                 @if ($customer->tin)

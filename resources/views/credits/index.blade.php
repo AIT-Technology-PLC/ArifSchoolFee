@@ -37,10 +37,10 @@
         </div>
         <div class="column is-6 p-lr-0">
             <x-common.index-insight
-                amount="{{ userCompany()->currency }} {{ number_format($currentCreditBalance, 2) }}"
+                amount="{{ number_format($currentCreditBalance, 2) }}"
                 border-color="#3d8660"
                 text-color="text-green"
-                label="Unsettled Credit Balance"
+                label="Unsettled Credit Balance (in {{ userCompany()->currency }})"
             />
         </div>
         <div class="column is-6 p-lr-0">
