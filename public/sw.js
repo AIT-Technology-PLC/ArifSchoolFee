@@ -10,9 +10,9 @@ const { registerRoute, setCatchHandler } = workbox.routing;
 skipWaiting();
 clientsClaim();
 
-const PRECACHE = "precache-v4";
-const RUNTIME = "runtime-v4";
 const VERSION = 43;
+const PRECACHE = "precache-v" + VERSION;
+const RUNTIME = "runtime-v" + VERSION;
 
 setCacheNameDetails({
     prefix: "",
@@ -127,27 +127,11 @@ registerRoute(
     "POST"
 );
 
-registerRoute(({ request, url }) => {
-    if (
-        request.mode == "navigate" &&
-        !url.pathname.includes("create") &&
-        !url.pathname.includes("edit") &&
-        !url.pathname.includes("login")
-    ) {
+registerRoute(({ request }) => {
+    if (request.mode == "navigate") {
         return true;
     }
 }, new NetworkFirst());
-
-registerRoute(({ request, url }) => {
-    if (
-        request.mode == "navigate" &&
-        (url.pathname.includes("create") ||
-            url.pathname.includes("edit") ||
-            url.pathname.includes("login"))
-    ) {
-        return true;
-    }
-}, new NetworkOnly());
 
 const handler = async (options) => {
     const dest = options.request.destination;
