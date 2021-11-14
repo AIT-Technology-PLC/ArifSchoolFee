@@ -25,7 +25,7 @@ class GdnController extends Controller
 
     public function index(GdnDatatable $datatable)
     {
-        $datatable->builder()->orderBy(1, 'desc');
+        $datatable->builder()->setTableId('gdns-datatable')->orderBy(1, 'desc');
 
         $totalGdns = Gdn::count();
 

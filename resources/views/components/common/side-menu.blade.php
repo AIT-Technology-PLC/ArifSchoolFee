@@ -262,8 +262,8 @@
                                     tag="a"
                                     href="{{ route('proforma-invoices.index') }}"
                                     label="Proforma Invoices"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('proforma.*-invoices') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->routeIs('proforma.*-invoices') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('proforma-invoices.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('proforma-invoices.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan

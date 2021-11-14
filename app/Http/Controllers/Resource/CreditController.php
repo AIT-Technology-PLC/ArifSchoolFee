@@ -21,7 +21,7 @@ class CreditController extends Controller
 
     public function index(CreditDatatable $datatable)
     {
-        $datatable->builder()->orderBy(1, 'desc');
+        $datatable->builder()->setTableId('credits-datatable')->orderBy(1, 'desc');
 
         $totalCredits = Credit::count();
 

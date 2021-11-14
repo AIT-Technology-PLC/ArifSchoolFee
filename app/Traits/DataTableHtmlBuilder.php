@@ -48,6 +48,8 @@ trait DataTableHtmlBuilder
                 'processing' => '<i class="fas fa-spinner fa-spin text-green is-size-3"></i>',
                 'search' => '',
                 'searchPlaceholder' => 'Search',
-            ]);
+            ])
+            ->stateSave(true)
+            ->stateDuration(-1);
     }
 }
