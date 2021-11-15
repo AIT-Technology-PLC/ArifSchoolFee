@@ -26,11 +26,7 @@ class ReservationService
 
                 InventoryOperationService::add($reservation->reservationDetails);
 
-                $reservation->approved_by = null;
-
                 $reservation->reserved_by = null;
-
-                $reservation->save();
             }
 
             $reservation->update($updatedReservation);
@@ -40,6 +36,10 @@ class ReservationService
                 ->each(function ($reservationDetail, $key) use ($updatedReservationDetails) {
                     $reservationDetail->update($updatedReservationDetails[$key]);
                 });
+
+            $reservation->approved_by = null;
+
+            $reservation->save();
         });
 
         return [true, ''];
