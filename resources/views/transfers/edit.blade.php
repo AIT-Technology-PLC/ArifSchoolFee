@@ -11,21 +11,39 @@
                 Edit Transfer
             </h1>
         </div>
-        <form id="formOne" action="{{ route('transfers.update', $transfer->id) }}" method="POST" enctype="multipart/form-data" novalidate>
+        <form
+            id="formOne"
+            action="{{ route('transfers.update', $transfer->id) }}"
+            method="POST"
+            enctype="multipart/form-data"
+            novalidate
+        >
             @csrf
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <div class="field">
-                            <label for="code" class="label text-green has-text-weight-normal">Transfer Number <sup class="has-text-danger">*</sup> </label>
+                            <label
+                                for="code"
+                                class="label text-green has-text-weight-normal"
+                            >Transfer Number <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="number" name="code" id="code" value="{{ $transfer->code }}">
+                                <input
+                                    class="input"
+                                    type="number"
+                                    name="code"
+                                    id="code"
+                                    value="{{ $transfer->code }}"
+                                >
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-hashtag"></i>
                                 </span>
                                 @error('code')
-                                    <span class="help has-text-danger" role="alert">
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
                                         {{ $message }}
                                     </span>
                                 @enderror
@@ -34,14 +52,27 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="issued_on" class="label text-green has-text-weight-normal"> Issued On <sup class="has-text-danger">*</sup> </label>
+                            <label
+                                for="issued_on"
+                                class="label text-green has-text-weight-normal"
+                            > Issued On <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
-                                <input class="input" type="date" name="issued_on" id="issued_on" placeholder="mm/dd/yyyy" value="{{ $transfer->issued_on->toDateString() }}">
+                                <input
+                                    class="input"
+                                    type="datetime-local"
+                                    name="issued_on"
+                                    id="issued_on"
+                                    placeholder="mm/dd/yyyy"
+                                    value="{{ $transfer->issued_on->toDateTimeLocalString() }}"
+                                >
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
                                 @error('issued_on')
-                                    <span class="help has-text-danger" role="alert">
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
                                         {{ $message }}
                                     </span>
                                 @enderror
@@ -50,12 +81,21 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="transferred_from" class="label text-green has-text-weight-normal"> From <sup class="has-text-danger">*</sup> </label>
+                            <label
+                                for="transferred_from"
+                                class="label text-green has-text-weight-normal"
+                            > From <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select id="transferred_from" name="transferred_from">
+                                    <select
+                                        id="transferred_from"
+                                        name="transferred_from"
+                                    >
                                         @foreach ($fromWarehouses as $warehouse)
-                                            <option value="{{ $warehouse->id }}" {{ ($transfer->transferred_from ?? '') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                            <option
+                                                value="{{ $warehouse->id }}"
+                                                {{ ($transfer->transferred_from ?? '') == $warehouse->id ? 'selected' : '' }}
+                                            >{{ $warehouse->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -63,7 +103,10 @@
                                     <i class="fas fa-warehouse"></i>
                                 </div>
                                 @error('transferred_from')
-                                    <span class="help has-text-danger" role="alert">
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
                                         {{ $message }}
                                     </span>
                                 @enderror
@@ -72,12 +115,21 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="transferred_to" class="label text-green has-text-weight-normal"> To <sup class="has-text-danger">*</sup> </label>
+                            <label
+                                for="transferred_to"
+                                class="label text-green has-text-weight-normal"
+                            > To <sup class="has-text-danger">*</sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select id="transferred_to" name="transferred_to">
+                                    <select
+                                        id="transferred_to"
+                                        name="transferred_to"
+                                    >
                                         @foreach ($toWarehouses as $warehouse)
-                                            <option value="{{ $warehouse->id }}" {{ ($transfer->transferred_to ?? '') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+                                            <option
+                                                value="{{ $warehouse->id }}"
+                                                {{ ($transfer->transferred_to ?? '') == $warehouse->id ? 'selected' : '' }}
+                                            >{{ $warehouse->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -85,7 +137,10 @@
                                     <i class="fas fa-warehouse"></i>
                                 </div>
                                 @error('transferred_to')
-                                    <span class="help has-text-danger" role="alert">
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
                                         {{ $message }}
                                     </span>
                                 @enderror
@@ -94,14 +149,27 @@
                     </div>
                     <div class="column is-6">
                         <div class="field">
-                            <label for="description" class="label text-green has-text-weight-normal">Description <sup class="has-text-danger"></sup></label>
+                            <label
+                                for="description"
+                                class="label text-green has-text-weight-normal"
+                            >Description <sup class="has-text-danger"></sup></label>
                             <div class="control has-icons-left">
-                                <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ $transfer->description ?? '' }}</textarea>
+                                <textarea
+                                    name="description"
+                                    id="description"
+                                    cols="30"
+                                    rows="3"
+                                    class="textarea pl-6"
+                                    placeholder="Description or note to be taken"
+                                >{{ $transfer->description ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-edit"></i>
                                 </span>
                                 @error('description')
-                                    <span class="help has-text-danger" role="alert">
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
                                         {{ $message }}
                                     </span>
                                 @enderror
@@ -116,17 +184,30 @@
                         </span>
                     </div>
                     <div class="box has-background-white-bis radius-top-0">
-                        <div name="transferFormGroup" class="columns is-marginless is-multiline">
+                        <div
+                            name="transferFormGroup"
+                            class="columns is-marginless is-multiline"
+                        >
                             <div class="column is-6">
                                 <div class="field">
-                                    <label for="transfer[{{ $loop->index }}][product_id]" class="label text-green has-text-weight-normal"> Product <sup class="has-text-danger">*</sup> </label>
+                                    <label
+                                        for="transfer[{{ $loop->index }}][product_id]"
+                                        class="label text-green has-text-weight-normal"
+                                    > Product <sup class="has-text-danger">*</sup> </label>
                                     <div class="control has-icons-left">
-                                        <x-common.product-list tags="false" name="transfer[{{ $loop->index }}]" selected-product-id="{{ $transferDetail->product_id }}" />
+                                        <x-common.product-list
+                                            tags="false"
+                                            name="transfer[{{ $loop->index }}]"
+                                            selected-product-id="{{ $transferDetail->product_id }}"
+                                        />
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-th"></i>
                                         </div>
                                         @error('transfer.' . $loop->index . '.product_id')
-                                            <span class="help has-text-danger" role="alert">
+                                            <span
+                                                class="help has-text-danger"
+                                                role="alert"
+                                            >
                                                 {{ $message }}
                                             </span>
                                         @enderror
@@ -134,34 +215,64 @@
                                 </div>
                             </div>
                             <div class="column is-6">
-                                <label for="transfer[{{ $loop->index }}][quantity]" class="label text-green has-text-weight-normal">Quantity <sup class="has-text-danger">*</sup> </label>
+                                <label
+                                    for="transfer[{{ $loop->index }}][quantity]"
+                                    class="label text-green has-text-weight-normal"
+                                >Quantity <sup class="has-text-danger">*</sup> </label>
                                 <div class="field has-addons">
                                     <div class="control has-icons-left is-expanded">
-                                        <input id="transfer[{{ $loop->index }}][quantity]" name="transfer[{{ $loop->index }}][quantity]" type="number" class="input" placeholder="Quantity" value="{{ $transferDetail->quantity ?? '' }}">
+                                        <input
+                                            id="transfer[{{ $loop->index }}][quantity]"
+                                            name="transfer[{{ $loop->index }}][quantity]"
+                                            type="number"
+                                            class="input"
+                                            placeholder="Quantity"
+                                            value="{{ $transferDetail->quantity ?? '' }}"
+                                        >
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-balance-scale"></i>
                                         </span>
                                         @error('transfer.' . $loop->index . '.quantity')
-                                            <span class="help has-text-danger" role="alert">
+                                            <span
+                                                class="help has-text-danger"
+                                                role="alert"
+                                            >
                                                 {{ $message }}
                                             </span>
                                         @enderror
                                     </div>
                                     <div class="control">
-                                        <button id="transfer[{{ $loop->index }}][product_id]Quantity" class="button bg-green has-text-white" type="button"></button>
+                                        <button
+                                            id="transfer[{{ $loop->index }}][product_id]Quantity"
+                                            class="button bg-green has-text-white"
+                                            type="button"
+                                        ></button>
                                     </div>
                                 </div>
                             </div>
                             <div class="column is-6">
                                 <div class="field">
-                                    <label for="transfer[{{ $loop->index }}][description]" class="label text-green has-text-weight-normal">Additional Notes <sup class="has-text-danger"></sup></label>
+                                    <label
+                                        for="transfer[{{ $loop->index }}][description]"
+                                        class="label text-green has-text-weight-normal"
+                                    >Additional Notes <sup class="has-text-danger"></sup></label>
                                     <div class="control has-icons-left">
-                                        <textarea name="transfer[{{ $loop->index }}][description]" id="transfer[{{ $loop->index }}][description]" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note to be taken">{{ $transferDetail->description ?? '' }}</textarea>
+                                        <textarea
+                                            name="transfer[{{ $loop->index }}][description]"
+                                            id="transfer[{{ $loop->index }}][description]"
+                                            cols="30"
+                                            rows="3"
+                                            class="textarea pl-6"
+                                            placeholder="Description or note to be taken"
+                                        >{{ $transferDetail->description ?? '' }}</textarea>
                                         <span class="icon is-large is-left">
                                             <i class="fas fa-edit"></i>
                                         </span>
                                         @error('transfer.' . $loop->index . '.description')
-                                            <span class="help has-text-danger" role="alert">
+                                            <span
+                                                class="help has-text-danger"
+                                                role="alert"
+                                            >
                                                 {{ $message }}
                                             </span>
                                         @enderror

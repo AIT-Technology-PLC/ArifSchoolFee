@@ -43,11 +43,11 @@
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    type="date"
+                                    type="datetime-local"
                                     name="issued_on"
                                     id="issued_on"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ $adjustment->issued_on->toDateString() }}"
+                                    value="{{ $adjustment->issued_on->toDateTimeLocalString() }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"

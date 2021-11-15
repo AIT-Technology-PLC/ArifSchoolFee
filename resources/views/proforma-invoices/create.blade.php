@@ -98,11 +98,11 @@
                             <div class="control has-icons-left">
                                 <input
                                     class="input"
-                                    type="date"
+                                    type="datetime-local"
                                     name="issued_on"
                                     id="issued_on"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ old('issued_on') ?? now()->toDateString() }}"
+                                    value="{{ old('issued_on') ?? now()->toDateTimeLocalString() }}"
                                 >
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
@@ -132,7 +132,7 @@
                                     id="expires_on"
                                     placeholder="mm/dd/yyyy"
                                     value="{{ old('expires_on') ??
-    now()->addDays(10)->toDateString() }}"
+                                        now()->addDays(10)->toDateString() }}"
                                 >
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>

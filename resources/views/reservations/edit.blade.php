@@ -90,11 +90,11 @@
                             <div class="control has-icons-left">
                                 <input
                                     class="input"
-                                    type="date"
+                                    type="datetime-local"
                                     name="issued_on"
                                     id="issued_on"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ $reservation->issued_on->toDateString() }}"
+                                    value="{{ $reservation->issued_on->toDateTimeLocalString() }}"
                                 >
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-calendar-alt"></i>
