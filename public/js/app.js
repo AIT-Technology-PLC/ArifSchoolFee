@@ -100,7 +100,7 @@ function changeDtButton() {
 function removeDtSearchLabel() {
     $(".dataTables_filter label input")
         .addClass("input m-top-10")
-        .attr("style", "width:213px;height:30px");
+        .attr("style", "width:213px;height:30px;font-size:0.75em");
 }
 
 function adjustDataTablesColumns(className) {
