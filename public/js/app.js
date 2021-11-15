@@ -98,7 +98,9 @@ function changeDtButton() {
 }
 
 function removeDtSearchLabel() {
-    input = $(".dataTables_filter label input").addClass("m-top-10");
+    $(".dataTables_filter label input")
+        .addClass("input m-top-10")
+        .attr("style", "width:213px;height:30px");
 }
 
 function adjustDataTablesColumns(className) {
@@ -113,6 +115,10 @@ function initiateDataTables() {
         scrollCollapse: true,
         scrollY: "500px",
         scrollX: true,
+        language: {
+            search: "",
+            searchPlaceholder: "Search",
+        },
         columnDefs: [
             {
                 type: "natural-nohtml",
