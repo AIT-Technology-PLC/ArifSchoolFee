@@ -80,7 +80,6 @@ class GdnDatatable extends DataTable
             Column::make('customer', 'customer.company_name'),
             Column::make('description', 'description')->visible(false),
             Column::make('issued on', 'issued_on'),
-            Column::make('created_at', 'created_at')->visible(false),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
