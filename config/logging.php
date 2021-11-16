@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\App;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -35,13 +36,14 @@ return [
      */
 
     'channels' => [
-        'larabug' => [
-            'driver' => 'larabug',
-        ],
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single', 'larabug'],
+            'channels' => App::environment('production') ? ['larabug'] : ['single'],
             'ignore_exceptions' => false,
+        ],
+
+        'larabug' => [
+            'driver' => 'larabug',
         ],
 
         'single' => [
