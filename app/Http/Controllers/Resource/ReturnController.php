@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Resource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReturnRequest;
 use App\Http\Requests\UpdateReturnRequest;
-use App\Models\Customer;
 use App\Models\Returnn;
 use App\Notifications\ReturnPrepared;
 use App\Services\NextReferenceNumService;
@@ -38,13 +37,11 @@ class ReturnController extends Controller
 
     public function create()
     {
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
         $warehouses = auth()->user()->getAllowedWarehouses('add');
 
         $currentReturnCode = NextReferenceNumService::table('returns');
 
-        return view('returns.create', compact('customers', 'warehouses', 'currentReturnCode'));
+        return view('returns.create', compact('warehouses', 'currentReturnCode'));
     }
 
     public function store(StoreReturnRequest $request)
@@ -71,13 +68,11 @@ class ReturnController extends Controller
 
     public function edit(Returnn $return)
     {
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
         $warehouses = auth()->user()->getAllowedWarehouses('add');
 
         $return->load(['returnDetails.product', 'returnDetails.warehouse']);
 
-        return view('returns.edit', compact('return', 'customers', 'warehouses'));
+        return view('returns.edit', compact('return', 'warehouses'));
     }
 
     public function update(UpdateReturnRequest $request, Returnn $return)

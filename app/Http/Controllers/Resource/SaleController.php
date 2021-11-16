@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Resource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
-use App\Models\Customer;
 use App\Models\Sale;
 use App\Services\NextReferenceNumService;
 use Illuminate\Support\Facades\DB;
@@ -30,11 +29,9 @@ class SaleController extends Controller
 
     public function create()
     {
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
         $currentReceiptNo = NextReferenceNumService::table('sales');
 
-        return view('sales.create', compact('customers', 'currentReceiptNo'));
+        return view('sales.create', compact('currentReceiptNo'));
     }
 
     public function store(StoreSaleRequest $request)
@@ -61,9 +58,7 @@ class SaleController extends Controller
     {
         $sale->load('saleDetails.product');
 
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
-        return view('sales.edit', compact('sale', 'customers'));
+        return view('sales.edit', compact('sale'));
     }
 
     public function update(UpdateSaleRequest $request, Sale $sale)

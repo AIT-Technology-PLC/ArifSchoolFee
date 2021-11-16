@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Resource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePurchaseOrderRequest;
 use App\Http\Requests\UpdatePurchaseOrderRequest;
-use App\Models\Customer;
 use App\Models\PurchaseOrder;
 use Illuminate\Support\Facades\DB;
 
@@ -33,8 +32,6 @@ class PurchaseOrderController extends Controller
 
     public function create()
     {
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
         return view('purchase-orders.create', compact('customers'));
     }
 
@@ -62,9 +59,7 @@ class PurchaseOrderController extends Controller
     {
         $purchaseOrder->load(['purchaseOrderDetails.product', 'customer']);
 
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
-        return view('purchase-orders.edit', compact('purchaseOrder', 'customers'));
+        return view('purchase-orders.edit', compact('purchaseOrder'));
     }
 
     public function update(UpdatePurchaseOrderRequest $request, PurchaseOrder $purchaseOrder)

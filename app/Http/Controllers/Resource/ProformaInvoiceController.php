@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Resource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProformaInvoiceRequest;
 use App\Http\Requests\UpdateProformaInvoiceRequest;
-use App\Models\Customer;
 use App\Models\ProformaInvoice;
 use App\Notifications\ProformaInvoicePrepared;
 use App\Services\NextReferenceNumService;
@@ -39,11 +38,9 @@ class ProformaInvoiceController extends Controller
 
     public function create()
     {
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
         $currentProformaInvoiceCode = NextReferenceNumService::table('proforma_invoices');
 
-        return view('proforma-invoices.create', compact('customers', 'currentProformaInvoiceCode'));
+        return view('proforma-invoices.create', compact('currentProformaInvoiceCode'));
     }
 
     public function store(StoreProformaInvoiceRequest $request)
@@ -72,9 +69,7 @@ class ProformaInvoiceController extends Controller
     {
         $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer']);
 
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
-        return view('proforma-invoices.edit', compact('proformaInvoice', 'customers'));
+        return view('proforma-invoices.edit', compact('proformaInvoice'));
     }
 
     public function update(UpdateProformaInvoiceRequest $request, ProformaInvoice $proformaInvoice)

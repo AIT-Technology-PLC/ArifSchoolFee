@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Resource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTenderRequest;
 use App\Http\Requests\UpdateTenderRequest;
-use App\Models\Customer;
 use App\Models\Tender;
 use App\Models\TenderStatus;
 use App\Notifications\TenderStatusChanged;
@@ -34,11 +33,9 @@ class TenderController extends Controller
 
     public function create()
     {
-        $customers = Customer::orderBy('company_name')->get();
-
         $tenderStatuses = TenderStatus::orderBy('status')->get();
 
-        return view('tenders.create', compact('customers', 'tenderStatuses'));
+        return view('tenders.create', compact('tenderStatuses'));
     }
 
     public function store(StoreTenderRequest $request)
@@ -65,11 +62,9 @@ class TenderController extends Controller
     {
         $tender->load(['tenderDetails.product']);
 
-        $customers = Customer::orderBy('company_name')->get();
-
         $tenderStatuses = TenderStatus::orderBy('status')->get();
 
-        return view('tenders.edit', compact('tender', 'customers', 'tenderStatuses'));
+        return view('tenders.edit', compact('tender', 'tenderStatuses'));
     }
 
     public function update(UpdateTenderRequest $request, Tender $tender)

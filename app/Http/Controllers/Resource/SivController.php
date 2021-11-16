@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Resource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSivRequest;
 use App\Http\Requests\UpdateSivRequest;
-use App\Models\Customer;
 use App\Models\Siv;
 use App\Notifications\SivPrepared;
 use App\Services\NextReferenceNumService;
@@ -38,11 +37,9 @@ class SivController extends Controller
     {
         $warehouses = auth()->user()->getAllowedWarehouses('siv');
 
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
         $currentSivCode = NextReferenceNumService::table('sivs');
 
-        return view('sivs.create', compact('warehouses', 'customers', 'currentSivCode'));
+        return view('sivs.create', compact('warehouses', 'currentSivCode'));
     }
 
     public function store(StoreSivRequest $request)
@@ -73,9 +70,7 @@ class SivController extends Controller
 
         $warehouses = auth()->user()->getAllowedWarehouses('siv');
 
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
-        return view('sivs.edit', compact('siv', 'warehouses', 'customers'));
+        return view('sivs.edit', compact('siv', 'warehouses'));
     }
 
     public function update(UpdateSivRequest $request, Siv $siv)

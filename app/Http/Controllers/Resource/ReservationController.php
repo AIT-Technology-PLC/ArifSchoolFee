@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Resource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
-use App\Models\Customer;
 use App\Models\Reservation;
 use App\Notifications\ReservationPrepared;
 use App\Services\NextReferenceNumService;
@@ -51,13 +50,11 @@ class ReservationController extends Controller
 
     public function create()
     {
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
         $warehouses = auth()->user()->getAllowedWarehouses('sales');
 
         $currentReservationCode = NextReferenceNumService::table('reservations');
 
-        return view('reservations.create', compact('customers', 'warehouses', 'currentReservationCode'));
+        return view('reservations.create', compact('warehouses', 'currentReservationCode'));
     }
 
     public function store(StoreReservationRequest $request)
@@ -84,13 +81,11 @@ class ReservationController extends Controller
 
     public function edit(Reservation $reservation)
     {
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
         $warehouses = auth()->user()->getAllowedWarehouses('sales');
 
         $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse']);
 
-        return view('reservations.edit', compact('reservation', 'customers', 'warehouses'));
+        return view('reservations.edit', compact('reservation', 'warehouses'));
     }
 
     public function update(UpdateReservationRequest $request, Reservation $reservation)

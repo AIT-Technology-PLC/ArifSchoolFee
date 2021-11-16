@@ -40,11 +40,9 @@ class CreditController extends Controller
 
     public function create()
     {
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
         $currentCreditCode = NextReferenceNumService::table('credits');
 
-        return view('credits.create', compact('customers', 'currentCreditCode'));
+        return view('credits.create', compact('currentCreditCode'));
     }
 
     public function store(StoreCreditRequest $request)
@@ -70,9 +68,7 @@ class CreditController extends Controller
             return back()->with('failedMessage', 'Editing a credit that belongs to a delivery order is not allowed.');
         }
 
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
-        return view('credits.edit', compact('credit', 'customers'));
+        return view('credits.edit', compact('credit'));
     }
 
     public function update(Credit $credit, UpdateCreditRequest $request)
