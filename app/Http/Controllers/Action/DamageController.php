@@ -12,9 +12,13 @@ use Illuminate\Support\Facades\Notification;
 
 class DamageController extends Controller
 {
-    public function __construct()
+    private $damageService;
+
+    public function __construct(DamageService $damageService)
     {
         $this->middleware('isFeatureAccessible:Damage Management');
+
+        $this->damageService = $damageService;
     }
 
     public function approve(Damage $damage, ApproveTransactionAction $action)
@@ -35,11 +39,11 @@ class DamageController extends Controller
         return back()->with('successMessage', $message);
     }
 
-    public function subtract(Damage $damage, DamageService $damageService)
+    public function subtract(Damage $damage)
     {
         $this->authorize('subtract', $damage);
 
-        [$isExecuted, $message] = $damageService->subtract($damage);
+        [$isExecuted, $message] = $this->damageService->subtract($damage);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

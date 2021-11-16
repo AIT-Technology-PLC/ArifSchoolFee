@@ -12,9 +12,13 @@ use Illuminate\Support\Facades\Notification;
 
 class AdjustmentController extends Controller
 {
-    public function __construct()
+    private $adjustmentService;
+
+    public function __construct(AdjustmentService $adjustmentService)
     {
         $this->middleware('isFeatureAccessible:Inventory Adjustment');
+
+        $this->adjustmentService = $adjustmentService;
     }
 
     public function approve(Adjustment $adjustment, ApproveTransactionAction $action)
@@ -35,11 +39,11 @@ class AdjustmentController extends Controller
         return back()->with('successMessage', $message);
     }
 
-    public function adjust(Adjustment $adjustment, AdjustmentService $adjustmentService)
+    public function adjust(Adjustment $adjustment)
     {
         $this->authorize('adjust', $adjustment);
 
-        [$isExecuted, $message] = $adjustmentService->adjust($adjustment);
+        [$isExecuted, $message] = $this->adjustmentService->adjust($adjustment);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

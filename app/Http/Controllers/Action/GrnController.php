@@ -12,9 +12,13 @@ use Illuminate\Support\Facades\Notification;
 
 class GrnController extends Controller
 {
-    public function __construct()
+    private $grnService;
+
+    public function __construct(GrnService $grnService)
     {
         $this->middleware('isFeatureAccessible:Grn Management');
+
+        $this->grnService = $grnService;
     }
 
     public function approve(Grn $grn, ApproveTransactionAction $action)
@@ -35,11 +39,11 @@ class GrnController extends Controller
         return back()->with('successMessage', $message);
     }
 
-    public function add(Grn $grn, GrnService $grnService)
+    public function add(Grn $grn)
     {
         $this->authorize('add', $grn);
 
-        [$isExecuted, $message] = $grnService->add($grn);
+        [$isExecuted, $message] = $this->grnService->add($grn);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
