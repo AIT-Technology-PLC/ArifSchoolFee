@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-    Customers Management
-@endsection
+@section('title', 'Customers')
 
 @section('content')
     <div class="columns is-marginless">
@@ -53,86 +51,16 @@
     <section class="mt-3 mx-3 m-lr-0">
         <div class="box radius-bottom-0 mb-0 has-background-white-bis">
             <h1 class="title text-green has-text-weight-medium is-size-5">
-                Customer Account Management
+                Customers
             </h1>
         </div>
         <div class="box radius-top-0">
             <x-common.success-message :message="session('deleted')" />
-            <div>
-                <table
-                    class="regular-datatable is-hoverable is-size-7 display nowrap"
-                    data-date="[8]"
-                    data-numeric="[]"
-                >
-                    <thead>
-                        <tr>
-                            <th><abbr> # </abbr></th>
-                            <th class="text-purple"><abbr> Company </abbr></th>
-                            <th><abbr> TIN </abbr></th>
-                            <th><abbr> Credit Limit </abbr></th>
-                            <th><abbr> Address </abbr></th>
-                            <th><abbr> Contact </abbr></th>
-                            <th><abbr> Email </abbr></th>
-                            <th><abbr> Phone </abbr></th>
-                            <th><abbr> Country/City </abbr></th>
-                            <th class="has-text-right"><abbr> Added On </abbr></th>
-                            <th><abbr> Added By </abbr></th>
-                            <th><abbr> Edited By </abbr></th>
-                            <th><abbr> Actions </abbr></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($customers as $customer)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    <span class="tag is-small bg-purple has-text-white">
-                                        {{ $customer->company_name ?? 'N/A' }}
-                                    </span>
-                                </td>
-                                <td> {{ $customer->tin ?? 'N/A' }} </td>
-                                <td> {{ userCompany()->currency . '. ' . number_format($customer->credit_amount_limit, 2) }} </td>
-                                <td> {{ $customer->address ?? 'N/A' }} </td>
-                                <td class="is-capitalized">{{ $customer->contact_name ?? 'N/A' }}</td>
-                                <td>{{ $customer->email ?? 'N/A' }}</td>
-                                <td class="is-capitalized">{{ $customer->phone ?? 'N/A' }}</td>
-                                <td class="is-capitalized">{{ $customer->country ?? 'N/A' }}</td>
-                                <td class="has-text-right"> {{ $customer->created_at->toFormattedDateString() }} </td>
-                                <td> {{ $customer->createdBy->name ?? 'N/A' }} </td>
-                                <td> {{ $customer->updatedBy->name ?? 'N/A' }} </td>
-                                <td>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('customers.credits.index', $customer->id) }}"
-                                        mode="tag"
-                                        data-title="View Credit Analytics"
-                                        icon="fas fa-money-check"
-                                        label="Credits"
-                                        class="is-white btn-purple is-outlined has-text-weight-medium is-not-underlined"
-                                    />
-                                    <a
-                                        href="{{ route('customers.edit', $customer->id) }}"
-                                        data-title="Modify Customer Data"
-                                    >
-                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
-                                            <span class="icon">
-                                                <i class="fas fa-pen-square"></i>
-                                            </span>
-                                            <span>
-                                                Edit
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <x-common.delete-button
-                                        route="customers.destroy"
-                                        :id="$customer->id"
-                                    />
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+            {{ $dataTable->table() }}
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush

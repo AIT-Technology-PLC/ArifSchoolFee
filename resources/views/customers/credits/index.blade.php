@@ -11,7 +11,7 @@
                     <x-common.show-data-section
                         icon="fas fa-user"
                         :data="$customer->company_name"
-                        label="Name"
+                        label="Customer Name"
                     />
                 </div>
                 @if ($customer->tin)

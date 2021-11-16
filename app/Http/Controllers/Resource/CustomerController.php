@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\CustomerDatatable;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
-use App\Http\Controllers\Controller;
 
 class CustomerController extends Controller
 {
@@ -16,13 +17,11 @@ class CustomerController extends Controller
         $this->authorizeResource(Customer::class, 'customer');
     }
 
-    public function index()
+    public function index(CustomerDatatable $datatable)
     {
-        $customers = Customer::with(['createdBy', 'updatedBy'])->orderBy('company_name')->get();
-
         $totalCustomers = Customer::count();
 
-        return view('customers.index', compact('customers', 'totalCustomers'));
+        return $datatable->render('customers.index', compact('totalCustomers'));
     }
 
     public function create()
