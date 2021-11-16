@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Credit;
+use App\Actions\ConvertToSivAction;
 use App\Services\InventoryOperationService;
 use App\Services\NextReferenceNumService;
 use Illuminate\Support\Facades\DB;
@@ -72,6 +72,52 @@ class GdnService
             'issued_on' => now(),
             'due_date' => $gdn->due_date,
         ]);
+
+        return [true, ''];
+    }
+
+    public function convertToSiv($gdn)
+    {
+        if (!auth()->user()->hasWarehousePermission('siv',
+            $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
+        }
+
+        if (!$gdn->isSubtracted()) {
+            return [false, 'This Delivery Order is not subtracted yet.', ''];
+        }
+
+        if ($gdn->isClosed()) {
+            return [false, 'This Delivery Order is closed.', ''];
+        }
+
+        $siv = (new ConvertToSivAction)->execute(
+            'DO',
+            $gdn->code,
+            $gdn->customer->company_name ?? '',
+            $gdn->approved_by,
+            $gdn->gdnDetails()->get(['product_id', 'warehouse_id', 'quantity'])->toArray(),
+        );
+
+        return [true, '', $siv];
+    }
+
+    public function close($gdn)
+    {
+        if (!auth()->user()->hasWarehousePermission('sales',
+            $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permission to close in one or more of the warehouses.'];
+        }
+
+        if (!$gdn->isSubtracted()) {
+            return [false, 'This Delivery Order is not subtracted yet.'];
+        }
+
+        if ($gdn->isClosed()) {
+            return [false, 'This Delivery Order is already closed.'];
+        }
+
+        $gdn->close();
 
         return [true, ''];
     }

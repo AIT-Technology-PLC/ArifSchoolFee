@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Action;
 
 use App\Actions\ApproveTransactionAction;
-use App\Actions\ConvertToSivAction;
 use App\Http\Controllers\Controller;
 use App\Models\Credit;
 use App\Models\Gdn;
@@ -11,16 +10,19 @@ use App\Models\Siv;
 use App\Notifications\GdnApproved;
 use App\Notifications\GdnSubtracted;
 use App\Services\GdnService;
-use Barryvdh\DomPDF\PDF;
 use Illuminate\Support\Facades\Notification;
 
 class GdnController extends Controller
 {
-    public function __construct()
+    private $gdnService;
+
+    public function __construct(GdnService $gdnService)
     {
         $this->middleware('isFeatureAccessible:Gdn Management');
 
         $this->middleware('isFeatureAccessible:Credit Management')->only('convertToCredit');
+
+        $this->gdnService = $gdnService;
     }
 
     public function approve(Gdn $gdn, ApproveTransactionAction $action)
@@ -56,41 +58,26 @@ class GdnController extends Controller
             ->stream();
     }
 
-    public function convertToSiv(Gdn $gdn, ConvertToSivAction $action)
+    public function convertToSiv(Gdn $gdn)
     {
         $this->authorize('view', $gdn);
 
         $this->authorize('create', Siv::class);
 
-        if (!auth()->user()->hasWarehousePermission('siv',
-            $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have permission to convert to one or more of the warehouses.');
-        }
+        [$isExecuted, $message, $siv] = $this->gdnService->convertToSiv($gdn);
 
-        if (!$gdn->isSubtracted()) {
-            return back()->with('failedMessage', 'This Delivery Order is not subtracted yet.');
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
-
-        if ($gdn->isClosed()) {
-            return back()->with('failedMessage', 'This Delivery Order is closed.');
-        }
-
-        $siv = $action->execute(
-            'DO',
-            $gdn->code,
-            $gdn->customer->company_name ?? '',
-            $gdn->approved_by,
-            $gdn->gdnDetails()->get(['product_id', 'warehouse_id', 'quantity'])->toArray(),
-        );
 
         return redirect()->route('sivs.show', $siv->id);
     }
 
-    public function subtract(Gdn $gdn, GdnService $gdnService)
+    public function subtract(Gdn $gdn)
     {
         $this->authorize('subtract', $gdn);
 
-        [$isExecuted, $message] = $gdnService->subtract($gdn);
+        [$isExecuted, $message] = $this->gdnService->subtract($gdn);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
@@ -105,29 +92,20 @@ class GdnController extends Controller
     {
         $this->authorize('approve', $gdn);
 
-        if (!auth()->user()->hasWarehousePermission('sales',
-            $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have permission to close in one or more of the warehouses.');
-        }
+        [$isExecuted, $message] = $this->gdnService->close($gdn);
 
-        if (!$gdn->isSubtracted()) {
-            return back()->with('failedMessage', 'This Delivery Order is not subtracted yet.');
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
-
-        if ($gdn->isClosed()) {
-            return back()->with('failedMessage', 'This Delivery Order is already closed.');
-        }
-
-        $gdn->close();
 
         return back()->with('successMessage', 'Delivery Order closed and archived successfully.');
     }
 
-    public function convertToCredit(Gdn $gdn, GdnService $service)
+    public function convertToCredit(Gdn $gdn)
     {
         $this->authorize('create', Credit::class);
 
-        [$isExecuted, $message] = $service->convertToCredit($gdn);
+        [$isExecuted, $message] = $this->gdnService->convertToCredit($gdn);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
