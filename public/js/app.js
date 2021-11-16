@@ -401,11 +401,16 @@ document.addEventListener("alpine:init", () => {
         permissions: [],
         searchQuery: "",
 
+        init() {
+            this.searchQuery = sessionStorage.getItem("searchQuery") || "";
+            this.$nextTick(() => this.filterPermissions());
+        },
         addToPermissionList(permission) {
             this.permissions.push(permission);
         },
         filterPermissions() {
             let searchQuery = this.searchQuery.replace(/\s/g, "");
+            sessionStorage.setItem("searchQuery", searchQuery);
 
             if (searchQuery === "") {
                 this.permissions.forEach((permission) => {

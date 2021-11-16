@@ -8,6 +8,7 @@
     <x-common.content-wrapper x-data="permissionFilter">
         <x-content.header title="Permission Management - {{ $employee->user->name }}">
             <input
+                autofocus
                 type="input"
                 class="input is-small"
                 placeholder="Search"
