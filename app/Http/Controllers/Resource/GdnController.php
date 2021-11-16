@@ -6,7 +6,6 @@ use App\DataTables\GdnDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGdnRequest;
 use App\Http\Requests\UpdateGdnRequest;
-use App\Models\Customer;
 use App\Models\Gdn;
 use App\Models\Sale;
 use App\Notifications\GdnPrepared;
@@ -40,15 +39,13 @@ class GdnController extends Controller
 
     public function create()
     {
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
         $sales = Sale::latest('id')->get();
 
         $warehouses = auth()->user()->getAllowedWarehouses('sales');
 
         $currentGdnCode = NextReferenceNumService::table('gdns');
 
-        return view('gdns.create', compact('customers', 'sales', 'warehouses', 'currentGdnCode'));
+        return view('gdns.create', compact('sales', 'warehouses', 'currentGdnCode'));
     }
 
     public function store(StoreGdnRequest $request)
@@ -75,15 +72,13 @@ class GdnController extends Controller
 
     public function edit(Gdn $gdn)
     {
-        $customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
-
         $sales = Sale::latest('code')->get();
 
         $warehouses = auth()->user()->getAllowedWarehouses('sales');
 
         $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse']);
 
-        return view('gdns.edit', compact('gdn', 'customers', 'sales', 'warehouses'));
+        return view('gdns.edit', compact('gdn', 'sales', 'warehouses'));
     }
 
     public function update(UpdateGdnRequest $request, Gdn $gdn)
