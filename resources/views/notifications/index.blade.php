@@ -170,11 +170,11 @@
                                                 </span>
                                             </button>
                                         </form>
-                                        <x-common.delete-button
-                                            route="notifications.destroy"
-                                            :id="$notification->id"
-                                        />
                                     @endif
+                                    <x-common.delete-button
+                                        route="notifications.destroy"
+                                        :id="$notification->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach
