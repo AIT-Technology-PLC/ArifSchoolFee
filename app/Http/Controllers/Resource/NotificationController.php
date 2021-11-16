@@ -29,4 +29,13 @@ class NotificationController extends Controller
 
         return back();
     }
+
+    public function destroy(Notification $notification)
+    {
+        abort_if($notification->notifiable_id != auth()->id(), 403);
+
+        $notification->forceDelete();
+
+        return back()->with('successMessage', 'Notification deleted successfully');
+    }
 }

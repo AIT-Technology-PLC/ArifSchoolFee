@@ -19,7 +19,7 @@ Route::resource('sales', Resource\SaleController::class);
 
 Route::resource('sale-details', Resource\SaleDetailController::class)->only('destroy');
 
-Route::resource('notifications', Resource\NotificationController::class)->only(['index', 'update']);
+Route::resource('notifications', Resource\NotificationController::class)->only(['index', 'update', 'destroy']);
 
 Route::resource('suppliers', Resource\SupplierController::class)->except('show');
 
