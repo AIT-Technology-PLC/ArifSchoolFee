@@ -32,7 +32,7 @@ class PurchaseOrderController extends Controller
 
     public function create()
     {
-        return view('purchase-orders.create', compact('customers'));
+        return view('purchase-orders.create');
     }
 
     public function store(StorePurchaseOrderRequest $request)
