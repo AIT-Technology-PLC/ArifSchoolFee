@@ -1,4 +1,4 @@
-<x-forms.select
+<select
     id="{{ $id }}"
     name="{{ $name }}"
     x-init="$('#{{ $id }}').select2({placeholder: 'Select Customer', allowClear: true})"
@@ -14,4 +14,4 @@
         </option>
     @endforeach
     <option value=" ">None</option>
-</x-forms.select>
+</select>
