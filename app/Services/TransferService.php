@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Actions\ConvertToSivAction;
 use App\Services\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
 
@@ -65,6 +66,54 @@ class TransferService
 
             $transfer->add();
         });
+
+        return [true, ''];
+    }
+
+    public function convertToSiv($transfer)
+    {
+        if (!auth()->user()->hasWarehousePermission('siv', $transfer->transferred_from)) {
+            return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
+        }
+
+        if (!$transfer->isSubtracted()) {
+            return [false, 'This transfer is not subtracted yet.', ''];
+        }
+
+        if ($transfer->isClosed()) {
+            return [false, 'This transfer is already closed.', ''];
+        }
+
+        $transferDetails = $transfer->transferDetails()->get(['product_id', 'quantity'])->toArray();
+
+        data_fill($transferDetails, '*.warehouse_id', $transfer->transferred_from);
+
+        $siv = (new ConvertToSivAction)->execute(
+            'Transfer',
+            $transfer->code,
+            null,
+            $transfer->approved_by,
+            $transferDetails,
+        );
+
+        return [true, '', $siv];
+    }
+
+    public function close($transfer)
+    {
+        if (!auth()->user()->hasWarehousePermission('add', $transfer->transferred_to)) {
+            return [false, 'You do not have permission to close in one or more of the warehouses.'];
+        }
+
+        if (!$transfer->isAdded()) {
+            return [false, 'This transfer is not added to destination yet.'];
+        }
+
+        if ($transfer->isClosed()) {
+            return [false, 'This transfer is already closed.'];
+        }
+
+        $transfer->close();
 
         return [true, ''];
     }

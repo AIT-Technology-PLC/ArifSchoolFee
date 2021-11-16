@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Action;
 
 use App\Actions\ApproveTransactionAction;
-use App\Actions\ConvertToSivAction;
 use App\Events\TransferApprovedEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Siv;
@@ -14,9 +13,13 @@ use Illuminate\Support\Facades\Notification;
 
 class TransferController extends Controller
 {
-    public function __construct()
+    private $transferService;
+
+    public function __construct(TransferService $transferService)
     {
         $this->middleware('isFeatureAccessible:Transfer Management');
+
+        $this->transferService = $transferService;
     }
 
     public function approve(Transfer $transfer, ApproveTransactionAction $action)
@@ -38,11 +41,11 @@ class TransferController extends Controller
         return back()->with('successMessage', $message);
     }
 
-    public function subtract(Transfer $transfer, TransferService $transferService)
+    public function subtract(Transfer $transfer)
     {
         $this->authorize('transfer', $transfer);
 
-        [$isExecuted, $message] = $transferService->subtract($transfer);
+        [$isExecuted, $message] = $this->transferService->subtract($transfer);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
@@ -53,11 +56,11 @@ class TransferController extends Controller
         return back();
     }
 
-    public function add(Transfer $transfer, TransferService $transferService)
+    public function add(Transfer $transfer)
     {
         $this->authorize('transfer', $transfer);
 
-        [$isExecuted, $message] = $transferService->add($transfer);
+        [$isExecuted, $message] = $this->transferService->add($transfer);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
@@ -68,35 +71,17 @@ class TransferController extends Controller
         return back();
     }
 
-    public function convertToSiv(Transfer $transfer, ConvertToSivAction $action)
+    public function convertToSiv(Transfer $transfer)
     {
         $this->authorize('view', $transfer);
 
         $this->authorize('create', Siv::class);
 
-        if (!auth()->user()->hasWarehousePermission('siv', $transfer->transferred_from)) {
-            return back()->with('failedMessage', 'You do not have permission to convert to one or more of the warehouses.');
+        [$isExecuted, $message, $siv] = $this->transferService->convertToSiv($transfer);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
-
-        if (!$transfer->isSubtracted()) {
-            return back()->with('failedMessage', 'This transfer is not subtracted yet.');
-        }
-
-        if ($transfer->isClosed()) {
-            return back()->with('failedMessage', 'This transfer is already closed.');
-        }
-
-        $transferDetails = $transfer->transferDetails()->get(['product_id', 'quantity'])->toArray();
-
-        data_fill($transferDetails, '*.warehouse_id', $transfer->transferred_from);
-
-        $siv = $action->execute(
-            'Transfer',
-            $transfer->code,
-            null,
-            $transfer->approved_by,
-            $transferDetails,
-        );
 
         return redirect()->route('sivs.show', $siv->id);
     }
@@ -105,19 +90,11 @@ class TransferController extends Controller
     {
         $this->authorize('approve', $transfer);
 
-        if (!auth()->user()->hasWarehousePermission('add', $transfer->transferred_to)) {
-            return back()->with('failedMessage', 'You do not have permission to close in one or more of the warehouses.');
-        }
+        [$isExecuted, $message] = $this->transferService->close($transfer);
 
-        if (!$transfer->isAdded()) {
-            return back()->with('failedMessage', 'This transfer is not added to destination yet.');
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
-
-        if ($transfer->isClosed()) {
-            return back()->with('failedMessage', 'This transfer is already closed.');
-        }
-
-        $transfer->close();
 
         return back()->with('successMessage', 'Transfer closed and archived successfully.');
     }
