@@ -58,22 +58,12 @@
                             > Customer <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <select
+                                    <x-common.customer-list
                                         id="issued_to"
                                         name="issued_to"
-                                    >
-                                        <option
-                                            selected
-                                            disabled
-                                        >Select Customer</option>
-                                        @foreach ($customers as $customer)
-                                            <option
-                                                value="{{ $customer->company_name }}"
-                                                {{ $siv->issued_to == $customer->company_name ? 'selected' : '' }}
-                                            >{{ $customer->company_name }}</option>
-                                        @endforeach
-                                        <option value="">None</option>
-                                    </select>
+                                        value="company_name"
+                                        :selected-customer-id="$siv->issued_to ?? ''"
+                                    />
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-user"></i>

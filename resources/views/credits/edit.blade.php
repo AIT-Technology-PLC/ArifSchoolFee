@@ -64,26 +64,7 @@
                                 Customer <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    id="customer_id"
-                                    name="customer_id"
-                                >
-                                    <option
-                                        selected
-                                        disabled
-                                    >
-                                        Select Customer
-                                    </option>
-                                    @foreach ($customers as $customer)
-                                        <option
-                                            value="{{ $customer->id }}"
-                                            {{ $credit->customer_id == $customer->id ? 'selected' : '' }}
-                                        >
-                                            {{ $customer->company_name }}
-                                        </option>
-                                    @endforeach
-                                </x-forms.select>
+                                <x-common.customer-list :selected-customer-id="$credit->customer_id ?? ''" />
                                 <x-common.icon
                                     name="fas fa-user"
                                     class="is-small is-left"
