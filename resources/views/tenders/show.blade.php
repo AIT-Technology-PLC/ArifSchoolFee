@@ -445,16 +445,21 @@
                 </div>
             </div>
             <div class="box radius-bottom-0 mb-0 radius-top-0">
-                <h1 class="is-size-5 text-green is-uppercase has-text-weight-medium has-text-centered mb-3"> Financial Reading </h1>
-                <div class="summernote-table">
-                    {!! $tender->financial_reading ?? '' !!}
-                </div>
+                @can('Read Tender Sensitive Data')
+                    <div>
+                        <h1 class="is-size-5 text-green is-uppercase has-text-weight-medium has-text-centered mb-3"> Financial Reading </h1>
+                        <div class="summernote-table">
+                            {!! $tender->financial_reading ?? '' !!}
+                        </div>
 
-                <hr class="mt-0 mx-6">
-
-                <h1 class="is-size-5 text-green is-uppercase has-text-weight-medium has-text-centered mb-3"> Technical Reading </h1>
-                <div class="summernote-table">
-                    {!! $tender->technical_reading ?? '' !!}
+                        <hr class="mt-0 mx-6">
+                    </div>
+                @endcan
+                <div>
+                    <h1 class="is-size-5 text-green is-uppercase has-text-weight-medium has-text-centered mb-3"> Technical Reading </h1>
+                    <div class="summernote-table">
+                        {!! $tender->technical_reading ?? '' !!}
+                    </div>
                 </div>
             </div>
         @endif
