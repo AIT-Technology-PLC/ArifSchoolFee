@@ -5,13 +5,18 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Models\Gdn;
 use App\Models\ProformaInvoice;
+use App\Services\ProformaInvoiceService;
 use Illuminate\Http\Request;
 
 class ProformaInvoiceController extends Controller
 {
-    public function __construct()
+    private $proformaInvoiceService;
+
+    public function __construct(ProformaInvoiceService $proformaInvoiceService)
     {
         $this->middleware('isFeatureAccessible:Proforma Invoice');
+
+        $this->proformaInvoiceService = $proformaInvoiceService;
     }
 
     public function convert(ProformaInvoice $proformaInvoice)
@@ -69,44 +74,24 @@ class ProformaInvoiceController extends Controller
 
         $this->authorize('create', Gdn::class);
 
-        if (!$proformaInvoice->isConverted()) {
-            return back()->with('failedMessage', 'This Proforma Invoice is not confirmed yet.');
+        [$isExecuted, $message, $data] = $this->proformaInvoiceService->convertToGdn($proformaInvoice);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
 
-        if ($proformaInvoice->isClosed()) {
-            return back()->with('failedMessage', 'This Proforma Invoice is closed.');
-        }
-
-        $proformaInvoiceDetails = collect($proformaInvoice->proformaInvoiceDetails->toArray())
-            ->map(function ($item) {
-                $item['unit_price'] = $item['originalUnitPrice'];
-                $item['discount'] = $item['discount'] * 100;
-
-                return $item;
-            });
-
-        $request->merge([
-            'customer_id' => $proformaInvoice->customer_id ?? '',
-            'discount' => $proformaInvoice->discount * 100,
-            'gdn' => $proformaInvoiceDetails,
-        ]);
-
-        return redirect()->route('gdns.create')->withInput($request->all());
+        return redirect()->route('gdns.create')->withInput($request->merge($data)->all());
     }
 
     public function close(ProformaInvoice $proformaInvoice)
     {
         $this->authorize('convert', $proformaInvoice);
 
-        if (!$proformaInvoice->isConverted()) {
-            return back()->with('failedMessage', 'This Proforma Invoice is not confirmed yet.');
-        }
+        [$isExecuted, $message] = $this->proformaInvoiceService->close($proformaInvoice);
 
-        if ($proformaInvoice->isClosed()) {
-            return back()->with('failedMessage', 'This Proforma Invoice is already closed.');
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
-
-        $proformaInvoice->close();
 
         return back()->with('successMessage', 'Proforma Invoice closed and archived successfully.');
     }
