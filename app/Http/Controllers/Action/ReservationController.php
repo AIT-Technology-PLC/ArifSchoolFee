@@ -6,7 +6,6 @@ use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Gdn;
 use App\Models\Reservation;
-use App\Notifications\GdnPrepared;
 use App\Notifications\ReservationApproved;
 use App\Notifications\ReservationCancelled;
 use App\Notifications\ReservationConverted;
@@ -85,9 +84,7 @@ class ReservationController extends Controller
             return back()->with('failedMessage', $message);
         }
 
-        Notification::send(notifiables('Approve Reservation', $reservation->createdBy), new ReservationConverted($reservation));
-
-        Notification::send(notifiables('Approve GDN'), new GdnPrepared($reservation->reservable));
+        Notification::send(notifiables('Approve GDN', $reservation->createdBy), new ReservationConverted($reservation));
 
         return back();
     }

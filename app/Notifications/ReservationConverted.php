@@ -23,8 +23,8 @@ class ReservationConverted extends Notification
     {
         return [
             'icon' => 'archive',
-            'message' => 'Reservation has been converted to Delivery Order by ' . ucfirst($this->reservation->convertedBy->name),
-            'endpoint' => '/reservations/' . $this->reservation->id,
+            'message' => 'Approval request for delivery order issued from reservation by ' . ucfirst($this->reservation->convertedBy->name),
+            'endpoint' => '/gdns/' . $this->reservation->reservable->id,
         ];
     }
 }
