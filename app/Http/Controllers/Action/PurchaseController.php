@@ -5,13 +5,18 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Models\Grn;
 use App\Models\Purchase;
+use App\Services\PurchaseService;
 use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
 {
-    public function __construct()
+    private $purchaseService;
+
+    public function __construct(PurchaseService $purchaseService)
     {
         $this->middleware('isFeatureAccessible:Purchase Management');
+
+        $this->purchaseService = $purchaseService;
     }
 
     public function convertToGrn(Request $request, Purchase $purchase)
@@ -20,17 +25,13 @@ class PurchaseController extends Controller
 
         $this->authorize('create', Grn::class);
 
-        if ($purchase->isClosed()) {
-            return back()->with('failedMessage', 'This purchase is closed.');
+        [$isExecuted, $message, $data] = $this->purchaseService->convertToGrn($purchase);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
 
-        $request->merge([
-            'purchase_id' => $purchase->id,
-            'supplier_id' => $purchase->supplier_id,
-            'grn' => $purchase->purchaseDetails->toArray(),
-        ]);
-
-        return redirect()->route('grns.create')->withInput($request->all());
+        return redirect()->route('grns.create')->withInput($request->merge($data)->all());
     }
 
     public function close(Purchase $purchase)
