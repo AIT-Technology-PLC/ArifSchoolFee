@@ -11,14 +11,6 @@
                 icon="fas fa-user"
             />
         </div>
-        <div class="column is-6 p-lr-0">
-            <x-common.index-insight
-                :amount="$totalCustomersCreatedByUser"
-                border-color="#3d8660"
-                text-color="text-green"
-                label="Customers Registered by Me ({{ auth()->user()->name }})"
-            />
-        </div>
     </div>
 
     <x-common.content-wrapper>

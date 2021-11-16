@@ -23,9 +23,7 @@ class CustomerController extends Controller
 
         $totalCustomers = Customer::count();
 
-        $totalCustomersCreatedByUser = Customer::where('created_by', auth()->id())->count();
-
-        return $datatable->render('customers.index', compact('totalCustomers', 'totalCustomersCreatedByUser'));
+        return $datatable->render('customers.index', compact('totalCustomers'));
     }
 
     public function create()
