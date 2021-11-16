@@ -421,20 +421,6 @@ table.dataTable.no-footer {
         margin-bottom: 20px !important;
     }
 }
-.dataTables_wrapper .dataTables_filter input {
-    border: 1px solid #3d8660 !important;
-    border-radius: 3px;
-    padding: 5px;
-    background-color: transparent;
-    margin-left: 0px !important;
-}
-.dataTables_wrapper .dataTables_filter input:focus {
-    border: 1px solid #3d8660 !important;
-    border-radius: 3px;
-    padding: 5px;
-    background-color: transparent;
-    margin-left: 0px !important;
-}
 .dataTables_wrapper.no-footer .dataTables_scrollBody {
     border-bottom: none !important;
 }

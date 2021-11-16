@@ -396,4 +396,34 @@ document.addEventListener("alpine:init", () => {
             }
         },
     }));
+
+    Alpine.data("permissionFilter", () => ({
+        permissions: [],
+        searchQuery: "",
+
+        addToPermissionList(permission) {
+            this.permissions.push(permission);
+        },
+        filterPermissions() {
+            let searchQuery = this.searchQuery.replace(/\s/g, "");
+
+            if (searchQuery === "") {
+                this.permissions.forEach((permission) => {
+                    this.$refs[permission].classList.remove("is-hidden");
+                });
+
+                return;
+            }
+
+            this.permissions.forEach((permission) => {
+                if (!permission.includes(searchQuery)) {
+                    this.$refs[permission].classList.add("is-hidden");
+                }
+
+                if (permission.includes(searchQuery)) {
+                    this.$refs[permission].classList.remove("is-hidden");
+                }
+            });
+        },
+    }));
 });

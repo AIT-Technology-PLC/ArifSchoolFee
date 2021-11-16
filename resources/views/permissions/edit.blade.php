@@ -5,22 +5,35 @@
 @endsection
 
 @section('content')
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                Permission Management - {{ $employee->user->name }}
-            </h1>
-        </div>
-
-        <form id="formOne" action="{{ route('permissions.update', $employee->id) }}" method="post" enctype="multipart/form-data" novalidate>
+    <x-common.content-wrapper x-data="permissionFilter">
+        <x-content.header title="Permission Management - {{ $employee->user->name }}">
+            <input
+                type="input"
+                class="input is-small"
+                placeholder="Search"
+                x-model="searchQuery"
+                @keyup="filterPermissions"
+            >
+        </x-content.header>
+        <form
+            id="formOne"
+            action="{{ route('permissions.update', $employee->id) }}"
+            method="post"
+            enctype="multipart/form-data"
+            novalidate
+        >
             @csrf
             @method('PATCH')
-            <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-content.main>
                 <x-common.success-message :message="session('message')" />
                 <div class="columns is-marginless is-multiline">
                     @foreach ($permissionCategories as $key => $value)
                         @continue(!isFeatureEnabled($value['feature']))
-                        <div class="column is-6">
+                        <div
+                            class="column is-6"
+                            x-init="addToPermissionList('{{ Str::of($value['label'])->remove(' ')->lower() }}')"
+                            x-ref="{{ Str::of($value['label'])->remove(' ')->lower() }}"
+                        >
                             <div class="message">
                                 <div class="message-header has-background-white-ter text-gold">
                                     {{ $value['label'] }} Permissions
@@ -32,7 +45,12 @@
                                                 <div class="field">
                                                     <div class="control">
                                                         <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                            <input type="checkbox" name="permissions[]" value="{{ $permission }}" {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}>
+                                                            <input
+                                                                type="checkbox"
+                                                                name="permissions[]"
+                                                                value="{{ $permission }}"
+                                                                {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}
+                                                            >
                                                             {{ $permission }}
                                                         </label>
                                                     </div>
@@ -45,10 +63,10 @@
                         </div>
                     @endforeach
                 </div>
-            </div>
-            <div class="box radius-top-0">
+            </x-content.main>
+            <x-content.footer>
                 <x-common.save-button />
-            </div>
+            </x-content.footer>
         </form>
-    </section>
+    </x-common.content-wrapper>
 @endsection
