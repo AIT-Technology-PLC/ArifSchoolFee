@@ -60,27 +60,52 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <form id="formOne" action="{{ route('notifications.markAllAsRead') }}" method="POST" enctype="multipart/form-data" novalidate>
-                                @csrf
-                                @method('PATCH')
-                                <button id="markAllNotificationsAsRead" class="button is-small bg-green has-text-white">
-                                    <span class="icon">
-                                        <i class="fas fa-check-double"></i>
-                                    </span>
-                                    <span>
-                                        Mark all as read
-                                    </span>
-                                </button>
-                            </form>
+                            @if ($notifications->isNotEmpty())
+                                <form
+                                    class="is-inline"
+                                    id="formOne"
+                                    action="{{ route('notifications.markAllAsRead') }}"
+                                    method="POST"
+                                    enctype="multipart/form-data"
+                                    novalidate
+                                >
+                                    @csrf
+                                    @method('PATCH')
+                                    <button
+                                        id="markAllNotificationsAsRead"
+                                        class="button is-small bg-green has-text-white"
+                                    >
+                                        <span class="icon">
+                                            <i class="fas fa-check-double"></i>
+                                        </span>
+                                        <span>
+                                            Mark all as read
+                                        </span>
+                                    </button>
+                                </form>
+                                <x-common.transaction-button
+                                    :route="route('notifications.delete_all')"
+                                    type=""
+                                    action="delete all"
+                                    icon="fas fa-trash"
+                                    label="Delete All"
+                                    class="has-text-weight-medium"
+                                />
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="box radius-top-0">
-            <x-common.success-message :message="session('deleted')" />
+            <x-common.success-message :message="session('successMessage')" />
+            <x-common.fail-message :message="session('failedMessage')" />
             <div>
-                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[3,4]" data-numeric="[]">
+                <table
+                    class="regular-datatable is-hoverable is-size-7 display nowrap"
+                    data-date="[3,4]"
+                    data-numeric="[]"
+                >
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
@@ -93,7 +118,10 @@
                     </thead>
                     <tbody>
                         @foreach ($notifications as $notification)
-                            <tr class="showRowDetails is-clickable" data-id="{{ $notification->data['endpoint'] }}">
+                            <tr
+                                class="showRowDetails is-clickable"
+                                data-id="{{ $notification->data['endpoint'] }}"
+                            >
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $notification->data['message'] }} </td>
                                 <td>
@@ -121,10 +149,19 @@
                                         </span>
                                     </a>
                                     @if (!$notification->read())
-                                        <form class="is-inline" action="{{ route('notifications.update', $notification->id) }}" method="post">
+                                        <form
+                                            class="is-inline"
+                                            action="{{ route('notifications.update', $notification->id) }}"
+                                            method="post"
+                                        >
                                             @csrf
                                             @method('PATCH')
-                                            <button data-type="notification as read" data-action="mark" data-description="" class="swal tag btn-green is-outlined is-small text-green has-text-weight-medium is-pointer">
+                                            <button
+                                                data-type="notification as read"
+                                                data-action="mark"
+                                                data-description=""
+                                                class="swal tag btn-green is-outlined is-small text-green has-text-weight-medium is-pointer"
+                                            >
                                                 <span class="icon">
                                                     <i class="fas fa-check-double"></i>
                                                 </span>

@@ -38,7 +38,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => App::environment('production') ? ['larabug'] : ['single'],
+            'channels' => ['single', 'larabug'],
             'ignore_exceptions' => false,
         ],
 

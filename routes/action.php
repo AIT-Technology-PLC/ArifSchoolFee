@@ -120,6 +120,10 @@ Route::patch('/notifications/mark-all-read',
     [Action\NotificationController::class, 'markAllAsRead'])
     ->name('notifications.markAllAsRead');
 
+Route::post('/notifications/delete-all',
+    [Action\NotificationController::class, 'deleteAll'])
+    ->name('notifications.delete_all');
+
 // Purchase Orders
 Route::post('purchase-orders/{purchaseOrder}/close',
     [Action\PurchaseOrderController::class, 'close'])
