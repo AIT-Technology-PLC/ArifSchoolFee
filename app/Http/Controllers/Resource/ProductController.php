@@ -23,9 +23,9 @@ class ProductController extends Controller
     {
         $datatable->builder()->setTableId('products-datatable')->orderBy(1, 'asc');
 
-        $totalProductsOfCompany = Product::count();
+        $totalProducts = Product::count();
 
-        return $datatable->render('products.index', compact('totalProductsOfCompany'));
+        return $datatable->render('products.index', compact('totalProducts'));
     }
 
     public function create()
