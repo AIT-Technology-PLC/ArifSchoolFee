@@ -22,13 +22,13 @@ class ProformaInvoiceService
                 return $item;
             });
 
-        return [
-            true, '', [
-                'customer_id' => $proformaInvoice->customer_id ?? '',
-                'discount' => $proformaInvoice->discount * 100,
-                'gdn' => $proformaInvoiceDetails,
-            ],
+        $data = [
+            'customer_id' => $proformaInvoice->customer_id ?? '',
+            'discount' => $proformaInvoice->discount * 100,
+            'gdn' => $proformaInvoiceDetails,
         ];
+
+        return [true, '', $data];
     }
 
     public function close($proformaInvoice)
