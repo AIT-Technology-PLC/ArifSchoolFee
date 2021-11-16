@@ -19,6 +19,8 @@ class CustomerController extends Controller
 
     public function index(CustomerDatatable $datatable)
     {
+        $datatable->builder()->setTableId('customers-datatable')->orderBy(1, 'asc');
+
         $totalCustomers = Customer::count();
 
         return $datatable->render('customers.index', compact('totalCustomers'));
