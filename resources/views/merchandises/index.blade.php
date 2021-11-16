@@ -121,10 +121,19 @@
                             <div class="field">
                                 <div class="control has-icons-left">
                                     <div class="select">
-                                        <select id="warehouseId">
-                                            <option value="0" selected>All Warehouses</option>
+                                        <select
+                                            x-data="changeWarehouse"
+                                            @change="change"
+                                        >
+                                            <option
+                                                value="0"
+                                                selected
+                                            >All Warehouses</option>
                                             @foreach ($warehouses as $availableWarehouse)
-                                                <option value="{{ $availableWarehouse->id }}" {{ ($warehouse->id ?? '') == $availableWarehouse->id ? 'selected' : '' }}>{{ $availableWarehouse->name }}</option>
+                                                <option
+                                                    value="{{ $availableWarehouse->id }}"
+                                                    {{ ($warehouse->id ?? '') == $availableWarehouse->id ? 'selected' : '' }}
+                                                >{{ $availableWarehouse->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

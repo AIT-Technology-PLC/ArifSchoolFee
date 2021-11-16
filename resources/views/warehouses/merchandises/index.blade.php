@@ -123,7 +123,10 @@
                             <div class="field">
                                 <div class="control has-icons-left">
                                     <div class="select">
-                                        <select id="warehouseId">
+                                        <select
+                                            x-data="changeWarehouse"
+                                            @change="change"
+                                        >
                                             <option
                                                 value="0"
                                                 selected

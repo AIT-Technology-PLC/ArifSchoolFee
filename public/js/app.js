@@ -59,14 +59,6 @@ function disableSaveButton() {
     saveButton.disabled = true;
 }
 
-function changeWarehouse() {
-    if (this.value == 0) {
-        return (location.href = "/merchandises/on-hand");
-    }
-
-    location.href = `/warehouses/${this.value}/merchandises`;
-}
-
 function toggleLeftMenuOnMobile() {
     let menuLeft = d.getElementById("menuLeft");
 
@@ -429,6 +421,18 @@ document.addEventListener("alpine:init", () => {
                     this.$refs[permission].classList.remove("is-hidden");
                 }
             });
+        },
+    }));
+
+    Alpine.data("changeWarehouse", () => ({
+        change() {
+            if (this.$el.value == 0) {
+                location.href = "/merchandises/on-hand";
+            }
+
+            if (this.$el.value != 0) {
+                location.href = `/warehouses/${this.$el.value}/merchandises`;
+            }
         },
     }));
 });

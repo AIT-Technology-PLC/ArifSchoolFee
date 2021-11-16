@@ -24,10 +24,6 @@ if (d.getElementById("formOne")) {
     d.getElementById("formOne").addEventListener("submit", disableSaveButton);
 }
 
-if (d.getElementById("warehouseId")) {
-    d.getElementById("warehouseId").addEventListener("change", changeWarehouse);
-}
-
 if (d.getElementById("burger-menu")) {
     d.getElementById("burger-menu").addEventListener(
         "click",
