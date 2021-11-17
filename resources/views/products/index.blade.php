@@ -3,17 +3,19 @@
 @section('title', 'Products')
 
 @section('content')
-    <div class="columns is-marginless is-multiline">
-        <div class="column is-6 p-lr-0">
-            <x-common.total-model
-                model="products"
-                :amount="$totalProducts"
-                icon="fas fa-th"
-            />
-        </div>
-    </div>
     <x-common.content-wrapper>
-        <x-content.header title="Products">
+        <x-content.header>
+            <x-slot name="header">
+                <h1 class="title text-green has-text-weight-medium is-size-5">
+                    Products
+                    <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
+                        <x-common.icon name="fas fa-th" />
+                        <span>
+                            {{ number_format($totalProducts) }} {{ Str::plural('products', $totalProducts) }}
+                        </span>
+                    </span>
+                </h1>
+            </x-slot>
             @can('Create Product')
                 <x-common.button
                     tag="a"
