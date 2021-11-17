@@ -73,74 +73,69 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper>
-        <div class="box has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                Customer Credits Analytics
-            </h1>
-            <div class="columns is-marginless is-multiline">
-                <div class="column is-3 p-lr-0">
-                    <x-common.total-model
-                        model="credits"
-                        :amount="$totalCredits"
-                        icon="fas fa-money-check"
-                    />
-                </div>
-                <div class="column is-3 p-lr-0">
-                    <x-common.index-insight
-                        :amount="$totalSettled"
-                        border-color="#3d8660"
-                        text-color="text-green"
-                        label="Settled"
-                    />
-                </div>
-                <div class="column is-3 p-lr-0">
-                    <x-common.index-insight
-                        :amount="$totalPartiallySettled"
-                        border-color="#86843d"
-                        text-color="text-gold"
-                        label="Partial Settlements"
-                    />
-                </div>
-                <div class="column is-3 p-lr-0">
-                    <x-common.index-insight
-                        :amount="$totalNotSettledAtAll"
-                        border-color="#863d63"
-                        text-color="text-purple"
-                        label="No Settlements"
-                    />
-                </div>
-                <div class="column is-6 p-lr-0">
-                    <x-common.index-insight
-                        amount="{{ number_format($customer->credit_amount_limit, 2) }}"
-                        border-color="#3d6386"
-                        text-color="text-blue"
-                        label="Credit Limit (in {{ userCompany()->currency }})"
-                    />
-                </div>
-                <div class="column is-6 p-lr-0">
-                    <x-common.index-insight
-                        amount="{{ number_format($totalCreditAmountProvided, 2) }}"
-                        border-color="#3d8660"
-                        text-color="text-green"
-                        label="Credit Provided To Date (in {{ userCompany()->currency }})"
-                    />
-                </div>
-                <div class="column is-6 p-lr-0">
-                    <x-common.index-insight
-                        amount="{{ number_format($currentCreditBalance, 2) }}"
-                        border-color="#86843d"
-                        text-color="text-gold"
-                        label="Unsettled Credit Balance (in {{ userCompany()->currency }})"
-                    />
-                </div>
-                <div class="column is-6 p-lr-0">
-                    <x-common.index-insight
-                        amount="{{ number_format($averageCreditSettlementDays, 2) }}"
-                        border-color="#863d63"
-                        text-color="text-purple"
-                        label="Average Credit Settlement Period (in Days)"
-                    />
-                </div>
+        <div class="columns is-marginless is-multiline">
+            <div class="column is-3 p-lr-0 pl-0">
+                <x-common.total-model
+                    model="credits"
+                    :amount="$totalCredits"
+                    icon="fas fa-money-check"
+                />
+            </div>
+            <div class="column is-3 p-lr-0 pl-0">
+                <x-common.index-insight
+                    :amount="$totalSettled"
+                    border-color="#3d8660"
+                    text-color="text-green"
+                    label="Settled"
+                />
+            </div>
+            <div class="column is-3 p-lr-0 pl-0">
+                <x-common.index-insight
+                    :amount="$totalPartiallySettled"
+                    border-color="#86843d"
+                    text-color="text-gold"
+                    label="Partial Settlements"
+                />
+            </div>
+            <div class="column is-3 p-lr-0 px-0">
+                <x-common.index-insight
+                    :amount="$totalNotSettledAtAll"
+                    border-color="#863d63"
+                    text-color="text-purple"
+                    label="No Settlements"
+                />
+            </div>
+            <div class="column is-6 p-lr-0 pl-0">
+                <x-common.index-insight
+                    amount="{{ number_format($customer->credit_amount_limit, 2) }}"
+                    border-color="#3d6386"
+                    text-color="text-blue"
+                    label="Credit Limit (in {{ userCompany()->currency }})"
+                />
+            </div>
+            <div class="column is-6 p-lr-0 px-0">
+                <x-common.index-insight
+                    amount="{{ number_format($totalCreditAmountProvided, 2) }}"
+                    border-color="#3d8660"
+                    text-color="text-green"
+                    label="Credit Provided To Date (in {{ userCompany()->currency }})"
+                />
+            </div>
+            <div class="column is-6 p-lr-0 pl-0">
+                <x-common.index-insight
+                    amount="{{ number_format($currentCreditBalance, 2) }}"
+                    border-color="#86843d"
+                    text-color="text-gold"
+                    label="Unsettled Credit Balance (in {{ userCompany()->currency }})"
+                />
+            </div>
+            <div class="column is-6 p-lr-0 px-0">
+                <x-common.index-insight
+                    amount="{{ number_format($averageCreditSettlementDays, 2) }}"
+                    border-color="#863d63"
+                    text-color="text-purple"
+                    label="Average Credit Settlement Period (in Days)"
+                />
             </div>
         </div>
     </x-common.content-wrapper>
