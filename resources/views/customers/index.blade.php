@@ -3,18 +3,22 @@
 @section('title', 'Customers')
 
 @section('content')
-    <div class="columns is-marginless is-multiline">
-        <div class="column is-6 p-lr-0">
-            <x-common.total-model
-                model="customers"
-                :amount="$totalCustomers"
-                icon="fas fa-user"
-            />
-        </div>
-    </div>
-
     <x-common.content-wrapper>
-        <x-content.header title="Customers">
+        <x-content.header>
+            <x-slot name="header">
+                <h1 class="title text-green has-text-weight-medium is-size-5">
+                    Customers
+                    <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
+                        <x-common.icon name="fas fa-user" />
+                        <span>
+                            {{ number_format($totalCustomers) }} {{ Str::plural('customers', $totalCustomers) }}
+                        </span>
+                        <span class="is-hidden-mobile">
+                            &nbsp; registered
+                        </span>
+                    </span>
+                </h1>
+            </x-slot>
             @can('Create Customer')
                 <x-common.button
                     tag="a"
