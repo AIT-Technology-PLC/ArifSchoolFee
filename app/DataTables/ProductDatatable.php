@@ -16,9 +16,6 @@ class ProductDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('product', function ($product) {
-                return $product->name;
-            })
             ->editColumn('category', function ($product) {
                 return $product->productCategory->name;
             })
@@ -65,11 +62,11 @@ class ProductDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('product', 'name'),
+            Column::make('name')->title('Product'),
             Column::make('code')->className('text-purple has-text-weight-medium'),
             Column::make('category', 'productCategory.name'),
             Column::make('type')->visible(false),
-            Column::make('supplier', 'supplier.company_name'),
+            Column::make('supplier', 'supplier.company_name')->visible(false),
             Column::make('description')->visible(false),
             Column::make('reorder level', 'min_on_hand'),
             Column::make('added by', 'createdBy.name')->visible(false),
