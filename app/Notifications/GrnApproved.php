@@ -22,7 +22,7 @@ class GrnApproved extends Notification
     public function toArray($notifiable)
     {
         return [
-            'icon' => 'file-contract',
+            'icon' => 'file-import',
             'message' => 'GRN has been approved by ' . ucfirst($this->grn->approvedBy->name),
             'endpoint' => '/grns/' . $this->grn->id,
         ];

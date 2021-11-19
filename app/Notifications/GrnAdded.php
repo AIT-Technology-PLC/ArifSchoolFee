@@ -22,7 +22,7 @@ class GrnAdded extends Notification
     public function toArray($notifiable)
     {
         return [
-            'icon' => 'file-contract',
+            'icon' => 'file-import',
             'message' => 'GRN has been added to inventory',
             'endpoint' => '/grns/' . $this->grn->id,
         ];

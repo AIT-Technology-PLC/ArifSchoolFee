@@ -50,7 +50,7 @@
                                         tag="a"
                                         mode="button"
                                         href="{{ route('grns.create') }}"
-                                        icon="fas fa-file-signature"
+                                        icon="fas fa-file-import"
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>

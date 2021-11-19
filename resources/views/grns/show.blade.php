@@ -12,7 +12,7 @@
                     <div class="columns is-marginless is-vcentered is-mobile text-green">
                         <div class="column is-1">
                             <span class="icon is-size-3">
-                                <i class="fas fa-file-contract"></i>
+                                <i class="fas fa-file-import"></i>
                             </span>
                         </div>
                         <div class="column m-lr-20">
