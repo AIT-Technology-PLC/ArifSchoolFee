@@ -25,7 +25,7 @@ class ProductDatatable extends DataTable
             ->editColumn('description', function ($product) {
                 return $product->description ?? 'N/A';
             })
-            ->editColumn('reorder level', function ($product) {
+            ->editColumn('min_on_hand', function ($product) {
                 return Str::of($product->min_on_hand ?? 0.0)->append(' ', $product->unit_of_measurement);
             })
             ->editColumn('added by', function ($product) {
@@ -68,7 +68,7 @@ class ProductDatatable extends DataTable
             Column::make('type')->visible(false),
             Column::make('supplier', 'supplier.company_name')->visible(false),
             Column::make('description')->visible(false),
-            Column::make('reorder level', 'min_on_hand'),
+            Column::make('min_on_hand')->title('Reorder Level'),
             Column::make('added by', 'createdBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions'),

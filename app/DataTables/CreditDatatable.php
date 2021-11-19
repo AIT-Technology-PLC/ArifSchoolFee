@@ -21,14 +21,12 @@ class CreditDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('credit no', fn($credit) => $credit->code)
             ->editColumn('delivery order no', function ($credit) {
                 return view('components.datatables.link', [
                     'url' => $credit->gdn()->exists() ? route('gdns.show', $credit->gdn->id) : 'javascript:void(0)',
                     'label' => $credit->gdn()->exists() ? $credit->gdn->code : 'N/A',
                 ]);
             })
-            ->editColumn('customer', fn($credit) => $credit->customer->company_name)
             ->editColumn('customer', function ($credit) {
                 return view('components.datatables.link', [
                     'url' => route('customers.credits.index', $credit->customer_id),
@@ -45,8 +43,8 @@ class CreditDatatable extends DataTable
             ->editColumn('credit amount', fn($credit) => userCompany()->currency . '. ' . number_format($credit->credit_amount, 2))
             ->editColumn('amount settled', fn($credit) => userCompany()->currency . '. ' . number_format($credit->credit_amount_settled, 2))
             ->editColumn('amount unsettled', fn($credit) => userCompany()->currency . '. ' . number_format($credit->credit_amount_unsettled, 2))
-            ->editColumn('issued on', fn($credit) => $credit->issued_on->toFormattedDateString())
-            ->editColumn('due date', fn($credit) => $credit->due_date->toFormattedDateString())
+            ->editColumn('issued_on', fn($credit) => $credit->issued_on->toFormattedDateString())
+            ->editColumn('due_date', fn($credit) => $credit->due_date->toFormattedDateString())
             ->editColumn('actions', function ($credit) {
                 return view('components.common.action-buttons', [
                     'model' => 'credits',
@@ -81,7 +79,7 @@ class CreditDatatable extends DataTable
 
         return [
             Column::computed('#'),
-            Column::make('credit no', 'code')->className('has-text-centered'),
+            Column::make('code')->className('has-text-centered')->title('Credit No'),
             Column::make('delivery order no', 'gdn.code')
                 ->className('has-text-centered actions ' . $isHidden),
             Column::make('status')->orderable(false),
@@ -89,8 +87,8 @@ class CreditDatatable extends DataTable
             Column::make('credit amount', 'credit_amount'),
             Column::make('amount settled', 'credit_amount_settled')->visible(false),
             Column::computed('amount unsettled')->visible(false),
-            Column::make('issued on', 'issued_on'),
-            Column::make('due date', 'due_date')->visible(false),
+            Column::make('issued_on'),
+            Column::make('due_date')->visible(false),
             Column::computed('actions')->className('actions'),
         ];
     }

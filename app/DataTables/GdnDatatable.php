@@ -5,7 +5,6 @@ namespace App\DataTables;
 use App\Models\Gdn;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -23,14 +22,13 @@ class GdnDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('delivery order no', fn($gdn) => $gdn->code)
             ->editColumn('receipt no', fn($gdn) => $gdn->sale->code ?? 'N/A')
             ->editColumn('status', fn($gdn) => view('components.datatables.gdn-status', compact('gdn')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when(Str::contains('waiting approval', $keyword), fn($query) => $query->notApproved())
-                    ->when(Str::contains('approved', $keyword), fn($query) => $query->notSubtracted()->approved())
-                    ->when(Str::contains('subtracted', $keyword), fn($query) => $query->subtracted());
+                    ->when($keyword == 'waiting approval', fn($query) => $query->notApproved())
+                    ->when($keyword == 'approved', fn($query) => $query->notSubtracted()->approved())
+                    ->when($keyword == 'subtracted', fn($query) => $query->subtracted());
             })
             ->editColumn('total price', function ($gdn) {
                 return userCompany()->isDiscountBeforeVAT() ?
@@ -39,7 +37,7 @@ class GdnDatatable extends DataTable
             })
             ->editColumn('customer', fn($gdn) => $gdn->customer->company_name ?? 'N/A')
             ->editColumn('description', fn($gdn) => view('components.datatables.searchable-description', ['description' => $gdn->description]))
-            ->editColumn('issued on', fn($gdn) => $gdn->issued_on->toFormattedDateString())
+            ->editColumn('issued_on', fn($gdn) => $gdn->issued_on->toFormattedDateString())
             ->editColumn('prepared by', fn($gdn) => $gdn->createdBy->name)
             ->editColumn('approved by', fn($gdn) => $gdn->approvedBy->name ?? 'N/A')
             ->editColumn('edited by', fn($gdn) => $gdn->updatedBy->name)
@@ -72,14 +70,14 @@ class GdnDatatable extends DataTable
     {
         $columns = [
             Column::computed('#'),
-            Column::make('delivery order no', 'code')->className('has-text-centered'),
-            isFeatureEnabled('Sale Management') ? Column::make('receipt no', 'sale.code')->content('N/A') : null,
-            Column::make('status', 'status')->orderable(false),
-            Column::make('payment_type', 'payment_type')->visible(false),
+            Column::make('code')->className('has-text-centered')->title('Delivery Order No'),
+            isFeatureEnabled('Sale Management') ? Column::make('receipt no', 'sale.code')->visible(false) : null,
+            Column::make('status')->orderable(false),
+            Column::make('payment_type')->visible(false),
             Column::computed('total price')->visible(false),
             Column::make('customer', 'customer.company_name'),
-            Column::make('description', 'description')->visible(false),
-            Column::make('issued on', 'issued_on'),
+            Column::make('description')->visible(false),
+            Column::make('issued_on'),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),

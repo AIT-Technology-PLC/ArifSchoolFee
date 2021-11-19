@@ -66,7 +66,7 @@ class GrnDatatable extends DataTable
             Column::computed('#'),
             Column::make('code')->className('has-text-centered')->title('GRN No'),
             isFeatureEnabled('Purchase Management') ? Column::make('purchase no', 'purchase.code')->visible(false) : null,
-            Column::make('status', 'status')->orderable(false),
+            Column::make('status')->orderable(false),
             Column::make('supplier', 'supplier.company_name'),
             Column::make('description')->visible(false),
             Column::make('issued_on')->className('has-text-right'),
