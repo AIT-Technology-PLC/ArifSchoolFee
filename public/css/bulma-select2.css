@@ -81,3 +81,7 @@
     outline: #485fc7 !important;
     box-shadow: 0 0 0 0.125em rgb(72 95 199 / 25%) !important;
 }
+
+.select2-dropdown {
+    z-index: 5 !important;
+}
