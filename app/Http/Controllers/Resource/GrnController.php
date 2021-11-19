@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\GrnDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGrnRequest;
 use App\Http\Requests\UpdateGrnRequest;
@@ -22,9 +23,9 @@ class GrnController extends Controller
         $this->authorizeResource(Grn::class, 'grn');
     }
 
-    public function index()
+    public function index(GrnDatatable $datatable)
     {
-        $grns = Grn::with(['createdBy', 'updatedBy', 'approvedBy', 'supplier', 'purchase'])->latest('code')->get();
+        $datatable->builder()->setTableId('grns-datatable')->orderBy(1, 'desc');
 
         $totalAdded = Grn::added()->count();
 
@@ -34,7 +35,7 @@ class GrnController extends Controller
 
         $totalGrns = Grn::count();
 
-        return view('grns.index', compact('grns', 'totalGrns', 'totalAdded', 'totalNotApproved', 'totalNotAdded'));
+        return $datatable->render('grns.index', compact('totalGrns', 'totalAdded', 'totalNotApproved', 'totalNotAdded'));
     }
 
     public function create()
