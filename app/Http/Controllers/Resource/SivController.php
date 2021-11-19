@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\SivDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSivRequest;
 use App\Http\Requests\UpdateSivRequest;
@@ -20,9 +21,9 @@ class SivController extends Controller
         $this->authorizeResource(Siv::class, 'siv');
     }
 
-    public function index()
+    public function index(SivDatatable $datatable)
     {
-        $sivs = Siv::with(['createdBy', 'updatedBy', 'approvedBy'])->latest('code')->get();
+        $datatable->builder()->setTableId('gdns-datatable')->orderBy(1, 'desc');
 
         $totalSivs = Siv::count();
 
@@ -30,7 +31,7 @@ class SivController extends Controller
 
         $totalNotApproved = Siv::notApproved()->count();
 
-        return view('sivs.index', compact('sivs', 'totalSivs', 'totalApproved', 'totalNotApproved'));
+        return $datatable->render('sivs.index', compact('totalSivs', 'totalApproved', 'totalNotApproved'));
     }
 
     public function create()
