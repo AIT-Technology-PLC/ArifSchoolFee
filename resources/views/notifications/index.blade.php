@@ -120,7 +120,7 @@
                         @foreach ($notifications as $notification)
                             <tr
                                 class="showRowDetails is-clickable"
-                                data-id="{{ $notification->data['endpoint'] }}"
+                                data-id="{{ route('notifications.show', $notification->id) }}"
                             >
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $notification->data['message'] }} </td>
@@ -138,7 +138,7 @@
                                 <td class="has-text-right"> {{ $notification->read() ? $notification->read_at->toDayDateTimeString() : 'N/A' }} </td>
                                 <td class="has-text-right"> {{ $notification->created_at->toDayDateTimeString() }} </td>
                                 <td class="actions">
-                                    <a href="{{ $notification->data['endpoint'] }}">
+                                    <a href="{{ route('notifications.show', $notification->id) }}">
                                         <span class="tag btn-purple is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-info-circle"></i>
@@ -148,6 +148,10 @@
                                             </span>
                                         </span>
                                     </a>
+                                    <x-common.delete-button
+                                        route="notifications.destroy"
+                                        :id="$notification->id"
+                                    />
                                     @if (!$notification->read())
                                         <form
                                             class="is-inline"
@@ -171,10 +175,6 @@
                                             </button>
                                         </form>
                                     @endif
-                                    <x-common.delete-button
-                                        route="notifications.destroy"
-                                        :id="$notification->id"
-                                    />
                                 </td>
                             </tr>
                         @endforeach

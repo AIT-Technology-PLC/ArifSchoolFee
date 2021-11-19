@@ -21,6 +21,17 @@ class NotificationController extends Controller
         return view('notifications.index', compact('notifications', 'totalUnreadNotifications'));
     }
 
+    public function show(Notification $notification)
+    {
+        abort_if($notification->notifiable_id != auth()->id(), 403);
+
+        if ($notification->unread()) {
+            $notification->markAsRead();
+        }
+
+        return redirect($notification->data['endpoint']);
+    }
+
     public function update(Notification $notification)
     {
         abort_if($notification->notifiable_id != auth()->id(), 403);

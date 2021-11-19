@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use Illuminate\Notifications\DatabaseNotification as Notification;
 use Livewire\Component;
 
 class Notifications extends Component
@@ -14,18 +13,6 @@ class Notifications extends Component
         $this->readNotifications = auth()->user()->readNotifications()->take(5)->get();
 
         $this->unreadNotifications = auth()->user()->unreadNotifications;
-    }
-
-    public function markAsRead(Notification $notification)
-    {
-        $notification->markAsRead();
-
-        return $this->redirectToEndpoint($notification->data['endpoint']);
-    }
-
-    public function redirectToEndpoint($endpoint)
-    {
-        return redirect($endpoint);
     }
 
     public function getLatestUnreadNotifications()

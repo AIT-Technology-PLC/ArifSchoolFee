@@ -20,46 +20,50 @@
                 style="max-height: 300px !important"
             >
                 @foreach ($unreadNotifications as $unreadNotification)
-                    <div
-                        wire:click="markAsRead('{{ $unreadNotification->id }}')"
-                        class="columns is-marginless has-background-white-ter text-green py-1 is-size-6-5 is-mobile is-clickable"
+                    <a
+                        href="{{ route('notifications.show', $unreadNotification->id) }}"
+                        class="is-not-underlined"
                     >
-                        <div class="column is-1 pb-0">
-                            <span class="icon is-small">
-                                <i class="fas fa-{{ $unreadNotification->data['icon'] }}"></i>
-                            </span>
+                        <div class="columns is-marginless has-background-white-ter text-green py-1 is-size-6-5 is-mobile is-clickable">
+                            <div class="column is-1 pb-0">
+                                <span class="icon is-small">
+                                    <i class="fas fa-{{ $unreadNotification->data['icon'] }}"></i>
+                                </span>
+                            </div>
+                            <div class="column is-11 pl-1 pb-0">
+                                <span>
+                                    {{ $unreadNotification->data['message'] }}
+                                </span>
+                                <br>
+                                <span class="is-size-7 has-text-weight-light">
+                                    {{ $unreadNotification->created_at->diffForHumans() }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="column is-11 pl-1 pb-0">
-                            <span>
-                                {{ $unreadNotification->data['message'] }}
-                            </span>
-                            <br>
-                            <span class="is-size-7 has-text-weight-light">
-                                {{ $unreadNotification->created_at->diffForHumans() }}
-                            </span>
-                        </div>
-                    </div>
+                    </a>
                 @endforeach
                 @foreach ($readNotifications as $readNotification)
-                    <div
-                        wire:click="redirectToEndpoint('{{ $readNotification->data['endpoint'] }}')"
-                        class="columns is-marginless has-background-white text-green py-1 is-size-6-5 is-mobile is-clickable"
+                    <a
+                        href="{{ route('notifications.show', $readNotification->id) }}"
+                        class="is-not-underlined"
                     >
-                        <div class="column is-1 pb-0">
-                            <span class="icon is-small">
-                                <i class="fas fa-{{ $readNotification->data['icon'] }}"></i>
-                            </span>
+                        <div class="columns is-marginless has-background-white text-green py-1 is-size-6-5 is-mobile is-clickable">
+                            <div class="column is-1 pb-0">
+                                <span class="icon is-small">
+                                    <i class="fas fa-{{ $readNotification->data['icon'] }}"></i>
+                                </span>
+                            </div>
+                            <div class="column is-11 pl-1 pb-0">
+                                <span>
+                                    {{ $readNotification->data['message'] }}
+                                </span>
+                                <br>
+                                <span class="is-size-7 has-text-weight-light">
+                                    {{ $readNotification->created_at->diffForHumans() }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="column is-11 pl-1 pb-0">
-                            <span>
-                                {{ $readNotification->data['message'] }}
-                            </span>
-                            <br>
-                            <span class="is-size-7 has-text-weight-light">
-                                {{ $readNotification->created_at->diffForHumans() }}
-                            </span>
-                        </div>
-                    </div>
+                    </a>
                 @endforeach
                 @if ($unreadNotifications->isEmpty() && $readNotifications->isEmpty())
                     <div class="columns is-marginless has-background-white has-text-black py-3 is-size-6-5 is-mobile">
