@@ -57,13 +57,6 @@ if (d.getElementById("addNewTenderForm")) {
     );
 }
 
-if (d.getElementById("markAllNotificationsAsRead")) {
-    d.getElementById("markAllNotificationsAsRead").addEventListener(
-        "click",
-        openMarkAllNotificationsAsReadModal
-    );
-}
-
 if (d.getElementsByClassName("showRowDetails").length) {
     for (let element of d.getElementsByClassName("showRowDetails")) {
         element.addEventListener("click", showRowDetailsPage);

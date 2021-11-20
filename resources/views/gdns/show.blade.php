@@ -351,17 +351,16 @@
                             Click on the button below to approve this Delivery Order.
                         </p>
                         <form
-                            id="formOne"
+                            x-data="swal('approve', 'approve this delivery order')"
                             action="{{ route('gdns.approve', $gdn->id) }}"
                             method="post"
                             novalidate
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="Delivery Order"
-                                data-action="approve"
-                                data-description=""
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
@@ -384,17 +383,16 @@
                             Click on the button below to subtract product(s) from the inventory.
                         </p>
                         <form
-                            id="formOne"
+                            x-data="swal('subtract', 'subtract products of this delivery order')"
                             action="{{ route('gdns.subtract', $gdn->id) }}"
                             method="post"
                             novalidate
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="Delivery Order"
-                                data-action="execute"
-                                data-description=""
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-minus-circle"></i>

@@ -62,18 +62,19 @@
                         <div>
                             @if ($notifications->isNotEmpty())
                                 <form
+                                    x-data="swal('mark all as read', 'mark all notifications as read')"
                                     class="is-inline"
-                                    id="formOne"
                                     action="{{ route('notifications.markAllAsRead') }}"
                                     method="POST"
                                     enctype="multipart/form-data"
                                     novalidate
+                                    @submit.prevent="open"
                                 >
                                     @csrf
                                     @method('PATCH')
                                     <button
-                                        id="markAllNotificationsAsRead"
                                         class="button is-small bg-green has-text-white"
+                                        x-ref="submitButton"
                                     >
                                         <span class="icon">
                                             <i class="fas fa-check-double"></i>
