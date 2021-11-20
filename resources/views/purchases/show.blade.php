@@ -218,8 +218,8 @@
                             @if (!$purchase->isClosed())
                                 <x-common.transaction-button
                                     :route="route('purchases.close', $purchase->id)"
-                                    type="Purchase"
                                     action="close"
+                                    intention="close this purchase"
                                     icon="fas fa-ban"
                                     label="Close"
                                 />

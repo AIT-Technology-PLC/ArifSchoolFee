@@ -278,8 +278,8 @@
                                 @can('Create Credit')
                                     <x-common.transaction-button
                                         :route="route('gdns.convert_to_credit', $gdn->id)"
-                                        type="delivery order to credit"
                                         action="convert"
+                                        intention="convert this delivery order to credit"
                                         icon="fas fa-money-check"
                                         label="Convert to Credit"
                                     />
@@ -288,8 +288,8 @@
                             @if ($gdn->isSubtracted() && !$gdn->isClosed())
                                 <x-common.transaction-button
                                     :route="route('gdns.close', $gdn->id)"
-                                    type="Delivery Order"
                                     action="close"
+                                    intention="close this delivery order"
                                     icon="fas fa-ban"
                                     label="Close"
                                 />

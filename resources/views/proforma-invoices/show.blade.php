@@ -195,8 +195,8 @@
                             @if ($proformaInvoice->isConverted() && !$proformaInvoice->isClosed())
                                 <x-common.transaction-button
                                     :route="route('proforma-invoices.close', $proformaInvoice->id)"
-                                    type="Proforma Invoice"
                                     action="close"
+                                    intention="close this proforma invoice"
                                     icon="fas fa-ban"
                                     label="Close"
                                 />

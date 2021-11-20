@@ -38,8 +38,8 @@
                 @can('Approve Adjustment')
                     <x-common.transaction-button
                         :route="route('adjustments.approve', $adjustment->id)"
-                        type="Adjustment"
                         action="approve"
+                        intention="approve this adjustment"
                         icon="fas fa-signature"
                         label="Approve Adjustment"
                         class="has-text-weight-medium"
@@ -49,8 +49,8 @@
                 @can('Make Adjustment')
                     <x-common.transaction-button
                         :route="route('adjustments.adjust', $adjustment->id)"
-                        type="Adjustment"
                         action="execute"
+                        intention="execute this adjustment"
                         icon="fas fa-eraser"
                         label="Execute Adjustment"
                         class="has-text-weight-medium"

@@ -85,8 +85,8 @@
                                 </form>
                                 <x-common.transaction-button
                                     :route="route('notifications.delete_all')"
-                                    type=""
-                                    action="delete all"
+                                    action="delete"
+                                    intention="delete all of the notifications"
                                     icon="fas fa-trash"
                                     label="Delete All"
                                     class="has-text-weight-medium"

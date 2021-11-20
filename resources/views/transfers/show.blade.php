@@ -117,8 +117,8 @@
                             @if ($transfer->isAdded() && !$transfer->isClosed())
                                 <x-common.transaction-button
                                     :route="route('transfers.close', $transfer->id)"
-                                    type="Transfer"
                                     action="close"
+                                    intention="close this transfer"
                                     icon="fas fa-ban"
                                     label="Close"
                                 />
