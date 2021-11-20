@@ -2,7 +2,6 @@
 
 <form
     x-data="swal('{{ $action }}', '{{ $intention }}')"
-    id="formOne"
     class="is-inline"
     action="{{ $route }}"
     method="post"
@@ -15,6 +14,7 @@
         mode="button"
         label="{{ $label }}"
         icon="{{ $icon }}"
+        x-ref="submitButton"
         {{ $attributes->merge(['class' => 'btn-purple is-outlined is-small']) }}
     />
 </form>

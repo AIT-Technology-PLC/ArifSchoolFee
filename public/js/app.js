@@ -431,6 +431,7 @@ document.addEventListener("alpine:init", () => {
                 dangerMode: true,
             }).then((willExecute) => {
                 if (willExecute) {
+                    this.$refs.submitButton.disabled = true;
                     this.$el.submit();
                 }
             });

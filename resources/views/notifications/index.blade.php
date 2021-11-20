@@ -162,7 +162,10 @@
                                         >
                                             @csrf
                                             @method('PATCH')
-                                            <button class="tag btn-green is-outlined is-small text-green has-text-weight-medium is-pointer">
+                                            <button
+                                                class="tag btn-green is-outlined is-small text-green has-text-weight-medium is-pointer"
+                                                x-ref="submitButton"
+                                            >
                                                 <span class="icon">
                                                     <i class="fas fa-check-double"></i>
                                                 </span>
