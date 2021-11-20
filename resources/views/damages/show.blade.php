@@ -106,18 +106,15 @@
                             Click on the button below to approve this Damage.
                         </p>
                         <form
+                            x-data="swal('approve', 'approve this damage claim')"
                             id="formOne"
                             action="{{ route('damages.approve', $damage->id) }}"
                             method="post"
                             novalidate
+                            @submit.prevent="open"
                         >
                             @csrf
-                            <button
-                                data-type="Damage"
-                                data-action="approve"
-                                data-description=""
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
-                            >
+                            <button class="button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
                                 </span>
@@ -139,18 +136,15 @@
                             Click on the button below to subtract product(s) from the inventory.
                         </p>
                         <form
+                            x-data="swal('subtract', 'subtract the damaged products')"
                             id="formOne"
                             action="{{ route('damages.subtract', $damage->id) }}"
                             method="post"
                             novalidate
+                            @submit.prevent="open"
                         >
                             @csrf
-                            <button
-                                data-type="Damage"
-                                data-action="subtract"
-                                data-description="the damaged products"
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
-                            >
+                            <button class="button bg-purple has-text-white mt-5 is-size-7-mobile">
                                 <span class="icon">
                                     <i class="fas fa-minus-circle"></i>
                                 </span>
