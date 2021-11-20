@@ -34,13 +34,14 @@
             </a>
             <livewire:notification-counter class="navbar-item has-text-white is-size-5 is-hidden-desktop" />
             <span
-                id="burger-menu"
+                x-data="toggler"
+                @click="toggle;$dispatch('side-menu-opened')"
                 class="navbar-item has-text-white is-size-5 is-hidden-desktop"
             >
                 <span class="icon">
                     <i
-                        id="burgerMenuBars"
                         class="fas fa-bars"
+                        :class="{ 'fa-times': !isHidden }"
                     ></i>
                 </span>
             </span>

@@ -24,13 +24,6 @@ if (d.getElementById("formOne")) {
     d.getElementById("formOne").addEventListener("submit", disableSaveButton);
 }
 
-if (d.getElementById("burger-menu")) {
-    d.getElementById("burger-menu").addEventListener(
-        "click",
-        toggleLeftMenuOnMobile
-    );
-}
-
 if (d.getElementById("addNewGdnForm")) {
     d.getElementById("addNewGdnForm").addEventListener("click", addGdnDetail);
 }

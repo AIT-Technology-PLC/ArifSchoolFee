@@ -20,16 +20,22 @@
     @include('layouts.header')
 
     <main>
-        <div class="columns is-marginless">
+        <div
+            x-data="toggler"
+            @side-menu-opened.window="toggle"
+            class="columns is-marginless"
+        >
             <div
                 id="menuLeft"
-                class="column is-one-fifth py-5 scroller is-overflow is-hidden-mobile"
+                class="column is-one-fifth-desktop is-full-touch py-5 scroller is-overflow is-hidden-touch"
+                :class="{ 'is-hidden-touch': isHidden }"
             >
                 <x-common.side-menu />
             </div>
             <div
                 id="contentRight"
                 class="column bg-lightgreen py-5 scroller"
+                :class="{ 'is-hidden-touch': !isHidden }"
             >
                 @yield('content')
                 @include('layouts.footer')
