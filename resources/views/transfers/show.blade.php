@@ -166,17 +166,16 @@
                             Click on the button below to approve this Transfer.
                         </p>
                         <form
-                            id="formOne"
+                            x-data="swal('approve', 'approve this transfer')"
                             action="{{ route('transfers.approve', $transfer->id) }}"
                             method="post"
                             novalidate
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="Transfer"
-                                data-action="approve"
-                                data-description=""
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
@@ -199,17 +198,16 @@
                             Click on the button below to subtract.
                         </p>
                         <form
-                            id="formOne"
+                            x-data="swal('subtract', 'subtract products of this transfer')"
                             action="{{ route('transfers.subtract', $transfer->id) }}"
                             method="post"
                             novalidate
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="Transfer"
-                                data-action="subtract"
-                                data-description=""
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-minus-circle"></i>
@@ -233,17 +231,16 @@
                             Click on the button below to add to inventory.
                         </p>
                         <form
-                            id="formOne"
+                            x-data="swal('add', 'add products of this transfer')"
                             action="{{ route('transfers.add', $transfer->id) }}"
                             method="post"
                             novalidate
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="Transfer"
-                                data-action="execute"
-                                data-description=""
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>

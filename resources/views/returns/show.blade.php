@@ -176,17 +176,16 @@
                             Click on the button below to approve this Return.
                         </p>
                         <form
-                            id="formOne"
+                            x-data="swal('approve', 'approve this return')"
                             action="{{ route('returns.approve', $return->id) }}"
                             method="post"
                             novalidate
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="Return"
-                                data-action="approve"
-                                data-description=""
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
@@ -209,17 +208,16 @@
                             Click on the button below to add product(s) to the inventory.
                         </p>
                         <form
-                            id="formOne"
+                            x-data="swal('add', 'add products of this return voucher')"
                             action="{{ route('returns.add', $return->id) }}"
                             method="post"
                             novalidate
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="Return"
-                                data-action="add"
-                                data-description="the returned products"
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>

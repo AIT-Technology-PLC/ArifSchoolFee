@@ -252,17 +252,17 @@
                 <x-common.fail-message message="This Proforma Invoice is still pending.">
                     @can('Convert Proforma Invoice')
                         <form
+                            x-data="swal('confirm', 'confirm this proforma invoice')"
                             action="{{ route('proforma-invoices.convert', $proformaInvoice->id) }}"
                             method="post"
                             novalidate
                             class="is-inline"
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="Proforma Invoice"
-                                data-action="confirm"
-                                data-description=""
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-check-circle"></i>
@@ -275,17 +275,17 @@
                     @endcan
                     @can('Cancel Proforma Invoice')
                         <form
+                            x-data="swal('cancel', 'cancel this proforma invoice')"
                             action="{{ route('proforma-invoices.cancel', $proformaInvoice->id) }}"
                             method="post"
                             novalidate
                             class="is-inline"
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="Proforma Invoice"
-                                data-action="cancel"
-                                data-description=""
-                                class="swal button bg-lightpurple text-purple mt-5 is-size-7-mobile"
+                                class="button bg-lightpurple text-purple mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-times"></i>

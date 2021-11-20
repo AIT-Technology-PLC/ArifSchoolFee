@@ -145,17 +145,16 @@
                             Click on the button below to approve this GRN.
                         </p>
                         <form
-                            id="formOne"
+                            x-data="swal('approve', 'approve this GRN')"
                             action="{{ route('grns.approve', $grn->id) }}"
                             method="post"
                             novalidate
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="GRN"
-                                data-action="approve"
-                                data-description=""
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
@@ -178,17 +177,16 @@
                             Add product(s) automatically by clicking on the button.
                         </p>
                         <form
-                            id="formOne"
+                            x-data="swal('add', 'add products of this GRN')"
                             action="{{ route('grns.add', $grn->id) }}"
                             method="post"
                             novalidate
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="GRN"
-                                data-action="execute"
-                                data-description=""
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>

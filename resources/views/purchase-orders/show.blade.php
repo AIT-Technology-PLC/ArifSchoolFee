@@ -175,17 +175,16 @@
                         This PO is still not closed. <br> Click the button below to close this PO.
                     </p>
                     <form
-                        id="formOne"
+                        x-data="swal('close', 'close this purchase order')"
                         action="{{ route('purchase-orders.close', $purchaseOrder->id) }}"
                         method="post"
                         novalidate
+                        @submit.prevent="open"
                     >
                         @csrf
                         <button
-                            data-type="Purchase Order"
-                            data-action="close"
-                            data-description="and the remaining quantities will be set to '0'."
-                            class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                            x-ref="submitButton"
                         >
                             <span class="icon">
                                 <i class="fas fa-file-alt"></i>

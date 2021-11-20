@@ -214,17 +214,16 @@
                             Click on the button below to approve this SIV.
                         </p>
                         <form
-                            id="formOne"
+                            x-data="swal('approve', 'approve this SIV')"
                             action="{{ route('sivs.approve', $siv->id) }}"
                             method="post"
                             novalidate
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="SIV"
-                                data-action="approve"
-                                data-description=""
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
