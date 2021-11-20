@@ -172,10 +172,10 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             @if ($siv->isApproved())
-                                <button
-                                    id="printSiv"
+                                <a
                                     class="button is-small bg-purple has-text-white is-hidden-mobile  "
-                                    onclick="openInNewTab('/sivs/{{ $siv->id }}/print')"
+                                    href="{{ route('sivs.print', $siv->id) }}"
+                                    target="_blank"
                                 >
                                     <span class="icon">
                                         <i class="fas fa-print"></i>
@@ -183,7 +183,7 @@
                                     <span>
                                         Print
                                     </span>
-                                </button>
+                                </a>
                             @endif
                             <a
                                 href="{{ route('sivs.edit', $siv->id) }}"

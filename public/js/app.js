@@ -80,10 +80,6 @@ function removeDtSearchLabel() {
         .attr("style", "width:213px;height:30px;font-size:0.75em");
 }
 
-function adjustDataTablesColumns(className) {
-    $(className).DataTable().columns.adjust().draw();
-}
-
 function initiateDataTables() {
     const table = $("table.regular-datatable");
 
@@ -136,10 +132,6 @@ function initiateDataTables() {
     });
 
     showTablesAfterCompleteLoad("table.regular-datatable");
-}
-
-function openInNewTab(url) {
-    open(url, "_blank").focus();
 }
 
 function showRowDetailsPage(event) {

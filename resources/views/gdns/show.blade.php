@@ -295,10 +295,10 @@
                                 />
                             @endif
                             @if ($gdn->isApproved())
-                                <button
-                                    id="printGdn"
+                                <a
                                     class="button btn-purple is-outlined is-small is-hidden-mobile"
-                                    onclick="openInNewTab('/gdns/{{ $gdn->id }}/print')"
+                                    href="{{ route('gdns.print', $gdn->id) }}"
+                                    target="_blank"
                                 >
                                     <span class="icon">
                                         <i class="fas fa-print"></i>
@@ -306,7 +306,7 @@
                                     <span>
                                         Print
                                     </span>
-                                </button>
+                                </a>
                             @endif
                             @if ($gdn->isSubtracted() && !$gdn->isClosed())
                                 <a

@@ -488,10 +488,10 @@
                                     Add New Checklist
                                 </span>
                             </a>
-                            <button
-                                id="printTender"
+                            <a
                                 class="button is-small bg-purple has-text-white is-hidden-mobile"
-                                onclick="openInNewTab('/tenders/{{ $tender->id }}/print')"
+                                href="{{ route('tenders.print', $tender->id) }}"
+                                target="_blank"
                             >
                                 <span class="icon">
                                     <i class="fas fa-print"></i>
@@ -499,7 +499,7 @@
                                 <span>
                                     Print
                                 </span>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -213,10 +213,10 @@
                                 </a>
                             @endif
                             @if (!$proformaInvoice->isCancelled())
-                                <button
-                                    id="printGdn"
+                                <a
                                     class="button btn-purple is-outlined is-small is-hidden-mobile"
-                                    onclick="openInNewTab('/proforma-invoices/{{ $proformaInvoice->id }}/print')"
+                                    href="{{ route('proforma-invoices.print', $proformaInvoice->id) }}"
+                                    target="_blank"
                                 >
                                     <span class="icon">
                                         <i class="fas fa-print"></i>
@@ -224,7 +224,7 @@
                                     <span>
                                         Print
                                     </span>
-                                </button>
+                                </a>
                             @endif
                             <a
                                 href="{{ route('proforma-invoices.edit', $proformaInvoice->id) }}"

@@ -134,10 +134,10 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             @if ($return->isApproved())
-                                <button
-                                    id="printReturn"
+                                <a
                                     class="button is-small bg-purple has-text-white is-hidden-mobile"
-                                    onclick="openInNewTab('/returns/{{ $return->id }}/print')"
+                                    href="{{ route('returns.print', $return->id) }}"
+                                    target="_blank"
                                 >
                                     <span class="icon">
                                         <i class="fas fa-print"></i>
@@ -145,7 +145,7 @@
                                     <span>
                                         Print
                                     </span>
-                                </button>
+                                </a>
                             @endif
                             <a
                                 href="{{ route('returns.edit', $return->id) }}"
