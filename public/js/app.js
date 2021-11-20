@@ -418,4 +418,22 @@ document.addEventListener("alpine:init", () => {
             }
         },
     }));
+
+    Alpine.data("swal", (action, intention) => ({
+        intention: intention,
+        action: action,
+
+        open() {
+            swal({
+                title: `Do you want to ${this.intention}?`,
+                text: `By clicking 'Yes, ${action}', you are going to ${this.intention}.`,
+                buttons: ["Not now", `Yes, ${action}`],
+                dangerMode: true,
+            }).then((willExecute) => {
+                if (willExecute) {
+                    this.$el.submit();
+                }
+            });
+        },
+    }));
 });

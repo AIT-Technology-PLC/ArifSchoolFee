@@ -154,18 +154,15 @@
                                     />
                                     @if (!$notification->read())
                                         <form
+                                            x-data="swal('mark as read', 'mark this notification as read')"
                                             class="is-inline"
                                             action="{{ route('notifications.update', $notification->id) }}"
                                             method="post"
+                                            @submit.prevent="open"
                                         >
                                             @csrf
                                             @method('PATCH')
-                                            <button
-                                                data-type="notification as read"
-                                                data-action="mark"
-                                                data-description=""
-                                                class="swal tag btn-green is-outlined is-small text-green has-text-weight-medium is-pointer"
-                                            >
+                                            <button class="tag btn-green is-outlined is-small text-green has-text-weight-medium is-pointer">
                                                 <span class="icon">
                                                     <i class="fas fa-check-double"></i>
                                                 </span>
