@@ -28,7 +28,7 @@ class CreditDueDateIsClose extends Notification
             ->append(
                 Str::plural(' credit', $this->totalCredits),
                 ' will be due',
-                ' after 5 days or less'
+                ' after 7 days or less'
             );
 
         return [
