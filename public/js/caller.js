@@ -57,12 +57,6 @@ if (d.getElementById("addNewTenderForm")) {
     );
 }
 
-window.addEventListener("online", showOnlineBox);
-
-window.addEventListener("offline", showOfflineBox);
-
-window.addEventListener("load", showOfflineBoxPermanent);
-
 if (d.getElementById("markAllNotificationsAsRead")) {
     d.getElementById("markAllNotificationsAsRead").addEventListener(
         "click",

@@ -138,29 +138,6 @@ function initiateDataTables() {
     showTablesAfterCompleteLoad("table.regular-datatable");
 }
 
-function showOnlineBox() {
-    d.getElementById("backOffline").classList.add("is-hidden");
-
-    d.getElementById("backOnline").classList.remove("is-hidden");
-
-    setTimeout(
-        () => d.getElementById("backOnline").classList.add("is-hidden"),
-        5000
-    );
-}
-
-function showOfflineBox() {
-    d.getElementById("backOnline").classList.add("is-hidden");
-
-    d.getElementById("backOffline").classList.remove("is-hidden");
-}
-
-function showOfflineBoxPermanent() {
-    if (!navigator.onLine) {
-        showOfflineBox();
-    }
-}
-
 function openMarkAllNotificationsAsReadModal(event) {
     event.preventDefault();
     swal({
@@ -417,6 +394,27 @@ document.addEventListener("alpine:init", () => {
 
             if (this.$el.value != 0) {
                 location.href = `/warehouses/${this.$el.value}/merchandises`;
+            }
+        },
+    }));
+
+    Alpine.data("connectionStatus", () => ({
+        openOfflineBox() {
+            this.$refs.offline.classList.remove("is-hidden");
+            this.$refs.online.classList.add("is-hidden");
+        },
+        openOnlineBox() {
+            this.$refs.online.classList.remove("is-hidden");
+            this.$refs.offline.classList.add("is-hidden");
+
+            setTimeout(
+                () => this.$refs.online.classList.add("is-hidden"),
+                5000
+            );
+        },
+        isOffline() {
+            if (!navigator.onLine) {
+                this.openOfflineBox();
             }
         },
     }));
