@@ -22,7 +22,7 @@
             <i class="fas fa-exclamation-circle"></i>
         </span>
         <span>
-            Approved (not Subtracted)
+            Approved (not Added)
         </span>
     </span>
 @endif
