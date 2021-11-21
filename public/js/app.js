@@ -180,28 +180,6 @@ function initializeSummernote() {
     });
 }
 
-function openSwalModal(event) {
-    let action = this.dataset.action;
-    let type = this.dataset.type;
-    let description = this.dataset.description
-        ? `${action} ${this.dataset.description}`
-        : action;
-    let form = this.parentElement;
-
-    event.preventDefault();
-
-    swal({
-        title: `Do you want to ${action} this ${type}?`,
-        text: `By clicking 'Yes, ${action}', you are going to ${description} this ${type}.`,
-        buttons: ["Not now", `Yes, ${action}`],
-        dangerMode: true,
-    }).then((willExecute) => {
-        if (willExecute) {
-            form.submit();
-        }
-    });
-}
-
 function modifySummernoteTableClass() {
     for (let element of d.querySelectorAll(".summernote-table table")) {
         element.classList =

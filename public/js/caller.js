@@ -85,12 +85,6 @@ if (d.getElementById("addNewProformaInvoiceForm")) {
     );
 }
 
-if (d.querySelectorAll(".swal").length) {
-    d.querySelectorAll(".swal").forEach((element) => {
-        element.addEventListener("click", openSwalModal);
-    });
-}
-
 if (d.getElementById("addNewDamageForm")) {
     d.getElementById("addNewDamageForm").addEventListener(
         "click",
