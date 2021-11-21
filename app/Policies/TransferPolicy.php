@@ -18,23 +18,7 @@ class TransferPolicy
 
     public function view(User $user, Transfer $transfer)
     {
-        if (!$this->isIssuedByMyCompany($user, $transfer) || !$user->can('Read Transfer')) {
-            return false;
-        }
-
-        if ($user->hasRole('System Manager')) {
-            return true;
-        }
-
-        if ($user->getAllowedWarehouses('transactions')->isEmpty() &&
-            ($transfer->transferred_from == $user->warehouse_id || $transfer->transferred_to == $user->warehouse_id)) {
-            return true;
-        }
-
-        return
-            ($transfer->transferred_from == $user->warehouse_id || $transfer->transferred_to == $user->warehouse_id) ||
-            ($user->hasWarehousePermission('transactions', $transfer->transferred_from)
-            || $user->hasWarehousePermission('transactions', $transfer->transferred_to));
+        return $this->isIssuedByMyCompany($user, $transfer) && $user->can('Read Transfer');
     }
 
     public function create(User $user)
