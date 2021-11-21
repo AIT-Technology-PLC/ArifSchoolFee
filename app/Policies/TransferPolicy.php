@@ -22,8 +22,19 @@ class TransferPolicy
             return false;
         }
 
-        return $user->hasWarehousePermission('transactions', $transfer->transferred_from) ||
-        $user->hasWarehousePermission('transactions', $transfer->transferred_to);
+        if ($user->hasRole('System Manager')) {
+            return true;
+        }
+
+        if ($user->getAllowedWarehouses('transactions')->isEmpty() &&
+            ($transfer->transferred_from == $user->warehouse_id || $transfer->transferred_to == $user->warehouse_id)) {
+            return true;
+        }
+
+        return
+            ($transfer->transferred_from == $user->warehouse_id || $transfer->transferred_to == $user->warehouse_id) ||
+            ($user->hasWarehousePermission('transactions', $transfer->transferred_from)
+            || $user->hasWarehousePermission('transactions', $transfer->transferred_to));
     }
 
     public function create(User $user)
