@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\TransferScope;
 use App\Traits\Addable;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
@@ -22,6 +23,11 @@ class Transfer extends Model
         'issued_on' => 'datetime',
     ];
 
+    protected static function booted()
+    {
+        static::addGlobalScope(new TransferScope);
+    }
+
     public function transferDetails()
     {
         return $this->hasMany(TransferDetail::class);
@@ -35,15 +41,6 @@ class Transfer extends Model
     public function transferredTo()
     {
         return $this->belongsTo(Warehouse::class, 'transferred_to');
-    }
-
-    public function scopeBranched($query)
-    {
-        return $query
-            ->when(!auth()->user()->hasRole('System Manager'), function ($query) {
-                return $query->where('transferred_from', auth()->user()->warehouse_id)
-                    ->orWhere('transferred_to', auth()->user()->warehouse_id);
-            });
     }
 
     public static function withBranchScope()
