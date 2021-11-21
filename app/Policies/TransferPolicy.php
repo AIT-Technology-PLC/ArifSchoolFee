@@ -22,7 +22,8 @@ class TransferPolicy
             return false;
         }
 
-        return $transfer->transferred_from == $user->warehouse_id || $transfer->transferred_to == $user->warehouse_id;
+        return $user->hasWarehousePermission('transactions', $transfer->transferred_from) ||
+        $user->hasWarehousePermission('transactions', $transfer->transferred_to);
     }
 
     public function create(User $user)
