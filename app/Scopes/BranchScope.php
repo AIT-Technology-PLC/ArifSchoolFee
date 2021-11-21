@@ -21,15 +21,11 @@ class BranchScope implements Scope
         $table = $model->getTable();
 
         $builder
+            ->where("{$table}.warehouse_id", auth()->user()->warehouse_id)
             ->when(
-                auth()->user()->getAllowedWarehouses('transactions')->isEmpty(),
+                auth()->user()->getAllowedWarehouses('transactions')->isNotEmpty(),
                 function ($query) use ($table) {
-                    return $query->where("{$table}.warehouse_id", auth()->user()->warehouse_id);
-                },
-                function ($query) use ($table) {
-                    return $query
-                        ->where("{$table}.warehouse_id", auth()->user()->warehouse_id)
-                        ->orWhereIn("{$table}.warehouse_id", auth()->user()->getAllowedWarehouses('transactions')->pluck('id'));
+                    return $query->orWhereIn("{$table}.warehouse_id", auth()->user()->getAllowedWarehouses('transactions')->pluck('id'));
                 },
             );
     }
