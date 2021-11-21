@@ -28,21 +28,19 @@
                     label="My Profile"
                     class="bg-green has-text-white is-small"
                 />
-                <x-common.button
-                    tag="a"
-                    mode="button"
-                    href="{{ route('logout') }}"
-                    onclick="event.preventDefault();document.getElementById('logout-form').submit();"
-                    icon="fas fa-power-off"
-                    label="Logout"
-                    class="btn-purple is-outlined is-small"
-                />
                 <form
+                    class="is-inline"
                     action="{{ route('logout') }}"
                     method="POST"
-                    style="display: none;"
                 >
                     @csrf
+                    <x-common.button
+                        tag="button"
+                        mode="button"
+                        icon="fas fa-power-off"
+                        label="Logout"
+                        class="btn-purple is-outlined is-small"
+                    />
                 </form>
             </div>
         </li>

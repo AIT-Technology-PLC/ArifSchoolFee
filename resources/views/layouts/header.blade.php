@@ -157,26 +157,23 @@
                             </span>
                         </a>
                         <hr class="navbar-divider">
-                        <a
-                            class="navbar-item has-text-danger"
-                            href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"
-                        >
-                            <span class="icon is-medium">
-                                <i class="fas fa-power-off"></i>
-                            </span>
-                            <span>
-                                Logout
-                            </span>
-                        </a>
                         <form
-                            id="logout-form"
+                            class="is-inline pl-4"
                             action="{{ route('logout') }}"
                             method="POST"
-                            style="display: none;"
                         >
                             @csrf
+                            <x-common.button
+                                tag="button"
+                                mode="button"
+                                class="text-purple is-borderless is-size-6-5"
+                            >
+                                <x-common.icon
+                                    name="fas fa-power-off"
+                                    class="is-medium"
+                                />
+                                <span class=""> Logout </span>
+                            </x-common.button>
                         </form>
                     </div>
                 </div>
