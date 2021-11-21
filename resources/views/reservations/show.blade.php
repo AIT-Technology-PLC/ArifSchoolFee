@@ -286,18 +286,17 @@
                             @if ($reservation->reservable && !$reservation->reservable->isSubtracted())
                                 @can('Cancel Reservation')
                                     <form
-                                        id="formOne"
+                                        x-data="swal('cancel', 'cancel this reservation')"
                                         class="is-inline"
                                         action="{{ route('reservations.cancel', $reservation->id) }}"
                                         method="post"
                                         novalidate
+                                        @submit.prevent="open"
                                     >
                                         @csrf
                                         <button
-                                            data-type="Reservation"
-                                            data-action="cancel"
-                                            data-description=""
-                                            class="swal button bg-purple has-text-white is-small is-inline"
+                                            class="button bg-purple has-text-white is-small is-inline"
+                                            x-ref="submitButton"
                                         >
                                             <span class="icon">
                                                 <i class="fas fa-times-circle"></i>
@@ -333,18 +332,17 @@
                     </p>
                     @can('Convert Reservation')
                         <form
-                            id="formOne"
+                            x-data="swal('convert', 'convert this reservation to delivery order')"
                             action="{{ route('reservations.convert', $reservation->id) }}"
                             method="post"
                             novalidate
                             class="is-inline"
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="Reservation"
-                                data-action="convert"
-                                data-description=""
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-check-circle"></i>
@@ -357,18 +355,17 @@
                     @endcan
                     @can('Cancel Reservation')
                         <form
-                            id="formOne"
+                            x-data="swal('cancel', 'cancel this reservation')"
                             action="{{ route('reservations.cancel', $reservation->id) }}"
                             method="post"
                             novalidate
                             class="is-inline"
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="Reservation"
-                                data-action="cancel"
-                                data-description=""
-                                class="swal button btn-purple is-outlined mt-5 is-size-7-mobile"
+                                class="button btn-purple is-outlined mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-times-circle"></i>
@@ -392,18 +389,17 @@
                     </p>
                     @can('Make Reservation')
                         <form
-                            id="formOne"
+                            x-data="swal('reserve', 'reserve products of this reservation')"
                             action="{{ route('reservations.reserve', $reservation->id) }}"
                             method="post"
                             novalidate
                             class="is-inline"
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="Reservation"
-                                data-action="reserve"
-                                data-description="products of"
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
@@ -416,18 +412,17 @@
                     @endcan
                     @can('Cancel Reservation')
                         <form
-                            id="formOne"
+                            x-data="swal('cancel', 'cancel this reservation')"
                             action="{{ route('reservations.cancel', $reservation->id) }}"
                             method="post"
                             novalidate
                             class="is-inline"
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="Reservation"
-                                data-action="cancel"
-                                data-description=""
-                                class="swal button btn-purple is-outlined mt-5 is-size-7-mobile"
+                                class="button btn-purple is-outlined mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-times-circle"></i>
@@ -451,17 +446,16 @@
                     </p>
                     @can('Approve Reservation')
                         <form
-                            id="formOne"
+                            x-data="swal('approve', 'approve this reservation')"
                             action="{{ route('reservations.approve', $reservation->id) }}"
                             method="post"
                             novalidate
+                            @submit.prevent="open"
                         >
                             @csrf
                             <button
-                                data-type="Reservation"
-                                data-action="approve"
-                                data-description=""
-                                class="swal button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                class="button bg-purple has-text-white mt-5 is-size-7-mobile"
+                                x-ref="submitButton"
                             >
                                 <span class="icon">
                                     <i class="fas fa-signature"></i>
