@@ -21,6 +21,7 @@ class CreditDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
+            ->editColumn('branch', fn($credit) => $credit->warehouse->name)
             ->editColumn('delivery order no', function ($credit) {
                 return view('components.datatables.link', [
                     'url' => $credit->gdn()->exists() ? route('gdns.show', $credit->gdn->id) : 'javascript:void(0)',
@@ -69,6 +70,7 @@ class CreditDatatable extends DataTable
             ->with([
                 'gdn:id,code',
                 'customer:id,company_name',
+                'warehouse:id,name',
             ]);
     }
 
@@ -79,6 +81,7 @@ class CreditDatatable extends DataTable
 
         return [
             Column::computed('#'),
+            Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Credit No'),
             Column::make('delivery order no', 'gdn.code')
                 ->className('has-text-centered actions ' . $isHidden),
