@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\ActiveWarehouseScope;
 use App\Scopes\BranchScope;
 use App\Traits\Discountable;
 use App\Traits\PricingProduct;
@@ -29,7 +30,7 @@ class ReservationDetail extends Model
 
     public function warehouse()
     {
-        return $this->belongsTo(Warehouse::class);
+        return $this->belongsTo(Warehouse::class)->withoutGlobalScopes([ActiveWarehouseScope::class]);
     }
 
     public function parentModel()

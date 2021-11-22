@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\ActiveWarehouseScope;
 use App\Scopes\BranchScope;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,7 +27,7 @@ class DamageDetail extends Model
 
     public function warehouse()
     {
-        return $this->belongsTo(Warehouse::class);
+        return $this->belongsTo(Warehouse::class)->withoutGlobalScopes([ActiveWarehouseScope::class]);
     }
 
     public function parentModel()
