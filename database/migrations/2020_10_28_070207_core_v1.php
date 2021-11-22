@@ -120,6 +120,7 @@ class CoreV1 extends Migration
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('name');
             $table->string('location');
+            $table->boolean('is_active');
             $table->boolean('is_sales_store')->default(1);
             $table->boolean('can_be_sold_from')->default(1);
             $table->string('email')->nullable();
