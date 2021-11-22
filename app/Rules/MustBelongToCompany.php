@@ -20,6 +20,7 @@ class MustBelongToCompany implements Rule
         return DB::table($this->tableName)
             ->where('company_id', userCompany()->id)
             ->where('id', $value)
+            ->when($this->tableName == 'warehouses', fn($query) => $query->where('is_active', 1))
             ->exists();
     }
 
