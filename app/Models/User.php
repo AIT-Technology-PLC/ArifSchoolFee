@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\ActiveWarehouseScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -36,7 +37,7 @@ class User extends Authenticatable
 
     public function warehouse()
     {
-        return $this->belongsTo(Warehouse::class);
+        return $this->belongsTo(Warehouse::class)->withoutGlobalScopes([ActiveWarehouseScope::class]);
     }
 
     public function isEnabled()
