@@ -33,7 +33,10 @@
                             Do you want to new warehouse where your inventory will be stored?
                         </div>
                         <div class="is-size-3">
-                            <a href="{{ route('warehouses.create') }}" class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3">
+                            <a
+                                href="{{ route('warehouses.create') }}"
+                                class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
@@ -56,12 +59,17 @@
         <div class="box radius-top-0">
             <x-common.success-message :message="session('deleted')" />
             <div>
-                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[8]" data-numeric="[]">
+                <table
+                    class="regular-datatable is-hoverable is-size-7 display nowrap"
+                    data-date="[8]"
+                    data-numeric="[]"
+                >
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th><abbr> Warehouse Name </abbr></th>
                             <th><abbr> Location </abbr></th>
+                            <th><abbr> Status </abbr></th>
                             <th><abbr> Type </abbr></th>
                             <th><abbr> Can Be Sold From </abbr></th>
                             <th><abbr> Email </abbr></th>
@@ -78,10 +86,20 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized"> {{ $warehouse->name }} </td>
-                                <td class="is-capitalized">
-                                    <span class="tag is-small bg-purple has-text-white">
-                                        {{ $warehouse->location ?? 'N/A' }}
-                                    </span>
+                                <td class="is-capitalized">{{ $warehouse->location ?? 'N/A' }}</span>
+                                </td>
+                                <td>
+                                    @if ($warehouse->isActive())
+                                        <span class="icon is-small text-green">
+                                            <i class="fas fa-circle"></i>
+                                        </span>
+                                        <span class="text-green"> Active </span>
+                                    @else
+                                        <span class="icon is-small text-purple">
+                                            <i class="fas fa-circle"></i>
+                                        </span>
+                                        <span class="text-purple"> Not Active </span>
+                                    @endif
                                 </td>
                                 <td>
                                     @if ($warehouse->is_sales_store)
@@ -114,7 +132,10 @@
                                 <td> {{ $warehouse->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $warehouse->updatedBy->name ?? 'N/A' }} </td>
                                 <td>
-                                    <a href="{{ route('warehouses.edit', $warehouse->id) }}" data-title="Modify Warehouse Data">
+                                    <a
+                                        href="{{ route('warehouses.edit', $warehouse->id) }}"
+                                        data-title="Modify Warehouse Data"
+                                    >
                                         <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
@@ -124,7 +145,10 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-common.delete-button route="warehouses.destroy" :id="$warehouse->id" />
+                                    <x-common.delete-button
+                                        route="warehouses.destroy"
+                                        :id="$warehouse->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach

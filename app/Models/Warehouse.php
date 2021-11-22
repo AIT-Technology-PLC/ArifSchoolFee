@@ -15,6 +15,7 @@ class Warehouse extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
+        'is_active' => 'boolean',
         'is_sales_store' => 'boolean',
         'can_be_sold_from' => 'boolean',
     ];
@@ -99,5 +100,10 @@ class Warehouse extends Model
                         ->orWhere('reserved', '>', 0);
                 });
             });
+    }
+
+    public function isActive()
+    {
+        return $this->is_active;
     }
 }
