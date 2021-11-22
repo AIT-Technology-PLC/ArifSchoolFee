@@ -25,7 +25,7 @@ class GrnController extends Controller
 
     public function index(GrnDatatable $datatable)
     {
-        $datatable->builder()->setTableId('grns-datatable')->orderBy(1, 'desc');
+        $datatable->builder()->setTableId('grns-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
         $totalAdded = Grn::added()->count();
 

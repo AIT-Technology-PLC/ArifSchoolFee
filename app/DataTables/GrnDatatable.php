@@ -22,6 +22,7 @@ class GrnDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
+            ->editColumn('branch', fn($grn) => $grn->warehouse->name)
             ->editColumn('purchase no', fn($grn) => $grn->purchase->code ?? 'N/A')
             ->editColumn('status', fn($grn) => view('components.datatables.grn-status', compact('grn')))
             ->filterColumn('status', function ($query, $keyword) {
@@ -57,6 +58,7 @@ class GrnDatatable extends DataTable
                 'approvedBy:id,name',
                 'purchase:id,code',
                 'supplier:id,company_name',
+                'warehouse:id,name',
             ]);
     }
 
@@ -64,6 +66,7 @@ class GrnDatatable extends DataTable
     {
         $columns = [
             Column::computed('#'),
+            Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('GRN No'),
             isFeatureEnabled('Purchase Management') ? Column::make('purchase no', 'purchase.code')->visible(false) : null,
             Column::make('status')->orderable(false),

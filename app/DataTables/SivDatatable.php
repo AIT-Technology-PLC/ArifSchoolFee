@@ -21,7 +21,7 @@ class SivDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('branch', fn($credit) => $credit->warehouse->name)
+            ->editColumn('branch', fn($siv) => $siv->warehouse->name)
             ->editColumn('status', fn($siv) => view('components.datatables.siv-status', compact('siv')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
