@@ -23,7 +23,7 @@ class SivController extends Controller
 
     public function index(SivDatatable $datatable)
     {
-        $datatable->builder()->setTableId('sivs-datatable')->orderBy(1, 'desc');
+        $datatable->builder()->setTableId('sivs-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
         $totalSivs = Siv::count();
 

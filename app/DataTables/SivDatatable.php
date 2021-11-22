@@ -21,6 +21,7 @@ class SivDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
+            ->editColumn('branch', fn($credit) => $credit->warehouse->name)
             ->editColumn('status', fn($siv) => view('components.datatables.siv-status', compact('siv')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
@@ -58,6 +59,7 @@ class SivDatatable extends DataTable
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'approvedBy:id,name',
+                'warehouse:id,name',
             ]);
     }
 
@@ -65,6 +67,7 @@ class SivDatatable extends DataTable
     {
         return [
             Column::computed('#'),
+            Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('SIV No'),
             Column::make('status')->orderable(false),
             Column::make('purpose'),
