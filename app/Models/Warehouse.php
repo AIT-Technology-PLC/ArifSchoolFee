@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\ActiveWarehouseScope;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,11 @@ class Warehouse extends Model
         'is_sales_store' => 'boolean',
         'can_be_sold_from' => 'boolean',
     ];
+
+    public static function booted()
+    {
+        static::addGlobalScope(new ActiveWarehouseScope);
+    }
 
     public function merchandises()
     {
