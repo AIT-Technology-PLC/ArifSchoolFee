@@ -15,6 +15,8 @@ class BranchScope implements Scope
         }
 
         if (auth()->user()->hasRole('System Manager')) {
+            $builder->has('warehouse');
+
             return;
         }
 

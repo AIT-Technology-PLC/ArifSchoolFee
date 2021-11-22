@@ -15,6 +15,8 @@ class TransferScope implements Scope
         }
 
         if (auth()->user()->hasRole('System Manager')) {
+            $builder->has('warehouse')->has('transferredFrom')->has('transferredTo');
+
             return;
         }
 
