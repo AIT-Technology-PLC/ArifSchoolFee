@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreWarehouseRequest;
 use App\Http\Requests\UpdateWarehouseRequest;
 use App\Models\Warehouse;
-use App\Scopes\ActiveWarehouseScope;
 
 class WarehouseController extends Controller
 {
@@ -19,13 +18,11 @@ class WarehouseController extends Controller
 
     public function index()
     {
-        $warehouses = Warehouse::query()
-            ->withoutGlobalScopes([ActiveWarehouseScope::class])
-            ->with(['createdBy', 'updatedBy'])->orderBy('name')->get();
+        $warehouses = Warehouse::with(['createdBy', 'updatedBy'])->orderBy('name')->get();
 
-        $totalWarehouses = Warehouse::withoutGlobalScopes([ActiveWarehouseScope::class])->count();
+        $totalWarehouses = Warehouse::count();
 
-        $totalActiveWarehouses = Warehouse::count();
+        $totalActiveWarehouses = Warehouse::active()->count();
 
         $totalInActiveWarehouses = $totalWarehouses - $totalActiveWarehouses;
 

@@ -14,6 +14,10 @@ class ActiveWarehouseScope implements Scope
             return;
         }
 
+        if (request()->routeIs('warehouses.*')) {
+            return;
+        }
+
         $builder->where('is_active', 1);
     }
 }
