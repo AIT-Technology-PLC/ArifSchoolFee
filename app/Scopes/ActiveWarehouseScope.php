@@ -14,7 +14,7 @@ class ActiveWarehouseScope implements Scope
             return;
         }
 
-        if (request()->routeIs('warehouses.*')) {
+        if (request()->routeIs('warehouses.*') && !request()->routeIs('warehouses.merchandises')) {
             return;
         }
 
