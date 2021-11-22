@@ -23,9 +23,13 @@ class WarehouseController extends Controller
             ->withoutGlobalScopes([ActiveWarehouseScope::class])
             ->with(['createdBy', 'updatedBy'])->orderBy('name')->get();
 
-        $totalWarehousesOfCompany = Warehouse::withoutGlobalScopes([ActiveWarehouseScope::class])->count();
+        $totalWarehouses = Warehouse::withoutGlobalScopes([ActiveWarehouseScope::class])->count();
 
-        return view('warehouses.index', compact('warehouses', 'totalWarehousesOfCompany'));
+        $totalActiveWarehouses = Warehouse::count();
+
+        $totalInActiveWarehouses = $totalWarehouses - $totalActiveWarehouses;
+
+        return view('warehouses.index', compact('warehouses', 'totalWarehouses', 'totalActiveWarehouses', 'totalInActiveWarehouses'));
     }
 
     public function create()
