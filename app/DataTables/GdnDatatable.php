@@ -22,6 +22,7 @@ class GdnDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
+            ->editColumn('branch', fn($gdn) => $gdn->warehouse->name)
             ->editColumn('receipt no', fn($gdn) => $gdn->sale->code ?? 'N/A')
             ->editColumn('status', fn($gdn) => view('components.datatables.gdn-status', compact('gdn')))
             ->filterColumn('status', function ($query, $keyword) {
@@ -63,6 +64,7 @@ class GdnDatatable extends DataTable
                 'approvedBy:id,name',
                 'sale:id,code',
                 'customer:id,company_name',
+                'warehouse:id,name',
             ]);
     }
 
@@ -70,6 +72,7 @@ class GdnDatatable extends DataTable
     {
         $columns = [
             Column::computed('#'),
+            Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Delivery Order No'),
             isFeatureEnabled('Sale Management') ? Column::make('receipt no', 'sale.code')->visible(false) : null,
             Column::make('status')->orderable(false),
