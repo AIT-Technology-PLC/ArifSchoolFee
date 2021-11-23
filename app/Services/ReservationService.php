@@ -79,11 +79,6 @@ class ReservationService
 
     public function cancel($reservation)
     {
-        if (auth()->check() && !auth()->user()->hasWarehousePermission('sales',
-            $reservation->reservationDetails->pluck('warehouse_id')->toArray())) {
-            return [false, 'You do not have permissions to cancel reservation in one or more of the warehouses.'];
-        }
-
         if (!$reservation->isApproved()) {
             return [false, 'This reservation is not approved yet.'];
         }

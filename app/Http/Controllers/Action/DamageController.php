@@ -25,11 +25,6 @@ class DamageController extends Controller
     {
         $this->authorize('approve', $damage);
 
-        if (!auth()->user()->hasWarehousePermission('subtract',
-            $damage->damageDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have permission to approve in one or more of the warehouses.');
-        }
-
         [$isExecuted, $message] = $action->execute($damage, DamageApproved::class, 'Subtract Damage');
 
         if (!$isExecuted) {

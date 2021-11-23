@@ -104,11 +104,6 @@ class GdnService
 
     public function close($gdn)
     {
-        if (!auth()->user()->hasWarehousePermission('sales',
-            $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
-            return [false, 'You do not have permission to close in one or more of the warehouses.'];
-        }
-
         if (!$gdn->isSubtracted()) {
             return [false, 'This Delivery Order is not subtracted yet.'];
         }

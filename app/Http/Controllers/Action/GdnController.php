@@ -29,11 +29,6 @@ class GdnController extends Controller
     {
         $this->authorize('approve', $gdn);
 
-        if (!auth()->user()->hasWarehousePermission('sales',
-            $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have permission to approve in one or more of the warehouses.');
-        }
-
         [$isExecuted, $message] = $action->execute($gdn, GdnApproved::class, 'Subtract GDN');
 
         if (!$isExecuted) {

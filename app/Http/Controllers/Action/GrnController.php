@@ -25,11 +25,6 @@ class GrnController extends Controller
     {
         $this->authorize('approve', $grn);
 
-        if (!auth()->user()->hasWarehousePermission('add',
-            $grn->grnDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have permission to approve in one or more of the warehouses.');
-        }
-
         [$isExecuted, $message] = $action->execute($grn, GrnApproved::class, 'Add GRN');
 
         if (!$isExecuted) {

@@ -101,10 +101,6 @@ class TransferService
 
     public function close($transfer)
     {
-        if (!auth()->user()->hasWarehousePermission('add', $transfer->transferred_to)) {
-            return [false, 'You do not have permission to close in one or more of the warehouses.'];
-        }
-
         if (!$transfer->isAdded()) {
             return [false, 'This transfer is not added to destination yet.'];
         }
