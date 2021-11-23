@@ -309,17 +309,13 @@
                                 </a>
                             @endif
                             @if ($gdn->isSubtracted() && !$gdn->isClosed())
-                                <a
-                                    href="{{ route('gdns.convert_to_siv', $gdn->id) }}"
-                                    class="button btn-purple is-outlined is-small"
-                                >
-                                    <span class="icon">
-                                        <i class="fas fa-file-export"></i>
-                                    </span>
-                                    <span>
-                                        Attach SIV
-                                    </span>
-                                </a>
+                                <x-common.transaction-button
+                                    :route="route('gdns.convert_to_siv', $gdn->id)"
+                                    action="attach"
+                                    intention="attach SIV to this delivery order"
+                                    icon="fas fa-file-export"
+                                    label="Attach SIV"
+                                />
                             @endif
                             <a
                                 href="{{ route('gdns.edit', $gdn->id) }}"

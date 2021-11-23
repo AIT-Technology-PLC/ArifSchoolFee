@@ -22,7 +22,7 @@ Route::post('/purchases/{purchase}/close',
     ->name('purchases.close');
 
 // Transfers
-Route::get('/transfers/{transfer}/convert-to-siv',
+Route::post('/transfers/{transfer}/convert-to-siv',
     [Action\TransferController::class, 'convertToSiv'])
     ->name('transfers.convert_to_siv');
 
@@ -64,7 +64,7 @@ Route::post('/proforma-invoices/{proformaInvoice}/close',
     ->name('proforma-invoices.close');
 
 // Gdns
-Route::get('/gdns/{gdn}/convert-to-siv',
+Route::post('/gdns/{gdn}/convert-to-siv',
     [Action\GdnController::class, 'convertToSiv'])
     ->name('gdns.convert_to_siv');
 
