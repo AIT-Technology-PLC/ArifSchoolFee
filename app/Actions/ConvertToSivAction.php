@@ -18,7 +18,7 @@ class ConvertToSivAction
                 'ref_num' => $code,
                 'issued_on' => now(),
                 'issued_to' => $issuedTo,
-                'approved_by' => $approvedBy,
+                'approved_by' => userCompany()->isConvertToSivAsApproved() ? $approvedBy : null,
             ]);
 
             $siv->sivDetails()->createMany($details);

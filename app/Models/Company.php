@@ -16,6 +16,7 @@ class Company extends Model
         'enabled' => 'boolean',
         'is_discount_before_vat' => 'boolean',
         'is_price_before_vat' => 'boolean',
+        'is_convert_to_siv_as_approved' => 'boolean',
     ];
 
     public function plan()
@@ -181,5 +182,10 @@ class Company extends Model
     public function isPriceBeforeVAT()
     {
         return $this->is_price_before_vat;
+    }
+
+    public function isConvertToSivAsApproved()
+    {
+        return $this->is_convert_to_siv_as_approved;
     }
 }
