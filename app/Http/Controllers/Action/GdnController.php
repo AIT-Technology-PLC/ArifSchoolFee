@@ -90,7 +90,7 @@ class GdnController extends Controller
 
     public function close(Gdn $gdn)
     {
-        $this->authorize('approve', $gdn);
+        $this->authorize('close', $gdn);
 
         [$isExecuted, $message] = $this->gdnService->close($gdn);
 

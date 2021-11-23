@@ -35,4 +35,9 @@ class PurchasePolicy
     {
         return $this->isIssuedByMyCompany($user, $purchase, true) && $user->can('Delete Purchase');
     }
+
+    public function close(User $user, Purchase $purchase)
+    {
+        return $this->isIssuedByMyCompany($user, $purchase) && $user->can('Close Purchase');
+    }
 }

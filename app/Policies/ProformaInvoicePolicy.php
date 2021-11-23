@@ -45,4 +45,9 @@ class ProformaInvoicePolicy
     {
         return $this->isIssuedByMyCompany($user, $proformaInvoice) && $user->can('Cancel Proforma Invoice');
     }
+
+    public function close(User $user, ProformaInvoice $proformaInvoice)
+    {
+        return $this->isIssuedByMyCompany($user, $proformaInvoice) && $user->can('Close Proforma Invoice');
+    }
 }

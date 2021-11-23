@@ -85,7 +85,7 @@ class ProformaInvoiceController extends Controller
 
     public function close(ProformaInvoice $proformaInvoice)
     {
-        $this->authorize('convert', $proformaInvoice);
+        $this->authorize('close', $proformaInvoice);
 
         [$isExecuted, $message] = $this->proformaInvoiceService->close($proformaInvoice);
 

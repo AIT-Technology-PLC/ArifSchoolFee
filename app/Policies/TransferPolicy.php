@@ -53,4 +53,9 @@ class TransferPolicy
 
         return $this->isIssuedByMyCompany($user, $transfer) && $user->can('Make Transfer');
     }
+
+    public function close(User $user, Transfer $transfer)
+    {
+        return $this->isIssuedByMyCompany($user, $transfer) && $user->can('Close Transfer');
+    }
 }

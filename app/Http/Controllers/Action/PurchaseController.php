@@ -36,7 +36,7 @@ class PurchaseController extends Controller
 
     public function close(Purchase $purchase)
     {
-        $this->authorize('create', $purchase);
+        $this->authorize('close', $purchase);
 
         if ($purchase->isClosed()) {
             return back()->with('failedMessage', 'This purchase is already closed.');

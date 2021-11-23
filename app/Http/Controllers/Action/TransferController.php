@@ -88,7 +88,7 @@ class TransferController extends Controller
 
     public function close(Transfer $transfer)
     {
-        $this->authorize('approve', $transfer);
+        $this->authorize('close', $transfer);
 
         [$isExecuted, $message] = $this->transferService->close($transfer);
 

@@ -45,4 +45,9 @@ class GdnPolicy
     {
         return $this->isIssuedByMyCompany($user, $gdn) && $user->can('Subtract GDN');
     }
+
+    public function close(User $user, Gdn $gdn)
+    {
+        return $this->isIssuedByMyCompany($user, $gdn) && $user->can('Close GDN');
+    }
 }

@@ -37,6 +37,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Delete GDN']);
             Permission::firstOrCreate(['name' => 'Approve GDN']);
             Permission::firstOrCreate(['name' => 'Subtract GDN']);
+            Permission::firstOrCreate(['name' => 'Close GDN']);
             Permission::firstOrCreate(['name' => 'Delete Approved GDN']);
 
             // GRN
@@ -55,6 +56,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Delete Transfer']);
             Permission::firstOrCreate(['name' => 'Approve Transfer']);
             Permission::firstOrCreate(['name' => 'Make Transfer']);
+            Permission::firstOrCreate(['name' => 'Close Transfer']);
             Permission::firstOrCreate(['name' => 'Delete Approved Transfer']);
 
             // Damage
@@ -124,6 +126,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Delete Proforma Invoice']);
             Permission::firstOrCreate(['name' => 'Convert Proforma Invoice']);
             Permission::firstOrCreate(['name' => 'Cancel Proforma Invoice']);
+            Permission::firstOrCreate(['name' => 'Close Proforma Invoice']);
             Permission::firstOrCreate(['name' => 'Delete Cancelled Proforma Invoice']);
 
             // Purchase
@@ -132,6 +135,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Update Purchase']);
             Permission::firstOrCreate(['name' => 'Delete Purchase']);
             Permission::firstOrCreate(['name' => 'Approve Purchase']);
+            Permission::firstOrCreate(['name' => 'Close Purchase']);
             Permission::firstOrCreate(['name' => 'Delete Approved Purchase']);
 
             // PO
