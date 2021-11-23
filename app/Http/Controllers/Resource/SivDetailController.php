@@ -16,7 +16,10 @@ class SivDetailController extends Controller
     {
         $this->authorize('delete', $sivDetail->siv);
 
-        abort_if($sivDetail->siv->isApproved(), 403);
+        abort_if(
+            $sivDetail->siv->isApproved() && auth()->user()->cannot('Delete Approved SIV'),
+            403
+        );
 
         $sivDetail->forceDelete();
 
