@@ -63,13 +63,6 @@ if (d.getElementsByClassName("showRowDetails").length) {
     }
 }
 
-if (d.getElementById("selectAllCheckboxes")) {
-    d.getElementById("selectAllCheckboxes").addEventListener(
-        "click",
-        selectAllCheckboxes
-    );
-}
-
 if (d.getElementsByClassName("summernote").length) {
     initializeSummernote();
 }
