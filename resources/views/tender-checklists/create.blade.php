@@ -38,8 +38,8 @@
                                 @click="toggle"
                             >
                                 <i
-                                    class="far fa-check-square"
-                                    :class="{ 'fa-square': isChecked }"
+                                    class="far fa-square"
+                                    :class="{ 'fa-square': !isChecked, 'fa-check-square': isChecked }"
                                 ></i>
                             </span>
                         </x-content.header>
