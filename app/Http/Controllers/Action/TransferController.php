@@ -19,6 +19,8 @@ class TransferController extends Controller
     {
         $this->middleware('isFeatureAccessible:Transfer Management');
 
+        $this->middleware('isFeatureAccessible:Siv Management')->only('convertToSiv');
+
         $this->transferService = $transferService;
     }
 

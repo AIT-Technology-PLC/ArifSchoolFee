@@ -22,6 +22,8 @@ class GdnController extends Controller
 
         $this->middleware('isFeatureAccessible:Credit Management')->only('convertToCredit');
 
+        $this->middleware('isFeatureAccessible:Siv Management')->only('convertToSiv');
+
         $this->gdnService = $gdnService;
     }
 
