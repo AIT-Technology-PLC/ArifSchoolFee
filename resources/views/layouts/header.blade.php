@@ -158,21 +158,23 @@
                         </a>
                         <hr class="navbar-divider">
                         <form
-                            class="is-inline pl-4"
+                            class="navbar-item"
                             action="{{ route('logout') }}"
                             method="POST"
                         >
                             @csrf
-                            <x-common.button
-                                tag="button"
-                                mode="button"
-                                class="text-purple is-borderless is-size-6-5"
-                            >
-                                <x-common.icon
-                                    name="fas fa-power-off"
-                                    class="is-medium"
-                                />
-                                <span class=""> Logout </span>
+                            <x-common.icon
+                                name="fas fa-power-off"
+                                class="is-medium text-purple"
+                            />
+                            <span>
+                                <x-common.button
+                                    tag="button"
+                                    mode="button"
+                                    label="Logout"
+                                    class="text-purple is-borderless is-size-6-5 ml-0 pl-0"
+                                >
+                            </span>
                             </x-common.button>
                         </form>
                     </div>
