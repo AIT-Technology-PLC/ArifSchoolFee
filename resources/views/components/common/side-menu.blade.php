@@ -89,8 +89,8 @@
                     <span class="ml-2"> Warehouse & Inventory </span>
                     <span class="icon ml-auto">
                         <i
-                            class="fas fa-caret-down"
-                            :class="{ 'fa-caret-up': isAccordionOpen }"
+                            class="fas fa-caret-right"
+                            :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
                         ></i>
                     </span>
                 </x-common.button>
@@ -216,8 +216,8 @@
                     <span class="ml-2"> Sales & Customers </span>
                     <span class="icon ml-auto">
                         <i
-                            class="fas fa-caret-down"
-                            :class="{ 'fa-caret-up': isAccordionOpen }"
+                            class="fas fa-caret-right"
+                            :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
                         ></i>
                     </span>
                 </x-common.button>
@@ -357,8 +357,8 @@
                         <span class="ml-2"> Tenders </span>
                         <span class="icon ml-auto">
                             <i
-                                class="fas fa-caret-down"
-                                :class="{ 'fa-caret-up': isAccordionOpen }"
+                                class="fas fa-caret-right"
+                                :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
                             ></i>
                         </span>
                     </x-common.button>
@@ -430,8 +430,8 @@
                     <span class="ml-2"> Purchases & Suppliers </span>
                     <span class="icon ml-auto">
                         <i
-                            class="fas fa-caret-down"
-                            :class="{ 'fa-caret-up': isAccordionOpen }"
+                            class="fas fa-caret-right"
+                            :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
                         ></i>
                     </span>
                 </x-common.button>
@@ -493,8 +493,8 @@
                         <span class="ml-2"> Products & Categories </span>
                         <span class="icon ml-auto">
                             <i
-                                class="fas fa-caret-down"
-                                :class="{ 'fa-caret-up': isAccordionOpen }"
+                                class="fas fa-caret-right"
+                                :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
                             ></i>
                         </span>
                     </x-common.button>
@@ -548,8 +548,8 @@
                     <span class="ml-2"> Settings </span>
                     <span class="icon ml-auto">
                         <i
-                            class="fas fa-caret-down"
-                            :class="{ 'fa-caret-up': isAccordionOpen }"
+                            class="fas fa-caret-right"
+                            :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
                         ></i>
                     </span>
                 </x-common.button>
