@@ -297,7 +297,7 @@
                     </div>
                 </div>
                 <div id="reservation-details">
-                    @foreach (old('reservation', [0]) as $reservationDetail)
+                    @foreach (old('reservation', [[]]) as $reservationDetail)
                         <div class="reservation-detail mx-3">
                             <div class="field has-addons mb-0 mt-5">
                                 <div class="control">

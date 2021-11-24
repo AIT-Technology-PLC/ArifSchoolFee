@@ -109,7 +109,7 @@
                     </div>
                 </div>
                 <div id="damage-details">
-                    @foreach (old('damage', [0]) as $damageDetail)
+                    @foreach (old('damage', [[]]) as $damageDetail)
                         <div class="damage-detail mx-3">
                             <div class="field has-addons mb-0 mt-5">
                                 <div class="control">

@@ -297,7 +297,7 @@
                     </div>
                 </div>
                 <div id="gdn-details">
-                    @foreach (old('gdn', [0]) as $gdnDetail)
+                    @foreach (old('gdn', [[]]) as $gdnDetail)
                         <div class="gdn-detail mx-3">
                             <div class="field has-addons mb-0 mt-5">
                                 <div class="control">

@@ -190,7 +190,7 @@
                     </div>
                 </div>
                 <div id="proforma-invoice-details">
-                    @foreach (old('proformaInvoice', [0]) as $proformaInvoiceDetail)
+                    @foreach (old('proformaInvoice', [[]]) as $proformaInvoiceDetail)
                         <div class="proforma-invoice-detail mx-3">
                             <div class="field has-addons mb-0 mt-5">
                                 <div class="control">

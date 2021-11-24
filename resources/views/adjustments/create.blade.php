@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div id="adjustment-details">
-                    @foreach (old('adjustment', [0]) as $adjustmentDetail)
+                    @foreach (old('adjustment', [[]]) as $adjustmentDetail)
                         <div class="adjustment-detail mx-3">
                             <x-forms.field class="has-addons mb-0 mt-5">
                                 <x-forms.control>

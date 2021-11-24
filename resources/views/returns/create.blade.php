@@ -125,7 +125,7 @@
                     </div>
                 </div>
                 <div id="return-details">
-                    @foreach (old('return', [0]) as $returnDetail)
+                    @foreach (old('return', [[]]) as $returnDetail)
                         <div class="return-detail mx-3">
                             <div class="field has-addons mb-0 mt-5">
                                 <div class="control">

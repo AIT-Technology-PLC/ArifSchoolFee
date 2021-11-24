@@ -258,7 +258,7 @@
                     </div>
                 </div>
                 <div id="siv-details">
-                    @foreach (old('siv', [0]) as $sivDetail)
+                    @foreach (old('siv', [[]]) as $sivDetail)
                         <div class="siv-detail mx-3">
                             <div class="field has-addons mb-0 mt-5">
                                 <div class="control">
