@@ -32,7 +32,10 @@
                     @continue($tenderChecklistType->generalTenderChecklists->isEmpty())
 
                     <x-common.content-wrapper x-data="toggleCheckboxes">
-                        <x-content.header title="{{ $tenderChecklistType->name }}">
+                        <x-content.header
+                            title="{{ $tenderChecklistType->name }}"
+                            level-is-mobile
+                        >
                             <span
                                 class="icon is-clickable"
                                 @click="toggle"
