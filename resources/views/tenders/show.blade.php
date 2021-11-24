@@ -506,6 +506,7 @@
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-common.success-message :message="session('checklistDeleted')" />
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
@@ -514,7 +515,7 @@
                             <th><abbr> Item </abbr></th>
                             <th><abbr> Status </abbr></th>
                             <th><abbr> Comment </abbr></th>
-                            <th><abbr> Action </abbr></th>
+                            <th><abbr> Actions </abbr></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -545,21 +546,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a
-                                        href="{{ route('tender-checklists.edit', $tenderChecklist->id) }}"
-                                        data-title="Update Checklist"
-                                    >
-                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
-                                            <span class="icon">
-                                                <i class="fas fa-pen-square"></i>
-                                            </span>
-                                            <span>
-                                                Update
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <x-common.delete-button
-                                        route="tender-checklists.destroy"
+                                    <x-common.action-buttons
+                                        :buttons="['edit', 'delete']"
+                                        model="tender-checklists"
                                         :id="$tenderChecklist->id"
                                     />
                                 </td>
