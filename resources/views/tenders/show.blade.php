@@ -477,29 +477,23 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            <a
-                                href="{{ route('tenders.tender-checklists.create', $tender->id) }}"
-                                class="button is-small btn-purple is-outlined has-text-white"
-                            >
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    Add New Checklist
-                                </span>
-                            </a>
-                            <a
-                                class="button is-small bg-purple has-text-white is-hidden-mobile"
-                                href="{{ route('tenders.print', $tender->id) }}"
+                            <x-common.button
+                                tag="a"
+                                :href="route('tenders.tender-checklists.create', $tender->id)"
+                                mode="button"
+                                icon="fas fa-plus-circle"
+                                label="Add New Checklist"
+                                class="btn-green is-outlined is-small"
+                            />
+                            <x-common.button
+                                tag="a"
+                                :href="route('tenders.print', $tender->id)"
                                 target="_blank"
-                            >
-                                <span class="icon">
-                                    <i class="fas fa-print"></i>
-                                </span>
-                                <span>
-                                    Print
-                                </span>
-                            </a>
+                                mode="button"
+                                icon="fas fa-print"
+                                label="Print"
+                                class="btn-green is-outlined is-small is-hidden-mobile"
+                            />
                         </div>
                     </div>
                 </div>
