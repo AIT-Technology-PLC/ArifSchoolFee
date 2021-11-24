@@ -31,8 +31,18 @@
                 @foreach ($tenderChecklistTypes as $tenderChecklistType)
                     @continue($tenderChecklistType->generalTenderChecklists->isEmpty())
 
-                    <x-common.content-wrapper>
-                        <x-content.header title="{{ $tenderChecklistType->name }}" />
+                    <x-common.content-wrapper x-data="toggleCheckboxes">
+                        <x-content.header title="{{ $tenderChecklistType->name }}">
+                            <span
+                                class="icon is-clickable"
+                                @click="toggle"
+                            >
+                                <i
+                                    class="far fa-check-square"
+                                    :class="{ 'fa-square': isChecked }"
+                                ></i>
+                            </span>
+                        </x-content.header>
                         <x-content.footer>
                             <div class="columns is-marginless is-multiline">
                                 @foreach ($tenderChecklistType->generalTenderChecklists as $generalTenderChecklist)

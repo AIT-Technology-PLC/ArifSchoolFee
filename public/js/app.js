@@ -395,4 +395,21 @@ document.addEventListener("alpine:init", () => {
             });
         },
     }));
+
+    Alpine.data("toggleCheckboxes", () => ({
+        isChecked: false,
+        checkboxes: [],
+
+        init() {
+            this.checkboxes = this.$root.querySelectorAll(
+                "input[type='checkbox']"
+            );
+        },
+        toggle() {
+            this.checkboxes.forEach(
+                (checkbox) => (checkbox.checked = !this.isChecked || false)
+            );
+            this.isChecked = !this.isChecked;
+        },
+    }));
 });
