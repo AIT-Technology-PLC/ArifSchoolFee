@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateTenderChecklistRequest;
 use App\Models\GeneralTenderChecklist;
 use App\Models\Tender;
 use App\Models\TenderChecklist;
+use App\Models\TenderChecklistType;
 use Illuminate\Support\Facades\DB;
 
 class TenderChecklistController extends Controller
@@ -25,14 +26,16 @@ class TenderChecklistController extends Controller
 
         $this->authorize('create', $tender);
 
-        $generalTenderChecklists = GeneralTenderChecklist::whereNotIn(
-            'id',
-            $tender->tenderChecklists()->pluck('general_tender_checklist_id')
-        )->orderBy('item')->get();
+        $tenderChecklistTypes = TenderChecklistType::query()
+            ->has('generalTenderChecklists')
+            ->with('generalTenderChecklists', function ($query) use ($tender) {
+                return $query->whereNotIn('id', $tender->tenderChecklists()->pluck('general_tender_checklist_id'))->orderBy('item');
+            })
+            ->get();
 
         $totalGeneralTenderChecklists = GeneralTenderChecklist::count();
 
-        return view('tender-checklists.create', compact('generalTenderChecklists', 'tender', 'totalGeneralTenderChecklists'));
+        return view('tender-checklists.create', compact('tenderChecklistTypes', 'tender', 'totalGeneralTenderChecklists'));
     }
 
     public function store(StoreTenderChecklistRequest $request, Tender $tender)
