@@ -12,11 +12,21 @@
             </h1>
         </div>
 
-        <form id="formOne" action="{{ route('tender-checklists.store', 'tender=' . $tender->id) }}" method="post" enctype="multipart/form-data" novalidate>
+        <form
+            id="formOne"
+            action="{{ route('tenders.tender-checklists.store', $tender->id) }}"
+            method="post"
+            enctype="multipart/form-data"
+            novalidate
+        >
             @csrf
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="has-text-right-tablet mb-4">
-                    <button id="selectAllCheckboxes" class="button bg-purple is-small has-text-white" type="button">
+                    <button
+                        id="selectAllCheckboxes"
+                        class="button bg-purple is-small has-text-white"
+                        type="button"
+                    >
                         <span class="icon">
                             <i class="fas fa-check-square"></i>
                         </span>
@@ -38,7 +48,12 @@
                             <div class="field">
                                 <div class="control">
                                     <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                        <input type="checkbox" name="checklists[{{ $loop->index }}][general_tender_checklist_id]" value="{{ $generalTenderChecklist->id }}" {{ old('checklists.' . $loop->index . '.general_tender_checklist_id') == $generalTenderChecklist->id ? 'checked' : '' }}>
+                                        <input
+                                            type="checkbox"
+                                            name="checklists[{{ $loop->index }}][general_tender_checklist_id]"
+                                            value="{{ $generalTenderChecklist->id }}"
+                                            {{ old('checklists.' . $loop->index . '.general_tender_checklist_id') == $generalTenderChecklist->id ? 'checked' : '' }}
+                                        >
                                         {{ $generalTenderChecklist->item }}
                                     </label>
                                 </div>
@@ -47,7 +62,10 @@
                     @endforeach
                 </div>
                 @error('checklists')
-                    <span class="help has-text-danger" role="alert">
+                    <span
+                        class="help has-text-danger"
+                        role="alert"
+                    >
                         {{ $message }}
                     </span>
                 @enderror

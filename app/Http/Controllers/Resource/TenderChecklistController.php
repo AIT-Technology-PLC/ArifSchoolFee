@@ -17,9 +17,9 @@ class TenderChecklistController extends Controller
         $this->middleware('isFeatureAccessible:Tender Management');
     }
 
-    public function create()
+    public function create(Tender $tender)
     {
-        $tender = Tender::withCount('tenderChecklists')->findOrFail(request('tender'));
+        $tender->loadCount('tenderChecklists');
 
         $this->authorize('view', $tender);
 
@@ -35,10 +35,8 @@ class TenderChecklistController extends Controller
         return view('tender-checklists.create', compact('generalTenderChecklists', 'tender', 'totalGeneralTenderChecklists'));
     }
 
-    public function store(StoreTenderChecklistRequest $request)
+    public function store(StoreTenderChecklistRequest $request, Tender $tender)
     {
-        $tender = Tender::findOrFail(request('tender'));
-
         $this->authorize('view', $tender);
 
         $this->authorize('create', $tender);

@@ -55,7 +55,7 @@ Route::resource('tender-details', Resource\TenderDetailController::class)->only(
 
 Route::resource('tender-readings', Resource\TenderReadingController::class)->only(['edit', 'update']);
 
-Route::resource('tender-checklists', Resource\TenderChecklistController::class)->except(['index', 'show']);
+Route::resource('tenders.tender-checklists', Resource\TenderChecklistController::class)->except(['index', 'show'])->shallow();
 
 Route::resource('sivs', Resource\SivController::class);
 

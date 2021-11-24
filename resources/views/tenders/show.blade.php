@@ -478,7 +478,7 @@
                     <div class="level-item is-justify-content-left">
                         <div>
                             <a
-                                href="{{ route('tender-checklists.create', 'tender=' . $tender->id) }}"
+                                href="{{ route('tenders.tender-checklists.create', $tender->id) }}"
                                 class="button is-small btn-purple is-outlined has-text-white"
                             >
                                 <span class="icon">
