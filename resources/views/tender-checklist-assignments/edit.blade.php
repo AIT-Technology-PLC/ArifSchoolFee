@@ -33,7 +33,7 @@
                                         disabled
                                     />
                                     <x-common.icon
-                                        name="fas fa-double-check"
+                                        name="fas fa-check-double"
                                         class="is-large is-left"
                                     />
                                     <x-common.validation-error property="checklist.{{ $loop->index }}.id" />

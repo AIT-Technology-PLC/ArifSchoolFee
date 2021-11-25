@@ -60,7 +60,7 @@ class TenderChecklistController extends Controller
 
         abort_if(
             $tenderChecklist->assigned_to &&
-            (auth()->id() != $tenderChecklist->assigned_to || !auth()->user()->hasRole('System Manager')), 403
+            ($tenderChecklist->assignedTo()->isNot(auth()->user()) && !auth()->user()->hasRole('System Manager')), 403
         );
 
         $this->authorize('update', $tenderChecklist->tender);
@@ -77,7 +77,7 @@ class TenderChecklistController extends Controller
 
         abort_if(
             $tenderChecklist->assigned_to &&
-            (auth()->id() != $tenderChecklist->assigned_to || !auth()->user()->hasRole('System Manager')), 403
+            ($tenderChecklist->assignedTo()->isNot(auth()->user()) && !auth()->user()->hasRole('System Manager')), 403
         );
 
         $this->authorize('update', $tenderChecklist->tender);
