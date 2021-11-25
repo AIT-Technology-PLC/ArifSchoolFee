@@ -24,4 +24,9 @@ class TenderChecklist extends Model
     {
         return $this->belongsTo(GeneralTenderChecklist::class);
     }
+
+    public function assignedTo()
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
+    }
 }

@@ -35,4 +35,9 @@ class TenderPolicy
     {
         return $this->isIssuedByMyCompany($user, $tender, true) && $user->can('Delete Tender');
     }
+
+    public function assign(User $user, Tender $tender)
+    {
+        return $this->isIssuedByMyCompany($user, $tender) && $user->can('Assign Tender Checklists');
+    }
 }

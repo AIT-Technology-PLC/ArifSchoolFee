@@ -172,3 +172,12 @@ Route::post('/reservations/{reservation}/cancel',
 Route::post('/reservations/{reservation}/reserve',
     [Action\ReservationController::class, 'reserve'])
     ->name('reservations.reserve');
+
+// Tender Checklist Assignments
+Route::get('/tender-checklist-assignments/{tender}/edit',
+    [Action\TenderChecklistAssignmentController::class, 'edit'])
+    ->name('tender-checklists-assignments.edit');
+
+Route::patch('/tender-checklist-assignments/{tender}',
+    [Action\TenderChecklistAssignmentController::class, 'update'])
+    ->name('tender-checklists-assignments.update');

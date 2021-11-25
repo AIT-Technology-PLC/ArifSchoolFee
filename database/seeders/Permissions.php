@@ -189,6 +189,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Update Tender']);
             Permission::firstOrCreate(['name' => 'Delete Tender']);
             Permission::firstOrCreate(['name' => 'Read Tender Sensitive Data']);
+            Permission::firstOrCreate(['name' => 'Assign Tender Checklists']);
 
             // Company
             Permission::firstOrCreate(['name' => 'Update Company']);

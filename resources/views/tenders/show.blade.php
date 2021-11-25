@@ -479,14 +479,6 @@
                         <div>
                             <x-common.button
                                 tag="a"
-                                :href="route('tenders.tender-checklists.create', $tender->id)"
-                                mode="button"
-                                icon="fas fa-plus-circle"
-                                label="Add New Checklist"
-                                class="btn-green is-outlined is-small"
-                            />
-                            <x-common.button
-                                tag="a"
                                 :href="route('tenders.print', $tender->id)"
                                 target="_blank"
                                 mode="button"
@@ -494,19 +486,36 @@
                                 label="Print"
                                 class="btn-green is-outlined is-small is-hidden-mobile"
                             />
+                            <x-common.button
+                                tag="a"
+                                :href="route('tender-checklists-assignments.edit', $tender->id)"
+                                mode="button"
+                                icon="fas fa-user-check"
+                                label="Checklist Assignments"
+                                class="btn-green is-outlined is-small"
+                            />
+                            <x-common.button
+                                tag="a"
+                                :href="route('tenders.tender-checklists.create', $tender->id)"
+                                mode="button"
+                                icon="fas fa-plus-circle"
+                                label="Add New Checklist"
+                                class="btn-green is-outlined is-small"
+                            />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="box radius-bottom-0 mb-0 radius-top-0">
-            <x-common.success-message :message="session('checklistDeleted')" />
+            <x-common.success-message :message="session('checklistDeleted') ?? session('checklistAssigned')" />
             <div class="table-container">
                 <table class="table is-hoverable is-fullwidth is-size-7">
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
                             <th><abbr> Item </abbr></th>
+                            <th><abbr> Assignee </abbr></th>
                             <th><abbr> Status </abbr></th>
                             <th><abbr> Comment </abbr></th>
                             <th><abbr> Actions </abbr></th>
@@ -518,6 +527,9 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
                                     {{ $tenderChecklist->generalTenderChecklist->item }}
+                                </td>
+                                <td class="is-capitalized">
+                                    {{ $tenderChecklist->assignedTo->name ?? 'N/A' }}
                                 </td>
                                 <td class="is-capitalized">
                                     {{ $tenderChecklist->status ?? 'N/A' }}
