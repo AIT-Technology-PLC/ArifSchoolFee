@@ -89,6 +89,10 @@ class PermissionCategorizationService
             'label' => 'Company',
             'feature' => 'General Settings',
         ],
+        'price' => [
+            'label' => 'Price',
+            'feature' => 'Price Management',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)
