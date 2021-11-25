@@ -53,10 +53,15 @@ class TenderChecklistController extends Controller
 
     public function edit(TenderChecklist $tenderChecklist)
     {
-        if ($tenderChecklist->generalTenderChecklist->tenderChecklistType->isSensitive()
-            && !auth()->user()->can('Read Tender Sensitive Data')) {
-            abort(403);
-        }
+        abort_if(
+            $tenderChecklist->generalTenderChecklist->tenderChecklistType->isSensitive() &&
+            !auth()->user()->can('Read Tender Sensitive Data'), 403
+        );
+
+        abort_if(
+            $tenderChecklist->assigned_to &&
+            (auth()->id() != $tenderChecklist->assigned_to || !auth()->user()->hasRole('System Manager')), 403
+        );
 
         $this->authorize('update', $tenderChecklist->tender);
 
@@ -65,12 +70,17 @@ class TenderChecklistController extends Controller
 
     public function update(UpdateTenderChecklistRequest $request, TenderChecklist $tenderChecklist)
     {
-        $this->authorize('update', $tenderChecklist->tender);
+        abort_if(
+            $tenderChecklist->generalTenderChecklist->tenderChecklistType->isSensitive() &&
+            !auth()->user()->can('Read Tender Sensitive Data'), 403
+        );
 
-        if ($tenderChecklist->generalTenderChecklist->tenderChecklistType->isSensitive()
-            && !auth()->user()->can('Read Tender Sensitive Data')) {
-            abort(403);
-        }
+        abort_if(
+            $tenderChecklist->assigned_to &&
+            (auth()->id() != $tenderChecklist->assigned_to || !auth()->user()->hasRole('System Manager')), 403
+        );
+
+        $this->authorize('update', $tenderChecklist->tender);
 
         $tenderChecklist->update($request->validated());
 
