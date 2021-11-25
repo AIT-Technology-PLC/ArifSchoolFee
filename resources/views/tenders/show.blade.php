@@ -537,18 +537,19 @@
                                 <td>
                                     @if (!$tenderChecklist->generalTenderChecklist->tenderChecklistType->isSensitive())
                                         {!! $tenderChecklist->comment ? nl2br(e($tenderChecklist->comment)) : 'N/A' !!}
-                                    @elseif ($tenderChecklist->generalTenderChecklist->tenderChecklistType->isSensitive() &&
-                                        auth()->user()->can('Read Tender Sensitive Data'))
-                                        {!! $tenderChecklist->comment ? nl2br(e($tenderChecklist->comment)) : 'N/A' !!}
                                     @else
-                                        <span class="tag text-purple">
-                                            <span class="icon">
-                                                <i class="fas fa-times-circle"></i>
+                                        @can('Read Tender Sensitive Data')
+                                            {!! $tenderChecklist->comment ? nl2br(e($tenderChecklist->comment)) : 'N/A' !!}
+                                        @else
+                                            <span class="tag text-purple">
+                                                <span class="icon">
+                                                    <i class="fas fa-times-circle"></i>
+                                                </span>
+                                                <span>
+                                                    You don't have permission to see this checklist information
+                                                </span>
                                             </span>
-                                            <span>
-                                                You don't have permission to see this checklist information
-                                            </span>
-                                        </span>
+                                        @endcan
                                     @endif
                                 </td>
                                 <td>
