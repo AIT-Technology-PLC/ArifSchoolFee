@@ -132,6 +132,11 @@ class Features extends Seeder
                 ['is_enabled' => 1]
             );
 
+            Feature::updateOrCreate(
+                ['name' => 'Price Management'],
+                ['is_enabled' => 1]
+            );
+
             $professional = Plan::where('name', 'professional')->first();
             $premium = Plan::where('name', 'premium')->first();
             $enterprise = Plan::where('name', 'enterprise')->first();
