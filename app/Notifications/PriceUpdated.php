@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
 
-class PriceCreated extends Notification
+class PriceUpdated extends Notification
 {
     use Queueable;
 
@@ -26,14 +26,14 @@ class PriceCreated extends Notification
 
     public function toArray($notifiable)
     {
-        $message = Str::of('New ')
+        $message = Str::of(Str::plural('Price', $this->totalProducts))
             ->append(
-                Str::plural('price', $this->totalProducts),
-                ' ',
-                $this->totalProducts == 1 ? 'was set for ' : 'were set for ',
+                ' of ',
                 $this->totalProducts,
                 ' ',
                 Str::plural('product', $this->totalProducts),
+                ' ',
+                $this->totalProducts > 1 ? 'have been updated.' : 'has been updated.',
             );
 
         return [
