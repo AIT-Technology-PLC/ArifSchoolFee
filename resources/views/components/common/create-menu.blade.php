@@ -126,7 +126,7 @@
                 </x-content.footer>
             @endcanany
 
-            @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create PO', 'Create Credit', 'Create Customer'])
+            @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create PO', 'Create Credit', 'Create Price', 'Create Customer'])
                 <x-content.header>
                     <x-slot name="header">
                         <x-common.icon
@@ -247,6 +247,23 @@
                                     />
                                     <br>
                                     <span class="is-size-7"> New Credit </span>
+                                    </span>
+                                </div>
+                            @endif
+                        @endcan
+
+                        @can('Create Price')
+                            @if (isFeatureEnabled('Price Management'))
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                    <x-common.button
+                                        tag="a"
+                                        mode="button"
+                                        href="{{ route('prices.create') }}"
+                                        icon="fas fa-tags"
+                                        class="text-green bg-lightgreen is-borderless"
+                                    />
+                                    <br>
+                                    <span class="is-size-7"> New Price </span>
                                     </span>
                                 </div>
                             @endif

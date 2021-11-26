@@ -196,7 +196,7 @@
         </ul>
     @endcanany
 
-    @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read PO', 'Read Credit', 'Read Customer'])
+    @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read PO', 'Read Credit', 'Read Price', 'Read Customer'])
         <ul
             x-data="sideMenuAccordion"
             class="menu-list mb-2"
@@ -314,6 +314,19 @@
                                     label="Credits"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('credits.*') ? 'text-green has-text-weight-bold' : '' }}"
                                     x-init="{{ request()->routeIs('credits.*') ? 'activateAccordion' : '' }}"
+                                />
+                            </li>
+                        @endcan
+                    @endif
+                    @can('Read Price')
+                        @if (isFeatureEnabled('Price Management'))
+                            <li>
+                                <x-common.button
+                                    tag="a"
+                                    href="{{ route('prices.index') }}"
+                                    label="Prices"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('prices.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('prices.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
