@@ -63,7 +63,9 @@
                                 Customer <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
-                                <x-common.customer-list :selected-customer-id="old('customer_id') ?? ''" />
+                                <div class="select is-fullwidth">
+                                    <x-common.customer-list :selected-customer-id="old('customer_id') ?? ''" />
+                                </div>
                                 <x-common.icon
                                     name="fas fa-user"
                                     class="is-small is-left"
