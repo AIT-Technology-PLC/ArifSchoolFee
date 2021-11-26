@@ -36,7 +36,7 @@ class WarehouseController extends Controller
 
     public function store(StoreWarehouseRequest $request)
     {
-        if (limitReached('warehouse', Warehouse::count())) {
+        if (limitReached('warehouse', Warehouse::active()->count())) {
             return back()
                 ->with('limitReachedMessage', 'You have reached the allowed number of warehouses in respect to your package.');
         }
