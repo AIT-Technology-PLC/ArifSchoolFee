@@ -86,3 +86,5 @@ Route::resource('credits', Resource\CreditController::class);
 Route::resource('credits.credit-settlements', Resource\CreditSettlementController::class)->except(['index', 'show'])->shallow();
 
 Route::resource('customers.credits', Resource\CustomerCreditController::class)->only('index');
+
+Route::resource('prices', Resource\PriceController::class)->except('show');
