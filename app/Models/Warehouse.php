@@ -95,6 +95,11 @@ class Warehouse extends Model
         return $query->where('is_active', 1);
     }
 
+    public function scopeInactive($query)
+    {
+        return $query->withoutGlobalScopes([ActiveWarehouseScope::class])->where('is_active', 0);
+    }
+
     public function getWarehousesInUseQuery()
     {
         return $this

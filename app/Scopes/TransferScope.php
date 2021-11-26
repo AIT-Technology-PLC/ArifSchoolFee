@@ -2,9 +2,11 @@
 
 namespace App\Scopes;
 
+use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
+use Illuminate\Support\Facades\Cache;
 
 class TransferScope implements Scope
 {
@@ -14,27 +16,37 @@ class TransferScope implements Scope
             return;
         }
 
-        if (auth()->user()->hasRole('System Manager')) {
-            $builder->has('warehouse')->has('transferredFrom')->has('transferredTo');
-
-            return;
-        }
-
         $table = $model->getTable();
 
         $builder
             ->where(function ($query) use ($table) {
-                $query->where("{$table}.transferred_from", auth()->user()->warehouse_id)
-                    ->orWhere("{$table}.transferred_to", auth()->user()->warehouse_id);
+                $query
+                    ->whereIn("{$table}.transferred_from", $this->activeAndAllowedWarehouses())
+                    ->orWhereIn("{$table}.transferred_to", $this->activeAndAllowedWarehouses());
             })
-            ->when(
-                auth()->user()->getAllowedWarehouses('transactions')->isNotEmpty(),
-                function ($query) use ($table) {
-                    return $query->orWhere(function ($query) use ($table) {
-                        $query->whereIn("{$table}.transferred_from", auth()->user()->getAllowedWarehouses('transactions')->pluck('id'))
-                            ->orWhereIn("{$table}.transferred_to", auth()->user()->getAllowedWarehouses('transactions')->pluck('id'));
-                    });
-                }
-            );
+            ->whereNotIn("{$table}.transferred_from", $this->inactiveWarehouses())
+            ->whereNotIn("{$table}.transferred_to", $this->inactiveWarehouses());
+    }
+
+    private function inactiveWarehouses()
+    {
+        $cacheKey = auth()->id() . '_' . 'inactiveWarehouses';
+
+        return Cache::store('array')
+            ->rememberForever($cacheKey, function () {
+                return Warehouse::inactive()->pluck('id');
+            });
+    }
+
+    private function activeAndAllowedWarehouses()
+    {
+        $activeAndAllowedWarehouses = collect([auth()->user()->warehouse_id]);
+
+        if (auth()->user()->getAllowedWarehouses('transactions')->isNotEmpty()) {
+            $activeAndAllowedWarehouses
+                ->push(...auth()->user()->getAllowedWarehouses('transactions')->pluck('id')->toArray());
+        }
+
+        return $activeAndAllowedWarehouses->unique();
     }
 }

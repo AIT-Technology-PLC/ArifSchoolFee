@@ -18,6 +18,6 @@ class ActiveWarehouseScope implements Scope
             return;
         }
 
-        $builder->where('is_active', 1);
+        $builder->where("{$model->getTable()}.is_active", 1);
     }
 }
