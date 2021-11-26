@@ -14,21 +14,20 @@ class BranchScope implements Scope
             return;
         }
 
-        if (auth()->user()->hasRole('System Manager')) {
-            $builder->has('warehouse');
-
-            return;
-        }
-
         $table = $model->getTable();
 
-        $builder
-            ->where("{$table}.warehouse_id", auth()->user()->warehouse_id)
-            ->when(
-                auth()->user()->getAllowedWarehouses('transactions')->isNotEmpty(),
-                function ($query) use ($table) {
-                    return $query->orWhereIn("{$table}.warehouse_id", auth()->user()->getAllowedWarehouses('transactions')->pluck('id'));
-                },
-            );
+        $builder->whereIn("{$table}.warehouse_id", $this->activeAndAllowedWarehouses());
+    }
+
+    private function activeAndAllowedWarehouses()
+    {
+        $activeAndAllowedWarehouses = collect([auth()->user()->warehouse_id]);
+
+        if (auth()->user()->getAllowedWarehouses('transactions')->isNotEmpty()) {
+            $activeAndAllowedWarehouses
+                ->push(...auth()->user()->getAllowedWarehouses('transactions')->pluck('id')->toArray());
+        }
+
+        return $activeAndAllowedWarehouses->unique();
     }
 }
