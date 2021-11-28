@@ -13,6 +13,8 @@ function addProformaInvoiceDetail() {
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
+    originalSelect.setAttribute("x-init", "select2Alpine");
+
     proformaInvoiceDetail.querySelector(
         "[name=item-number]"
     ).innerText = `Item ${totalProformaInvoiceDetails + 1}`;
@@ -174,8 +176,6 @@ function addProformaInvoiceDetail() {
 
     proformaInvoiceDetailsWrapper.appendChild(proformaInvoiceDetail);
 
-    initializeSelect2Products();
-
     attachListenersToRemoveDetailButton();
 
     initializeSummernote();
@@ -195,6 +195,8 @@ function addGdnDetail() {
     let gdnDetail = gdnDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    originalSelect.setAttribute("x-init", "select2Alpine");
 
     gdnDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalGdnDetails + 1
@@ -326,8 +328,6 @@ function addGdnDetail() {
 
     gdnDetailsWrapper.appendChild(gdnDetail);
 
-    initializeSelect2Products();
-
     attachListenersToRemoveDetailButton();
 }
 
@@ -341,6 +341,8 @@ function addReservationDetail() {
     let reservationDetail = reservationDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    originalSelect.setAttribute("x-init", "select2Alpine");
 
     reservationDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalReservationDetails + 1
@@ -522,8 +524,6 @@ function addReservationDetail() {
 
     reservationDetailsWrapper.appendChild(reservationDetail);
 
-    initializeSelect2Products();
-
     attachListenersToRemoveDetailButton();
 }
 
@@ -541,6 +541,8 @@ function addPurchaseOrderDetail() {
     let purchaseOrderDetail = purchaseOrderDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    originalSelect.setAttribute("x-init", "select2Alpine");
 
     purchaseOrderDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalPurchaseOrderDetails + 1
@@ -678,8 +680,6 @@ function addPurchaseOrderDetail() {
 
     purchaseOrderDetailsWrapper.appendChild(purchaseOrderDetail);
 
-    initializeSelect2Products();
-
     attachListenersToRemoveDetailButton();
 }
 
@@ -693,6 +693,8 @@ function addAdjustmentDetail() {
     let adjustmentDetail = adjustmentDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    originalSelect.setAttribute("x-init", "select2Alpine");
 
     adjustmentDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalAdjustmentDetails + 1
@@ -830,8 +832,6 @@ function addAdjustmentDetail() {
 
     adjustmentDetailsWrapper.appendChild(adjustmentDetail);
 
-    initializeSelect2Products();
-
     attachListenersToRemoveDetailButton();
 }
 
@@ -845,6 +845,8 @@ function addTransferDetail() {
     let transferDetail = transferDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    originalSelect.setAttribute("x-init", "select2Alpine");
 
     transferDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalTransferDetails + 1
@@ -938,8 +940,6 @@ function addTransferDetail() {
 
     transferDetailsWrapper.appendChild(transferDetail);
 
-    initializeSelect2Products();
-
     attachListenersToRemoveDetailButton();
 }
 
@@ -953,6 +953,8 @@ function addReturnDetail() {
     let returnDetail = returnDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    originalSelect.setAttribute("x-init", "select2Alpine");
 
     returnDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalReturnDetails + 1
@@ -1091,8 +1093,6 @@ function addReturnDetail() {
 
     returnDetailsWrapper.appendChild(returnDetail);
 
-    initializeSelect2Products();
-
     attachListenersToRemoveDetailButton();
 }
 
@@ -1106,6 +1106,8 @@ function addPurchaseDetail() {
     let purchaseDetail = purchaseDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    originalSelect.setAttribute("x-init", "select2Alpine");
 
     purchaseDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalPurchaseDetails + 1
@@ -1228,8 +1230,6 @@ function addPurchaseDetail() {
 
     purchaseDetailsWrapper.appendChild(purchaseDetail);
 
-    initializeSelect2Products();
-
     attachListenersToRemoveDetailButton();
 }
 
@@ -1243,6 +1243,8 @@ function addSaleDetail() {
     let saleDetail = saleDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    originalSelect.setAttribute("x-init", "select2Alpine");
 
     saleDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalSaleDetails + 1
@@ -1346,8 +1348,6 @@ function addSaleDetail() {
 
     saleDetailsWrapper.appendChild(saleDetail);
 
-    initializeSelect2Products();
-
     attachListenersToRemoveDetailButton();
 }
 
@@ -1361,6 +1361,8 @@ function addTenderDetail() {
     let tenderDetail = tenderDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    originalSelect.setAttribute("x-init", "select2Alpine");
 
     tenderDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalTenderDetails + 1
@@ -1452,8 +1454,6 @@ function addTenderDetail() {
 
     tenderDetailsWrapper.appendChild(tenderDetail);
 
-    initializeSelect2Products();
-
     attachListenersToRemoveDetailButton();
 }
 
@@ -1467,6 +1467,8 @@ function addDamageDetail() {
     let damageDetail = damageDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    originalSelect.setAttribute("x-init", "select2Alpine");
 
     damageDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalDamageDetails + 1
@@ -1575,8 +1577,6 @@ function addDamageDetail() {
 
     damageDetailsWrapper.appendChild(damageDetail);
 
-    initializeSelect2Products();
-
     attachListenersToRemoveDetailButton();
 }
 
@@ -1590,6 +1590,8 @@ function addSivDetail() {
     let sivDetail = sivDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    originalSelect.setAttribute("x-init", "select2Alpine");
 
     sivDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalSivDetails + 1
@@ -1682,8 +1684,6 @@ function addSivDetail() {
 
     sivDetailsWrapper.appendChild(sivDetail);
 
-    initializeSelect2Products();
-
     attachListenersToRemoveDetailButton();
 }
 
@@ -1697,6 +1697,8 @@ function addGrnDetail() {
     let grnDetail = grnDetails[0].cloneNode(true);
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
+
+    originalSelect.setAttribute("x-init", "select2Alpine");
 
     grnDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalGrnDetails + 1
@@ -1788,8 +1790,6 @@ function addGrnDetail() {
         "";
 
     grnDetailsWrapper.appendChild(grnDetail);
-
-    initializeSelect2Products();
 
     attachListenersToRemoveDetailButton();
 }

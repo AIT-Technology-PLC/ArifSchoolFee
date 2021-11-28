@@ -23,7 +23,7 @@ class PriceController extends Controller
 
     public function create()
     {
-        //
+        return view('prices.create');
     }
 
     public function store(StorePriceRequest $request)

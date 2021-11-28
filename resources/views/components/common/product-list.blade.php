@@ -2,9 +2,10 @@
     <select
         id="{{ $name . '[product_id]' }}"
         name="{{ $name . '[product_id]' }}"
-        class="select2-products"
         data-tags="{{ $tags }}"
         onchange="getProductSelected(this.id, this.value)"
+        x-init="select2Alpine"
+        {{ $attributes->whereStartsWith('x-') }}
     >
         <option
             data-code=""

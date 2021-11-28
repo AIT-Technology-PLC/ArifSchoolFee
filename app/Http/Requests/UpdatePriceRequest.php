@@ -14,11 +14,11 @@ class UpdatePriceRequest extends FormRequest
     public function rules()
     {
         return [
-            '*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            '*.type' => ['required', 'string'],
-            '*.min_price' => ['nullable', 'numeric', 'required_if:type,range', 'prohibited_if:type,fixed', 'gt:0', 'lt:max_price'],
-            '*.max_price' => ['nullable', 'numeric', 'required_if:type,range', 'prohibited_if:type,fixed', 'gt:0', 'gt:min_price'],
-            '*.fixed_price' => ['nullable', 'numeric', 'required_if:type,fixed', 'prohibited_if:type,range'],
+            'price.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'price.*.type' => ['required', 'string'],
+            'price.*.min_price' => ['nullable', 'numeric', 'required_if:price.*.type,range', 'prohibited_if:price.*.type,fixed', 'gt:0', 'lt:price.*.max_price'],
+            'price.*.max_price' => ['nullable', 'numeric', 'required_if:price.*.type,range', 'prohibited_if:price.*.type,fixed', 'gt:0', 'gt:price.*.min_price'],
+            'price.*.fixed_price' => ['nullable', 'numeric', 'required_if:price.*.type,fixed', 'prohibited_if:price.*.type,range'],
         ];
     }
 }

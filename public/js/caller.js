@@ -110,10 +110,6 @@ if (d.getElementsByClassName("summernote-table").length) {
     modifySummernoteTableClass();
 }
 
-if (d.getElementsByClassName("select2-products").length) {
-    initializeSelect2Products();
-}
-
 if (d.querySelectorAll("input[type=number]").length) {
     document.addEventListener("wheel", disableInputTypeNumberMouseWheel);
 }

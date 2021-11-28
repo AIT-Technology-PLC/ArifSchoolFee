@@ -36,6 +36,10 @@ const addKeyValueInputFields = (function () {
 })();
 
 async function getProductSelected(elementId, productId) {
+    if (!productId) {
+        return;
+    }
+
     const response = await axios.get(
         `/api/products/${productId}/unit-of-measurement`
     );
@@ -178,54 +182,55 @@ function modifySummernoteTableClass() {
     }
 }
 
-function initializeSelect2Products() {
-    $(document).ready(function () {
-        $(".select2-products").select2({
-            placeholder: "Select a product",
-            allowClear: true,
-            tags: $(".select2-products").attr("data-tags"),
-            matcher: (params, data) => {
-                if ($.trim(params.term) === "") {
-                    return data;
-                }
-
-                if (typeof data.text === "undefined") {
-                    return null;
-                }
-
-                if (
-                    data.text.toLowerCase().indexOf(params.term.toLowerCase()) >
-                    -1
-                ) {
-                    return data;
-                }
-
-                if (
-                    data.element.dataset.code
-                        .toLowerCase()
-                        .indexOf(params.term.toLowerCase()) > -1
-                ) {
-                    return data;
-                }
-
-                if (
-                    data.element.dataset.category
-                        .toLowerCase()
-                        .indexOf(params.term.toLowerCase()) > -1
-                ) {
-                    return data;
-                }
-
-                return null;
-            },
-        });
-    });
-}
-
 function disableInputTypeNumberMouseWheel() {
     if (d.activeElement.type === "number") {
         d.activeElement.blur();
     }
+}
+
+function select2Alpine() {
+    let select2 = this.$el;
+
+    $(select2).select2({
+        placeholder: "Select a product",
+        allowClear: true,
+        tags: $(select2).attr("data-tags"),
+        matcher: (params, data) => {
+            if ($.trim(params.term) === "") {
+                return data;
+            }
+
+            if (typeof data.text === "undefined") {
+                return null;
+            }
+
+            if (
+                data.text.toLowerCase().indexOf(params.term.toLowerCase()) > -1
+            ) {
+                return data;
+            }
+
+            if (
+                data.element.dataset.code
+                    .toLowerCase()
+                    .indexOf(params.term.toLowerCase()) > -1
+            ) {
+                return data;
+            }
+
+            if (
+                data.element.dataset.category
+                    .toLowerCase()
+                    .indexOf(params.term.toLowerCase()) > -1
+            ) {
+                return data;
+            }
+
+            return null;
+        },
+    });
+
+    this.$nextTick(() => $(select2).trigger("change"));
 }
 
 document.addEventListener("alpine:init", () => {
@@ -392,6 +397,74 @@ document.addEventListener("alpine:init", () => {
                 (checkbox) => (checkbox.checked = !this.isChecked || false)
             );
             this.isChecked = !this.isChecked;
+        },
+    }));
+
+    Alpine.data("priceMasterDetailForm", ({ price }) => ({
+        prices: [],
+        errors: {},
+
+        init() {
+            if (price) {
+                this.prices = price;
+                this.reorder();
+
+                return;
+            }
+
+            this.add();
+        },
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        getErrors(property) {
+            return this.errors[property];
+        },
+        add() {
+            this.prices.push({
+                product_id: "",
+                type: "",
+                fixed_price: "",
+                min_price: "",
+                max_price: "",
+                count: this.prices.filter((price) => price !== "").length + 1,
+            });
+        },
+        remove(index) {
+            if (index === 0) {
+                return;
+            }
+
+            this.prices[index] = "";
+
+            this.reorder();
+        },
+        reorder() {
+            let priceCount = 1;
+
+            this.prices.forEach((price) => {
+                if (price !== "") {
+                    price.count = priceCount;
+                    priceCount++;
+                }
+            });
+        },
+        isPriceFixed(priceType) {
+            if (!priceType) {
+                return true;
+            }
+
+            return priceType === "fixed";
+        },
+        changePriceType(price) {
+            if (price.type === "fixed") {
+                price.min_price = "";
+                price.max_price = "";
+            }
+
+            if (price.type === "range") {
+                price.fixed_price = "";
+            }
         },
     }));
 });
