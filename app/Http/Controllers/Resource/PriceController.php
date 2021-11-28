@@ -34,7 +34,9 @@ class PriceController extends Controller
 
     public function create()
     {
-        return view('prices.create');
+        $excludedProducts = Product::has('price')->get('id');
+
+        return view('prices.create', compact('excludedProducts'));
     }
 
     public function store(StorePriceRequest $request)

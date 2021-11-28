@@ -55,6 +55,7 @@
                                                 </x-forms.label>
                                                 <x-forms.control class="has-icons-left">
                                                     <x-common.product-list
+                                                        :excluded-products="$excludedProducts"
                                                         tags="false"
                                                         selected-product-id=""
                                                         name=""
