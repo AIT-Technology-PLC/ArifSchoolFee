@@ -23,7 +23,7 @@ class PriceDatatable extends DataTable
                 return view('components.common.action-buttons', [
                     'model' => 'prices',
                     'id' => $credit->id,
-                    'buttons' => ['delete'],
+                    'buttons' => ['edit', 'delete'],
                 ]);
             })
             ->addIndexColumn();
