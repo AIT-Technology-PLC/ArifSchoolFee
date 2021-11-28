@@ -6,9 +6,9 @@
     <div class="columns is-marginless is-multiline">
         <div class="column is-3 p-lr-0">
             <x-common.total-model
-                model="prices"
-                :amount="$totalPrices"
-                icon="fas fa-tags"
+                model="products"
+                :amount="$totalProducts"
+                icon="fas fa-th"
             />
         </div>
         <div class="column is-3 p-lr-0">

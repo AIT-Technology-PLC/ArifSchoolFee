@@ -21,15 +21,15 @@ class PriceController extends Controller
 
     public function index(PriceDatatable $datatable)
     {
-        $totalPrices = Price::count();
+        $totalProducts = Product::count();
 
         $totalFixedPrices = Price::fixed()->count();
 
         $totalRangePrices = Price::range()->count();
 
-        $totalNoPrices = Product::count() - ($totalPrices);
+        $totalNoPrices = Product::count() - ($totalFixedPrices + $totalRangePrices);
 
-        return $datatable->render('prices.index', compact('totalPrices', 'totalFixedPrices', 'totalRangePrices', 'totalNoPrices'));
+        return $datatable->render('prices.index', compact('totalProducts', 'totalFixedPrices', 'totalRangePrices', 'totalNoPrices'));
     }
 
     public function create()
@@ -60,6 +60,10 @@ class PriceController extends Controller
 
     public function destroy(Price $price)
     {
-        //
+        abort_if(auth()->user()->cannot('Delete Price'), 403);
+
+        $price->forceDelete();
+
+        return back()->with('successMessage', 'Price deleted successfully.');
     }
 }
