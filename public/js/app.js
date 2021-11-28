@@ -440,6 +440,10 @@ document.addEventListener("alpine:init", () => {
             this.reorder();
         },
         reorder() {
+            if (!Array.isArray(this.prices)) {
+                return;
+            }
+
             let priceCount = 1;
 
             this.prices.forEach((price) => {

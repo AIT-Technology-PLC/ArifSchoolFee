@@ -28,4 +28,9 @@ class Price extends Model
     {
         return $query->where('type', 'range');
     }
+
+    public function isFixed()
+    {
+        return $this->type == 'fixed';
+    }
 }

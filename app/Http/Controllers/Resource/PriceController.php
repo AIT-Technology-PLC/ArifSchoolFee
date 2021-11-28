@@ -50,14 +50,18 @@ class PriceController extends Controller
         return redirect()->route('prices.index')->with('successMessage', 'New prices are added.');
     }
 
-    public function edit()
+    public function edit(Price $price)
     {
-        //
+        $price->load('product');
+
+        return view('prices.edit', compact('price'));
     }
 
-    public function update(UpdatePriceRequest $request)
+    public function update(UpdatePriceRequest $request, Price $price)
     {
-        //
+        $price->update($request->validated());
+
+        return redirect()->route('prices.index')->with('successMessage', 'Price updated successfully');
     }
 
     public function destroy(Price $price)

@@ -16,7 +16,7 @@ class PriceDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('product', fn($price) => $price->product->name)
-            ->editColumn('last update date', fn($price) => $price->updated_at->toFormattedDateString())
+            ->editColumn('last update date', fn($price) => $price->updated_at->toDayDateTimeString())
             ->editColumn('prepared by', fn($price) => $price->createdBy->name)
             ->editColumn('edited by', fn($price) => $price->updatedBy->name)
             ->editColumn('actions', function ($credit) {
