@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\PriceDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePriceRequest;
 use App\Http\Requests\UpdatePriceRequest;
 use App\Models\Price;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
 class PriceController extends Controller
@@ -17,9 +19,17 @@ class PriceController extends Controller
         $this->authorizeResource(Price::class, 'price');
     }
 
-    public function index()
+    public function index(PriceDatatable $datatable)
     {
-        //
+        $totalPrices = Price::count();
+
+        $totalFixedPrices = Price::fixed()->count();
+
+        $totalRangePrices = Price::range()->count();
+
+        $totalNoPrices = Product::count() - ($totalPrices);
+
+        return $datatable->render('prices.index', compact('totalPrices', 'totalFixedPrices', 'totalRangePrices', 'totalNoPrices'));
     }
 
     public function create()
@@ -38,12 +48,12 @@ class PriceController extends Controller
         return redirect()->route('prices.index')->with('successMessage', 'New prices are added.');
     }
 
-    public function edit(Price $price)
+    public function edit()
     {
         //
     }
 
-    public function update(UpdatePriceRequest $request, Price $price)
+    public function update(UpdatePriceRequest $request)
     {
         //
     }

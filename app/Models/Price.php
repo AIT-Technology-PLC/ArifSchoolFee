@@ -18,4 +18,14 @@ class Price extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function scopeFixed($query)
+    {
+        return $query->where('type', 'fixed');
+    }
+
+    public function scopeRange($query)
+    {
+        return $query->where('type', 'range');
+    }
 }

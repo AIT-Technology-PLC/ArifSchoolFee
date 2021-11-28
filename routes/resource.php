@@ -87,4 +87,6 @@ Route::resource('credits.credit-settlements', Resource\CreditSettlementControlle
 
 Route::resource('customers.credits', Resource\CustomerCreditController::class)->only('index');
 
-Route::resource('prices', Resource\PriceController::class)->except('show');
+Route::get('prices/edit', ['Resource\PriceController::class', 'edit'])->name('prices.edit');
+Route::patch('prices', ['Resource\PriceController::class', 'update'])->name('prices.update');
+Route::resource('prices', Resource\PriceController::class)->except(['show', 'edit', 'update']);
