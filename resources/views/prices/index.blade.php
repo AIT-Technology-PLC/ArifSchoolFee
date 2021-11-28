@@ -49,16 +49,6 @@
                     class="btn-green is-outlined is-small"
                 />
             @endcan
-            @can('Update Price')
-                <x-common.button
-                    tag="a"
-                    href="{{ route('prices.edit') }}"
-                    mode="button"
-                    icon="fas fa-pen"
-                    label="Update Prices"
-                    class="btn-green is-outlined is-small"
-                />
-            @endcan
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
