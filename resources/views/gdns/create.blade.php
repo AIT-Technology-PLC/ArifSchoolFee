@@ -298,7 +298,10 @@
                 </div>
                 <div id="gdn-details">
                     @foreach (old('gdn', [[]]) as $gdnDetail)
-                        <div class="gdn-detail mx-3">
+                        <div
+                            x-data="productDataProvider({{ $gdnDetail['product_id'] ?? '' }})"
+                            class="gdn-detail mx-3"
+                        >
                             <div class="field has-addons mb-0 mt-5">
                                 <div class="control">
                                     <span
@@ -336,6 +339,7 @@
                                                     tags="false"
                                                     name="gdn[{{ $loop->index }}]"
                                                     selected-product-id="{{ $gdnDetail['product_id'] ?? '' }}"
+                                                    x-init="select2"
                                                 />
                                                 <div class="icon is-small is-left">
                                                     <i class="fas fa-th"></i>
@@ -417,6 +421,7 @@
                                                     id="gdn[{{ $loop->index }}][product_id]Quantity"
                                                     class="button bg-green has-text-white"
                                                     type="button"
+                                                    x-text="product.unit_of_measurement"
                                                 ></button>
                                             </div>
                                         </div>
@@ -435,6 +440,8 @@
                                                     class="input"
                                                     placeholder="Unit Price"
                                                     value="{{ $gdnDetail['unit_price'] ?? '0.00' }}"
+                                                    :readonly="isDisabled"
+                                                    x-model="product.price"
                                                 >
                                                 <span class="icon is-small is-left">
                                                     <i class="fas fa-money-bill"></i>
@@ -453,6 +460,7 @@
                                                     id="gdn[{{ $loop->index }}][product_id]Price"
                                                     class="button bg-green has-text-white"
                                                     type="button"
+                                                    x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
                                                 ></button>
                                             </div>
                                         </div>
