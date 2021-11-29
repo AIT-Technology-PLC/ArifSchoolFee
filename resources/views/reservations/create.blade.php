@@ -298,7 +298,10 @@
                 </div>
                 <div id="reservation-details">
                     @foreach (old('reservation', [[]]) as $reservationDetail)
-                        <div class="reservation-detail mx-3">
+                        <div
+                            x-data="productDataProvider({{ $reservationDetail['product_id'] ?? '' }})"
+                            class="reservation-detail mx-3"
+                        >
                             <div class="field has-addons mb-0 mt-5">
                                 <div class="control">
                                     <span
@@ -336,6 +339,7 @@
                                                     tags="false"
                                                     name="reservation[{{ $loop->index }}]"
                                                     selected-product-id="{{ $reservationDetail['product_id'] ?? '' }}"
+                                                    x-init="select2"
                                                 />
                                                 <div class="icon is-small is-left">
                                                     <i class="fas fa-th"></i>
@@ -417,6 +421,7 @@
                                                     id="reservation[{{ $loop->index }}][product_id]Quantity"
                                                     class="button bg-green has-text-white"
                                                     type="button"
+                                                    x-text="product.unit_of_measurement"
                                                 ></button>
                                             </div>
                                         </div>
@@ -436,7 +441,9 @@
                                                     type="number"
                                                     class="input"
                                                     placeholder="Unit Price"
-                                                    value="{{ $reservationDetail['unit_price'] ?? ('' ?? '0.00') }}"
+                                                    value="{{ $reservationDetail['unit_price'] ?? ('' ?? '.00') }}"
+                                                    :readonly="isDisabled"
+                                                    x-model="product.price"
                                                 >
                                                 <span class="icon is-small is-left">
                                                     <i class="fas fa-money-bill"></i>
@@ -455,6 +462,7 @@
                                                     id="reservation[{{ $loop->index }}][product_id]Price"
                                                     class="button bg-green has-text-white"
                                                     type="button"
+                                                    x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
                                                 ></button>
                                             </div>
                                         </div>
