@@ -35,7 +35,7 @@ class ValidatePrice implements Rule
         }
 
         if (!$price->isFixed() && ($value < $price->min_price || $value > $price->max_price)) {
-            $this->message = "The price of this product should a minimum of {$price->min_price} or a maximum of {$price->max_price}.";
+            $this->message = "The price of this product should be a minimum of {$price->min_price} or a maximum of {$price->max_price}.";
 
             return false;
         }
