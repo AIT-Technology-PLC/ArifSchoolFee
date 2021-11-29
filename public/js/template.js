@@ -13,7 +13,7 @@ function addProformaInvoiceDetail() {
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "select2Alpine");
+    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
 
     proformaInvoiceDetail.querySelector(
         "[name=item-number]"
@@ -196,7 +196,7 @@ function addGdnDetail() {
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "select2Alpine");
+    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
 
     gdnDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalGdnDetails + 1
@@ -342,7 +342,7 @@ function addReservationDetail() {
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "select2Alpine");
+    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
 
     reservationDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalReservationDetails + 1
@@ -542,7 +542,7 @@ function addPurchaseOrderDetail() {
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "select2Alpine");
+    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
 
     purchaseOrderDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalPurchaseOrderDetails + 1
@@ -694,7 +694,7 @@ function addAdjustmentDetail() {
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "select2Alpine");
+    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
 
     adjustmentDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalAdjustmentDetails + 1
@@ -846,7 +846,7 @@ function addTransferDetail() {
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "select2Alpine");
+    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
 
     transferDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalTransferDetails + 1
@@ -954,7 +954,7 @@ function addReturnDetail() {
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "select2Alpine");
+    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
 
     returnDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalReturnDetails + 1
@@ -1107,7 +1107,7 @@ function addPurchaseDetail() {
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "select2Alpine");
+    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
 
     purchaseDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalPurchaseDetails + 1
@@ -1244,7 +1244,7 @@ function addSaleDetail() {
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "select2Alpine");
+    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
 
     saleDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalSaleDetails + 1
@@ -1362,7 +1362,7 @@ function addTenderDetail() {
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "select2Alpine");
+    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
 
     tenderDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalTenderDetails + 1
@@ -1468,7 +1468,7 @@ function addDamageDetail() {
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "select2Alpine");
+    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
 
     damageDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalDamageDetails + 1
@@ -1591,7 +1591,7 @@ function addSivDetail() {
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "select2Alpine");
+    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
 
     sivDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalSivDetails + 1
@@ -1698,7 +1698,7 @@ function addGrnDetail() {
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "select2Alpine");
+    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
 
     grnDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalGrnDetails + 1

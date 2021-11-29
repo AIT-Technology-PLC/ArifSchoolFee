@@ -28,7 +28,7 @@
                                     <x-forms.control>
                                         <span
                                             class="tag bg-green has-text-white is-medium is-radiusless"
-                                            x-text="`Item ${price.count}`"
+                                            x-text="`Item ${index + 1}`"
                                         ></span>
                                     </x-forms.control>
                                     <x-forms.control>
@@ -62,6 +62,7 @@
                                                         id=""
                                                         x-bind:id="`price[${index}][product_id]`"
                                                         x-bind:name="`price[${index}][product_id]`"
+                                                        x-init="select2(index)"
                                                         x-model="price.product_id"
                                                     />
                                                     <x-common.icon

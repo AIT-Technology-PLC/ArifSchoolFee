@@ -4,7 +4,7 @@
         name="{{ $name . '[product_id]' }}"
         data-tags="{{ $tags }}"
         onchange="getProductSelected(this.id, this.value)"
-        x-init="select2Alpine"
+        {{ $attributes->has('x-init') ? '' : 'x-init=initializeSelect2($el)' }}
         {{ $attributes->whereStartsWith('x-') }}
     >
         <option

@@ -188,13 +188,11 @@ function disableInputTypeNumberMouseWheel() {
     }
 }
 
-function select2Alpine() {
-    let select2 = this.$el;
-
-    $(select2).select2({
+const initializeSelect2 = (element) => {
+    return $(element).select2({
         placeholder: "Select a product",
         allowClear: true,
-        tags: $(select2).attr("data-tags"),
+        tags: $(element).attr("data-tags"),
         matcher: (params, data) => {
             if ($.trim(params.term) === "") {
                 return data;
@@ -229,9 +227,7 @@ function select2Alpine() {
             return null;
         },
     });
-
-    this.$nextTick(() => $(select2).trigger("change"));
-}
+};
 
 document.addEventListener("alpine:init", () => {
     Alpine.data("inventoryTypeToggler", () => ({
@@ -407,8 +403,6 @@ document.addEventListener("alpine:init", () => {
         init() {
             if (price) {
                 this.prices = price;
-                this.reorder();
-
                 return;
             }
 
@@ -427,31 +421,14 @@ document.addEventListener("alpine:init", () => {
                 fixed_price: "",
                 min_price: "",
                 max_price: "",
-                count: this.prices.filter((price) => price !== "").length + 1,
             });
         },
         remove(index) {
-            if (index === 0) {
+            if (this.prices.length === 1) {
                 return;
             }
 
-            this.prices[index] = "";
-
-            this.reorder();
-        },
-        reorder() {
-            if (!Array.isArray(this.prices)) {
-                return;
-            }
-
-            let priceCount = 1;
-
-            this.prices.forEach((price) => {
-                if (price !== "") {
-                    price.count = priceCount;
-                    priceCount++;
-                }
-            });
+            this.prices.splice(index, 1);
         },
         isPriceFixed(priceType) {
             if (!priceType) {
@@ -469,6 +446,17 @@ document.addEventListener("alpine:init", () => {
             if (price.type === "range") {
                 price.fixed_price = "";
             }
+        },
+        select2(index) {
+            let select2 = initializeSelect2(this.$el);
+
+            this.$nextTick(() => $(select2).trigger("change"));
+
+            select2.on("select2:select", (event) => {
+                this.prices[index].product_id = event.target.value;
+            });
+
+            this.$watch(`prices`, () => select2.trigger("change"));
         },
     }));
 });
