@@ -41,8 +41,14 @@ class PriceController extends Controller
 
     public function store(StorePriceRequest $request)
     {
-        DB::transaction(function () use ($request) {
-            foreach ($request->validated()['price'] as $price) {
+        $prices = collect($request->validated()['price']);
+
+        if ($prices->duplicates('product_id')->count()) {
+            return back()->withInput()->with('failedMessage', 'One product can have only one price.');
+        }
+
+        DB::transaction(function () use ($prices) {
+            foreach ($prices as $price) {
                 Price::firstOrCreate(['product_id' => $price['product_id']], $price);
             }
         });

@@ -17,6 +17,7 @@
                 x-data="priceMasterDetailForm({{ json_encode(session()->getOldInput()) }})"
                 x-init="setErrors({{ json_encode($errors->get('price.*')) }})"
             >
+                <x-common.fail-message :message="session('failedMessage')" />
                 <template
                     x-for="(price, index) in prices"
                     x-bind:key="index"
