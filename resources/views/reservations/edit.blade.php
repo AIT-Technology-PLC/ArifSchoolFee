@@ -278,7 +278,7 @@
                                         name="due_date"
                                         id="due_date"
                                         placeholder="mm/dd/yyyy"
-                                        value="{{ $reservation->due_date ?? '' }}"
+                                        value="{{ $reservation->due_date->toDateString() ?? '' }}"
                                     >
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-calendar-alt"></i>
@@ -302,7 +302,10 @@
                             Item {{ $loop->index + 1 }}
                         </span>
                     </div>
-                    <div class="box has-background-white-bis radius-top-0">
+                    <div
+                        x-data="productDataProvider({{ $reservationDetail->product_id }}, {{ $reservationDetail->originalUnitPrice ?? 0.0 }})"
+                        class="box has-background-white-bis radius-top-0"
+                    >
                         <div
                             name="reservationFormGroup"
                             class="columns is-marginless is-multiline"
@@ -318,6 +321,7 @@
                                             tags="false"
                                             name="reservation[{{ $loop->index }}]"
                                             selected-product-id="{{ $reservationDetail->product_id }}"
+                                            x-init="select2"
                                         />
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-th"></i>
@@ -399,7 +403,9 @@
                                             id="reservation[{{ $loop->index }}][product_id]Quantity"
                                             class="button bg-green has-text-white"
                                             type="button"
-                                        >{{ $reservationDetail->product->unit_of_measurement }}</button>
+                                            x-text="product.unit_of_measurement"
+                                        >
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -416,7 +422,8 @@
                                             type="number"
                                             class="input"
                                             placeholder="Sale Price"
-                                            value="{{ $reservationDetail->originalUnitPrice ?? '0.00' }}"
+                                            :readonly="isDisabled"
+                                            x-model="product.price"
                                         >
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-money-bill"></i>
@@ -435,7 +442,9 @@
                                             id="reservation[{{ $loop->index }}][product_id]Price"
                                             class="button bg-green has-text-white"
                                             type="button"
-                                        >{{ $reservationDetail->product->unit_of_measurement }}</button>
+                                            x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
+                                        >
+                                        </button>
                                     </div>
                                 </div>
                             </div>
