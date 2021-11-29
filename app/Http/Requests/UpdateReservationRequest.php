@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidatePrice;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -21,7 +22,7 @@ class UpdateReservationRequest extends FormRequest
             'reservation' => ['required', 'array'],
             'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('sales')->pluck('id'))],
-            'reservation.*.unit_price' => ['nullable', 'numeric'],
+            'reservation.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
             'reservation.*.quantity' => ['required', 'numeric', 'min:1'],
             'reservation.*.description' => ['nullable', 'string'],
             'reservation.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
