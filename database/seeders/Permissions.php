@@ -216,7 +216,6 @@ class Permissions extends Seeder
                 'Read Product',
                 'Read Supplier',
                 'Read Customer',
-                'Read Credit',
                 'Read Reservation',
             ]);
 
@@ -235,7 +234,6 @@ class Permissions extends Seeder
                 'Create Sale',
                 'Create Proforma Invoice',
                 'Create Customer',
-                'Create Credit',
                 'Create PO',
                 'Create Return',
                 'Create Reservation',
@@ -243,7 +241,6 @@ class Permissions extends Seeder
                 'Read Sale',
                 'Read Proforma Invoice',
                 'Read Customer',
-                'Read Credit',
                 'Read PO',
                 'Read Return',
                 'Read Product',
@@ -252,7 +249,6 @@ class Permissions extends Seeder
                 'Update Sale',
                 'Update Proforma Invoice',
                 'Update Customer',
-                'Update Credit',
                 'Update PO',
                 'Update Return',
                 'Update Reservation',
