@@ -12,8 +12,18 @@ class ProductController extends Controller
         $this->middleware('isFeatureAccessible:Product Management');
     }
 
-    public function getProductUOM(Product $product)
+    public function show(Product $product)
     {
-        return $product->unit_of_measurement;
+        $product->with('price:id,type,fixed_price,min_price,max_price');
+
+        return collect([
+            'name' => $product->name,
+            'code' => $product->code ?? '',
+            'min_on_hand' => $product->min_on_hand,
+            'type' => $product->type,
+            'unit_of_measurement' => $product->unit_of_measurement,
+            'price_type' => $product->price ? $product->price->type : '',
+            'price' => $product->price->fixed_price ?? $product->price->max_price ?? '.00',
+        ]);
     }
 }

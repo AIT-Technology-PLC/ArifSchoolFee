@@ -195,7 +195,10 @@
                 </div>
                 <div id="sale-details">
                     @foreach (old('sale', [[]]) as $saleDetail)
-                        <div class="sale-detail mx-3">
+                        <div
+                            x-data="productDataProvider({{ $saleDetail['product_id'] ?? '' }})"
+                            class="sale-detail mx-3"
+                        >
                             <div class="field has-addons mb-0 mt-5">
                                 <div class="control">
                                     <span
@@ -230,6 +233,7 @@
                                                     tags="false"
                                                     name="sale[{{ $loop->index }}]"
                                                     selected-product-id="{{ $saleDetail['product_id'] ?? '' }}"
+                                                    x-init="select2"
                                                 />
                                                 <div class="icon is-small is-left">
                                                     <i class="fas fa-th"></i>
@@ -277,6 +281,7 @@
                                                     id="sale[{{ $loop->index }}][product_id]Quantity"
                                                     class="button bg-green has-text-white"
                                                     type="button"
+                                                    x-text="product.unit_of_measurement"
                                                 ></button>
                                             </div>
                                         </div>
@@ -295,6 +300,8 @@
                                                     class="input"
                                                     placeholder="Unit Price"
                                                     value="{{ $saleDetail['unit_price'] ?? '' }}"
+                                                    :readonly="isDisabled"
+                                                    x-model="product.price"
                                                 >
                                                 <span class="icon is-small is-left">
                                                     <i class="fas fa-money-bill"></i>
@@ -313,6 +320,7 @@
                                                     id="sale[{{ $loop->index }}][product_id]Price"
                                                     class="button bg-green has-text-white"
                                                     type="button"
+                                                    x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
                                                 ></button>
                                             </div>
                                         </div>

@@ -40,11 +40,9 @@ async function getProductSelected(elementId, productId) {
         return;
     }
 
-    const response = await axios.get(
-        `/api/products/${productId}/unit-of-measurement`
-    );
+    const response = await axios.get(`/api/products/${productId}`);
 
-    const unitOfMeasurement = response.data;
+    const unitOfMeasurement = response.data.unit_of_measurement;
 
     if (d.getElementById(elementId + "Quantity")) {
         d.getElementById(elementId + "Quantity").innerText = unitOfMeasurement;
@@ -457,6 +455,39 @@ document.addEventListener("alpine:init", () => {
             });
 
             this.$watch(`prices`, () => select2.trigger("change"));
+        },
+    }));
+
+    Alpine.data("productDataProvider", (productId) => ({
+        product: {
+            name: "",
+            code: "",
+            min_on_hand: "",
+            type: "",
+            unit_of_measurement: "",
+            price_type: "",
+            price: "",
+        },
+        isDisabled: false,
+
+        init() {
+            if (productId) {
+                this.getProduct(productId);
+            }
+        },
+        async getProduct(productId) {
+            const response = await axios.get(`/api/products/${productId}`);
+
+            this.product = response.data;
+
+            this.isDisabled = this.product.price_type === "fixed";
+        },
+        select2() {
+            let select2 = initializeSelect2(this.$el);
+
+            select2.on("select2:select", (event) => {
+                this.getProduct(event.target.value);
+            });
         },
     }));
 });

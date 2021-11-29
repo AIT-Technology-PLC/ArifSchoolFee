@@ -3,7 +3,7 @@
         id="{{ $name . '[product_id]' }}"
         name="{{ $name . '[product_id]' }}"
         data-tags="{{ $tags }}"
-        onchange="getProductSelected(this.id, this.value)"
+        {{ $attributes->has('x-init') ? '' : 'onchange=getProductSelected(this.id,this.value)' }}
         {{ $attributes->has('x-init') ? '' : 'x-init=initializeSelect2($el)' }}
         {{ $attributes->whereStartsWith('x-') }}
     >
