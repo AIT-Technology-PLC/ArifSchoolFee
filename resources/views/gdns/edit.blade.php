@@ -279,7 +279,7 @@
                                         name="due_date"
                                         id="due_date"
                                         placeholder="mm/dd/yyyy"
-                                        value="{{ $gdn->due_date ?? '' }}"
+                                        value="{{ $gdn->due_date->toDateString() ?? '' }}"
                                     >
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-calendar-alt"></i>
@@ -303,7 +303,10 @@
                             Item {{ $loop->index + 1 }}
                         </span>
                     </div>
-                    <div class="box has-background-white-bis radius-top-0">
+                    <div
+                        x-data="productDataProvider({{ $gdnDetail->product_id }}, {{ $gdnDetail->originalUnitPrice ?? 0.0 }})"
+                        class="box has-background-white-bis radius-top-0"
+                    >
                         <div
                             name="gdnFormGroup"
                             class="columns is-marginless is-multiline"
@@ -319,6 +322,7 @@
                                             tags="false"
                                             name="gdn[{{ $loop->index }}]"
                                             selected-product-id="{{ $gdnDetail->product_id }}"
+                                            x-init="select2"
                                         />
                                         <div class="icon is-small is-left">
                                             <i class="fas fa-th"></i>
@@ -400,7 +404,9 @@
                                             id="gdn[{{ $loop->index }}][product_id]Quantity"
                                             class="button bg-green has-text-white"
                                             type="button"
-                                        >{{ $gdnDetail->product->unit_of_measurement }}</button>
+                                            x-text="product.unit_of_measurement"
+                                        >
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -417,7 +423,8 @@
                                             type="number"
                                             class="input"
                                             placeholder="Sale Price"
-                                            value="{{ $gdnDetail->originalUnitPrice ?? '0.00' }}"
+                                            :readonly="isDisabled"
+                                            x-model="product.price"
                                         >
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-money-bill"></i>
@@ -436,7 +443,9 @@
                                             id="gdn[{{ $loop->index }}][product_id]Price"
                                             class="button bg-green has-text-white"
                                             type="button"
-                                        >{{ $gdnDetail->product->unit_of_measurement }}</button>
+                                            x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
+                                        >
+                                        </button>
                                     </div>
                                 </div>
                             </div>
