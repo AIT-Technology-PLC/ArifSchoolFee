@@ -1,3 +1,7 @@
+[x-cloak] {
+    display: none !important;
+}
+
 .text-green {
     color: #3d8660 !important;
 }

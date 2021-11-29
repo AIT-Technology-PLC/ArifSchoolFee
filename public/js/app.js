@@ -458,7 +458,7 @@ document.addEventListener("alpine:init", () => {
         },
     }));
 
-    Alpine.data("productDataProvider", (productId) => ({
+    Alpine.data("productDataProvider", (productId, unitPrice = null) => ({
         product: {
             name: "",
             code: "",
@@ -481,6 +481,11 @@ document.addEventListener("alpine:init", () => {
             this.product = response.data;
 
             this.isDisabled = this.product.price_type === "fixed";
+
+            if (unitPrice !== null) {
+                this.product.price = unitPrice;
+                unitPrice = null;
+            }
         },
         select2() {
             let select2 = initializeSelect2(this.$el);
