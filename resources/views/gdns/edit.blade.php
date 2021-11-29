@@ -279,7 +279,7 @@
                                         name="due_date"
                                         id="due_date"
                                         placeholder="mm/dd/yyyy"
-                                        value="{{ $gdn->due_date->toDateString() ?? '' }}"
+                                        value="{{ $gdn->due_date ? $gdn->due_date->toDateString() : '' }}"
                                     >
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-calendar-alt"></i>

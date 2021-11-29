@@ -278,7 +278,7 @@
                                         name="due_date"
                                         id="due_date"
                                         placeholder="mm/dd/yyyy"
-                                        value="{{ $reservation->due_date->toDateString() ?? '' }}"
+                                        value="{{ $reservation->due_date ? $reservation->due_date->toDateString() : '' }}"
                                     >
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-calendar-alt"></i>
