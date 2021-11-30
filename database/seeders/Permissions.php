@@ -29,6 +29,7 @@ class Permissions extends Seeder
             $systemManager = Role::firstOrCreate(['name' => 'System Manager']);
             $tenderOfficer = Role::firstOrCreate(['name' => 'Tender Officer']);
             $userManager = Role::firstOrCreate(['name' => 'User Manager']);
+            $custom = Role::firstOrCreate(['name' => 'Custom']);
 
             // GDN
             Permission::firstOrCreate(['name' => 'Create GDN']);
