@@ -59,7 +59,7 @@ class CancelExpiredReservations extends Command
                 }
 
                 $users = User::query()
-                    ->role(['System Manager', 'Analyst', 'Store Keeper', 'Sales Officer'])
+                    ->permission('Read Reservation')
                     ->where(function ($query) use ($cancelledReservations) {
                         $query->whereNull('warehouse_id')
                             ->orWhereIn('warehouse_id', $cancelledReservations->pluck('warehouse_id'));

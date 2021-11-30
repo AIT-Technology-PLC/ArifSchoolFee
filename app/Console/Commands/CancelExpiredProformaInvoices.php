@@ -46,7 +46,7 @@ class CancelExpiredProformaInvoices extends Command
                 $proformaInvoices->each->cancel();
 
                 $users = User::query()
-                    ->role(['System Manager', 'Analyst', 'Sales Officer'])
+                    ->permission('Read Proforma Invoice')
                     ->where(function ($query) use ($proformaInvoices) {
                         $query->whereNull('warehouse_id')
                             ->orWhereIn('warehouse_id', $proformaInvoices->pluck('warehouse_id'));

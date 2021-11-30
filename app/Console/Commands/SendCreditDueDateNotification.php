@@ -41,7 +41,7 @@ class SendCreditDueDateNotification extends Command
             }
 
             $users = User::query()
-                ->role(['System Manager', 'Analyst', 'Sales Officer'])
+                ->permission('Read Credit')
                 ->whereHas('employee', function (Builder $query) use ($company) {
                     $query->where('company_id', $company->id);
                 })
