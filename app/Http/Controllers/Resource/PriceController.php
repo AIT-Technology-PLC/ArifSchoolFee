@@ -8,7 +8,10 @@ use App\Http\Requests\StorePriceRequest;
 use App\Http\Requests\UpdatePriceRequest;
 use App\Models\Price;
 use App\Models\Product;
+use App\Models\User;
+use App\Notifications\PriceUpdated;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class PriceController extends Controller
 {
@@ -67,13 +70,18 @@ class PriceController extends Controller
     {
         $price->update($request->validated());
 
-        return redirect()->route('prices.index')->with('successMessage', 'Price updated successfully');
+        $users = User::permission('Read Price')
+            ->whereHas('employee', fn($query) => $query->where('company_id', userCompany()->id))
+            ->where('id', '<>', auth()->id())
+            ->get();
+
+        Notification::send($users, new PriceUpdated($price));
+
+        return redirect()->route('prices.index')->with('successMessage', 'Price updated successfully.');
     }
 
     public function destroy(Price $price)
     {
-        abort_if(auth()->user()->cannot('Delete Price'), 403);
-
         $price->forceDelete();
 
         return back()->with('successMessage', 'Price deleted successfully.');

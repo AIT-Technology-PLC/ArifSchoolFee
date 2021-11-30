@@ -10,13 +10,11 @@ class PriceUpdated extends Notification
 {
     use Queueable;
 
-    private $totalProducts, $prices;
+    private $price;
 
-    public function __construct($totalProducts, $prices)
+    public function __construct($price)
     {
-        $this->totalProducts = $totalProducts;
-
-        $this->prices = $prices;
+        $this->price = $price;
     }
 
     public function via($notifiable)
@@ -26,20 +24,14 @@ class PriceUpdated extends Notification
 
     public function toArray($notifiable)
     {
-        $message = Str::of(Str::plural('Price', $this->totalProducts))
-            ->append(
-                ' of ',
-                $this->totalProducts,
-                ' ',
-                Str::plural('product', $this->totalProducts),
-                ' ',
-                $this->totalProducts > 1 ? 'have been updated.' : 'has been updated.',
-            );
+        $message = Str::of($this->price->product->name)
+            ->title()
+            ->append(' price is updated.');
 
         return [
             'icon' => 'tags',
             'message' => $message,
-            'endpoint' => '/prices?prices=' . $this->prices->pluck('id')->toArray(),
+            'endpoint' => '/prices',
         ];
     }
 }
