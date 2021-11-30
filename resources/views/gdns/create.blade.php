@@ -92,7 +92,7 @@
                                         </select>
                                     </div>
                                     <div class="icon is-small is-left">
-                                        <i class="fas fa-tags"></i>
+                                        <i class="fas fa-cash-register"></i>
                                     </div>
                                 </div>
                             </div>

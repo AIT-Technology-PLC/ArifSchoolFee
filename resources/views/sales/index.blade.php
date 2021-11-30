@@ -11,7 +11,7 @@
                 <div class="columns is-marginless is-vcentered is-mobile">
                     <div class="column has-text-centered is-paddingless">
                         <span class="icon is-large is-size-1">
-                            <i class="fas fa-tags"></i>
+                            <i class="fas fa-cash-register"></i>
                         </span>
                     </div>
                     <div class="column is-paddingless">
@@ -33,7 +33,10 @@
                             Create new sale order, track order and expense
                         </div>
                         <div class="is-size-3">
-                            <a href="{{ route('sales.create') }}" class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3">
+                            <a
+                                href="{{ route('sales.create') }}"
+                                class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3"
+                            >
                                 <span class="icon">
                                     <i class="fas fa-plus-circle"></i>
                                 </span>
@@ -56,7 +59,11 @@
         <div class="box radius-top-0">
             <x-common.success-message :message="session('deleted')" />
             <div>
-                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[4]" data-numeric="[]">
+                <table
+                    class="regular-datatable is-hoverable is-size-7 display nowrap"
+                    data-date="[4]"
+                    data-numeric="[]"
+                >
                     <thead>
                         <tr>
                             <th><abbr> # </abbr></th>
@@ -71,7 +78,10 @@
                     </thead>
                     <tbody>
                         @foreach ($sales as $sale)
-                            <tr class="showRowDetails is-clickable" data-id="{{ route('sales.show', $sale->id) }}">
+                            <tr
+                                class="showRowDetails is-clickable"
+                                data-id="{{ route('sales.show', $sale->id) }}"
+                            >
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
                                     <span class="tag bg-gold has-text-white">
@@ -99,7 +109,10 @@
                                 <td> {{ $sale->createdBy->name ?? 'N/A' }} </td>
                                 <td> {{ $sale->updatedBy->name ?? 'N/A' }} </td>
                                 <td class="actions">
-                                    <a href="{{ route('sales.show', $sale->id) }}" data-title="View Details">
+                                    <a
+                                        href="{{ route('sales.show', $sale->id) }}"
+                                        data-title="View Details"
+                                    >
                                         <span class="tag is-white btn-purple is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-info-circle"></i>
@@ -109,7 +122,10 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <a href="{{ route('sales.edit', $sale->id) }}" data-title="Modify Sales Data">
+                                    <a
+                                        href="{{ route('sales.edit', $sale->id) }}"
+                                        data-title="Modify Sales Data"
+                                    >
                                         <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
                                             <span class="icon">
                                                 <i class="fas fa-pen-square"></i>
@@ -119,7 +135,10 @@
                                             </span>
                                         </span>
                                     </a>
-                                    <x-common.delete-button route="sales.destroy" :id="$sale->id" />
+                                    <x-common.delete-button
+                                        route="sales.destroy"
+                                        :id="$sale->id"
+                                    />
                                 </td>
                             </tr>
                         @endforeach

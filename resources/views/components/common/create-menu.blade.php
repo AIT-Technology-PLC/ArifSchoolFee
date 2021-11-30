@@ -145,7 +145,7 @@
                                         tag="a"
                                         mode="button"
                                         href="{{ route('sales.create') }}"
-                                        icon="fas fa-tags"
+                                        icon="fas fa-cash-register"
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>

@@ -177,7 +177,7 @@
                                         class="general-menu-item button text-green bg-lightgreen is-borderless"
                                     >
                                         <span class="icon is-size-5">
-                                            <i class="fas fa-tags"></i>
+                                            <i class="fas fa-cash-register"></i>
                                         </span>
                                     </a>
                                     <br>
