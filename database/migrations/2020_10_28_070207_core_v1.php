@@ -530,6 +530,7 @@ class CoreV1 extends Migration
             $table->id();
             $table->foreignId('tender_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('general_tender_checklist_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('assigned_to')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('status')->nullable();
             $table->string('comment')->nullable();
             $table->timestamps();
@@ -810,6 +811,22 @@ class CoreV1 extends Migration
             $table->index('credit_id');
         });
 
+        Schema::create('prices', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')->unique()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('company_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->string('type');
+            $table->decimal('min_price')->nullable();
+            $table->decimal('max_price')->nullable();
+            $table->decimal('fixed_price')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
+
+            $table->index('company_id');
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -869,5 +886,6 @@ class CoreV1 extends Migration
         Schema::drop('user_warehouse');
         Schema::drop('credit_settlements');
         Schema::drop('credits');
+        Schema::drop('prices');
     }
 }
