@@ -81,6 +81,10 @@ class PermissionCategorizationService
             'label' => 'Credit',
             'feature' => 'Credit Management',
         ],
+        'price' => [
+            'label' => 'Price',
+            'feature' => 'Price Management',
+        ],
         'tender' => [
             'label' => 'Tender',
             'feature' => 'Tender Management',
@@ -88,10 +92,6 @@ class PermissionCategorizationService
         'company' => [
             'label' => 'Company',
             'feature' => 'General Settings',
-        ],
-        'price' => [
-            'label' => 'Price',
-            'feature' => 'Price Management',
         ],
     ];
 
