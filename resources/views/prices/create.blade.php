@@ -135,6 +135,18 @@
                                                 x-text="getErrors(`price.${index}.fixed_price`)"
                                             ></span>
                                         </x-forms.control>
+                                        <x-forms.control
+                                            x-data="productDataProvider(price.product_id)"
+                                            x-init="$watch(`price.product_id`, (value) => getProduct(value))"
+                                        >
+                                            <x-common.button
+                                                tag="button"
+                                                mode="button"
+                                                class="button bg-green has-text-white"
+                                                type="button"
+                                                x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
+                                            />
+                                        </x-forms.control>
                                     </x-forms.field>
                                 </div>
                                 <div
@@ -164,6 +176,18 @@
                                                 x-text="getErrors(`price.${index}.min_price`)"
                                             ></span>
                                         </x-forms.control>
+                                        <x-forms.control
+                                            x-data="productDataProvider(price.product_id)"
+                                            x-init="$watch(`price.product_id`, (value) => getProduct(value))"
+                                        >
+                                            <x-common.button
+                                                tag="button"
+                                                mode="button"
+                                                class="button bg-green has-text-white"
+                                                type="button"
+                                                x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
+                                            />
+                                        </x-forms.control>
                                     </x-forms.field>
                                 </div>
                                 <div
@@ -192,6 +216,18 @@
                                                 class="help has-text-danger"
                                                 x-text="getErrors(`price.${index}.max_price`)"
                                             ></span>
+                                        </x-forms.control>
+                                        <x-forms.control
+                                            x-data="productDataProvider(price.product_id)"
+                                            x-init="$watch(`price.product_id`, (value) => getProduct(value))"
+                                        >
+                                            <x-common.button
+                                                tag="button"
+                                                mode="button"
+                                                class="button bg-green has-text-white"
+                                                type="button"
+                                                x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
+                                            />
                                         </x-forms.control>
                                     </x-forms.field>
                                 </div>

@@ -93,6 +93,15 @@
                                 />
                                 <x-common.validation-error property="fixed_price" />
                             </x-forms.control>
+                            <x-forms.control>
+                                <x-common.button
+                                    tag="button"
+                                    mode="button"
+                                    class="button bg-green has-text-white"
+                                    type="button"
+                                    label="Per {{ $price->product->unit_of_measurement }}"
+                                />
+                            </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div
@@ -118,6 +127,15 @@
                                 />
                                 <x-common.validation-error property="min_price" />
                             </x-forms.control>
+                            <x-forms.control>
+                                <x-common.button
+                                    tag="button"
+                                    mode="button"
+                                    class="button bg-green has-text-white"
+                                    type="button"
+                                    label="Per {{ $price->product->unit_of_measurement }}"
+                                />
+                            </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div
@@ -142,6 +160,15 @@
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="max_price" />
+                            </x-forms.control>
+                            <x-forms.control>
+                                <x-common.button
+                                    tag="button"
+                                    mode="button"
+                                    class="button bg-green has-text-white"
+                                    type="button"
+                                    label="Per {{ $price->product->unit_of_measurement }}"
+                                />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
