@@ -37,8 +37,8 @@ class CreditDatatable extends DataTable
             ->editColumn('status', fn($credit) => view('components.datatables.credit-status', compact('credit')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when(strtolower($keyword) == 'no-settlements', fn($query) => $query->noSettlements())
-                    ->when(strtolower($keyword) == 'partial-settlements', fn($query) => $query->partiallySettled())
+                    ->when(strtolower($keyword) == 'no settlements', fn($query) => $query->noSettlements())
+                    ->when(strtolower($keyword) == 'partial settlements', fn($query) => $query->partiallySettled())
                     ->when(strtolower($keyword) == 'settled', fn($query) => $query->settled());
             })
             ->editColumn('credit amount', fn($credit) => userCompany()->currency . '. ' . number_format($credit->credit_amount, 2))
@@ -61,6 +61,10 @@ class CreditDatatable extends DataTable
         return $credit
             ->newQuery()
             ->select('credits.*')
+            ->when(is_numeric(request('pad')), fn($query) => $query->where('warehouse_id', request('pad')))
+            ->when(request('status') == 'no settlements', fn($query) => $query->noSettlements())
+            ->when(request('status') == 'partial settlements', fn($query) => $query->partiallySettled())
+            ->when(request('status') == 'settled', fn($query) => $query->settled())
             ->when(request()->routeIs('customers.credits.index'), function ($query) {
                 return $query->where('customer_id', request()->route('customer')->id);
             })

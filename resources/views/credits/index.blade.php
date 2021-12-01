@@ -69,7 +69,66 @@
         <x-content.footer>
             <x-common.success-message :message="session('deleted') ?? session('successMessage')" />
             <x-common.fail-message :message="session('failedMessage')" />
-            {{ $dataTable->table() }}
+            <x-datatables.filter filters="'pad', 'status'">
+                <div class="columns is-marginless is-vcentered">
+                    @if (auth()->user()->getAllowedWarehouses('transactions')->count() > 1)
+                        <div class="column is-3 p-lr-0 pt-0">
+                            <x-forms.field class="has-text-centered">
+                                <x-forms.control>
+                                    <x-forms.select
+                                        id=""
+                                        name=""
+                                        class="is-small is-fullwidth"
+                                        x-model="filters.pad"
+                                        x-on:change="add('pad')"
+                                    >
+                                        <option
+                                            disabled
+                                            selected
+                                            value=""
+                                        >
+                                            Pads
+                                        </option>
+                                        <option value="all"> All Pads </option>
+                                        @foreach (auth()->user()->getAllowedWarehouses('transactions')
+        as $warehouse)
+                                            <option value="{{ $warehouse->id }}"> {{ $warehouse->name }} Pad </option>
+                                        @endforeach
+                                    </x-forms.select>
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
+                    <div class="column is-3 p-lr-0 pt-0">
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id=""
+                                    name=""
+                                    class="is-small is-fullwidth"
+                                    x-model="filters.status"
+                                    x-on:change="add('status')"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                        value=""
+                                    >
+                                        Statuses
+                                    </option>
+                                    <option value="all"> All Statuses </option>
+                                    @foreach (['No Settlements', 'Partial Settlements', 'Settled'] as $status)
+                                        <option value="{{ Str::lower($status) }}"> {{ $status }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                </div>
+            </x-datatables.filter>
+            <div>
+                {{ $dataTable->table() }}
+            </div>
         </x-content.footer>
     </x-common.content-wrapper>
 @endsection
