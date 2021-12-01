@@ -53,7 +53,7 @@
                                     <x-forms.select
                                         id=""
                                         name=""
-                                        class="is-small is-fullwidth"
+                                        class="is-size-7-mobile is-fullwidth"
                                         x-model="filters.pad"
                                         x-on:change="add('pad')"
                                     >
@@ -80,7 +80,7 @@
                                 <x-forms.select
                                     id=""
                                     name=""
-                                    class="is-small is-fullwidth"
+                                    class="is-size-7-mobile is-fullwidth"
                                     x-model="filters.status"
                                     x-on:change="add('status')"
                                 >
