@@ -495,4 +495,27 @@ document.addEventListener("alpine:init", () => {
             });
         },
     }));
+
+    Alpine.data("laravelDatatableFilter", (...filters) => ({
+        filters: {},
+        parameters: {},
+
+        init() {
+            this.parameters = new URLSearchParams(location.search);
+
+            filters.forEach((filter) => {
+                this.filters[filter] = this.parameters.get(filter) || "";
+            });
+        },
+        add(key) {
+            this.parameters.set(key, this.$el.value);
+        },
+        filter() {
+            location.search = `?${this.parameters}`;
+        },
+        clear() {
+            this.parameters = "";
+            location.search = "";
+        },
+    }));
 });

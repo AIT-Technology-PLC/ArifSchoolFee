@@ -57,6 +57,10 @@ class GdnDatatable extends DataTable
         return $gdn
             ->newQuery()
             ->select('gdns.*')
+            ->when(is_numeric(request('pad')), fn($query) => $query->where('warehouse_id', request('pad')))
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
+            ->when(request('status') == 'approved', fn($query) => $query->notSubtracted()->approved())
+            ->when(request('status') == 'subtracted', fn($query) => $query->subtracted())
             ->with([
                 'gdnDetails',
                 'createdBy:id,name',
