@@ -55,6 +55,9 @@ class SivDatatable extends DataTable
         return $siv
             ->newQuery()
             ->select('sivs.*')
+            ->when(is_numeric(request('pad')), fn($query) => $query->where('warehouse_id', request('pad')))
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
+            ->when(request('status') == 'approved', fn($query) => $query->approved())
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
