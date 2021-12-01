@@ -21,7 +21,7 @@ class BranchScope implements Scope
 
     private function activeAndAllowedWarehouses()
     {
-        $activeAndAllowedWarehouses = collect([auth()->user()->warehouse_id]);
+        $activeAndAllowedWarehouses = auth()->user()->warehouse->isActive() ? collect([auth()->user()->warehouse_id]) : collect();
 
         if (auth()->user()->getAllowedWarehouses('transactions')->isNotEmpty()) {
             $activeAndAllowedWarehouses
