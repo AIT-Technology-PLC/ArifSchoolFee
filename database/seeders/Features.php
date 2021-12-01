@@ -74,7 +74,7 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Credit Management'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
 
             Feature::updateOrCreate(
@@ -134,7 +134,7 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Price Management'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
 
             $professional = Plan::where('name', 'professional')->first();
