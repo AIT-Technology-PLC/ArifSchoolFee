@@ -24,6 +24,8 @@ class PriceController extends Controller
 
     public function index(PriceDatatable $datatable)
     {
+        $datatable->builder()->setTableId('prices-datatable')->orderBy(1, 'asc');
+
         $totalProducts = Product::count();
 
         $totalFixedPrices = Price::fixed()->count();
