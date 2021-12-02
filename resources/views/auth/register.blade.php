@@ -11,10 +11,9 @@
                 <div class="columns is-marginless is-centered">
                     <div class="column is-5">
                         <div class="has-text-centered">
-                            <img
-                                src="{{ asset('img/logo.webp') }}"
-                                width="200"
-                            >
+                            <h1 class="has-text-white has-text-weight-light is-size-2 is-size-3-mobile mb-4">
+                                Smart<span class="has-text-weight-bold">Work&trade;</span>
+                            </h1>
                         </div>
                         <div
                             class="box"
@@ -153,6 +152,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="hero-foot has-text-centered">
+            <img
+                src="{{ asset('img/logo.webp') }}"
+                width="150"
+            >
         </div>
     </section>
 @endsection
