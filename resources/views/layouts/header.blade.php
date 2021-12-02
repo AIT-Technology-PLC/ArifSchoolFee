@@ -11,7 +11,7 @@
                     style="max-height: 70px"
                 >
                 <span class="has-text-white has-text-weight-light is-size-4 mb-1">
-                    Smart<span class="has-text-weight-bold">Work</span>
+                    Smart<span class="has-text-weight-bold">Work&trade;</span>
                 </span>
             </a>
             <a
@@ -19,7 +19,7 @@
                 href="#"
             >
                 <span class="has-text-white has-text-weight-light is-size-4">
-                    Smart<span class="has-text-weight-bold">Work</span>
+                    Smart<span class="has-text-weight-bold">Work&trade;</span>
                 </span>
             </a>
             <a
