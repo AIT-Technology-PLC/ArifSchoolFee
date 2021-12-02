@@ -6,7 +6,7 @@
 
 @section('content')
     <section class="hero is-fullheight bg-green limit-to-100vh">
-        <div class="hero-body pb-0">
+        <div class="hero-body">
             <div class="container">
                 <div class="columns is-marginless is-centered">
                     <div class="column is-5">
