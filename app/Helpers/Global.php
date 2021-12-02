@@ -84,3 +84,12 @@ if (!function_exists('notifiablesByBranch')) {
             ->get();
     }
 }
+
+if (!function_exists('money')) {
+
+    function money($amount = 0.00)
+    {
+        return userCompany()->currency . '. ' . number_format($amount, 2);
+    }
+
+}

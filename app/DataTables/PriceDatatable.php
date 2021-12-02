@@ -16,6 +16,9 @@ class PriceDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('product', fn($price) => $price->product->name)
+            ->editColumn('fixed_price', fn($price) => $price->fixed_price ? money($price->fixed_price) : '-')
+            ->editColumn('min_price', fn($price) => $price->min_price ? money($price->min_price) : '-')
+            ->editColumn('max_price', fn($price) => $price->max_price ? money($price->max_price) : '-')
             ->editColumn('last update date', fn($price) => $price->updated_at->toDayDateTimeString())
             ->editColumn('prepared by', fn($price) => $price->createdBy->name)
             ->editColumn('edited by', fn($price) => $price->updatedBy->name)
@@ -47,9 +50,9 @@ class PriceDatatable extends DataTable
             Column::computed('#'),
             Column::make('product', 'product.name')->addClass('is-capitalized'),
             Column::make('type', 'type')->addClass('is-capitalized'),
-            Column::make('fixed_price', 'fixed_price')->content('N/A'),
-            Column::make('min_price', 'min_price')->content('N/A'),
-            Column::make('max_price', 'max_price')->content('N/A'),
+            Column::make('fixed_price', 'fixed_price'),
+            Column::make('min_price', 'min_price'),
+            Column::make('max_price', 'max_price'),
             Column::make('last update date', 'updated_at')->visible(false),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
