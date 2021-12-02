@@ -818,9 +818,9 @@ class CoreV1 extends Migration
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('type');
-            $table->decimal('min_price')->nullable();
-            $table->decimal('max_price')->nullable();
-            $table->decimal('fixed_price')->nullable();
+            $table->decimal('min_price', 22)->nullable();
+            $table->decimal('max_price', 22)->nullable();
+            $table->decimal('fixed_price', 22)->nullable();
             $table->softDeletes();
             $table->timestamps();
 
