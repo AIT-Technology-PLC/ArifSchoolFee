@@ -1,8 +1,8 @@
 <div class="select is-fullwidth">
     <select
-        id="{{ $name . '[product_id]' }}"
-        name="{{ $name . '[product_id]' }}"
-        data-tags="{{ $tags }}"
+        {{ $name ? Str::of('id=')->append($name, '[product_id]') : '' }}
+        {{ $name ? Str::of('name=')->append($name, '[product_id]') : '' }}
+        {{ $tags ? Str::of('data-tags=')->append($tags) : '' }}
         {{ $attributes->has('x-init') ? '' : 'onchange=getProductSelected(this.id,this.value)' }}
         {{ $attributes->has('x-init') ? '' : 'x-init=initializeSelect2($el)' }}
         {{ $attributes->whereStartsWith('x-') }}

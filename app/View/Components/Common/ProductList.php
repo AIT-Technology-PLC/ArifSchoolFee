@@ -10,8 +10,12 @@ class ProductList extends Component
 {
     public $products, $name, $selectedProductId, $tags, $excludedProducts;
 
-    public function __construct($name, $selectedProductId, $tags, $excludedProducts = null)
-    {
+    public function __construct(
+        $name = null,
+        $selectedProductId = null,
+        $tags = false,
+        $excludedProducts = null
+    ) {
         $this->name = $name;
 
         $this->selectedProductId = $selectedProductId;

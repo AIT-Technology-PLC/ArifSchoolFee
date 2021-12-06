@@ -55,10 +55,6 @@
                                         <x-forms.control class="has-icons-left">
                                             <x-common.product-list
                                                 :excluded-products="$excludedProducts"
-                                                tags="false"
-                                                selected-product-id=""
-                                                name=""
-                                                id=""
                                                 x-bind:id="`price[${index}][product_id]`"
                                                 x-bind:name="`price[${index}][product_id]`"
                                                 x-init="select2(index)"
@@ -83,8 +79,6 @@
                                         <x-forms.control class="has-icons-left">
                                             <x-forms.select
                                                 class="is-fullwidth"
-                                                id=""
-                                                name=""
                                                 x-bind:id="`price[${index}][type]`"
                                                 x-bind:name="`price[${index}][type]`"
                                                 x-model="price.type"
