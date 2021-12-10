@@ -472,6 +472,7 @@ document.addEventListener("alpine:init", () => {
         isDisabled: false,
         products: [],
         selectedCategory: "",
+        select2: "",
 
         init() {
             if (productId) {
@@ -499,7 +500,7 @@ document.addEventListener("alpine:init", () => {
 
             this.products = response.data;
 
-            this.select2Products.empty();
+            this.select2.empty();
 
             this.products.forEach((product) => {
                 let newOption = new Option(
@@ -512,13 +513,13 @@ document.addEventListener("alpine:init", () => {
                 newOption.dataset.code = product.code;
                 newOption.dataset.category = product.category;
 
-                this.select2Products.append(newOption).trigger("change");
+                this.select2.append(newOption).trigger("change");
             });
         },
         select2() {
-            let select2 = initializeSelect2(this.$el);
+            this.select2 = initializeSelect2(this.$el);
 
-            select2.on("select2:select", (event) => {
+            this.select2.on("select2:select", (event) => {
                 this.getProduct(event.target.value);
             });
         },

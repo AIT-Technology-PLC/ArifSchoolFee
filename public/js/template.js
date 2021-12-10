@@ -349,7 +349,7 @@ function addReservationDetail() {
 
     let reservationDetail = reservationDetails[0].cloneNode(true);
 
-    gdnDetail.setAttribute("x-data", "productDataProvider");
+    reservationDetail.setAttribute("x-data", "productDataProvider");
 
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 

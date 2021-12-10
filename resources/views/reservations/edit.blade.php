@@ -311,12 +311,23 @@
                             class="columns is-marginless is-multiline"
                         >
                             <div class="column is-6">
-                                <div class="field">
-                                    <label
-                                        for="reservation[{{ $loop->index }}][product_id]"
-                                        class="label text-green has-text-weight-normal"
-                                    > Product <sup class="has-text-danger">*</sup> </label>
-                                    <div class="control has-icons-left">
+                                <label
+                                    for="reservation[{{ $loop->index }}][product_id]"
+                                    class="label text-green has-text-weight-normal"
+                                >
+                                    Product <sup class="has-text-danger">*</sup>
+                                </label>
+                                <div class="field has-addons">
+                                    <div
+                                        class="control has-icons-left"
+                                        style="width: 30%"
+                                    >
+                                        <x-category-list
+                                            x-model="selectedCategory"
+                                            x-on:change="getProductsByCategory"
+                                        />
+                                    </div>
+                                    <div class="control has-icons-left is-expanded">
                                         <x-common.product-list
                                             tags="false"
                                             name="reservation[{{ $loop->index }}]"
