@@ -1722,9 +1722,13 @@ function addGrnDetail() {
 
     let grnDetail = grnDetails[0].cloneNode(true);
 
+    grnDetail.setAttribute("x-data", "productDataProvider");
+
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
+    originalSelect.setAttribute("x-init", "select2");
+
+    originalSelect.removeAttribute("onchange");
 
     grnDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalGrnDetails + 1
