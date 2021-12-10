@@ -234,7 +234,7 @@
                                                 class="control has-icons-left"
                                                 style="width: 30%"
                                             >
-                                                <x-category-list
+                                                <x-common.category-list
                                                     x-model="selectedCategory"
                                                     x-on:change="getProductsByCategory"
                                                 />

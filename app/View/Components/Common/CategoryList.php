@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Common;
 
 use App\Models\ProductCategory;
 use Illuminate\Support\Facades\Cache;
@@ -20,6 +20,6 @@ class CategoryList extends Component
 
     public function render()
     {
-        return view('components.category-list');
+        return view('components.common.category-list');
     }
 }
