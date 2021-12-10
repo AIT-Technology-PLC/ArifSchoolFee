@@ -500,7 +500,16 @@ document.addEventListener("alpine:init", () => {
 
             this.products = response.data;
 
+            this.appendProductsToSelect2();
+        },
+        appendProductsToSelect2() {
+            let emptyOption = new Option("", "", true, true);
+            emptyOption.dataset.code = "";
+            emptyOption.dataset.category = "";
+
             this.select2.empty();
+
+            this.select2.append(emptyOption);
 
             this.products.forEach((product) => {
                 let newOption = new Option(
