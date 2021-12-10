@@ -11,9 +11,13 @@ function addProformaInvoiceDetail() {
 
     let proformaInvoiceDetail = proformaInvoiceDetails[0].cloneNode(true);
 
+    proformaInvoiceDetail.setAttribute("x-data", "productDataProvider");
+
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
+    originalSelect.setAttribute("x-init", "select2");
+
+    originalSelect.removeAttribute("onchange");
 
     proformaInvoiceDetail.querySelector(
         "[name=item-number]"

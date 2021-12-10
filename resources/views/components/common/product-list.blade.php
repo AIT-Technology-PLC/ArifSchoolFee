@@ -34,6 +34,7 @@
     id="original-select"
     class="is-hidden"
     onchange="getProductSelected(this.id, this.value)"
+    {{ $tags ? Str::of('data-tags=')->append($tags) : '' }}
 >
     <option
         data-code=""

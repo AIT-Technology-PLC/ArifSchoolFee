@@ -200,22 +200,37 @@
                                     Item {{ $loop->index + 1 }}
                                 </span>
                             </div>
-                            <div class="box has-background-white-bis radius-top-0">
+                            <div
+                                x-data="productDataProvider({{ $proformaInvoiceDetail->product_id }}, {{ $proformaInvoiceDetail->originalUnitPrice ?? 0.0 }})"
+                                class="box has-background-white-bis radius-top-0"
+                            >
                                 <div
                                     name="proformaInvoiceFormGroup"
                                     class="columns is-marginless is-multiline"
                                 >
                                     <div class="column is-6">
-                                        <div class="field">
-                                            <label
-                                                for="proformaInvoice[{{ $loop->index }}][product_id]"
-                                                class="label text-green has-text-weight-normal"
-                                            > Product <sup class="has-text-danger">*</sup> </label>
-                                            <div class="control has-icons-left">
+                                        <label
+                                            for="proformaInvoice[{{ $loop->index }}][product_id]"
+                                            class="label text-green has-text-weight-normal"
+                                        >
+                                            Product <sup class="has-text-danger">*</sup>
+                                        </label>
+                                        <div class="field has-addons">
+                                            <div
+                                                class="control has-icons-left"
+                                                style="width: 30%"
+                                            >
+                                                <x-category-list
+                                                    x-model="selectedCategory"
+                                                    x-on:change="getProductsByCategory"
+                                                />
+                                            </div>
+                                            <div class="control has-icons-left is-expanded">
                                                 <x-common.product-list
                                                     tags="true"
                                                     name="proformaInvoice[{{ $loop->index }}]"
                                                     selected-product-id="{{ $proformaInvoiceDetail->product_id ?? $proformaInvoiceDetail->custom_product }}"
+                                                    x-init="select2"
                                                 />
                                                 <div class="icon is-small is-left">
                                                     <i class="fas fa-th"></i>
@@ -263,7 +278,9 @@
                                                     id="proformaInvoice[{{ $loop->index }}][product_id]Quantity"
                                                     class="button bg-green has-text-white"
                                                     type="button"
-                                                >{{ $proformaInvoiceDetail->product->unit_of_measurement ?? '' }}</button>
+                                                    x-text="product.unit_of_measurement"
+                                                >
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -280,7 +297,8 @@
                                                     type="number"
                                                     class="input"
                                                     placeholder="Unit Price"
-                                                    value="{{ $proformaInvoiceDetail->originalUnitPrice ?? '0.00' }}"
+                                                    :readonly="isDisabled"
+                                                    x-model="product.price"
                                                 >
                                                 <span class="icon is-small is-left">
                                                     <i class="fas fa-money-bill"></i>
@@ -299,7 +317,9 @@
                                                     id="proformaInvoice[{{ $loop->index }}][product_id]Price"
                                                     class="button bg-green has-text-white"
                                                     type="button"
-                                                >{{ $proformaInvoiceDetail->product->unit_of_measurement ?? '' }}</button>
+                                                    x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
+                                                >
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
