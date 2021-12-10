@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'menu.index')->name('home');
 
 Route::prefix('api')->group(function () {
+    Route::get('/products/{category}/by-category',
+        [Api\ProductController::class, 'getproductsByCategory']);
+
     Route::get('/products/{product}',
         [Api\ProductController::class, 'show']);
 });

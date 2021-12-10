@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductCategory;
 
 class ProductController extends Controller
 {
@@ -18,6 +19,7 @@ class ProductController extends Controller
 
         return collect([
             'name' => $product->name,
+            'category' => $product->product_category_id,
             'code' => $product->code ?? '',
             'min_on_hand' => $product->min_on_hand,
             'type' => $product->type,
@@ -25,5 +27,22 @@ class ProductController extends Controller
             'price_type' => $product->price ? $product->price->type : '',
             'price' => $product->price->fixed_price ?? $product->price->max_price ?? '.00',
         ]);
+    }
+
+    public function getproductsByCategory(ProductCategory $category)
+    {
+        return $category
+            ->products()
+            ->with('productCategory:id,name')
+            ->orderBy('name')
+            ->get()
+            ->map(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'text' => $product->name,
+                    'code' => $product->code ?? '',
+                    'category' => $product->productCategory->name,
+                ];
+            });
     }
 }

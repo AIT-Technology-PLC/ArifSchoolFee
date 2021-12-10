@@ -29,28 +29,28 @@ function addProformaInvoiceDetail() {
 
     proformaInvoiceDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select").innerHTML = "";
+        .querySelectorAll(".select")[1].innerHTML = "";
 
     proformaInvoiceDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select")
+        .querySelectorAll(".select")[1]
         .appendChild(originalSelect);
 
     proformaInvoiceDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).id = `proformaInvoice[${totalProformaInvoiceDetails}][product_id]`;
+        )[1].id = `proformaInvoice[${totalProformaInvoiceDetails}][product_id]`;
 
     proformaInvoiceDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).name = `proformaInvoice[${totalProformaInvoiceDetails}][product_id]`;
+        )[1].name = `proformaInvoice[${totalProformaInvoiceDetails}][product_id]`;
 
     proformaInvoiceDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").classList = "select2-products";
+        .querySelectorAll("select")[1].classList = "select2-products";
 
     proformaInvoiceDetail
         .querySelectorAll(".column")[0]
@@ -213,23 +213,28 @@ function addGdnDetail() {
 
     gdnDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select").innerHTML = "";
+        .querySelectorAll(".select")[1].innerHTML = "";
 
     gdnDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select")
+        .querySelectorAll(".select")[1]
         .appendChild(originalSelect);
 
     gdnDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").id = `gdn[${totalGdnDetails}][product_id]`;
+        .querySelectorAll(
+            "select"
+        )[1].id = `gdn[${totalGdnDetails}][product_id]`;
 
     gdnDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").name = `gdn[${totalGdnDetails}][product_id]`;
+        .querySelectorAll(
+            "select"
+        )[1].name = `gdn[${totalGdnDetails}][product_id]`;
 
-    gdnDetail.querySelectorAll(".column")[0].querySelector("select").classList =
-        "select2-products";
+    gdnDetail
+        .querySelectorAll(".column")[0]
+        .querySelectorAll("select")[1].classList = "select2-products";
 
     gdnDetail
         .querySelectorAll(".column")[0]
@@ -366,28 +371,28 @@ function addReservationDetail() {
 
     reservationDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select").innerHTML = "";
+        .querySelectorAll(".select")[1].innerHTML = "";
 
     reservationDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select")
+        .querySelectorAll(".select")[1]
         .appendChild(originalSelect);
 
     reservationDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).id = `reservation[${totalReservationDetails}][product_id]`;
+        )[1].id = `reservation[${totalReservationDetails}][product_id]`;
 
     reservationDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
         ).name = `reservation[${totalReservationDetails}][product_id]`;
 
     reservationDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").classList = "select2-products";
+        .querySelectorAll("select")[1].classList = "select2-products";
 
     reservationDetail
         .querySelectorAll(".column")[0]
@@ -566,28 +571,28 @@ function addPurchaseOrderDetail() {
 
     purchaseOrderDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select").innerHTML = "";
+        .querySelectorAll(".select")[1].innerHTML = "";
 
     purchaseOrderDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select")
+        .querySelectorAll(".select")[1]
         .appendChild(originalSelect);
 
     purchaseOrderDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).id = `purchaseOrder[${totalPurchaseOrderDetails}][product_id]`;
+        )[1].id = `purchaseOrder[${totalPurchaseOrderDetails}][product_id]`;
 
     purchaseOrderDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).name = `purchaseOrder[${totalPurchaseOrderDetails}][product_id]`;
+        )[1].name = `purchaseOrder[${totalPurchaseOrderDetails}][product_id]`;
 
     purchaseOrderDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").classList = "select2-products";
+        .querySelectorAll("select")[1].classList = "select2-products";
 
     purchaseOrderDetail
         .querySelectorAll(".column")[0]
@@ -718,28 +723,28 @@ function addAdjustmentDetail() {
 
     adjustmentDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select").innerHTML = "";
+        .querySelectorAll(".select")[1].innerHTML = "";
 
     adjustmentDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select")
+        .querySelectorAll(".select")[1]
         .appendChild(originalSelect);
 
     adjustmentDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).id = `adjustment[${totalAdjustmentDetails}][product_id]`;
+        )[1].id = `adjustment[${totalAdjustmentDetails}][product_id]`;
 
     adjustmentDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).name = `adjustment[${totalAdjustmentDetails}][product_id]`;
+        )[1].name = `adjustment[${totalAdjustmentDetails}][product_id]`;
 
     adjustmentDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").classList = "select2-products";
+        .querySelectorAll("select")[1].classList = "select2-products";
 
     adjustmentDetail
         .querySelectorAll(".column")[0]
@@ -867,28 +872,28 @@ function addTransferDetail() {
 
     transferDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select").innerHTML = "";
+        .querySelectorAll(".select")[1].innerHTML = "";
 
     transferDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select")
+        .querySelectorAll(".select")[1]
         .appendChild(originalSelect);
 
     transferDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).id = `transfer[${totalTransferDetails}][product_id]`;
+        )[1].id = `transfer[${totalTransferDetails}][product_id]`;
 
     transferDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).name = `transfer[${totalTransferDetails}][product_id]`;
+        )[1].name = `transfer[${totalTransferDetails}][product_id]`;
 
     transferDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").classList = "select2-products";
+        .querySelectorAll("select")[1].classList = "select2-products";
 
     transferDetail
         .querySelectorAll(".column")[0]
@@ -975,28 +980,28 @@ function addReturnDetail() {
 
     returnDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select").innerHTML = "";
+        .querySelectorAll(".select")[1].innerHTML = "";
 
     returnDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select")
+        .querySelectorAll(".select")[1]
         .appendChild(originalSelect);
 
     returnDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).id = `return[${totalReturnDetails}][product_id]`;
+        )[1].id = `return[${totalReturnDetails}][product_id]`;
 
     returnDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).name = `return[${totalReturnDetails}][product_id]`;
+        )[1].name = `return[${totalReturnDetails}][product_id]`;
 
     returnDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").classList = "select2-products";
+        .querySelectorAll("select")[1].classList = "select2-products";
 
     returnDetail
         .querySelectorAll(".column")[0]
@@ -1128,28 +1133,28 @@ function addPurchaseDetail() {
 
     purchaseDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select").innerHTML = "";
+        .querySelectorAll(".select")[1].innerHTML = "";
 
     purchaseDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select")
+        .querySelectorAll(".select")[1]
         .appendChild(originalSelect);
 
     purchaseDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).id = `purchase[${totalPurchaseDetails}][product_id]`;
+        )[1].id = `purchase[${totalPurchaseDetails}][product_id]`;
 
     purchaseDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).name = `purchase[${totalPurchaseDetails}][product_id]`;
+        )[1].name = `purchase[${totalPurchaseDetails}][product_id]`;
 
     purchaseDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").classList = "select2-products";
+        .querySelectorAll("select")[1].classList = "select2-products";
 
     purchaseDetail
         .querySelectorAll(".column")[0]
@@ -1269,24 +1274,28 @@ function addSaleDetail() {
 
     saleDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select").innerHTML = "";
+        .querySelectorAll(".select")[1].innerHTML = "";
 
     saleDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select")
+        .querySelectorAll(".select")[1]
         .appendChild(originalSelect);
 
     saleDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").id = `sale[${totalSaleDetails}][product_id]`;
+        .querySelectorAll(
+            "select"
+        )[1].id = `sale[${totalSaleDetails}][product_id]`;
 
     saleDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").name = `sale[${totalSaleDetails}][product_id]`;
+        .querySelectorAll(
+            "select"
+        )[1].name = `sale[${totalSaleDetails}][product_id]`;
 
     saleDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").classList = "select2-products";
+        .querySelectorAll("select")[1].classList = "select2-products";
 
     saleDetail
         .querySelectorAll(".column")[0]
@@ -1387,28 +1396,28 @@ function addTenderDetail() {
 
     tenderDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select").innerHTML = "";
+        .querySelectorAll(".select")[1].innerHTML = "";
 
     tenderDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select")
+        .querySelectorAll(".select")[1]
         .appendChild(originalSelect);
 
     tenderDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).id = `tender[${totalTenderDetails}][product_id]`;
+        )[1].id = `tender[${totalTenderDetails}][product_id]`;
 
     tenderDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).name = `tender[${totalTenderDetails}][product_id]`;
+        )[1].name = `tender[${totalTenderDetails}][product_id]`;
 
     tenderDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").classList = "select2-products";
+        .querySelectorAll("select")[1].classList = "select2-products";
 
     tenderDetail
         .querySelectorAll(".column")[0]
@@ -1493,28 +1502,28 @@ function addDamageDetail() {
 
     damageDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select").innerHTML = "";
+        .querySelectorAll(".select")[1].innerHTML = "";
 
     damageDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select")
+        .querySelectorAll(".select")[1]
         .appendChild(originalSelect);
 
     damageDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).id = `damage[${totalDamageDetails}][product_id]`;
+        )[1].id = `damage[${totalDamageDetails}][product_id]`;
 
     damageDetail
         .querySelectorAll(".column")[0]
-        .querySelector(
+        .querySelectorAll(
             "select"
-        ).name = `damage[${totalDamageDetails}][product_id]`;
+        )[1].name = `damage[${totalDamageDetails}][product_id]`;
 
     damageDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").classList = "select2-products";
+        .querySelectorAll("select")[1].classList = "select2-products";
 
     damageDetail
         .querySelectorAll(".column")[0]
@@ -1616,23 +1625,28 @@ function addSivDetail() {
 
     sivDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select").innerHTML = "";
+        .querySelectorAll(".select")[1].innerHTML = "";
 
     sivDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select")
+        .querySelectorAll(".select")[1]
         .appendChild(originalSelect);
 
     sivDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").id = `siv[${totalSivDetails}][product_id]`;
+        .querySelectorAll(
+            "select"
+        )[1].id = `siv[${totalSivDetails}][product_id]`;
 
     sivDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").name = `siv[${totalSivDetails}][product_id]`;
+        .querySelectorAll(
+            "select"
+        )[1].name = `siv[${totalSivDetails}][product_id]`;
 
-    sivDetail.querySelectorAll(".column")[0].querySelector("select").classList =
-        "select2-products";
+    sivDetail
+        .querySelectorAll(".column")[0]
+        .querySelectorAll("select")[1].classList = "select2-products";
 
     sivDetail
         .querySelectorAll(".column")[0]
@@ -1723,23 +1737,28 @@ function addGrnDetail() {
 
     grnDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select").innerHTML = "";
+        .querySelectorAll(".select")[1].innerHTML = "";
 
     grnDetail
         .querySelectorAll(".column")[0]
-        .querySelector(".select")
+        .querySelectorAll(".select")[1]
         .appendChild(originalSelect);
 
     grnDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").id = `grn[${totalGrnDetails}][product_id]`;
+        .querySelectorAll(
+            "select"
+        )[1].id = `grn[${totalGrnDetails}][product_id]`;
 
     grnDetail
         .querySelectorAll(".column")[0]
-        .querySelector("select").name = `grn[${totalGrnDetails}][product_id]`;
+        .querySelectorAll(
+            "select"
+        )[1].name = `grn[${totalGrnDetails}][product_id]`;
 
-    grnDetail.querySelectorAll(".column")[0].querySelector("select").classList =
-        "select2-products";
+    grnDetail
+        .querySelectorAll(".column")[0]
+        .querySelectorAll("select")[1].classList = "select2-products";
 
     grnDetail
         .querySelectorAll(".column")[0]

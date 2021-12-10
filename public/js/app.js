@@ -461,6 +461,7 @@ document.addEventListener("alpine:init", () => {
     Alpine.data("productDataProvider", (productId, unitPrice = null) => ({
         product: {
             name: "",
+            category: "",
             code: "",
             min_on_hand: "",
             type: "",
@@ -469,6 +470,8 @@ document.addEventListener("alpine:init", () => {
             price: "",
         },
         isDisabled: false,
+        products: [],
+        selectedCategory: "",
 
         init() {
             if (productId) {
@@ -482,10 +485,35 @@ document.addEventListener("alpine:init", () => {
 
             this.isDisabled = this.product.price_type === "fixed";
 
+            this.selectedCategory = this.product.category;
+
             if (unitPrice !== null) {
                 this.product.price = unitPrice;
                 unitPrice = null;
             }
+        },
+        async getProductsByCategory() {
+            const response = await axios.get(
+                `/api/products/${this.selectedCategory}/by-category`
+            );
+
+            this.products = response.data;
+
+            this.select2Products.empty();
+
+            this.products.forEach((product) => {
+                let newOption = new Option(
+                    product.text,
+                    product.id,
+                    false,
+                    (this.product.id || null) == product.id
+                );
+
+                newOption.dataset.code = product.code;
+                newOption.dataset.category = product.category;
+
+                this.select2Products.append(newOption).trigger("change");
+            });
         },
         select2() {
             let select2 = initializeSelect2(this.$el);
