@@ -18,6 +18,7 @@ class ProductController extends Controller
         $product->with('price:id,type,fixed_price,min_price,max_price');
 
         return collect([
+            'id' => $product->id,
             'name' => $product->name,
             'category' => $product->product_category_id,
             'code' => $product->code ?? '',
