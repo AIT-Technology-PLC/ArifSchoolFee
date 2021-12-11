@@ -134,7 +134,10 @@
                 </div>
                 <div id="purchase-order-details">
                     @foreach (old('purchaseOrder', [[]]) as $purchaseOrder)
-                        <div class="purchase-order-detail mx-3">
+                        <div
+                            x-data="productDataProvider({{ $purchaseOrder['product_id'] ?? '' }})"
+                            class="purchase-order-detail mx-3"
+                        >
                             <div class="field has-addons mb-0 mt-5">
                                 <div class="control">
                                     <span
@@ -159,16 +162,28 @@
                             <div class="box has-background-white-bis radius-top-0">
                                 <div class="columns is-marginless is-multiline">
                                     <div class="column is-6">
-                                        <div class="field">
-                                            <label
-                                                for="purchaseOrder[{{ $loop->index }}][product_id]"
-                                                class="label text-green has-text-weight-normal"
-                                            > Product <sup class="has-text-danger">*</sup> </label>
-                                            <div class="control has-icons-left">
+                                        <label
+                                            for="purchaseOrder[{{ $loop->index }}][product_id]"
+                                            class="label text-green has-text-weight-normal"
+                                        >
+                                            Product <sup class="has-text-danger">*</sup>
+                                        </label>
+                                        <div class="field has-addons">
+                                            <div
+                                                class="control has-icons-left"
+                                                style="width: 30%"
+                                            >
+                                                <x-common.category-list
+                                                    x-model="selectedCategory"
+                                                    x-on:change="getProductsByCategory"
+                                                />
+                                            </div>
+                                            <div class="control has-icons-left is-expanded">
                                                 <x-common.product-list
                                                     tags="false"
                                                     name="purchaseOrder[{{ $loop->index }}]"
                                                     selected-product-id="{{ $purchaseOrder['product_id'] ?? '' }}"
+                                                    x-init="select2"
                                                 />
                                                 <div class="icon is-small is-left">
                                                     <i class="fas fa-th"></i>
@@ -216,6 +231,7 @@
                                                     id="purchaseOrder[{{ $loop->index }}][product_id]Quantity"
                                                     class="button bg-green has-text-white"
                                                     type="button"
+                                                    x-text="product.unit_of_measurement"
                                                 ></button>
                                             </div>
                                         </div>
@@ -234,6 +250,8 @@
                                                     class="input"
                                                     placeholder="Unit Price"
                                                     value="{{ $purchaseOrder['unit_price'] ?? '' }}"
+                                                    :readonly="isDisabled"
+                                                    x-model="product.price"
                                                 >
                                                 <span class="icon is-small is-left">
                                                     <i class="fas fa-balance-scale"></i>
@@ -252,6 +270,7 @@
                                                     id="purchaseOrder[{{ $loop->index }}][product_id]Price"
                                                     class="button bg-green has-text-white"
                                                     type="button"
+                                                    x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
                                                 ></button>
                                             </div>
                                         </div>
