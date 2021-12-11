@@ -1405,9 +1405,13 @@ function addTenderDetail() {
 
     let tenderDetail = tenderDetails[0].cloneNode(true);
 
+    tenderDetail.setAttribute("x-data", "productDataProvider");
+
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
+    originalSelect.setAttribute("x-init", "select2");
+
+    originalSelect.removeAttribute("onchange");
 
     tenderDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalTenderDetails + 1
