@@ -1515,9 +1515,13 @@ function addDamageDetail() {
 
     let damageDetail = damageDetails[0].cloneNode(true);
 
+    damageDetail.setAttribute("x-data", "productDataProvider");
+
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
+    originalSelect.setAttribute("x-init", "select2");
+
+    originalSelect.removeAttribute("onchange");
 
     damageDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalDamageDetails + 1
