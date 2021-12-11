@@ -259,7 +259,10 @@
                 </div>
                 <div id="siv-details">
                     @foreach (old('siv', [[]]) as $sivDetail)
-                        <div class="siv-detail mx-3">
+                        <div
+                            x-data="productDataProvider({{ $sivDetail['product_id'] ?? '' }})"
+                            class="siv-detail mx-3"
+                        >
                             <div class="field has-addons mb-0 mt-5">
                                 <div class="control">
                                     <span
@@ -287,16 +290,28 @@
                                     class="columns is-marginless is-multiline"
                                 >
                                     <div class="column is-6">
-                                        <div class="field">
-                                            <label
-                                                for="siv[{{ $loop->index }}][product_id]"
-                                                class="label text-green has-text-weight-normal"
-                                            > Product <sup class="has-text-danger">*</sup> </label>
-                                            <div class="control has-icons-left">
+                                        <label
+                                            for="siv[{{ $loop->index }}][product_id]"
+                                            class="label text-green has-text-weight-normal"
+                                        >
+                                            Product <sup class="has-text-danger">*</sup>
+                                        </label>
+                                        <div class="field has-addons">
+                                            <div
+                                                class="control has-icons-left"
+                                                style="width: 30%"
+                                            >
+                                                <x-common.category-list
+                                                    x-model="selectedCategory"
+                                                    x-on:change="getProductsByCategory"
+                                                />
+                                            </div>
+                                            <div class="control has-icons-left is-expanded">
                                                 <x-common.product-list
                                                     tags="false"
                                                     name="siv[{{ $loop->index }}]"
                                                     selected-product-id="{{ $sivDetail['product_id'] ?? '' }}"
+                                                    x-init="select2"
                                                 />
                                                 <div class="icon is-small is-left">
                                                     <i class="fas fa-th"></i>
@@ -378,6 +393,7 @@
                                                     id="siv[{{ $loop->index }}][product_id]Quantity"
                                                     class="button bg-green has-text-white"
                                                     type="button"
+                                                    x-text="product.unit_of_measurement"
                                                 ></button>
                                             </div>
                                         </div>
