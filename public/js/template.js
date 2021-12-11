@@ -1138,9 +1138,13 @@ function addPurchaseDetail() {
 
     let purchaseDetail = purchaseDetails[0].cloneNode(true);
 
+    purchaseDetail.setAttribute("x-data", "productDataProvider");
+
     let originalSelect = d.getElementById("original-select").cloneNode(true);
 
-    originalSelect.setAttribute("x-init", "initializeSelect2($el)");
+    originalSelect.setAttribute("x-init", "select2");
+
+    originalSelect.removeAttribute("onchange");
 
     purchaseDetail.querySelector("[name=item-number]").innerText = `Item ${
         totalPurchaseDetails + 1
