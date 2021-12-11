@@ -97,8 +97,10 @@
             </li>
             <li>
                 <ul
-                    class="mt-0 ml-5 is-hidden"
-                    :class="{ 'is-hidden': !isAccordionOpen }"
+                    class="mt-0 ml-5"
+                    x-cloak
+                    x-show="isAccordionOpen"
+                    x-collapse
                 >
                     @can('Read Merchandise')
                         @if (isFeatureEnabled('Merchandise Inventory'))
@@ -224,8 +226,10 @@
             </li>
             <li>
                 <ul
-                    class="mt-0 ml-5 is-hidden"
-                    :class="{ 'is-hidden': !isAccordionOpen }"
+                    class="mt-0 ml-5"
+                    x-cloak
+                    x-show="isAccordionOpen"
+                    x-collapse
                 >
                     @if (isFeatureEnabled('Sale Management'))
                         @can('Read Sale')
@@ -378,8 +382,10 @@
                 </li>
                 <li>
                     <ul
-                        class="mt-0 ml-5 is-hidden"
-                        :class="{ 'is-hidden': !isAccordionOpen }"
+                        class="mt-0 ml-5"
+                        x-show="isAccordionOpen"
+                        x-cloak
+                        x-collapse
                     >
                         <li>
                             <x-common.button
@@ -451,8 +457,10 @@
             </li>
             <li>
                 <ul
-                    class="mt-0 ml-5 is-hidden"
-                    :class="{ 'is-hidden': !isAccordionOpen }"
+                    class="mt-0 ml-5"
+                    x-cloak
+                    x-show="isAccordionOpen"
+                    x-collapse
                 >
                     @if (isFeatureEnabled('Purchase Management'))
                         @can('Read Purchase')
@@ -514,8 +522,10 @@
                 </li>
                 <li>
                     <ul
-                        class="mt-0 ml-5 is-hidden"
-                        :class="{ 'is-hidden': !isAccordionOpen }"
+                        class="mt-0 ml-5"
+                        x-show="isAccordionOpen"
+                        x-cloak
+                        x-collapse
                     >
                         <li>
                             <x-common.button
@@ -569,8 +579,10 @@
             </li>
             <li>
                 <ul
-                    class="mt-0 ml-5 is-hidden"
-                    :class="{ 'is-hidden': !isAccordionOpen }"
+                    class="mt-0 ml-5"
+                    x-cloak
+                    x-show="isAccordionOpen"
+                    x-collapse
                 >
                     @if (isFeatureEnabled('User Management'))
                         @can('Read Employee')

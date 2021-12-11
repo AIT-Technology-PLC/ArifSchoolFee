@@ -1,7 +1,9 @@
 <section
     id="outOf"
-    class="mx-3 m-lr-0 is-hidden"
-    :class="{ 'is-hidden': isOnHand }"
+    class="mx-3 m-lr-0"
+    x-cloak
+    x-show="!isOnHand"
+    x-transition
 >
     <div class="box radius-top-0">
         <div class="table-container">

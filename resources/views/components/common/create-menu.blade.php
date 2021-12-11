@@ -1,8 +1,10 @@
 <div
     x-data="toggler"
     @open-create-modal.window="toggle"
-    class="modal"
-    :class="{ 'is-active': !isHidden }"
+    class="modal is-active"
+    x-cloak
+    x-show="!isHidden"
+    x-transition
 >
     <div
         class="modal-background"

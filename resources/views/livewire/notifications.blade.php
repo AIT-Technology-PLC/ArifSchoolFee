@@ -4,8 +4,10 @@
     wire:poll.keep-alive.300000ms="getLatestUnreadNotifications"
 >
     <section
-        class="notification-box mt-1 is-hidden"
-        :class="{'is-hidden': isHidden}"
+        class="notification-box mt-1"
+        x-cloak
+        x-show="!isHidden"
+        x-collapse
     >
         <article class="message m-lr-10">
             <div class="message-header bg-green has-text-white">
