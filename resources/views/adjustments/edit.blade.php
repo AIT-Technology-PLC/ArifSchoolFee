@@ -135,7 +135,6 @@
                                             type="number"
                                             placeholder="Quantity"
                                             value="{{ $adjustmentDetail->quantity }}"
-                                            x-text="product.unit_of_measurement"
                                         />
                                         <x-common.icon
                                             name="fas fa-balance-scale"
@@ -149,8 +148,8 @@
                                             type="button"
                                             mode="button"
                                             id="adjustment[{{ $loop->index }}][product_id]Quantity"
-                                            label="{{ $adjustmentDetail->product->unit_of_measurement }}"
                                             class="bg-green has-text-white"
+                                            x-text="product.unit_of_measurement"
                                         />
                                     </x-forms.control>
                                 </x-forms.field>
