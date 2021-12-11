@@ -81,7 +81,10 @@
                 </div>
                 <div id="adjustment-details">
                     @foreach (old('adjustment', [[]]) as $adjustmentDetail)
-                        <div class="adjustment-detail mx-3">
+                        <div
+                            x-data="productDataProvider({{ $adjustmentDetail['product_id'] ?? '' }})"
+                            class="adjustment-detail mx-3"
+                        >
                             <x-forms.field class="has-addons mb-0 mt-5">
                                 <x-forms.control>
                                     <span
@@ -109,15 +112,25 @@
                             <div class="box has-background-white-bis radius-top-0">
                                 <div class="columns is-marginless is-multiline">
                                     <div class="column is-6">
-                                        <x-forms.field>
-                                            <x-forms.label for="adjustment[{{ $loop->index }}][product_id]">
-                                                Product <sup class="has-text-danger">*</sup>
-                                            </x-forms.label>
-                                            <x-forms.control class="has-icons-left">
+                                        <x-forms.label for="adjustment[{{ $loop->index }}][product_id]">
+                                            Product <sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.field class="has-addons">
+                                            <x-forms.control
+                                                class="has-icons-left"
+                                                style="width: 30%"
+                                            >
+                                                <x-common.category-list
+                                                    x-model="selectedCategory"
+                                                    x-on:change="getProductsByCategory"
+                                                />
+                                            </x-forms.control>
+                                            <x-forms.control class="has-icons-left is-expanded">
                                                 <x-common.product-list
                                                     tags="false"
                                                     name="adjustment[{{ $loop->index }}]"
                                                     selected-product-id="{{ $adjustmentDetail['product_id'] ?? '' }}"
+                                                    x-init="select2"
                                                 />
                                                 <x-common.icon
                                                     name="fas fa-th"
@@ -153,6 +166,7 @@
                                                     mode="button"
                                                     id="adjustment[{{ $loop->index }}][product_id]Quantity"
                                                     class="bg-green has-text-white"
+                                                    x-text="product.unit_of_measurement"
                                                 />
                                             </x-forms.control>
                                         </x-forms.field>

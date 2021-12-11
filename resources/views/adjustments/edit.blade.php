@@ -86,21 +86,34 @@
                             Item {{ $loop->index + 1 }}
                         </span>
                     </div>
-                    <div class="box has-background-white-bis radius-top-0">
+                    <div
+                        x-data="productDataProvider({{ $adjustmentDetail->product_id }})"
+                        class="box has-background-white-bis radius-top-0"
+                    >
                         <div
                             name="adjustmentFormGroup"
                             class="columns is-marginless is-multiline"
                         >
                             <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="adjustment[{{ $loop->index }}][product_id]">
-                                        Product <sup class="has-text-danger">*</sup>
-                                    </x-forms.label>
+                                <x-forms.label for="adjustment[{{ $loop->index }}][product_id]">
+                                    Product <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.field class="has-addons">
+                                    <x-forms.control
+                                        class="has-icons-left"
+                                        style="width: 30%"
+                                    >
+                                        <x-common.category-list
+                                            x-model="selectedCategory"
+                                            x-on:change="getProductsByCategory"
+                                        />
+                                    </x-forms.control>
                                     <x-forms.control class="has-icons-left">
                                         <x-common.product-list
                                             tags="false"
                                             name="adjustment[{{ $loop->index }}]"
                                             selected-product-id="{{ $adjustmentDetail->product_id }}"
+                                            x-init="select2"
                                         />
                                         <x-common.icon
                                             name="fas fa-th"
@@ -122,6 +135,7 @@
                                             type="number"
                                             placeholder="Quantity"
                                             value="{{ $adjustmentDetail->quantity }}"
+                                            x-text="product.unit_of_measurement"
                                         />
                                         <x-common.icon
                                             name="fas fa-balance-scale"
