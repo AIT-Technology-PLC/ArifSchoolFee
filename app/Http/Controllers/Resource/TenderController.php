@@ -22,7 +22,7 @@ class TenderController extends Controller
 
     public function index()
     {
-        $tenders = Tender::withCount('tenderDetails')
+        $tenders = Tender::withCount('tenderLots')
             ->with(['customer', 'tenderChecklists', 'createdBy', 'updatedBy'])
             ->latest()->get();
 

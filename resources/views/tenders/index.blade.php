@@ -43,7 +43,7 @@
                     <th><abbr> Bid Bond Validity</abbr></th>
                     <th><abbr> Price Description </abbr></th>
                     <th><abbr> Payment Term </abbr></th>
-                    <th class="has-text-centered"><abbr> Items </abbr></th>
+                    <th class="has-text-centered"><abbr> Lots </abbr></th>
                     <th><abbr> Description </abbr></th>
                     <th class="has-text-right"><abbr> Published On </abbr></th>
                     <th class="has-text-right text-purple"><abbr> Closing Date </abbr></th>
@@ -78,7 +78,7 @@
                             <td> {{ $tender->bid_bond_validity ?? 'N/A' }} </td>
                             <td> {!! nl2br(e($tender->price)) !!} </td>
                             <td> {!! nl2br(e($tender->payment_term)) !!} </td>
-                            <td class="has-text-centered"> {{ $tender->tender_details_count }} </td>
+                            <td class="has-text-centered"> {{ $tender->tender_lots_count }} </td>
                             <td class="description">
                                 {!! nl2br(e(substr($tender->description, 0, 40))) ?? 'N/A' !!}
                                 <span class="is-hidden">
