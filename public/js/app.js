@@ -598,7 +598,7 @@ document.addEventListener("alpine:init", () => {
             this.lots.splice(lotIndex, 1);
         },
         removeLotDetail(lotIndex, lotDetailIndex) {
-            if (this.lots[0].lotDetails.length === 1) {
+            if (this.lots[lotIndex].lotDetails.length === 1) {
                 return;
             }
 
