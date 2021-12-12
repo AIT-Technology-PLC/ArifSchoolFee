@@ -43,7 +43,10 @@ class TenderController extends Controller
         $tender = DB::transaction(function () use ($request) {
             $tender = Tender::create($request->except('tender'));
 
-            $tender->tenderDetails()->createMany($request->tender);
+            foreach ($request->lot as $lot) {
+                $tenderLot = $tender->tenderLots()->create();
+                $tenderLot->tenderLotDetails()->createMany($lot['lotDetails']);
+            }
 
             return $tender;
         });
@@ -54,7 +57,10 @@ class TenderController extends Controller
     public function show(Tender $tender)
     {
         $tender->load([
-            'customer', 'tenderDetails.product', 'tenderChecklists.assignedTo', 'tenderChecklists.generalTenderChecklist.tenderChecklistType',
+            'customer',
+            'tenderLots.tenderLotDetails.product',
+            'tenderChecklists.assignedTo',
+            'tenderChecklists.generalTenderChecklist.tenderChecklistType',
         ]);
 
         return view('tenders.show', compact('tender'));
@@ -62,7 +68,7 @@ class TenderController extends Controller
 
     public function edit(Tender $tender)
     {
-        $tender->load(['tenderDetails.product']);
+        $tender->load(['tenderLots.tenderLotDetails.product']);
 
         $tenderStatuses = TenderStatus::orderBy('status')->get();
 
@@ -76,8 +82,10 @@ class TenderController extends Controller
 
             $tender->update($request->except('tender'));
 
-            for ($i = 0; $i < count($request->tender); $i++) {
-                $tender->tenderDetails[$i]->update($request->tender[$i]);
+            for ($i = 0; $i < count($request->lot); $i++) {
+                for ($j = 0; $j < count($request->lot[$i]['lotDetails']); $j++) {
+                    $tender->tenderLots[$i]->tenderLotDetails[$j]->update($request->lot[$i]['lotDetails'][$j]);
+                }
             }
 
             if ($tender->wasChanged('status')) {

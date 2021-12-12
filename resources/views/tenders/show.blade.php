@@ -151,42 +151,47 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Products" />
+        <x-content.header title="Lots" />
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
-            <x-common.bulma-table>
-                <x-slot name="headings">
-                    <th> # </th>
-                    <th> Product </th>
-                    <th> Quantity </th>
-                    <th> Description </th>
-                    <th> Actions </th>
-                </x-slot>
-                <x-slot name="body">
-                    @foreach ($tender->tenderDetails as $tenderDetail)
-                        <tr>
-                            <td> {{ $loop->index + 1 }} </td>
-                            <td class="is-capitalized">
-                                {{ $tenderDetail->product->name }}
-                            </td>
-                            <td>
-                                {{ number_format($tenderDetail->quantity, 2) }}
-                                {{ $tenderDetail->product->unit_of_measurement }}
-                            </td>
-                            <td>
-                                {!! nl2br(e($tenderDetail->description)) !!}
-                            </td>
-                            <td>
-                                <x-common.action-buttons
-                                    :buttons="['delete']"
-                                    model="tender-details"
-                                    :id="$tenderDetail->id"
-                                />
-                            </td>
-                        </tr>
-                    @endforeach
-                </x-slot>
-            </x-common.bulma-table>
+            @foreach ($tender->tenderLots as $tenderLot)
+                <h1 class="text-purple has-text-weight-bold is-uppercase is-underlined">
+                    Lot #{{ $loop->iteration }}
+                </h1>
+                <x-common.bulma-table>
+                    <x-slot name="headings">
+                        <th> # </th>
+                        <th> Product </th>
+                        <th> Quantity </th>
+                        <th> Description </th>
+                        <th> Actions </th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($tenderLot->tenderLotDetails as $tenderLotDetail)
+                            <tr>
+                                <td> {{ $loop->iteration }} </td>
+                                <td class="is-capitalized">
+                                    {{ $tenderLotDetail->product->name }}
+                                </td>
+                                <td>
+                                    {{ number_format($tenderLotDetail->quantity, 2) }}
+                                    {{ $tenderLotDetail->product->unit_of_measurement }}
+                                </td>
+                                <td>
+                                    {!! nl2br(e($tenderLotDetail->description)) !!}
+                                </td>
+                                <td>
+                                    {{-- <x-common.action-buttons
+                                        :buttons="['delete']"
+                                        model="tender-lot-details"
+                                        :id="$tenderLotDetail->id"
+                                    /> --}}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.bulma-table>
+            @endforeach
         </x-content.footer>
     </x-common.content-wrapper>
 

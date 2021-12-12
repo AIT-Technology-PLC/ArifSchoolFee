@@ -32,10 +32,10 @@ class UpdateTenderRequest extends FormRequest
             'premeet_on' => ['nullable', 'date', 'after:published_on'],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
             'description' => ['nullable', 'string'],
-            'tender' => ['required', 'array'],
-            'tender.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            'tender.*.quantity' => ['required', 'numeric'],
-            'tender.*.description' => ['nullable', 'string'],
+            'lot' => ['required', 'array'],
+            'lot.*.lotDetails.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'lot.*.lotDetails.*.quantity' => ['required', 'numeric'],
+            'lot.*.lotDetails.*.description' => ['nullable', 'string'],
         ];
     }
 }

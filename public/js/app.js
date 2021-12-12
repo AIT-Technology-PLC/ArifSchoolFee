@@ -556,4 +556,68 @@ document.addEventListener("alpine:init", () => {
             location.search = "";
         },
     }));
+
+    Alpine.data("tenderMasterDetailForm", ({ lot }) => ({
+        lots: [],
+        errors: {},
+
+        init() {
+            if (lot) {
+                this.lots = lot;
+                return;
+            }
+
+            this.addLot();
+        },
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        addLot() {
+            this.lots.push({
+                lotDetails: [
+                    {
+                        product_id: "",
+                        quantity: ".00",
+                        description: "",
+                    },
+                ],
+            });
+        },
+        addLotDetail(lotIndex) {
+            this.lots[lotIndex].lotDetails.push({
+                product_id: "",
+                quantity: ".00",
+                description: "",
+            });
+        },
+        removeLot(lotIndex) {
+            if (this.lots.length === 1) {
+                return;
+            }
+
+            this.lots.splice(lotIndex, 1);
+        },
+        removeLotDetail(lotIndex, lotDetailIndex) {
+            if (this.lots[0].lotDetails.length === 1) {
+                return;
+            }
+
+            this.lots[lotIndex].lotDetails.splice(lotDetailIndex, 1);
+        },
+        select2Tender(lotIndex, lotDetailIndex) {
+            let select2 = initializeSelect2(this.$el);
+
+            this.$nextTick(() => $(select2).trigger("change"));
+
+            select2.on("select2:select", (event) => {
+                this.lots[lotIndex].lotDetails[lotDetailIndex].product_id =
+                    event.target.value;
+            });
+
+            this.$watch(
+                `lots[${lotIndex}].lotDetails[${lotDetailIndex}].product_id`,
+                () => select2.trigger("change")
+            );
+        },
+    }));
 });

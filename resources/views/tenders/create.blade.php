@@ -458,154 +458,187 @@
                         </div>
                     </div>
                 </div>
-                <div id="tender-details">
-                    @foreach (old('tender', [[]]) as $tenderDetail)
-                        <div
-                            x-data="productDataProvider({{ $tenderDetail['product_id'] ?? '' }})"
-                            class="tender-detail mx-3"
-                        >
+                <div
+                    x-data="tenderMasterDetailForm({{ json_encode(session()->getOldInput()) }})"
+                    x-init="setErrors({{ json_encode($errors->get('lot.*')) }})"
+                    class="mx-3"
+                >
+                    <template
+                        x-for="(lot, lotIndex) in lots"
+                        x-bind:key="lotIndex"
+                    >
+                        <section>
                             <div class="field has-addons mb-0 mt-5">
                                 <div class="control">
                                     <span
-                                        name="item-number"
-                                        class="tag bg-green has-text-white is-medium is-radiusless"
+                                        class="tag bg-purple has-text-white is-medium is-radiusless"
+                                        x-text="`Lot #${lotIndex + 1}`"
                                     >
-                                        Item {{ $loop->iteration }}
                                     </span>
                                 </div>
                                 <div class="control">
                                     <button
-                                        name="remove-detail-button"
                                         type="button"
-                                        class="tag bg-lightgreen has-text-white is-medium is-radiusless is-pointer"
+                                        class="tag bg-lightpurple has-text-white is-medium is-radiusless is-pointer"
+                                        x-on:click="removeLot(lotIndex)"
                                     >
-                                        <span class="icon text-green">
+                                        <span class="icon text-purple">
                                             <i class="fas fa-times-circle"></i>
                                         </span>
                                     </button>
                                 </div>
                             </div>
-                            <div class="box has-background-white-bis radius-top-0">
-                                <div
-                                    name="tenderFormGroup"
-                                    class="columns is-marginless is-multiline"
+                            <div class="box is-shadowless has-background-white-bis">
+                                <template
+                                    x-for="(lotDetail, lotDetailIndex) in lot.lotDetails"
+                                    x-bind:key="lotDetailIndex"
                                 >
-                                    <div class="column is-6">
-                                        <label
-                                            for="tender[{{ $loop->index }}][product_id]"
-                                            class="label text-green has-text-weight-normal"
-                                        >
-                                            Product <sup class="has-text-danger">*</sup>
-                                        </label>
-                                        <div class="field has-addons">
-                                            <div
-                                                class="control has-icons-left"
-                                                style="width: 30%"
-                                            >
-                                                <x-common.category-list
-                                                    x-model="selectedCategory"
-                                                    x-on:change="getProductsByCategory"
-                                                />
-                                            </div>
-                                            <div class="control has-icons-left is-expanded">
-                                                <x-common.product-list
-                                                    tags="false"
-                                                    name="tender[{{ $loop->index }}]"
-                                                    selected-product-id="{{ $tenderDetail['product_id'] ?? '' }}"
-                                                    x-init="select2"
-                                                />
-                                                <div class="icon is-small is-left">
-                                                    <i class="fas fa-th"></i>
-                                                </div>
-                                                @error('tender.' . $loop->index . '.product_id')
-                                                    <span
-                                                        class="help has-text-danger"
-                                                        role="alert"
-                                                    >
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column is-6">
-                                        <label
-                                            for="tender[{{ $loop->index }}][quantity]"
-                                            class="label text-green has-text-weight-normal"
-                                        >Quantity <sup class="has-text-danger">*</sup> </label>
-                                        <div class="field has-addons">
-                                            <div class="control has-icons-left is-expanded">
-                                                <input
-                                                    id="tender[{{ $loop->index }}][quantity]"
-                                                    name="tender[{{ $loop->index }}][quantity]"
-                                                    type="number"
-                                                    class="input"
-                                                    placeholder="Quantity"
-                                                    value="{{ $tenderDetail['quantity'] ?? '' }}"
+                                    <div
+                                        x-data="productDataProvider(lotDetail.product_id)"
+                                        class="mx-3"
+                                    >
+                                        <div class="field has-addons mb-0 mt-5">
+                                            <div class="control">
+                                                <span
+                                                    class="tag bg-green has-text-white is-medium is-radiusless"
+                                                    x-text="`Item ${lotDetailIndex + 1}`"
                                                 >
-                                                <span class="icon is-small is-left">
-                                                    <i class="fas fa-balance-scale"></i>
                                                 </span>
-                                                @error('tender.' . $loop->index . '.quantity')
-                                                    <span
-                                                        class="help has-text-danger"
-                                                        role="alert"
-                                                    >
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
                                             </div>
                                             <div class="control">
                                                 <button
-                                                    id="tender[{{ $loop->index }}][product_id]Quantity"
-                                                    class="button bg-green has-text-white"
                                                     type="button"
-                                                    x-text="product.unit_of_measurement"
-                                                ></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column is-6">
-                                        <div class="field">
-                                            <label
-                                                for="tender[{{ $loop->index }}][description]"
-                                                class="label text-green has-text-weight-normal"
-                                            >Additional Notes <sup class="has-text-danger"></sup></label>
-                                            <div class="control has-icons-left">
-                                                <textarea
-                                                    name="tender[{{ $loop->index }}][description]"
-                                                    id="tender[{{ $loop->index }}][description]"
-                                                    cols="30"
-                                                    rows="3"
-                                                    class="textarea pl-6"
-                                                    placeholder="Description or note to be taken"
-                                                >{{ $tenderDetail['description'] ?? '' }}</textarea>
-                                                <span class="icon is-large is-left">
-                                                    <i class="fas fa-edit"></i>
-                                                </span>
-                                                @error('tender.' . $loop->index . '.description')
-                                                    <span
-                                                        class="help has-text-danger"
-                                                        role="alert"
-                                                    >
-                                                        {{ $message }}
+                                                    class="tag bg-lightgreen has-text-white is-medium is-radiusless is-pointer"
+                                                    x-on:click="removeLotDetail(lotIndex, lotDetailIndex)"
+                                                >
+                                                    <span class="icon text-green">
+                                                        <i class="fas fa-times-circle"></i>
                                                     </span>
-                                                @enderror
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="box is-shadowless has-background-white-ter radius-top-0">
+                                            <div class="columns is-marginless is-multiline">
+                                                <div class="column is-6">
+                                                    <label
+                                                        x-bind:for="`lot[${lotIndex}][lotDetails][${lotDetailIndex}][product_id]`"
+                                                        class="label text-green has-text-weight-normal"
+                                                    >
+                                                        Product <sup class="has-text-danger">*</sup>
+                                                    </label>
+                                                    <div class="field has-addons">
+                                                        <div
+                                                            class="control has-icons-left"
+                                                            style="width: 30%"
+                                                        >
+                                                            <x-common.category-list
+                                                                x-model="selectedCategory"
+                                                                x-on:change="getProductsByCategory"
+                                                            />
+                                                        </div>
+                                                        <div class="control has-icons-left is-expanded">
+                                                            <x-common.product-list
+                                                                x-bind:name="`lot[${lotIndex}][lotDetails][${lotDetailIndex}][product_id]`"
+                                                                x-bind:id="`lot[${lotIndex}][lotDetails][${lotDetailIndex}][product_id]`"
+                                                                x-init="select2();select2Tender(lotIndex, lotDetailIndex)"
+                                                                x-model="lotDetail.product_id"
+                                                            />
+                                                            <div class="icon is-small is-left">
+                                                                <i class="fas fa-th"></i>
+                                                            </div>
+                                                            <span
+                                                                class="help has-text-danger"
+                                                                x-text="errors[`lot.${lotIndex}.lotDetails.${lotDetailIndex}.product_id`]"
+                                                            ></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="column is-6">
+                                                    <label
+                                                        x-bind:for="`lot[${lotIndex}][lotDetails][${lotDetailIndex}][quantity]`"
+                                                        class="label text-green has-text-weight-normal"
+                                                    >Quantity <sup class="has-text-danger">*</sup> </label>
+                                                    <div class="field has-addons">
+                                                        <div class="control has-icons-left is-expanded">
+                                                            <input
+                                                                x-bind:id="`lot[${lotIndex}][lotDetails][${lotDetailIndex}][quantity]`"
+                                                                x-bind:name="`lot[${lotIndex}][lotDetails][${lotDetailIndex}][quantity]`"
+                                                                type="number"
+                                                                class="input"
+                                                                placeholder="Quantity"
+                                                                x-model="lotDetail.quantity"
+                                                            >
+                                                            <span class="icon is-small is-left">
+                                                                <i class="fas fa-balance-scale"></i>
+                                                            </span>
+                                                            <span
+                                                                class="help has-text-danger"
+                                                                x-text="errors[`lot.${lotIndex}.lotDetails.${lotDetailIndex}.quantity`]"
+                                                            ></span>
+                                                        </div>
+                                                        <div class="control">
+                                                            <button
+                                                                class="button bg-green has-text-white"
+                                                                type="button"
+                                                                x-text="product.unit_of_measurement"
+                                                            ></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="column is-6">
+                                                    <div class="field">
+                                                        <label
+                                                            x-bind:for="`lot[${lotIndex}][lotDetails][${lotDetailIndex}][description]`"
+                                                            class="label text-green has-text-weight-normal"
+                                                        >Additional Notes <sup class="has-text-danger"></sup></label>
+                                                        <div class="control has-icons-left">
+                                                            <textarea
+                                                                x-bind:id="`lot[${lotIndex}][lotDetails][${lotDetailIndex}][description]`"
+                                                                x-bind:name="`lot[${lotIndex}][lotDetails][${lotDetailIndex}][description]`"
+                                                                cols="30"
+                                                                rows="3"
+                                                                class="textarea pl-6"
+                                                                placeholder="Description or note to be taken"
+                                                                x-model="lotDetail.description"
+                                                            ></textarea>
+                                                            <span class="icon is-large is-left">
+                                                                <i class="fas fa-edit"></i>
+                                                            </span>
+                                                            <span
+                                                                class="help has-text-danger"
+                                                                x-text="errors[`lot.${lotIndex}.lotDetails.${lotDetailIndex}.description`]"
+                                                            ></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </template>
+                                <button
+                                    type="button"
+                                    class="button bg-green has-text-white is-small ml-3 mt-5"
+                                    x-on:click="addLotDetail(lotIndex)"
+                                >
+                                    <span class="icon is-small">
+                                        <i class="fas fa-plus"></i>
+                                    </span>
+                                    <span> Add Product </span>
+                                </button>
                             </div>
-                        </div>
-                    @endforeach
+                        </section>
+                    </template>
+                    <button
+                        type="button"
+                        class="button bg-purple has-text-white is-small ml-3 mt-6"
+                        x-on:click="addLot()"
+                    >
+                        <span class="icon is-small">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span> Add Lot </span>
+                    </button>
                 </div>
-                <button
-                    id="addNewTenderForm"
-                    type="button"
-                    class="button bg-purple has-text-white is-small ml-3 mt-6"
-                >
-                    Add More Item
-                </button>
             </div>
             <div class="box radius-top-0">
                 <x-common.save-button />
