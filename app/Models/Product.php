@@ -62,9 +62,9 @@ class Product extends Model
         return $this->hasMany(GrnDetail::class);
     }
 
-    public function tenderDetails()
+    public function tenderLotDetails()
     {
-        return $this->hasMany(TenderDetail::class);
+        return $this->hasMany(TenderLotDetail::class);
     }
 
     public function sivDetails()

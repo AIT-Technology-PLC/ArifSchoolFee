@@ -28,9 +28,9 @@ class Tender extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function tenderDetails()
+    public function tenderLots()
     {
-        return $this->hasMany(TenderDetail::class);
+        return $this->hasMany(TenderLot::class);
     }
 
     public function tenderChecklists()
