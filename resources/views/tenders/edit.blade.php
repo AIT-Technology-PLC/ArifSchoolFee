@@ -487,127 +487,140 @@
                         </div>
                     </div>
                 </div>
-                @foreach ($tender->tenderDetails as $tenderDetail)
-                    <div class="has-text-weight-medium has-text-left mt-5">
-                        <span class="tag bg-green has-text-white is-medium radius-bottom-0">
-                            Item {{ $loop->index + 1 }}
-                        </span>
-                    </div>
-                    <div
-                        x-data="productDataProvider({{ $tenderDetail->product_id }})"
-                        class="box has-background-white-bis radius-top-0"
-                    >
-                        <div
-                            name="tenderFormGroup"
-                            class="columns is-marginless is-multiline"
-                        >
-                            <div class="column is-6">
-                                <label
-                                    for="tender[{{ $loop->index }}][product_id]"
-                                    class="label text-green has-text-weight-normal"
-                                >
-                                    Product <sup class="has-text-danger">*</sup>
-                                </label>
-                                <div class="field has-addons">
-                                    <div
-                                        class="control has-icons-left"
-                                        style="width: 30%"
-                                    >
-                                        <x-common.category-list
-                                            x-model="selectedCategory"
-                                            x-on:change="getProductsByCategory"
-                                        />
-                                    </div>
-                                    <div class="control has-icons-left is-expanded">
-                                        <x-common.product-list
-                                            tags="false"
-                                            name="tender[{{ $loop->index }}]"
-                                            selected-product-id="{{ $tenderDetail->product->id }}"
-                                            x-init="select2"
-                                        />
-                                        <div class="icon is-small is-left">
-                                            <i class="fas fa-th"></i>
-                                        </div>
-                                        @error('tender.' . $loop->index . '.product_id')
-                                            <span
-                                                class="help has-text-danger"
-                                                role="alert"
-                                            >
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-6">
-                                <label
-                                    for="tender[{{ $loop->index }}][quantity]"
-                                    class="label text-green has-text-weight-normal"
-                                >Quantity <sup class="has-text-danger">*</sup> </label>
-                                <div class="field has-addons">
-                                    <div class="control has-icons-left is-expanded">
-                                        <input
-                                            id="tender[{{ $loop->index }}][quantity]"
-                                            name="tender[{{ $loop->index }}][quantity]"
-                                            type="number"
-                                            class="input"
-                                            placeholder="Quantity"
-                                            value="{{ $tenderDetail->quantity ?? '0.00' }}"
-                                        >
-                                        <span class="icon is-small is-left">
-                                            <i class="fas fa-balance-scale"></i>
-                                        </span>
-                                        @error('tender.' . $loop->index . '.quantity')
-                                            <span
-                                                class="help has-text-danger"
-                                                role="alert"
-                                            >
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    <div class="control">
-                                        <button
-                                            id="tender[{{ $loop->index }}][product_id]Quantity"
-                                            class="button bg-green has-text-white"
-                                            type="button"
-                                            x-text="product.unit_of_measurement"
-                                        ></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-6">
-                                <div class="field">
-                                    <label
-                                        for="tender[{{ $loop->index }}][description]"
-                                        class="label text-green has-text-weight-normal"
-                                    >Additional Notes <sup class="has-text-danger"></sup></label>
-                                    <div class="control has-icons-left">
-                                        <textarea
-                                            name="tender[{{ $loop->index }}][description]"
-                                            id="tender[{{ $loop->index }}][description]"
-                                            cols="30"
-                                            rows="3"
-                                            class="textarea pl-6"
-                                            placeholder="Description or note to be taken"
-                                        >{{ $tenderDetail->description ?? '' }}</textarea>
-                                        <span class="icon is-large is-left">
-                                            <i class="fas fa-edit"></i>
-                                        </span>
-                                        @error('tender.' . $loop->index . '.description')
-                                            <span
-                                                class="help has-text-danger"
-                                                role="alert"
-                                            >
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
+                <div class="mx-3">
+                    @foreach ($tender->tenderLots as $tenderLot)
+                        <div class="field has-addons mb-0 mt-5">
+                            <div class="control">
+                                <span class="tag bg-purple has-text-white is-medium is-radiusless">
+                                    Lot #{{ $loop->iteration }}
+                                </span>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                        <div class="box is-shadowless has-background-white-bis">
+                            @foreach ($tenderLot->tenderLotDetails as $tenderLotDetail)
+                                <div
+                                    x-data="productDataProvider({{ $tenderLotDetail->product_id }})"
+                                    class="mx-3"
+                                >
+                                    <div class="field has-addons mb-0 mt-5">
+                                        <div class="control">
+                                            <span class="tag bg-green has-text-white is-medium is-radiusless">
+                                                Item #{{ $loop->iteration }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="box is-shadowless has-background-white-ter radius-top-0">
+                                        <div class="columns is-marginless is-multiline">
+                                            <div class="column is-6">
+                                                <label
+                                                    for="lot[{{ $loop->parent->index }}][lotDetails][{{ $loop->index }}][product_id]"
+                                                    class="label text-green has-text-weight-normal"
+                                                >
+                                                    Product <sup class="has-text-danger">*</sup>
+                                                </label>
+                                                <div class="field has-addons">
+                                                    <div
+                                                        class="control has-icons-left"
+                                                        style="width: 30%"
+                                                    >
+                                                        <x-common.category-list
+                                                            x-model="selectedCategory"
+                                                            x-on:change="getProductsByCategory"
+                                                        />
+                                                    </div>
+                                                    <div class="control has-icons-left is-expanded">
+                                                        <x-common.product-list
+                                                            name="lot[{{ $loop->parent->index }}][lotDetails][{{ $loop->index }}]"
+                                                            id="lot[{{ $loop->parent->index }}][lotDetails][{{ $loop->index }}]"
+                                                            x-init="select2"
+                                                            selected-product-id="{{ $tenderLotDetail->product_id }}"
+                                                        />
+                                                        <div class="icon is-small is-left">
+                                                            <i class="fas fa-th"></i>
+                                                        </div>
+                                                        @error('lot.{{ $loop->parent->index }}.lotDetails.{{ $loop->index }}.product_id')
+                                                            <span
+                                                                class="help has-text-danger"
+                                                                role="alert"
+                                                            >
+                                                                {{ $message }}
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column is-6">
+                                                <label
+                                                    for="lot[{{ $loop->parent->index }}][lotDetails][{{ $loop->index }}][quantity]"
+                                                    class="label text-green has-text-weight-normal"
+                                                >Quantity <sup class="has-text-danger">*</sup> </label>
+                                                <div class="field has-addons">
+                                                    <div class="control has-icons-left is-expanded">
+                                                        <input
+                                                            id="lot[{{ $loop->parent->index }}][lotDetails][{{ $loop->index }}][quantity]"
+                                                            name="lot[{{ $loop->parent->index }}][lotDetails][{{ $loop->index }}][quantity]"
+                                                            type="number"
+                                                            class="input"
+                                                            placeholder="Quantity"
+                                                            value="{{ $tenderLotDetail->quantity }}"
+                                                        >
+                                                        <span class="icon is-small is-left">
+                                                            <i class="fas fa-balance-scale"></i>
+                                                        </span>
+                                                        @error('lot.{{ $loop->parent->index }}.lotDetails.{{ $loop->index }}.quantity')
+                                                            <span
+                                                                class="help has-text-danger"
+                                                                role="alert"
+                                                            >
+                                                                {{ $message }}
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="control">
+                                                        <button
+                                                            class="button bg-green has-text-white"
+                                                            type="button"
+                                                            x-text="product.unit_of_measurement"
+                                                        ></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column is-6">
+                                                <div class="field">
+                                                    <label
+                                                        for="lot[{{ $loop->parent->index }}][lotDetails][{{ $loop->index }}][description]"
+                                                        class="label text-green has-text-weight-normal"
+                                                    >Additional Notes <sup class="has-text-danger"></sup></label>
+                                                    <div class="control has-icons-left">
+                                                        <textarea
+                                                            id="lot[{{ $loop->parent->index }}][lotDetails][{{ $loop->index }}][description]"
+                                                            name="lot[{{ $loop->parent->index }}][lotDetails][{{ $loop->index }}][description]"
+                                                            cols="30"
+                                                            rows="3"
+                                                            class="textarea pl-6"
+                                                            placeholder="Description or note to be taken"
+                                                        >{{ $tenderLotDetail->description ?? '' }}</textarea>
+                                                        <span class="icon is-large is-left">
+                                                            <i class="fas fa-edit"></i>
+                                                        </span>
+                                                        @error('lot.{{ $loop->parent->index }}.lotDetails.{{ $loop->index }}.description')
+                                                            <span
+                                                                class="help has-text-danger"
+                                                                role="alert"
+                                                            >
+                                                                {{ $message }}
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endforeach
+                </div>
             </div>
             <div class="box radius-top-0">
                 <x-common.save-button />
