@@ -153,7 +153,7 @@
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Lots" />
         <x-content.footer>
-            <x-common.success-message :message="session('deleted')" />
+            <x-common.success-message :message="session('lotDetailDeleted')" />
             @foreach ($tender->tenderLots as $tenderLot)
                 <h1 class="text-purple has-text-weight-bold is-uppercase is-underlined">
                     Lot #{{ $loop->iteration }}
@@ -181,11 +181,11 @@
                                     {!! nl2br(e($tenderLotDetail->description)) !!}
                                 </td>
                                 <td>
-                                    {{-- <x-common.action-buttons
+                                    <x-common.action-buttons
                                         :buttons="['delete']"
                                         model="tender-lot-details"
                                         :id="$tenderLotDetail->id"
-                                    /> --}}
+                                    />
                                 </td>
                             </tr>
                         @endforeach

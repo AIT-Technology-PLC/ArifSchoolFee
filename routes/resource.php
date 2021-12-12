@@ -51,7 +51,7 @@ Route::resource('tender-statuses', Resource\TenderStatusController::class)->exce
 
 Route::resource('tenders', Resource\TenderController::class);
 
-Route::resource('tender-details', Resource\TenderDetailController::class)->only('destroy');
+Route::resource('tender-lot-details', Resource\TenderLotDetailController::class)->only('destroy');
 
 Route::resource('tender-readings', Resource\TenderReadingController::class)->only(['edit', 'update']);
 
