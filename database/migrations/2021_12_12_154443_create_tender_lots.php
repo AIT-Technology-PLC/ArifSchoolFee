@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Tender;
+use App\Models\TenderLot;
 use App\Models\TenderLotDetail;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -20,15 +21,13 @@ class CreateTenderLots extends Migration
             $table->foreignId('tender_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->index('tender_id');
         });
 
-        Tender::all()->each->tenderLots()->create();
+        Tender::all()->each(fn($tender) => $tender->tenderLots()->create());
 
-        Schema::table('tender_details', function (Blueprint $table) {
-            $table->rename('tender_lot_details');
+        Schema::rename('tender_details', 'tender_lot_details');
 
+        Schema::table('tender_lot_details', function (Blueprint $table) {
             $table->foreignId('tender_lot_id')
                 ->nullable()
                 ->after('id')
@@ -38,14 +37,14 @@ class CreateTenderLots extends Migration
         });
 
         TenderLotDetail::all()->each(function ($tenderLotDetail) {
-            $tenderLotDetail->tender_lot_id = $tenderLotDetail->tender->tenderLots->first()->id;
-
+            $tenderLotDetail->tender_lot_id = TenderLot::firstWhere('tender_id', $tenderLotDetail->tender_id)->id;
             $tenderLotDetail->save();
         });
 
         Schema::table('tender_lot_details', function (Blueprint $table) {
-            $table->dropForeign('tender_id');
-            $table->dropColumn(['tender_id']);
+            $table->renameIndex('tender_details_product_id_index', 'tender_lot_details_product_id_index');
+
+            $table->dropConstrainedForeignId('tender_id');
         });
     }
 
@@ -57,12 +56,16 @@ class CreateTenderLots extends Migration
     public function down()
     {
         Schema::table('tender_lot_details', function (Blueprint $table) {
+            $table->renameIndex('tender_lot_details_product_id_index', 'tender_details_product_id_index');
+
             $table->foreignId('tender_id')
                 ->nullable()
                 ->after('id')
                 ->constrained()
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+
+            $table->renameIndex('tender_lot_details_tender_id_foreign', 'tender_details_tender_id_foreign');
         });
 
         TenderLotDetail::all()->each(function ($tenderLotDetail) {
@@ -72,11 +75,10 @@ class CreateTenderLots extends Migration
         });
 
         Schema::table('tender_lot_details', function (Blueprint $table) {
-            $table->rename('tender_details');
-
-            $table->dropForeign('tender_lot_id');
-            $table->dropColumn(['tender_lot_id']);
+            $table->dropConstrainedForeignId('tender_lot_id');
         });
+
+        Schema::rename('tender_lot_details', 'tender_details');
 
         Schema::drop('tender_lots');
     }
