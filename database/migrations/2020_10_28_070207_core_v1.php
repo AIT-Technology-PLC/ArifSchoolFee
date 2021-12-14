@@ -513,16 +513,23 @@ class CoreV1 extends Migration
             $table->index('customer_id');
         });
 
-        Schema::create('tender_details', function (Blueprint $table) {
+        Schema::create('tender_lots', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tender_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('tender_lot_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('tender_lot_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('tender_id');
+            $table->index('tender_lot_id');
             $table->index('product_id');
         });
 
@@ -866,7 +873,8 @@ class CoreV1 extends Migration
         Schema::drop('general_tender_checklists');
         Schema::drop('tender_statuses');
         Schema::drop('tenders');
-        Schema::drop('tender_details');
+        Schema::drop('tender_lots');
+        Schema::drop('tender_lot_details');
         Schema::drop('tender_checklists');
         Schema::drop('notifications');
         Schema::drop('sivs');
@@ -887,5 +895,6 @@ class CoreV1 extends Migration
         Schema::drop('credit_settlements');
         Schema::drop('credits');
         Schema::drop('prices');
+
     }
 }
