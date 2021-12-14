@@ -29,6 +29,7 @@ class CreateNewCompany extends Seeder
                 'name' => 'Main Warehouse',
                 'location' => 'Unknown',
                 'is_sales_store' => 0,
+                'is_active' => 1,
             ]);
 
             $request = new Request([
