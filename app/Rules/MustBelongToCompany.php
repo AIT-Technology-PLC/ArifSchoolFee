@@ -19,6 +19,10 @@ class MustBelongToCompany implements Rule
 
     public function passes($attribute, $value)
     {
+        if ($this->tableName == 'products' && str_contains($attribute, 'proformaInvoice') && !is_int($value)) {
+            return true;
+        }
+
         return DB::table($this->tableName)
             ->where('company_id', userCompany()->id)
             ->where($this->column, $value)

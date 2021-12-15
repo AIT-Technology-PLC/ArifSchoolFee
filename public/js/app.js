@@ -475,7 +475,9 @@ document.addEventListener("alpine:init", () => {
         select2: "",
 
         init() {
-            if (productId) {
+            this.product.price = unitPrice;
+
+            if (Number.isInteger(productId)) {
                 this.getProduct(productId);
             }
         },

@@ -192,7 +192,7 @@
                 <div id="proforma-invoice-details">
                     @foreach (old('proformaInvoice', [[]]) as $proformaInvoiceDetail)
                         <div
-                            x-data="productDataProvider({{ is_numeric($proformaInvoiceDetail['product_id']) ? $proformaInvoiceDetail['product_id'] : '' }})"
+                            x-data="productDataProvider({{ is_numeric($proformaInvoiceDetail['product_id'] ?? '') ? $proformaInvoiceDetail['product_id'] : '' }})"
                             class="proforma-invoice-detail mx-3"
                         >
                             <div class="field has-addons mb-0 mt-5">
