@@ -159,6 +159,11 @@ class Company extends Model
         return $this->hasMany(Price::class);
     }
 
+    public function tenderOpportunities()
+    {
+        return $this->hasMany(TenderOpportunity::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);

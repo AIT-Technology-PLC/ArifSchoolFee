@@ -53,6 +53,11 @@ class Customer extends Model
         return $this->hasMany(Credit::class);
     }
 
+    public function tenderOpportunities()
+    {
+        return $this->hasMany(TenderOpportunity::class);
+    }
+
     public function hasReachedCreditLimit($newCreditAmount, $excludedCreditId = null)
     {
         $totalCreditAmount = $this->credits()

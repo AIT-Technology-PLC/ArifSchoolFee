@@ -16,6 +16,7 @@ class CreateTenderOpportunitiesTable extends Migration
         Schema::create('tender_opportunities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('tender_status_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
