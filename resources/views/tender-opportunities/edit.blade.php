@@ -121,7 +121,7 @@
                                     value="{{ $tenderOpportunity->source }}"
                                 />
                                 <x-common.icon
-                                    name="fas fa-hashtag"
+                                    name="fas fa-newspaper"
                                     class="is-large is-left"
                                 />
                                 <x-common.validation-error property="source" />
@@ -141,7 +141,7 @@
                                     value="{{ $tenderOpportunity->address ?? '' }}"
                                 />
                                 <x-common.icon
-                                    name="fas fa-hashtag"
+                                    name="fas fa-map-marker-alt"
                                     class="is-large is-left"
                                 />
                                 <x-common.validation-error property="address" />
@@ -165,13 +165,13 @@
                                         Select Currency
                                     </option>
                                     <option
-                                        value="0"
+                                        value="ETB"
                                         {{ ($tenderOpportunity->currency ?? '') == 'ETB' ? 'selected' : '' }}
                                     >
                                         ETB
                                     </option>
                                     <option
-                                        value="1"
+                                        value="USD"
                                         {{ ($tenderOpportunity->currency ?? '') == 'USD' ? 'selected' : '' }}
                                     >
                                         USD
@@ -181,10 +181,9 @@
                                     </option>
                                 </x-forms.select>
                                 <x-common.icon
-                                    name="fas fa-currency"
+                                    name="fas fa-dollar-sign"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="currency" />
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
@@ -198,9 +197,10 @@
                                     name="fas fa-money-check"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="price" />
                             </x-forms.control>
                         </x-forms.field>
+                        <x-common.validation-error property="currency" />
+                        <x-common.validation-error property="price" />
                     </div>
                     <div class="column is-12">
                         <x-forms.field>

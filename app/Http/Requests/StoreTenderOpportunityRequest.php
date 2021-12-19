@@ -22,8 +22,8 @@ class StoreTenderOpportunityRequest extends FormRequest
             'published_on' => ['required', 'date'],
             'body' => ['required', 'string'],
             'address' => ['nullable', 'string', 'max:255'],
-            'currency' => ['nullable', 'string', 'max:255'],
-            'price' => ['nullable', 'numeric'],
+            'currency' => ['nullable', 'string', 'max:255', 'required_unless:price,null'],
+            'price' => ['nullable', 'numeric', 'gt:0', 'required_unless:currency,null'],
             'comments' => ['nullable', 'string'],
         ];
     }
