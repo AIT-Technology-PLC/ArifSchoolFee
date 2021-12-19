@@ -7,7 +7,7 @@
         <x-content.header title="Edit Tender Opportunity" />
         <form
             id="formOne"
-            action="{{ route('tender-opportunities.store') }}"
+            action="{{ route('tender-opportunities.update', $tenderOpportunity->id) }}"
             method="POST"
             enctype="multipart/form-data"
             novalidate

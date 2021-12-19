@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MustBelongToCompany;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTenderOpportunityRequest extends FormRequest
@@ -15,7 +16,7 @@ class UpdateTenderOpportunityRequest extends FormRequest
     {
         return [
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
-            'tender_status_id' => ['required', 'integer', new MustBelongToCompany('tender_statues')],
+            'tender_status_id' => ['required', 'integer', new MustBelongToCompany('tender_statuses')],
             'code' => ['required', 'string', 'max:255'],
             'source' => ['required', 'string', 'max:255'],
             'published_on' => ['required', 'date'],
