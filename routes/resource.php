@@ -59,6 +59,8 @@ Route::resource('tender-readings', Resource\TenderReadingController::class)->onl
 
 Route::resource('tenders.tender-checklists', Resource\TenderChecklistController::class)->except(['index', 'show'])->shallow();
 
+Route::resource('tender-opportunities', Resource\TenderOpportunityController::class);
+
 Route::resource('sivs', Resource\SivController::class);
 
 Route::resource('siv-details', Resource\SivDetailController::class)->only('destroy');
