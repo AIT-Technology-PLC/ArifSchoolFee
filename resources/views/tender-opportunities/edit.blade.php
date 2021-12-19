@@ -94,7 +94,7 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="customer_id">
-                                Customer <sup class="has-text-danger">*</sup>
+                                Customer <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <div class="select is-fullwidth">
@@ -131,7 +131,7 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="address">
-                                Address <sup class="has-text-danger">*</sup>
+                                Address <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
@@ -150,7 +150,7 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.label for="currency">
-                            Currency <sup class="has-text-danger"></sup>
+                            Price <sup class="has-text-danger"></sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left">
@@ -205,21 +205,17 @@
                     <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="body">
-                                Body <sup class="has-text-danger"></sup>
+                                Body <sup class="has-text-danger">*</sup>
                             </x-forms.label>
-                            <x-forms.control class="has-icons-left">
+                            <x-forms.control>
                                 <x-forms.textarea
                                     name="body"
                                     id="body"
-                                    class="pl-6"
+                                    class="summernote"
                                     placeholder="Comments, remarks, or sidenotes"
                                 >
                                     {{ $tenderOpportunity->body }}
                                 </x-forms.textarea>
-                                <x-common.icon
-                                    name="fas fa-edit"
-                                    class="is-large is-left"
-                                />
                                 <x-common.validation-error property="body" />
                             </x-forms.control>
                         </x-forms.field>
@@ -229,19 +225,15 @@
                             <x-forms.label for="comments">
                                 Comments <sup class="has-text-danger"></sup>
                             </x-forms.label>
-                            <x-forms.control class="has-icons-left">
+                            <x-forms.control>
                                 <x-forms.textarea
                                     name="comments"
                                     id="comments"
-                                    class="pl-6"
+                                    class="summernote"
                                     placeholder="Comments, remarks, or sidenotes"
                                 >
                                     {{ $tenderOpportunity->comments ?? '' }}
                                 </x-forms.textarea>
-                                <x-common.icon
-                                    name="fas fa-edit"
-                                    class="is-large is-left"
-                                />
                                 <x-common.validation-error property="comments" />
                             </x-forms.control>
                         </x-forms.field>
