@@ -158,23 +158,59 @@
                                     id="currency"
                                     name="currency"
                                 >
-                                    <option
+                                <option
                                         disabled
                                         selected
                                     >
                                         Select Currency
                                     </option>
                                     <option
+                                        value="AED"
+                                        {{ ($tenderOpportunity->currency ?? '') == 'AED' ? 'selected' : '' }}
+                                    >
+                                        AED - UAE Dirham
+                                    </option>
+                                    <option
+                                        value="CHF"
+                                        {{ ($tenderOpportunity->currency ?? '') == 'CHF' ? 'selected' : '' }}
+                                    >
+                                        CHF - Swiss Frank
+                                    </option>
+                                    <option
+                                        value="CNY"
+                                        {{ ($tenderOpportunity->currency ?? '') == 'CNY' ? 'selected' : '' }}
+                                    >
+                                        CNY - China Yuan
+                                    </option>
+                                    <option
                                         value="ETB"
                                         {{ ($tenderOpportunity->currency ?? '') == 'ETB' ? 'selected' : '' }}
                                     >
-                                        ETB
+                                        ETB - Ethiopian Birr
+                                    </option>
+                                    <option
+                                        value="EUR"
+                                        {{ ($tenderOpportunity->currency ?? '') == 'EUR' ? 'selected' : '' }}
+                                    >
+                                        EUR - Euro Union Countries
+                                    </option>
+                                    <option
+                                        value="GBP"
+                                        {{ ($tenderOpportunity->currency ?? '') == 'GBP' ? 'selected' : '' }}
+                                    >
+                                        GBP - GB Pound Sterling
+                                    </option>
+                                    <option
+                                        value="SAR"
+                                        {{ ($tenderOpportunity->currency ?? '') == 'SAR' ? 'selected' : '' }}
+                                    >
+                                        SAR - Saudi Riyal
                                     </option>
                                     <option
                                         value="USD"
                                         {{ ($tenderOpportunity->currency ?? '') == 'USD' ? 'selected' : '' }}
                                     >
-                                        USD
+                                        USD - US Dollar
                                     </option>
                                     <option value="">
                                         None
@@ -191,7 +227,7 @@
                                     name="price"
                                     type="number"
                                     placeholder="Price"
-                                    value="{{ $tenderOpportunity->price ?? '.00' }}"
+                                    value="{{ $tenderOpportunity->price ?? '' }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-check"

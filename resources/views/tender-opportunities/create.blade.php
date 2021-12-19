@@ -164,16 +164,52 @@
                                         Select Currency
                                     </option>
                                     <option
+                                        value="AED"
+                                        {{ old('currency') == 'AED' ? 'selected' : '' }}
+                                    >
+                                        AED - UAE Dirham
+                                    </option>
+                                    <option
+                                        value="CHF"
+                                        {{ old('currency') == 'CHF' ? 'selected' : '' }}
+                                    >
+                                        CHF - Swiss Frank
+                                    </option>
+                                    <option
+                                        value="CNY"
+                                        {{ old('currency') == 'CNY' ? 'selected' : '' }}
+                                    >
+                                        CNY - China Yuan
+                                    </option>
+                                    <option
                                         value="ETB"
                                         {{ old('currency') == 'ETB' ? 'selected' : '' }}
                                     >
-                                        ETB
+                                        ETB - Ethiopian Birr
+                                    </option>
+                                    <option
+                                        value="EUR"
+                                        {{ old('currency') == 'EUR' ? 'selected' : '' }}
+                                    >
+                                        EUR - Euro Union Countries
+                                    </option>
+                                    <option
+                                        value="GBP"
+                                        {{ old('currency') == 'GBP' ? 'selected' : '' }}
+                                    >
+                                        GBP - GB Pound Sterling
+                                    </option>
+                                    <option
+                                        value="SAR"
+                                        {{ old('currency') == 'SAR' ? 'selected' : '' }}
+                                    >
+                                        SAR - Saudi Riyal
                                     </option>
                                     <option
                                         value="USD"
                                         {{ old('currency') == 'USD' ? 'selected' : '' }}
                                     >
-                                        USD
+                                        USD - US Dollar
                                     </option>
                                     <option value="">
                                         None
@@ -190,7 +226,7 @@
                                     name="price"
                                     type="number"
                                     placeholder="Price"
-                                    value="{{ old('price') ?? '.00' }}"
+                                    value="{{ old('price') ?? '' }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-check"
