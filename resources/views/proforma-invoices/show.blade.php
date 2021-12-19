@@ -320,6 +320,11 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
                                     {{ $proformaInvoiceDetail->product->name ?? $proformaInvoiceDetail->custom_product }}
+                                    @if ($proformaInvoiceDetail->product)
+                                        <span class="has-text-grey {{ $proformaInvoiceDetail->product->code ? '' : 'is-hidden' }}">
+                                            ({{ $proformaInvoiceDetail->product->code }})
+                                        </span>
+                                    @endif
                                 </td>
                                 <td>
                                     {{ number_format($proformaInvoiceDetail->quantity, 2) }}
