@@ -28,6 +28,7 @@ class SivDatatable extends DataTable
                     ->when($keyword == 'approved', fn($query) => $query->approved())
                     ->when($keyword == 'waiting-approval', fn($query) => $query->notApproved());
             })
+            ->editColumn('issued_to', fn($siv) => $siv->issued_to ?: 'N/A')
             ->editColumn('purpose', function ($siv) {
                 if (!$siv->purpose) {
                     return 'N/A';
@@ -73,6 +74,7 @@ class SivDatatable extends DataTable
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('SIV No'),
             Column::make('status')->orderable(false),
+            Column::make('issued_to')->title('Customer'),
             Column::make('purpose'),
             Column::make('received_by')
                 ->title('Receiver')
