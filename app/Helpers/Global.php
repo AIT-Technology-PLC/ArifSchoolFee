@@ -87,9 +87,10 @@ if (!function_exists('notifiablesByBranch')) {
 
 if (!function_exists('money')) {
 
-    function money($amount = 0.00)
+    function money($amount = 0.00, $currency = null)
     {
-        return userCompany()->currency . '. ' . number_format($amount, 2);
-    }
+        $currency = $currency ?: userCompany()->currency;
 
+        return $currency . '. ' . number_format($amount, 2);
+    }
 }
