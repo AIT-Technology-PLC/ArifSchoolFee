@@ -399,6 +399,15 @@
                         <li>
                             <x-common.button
                                 tag="a"
+                                href="{{ route('tender-opportunities.index') }}"
+                                label="Tender Opportunities"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('tender-opportunities.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('tender-opportunities.*') ? 'activateAccordion' : '' }}"
+                            />
+                        </li>
+                        <li>
+                            <x-common.button
+                                tag="a"
                                 href="{{ route('tender-checklist-types.index') }}"
                                 label="Checklist Categories"
                                 class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('tender-checklist-types.*') ? 'text-green has-text-weight-bold' : '' }}"

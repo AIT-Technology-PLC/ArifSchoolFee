@@ -319,6 +319,17 @@
                                     <x-common.button
                                         tag="a"
                                         mode="button"
+                                        href="{{ route('tender-opportunities.create') }}"
+                                        icon="fas fa-comment-dollar"
+                                        class="text-green bg-lightgreen is-borderless"
+                                    />
+                                    <br>
+                                    <span class="is-size-7"> New Tender Opportunity </span>
+                                </div>
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                    <x-common.button
+                                        tag="a"
+                                        mode="button"
                                         href="{{ route('tender-checklist-types.create') }}"
                                         icon="fas fa-tasks"
                                         class="text-green bg-lightgreen is-borderless"
