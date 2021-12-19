@@ -259,7 +259,12 @@
                                     {{ $sivDetail->warehouse->name }}
                                 </td>
                                 <td class="is-capitalized">
-                                    {{ $sivDetail->product->name }}
+                                    <span>
+                                        {{ $sivDetail->product->name }}
+                                    </span>
+                                    <span class="has-text-grey {{ $sivDetail->product->code ? '' : 'is-hidden' }}">
+                                        ({{ $sivDetail->product->code }})
+                                    </span>
                                 </td>
                                 <td>
                                     {{ number_format($sivDetail->quantity, 2) }}

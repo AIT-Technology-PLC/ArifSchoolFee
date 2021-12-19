@@ -238,7 +238,12 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">
-                                    {{ $saleDetail->product->name }}
+                                    <span>
+                                        {{ $saleDetail->product->name }}
+                                    </span>
+                                    <span class="has-text-grey {{ $saleDetail->product->code ? '' : 'is-hidden' }}">
+                                        ({{ $saleDetail->product->code }})
+                                    </span>
                                 </td>
                                 <td>
                                     {{ number_format($saleDetail->quantity, 2) }}

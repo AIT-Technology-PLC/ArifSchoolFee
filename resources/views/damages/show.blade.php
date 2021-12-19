@@ -183,7 +183,12 @@
                                     {{ $damageDetail->warehouse->name }}
                                 </td>
                                 <td class="is-capitalized">
-                                    {{ $damageDetail->product->name }}
+                                    <span>
+                                        {{ $damageDetail->product->name }}
+                                    </span>
+                                    <span class="has-text-grey {{ $damageDetail->product->code ? '' : 'is-hidden' }}">
+                                        ({{ $damageDetail->product->code }})
+                                    </span>
                                 </td>
                                 <td>
                                     {{ number_format($damageDetail->quantity, 2) }}

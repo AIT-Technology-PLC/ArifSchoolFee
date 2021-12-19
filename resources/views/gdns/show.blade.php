@@ -429,7 +429,12 @@
                                     {{ $gdnDetail->warehouse->name }}
                                 </td>
                                 <td class="is-capitalized">
-                                    {{ $gdnDetail->product->name }}
+                                    <span>
+                                        {{ $gdnDetail->product->name }}
+                                    </span>
+                                    <span class="has-text-grey {{ $gdnDetail->product->code ? '' : 'is-hidden' }}">
+                                        ({{ $gdnDetail->product->code }})
+                                    </span>
                                 </td>
                                 <td>
                                     {{ number_format($gdnDetail->quantity, 2) }}

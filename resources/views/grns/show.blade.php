@@ -222,7 +222,12 @@
                                     {{ $grnDetail->warehouse->name }}
                                 </td>
                                 <td class="is-capitalized">
-                                    {{ $grnDetail->product->name }}
+                                    <span>
+                                        {{ $grnDetail->product->name }}
+                                    </span>
+                                    <span class="has-text-grey {{ $grnDetail->product->code ? '' : 'is-hidden' }}">
+                                        ({{ $grnDetail->product->code }})
+                                    </span>
                                 </td>
                                 <td>
                                     {{ number_format($grnDetail->quantity, 2) }}

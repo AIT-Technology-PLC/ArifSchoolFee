@@ -194,7 +194,12 @@
                                     <tr>
                                         <td> {{ $loop->iteration }} </td>
                                         <td class="is-capitalized">
-                                            {{ $tenderLotDetail->product->name }}
+                                            <span>
+                                                {{ $tenderLotDetail->product->name }}
+                                            </span>
+                                            <span class="has-text-grey {{ $tenderLotDetail->product->code ? '' : 'is-hidden' }}">
+                                                ({{ $tenderLotDetail->product->code }})
+                                            </span>
                                         </td>
                                         <td>
                                             {{ number_format($tenderLotDetail->quantity, 2) }}

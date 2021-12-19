@@ -494,7 +494,12 @@
                                     {{ $reservationDetail->warehouse->name }}
                                 </td>
                                 <td class="is-capitalized">
-                                    {{ $reservationDetail->product->name }}
+                                    <span>
+                                        {{ $reservationDetail->product->name }}
+                                    </span>
+                                    <span class="has-text-grey {{ $reservationDetail->product->code ? '' : 'is-hidden' }}">
+                                        ({{ $reservationDetail->product->code }})
+                                    </span>
                                 </td>
                                 <td>
                                     {{ number_format($reservationDetail->quantity, 2) }}

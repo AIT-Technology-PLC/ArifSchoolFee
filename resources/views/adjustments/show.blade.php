@@ -94,7 +94,14 @@
                                 {{ $adjustmentDetail->is_subtract ? 'Subtract From ' : 'Add To ' }}
                                 {{ $adjustmentDetail->warehouse->name }}
                             </td>
-                            <td class="is-capitalized"> {{ $adjustmentDetail->product->name }} </td>
+                            <td class="is-capitalized">
+                                <span>
+                                    {{ $adjustmentDetail->product->name }}
+                                </span>
+                                <span class="has-text-grey {{ $adjustmentDetail->product->code ? '' : 'is-hidden' }}">
+                                    ({{ $adjustmentDetail->product->code }})
+                                </span>
+                            </td>
                             <td>
                                 {{ number_format($adjustmentDetail->quantity, 2) }}
                                 {{ $adjustmentDetail->product->unit_of_measurement }}

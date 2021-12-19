@@ -255,7 +255,12 @@
                                     {{ $returnDetail->warehouse->name }}
                                 </td>
                                 <td class="is-capitalized">
-                                    {{ $returnDetail->product->name }}
+                                    <span>
+                                        {{ $returnDetail->product->name }}
+                                    </span>
+                                    <span class="has-text-grey {{ $returnDetail->product->code ? '' : 'is-hidden' }}">
+                                        ({{ $returnDetail->product->code }})
+                                    </span>
                                 </td>
                                 <td>
                                     {{ number_format($returnDetail->quantity, 2) }}
