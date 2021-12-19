@@ -25,7 +25,7 @@ class TenderOpportunityDatatable extends DataTable
             ->editColumn('status', fn($tenderOpportunity) => $tenderOpportunity->tenderStatus->status ?? 'N/A')
             ->editColumn('published_on', fn($tenderOpportunity) => $tenderOpportunity->published_on->toFormattedDateString())
             ->editColumn('price', function ($tenderOpportunity) {
-                return $tenderOpportunity->price ? money($tenderOpportunity->price, $tenderOpportunity->currency) : '';
+                return money($tenderOpportunity->price, $tenderOpportunity->currency);
             })
             ->editColumn('prepared by', fn($tenderOpportunity) => $tenderOpportunity->createdBy->name)
             ->editColumn('actions', function ($tenderOpportunity) {
@@ -55,11 +55,11 @@ class TenderOpportunityDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('code')->title('Ref No'),
-            Column::make('customer', 'customer.company_name'),
             Column::make('status', 'tenderStatus.status'),
+            Column::make('customer', 'customer.company_name'),
+            Column::make('source')->visible(false),
+            Column::make('price', 'price')->visible(false),
             Column::make('published_on'),
-            Column::make('source'),
-            Column::make('price', 'price'),
             Column::make('prepared by', 'createdBy.name'),
             Column::computed('actions')->className('actions'),
         ];
