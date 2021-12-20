@@ -481,6 +481,29 @@ class CoreV1 extends Migration
             $table->index('company_id');
         });
 
+        Schema::create('tender_opportunities', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('tender_status_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->string('code');
+            $table->string('source');
+            $table->dateTime('published_on')->nullable();
+            $table->longText('body');
+            $table->string('address')->nullable();
+            $table->string('currency')->nullable();
+            $table->decimal('price', 22)->nullable();
+            $table->longText('comments')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+            $table->index('warehouse_id');
+        });
+
         Schema::create('tenders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
@@ -872,6 +895,7 @@ class CoreV1 extends Migration
         Schema::drop('tender_checklist_types');
         Schema::drop('general_tender_checklists');
         Schema::drop('tender_statuses');
+        Schema::drop('tender_opportunities');
         Schema::drop('tenders');
         Schema::drop('tender_lots');
         Schema::drop('tender_lot_details');
@@ -895,6 +919,5 @@ class CoreV1 extends Migration
         Schema::drop('credit_settlements');
         Schema::drop('credits');
         Schema::drop('prices');
-
     }
 }
