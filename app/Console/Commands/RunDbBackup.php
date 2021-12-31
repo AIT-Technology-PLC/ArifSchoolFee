@@ -18,9 +18,7 @@ class RunDbBackup extends Command
 
     public function handle()
     {
-        $isSuccess = Artisan::call('backup:run --only-db --disable-notifications');
-
-        $isSuccess == 0 ? $this->info('Backup completed successfully.') : $this->error('Backup failed.');
+        Artisan::call('backup:run --only-db --disable-notifications');
 
         return 0;
     }
