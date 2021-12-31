@@ -69,10 +69,6 @@ precacheAndRoute(
             revision: null,
         },
         {
-            url: "https://cdn.jsdelivr.net/npm/chart.js@2.8.0",
-            revision: null,
-        },
-        {
             url: "https://unpkg.com/alpinejs@3.4.2/dist/cdn.min.js",
             revision: null,
         },

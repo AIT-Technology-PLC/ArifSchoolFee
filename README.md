@@ -22,18 +22,19 @@ With its number of modules & features, **Onrica SmartWork** allows businesses to
 
 At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) uses [**Laravel**](https://laravel.com) as a fullstack framework.
 
-| Frontend Tools     | Backend Tools              |
-| ------------------ | -------------------------- |
-| Bulma              | Laravel                    |
-| Font Awesome Icons | Livewire                   |
-| jQuery             | Laravel DomPDF             |
-| AlpineJS           | Doctrine Dbal              |
-| Axios              | Spaite Laravel Permission  |
-| jQuery DataTables  | Yajra - Laravel DataTables |
-| Summernote Editor  | Laravel Debugbar           |
-| Select2 Dropdown   |                            |
-| Sweetalert         |                            |
-| Workbox            |                            |
+| Frontend Tools     | Backend Tools               |
+| ------------------ | --------------------------- |
+| Bulma              | Laravel                     |
+| Font Awesome Icons | Livewire                    |
+| jQuery             | Laravel DomPDF              |
+| AlpineJS           | Doctrine Dbal               |
+| Axios              | Spatie - Laravel Permission |
+| jQuery DataTables  | Yajra - Laravel DataTables  |
+| Summernote Editor  | Laravel Debugbar            |
+| Select2 Dropdown   | LaraBug                     |
+| Sweetalert         | Flysystem Google Drive      |
+| Pace.js            | Spatie - Laravel Backup     |
+| Workbox            |                             |
 
 ## Branches
 
