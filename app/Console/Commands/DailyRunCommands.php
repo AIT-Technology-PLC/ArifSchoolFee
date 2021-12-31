@@ -20,7 +20,7 @@ class DailyRunCommands extends Command
         'proforma-invoice:expiry-date-notification',
         'tender:daily-deadline-notification',
         'credit:due-date-notification',
-        'backup:run --only-db --disable-notifications',
+        'backup:db',
     ];
 
     public function __construct()
