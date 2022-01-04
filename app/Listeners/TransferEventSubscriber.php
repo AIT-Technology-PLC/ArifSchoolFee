@@ -24,9 +24,8 @@ class TransferEventSubscriber
 
     public function subscribe($events)
     {
-        $events->listen(
-            TransferApprovedEvent::class,
-            [TransferEventSubscriber::class, 'approved']
-        );
+        return [
+            TransferApprovedEvent::class => 'approved',
+        ];
     }
 }
