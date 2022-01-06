@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateAdjustmentRequest;
 use App\Models\Adjustment;
 use App\Notifications\AdjustmentPrepared;
 use App\Services\NextReferenceNumService;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -51,7 +52,7 @@ class AdjustmentController extends Controller
 
             $adjustment->adjustmentDetails()->createMany($request->adjustment);
 
-            Notification::send(notifiables('Approve Adjustment'), new AdjustmentPrepared($adjustment));
+            Notification::send(Notifiables::nextAction('Approve Adjustment'), new AdjustmentPrepared($adjustment));
 
             return $adjustment;
         });

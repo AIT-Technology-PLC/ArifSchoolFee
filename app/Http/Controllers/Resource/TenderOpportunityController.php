@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateTenderOpportunityRequest;
 use App\Models\TenderOpportunity;
 use App\Models\TenderStatus;
 use App\Notifications\TenderOpportunityStatusUpdated;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -68,7 +69,7 @@ class TenderOpportunityController extends Controller
             $tenderOpportunity->update($request->validated());
 
             if ($tenderOpportunity->wasChanged('tender_status_id')) {
-                Notification::send(notifiables('Read Tender'), new TenderOpportunityStatusUpdated($originalStatus, $tenderOpportunity));
+                Notification::send(Notifiables::nextAction('Read Tender'), new TenderOpportunityStatusUpdated($originalStatus, $tenderOpportunity));
             }
         });
 

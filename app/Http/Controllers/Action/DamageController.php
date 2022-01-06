@@ -8,6 +8,7 @@ use App\Models\Damage;
 use App\Notifications\DamageApproved;
 use App\Notifications\DamageSubtracted;
 use App\Services\DamageService;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 
 class DamageController extends Controller
@@ -44,7 +45,10 @@ class DamageController extends Controller
             return back()->with('failedMessage', $message);
         }
 
-        Notification::send(notifiables('Approve Damage', $damage->createdBy), new DamageSubtracted($damage));
+        Notification::send(
+            Notifiables::branch('Read Damage', $damage->damageDetails->pluck('warehouse_id'), $damage->createdBy),
+            new DamageSubtracted($damage)
+        );
 
         return back();
     }

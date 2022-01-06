@@ -13,19 +13,19 @@ class Notifiables
         $this->notifiables = collect($notifiables);
     }
 
-    public function with(...$users)
+    public static function isCreatorValid($creator)
     {
-        return $this->notifiables
-            ->push(...$users)
-            ->unique()
-            ->filter
-            ->isNot(auth()->user());
+        if ($creator instanceof User && $creator->isNot(auth()->user())) {
+            return true;
+        }
+
+        return false;
     }
 
-    public static function nextAction($nextActionPermission)
+    public static function nextAction($nextActionPermission, $creator = null)
     {
         if (auth()->user()->can($nextActionPermission)) {
-            return new static;
+            return static::isCreatorValid($creator) ? $creator : [];
         }
 
         $users = User::query()
@@ -41,13 +41,17 @@ class Notifiables
             $users = $users->where('warehouse_id', auth()->user()->warehouse_id);
         }
 
-        return new static($users);
+        if (static::isCreatorValid($creator)) {
+            $users->push($creator);
+        }
+
+        return $users->unique();
     }
 
-    public static function branch($permission, $warehouseId)
+    public static function branch($permission, $warehouseId, $creator = null)
     {
         if (is_numeric($warehouseId) && $warehouseId == auth()->user()->warehouse_id) {
-            return new static;
+            return static::isCreatorValid($creator) ? $creator : [];
         }
 
         if (is_countable($warehouseId)) {
@@ -68,6 +72,28 @@ class Notifiables
             ->where('id', '<>', auth()->id())
             ->get();
 
-        return new static($users);
+        if (static::isCreatorValid($creator)) {
+            $users->push($creator);
+        }
+
+        return $users->unique();
+    }
+
+    public static function permission($permission, $creator = null)
+    {
+        $users = User::query()
+            ->permission($permission)
+            ->whereHas('employee', function ($query) {
+                return $query
+                    ->where('company_id', userCompany()->id)
+                    ->where('id', '<>', auth()->user()->employee->id);
+            })
+            ->get();
+
+        if (static::isCreatorValid($creator)) {
+            $users->push($creator);
+        }
+
+        return $users->unique();
     }
 }

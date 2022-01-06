@@ -8,6 +8,7 @@ use App\Models\Returnn;
 use App\Notifications\ReturnAdded;
 use App\Notifications\ReturnApproved;
 use App\Services\ReturnService;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 
 class ReturnController extends Controller
@@ -55,7 +56,10 @@ class ReturnController extends Controller
             return back()->with('failedMessage', $message);
         }
 
-        Notification::send(notifiables('Approve Return', $return->createdBy), new ReturnAdded($return));
+        Notification::send(
+            Notifiables::branch('Read Return', $return->returnDetails->pluck('warehouse_id'), $return->createdBy),
+            new ReturnAdded($return)
+        );
 
         return back();
     }

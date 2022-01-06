@@ -10,6 +10,7 @@ use App\Models\Siv;
 use App\Notifications\GdnApproved;
 use App\Notifications\GdnSubtracted;
 use App\Services\GdnService;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 
 class GdnController extends Controller
@@ -80,7 +81,10 @@ class GdnController extends Controller
             return back()->with('failedMessage', $message);
         }
 
-        Notification::send(notifiables('Approve GDN', $gdn->createdBy), new GdnSubtracted($gdn));
+        Notification::send(
+            Notifiables::branch('Read GDN', $gdn->gdnDetails->pluck('warehouse_id'), $gdn->createdBy),
+            new GdnSubtracted($gdn)
+        );
 
         return back();
     }

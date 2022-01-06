@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateDamageRequest;
 use App\Models\Damage;
 use App\Notifications\DamagePrepared;
 use App\Services\NextReferenceNumService;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -51,7 +52,7 @@ class DamageController extends Controller
 
             $damage->damageDetails()->createMany($request->damage);
 
-            Notification::send(notifiables('Approve Damage'), new DamagePrepared($damage));
+            Notification::send(Notifiables::nextAction('Approve Damage'), new DamagePrepared($damage));
 
             return $damage;
         });

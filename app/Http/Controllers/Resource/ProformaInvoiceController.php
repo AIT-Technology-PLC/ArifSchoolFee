@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateProformaInvoiceRequest;
 use App\Models\ProformaInvoice;
 use App\Notifications\ProformaInvoicePrepared;
 use App\Services\NextReferenceNumService;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -50,7 +51,7 @@ class ProformaInvoiceController extends Controller
 
             $proformaInvoice->proformaInvoiceDetails()->createMany($request->proformaInvoice);
 
-            Notification::send(notifiables('Approve GDN'), new ProformaInvoicePrepared($proformaInvoice));
+            Notification::send(Notifiables::nextAction('Convert Proforma Invoice'), new ProformaInvoicePrepared($proformaInvoice));
 
             return $proformaInvoice;
         });

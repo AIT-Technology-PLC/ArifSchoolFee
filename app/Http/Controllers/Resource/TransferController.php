@@ -9,6 +9,7 @@ use App\Models\Transfer;
 use App\Models\Warehouse;
 use App\Notifications\TransferPrepared;
 use App\Services\NextReferenceNumService;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -59,7 +60,7 @@ class TransferController extends Controller
 
             $transfer->transferDetails()->createMany($request->transfer);
 
-            Notification::send(notifiables('Approve Transfer'), new TransferPrepared($transfer));
+            Notification::send(Notifiables::nextAction('Approve Transfer'), new TransferPrepared($transfer));
 
             return $transfer;
         });

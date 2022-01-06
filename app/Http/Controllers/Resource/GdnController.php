@@ -10,6 +10,7 @@ use App\Models\Gdn;
 use App\Models\Sale;
 use App\Notifications\GdnPrepared;
 use App\Services\NextReferenceNumService;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -55,7 +56,7 @@ class GdnController extends Controller
 
             $gdn->gdnDetails()->createMany($request->gdn);
 
-            Notification::send(notifiables('Approve GDN'), new GdnPrepared($gdn));
+            Notification::send(Notifiables::nextAction('Approve GDN'), new GdnPrepared($gdn));
 
             return $gdn;
         });

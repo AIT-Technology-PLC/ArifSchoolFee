@@ -9,6 +9,7 @@ use App\Models\Reservation;
 use App\Notifications\ReservationPrepared;
 use App\Services\NextReferenceNumService;
 use App\Services\ReservationService;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -64,7 +65,7 @@ class ReservationController extends Controller
 
             $reservation->reservationDetails()->createMany($request->reservation);
 
-            Notification::send(notifiables('Approve Reservation'), new ReservationPrepared($reservation));
+            Notification::send(Notifiables::nextAction('Approve Reservation'), new ReservationPrepared($reservation));
 
             return $reservation;
         });
@@ -100,7 +101,7 @@ class ReservationController extends Controller
         }
 
         if ($reservation->wasChanged('approved_by')) {
-            Notification::send(notifiables('Approve Reservation'), new ReservationPrepared($reservation));
+            Notification::send(Notifiables::nextAction('Approve Reservation'), new ReservationPrepared($reservation));
         }
 
         return redirect()->route('reservations.show', $reservation->id);

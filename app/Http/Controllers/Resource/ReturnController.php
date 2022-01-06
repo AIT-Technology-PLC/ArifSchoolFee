@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateReturnRequest;
 use App\Models\Returnn;
 use App\Notifications\ReturnPrepared;
 use App\Services\NextReferenceNumService;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -51,7 +52,7 @@ class ReturnController extends Controller
 
             $return->returnDetails()->createMany($request->return);
 
-            Notification::send(notifiables('Approve Return'), new ReturnPrepared($return));
+            Notification::send(Notifiables::nextAction('Approve Return'), new ReturnPrepared($return));
 
             return $return;
         });

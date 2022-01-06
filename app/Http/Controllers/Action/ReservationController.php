@@ -11,6 +11,7 @@ use App\Notifications\ReservationCancelled;
 use App\Notifications\ReservationConverted;
 use App\Notifications\ReservationMade;
 use App\Services\ReservationService;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 
 class ReservationController extends Controller
@@ -47,7 +48,10 @@ class ReservationController extends Controller
             return back()->with('failedMessage', $message);
         }
 
-        Notification::send(notifiables('Approve Reservation', $reservation->createdBy), new ReservationMade($reservation));
+        Notification::send(
+            Notifiables::branch('Read Reservation', $reservation->reservationDetails->pluck('warehouse_id'), $reservation->createdBy),
+            new ReservationMade($reservation)
+        );
 
         return back();
     }
@@ -62,7 +66,10 @@ class ReservationController extends Controller
             return back()->with('failedMessage', $message);
         }
 
-        Notification::send(notifiables('Approve Reservation', $reservation->createdBy), new ReservationCancelled($reservation));
+        Notification::send(
+            Notifiables::branch('Read Reservation', $reservation->reservationDetails->pluck('warehouse_id'), $reservation->createdBy),
+            new ReservationCancelled($reservation)
+        );
 
         return back();
     }
@@ -79,7 +86,10 @@ class ReservationController extends Controller
             return back()->with('failedMessage', $message);
         }
 
-        Notification::send(notifiables('Approve GDN', $reservation->createdBy), new ReservationConverted($reservation));
+        Notification::send(
+            Notifiables::nextAction('Approve GDN', $reservation->createdBy),
+            new ReservationConverted($reservation)
+        );
 
         return back();
     }

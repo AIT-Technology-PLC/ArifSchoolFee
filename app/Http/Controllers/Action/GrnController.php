@@ -8,6 +8,7 @@ use App\Models\Grn;
 use App\Notifications\GrnAdded;
 use App\Notifications\GrnApproved;
 use App\Services\GrnService;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 
 class GrnController extends Controller
@@ -44,7 +45,10 @@ class GrnController extends Controller
             return back()->with('failedMessage', $message);
         }
 
-        Notification::send(notifiables('Approve GRN', $grn->createdBy), new GrnAdded($grn));
+        Notification::send(
+            Notifiables::branch('Read GRN', $grn->grnDetails->pluck('warehouse_id'), $grn->createdBy),
+            new GrnAdded($grn)
+        );
 
         return back();
     }

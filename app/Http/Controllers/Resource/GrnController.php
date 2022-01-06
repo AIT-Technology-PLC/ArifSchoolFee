@@ -11,6 +11,7 @@ use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Notifications\GrnPrepared;
 use App\Services\NextReferenceNumService;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -58,7 +59,7 @@ class GrnController extends Controller
 
             $grn->grnDetails()->createMany($request->grn);
 
-            Notification::send(notifiables('Approve GRN'), new GrnPrepared($grn));
+            Notification::send(Notifiables::nextAction('Approve GRN'), new GrnPrepared($grn));
 
             return $grn;
         });
