@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Models\Employee;
-use App\Services\PermissionCategorizationService;
+use App\Utilities\PermissionCategorization;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
@@ -25,9 +25,9 @@ class PermissionController extends Controller
             ->oldest()
             ->pluck('name');
 
-        $permissionCategories = PermissionCategorizationService::getPermissionCategories();
+        $permissionCategories = PermissionCategorization::getPermissionCategories();
 
-        $permissionsByCategories = PermissionCategorizationService::getPermissionsByCategories($permissions);
+        $permissionsByCategories = PermissionCategorization::getPermissionsByCategories($permissions);
 
         $userDirectPermissions = $employee->user->getDirectPermissions()->pluck('name');
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Utilities;
 
-class PermissionCategorizationService
+class PermissionCategorization
 {
     private const PERMISSION_CATEGORIES = [
         'gdn' => [
