@@ -6,19 +6,26 @@ use App\Models\User;
 
 class Notifiables
 {
-    public static function creator($creator)
-    {
-        if ($creator->is(auth()->user())) {
-            return [];
-        }
+    private $notifiables;
 
-        return $creator;
+    public function __construct($notifiables = [])
+    {
+        $this->notifiables = collect($notifiables);
+    }
+
+    public function with(...$users)
+    {
+        return $this->notifiables
+            ->push(...$users)
+            ->unique()
+            ->filter
+            ->isNot(auth()->user());
     }
 
     public static function nextAction($nextActionPermission)
     {
         if (auth()->user()->can($nextActionPermission)) {
-            return [];
+            return new static;
         }
 
         $users = User::query()
@@ -34,20 +41,20 @@ class Notifiables
             $users = $users->where('warehouse_id', auth()->user()->warehouse_id);
         }
 
-        return $users;
+        return new static($users);
     }
 
     public static function branch($permission, $warehouseId)
     {
         if (is_numeric($warehouseId) && $warehouseId == auth()->user()->warehouse_id) {
-            return [];
+            return new static;
         }
 
         if (is_countable($warehouseId)) {
             $warehouseId = $warehouseId->filter(fn($id) => $id != auth()->user()->warehouse_id);
         }
 
-        return User::query()
+        $users = User::query()
             ->permission($permission)
             ->when(
                 is_countable($warehouseId),
@@ -60,5 +67,7 @@ class Notifiables
             )
             ->where('id', '<>', auth()->id())
             ->get();
+
+        return new static($users);
     }
 }

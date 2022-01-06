@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -11,7 +12,7 @@ class ApproveTransactionAction
     {
         if (!is_null($notification) && !is_null($permission)) {
             Notification::send(
-                notifiables($permission, $model->createdBy),
+                Notifiables::nextAction($permission)->with($model->createdBy),
                 new $notification($model)
             );
         }
