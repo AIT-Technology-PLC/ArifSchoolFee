@@ -8,7 +8,6 @@ use App\Http\Requests\StoreSivRequest;
 use App\Http\Requests\UpdateSivRequest;
 use App\Models\Siv;
 use App\Notifications\SivPrepared;
-use App\Services\NextReferenceNumService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -39,7 +38,7 @@ class SivController extends Controller
     {
         $warehouses = auth()->user()->getAllowedWarehouses('siv');
 
-        $currentSivCode = NextReferenceNumService::table('sivs');
+        $currentSivCode = nextReferenceNumber('sivs');
 
         return view('sivs.create', compact('warehouses', 'currentSivCode'));
     }

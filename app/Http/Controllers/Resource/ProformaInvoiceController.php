@@ -7,7 +7,6 @@ use App\Http\Requests\StoreProformaInvoiceRequest;
 use App\Http\Requests\UpdateProformaInvoiceRequest;
 use App\Models\ProformaInvoice;
 use App\Notifications\ProformaInvoicePrepared;
-use App\Services\NextReferenceNumService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -39,7 +38,7 @@ class ProformaInvoiceController extends Controller
 
     public function create()
     {
-        $currentProformaInvoiceCode = NextReferenceNumService::table('proforma_invoices');
+        $currentProformaInvoiceCode = nextReferenceNumber('proforma_invoices');
 
         return view('proforma-invoices.create', compact('currentProformaInvoiceCode'));
     }

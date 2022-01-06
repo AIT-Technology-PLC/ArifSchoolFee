@@ -7,7 +7,6 @@ use App\Http\Requests\StoreDamageRequest;
 use App\Http\Requests\UpdateDamageRequest;
 use App\Models\Damage;
 use App\Notifications\DamagePrepared;
-use App\Services\NextReferenceNumService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -40,7 +39,7 @@ class DamageController extends Controller
     {
         $warehouses = auth()->user()->getAllowedWarehouses('subtract');
 
-        $currentDamageCode = NextReferenceNumService::table('damages');
+        $currentDamageCode = nextReferenceNumber('damages');
 
         return view('damages.create', compact('warehouses', 'currentDamageCode'));
     }

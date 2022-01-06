@@ -139,7 +139,7 @@ class ReservationService
 
             $gdn = Gdn::create([
                 'customer_id' => $reservation->customer_id ?? null,
-                'code' => NextReferenceNumService::table('gdns'),
+                'code' => nextReferenceNumber('gdns'),
                 'discount' => $reservation->discount * 100,
                 'payment_type' => $reservation->payment_type,
                 'cash_received_in_percentage' => $reservation->cash_received_in_percentage,

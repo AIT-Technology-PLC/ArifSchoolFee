@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
 use App\Models\Sale;
-use App\Services\NextReferenceNumService;
 use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
@@ -29,7 +28,7 @@ class SaleController extends Controller
 
     public function create()
     {
-        $currentReceiptNo = NextReferenceNumService::table('sales');
+        $currentReceiptNo = nextReferenceNumber('sales');
 
         return view('sales.create', compact('currentReceiptNo'));
     }

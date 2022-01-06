@@ -3,6 +3,7 @@
 use App\Models\Feature;
 use App\Models\Limit;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 if (!function_exists('userCompany')) {
     function userCompany()
@@ -35,5 +36,15 @@ if (!function_exists('money')) {
         $currency = $currency ?: userCompany()->currency;
 
         return $currency . '. ' . number_format($amount, 2);
+    }
+}
+
+if (!function_exists('nextReferenceNumber')) {
+    function nextReferenceNumber($table, $column = 'code')
+    {
+        return DB::table($table)
+            ->where('company_id', userCompany()->id)
+            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->max($column) + 1;
     }
 }

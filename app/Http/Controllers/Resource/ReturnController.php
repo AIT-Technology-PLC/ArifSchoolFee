@@ -7,7 +7,6 @@ use App\Http\Requests\StoreReturnRequest;
 use App\Http\Requests\UpdateReturnRequest;
 use App\Models\Returnn;
 use App\Notifications\ReturnPrepared;
-use App\Services\NextReferenceNumService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -40,7 +39,7 @@ class ReturnController extends Controller
     {
         $warehouses = auth()->user()->getAllowedWarehouses('add');
 
-        $currentReturnCode = NextReferenceNumService::table('returns');
+        $currentReturnCode = nextReferenceNumber('returns');
 
         return view('returns.create', compact('warehouses', 'currentReturnCode'));
     }

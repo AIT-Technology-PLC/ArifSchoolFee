@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Actions\ConvertToSivAction;
 use App\Services\InventoryOperationService;
-use App\Services\NextReferenceNumService;
 use Illuminate\Support\Facades\DB;
 
 class GdnService
@@ -65,7 +64,7 @@ class GdnService
 
         $gdn->credit()->create([
             'customer_id' => $gdn->customer_id,
-            'code' => NextReferenceNumService::table('credits'),
+            'code' => nextReferenceNumber('credits'),
             'cash_amount' => $gdn->payment_in_cash,
             'credit_amount' => $gdn->payment_in_credit,
             'credit_amount_settled' => 0.00,

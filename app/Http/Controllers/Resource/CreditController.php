@@ -8,7 +8,6 @@ use App\Http\Requests\StoreCreditRequest;
 use App\Http\Requests\UpdateCreditRequest;
 use App\Models\Credit;
 use App\Models\Customer;
-use App\Services\NextReferenceNumService;
 
 class CreditController extends Controller
 {
@@ -40,7 +39,7 @@ class CreditController extends Controller
 
     public function create()
     {
-        $currentCreditCode = NextReferenceNumService::table('credits');
+        $currentCreditCode = nextReferenceNumber('credits');
 
         return view('credits.create', compact('currentCreditCode'));
     }
