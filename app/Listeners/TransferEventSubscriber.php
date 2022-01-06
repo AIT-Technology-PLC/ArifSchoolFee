@@ -13,12 +13,12 @@ class TransferEventSubscriber
     public function approved($event)
     {
         Notification::send(
-            Notifiables::nextAction('Make Transfer', $event->transfer->createdBy),
+            Notifiables::byNextActionPermission('Make Transfer', $event->transfer->createdBy),
             new TransferApproved($event->transfer)
         );
 
         Notification::send(
-            Notifiables::branch('Make Transfer', $event->transfer->transferred_from),
+            Notifiables::byPermissionAndWarehouse('Make Transfer', $event->transfer->transferred_from),
             new TransferRequested($event->transfer)
         );
     }

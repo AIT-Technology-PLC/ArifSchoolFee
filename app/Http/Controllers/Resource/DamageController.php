@@ -52,7 +52,7 @@ class DamageController extends Controller
 
             $damage->damageDetails()->createMany($request->damage);
 
-            Notification::send(Notifiables::nextAction('Approve Damage'), new DamagePrepared($damage));
+            Notification::send(Notifiables::byNextActionPermission('Approve Damage'), new DamagePrepared($damage));
 
             return $damage;
         });

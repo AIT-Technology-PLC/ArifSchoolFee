@@ -51,7 +51,7 @@ class SivController extends Controller
 
             $siv->sivDetails()->createMany($request->siv);
 
-            Notification::send(Notifiables::nextAction('Approve SIV'), new SivPrepared($siv));
+            Notification::send(Notifiables::byNextActionPermission('Approve SIV'), new SivPrepared($siv));
 
             return $siv;
         });

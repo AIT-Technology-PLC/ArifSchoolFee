@@ -24,7 +24,7 @@ class ConvertToSivAction
 
             $siv->sivDetails()->createMany($details);
 
-            Notification::send(Notifiables::nextAction('Approve SIV'), new SivPrepared($siv));
+            Notification::send(Notifiables::byNextActionPermission('Approve SIV'), new SivPrepared($siv));
 
             return $siv;
         });

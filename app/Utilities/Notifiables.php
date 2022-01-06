@@ -6,14 +6,7 @@ use App\Models\User;
 
 class Notifiables
 {
-    private $notifiables;
-
-    public function __construct($notifiables = [])
-    {
-        $this->notifiables = collect($notifiables);
-    }
-
-    public static function isCreatorValid($creator)
+    private static function isCreatorValid($creator)
     {
         if ($creator instanceof User && $creator->isNot(auth()->user())) {
             return true;
@@ -22,7 +15,7 @@ class Notifiables
         return false;
     }
 
-    public static function nextAction($nextActionPermission, $creator = null)
+    public static function byNextActionPermission($nextActionPermission, $creator = null)
     {
         if (auth()->user()->can($nextActionPermission)) {
             return static::isCreatorValid($creator) ? $creator : [];
@@ -48,7 +41,7 @@ class Notifiables
         return $users->unique();
     }
 
-    public static function branch($permission, $warehouseId, $creator = null)
+    public static function byPermissionAndWarehouse($permission, $warehouseId, $creator = null)
     {
         if (is_numeric($warehouseId) && $warehouseId == auth()->user()->warehouse_id) {
             return static::isCreatorValid($creator) ? $creator : [];
@@ -79,7 +72,7 @@ class Notifiables
         return $users->unique();
     }
 
-    public static function permission($permission, $creator = null)
+    public static function byPermission($permission, $creator = null)
     {
         $users = User::query()
             ->permission($permission)

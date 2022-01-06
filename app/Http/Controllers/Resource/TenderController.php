@@ -90,7 +90,7 @@ class TenderController extends Controller
             }
 
             if ($tender->wasChanged('status')) {
-                Notification::send(Notifiables::nextAction('Read Tender'), new TenderStatusChanged($originalStatus, $tender));
+                Notification::send(Notifiables::byNextActionPermission('Read Tender'), new TenderStatusChanged($originalStatus, $tender));
             }
         });
 

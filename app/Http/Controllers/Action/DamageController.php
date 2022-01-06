@@ -46,7 +46,7 @@ class DamageController extends Controller
         }
 
         Notification::send(
-            Notifiables::branch('Read Damage', $damage->damageDetails->pluck('warehouse_id'), $damage->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read Damage', $damage->damageDetails->pluck('warehouse_id'), $damage->createdBy),
             new DamageSubtracted($damage)
         );
 

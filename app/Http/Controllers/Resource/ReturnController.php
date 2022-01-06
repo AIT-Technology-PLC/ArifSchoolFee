@@ -52,7 +52,7 @@ class ReturnController extends Controller
 
             $return->returnDetails()->createMany($request->return);
 
-            Notification::send(Notifiables::nextAction('Approve Return'), new ReturnPrepared($return));
+            Notification::send(Notifiables::byNextActionPermission('Approve Return'), new ReturnPrepared($return));
 
             return $return;
         });

@@ -51,7 +51,7 @@ class TransferController extends Controller
         }
 
         Notification::send(
-            Notifiables::branch('Read Transfer', $transfer->transferred_to, $transfer->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read Transfer', $transfer->transferred_to, $transfer->createdBy),
             new TransferMade($transfer)
         );
 
@@ -69,7 +69,7 @@ class TransferController extends Controller
         }
 
         Notification::send(
-            Notifiables::branch('Read Transfer', $transfer->transferred_from, $transfer->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read Transfer', $transfer->transferred_from, $transfer->createdBy),
             new TransferMade($transfer)
         );
 

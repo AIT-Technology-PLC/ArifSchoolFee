@@ -59,7 +59,7 @@ class GrnController extends Controller
 
             $grn->grnDetails()->createMany($request->grn);
 
-            Notification::send(Notifiables::nextAction('Approve GRN'), new GrnPrepared($grn));
+            Notification::send(Notifiables::byNextActionPermission('Approve GRN'), new GrnPrepared($grn));
 
             return $grn;
         });

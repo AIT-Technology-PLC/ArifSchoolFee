@@ -46,7 +46,7 @@ class GrnController extends Controller
         }
 
         Notification::send(
-            Notifiables::branch('Read GRN', $grn->grnDetails->pluck('warehouse_id'), $grn->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read GRN', $grn->grnDetails->pluck('warehouse_id'), $grn->createdBy),
             new GrnAdded($grn)
         );
 

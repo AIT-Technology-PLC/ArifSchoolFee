@@ -69,7 +69,7 @@ class TenderOpportunityController extends Controller
             $tenderOpportunity->update($request->validated());
 
             if ($tenderOpportunity->wasChanged('tender_status_id')) {
-                Notification::send(Notifiables::nextAction('Read Tender'), new TenderOpportunityStatusUpdated($originalStatus, $tenderOpportunity));
+                Notification::send(Notifiables::byNextActionPermission('Read Tender'), new TenderOpportunityStatusUpdated($originalStatus, $tenderOpportunity));
             }
         });
 

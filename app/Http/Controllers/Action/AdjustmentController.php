@@ -46,7 +46,7 @@ class AdjustmentController extends Controller
         }
 
         Notification::send(
-            Notifiables::branch('Read Adjustment', $adjustment->adjustmentDetails->pluck('warehouse_id'), $adjustment->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read Adjustment', $adjustment->adjustmentDetails->pluck('warehouse_id'), $adjustment->createdBy),
             new AdjustmentMade($adjustment)
         );
 

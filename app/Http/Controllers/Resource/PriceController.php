@@ -72,7 +72,7 @@ class PriceController extends Controller
     {
         $price->update($request->validated());
 
-        Notification::send(Notifiables::permission('Read Price'), new PriceUpdated($price));
+        Notification::send(Notifiables::byPermission('Read Price'), new PriceUpdated($price));
 
         return redirect()->route('prices.index')->with('successMessage', 'Price updated successfully.');
     }

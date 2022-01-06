@@ -56,7 +56,7 @@ class GdnController extends Controller
 
             $gdn->gdnDetails()->createMany($request->gdn);
 
-            Notification::send(Notifiables::nextAction('Approve GDN'), new GdnPrepared($gdn));
+            Notification::send(Notifiables::byNextActionPermission('Approve GDN'), new GdnPrepared($gdn));
 
             return $gdn;
         });

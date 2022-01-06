@@ -60,7 +60,7 @@ class TransferController extends Controller
 
             $transfer->transferDetails()->createMany($request->transfer);
 
-            Notification::send(Notifiables::nextAction('Approve Transfer'), new TransferPrepared($transfer));
+            Notification::send(Notifiables::byNextActionPermission('Approve Transfer'), new TransferPrepared($transfer));
 
             return $transfer;
         });

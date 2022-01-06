@@ -52,7 +52,7 @@ class AdjustmentController extends Controller
 
             $adjustment->adjustmentDetails()->createMany($request->adjustment);
 
-            Notification::send(Notifiables::nextAction('Approve Adjustment'), new AdjustmentPrepared($adjustment));
+            Notification::send(Notifiables::byNextActionPermission('Approve Adjustment'), new AdjustmentPrepared($adjustment));
 
             return $adjustment;
         });

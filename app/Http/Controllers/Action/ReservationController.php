@@ -49,7 +49,7 @@ class ReservationController extends Controller
         }
 
         Notification::send(
-            Notifiables::branch('Read Reservation', $reservation->reservationDetails->pluck('warehouse_id'), $reservation->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read Reservation', $reservation->reservationDetails->pluck('warehouse_id'), $reservation->createdBy),
             new ReservationMade($reservation)
         );
 
@@ -67,7 +67,7 @@ class ReservationController extends Controller
         }
 
         Notification::send(
-            Notifiables::branch('Read Reservation', $reservation->reservationDetails->pluck('warehouse_id'), $reservation->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read Reservation', $reservation->reservationDetails->pluck('warehouse_id'), $reservation->createdBy),
             new ReservationCancelled($reservation)
         );
 
@@ -87,7 +87,7 @@ class ReservationController extends Controller
         }
 
         Notification::send(
-            Notifiables::nextAction('Approve GDN', $reservation->createdBy),
+            Notifiables::byNextActionPermission('Approve GDN', $reservation->createdBy),
             new ReservationConverted($reservation)
         );
 

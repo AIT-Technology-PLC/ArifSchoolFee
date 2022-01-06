@@ -12,7 +12,7 @@ class ApproveTransactionAction
     {
         if (!is_null($notification) && !is_null($permission)) {
             Notification::send(
-                Notifiables::nextAction($permission)->with($model->createdBy),
+                Notifiables::byNextActionPermission($permission, $model->createdBy),
                 new $notification($model)
             );
         }

@@ -51,7 +51,7 @@ class ProformaInvoiceController extends Controller
 
             $proformaInvoice->proformaInvoiceDetails()->createMany($request->proformaInvoice);
 
-            Notification::send(Notifiables::nextAction('Convert Proforma Invoice'), new ProformaInvoicePrepared($proformaInvoice));
+            Notification::send(Notifiables::byNextActionPermission('Convert Proforma Invoice'), new ProformaInvoicePrepared($proformaInvoice));
 
             return $proformaInvoice;
         });

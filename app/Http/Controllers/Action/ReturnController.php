@@ -57,7 +57,7 @@ class ReturnController extends Controller
         }
 
         Notification::send(
-            Notifiables::branch('Read Return', $return->returnDetails->pluck('warehouse_id'), $return->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read Return', $return->returnDetails->pluck('warehouse_id'), $return->createdBy),
             new ReturnAdded($return)
         );
 

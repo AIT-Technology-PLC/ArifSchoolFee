@@ -65,7 +65,7 @@ class ReservationController extends Controller
 
             $reservation->reservationDetails()->createMany($request->reservation);
 
-            Notification::send(Notifiables::nextAction('Approve Reservation'), new ReservationPrepared($reservation));
+            Notification::send(Notifiables::byNextActionPermission('Approve Reservation'), new ReservationPrepared($reservation));
 
             return $reservation;
         });
@@ -101,7 +101,7 @@ class ReservationController extends Controller
         }
 
         if ($reservation->wasChanged('approved_by')) {
-            Notification::send(Notifiables::nextAction('Approve Reservation'), new ReservationPrepared($reservation));
+            Notification::send(Notifiables::byNextActionPermission('Approve Reservation'), new ReservationPrepared($reservation));
         }
 
         return redirect()->route('reservations.show', $reservation->id);

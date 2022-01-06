@@ -82,7 +82,7 @@ class GdnController extends Controller
         }
 
         Notification::send(
-            Notifiables::branch('Read GDN', $gdn->gdnDetails->pluck('warehouse_id'), $gdn->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read GDN', $gdn->gdnDetails->pluck('warehouse_id'), $gdn->createdBy),
             new GdnSubtracted($gdn)
         );
 
