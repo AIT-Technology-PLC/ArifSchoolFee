@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Models\Gdn;
 use App\Models\ProformaInvoice;
-use App\Services\ProformaInvoiceService;
+use App\Services\Models\ProformaInvoiceService;
 use Illuminate\Http\Request;
 
 class ProformaInvoiceController extends Controller

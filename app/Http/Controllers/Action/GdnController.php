@@ -9,7 +9,7 @@ use App\Models\Gdn;
 use App\Models\Siv;
 use App\Notifications\GdnApproved;
 use App\Notifications\GdnSubtracted;
-use App\Services\GdnService;
+use App\Services\Models\GdnService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 

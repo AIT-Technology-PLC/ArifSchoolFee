@@ -10,7 +10,7 @@ use App\Notifications\ReservationApproved;
 use App\Notifications\ReservationCancelled;
 use App\Notifications\ReservationConverted;
 use App\Notifications\ReservationMade;
-use App\Services\ReservationService;
+use App\Services\Models\ReservationService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 

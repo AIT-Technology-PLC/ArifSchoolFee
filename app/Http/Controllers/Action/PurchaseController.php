@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Models\Grn;
 use App\Models\Purchase;
-use App\Services\PurchaseService;
+use App\Services\Models\PurchaseService;
 use Illuminate\Http\Request;
 
 class PurchaseController extends Controller

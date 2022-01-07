@@ -7,7 +7,7 @@ use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
 use App\Notifications\ReservationPrepared;
-use App\Services\ReservationService;
+use App\Services\Models\ReservationService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;

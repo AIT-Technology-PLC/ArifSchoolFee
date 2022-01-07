@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Siv;
 use App\Models\Transfer;
 use App\Notifications\TransferMade;
-use App\Services\TransferService;
+use App\Services\Models\TransferService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 

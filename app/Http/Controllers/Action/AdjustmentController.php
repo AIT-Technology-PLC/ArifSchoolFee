@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Adjustment;
 use App\Notifications\AdjustmentApproved;
 use App\Notifications\AdjustmentMade;
-use App\Services\AdjustmentService;
+use App\Services\Models\AdjustmentService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 

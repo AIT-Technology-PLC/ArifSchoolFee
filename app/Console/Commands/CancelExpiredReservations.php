@@ -6,7 +6,7 @@ use App\Models\Company;
 use App\Models\Reservation;
 use App\Models\User;
 use App\Notifications\ExpiredReservationsCancelled;
-use App\Services\ReservationService;
+use App\Services\Models\ReservationService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;

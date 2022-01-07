@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Returnn;
 use App\Notifications\ReturnAdded;
 use App\Notifications\ReturnApproved;
-use App\Services\ReturnService;
+use App\Services\Models\ReturnService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 

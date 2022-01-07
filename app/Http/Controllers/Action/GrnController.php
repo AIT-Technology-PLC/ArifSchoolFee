@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Grn;
 use App\Notifications\GrnAdded;
 use App\Notifications\GrnApproved;
-use App\Services\GrnService;
+use App\Services\Models\GrnService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 

@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Damage;
 use App\Notifications\DamageApproved;
 use App\Notifications\DamageSubtracted;
-use App\Services\DamageService;
+use App\Services\Models\DamageService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 
