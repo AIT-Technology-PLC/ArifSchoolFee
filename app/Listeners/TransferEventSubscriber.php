@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\TransferApprovedEvent;
+use App\Events\TransferApproved as TransferApprovedEvent;
 use App\Notifications\TransferApproved;
 use App\Notifications\TransferRequested;
 use App\Utilities\Notifiables;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Action;
 
 use App\Actions\ApproveTransactionAction;
-use App\Events\TransferApprovedEvent;
+use App\Events\TransferApproved;
 use App\Http\Controllers\Controller;
 use App\Models\Siv;
 use App\Models\Transfer;
@@ -35,7 +35,7 @@ class TransferController extends Controller
             return back()->with('failedMessage', $message);
         }
 
-        event(new TransferApprovedEvent($transfer));
+        event(new TransferApproved($transfer));
 
         return back()->with('successMessage', $message);
     }
