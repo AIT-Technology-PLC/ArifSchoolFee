@@ -6,7 +6,7 @@ use App\Factory\InventoryDatatableFactory;
 use App\Http\Controllers\Controller;
 use App\Models\Merchandise;
 use App\Models\Warehouse;
-use App\Services\MerchandiseProductService;
+use App\Services\Inventory\MerchandiseProductService;
 
 class MerchandiseInventoryLevelController extends Controller
 {

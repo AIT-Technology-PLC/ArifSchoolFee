@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Gdn;
-use App\Services\InventoryOperationService;
+use App\Services\Inventory\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
 
 class ReservationService

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Services\InventoryOperationService;
+use App\Services\Inventory\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
 
 class AdjustmentService

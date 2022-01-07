@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Company;
 use App\Models\User;
 use App\Notifications\LowProductInventoryLevel;
-use App\Services\MerchandiseProductService;
+use App\Services\Inventory\MerchandiseProductService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Notification;

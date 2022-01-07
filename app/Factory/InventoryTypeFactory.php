@@ -9,7 +9,7 @@ class InventoryTypeFactory
     public static function make($productType)
     {
         $inventoryType = (string) Str::of($productType)
-            ->prepend('App\\Services\\')
+            ->prepend('App\\Services\\Inventory\\')
             ->append('Service')
             ->studly();
 

@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Services\MerchandiseProductService;
+use App\Services\Inventory\MerchandiseProductService;
 use App\Traits\DataTableHtmlBuilder;
 use Yajra\DataTables\Services\DataTable;
 
