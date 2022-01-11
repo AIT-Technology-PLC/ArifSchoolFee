@@ -6,6 +6,8 @@ use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Siv;
 use App\Notifications\SivApproved;
+use App\Utilities\Notifiables;
+use Illuminate\Support\Facades\Notification;
 
 class SivController extends Controller
 {
@@ -23,11 +25,16 @@ class SivController extends Controller
             return back()->with('failedMessage', 'You do not have permission to approve in one or more of the warehouses.');
         }
 
-        [$isExecuted, $message] = $action->execute($siv, SivApproved::class, 'Approve SIV');
+        [$isExecuted, $message] = $action->execute($siv);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read SIV', $siv->sivDetails->pluck('warehouse_id'), $siv->createdBy),
+            new SivApproved($siv)
+        );
 
         return back();
     }
