@@ -39,7 +39,7 @@ class AdjustmentController extends Controller
     {
         $this->authorize('adjust', $adjustment);
 
-        [$isExecuted, $message] = $this->adjustmentService->adjust($adjustment);
+        [$isExecuted, $message] = $this->adjustmentService->adjust($adjustment, auth()->user());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

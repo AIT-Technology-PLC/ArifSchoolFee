@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class DamageService
 {
-    public function subtract($damage)
+    public function subtract($damage, $user)
     {
-        if (!auth()->user()->hasWarehousePermission('subtract',
+        if (!$user->hasWarehousePermission('subtract',
             $damage->damageDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
         }
