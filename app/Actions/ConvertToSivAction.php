@@ -2,6 +2,7 @@
 namespace App\Actions;
 
 use App\Models\Siv;
+use App\Notifications\SivApproved;
 use App\Notifications\SivPrepared;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
@@ -21,9 +22,21 @@ class ConvertToSivAction
                 'approved_by' => userCompany()->isConvertToSivAsApproved() ? $approvedBy : null,
             ]);
 
-            $siv->sivDetails()->createMany($details);
+            $siv->sivDetails()->createMany($details->toArray());
 
-            Notification::send(Notifiables::byNextActionPermission('Approve SIV'), new SivPrepared($siv));
+            if (userCompany()->isConvertToSivAsApproved()) {
+                Notification::send(
+                    Notifiables::byPermissionAndWarehouse('Read SIV', $details->pluck('warehouse_id')),
+                    new SivApproved($siv)
+                );
+            }
+
+            if (!userCompany()->isConvertToSivAsApproved()) {
+                Notification::send(
+                    Notifiables::byNextActionPermission('Approve SIV'),
+                    new SivPrepared($siv)
+                );
+            }
 
             return $siv;
         });

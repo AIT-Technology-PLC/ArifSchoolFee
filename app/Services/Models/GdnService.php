@@ -95,7 +95,7 @@ class GdnService
             $gdn->code,
             $gdn->customer->company_name ?? '',
             $gdn->approved_by,
-            $gdn->gdnDetails()->get(['product_id', 'warehouse_id', 'quantity'])->toArray(),
+            $gdn->gdnDetails()->get(['product_id', 'warehouse_id', 'quantity']),
         );
 
         return [true, '', $siv];

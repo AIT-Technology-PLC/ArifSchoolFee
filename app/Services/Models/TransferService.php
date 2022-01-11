@@ -93,7 +93,7 @@ class TransferService
             $transfer->code,
             null,
             $transfer->approved_by,
-            $transferDetails,
+            collect($transferDetails),
         );
 
         return [true, '', $siv];
