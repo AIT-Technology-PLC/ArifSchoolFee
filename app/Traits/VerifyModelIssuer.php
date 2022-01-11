@@ -19,6 +19,6 @@ trait VerifyModelIssuer
 
     public function isIssuedByMyBranch($user, $model)
     {
-        return auth()->user()->hasRole('System Manager') || $user->warehouse_id == $model->warehouse_id;
+        return $user->hasRole('System Manager') || $user->warehouse_id == $model->warehouse_id;
     }
 }
