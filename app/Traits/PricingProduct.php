@@ -6,30 +6,33 @@ trait PricingProduct
 {
     public function getOriginalUnitPriceAttribute()
     {
-        if (userCompany()->isPriceBeforeVAT()) {
-            return $this->unit_price;
+        $inputtedUnitPrice = $this->unit_price;
+
+        if (!userCompany()->isPriceBeforeVAT()) {
+            $inputtedUnitPrice = $this->unit_price * 1.15;
         }
 
-        return $this->unit_price * 1.15;
+        return number_format($inputtedUnitPrice, 2, thousands_separator:'');
     }
 
     public function getUnitPriceAttribute($value)
     {
-        if (userCompany()->isPriceBeforeVAT()) {
-            return $value;
+        if (!userCompany()->isPriceBeforeVAT()) {
+            $value = $value / 1.15;
         }
 
-        return $value / 1.15;
+        return number_format($value, 2, thousands_separator:'');
     }
 
     public function getTotalPriceAttribute()
     {
-        $totalPrice = $this->unit_price * $this->quantity;
+        $totalPrice = number_format($this->unit_price * $this->quantity, 2, thousands_separator:'');
+        $discountAmount = 0.00;
 
         if (userCompany()->isDiscountBeforeVAT()) {
-            return $totalPrice - ($totalPrice * $this->discount);
+            $discountAmount = number_format($totalPrice * $this->discount, 2, thousands_separator:'');
         }
 
-        return $totalPrice;
+        return number_format($totalPrice - $discountAmount, 2, thousands_separator:'');
     }
 }

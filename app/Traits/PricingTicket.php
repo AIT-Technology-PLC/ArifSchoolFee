@@ -6,22 +6,40 @@ trait PricingTicket
 {
     public function getSubtotalPriceAttribute()
     {
-        return $this->details()->sum->totalPrice;
+        return number_format(
+            $this->details()->sum->totalPrice,
+            2,
+            thousands_separator:''
+        );
     }
 
     public function getVatAttribute()
     {
-        return $this->subtotalPrice * 0.15;
+        return number_format(
+            $this->subtotalPrice * 0.15,
+            2,
+            thousands_separator:''
+        );
     }
 
     public function getGrandTotalPriceAttribute()
     {
-        return $this->subtotalPrice + $this->vat;
+        return number_format(
+            $this->subtotalPrice + $this->vat,
+            2,
+            thousands_separator:''
+        );
     }
 
     public function getGrandTotalPriceAfterDiscountAttribute()
     {
-        return $this->grandTotalPrice - ($this->grandTotalPrice * $this->discount);
+        $discountAmount = number_format($this->grandTotalPrice * $this->discount, 2, thousands_separator:'');
+
+        return number_format(
+            $this->grandTotalPrice - $discountAmount,
+            2,
+            thousands_separator:''
+        );
     }
 
     abstract public function details();
