@@ -52,7 +52,7 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
         return [
             'totalOnHandProducts' => $this->service->getOnHandMerchandiseProductsQuery($warehouse->id, auth()->user())->count(),
             'totalOutOfStockProducts' => $this->service->getOutOfStockMerchandiseProductsQuery($warehouse->id, auth()->user())->count(),
-            'totalLimitedProducts' => $this->service->getLimitedMerchandiseProductsQuery($warehouse->id)->count(),
+            'totalLimitedProducts' => $this->service->getLimitedMerchandiseProductsQuery($warehouse->id, auth()->user())->count(),
         ];
     }
 }
