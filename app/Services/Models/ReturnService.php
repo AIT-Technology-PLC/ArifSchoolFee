@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class ReturnService
 {
-    public function add($return)
+    public function add($return, $user)
     {
-        if (!auth()->user()->hasWarehousePermission('add',
+        if (!$user->hasWarehousePermission('add',
             $return->returnDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
