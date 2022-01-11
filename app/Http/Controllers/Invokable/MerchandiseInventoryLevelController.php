@@ -37,7 +37,7 @@ class MerchandiseInventoryLevelController extends Controller
     private function insights()
     {
         return [
-            'totalOnHandProducts' => $this->service->getOnHandMerchandiseProductsQuery()->count(),
+            'totalOnHandProducts' => $this->service->getOnHandMerchandiseProductsQuery(user:auth()->user())->count(),
             'totalOutOfStockProducts' => $this->service->getOutOfStockMerchandiseProductsQuery()->count(),
             'totalLimitedProducts' => $this->service->getLimitedMerchandiseProductsQuery()->count(),
             'totalWarehousesInUse' => (new Warehouse)->getWarehousesInUseQuery()->count(),

@@ -6,17 +6,17 @@ use App\Models\Product;
 
 class MerchandiseProductService
 {
-    public function getOnHandMerchandiseProductsQuery($warehouseId = null)
+    public function getOnHandMerchandiseProductsQuery($warehouseId = null, $user = null)
     {
-        if (auth()->check() && auth()->user()->getAllowedWarehouses('read')->isEmpty()) {
+        if ($user && $user->getAllowedWarehouses('read')->isEmpty()) {
             return collect();
         }
 
         return Product::query()
-            ->whereHas('merchandises', function ($query) use ($warehouseId) {
+            ->whereHas('merchandises', function ($query) use ($warehouseId, $user) {
                 $query->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
-                    ->when(auth()->check(), function ($query) {
-                        $query->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'));
+                    ->when($user, function ($query) use ($user) {
+                        $query->whereIn('warehouse_id', $user->getAllowedWarehouses('read')->pluck('id'));
                     })
                     ->where(function ($query) {
                         $query->where('available', '>', 0)

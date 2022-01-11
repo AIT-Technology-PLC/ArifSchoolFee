@@ -8,9 +8,9 @@ class MerchandiseInventoryService
 {
     private $merchandise;
 
-    public function __construct()
+    public function __construct(Merchandise $merchandise)
     {
-        $this->merchandise = new Merchandise();
+        $this->merchandise = $merchandise;
     }
 
     public function add($productId, $warehouseId, $quantity, $to)
