@@ -25,20 +25,20 @@ class MerchandiseProductService
             });
     }
 
-    public function getOutOfStockMerchandiseProductsQuery($warehouseId = null)
+    public function getOutOfStockMerchandiseProductsQuery($warehouseId = null, $user = null)
     {
-        if (auth()->check() && auth()->user()->getAllowedWarehouses('read')->isEmpty()) {
+        if ($user && $user->getAllowedWarehouses('read')->isEmpty()) {
             return collect();
         }
 
         return Product::query()
-            ->whereNotIn('id', function ($query) use ($warehouseId) {
+            ->whereNotIn('id', function ($query) use ($warehouseId, $user) {
                 $query->select('product_id')
                     ->from('merchandises')
                     ->where('company_id', userCompany()->id)
                     ->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
-                    ->when(auth()->check(), function ($query) {
-                        $query->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'));
+                    ->when($user, function ($query) use ($user) {
+                        $query->whereIn('warehouse_id', $user->getAllowedWarehouses('read')->pluck('id'));
                     })
                     ->where(function ($query) {
                         $query->where('available', '>', 0)

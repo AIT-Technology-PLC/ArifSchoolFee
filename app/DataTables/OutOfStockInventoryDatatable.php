@@ -56,7 +56,7 @@ class OutOfStockInventoryDatatable extends DataTable
             return collect();
         }
 
-        $outOfStockProducts = $this->service->getOutOfStockMerchandiseProductsQuery()->with('productCategory')->get();
+        $outOfStockProducts = $this->service->getOutOfStockMerchandiseProductsQuery(user:auth()->user())->with('productCategory')->get();
 
         $organizedoutOfStockProducts = collect();
 
