@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class GrnService
 {
-    public function add($grn)
+    public function add($grn, $user)
     {
-        if (!auth()->user()->hasWarehousePermission('add',
+        if (!$user->hasWarehousePermission('add',
             $grn->grnDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
