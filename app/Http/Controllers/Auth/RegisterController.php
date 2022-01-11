@@ -10,7 +10,6 @@ use App\Models\Plan;
 use App\Models\Warehouse;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -57,7 +56,7 @@ class RegisterController extends Controller
                 'is_active' => 1,
             ]);
 
-            $request = new Request([
+            $user = $this->action->execute([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => $data['password'],
@@ -66,8 +65,6 @@ class RegisterController extends Controller
                 'position' => 'Onrica Support Department',
                 'role' => 'System Manager',
             ]);
-
-            $user = $this->action->execute($request);
 
             $user->employee->company()->associate($company)->save();
 

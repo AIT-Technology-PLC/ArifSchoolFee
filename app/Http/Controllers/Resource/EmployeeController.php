@@ -44,7 +44,7 @@ class EmployeeController extends Controller
 
     public function store(StoreEmployeeRequest $request, CreateUserAction $action)
     {
-        $action->execute($request);
+        $action->execute($request->validated());
 
         return redirect()->route('employees.index');
     }

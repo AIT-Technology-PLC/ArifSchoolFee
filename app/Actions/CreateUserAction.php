@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,29 +16,29 @@ class CreateUserAction
         $this->action = $action;
     }
 
-    private function createNewUser($request)
+    private function createNewUser($data)
     {
         return User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'warehouse_id' => $request->warehouse_id,
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'warehouse_id' => $data['warehouse_id'],
         ]);
     }
 
-    public function execute($request)
+    public function execute($data)
     {
-        return DB::transaction(function () use ($request) {
-            $user = $this->createNewUser($request);
+        return DB::transaction(function () use ($data) {
+            $user = $this->createNewUser($data);
 
-            $user->employee()->create($request->only(['position', 'enabled']));
+            $user->employee()->create(Arr::only($data, ['position', 'enabled']));
 
             $this->action->execute(
                 $user,
-                $request->only('transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv')
+                Arr::only($data, ['transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv'])
             );
 
-            $user->assignRole($request->role);
+            $user->assignRole($data['role']);
 
             return $user;
         });

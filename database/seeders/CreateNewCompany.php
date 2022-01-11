@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Models\Warehouse;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CreateNewCompany extends Seeder
@@ -32,7 +31,7 @@ class CreateNewCompany extends Seeder
                 'is_active' => 1,
             ]);
 
-            $request = new Request([
+            $user = $action->execute([
                 'name' => $faker->name,
                 'email' => User::count() ? $faker->unique()->safeEmail : 'admin@onrica.com',
                 'password' => 'password',
@@ -41,8 +40,6 @@ class CreateNewCompany extends Seeder
                 'position' => 'Onrica Support Department',
                 'role' => 'System Manager',
             ]);
-
-            $user = $action->execute($request);
 
             $user->employee->company()->associate($company)->save();
 
