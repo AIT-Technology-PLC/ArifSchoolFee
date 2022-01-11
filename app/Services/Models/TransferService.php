@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 class TransferService
 {
-    public function subtract($transfer)
+    public function subtract($transfer, $user)
     {
-        if (!auth()->user()->hasWarehousePermission('subtract', $transfer->transferred_from)) {
+        if (!$user->hasWarehousePermission('subtract', $transfer->transferred_from)) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
         }
 
@@ -41,9 +41,9 @@ class TransferService
         return [true, ''];
     }
 
-    public function add($transfer)
+    public function add($transfer, $user)
     {
-        if (!auth()->user()->hasWarehousePermission('add', $transfer->transferred_to)) {
+        if (!$user->hasWarehousePermission('add', $transfer->transferred_to)) {
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
 
@@ -70,9 +70,9 @@ class TransferService
         return [true, ''];
     }
 
-    public function convertToSiv($transfer)
+    public function convertToSiv($transfer, $user)
     {
-        if (!auth()->user()->hasWarehousePermission('siv', $transfer->transferred_from)) {
+        if (!$user->hasWarehousePermission('siv', $transfer->transferred_from)) {
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
         }
 

@@ -44,7 +44,7 @@ class TransferController extends Controller
     {
         $this->authorize('transfer', $transfer);
 
-        [$isExecuted, $message] = $this->transferService->subtract($transfer);
+        [$isExecuted, $message] = $this->transferService->subtract($transfer, auth()->user());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
@@ -62,7 +62,7 @@ class TransferController extends Controller
     {
         $this->authorize('transfer', $transfer);
 
-        [$isExecuted, $message] = $this->transferService->add($transfer);
+        [$isExecuted, $message] = $this->transferService->add($transfer, auth()->user());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
@@ -82,7 +82,7 @@ class TransferController extends Controller
 
         $this->authorize('create', Siv::class);
 
-        [$isExecuted, $message, $siv] = $this->transferService->convertToSiv($transfer);
+        [$isExecuted, $message, $siv] = $this->transferService->convertToSiv($transfer, auth()->user());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
