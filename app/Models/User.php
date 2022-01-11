@@ -70,9 +70,9 @@ class User extends Authenticatable
     {
         $withOnlyCanBeSoldFromBranches = $type == 'sales' ? true : false;
 
-        $cacheKey = auth()->id() . '_' . $type . '_' . 'allowedWarehouses';
+        $cacheKey = $this->id . '_' . $type . '_' . 'allowedWarehouses';
 
-        if (auth()->user()->hasRole('System Manager')) {
+        if ($this->hasRole('System Manager')) {
             return Cache::store('array')
                 ->rememberForever($cacheKey, function () use ($withOnlyCanBeSoldFromBranches) {
                     return Warehouse::orderBy('name')
