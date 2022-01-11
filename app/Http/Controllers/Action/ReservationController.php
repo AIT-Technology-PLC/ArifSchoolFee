@@ -42,7 +42,7 @@ class ReservationController extends Controller
     {
         $this->authorize('reserve', $reservation);
 
-        [$isExecuted, $message] = $this->reservationService->reserve($reservation);
+        [$isExecuted, $message] = $this->reservationService->reserve($reservation, auth()->user());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
@@ -80,7 +80,7 @@ class ReservationController extends Controller
 
         $this->authorize('create', Gdn::class);
 
-        [$isExecuted, $message] = $this->reservationService->convertToGdn($reservation);
+        [$isExecuted, $message] = $this->reservationService->convertToGdn($reservation, auth()->user());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

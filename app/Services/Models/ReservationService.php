@@ -45,9 +45,9 @@ class ReservationService
         return [true, ''];
     }
 
-    public function reserve($reservation)
+    public function reserve($reservation, $user)
     {
-        if (!auth()->user()->hasWarehousePermission('sales',
+        if (!$user->hasWarehousePermission('sales',
             $reservation->reservationDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permissions to reserve from one or more of the warehouses.'];
         }
@@ -119,9 +119,9 @@ class ReservationService
         return [true, ''];
     }
 
-    public function convertToGdn($reservation)
+    public function convertToGdn($reservation, $user)
     {
-        if (!auth()->user()->hasWarehousePermission('sales',
+        if (!$user->hasWarehousePermission('sales',
             $reservation->reservationDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permissions to convert to one or more of the warehouses.'];
         }
