@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Actions\SyncWarehousePermissionsAction;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class UpdateUserAction
@@ -14,26 +15,26 @@ class UpdateUserAction
         $this->action = $action;
     }
 
-    private function UpdateUser($employee, $request)
+    private function UpdateUser($employee, $data)
     {
-        $employee->user->update($request->only(['name', 'email', 'warehouse_id']));
+        $employee->user->update(Arr::only($data, ['name', 'email', 'warehouse_id']));
 
         return $employee->user;
     }
 
-    public function execute($employee, $request)
+    public function execute($employee, $data)
     {
-        DB::transaction(function () use ($employee, $request) {
-            $user = $this->UpdateUser($employee, $request);
+        DB::transaction(function () use ($employee, $data) {
+            $user = $this->UpdateUser($employee, $data);
 
-            $employee->update($request->only(['position', 'enabled']));
+            $employee->update(Arr::only($data, ['position', 'enabled']));
 
             $this->action->execute(
                 $user,
-                $request->only('transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv')
+                Arr::only($data, ['transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv'])
             );
 
-            $user->syncRoles($request->has('role') ? $request->role : $user->roles[0]->name);
+            $user->syncRoles(Arr::has($data, 'role') ? $data['role'] : $user->roles[0]->name);
         });
     }
 }

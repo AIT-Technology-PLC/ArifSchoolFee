@@ -69,7 +69,7 @@ class EmployeeController extends Controller
 
     public function update(UpdateEmployeeRequest $request, Employee $employee, UpdateUserAction $action)
     {
-        $action->execute($employee, $request);
+        $action->execute($employee, $request->validated());
 
         return redirect()->route('employees.index');
     }
