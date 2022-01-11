@@ -62,7 +62,7 @@ class GdnController extends Controller
 
         $this->authorize('create', Siv::class);
 
-        [$isExecuted, $message, $siv] = $this->gdnService->convertToSiv($gdn);
+        [$isExecuted, $message, $siv] = $this->gdnService->convertToSiv($gdn, auth()->user());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
@@ -75,7 +75,7 @@ class GdnController extends Controller
     {
         $this->authorize('subtract', $gdn);
 
-        [$isExecuted, $message] = $this->gdnService->subtract($gdn);
+        [$isExecuted, $message] = $this->gdnService->subtract($gdn, auth()->user());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 class GdnService
 {
-    public function subtract($gdn)
+    public function subtract($gdn, $user)
     {
-        if (!auth()->user()->hasWarehousePermission('sales',
+        if (!$user->hasWarehousePermission('sales',
             $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to sell from one or more of the warehouses.'];
         }
@@ -75,9 +75,9 @@ class GdnService
         return [true, ''];
     }
 
-    public function convertToSiv($gdn)
+    public function convertToSiv($gdn, $user)
     {
-        if (!auth()->user()->hasWarehousePermission('siv',
+        if (!$user->hasWarehousePermission('siv',
             $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
         }
