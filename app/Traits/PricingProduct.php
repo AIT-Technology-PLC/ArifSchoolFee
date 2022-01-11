@@ -24,11 +24,12 @@ trait PricingProduct
 
     public function getTotalPriceAttribute()
     {
+        $totalPrice = $this->unit_price * $this->quantity;
+
         if (userCompany()->isDiscountBeforeVAT()) {
-            return ($this->unit_price * $this->quantity) -
-                (($this->unit_price * $this->quantity) * $this->discount);
+            return $totalPrice - ($totalPrice * $this->discount);
         }
 
-        return $this->unit_price * $this->quantity;
+        return $totalPrice;
     }
 }
