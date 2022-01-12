@@ -18,7 +18,7 @@ class PurchasePolicy
 
     public function view(User $user, Purchase $purchase)
     {
-        return $this->isIssuedByMyCompany($user, $purchase) && $user->can('Read Purchase');
+        return $user->can('Read Purchase');
     }
 
     public function create(User $user)
@@ -28,16 +28,16 @@ class PurchasePolicy
 
     public function update(User $user, Purchase $purchase)
     {
-        return $this->isIssuedByMyCompany($user, $purchase, true) && $user->can('Update Purchase');
+        return $this->isIssuedByMyBranch($user, $purchase) && $user->can('Update Purchase');
     }
 
     public function delete(User $user, Purchase $purchase)
     {
-        return $this->isIssuedByMyCompany($user, $purchase, true) && $user->can('Delete Purchase');
+        return $this->isIssuedByMyBranch($user, $purchase) && $user->can('Delete Purchase');
     }
 
     public function close(User $user, Purchase $purchase)
     {
-        return $this->isIssuedByMyCompany($user, $purchase) && $user->can('Close Purchase');
+        return $user->can('Close Purchase');
     }
 }

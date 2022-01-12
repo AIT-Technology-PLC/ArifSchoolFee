@@ -18,7 +18,7 @@ class CreditPolicy
 
     public function view(User $user, Credit $credit)
     {
-        return $this->isIssuedByMyCompany($user, $credit) && $user->can('Read Credit');
+        return $user->can('Read Credit');
     }
 
     public function create(User $user)
@@ -28,16 +28,16 @@ class CreditPolicy
 
     public function update(User $user, Credit $credit)
     {
-        return $this->isIssuedByMyCompany($user, $credit, true) && $user->can('Update Credit');
+        return $this->isIssuedByMyBranch($user, $credit) && $user->can('Update Credit');
     }
 
     public function delete(User $user, Credit $credit)
     {
-        return $this->isIssuedByMyCompany($user, $credit, true) && $user->can('Update Credit');
+        return $this->isIssuedByMyBranch($user, $credit) && $user->can('Update Credit');
     }
 
     public function settle(User $user, Credit $credit)
     {
-        return $this->isIssuedByMyCompany($user, $credit) && $user->can('Settle Credit');
+        return $user->can('Settle Credit');
     }
 }

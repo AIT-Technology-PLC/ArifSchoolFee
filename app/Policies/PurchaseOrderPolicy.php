@@ -18,7 +18,7 @@ class PurchaseOrderPolicy
 
     public function view(User $user, PurchaseOrder $purchaseOrder)
     {
-        return $this->isIssuedByMyCompany($user, $purchaseOrder) && $user->can('Read PO');
+        return $user->can('Read PO');
     }
 
     public function create(User $user)
@@ -28,11 +28,11 @@ class PurchaseOrderPolicy
 
     public function update(User $user, PurchaseOrder $purchaseOrder)
     {
-        return $this->isIssuedByMyCompany($user, $purchaseOrder, true) && $user->can('Update PO');
+        return $this->isIssuedByMyBranch($user, $purchaseOrder) && $user->can('Update PO');
     }
 
     public function delete(User $user, PurchaseOrder $purchaseOrder)
     {
-        return $this->isIssuedByMyCompany($user, $purchaseOrder, true) && $user->can('Delete PO');
+        return $this->isIssuedByMyBranch($user, $purchaseOrder) && $user->can('Delete PO');
     }
 }

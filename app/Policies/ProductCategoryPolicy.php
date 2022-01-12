@@ -4,12 +4,11 @@ namespace App\Policies;
 
 use App\Models\ProductCategory;
 use App\Models\User;
-use App\Traits\VerifyModelIssuer;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProductCategoryPolicy
 {
-    use HandlesAuthorization, VerifyModelIssuer;
+    use HandlesAuthorization;
 
     public function viewAny(User $user)
     {
@@ -18,7 +17,7 @@ class ProductCategoryPolicy
 
     public function view(User $user, ProductCategory $category)
     {
-        return $this->isIssuedByMyCompany($user, $category) && $user->can('Read Product');
+        return $user->can('Read Product');
     }
 
     public function create(User $user)
@@ -28,11 +27,11 @@ class ProductCategoryPolicy
 
     public function update(User $user, ProductCategory $category)
     {
-        return $this->isIssuedByMyCompany($user, $category) && $user->can('Update Product');
+        return $user->can('Update Product');
     }
 
     public function delete(User $user, ProductCategory $category)
     {
-        return $this->isIssuedByMyCompany($user, $category) && $user->can('Delete Product');
+        return $user->can('Delete Product');
     }
 }

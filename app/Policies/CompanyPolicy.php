@@ -13,6 +13,6 @@ class CompanyPolicy
 
     public function update(User $user, Company $company)
     {
-        return $this->isIssuedByMyCompany($user, $company) && $user->can('Update Company');
+        return $user->employee->company_id == $company->id && $user->can('Update Company');
     }
 }

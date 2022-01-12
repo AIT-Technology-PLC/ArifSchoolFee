@@ -18,7 +18,7 @@ class TransferPolicy
 
     public function view(User $user, Transfer $transfer)
     {
-        return $this->isIssuedByMyCompany($user, $transfer) && $user->can('Read Transfer');
+        return $user->can('Read Transfer');
     }
 
     public function create(User $user)
@@ -28,17 +28,17 @@ class TransferPolicy
 
     public function update(User $user, Transfer $transfer)
     {
-        return $this->isIssuedByMyCompany($user, $transfer, true) && $user->can('Update Transfer');
+        return $this->isIssuedByMyBranch($user, $transfer) && $user->can('Update Transfer');
     }
 
     public function delete(User $user, Transfer $transfer)
     {
-        return $this->isIssuedByMyCompany($user, $transfer, true) && $user->can('Delete Transfer');
+        return $this->isIssuedByMyBranch($user, $transfer) && $user->can('Delete Transfer');
     }
 
     public function approve(User $user, Transfer $transfer)
     {
-        return $this->isIssuedByMyCompany($user, $transfer) && $user->can('Approve Transfer');
+        return $user->can('Approve Transfer');
     }
 
     public function transfer(User $user, Transfer $transfer)
@@ -51,11 +51,11 @@ class TransferPolicy
             return false;
         }
 
-        return $this->isIssuedByMyCompany($user, $transfer) && $user->can('Make Transfer');
+        return $user->can('Make Transfer');
     }
 
     public function close(User $user, Transfer $transfer)
     {
-        return $this->isIssuedByMyCompany($user, $transfer) && $user->can('Close Transfer');
+        return $user->can('Close Transfer');
     }
 }

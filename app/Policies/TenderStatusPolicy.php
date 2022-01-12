@@ -4,12 +4,11 @@ namespace App\Policies;
 
 use App\Models\TenderStatus;
 use App\Models\User;
-use App\Traits\VerifyModelIssuer;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TenderStatusPolicy
 {
-    use HandlesAuthorization, VerifyModelIssuer;
+    use HandlesAuthorization;
 
     public function viewAny(User $user)
     {
@@ -18,7 +17,7 @@ class TenderStatusPolicy
 
     public function view(User $user, TenderStatus $tenderStatus)
     {
-        return $this->isIssuedByMyCompany($user, $tenderStatus) && $user->can('Read Tender');
+        return $user->can('Read Tender');
     }
 
     public function create(User $user)
@@ -28,11 +27,11 @@ class TenderStatusPolicy
 
     public function update(User $user, TenderStatus $tenderStatus)
     {
-        return $this->isIssuedByMyCompany($user, $tenderStatus) && $user->can('Update Tender');
+        return $user->can('Update Tender');
     }
 
     public function delete(User $user, TenderStatus $tenderStatus)
     {
-        return $this->isIssuedByMyCompany($user, $tenderStatus) && $user->can('Delete Tender');
+        return $user->can('Delete Tender');
     }
 }

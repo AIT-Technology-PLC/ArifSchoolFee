@@ -18,7 +18,7 @@ class GdnPolicy
 
     public function view(User $user, Gdn $gdn)
     {
-        return $this->isIssuedByMyCompany($user, $gdn) && $user->can('Read GDN');
+        return $user->can('Read GDN');
     }
 
     public function create(User $user)
@@ -28,26 +28,26 @@ class GdnPolicy
 
     public function update(User $user, Gdn $gdn)
     {
-        return $this->isIssuedByMyCompany($user, $gdn, true) && $user->can('Update GDN');
+        return $this->isIssuedByMyBranch($user, $gdn) && $user->can('Update GDN');
     }
 
     public function delete(User $user, Gdn $gdn)
     {
-        return $this->isIssuedByMyCompany($user, $gdn, true) && $user->can('Delete GDN');
+        return $this->isIssuedByMyBranch($user, $gdn) && $user->can('Delete GDN');
     }
 
     public function approve(User $user, Gdn $gdn)
     {
-        return $this->isIssuedByMyCompany($user, $gdn) && $user->can('Approve GDN');
+        return $user->can('Approve GDN');
     }
 
     public function subtract(User $user, Gdn $gdn)
     {
-        return $this->isIssuedByMyCompany($user, $gdn) && $user->can('Subtract GDN');
+        return $user->can('Subtract GDN');
     }
 
     public function close(User $user, Gdn $gdn)
     {
-        return $this->isIssuedByMyCompany($user, $gdn) && $user->can('Close GDN');
+        return $user->can('Close GDN');
     }
 }

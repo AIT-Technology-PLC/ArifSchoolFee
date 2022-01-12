@@ -4,12 +4,11 @@ namespace App\Policies;
 
 use App\Models\GeneralTenderChecklist;
 use App\Models\User;
-use App\Traits\VerifyModelIssuer;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class GeneralTenderChecklistPolicy
 {
-    use HandlesAuthorization, VerifyModelIssuer;
+    use HandlesAuthorization;
 
     public function viewAny(User $user)
     {
@@ -18,7 +17,7 @@ class GeneralTenderChecklistPolicy
 
     public function view(User $user, GeneralTenderChecklist $generalTenderChecklist)
     {
-        return $this->isIssuedByMyCompany($user, $generalTenderChecklist) && $user->can('Read Tender');
+        return $user->can('Read Tender');
     }
 
     public function create(User $user)
@@ -28,11 +27,11 @@ class GeneralTenderChecklistPolicy
 
     public function update(User $user, GeneralTenderChecklist $generalTenderChecklist)
     {
-        return $this->isIssuedByMyCompany($user, $generalTenderChecklist) && $user->can('Update Tender');
+        return $user->can('Update Tender');
     }
 
     public function delete(User $user, GeneralTenderChecklist $generalTenderChecklist)
     {
-        return $this->isIssuedByMyCompany($user, $generalTenderChecklist) && $user->can('Delete Tender');
+        return $user->can('Delete Tender');
     }
 }

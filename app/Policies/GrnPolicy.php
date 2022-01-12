@@ -18,7 +18,7 @@ class GrnPolicy
 
     public function view(User $user, Grn $grn)
     {
-        return $this->isIssuedByMyCompany($user, $grn) && $user->can('Read GRN');
+        return $user->can('Read GRN');
     }
 
     public function create(User $user)
@@ -28,21 +28,21 @@ class GrnPolicy
 
     public function update(User $user, Grn $grn)
     {
-        return $this->isIssuedByMyCompany($user, $grn, true) && $user->can('Update GRN');
+        return $this->isIssuedByMyBranch($user, $grn) && $user->can('Update GRN');
     }
 
     public function delete(User $user, Grn $grn)
     {
-        return $this->isIssuedByMyCompany($user, $grn, true) && $user->can('Delete GRN');
+        return $this->isIssuedByMyBranch($user, $grn) && $user->can('Delete GRN');
     }
 
     public function approve(User $user, Grn $grn)
     {
-        return $this->isIssuedByMyCompany($user, $grn) && $user->can('Approve GRN');
+        return $user->can('Approve GRN');
     }
 
     public function add(User $user, Grn $grn)
     {
-        return $this->isIssuedByMyCompany($user, $grn) && $user->can('Add GRN');
+        return $user->can('Add GRN');
     }
 }

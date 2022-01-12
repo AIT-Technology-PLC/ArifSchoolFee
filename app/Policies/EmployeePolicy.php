@@ -4,12 +4,11 @@ namespace App\Policies;
 
 use App\Models\Employee;
 use App\Models\User;
-use App\Traits\VerifyModelIssuer;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class EmployeePolicy
 {
-    use HandlesAuthorization, VerifyModelIssuer;
+    use HandlesAuthorization;
 
     public function viewAny(User $user)
     {
@@ -27,12 +26,12 @@ class EmployeePolicy
             return true;
         }
 
-        return $this->isIssuedByMyCompany($user, $employee) && $user->can('Read Employee');
+        return $user->can('Read Employee');
     }
 
     public function update(User $user, Employee $employee)
     {
-        if (!$this->isIssuedByMyCompany($user, $employee) || !$user->can('Update Employee')) {
+        if (!$user->can('Update Employee')) {
             return false;
         }
 
@@ -49,7 +48,7 @@ class EmployeePolicy
 
     public function delete(User $user, Employee $employee)
     {
-        if (!$this->isIssuedByMyCompany($user, $employee) || !$user->can('Delete Employee')) {
+        if (!$user->can('Delete Employee')) {
             return false;
         }
 
