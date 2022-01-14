@@ -38,6 +38,7 @@ class UpdatePriceRequest extends FormRequest
                 'numeric',
                 'required_if:type,fixed',
                 'prohibited_if:type,range',
+                'gt:0',
                 'max:99999999999999999999.99',
             ],
         ];

@@ -40,6 +40,7 @@ class StorePriceRequest extends FormRequest
                 'numeric',
                 'required_if:price.*.type,fixed',
                 'prohibited_if:price.*.type,range',
+                'gt:0',
                 'max:99999999999999999999.99',
             ],
         ];
