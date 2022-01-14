@@ -61,7 +61,7 @@ class CreditDatatable extends DataTable
         return $credit
             ->newQuery()
             ->select('credits.*')
-            ->when(is_numeric(request('pad')), fn($query) => $query->where('warehouse_id', request('pad')))
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('warehouse_id', request('branch')))
             ->when(request('status') == 'no settlements', fn($query) => $query->noSettlements())
             ->when(request('status') == 'partial settlements', fn($query) => $query->partiallySettled())
             ->when(request('status') == 'settled', fn($query) => $query->settled())

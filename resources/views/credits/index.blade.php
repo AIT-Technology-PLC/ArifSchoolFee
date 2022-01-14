@@ -69,7 +69,7 @@
         <x-content.footer>
             <x-common.success-message :message="session('deleted') ?? session('successMessage')" />
             <x-common.fail-message :message="session('failedMessage')" />
-            <x-datatables.filter filters="'pad', 'status'">
+            <x-datatables.filter filters="'branch', 'status'">
                 <div class="columns is-marginless is-vcentered">
                     @if (auth()->user()->getAllowedWarehouses('transactions')->count() > 1)
                         <div class="column is-3 p-lr-0 pt-0">
@@ -79,20 +79,20 @@
                                         id=""
                                         name=""
                                         class="is-size-7-mobile is-fullwidth"
-                                        x-model="filters.pad"
-                                        x-on:change="add('pad')"
+                                        x-model="filters.branch"
+                                        x-on:change="add('branch')"
                                     >
                                         <option
                                             disabled
                                             selected
                                             value=""
                                         >
-                                            Pads
+                                            Branches
                                         </option>
-                                        <option value="all"> All Pads </option>
+                                        <option value="all"> All </option>
                                         @foreach (auth()->user()->getAllowedWarehouses('transactions')
         as $warehouse)
-                                            <option value="{{ $warehouse->id }}"> {{ $warehouse->name }} Pad </option>
+                                            <option value="{{ $warehouse->id }}"> {{ $warehouse->name }} </option>
                                         @endforeach
                                     </x-forms.select>
                                 </x-forms.control>
@@ -116,7 +116,7 @@
                                     >
                                         Statuses
                                     </option>
-                                    <option value="all"> All Statuses </option>
+                                    <option value="all"> All </option>
                                     @foreach (['No Settlements', 'Partial Settlements', 'Settled'] as $status)
                                         <option value="{{ Str::lower($status) }}"> {{ $status }} </option>
                                     @endforeach

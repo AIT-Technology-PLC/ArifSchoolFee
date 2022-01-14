@@ -57,7 +57,7 @@ class GdnDatatable extends DataTable
         return $gdn
             ->newQuery()
             ->select('gdns.*')
-            ->when(is_numeric(request('pad')), fn($query) => $query->where('warehouse_id', request('pad')))
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('warehouse_id', request('branch')))
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
             ->when(request('status') == 'approved', fn($query) => $query->notSubtracted()->approved())
             ->when(request('status') == 'subtracted', fn($query) => $query->subtracted())
