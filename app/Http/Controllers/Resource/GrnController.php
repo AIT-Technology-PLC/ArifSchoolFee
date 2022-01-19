@@ -44,7 +44,7 @@ class GrnController extends Controller
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        $purchases = Purchase::latest('code')->get();
+        $purchases = Purchase::purchased()->notClosed()->latest('code')->get();
 
         $currentGrnCode = nextReferenceNumber('grns');
 
@@ -81,7 +81,7 @@ class GrnController extends Controller
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        $purchases = Purchase::latest('code')->get();
+        $purchases = Purchase::purchased()->notClosed()->latest('code')->get();
 
         return view('grns.edit', compact('grn', 'warehouses', 'suppliers', 'purchases'));
     }

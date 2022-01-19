@@ -6,6 +6,10 @@ class PurchaseService
 {
     public function convertToGrn($purchase)
     {
+        if (!$purchase->isPurchased()) {
+            return [false, 'This purchase is not yet purchased.', ''];
+        }
+
         if ($purchase->isClosed()) {
             return [false, 'This purchase is closed.', ''];
         }

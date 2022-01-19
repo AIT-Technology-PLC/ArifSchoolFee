@@ -215,7 +215,7 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            @if (!$purchase->isClosed())
+                            @if ($purchase->isPurchased() && !$purchase->isClosed())
                                 <x-common.transaction-button
                                     :route="route('purchases.close', $purchase->id)"
                                     action="close"

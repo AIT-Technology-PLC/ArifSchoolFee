@@ -43,6 +43,10 @@ class PurchaseController extends Controller
     {
         $this->authorize('close', $purchase);
 
+        if (!$purchase->isPurchased()) {
+            return back()->with('failedMessage', 'This purchase is not yet purchased.');
+        }
+
         if ($purchase->isClosed()) {
             return back()->with('failedMessage', 'This purchase is already closed.');
         }
