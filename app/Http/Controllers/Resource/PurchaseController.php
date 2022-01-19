@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\PurchaseDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
@@ -21,13 +22,19 @@ class PurchaseController extends Controller
         $this->authorizeResource(Purchase::class, 'purchase');
     }
 
-    public function index()
+    public function index(PurchaseDatatable $datatable)
     {
-        $purchases = Purchase::with(['createdBy', 'updatedBy', 'purchaseDetails'])->latest('code')->get();
+        $datatable->builder()->setTableId('purchases-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
         $totalPurchases = Purchase::count();
 
-        return view('purchases.index', compact('purchases', 'totalPurchases'));
+        $totalPurchased = Purchase::purchased()->count();
+
+        $totalApproved = Purchase::approved()->notPurchased()->count();
+
+        $totalNotApproved = Purchase::notApproved()->count();
+
+        return $datatable->render('purchases.index', compact('totalPurchases', 'totalPurchased', 'totalApproved', 'totalNotApproved'));
     }
 
     public function create()
