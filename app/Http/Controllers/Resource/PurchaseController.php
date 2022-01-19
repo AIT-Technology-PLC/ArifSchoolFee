@@ -7,7 +7,10 @@ use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
 use App\Models\Purchase;
 use App\Models\Supplier;
+use App\Notifications\PurchasePrepared;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class PurchaseController extends Controller
 {
@@ -42,6 +45,8 @@ class PurchaseController extends Controller
             $purchase = Purchase::create($request->except('purchase'));
 
             $purchase->purchaseDetails()->createMany($request->purchase);
+
+            Notification::send(Notifiables::byNextActionPermission('Approve Purchase'), new PurchasePrepared($purchase));
 
             return $purchase;
         });
