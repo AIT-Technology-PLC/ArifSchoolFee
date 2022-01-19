@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\Closable;
 use App\Traits\Discountable;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Purchase extends Model
 {
-    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Discountable, Closable;
+    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Discountable, Closable, Approvable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -36,6 +37,21 @@ class Purchase extends Model
         return $this->hasMany(Grn::class);
     }
 
+    public function purchasedBy()
+    {
+        return $this->belongsTo(User::class, 'purchased_by');
+    }
+
+    public function scopePurchased($query)
+    {
+        return $query->whereNotNull('purchased_by');
+    }
+
+    public function scopeNotPurchased($query)
+    {
+        return $query->whereNull('purchased_by');
+    }
+
     public function details()
     {
         return $this->purchaseDetails;
@@ -44,5 +60,21 @@ class Purchase extends Model
     public function isImported()
     {
         return $this->type == 'Import';
+    }
+
+    public function purchase()
+    {
+        $this->purchased_by = auth()->id();
+
+        $this->save();
+    }
+
+    public function isPurchased()
+    {
+        if (is_null($this->purchased_by)) {
+            return false;
+        }
+
+        return true;
     }
 }
