@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Purchase;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -27,6 +28,15 @@ class AddApprovedByToPurchases extends Migration
                 ->constrained('users')
                 ->onDelete('set null')
                 ->onUpdate('cascade');
+        });
+
+        Purchase::all()->each(function ($purchase) {
+            if ($purchase->grns()->exists()) {
+                $purchase->approved_by = $purchase->updated_by;
+                $purchase->purchased_by = $purchase->updated_by;
+
+                $purchase->save();
+            }
         });
     }
 
