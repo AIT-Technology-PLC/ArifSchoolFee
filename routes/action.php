@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Action as Action;
 use Illuminate\Support\Facades\Route;
 
 // Permissions
@@ -16,6 +15,14 @@ Route::patch('/employees/{employee}/permissions',
 Route::get('/purchases/{purchase}/convert-to-grn',
     [Action\PurchaseController::class, 'convertToGrn'])
     ->name('purchases.convert_to_grn');
+
+Route::get('/purchases/{purchase}/approve',
+    [Action\PurchaseController::class, 'approve'])
+    ->name('purchases.approve');
+
+Route::get('/purchases/{purchase}/purchase',
+    [Action\PurchaseController::class, 'purchase'])
+    ->name('purchases.purchase');
 
 Route::post('/purchases/{purchase}/close',
     [Action\PurchaseController::class, 'close'])

@@ -40,4 +40,14 @@ class PurchasePolicy
     {
         return $user->can('Close Purchase');
     }
+
+    public function approve(User $user, Purchase $purchase)
+    {
+        return $user->can('Approve Purchase');
+    }
+
+    public function purchase(User $user, Purchase $purchase)
+    {
+        return $user->can('Make Purchase');
+    }
 }
