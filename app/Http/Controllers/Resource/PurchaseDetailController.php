@@ -16,6 +16,10 @@ class PurchaseDetailController extends Controller
     {
         $this->authorize('delete', $purchaseDetail->purchase);
 
+        abort_if($purchaseDetail->purchase->isPurchased(), 403);
+
+        abort_if($purchaseDetail->purchase->isApproved() && !auth()->user()->can('Delete Approved Purchase'), 403);
+
         $purchaseDetail->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');
