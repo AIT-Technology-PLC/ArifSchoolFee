@@ -136,7 +136,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Update Purchase']);
             Permission::firstOrCreate(['name' => 'Delete Purchase']);
             Permission::firstOrCreate(['name' => 'Approve Purchase']);
-            Permission::firstOrCreate(['name' => 'Purchase Made']);
+            Permission::firstOrCreate(['name' => 'Make Purchase']);
             Permission::firstOrCreate(['name' => 'Close Purchase']);
             Permission::firstOrCreate(['name' => 'Delete Approved Purchase']);
 

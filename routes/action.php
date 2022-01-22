@@ -17,11 +17,11 @@ Route::get('/purchases/{purchase}/convert-to-grn',
     [Action\PurchaseController::class, 'convertToGrn'])
     ->name('purchases.convert_to_grn');
 
-Route::get('/purchases/{purchase}/approve',
+Route::post('/purchases/{purchase}/approve',
     [Action\PurchaseController::class, 'approve'])
     ->name('purchases.approve');
 
-Route::get('/purchases/{purchase}/purchase',
+Route::post('/purchases/{purchase}/purchase',
     [Action\PurchaseController::class, 'purchase'])
     ->name('purchases.purchase');
 
