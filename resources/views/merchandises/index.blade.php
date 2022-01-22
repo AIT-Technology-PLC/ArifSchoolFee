@@ -159,11 +159,13 @@
                         <span>Available</span>
                     </a>
                 </li>
-                <li class="reserved {{ request()->is('merchandises/reserved') ? 'is-active' : '' }}">
-                    <a href="{{ route('merchandises.index', 'reserved') }}">
-                        <span>Reserved</span>
-                    </a>
-                </li>
+                @if (isFeatureEnabled('Reservation Management'))
+                    <li class="reserved {{ request()->is('merchandises/reserved') ? 'is-active' : '' }}">
+                        <a href="{{ route('merchandises.index', 'reserved') }}">
+                            <span>Reserved</span>
+                        </a>
+                    </li>
+                @endif
                 <li class="out-of-stock {{ request()->is('merchandises/out-of-stock') ? 'is-active' : '' }}">
                     <a href="{{ route('merchandises.index', 'out-of-stock') }}">
                         <span>Out of Stock</span>

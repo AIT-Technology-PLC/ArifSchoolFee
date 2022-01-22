@@ -18,7 +18,9 @@
                         <th><abbr> Product </abbr></th>
                         <th><abbr> Category </abbr></th>
                         <th class="has-text-right text-green"><abbr> Available </abbr></th>
-                        <th class="has-text-right text-green"><abbr> Reserved </abbr></th>
+                        @if (isFeatureEnabled('Reservation Management'))
+                            <th class="has-text-right text-green"><abbr> Reserved </abbr></th>
+                        @endif
                         <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
                         <th><abbr> Level </abbr></th>
                         <th><abbr> Actions </abbr></th>
@@ -44,12 +46,14 @@
                                     {{ $merchandise->product->unit_of_measurement }}
                                 </span>
                             </td>
-                            <td class="has-text-right">
-                                <span class="tag is-small btn-green is-outlined has-text-white">
-                                    {{ $merchandise->reserved }}
-                                    {{ $merchandise->product->unit_of_measurement }}
-                                </span>
-                            </td>
+                            @if (isFeatureEnabled('Reservation Management'))
+                                <td class="has-text-right">
+                                    <span class="tag is-small btn-green is-outlined has-text-white">
+                                        {{ $merchandise->reserved }}
+                                        {{ $merchandise->product->unit_of_measurement }}
+                                    </span>
+                                </td>
+                            @endif
                             <td class="has-text-right">
                                 <span class="tag is-small btn-green is-outlined has-text-white">
                                     {{ $merchandise->on_hand }}

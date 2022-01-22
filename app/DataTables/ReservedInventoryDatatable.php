@@ -13,6 +13,8 @@ class ReservedInventoryDatatable extends DataTable
 
     public function __construct()
     {
+        abort_if(!isFeatureEnabled('Reservation Management'), 403);
+
         $this->warehouses = auth()->user()->getAllowedWarehouses('read');
     }
 
