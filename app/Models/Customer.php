@@ -60,6 +60,10 @@ class Customer extends Model
 
     public function hasReachedCreditLimit($newCreditAmount, $excludedCreditId = null)
     {
+        if ($this->credit_amount_limit == 0) {
+            return false;
+        }
+
         $totalCreditAmount = $this->credits()
             ->when($excludedCreditId, fn($query) => $query->where('id', '<>', $excludedCreditId))
             ->sum('credit_amount');
