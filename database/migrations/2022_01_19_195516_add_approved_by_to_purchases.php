@@ -14,6 +14,10 @@ class AddApprovedByToPurchases extends Migration
      */
     public function up()
     {
+        Schema::table('tender_checklists', function (Blueprint $table) {
+            $table->longText('comment')->nullable()->change();
+        });
+        
         Schema::table('purchases', function (Blueprint $table) {
             $table->foreignId('approved_by')
                 ->nullable()
