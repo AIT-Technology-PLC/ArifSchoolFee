@@ -196,6 +196,8 @@ class CoreV1 extends Migration
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('purchased_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
@@ -562,7 +564,7 @@ class CoreV1 extends Migration
             $table->foreignId('general_tender_checklist_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('assigned_to')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('status')->nullable();
-            $table->string('comment')->nullable();
+            $table->longText('comment')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
