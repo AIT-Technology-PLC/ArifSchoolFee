@@ -111,7 +111,7 @@
                         class="has-text-weight-medium"
                     />
                 @endcan
-            @else
+            @elseif(!$purchase->isClosed())
                 @can('Make Purchase')
                     <x-common.button
                         tag="a"
@@ -120,6 +120,15 @@
                         mode="button"
                         :href="route('purchases.convert_to_grn', $purchase->id)"
                         class="is-small btn-purple is-outlined"
+                    />
+                @endcan
+                @can('Close Purchase')
+                    <x-common.transaction-button
+                        :route="route('purchases.close', $purchase->id)"
+                        action="close"
+                        intention="close this purchase"
+                        icon="fas fa-ban"
+                        label="Close"
                     />
                 @endcan
             @endif

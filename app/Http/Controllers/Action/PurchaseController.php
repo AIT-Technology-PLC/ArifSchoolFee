@@ -73,6 +73,14 @@ class PurchaseController extends Controller
     {
         $this->authorize('purchase', $purchase);
 
+        if (!$purchase->isApproved()) {
+            return back()->with('failedMessage', 'This purchase is not yet approved.');
+        }
+
+        if ($purchase->isPurchased()) {
+            return back()->with('failedMessage', 'This purchase is already purchased.');
+        }
+
         $purchase->purchase();
 
         Notification::send(
