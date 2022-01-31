@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\SupplierDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
@@ -16,13 +17,15 @@ class SupplierController extends Controller
         $this->authorizeResource(Supplier::class, 'supplier');
     }
 
-    public function index()
+    public function index(SupplierDatatable $datatable)
     {
+        $datatable->builder()->setTableId('suppliers-datatable')->orderBy(1, 'asc');
+
         $suppliers = Supplier::with(['createdBy', 'updatedBy'])->orderBy('company_name')->get();
 
         $totalSuppliers = Supplier::count();
 
-        return view('suppliers.index', compact('suppliers', 'totalSuppliers'));
+        return $datatable->render('suppliers.index', compact('totalSuppliers'));
     }
 
     public function create()
