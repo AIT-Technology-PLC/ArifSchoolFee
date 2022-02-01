@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\DataTables\GrnDatatable;
+use App\DataTables\GrnDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGrnRequest;
 use App\Http\Requests\UpdateGrnRequest;
@@ -66,11 +67,13 @@ class GrnController extends Controller
         return redirect()->route('grns.show', $grn->id);
     }
 
-    public function show(Grn $grn)
+    public function show(Grn $grn, GrnDetailDatatable $datatable)
     {
+        $datatable->builder()->setTableId('grn-details-datatable')->orderBy(1, 'desc');
+
         $grn->load(['grnDetails.product', 'grnDetails.warehouse', 'supplier', 'purchase']);
 
-        return view('grns.show', compact('grn'));
+        return $datatable->render('grns.show', compact('grn'));
     }
 
     public function edit(Grn $grn)

@@ -202,52 +202,11 @@
                 @endcan
             @endif
             <x-common.success-message :message="session('deleted')" />
-            <div class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7">
-                    <thead>
-                        <tr>
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> To </abbr></th>
-                            <th><abbr> Product </abbr></th>
-                            <th><abbr> Quantity </abbr></th>
-                            <th><abbr> Description </abbr></th>
-                            <th><abbr> Actions </abbr></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($grn->grnDetails as $grnDetail)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    {{ $grnDetail->warehouse->name }}
-                                </td>
-                                <td class="is-capitalized">
-                                    <span>
-                                        {{ $grnDetail->product->name }}
-                                    </span>
-                                    <span class="has-text-grey {{ $grnDetail->product->code ? '' : 'is-hidden' }}">
-                                        ({{ $grnDetail->product->code }})
-                                    </span>
-                                </td>
-                                <td>
-                                    {{ number_format($grnDetail->quantity, 2) }}
-                                    {{ $grnDetail->product->unit_of_measurement }}
-                                </td>
-                                <td>
-                                    {!! nl2br(e($grnDetail->description)) !!}
-                                </td>
-                                <td>
-                                    <x-common.action-buttons
-                                        :buttons="['delete']"
-                                        model="grn-details"
-                                        :id="$grnDetail->id"
-                                    />
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+            {{ $dataTable->table() }}
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush

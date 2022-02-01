@@ -48,3 +48,10 @@ if (!function_exists('nextReferenceNumber')) {
             ->max($column) + 1;
     }
 }
+
+if (!function_exists('quantity')) {
+    function quantity($amount = 0.00, $unitOfMeasurement = 'Piece')
+    {
+        return number_format($amount, 2) . ' ' . $unitOfMeasurement;
+    }
+}
