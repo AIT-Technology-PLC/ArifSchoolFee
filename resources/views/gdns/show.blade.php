@@ -404,69 +404,11 @@
                 @endcan
             @endif
             <x-common.success-message :message="session('deleted')" />
-            <div class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7">
-                    <thead>
-                        <tr>
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> From </abbr></th>
-                            <th><abbr> Product </abbr></th>
-                            <th><abbr> Quantity </abbr></th>
-                            <th><abbr> Unit Price </abbr></th>
-                            @if (userCompany()->isDiscountBeforeVAT())
-                                <th><abbr> Discount </abbr></th>
-                            @endif
-                            <th><abbr> Total </abbr></th>
-                            <th><abbr> Description </abbr></th>
-                            <th><abbr> Actions </abbr></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($gdn->gdnDetails as $gdnDetail)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    {{ $gdnDetail->warehouse->name }}
-                                </td>
-                                <td class="is-capitalized">
-                                    <span>
-                                        {{ $gdnDetail->product->name }}
-                                    </span>
-                                    <span class="has-text-grey {{ $gdnDetail->product->code ? '' : 'is-hidden' }}">
-                                        ({{ $gdnDetail->product->code }})
-                                    </span>
-                                </td>
-                                <td>
-                                    {{ number_format($gdnDetail->quantity, 2) }}
-                                    {{ $gdnDetail->product->unit_of_measurement }}
-                                </td>
-                                <td>
-                                    {{ userCompany()->currency }}.
-                                    {{ number_format($gdnDetail->unit_price, 2) }}
-                                </td>
-                                @if (userCompany()->isDiscountBeforeVAT())
-                                    <td>
-                                        {{ number_format($gdnDetail->discount * 100, 2) }}%
-                                    </td>
-                                @endif
-                                <td>
-                                    {{ number_format($gdnDetail->totalPrice, 2) }}
-                                </td>
-                                <td>
-                                    {!! nl2br(e($gdnDetail->description)) !!}
-                                </td>
-                                <td>
-                                    <x-common.action-buttons
-                                        :buttons="['delete']"
-                                        model="gdn-details"
-                                        :id="$gdnDetail->id"
-                                    />
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+            {{ $dataTable->table() }}
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush

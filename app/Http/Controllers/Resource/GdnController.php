@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\DataTables\GdnDatatable;
+use App\DataTables\GdnDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGdnRequest;
 use App\Http\Requests\UpdateGdnRequest;
@@ -63,11 +64,13 @@ class GdnController extends Controller
         return redirect()->route('gdns.show', $gdn->id);
     }
 
-    public function show(Gdn $gdn)
+    public function show(Gdn $gdn, GdnDetailDatatable $datatable)
     {
+        $datatable->builder()->setTableId('gdn-details-datatable');
+
         $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'customer', 'sale']);
 
-        return view('gdns.show', compact('gdn'));
+        return $datatable->render('gdns.show', compact('gdn'));
     }
 
     public function edit(Gdn $gdn)
