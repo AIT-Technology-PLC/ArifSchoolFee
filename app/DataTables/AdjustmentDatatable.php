@@ -26,7 +26,7 @@ class AdjustmentDatatable extends DataTable
             ->filterColumn('status', function ($query, $keyword) {
                 $query
                     ->when($keyword == 'waiting-approval', fn($query) => $query->notApproved())
-                    ->when($keyword == 'approved', fn($query) => $query->notAdded()->approved())
+                    ->when($keyword == 'approved', fn($query) => $query->notAdjusted()->approved())
                     ->when($keyword == 'adjusted', fn($query) => $query->adjusted());
             })
             ->editColumn('description', fn($adjustment) => view('components.datatables.searchable-description', ['description' => $adjustment->description]))
@@ -51,7 +51,7 @@ class AdjustmentDatatable extends DataTable
             ->select('adjustments.*')
             ->when(is_numeric(request('branch')), fn($query) => $query->where('warehouse_id', request('branch')))
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
-            ->when(request('status') == 'approved', fn($query) => $query->notAdded()->approved())
+            ->when(request('status') == 'approved', fn($query) => $query->notAdjusted()->approved())
             ->when(request('status') == 'adjusted', fn($query) => $query->adjusted())
             ->with([
                 'createdBy:id,name',
