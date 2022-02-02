@@ -52,7 +52,7 @@ class TransferDatatable extends DataTable
         return $transfer
             ->newQuery()
             ->select('transfers.*')
-            ->when(is_numeric(request('branch')), fn($query) => $query->where('warehouse_id', request('branch')))
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('transfers.warehouse_id', request('branch')))
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
             ->when(request('status') == 'approved', fn($query) => $query->approved()->notSubtracted())
             ->when(request('status') == 'subtracted', fn($query) => $query->subtracted()->notAdded())

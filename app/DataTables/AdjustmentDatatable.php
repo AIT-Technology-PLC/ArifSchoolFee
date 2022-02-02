@@ -49,7 +49,7 @@ class AdjustmentDatatable extends DataTable
         return $adjustment
             ->newQuery()
             ->select('adjustments.*')
-            ->when(is_numeric(request('branch')), fn($query) => $query->where('warehouse_id', request('branch')))
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('adjustments.warehouse_id', request('branch')))
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
             ->when(request('status') == 'approved', fn($query) => $query->notAdjusted()->approved())
             ->when(request('status') == 'adjusted', fn($query) => $query->adjusted())

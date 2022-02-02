@@ -52,7 +52,7 @@ class GrnDatatable extends DataTable
         return $grn
             ->newQuery()
             ->select('grns.*')
-            ->when(is_numeric(request('branch')), fn($query) => $query->where('warehouse_id', request('branch')))
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('grns.warehouse_id', request('branch')))
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
             ->when(request('status') == 'approved', fn($query) => $query->notAdded()->approved())
             ->when(request('status') == 'added', fn($query) => $query->added())

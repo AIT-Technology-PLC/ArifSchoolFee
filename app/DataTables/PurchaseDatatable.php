@@ -57,7 +57,7 @@ class PurchaseDatatable extends DataTable
         return $purchase
             ->newQuery()
             ->select('purchases.*')
-            ->when(is_numeric(request('branch')), fn($query) => $query->where('warehouse_id', request('branch')))
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('purchases.warehouse_id', request('branch')))
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
             ->when(request('status') == 'approved', fn($query) => $query->notPurchased()->approved())
             ->when(request('status') == 'purchased', fn($query) => $query->purchased())
