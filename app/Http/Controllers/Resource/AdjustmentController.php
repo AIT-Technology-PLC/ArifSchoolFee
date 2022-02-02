@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\AdjustmentDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdjustmentRequest;
 use App\Http\Requests\UpdateAdjustmentRequest;
@@ -20,9 +21,9 @@ class AdjustmentController extends Controller
         $this->authorizeResource(Adjustment::class, 'adjustment');
     }
 
-    public function index()
+    public function index(AdjustmentDatatable $datatable)
     {
-        $adjustments = Adjustment::with(['createdBy', 'updatedBy', 'approvedBy', 'adjustedBy'])->latest('code')->get();
+        $datatable->builder()->setTableId('adjustments-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
         $totalAdjustments = Adjustment::count();
 
@@ -32,7 +33,7 @@ class AdjustmentController extends Controller
 
         $totalAdjusted = Adjustment::adjusted()->count();
 
-        return view('adjustments.index', compact('adjustments', 'totalAdjustments', 'totalNotApproved', 'totalNotAdjusted', 'totalAdjusted'));
+        return $datatable->render('adjustments.index', compact('totalAdjustments', 'totalNotApproved', 'totalNotAdjusted', 'totalAdjusted'));
     }
 
     public function create()
