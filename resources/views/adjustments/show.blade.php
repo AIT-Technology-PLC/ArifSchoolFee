@@ -77,47 +77,11 @@
                 <x-common.fail-message message="Product(s) listed below are still not adjusted." />
             @endif
             <x-common.success-message :message="session('deleted')" />
-            <x-common.bulma-table>
-                <x-slot name="headings">
-                    <th> # </th>
-                    <th> Operation </th>
-                    <th> Product </th>
-                    <th> Quantity </th>
-                    <th> Reason </th>
-                    <th> Actions </th>
-                </x-slot>
-                <x-slot name="body">
-                    @foreach ($adjustment->adjustmentDetails as $adjustmentDetail)
-                        <tr>
-                            <td> {{ $loop->index + 1 }} </td>
-                            <td class="is-capitalized">
-                                {{ $adjustmentDetail->is_subtract ? 'Subtract From ' : 'Add To ' }}
-                                {{ $adjustmentDetail->warehouse->name }}
-                            </td>
-                            <td class="is-capitalized">
-                                <span>
-                                    {{ $adjustmentDetail->product->name }}
-                                </span>
-                                <span class="has-text-grey {{ $adjustmentDetail->product->code ? '' : 'is-hidden' }}">
-                                    ({{ $adjustmentDetail->product->code }})
-                                </span>
-                            </td>
-                            <td>
-                                {{ number_format($adjustmentDetail->quantity, 2) }}
-                                {{ $adjustmentDetail->product->unit_of_measurement }}
-                            </td>
-                            <td> {!! nl2br(e($adjustmentDetail->reason)) !!} </td>
-                            <td>
-                                <x-common.action-buttons
-                                    :buttons="['delete']"
-                                    model="adjustment-details"
-                                    :id="$adjustmentDetail->id"
-                                />
-                            </td>
-                        </tr>
-                    @endforeach
-                </x-slot>
-            </x-common.bulma-table>
+            {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\DataTables\AdjustmentDatatable;
+use App\DataTables\AdjustmentDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdjustmentRequest;
 use App\Http\Requests\UpdateAdjustmentRequest;
@@ -60,11 +61,13 @@ class AdjustmentController extends Controller
         return redirect()->route('adjustments.show', $adjustment->id);
     }
 
-    public function show(Adjustment $adjustment)
+    public function show(Adjustment $adjustment, AdjustmentDetailDatatable $datatable)
     {
+        $datatable->builder()->setTableId('adjustment-details-datatable');
+
         $adjustment->load(['adjustmentDetails.warehouse', 'adjustmentDetails.product']);
 
-        return view('adjustments.show', compact('adjustment'));
+        return $datatable->render('adjustments.show', compact('adjustment'));
     }
 
     public function edit(Adjustment $adjustment)
