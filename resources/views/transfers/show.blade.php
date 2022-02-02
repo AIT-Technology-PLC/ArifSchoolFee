@@ -252,48 +252,11 @@
                 @endcan
             @endif
             <x-common.success-message :message="session('deleted')" />
-            <div class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7">
-                    <thead>
-                        <tr>
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> Product </abbr></th>
-                            <th><abbr> Quantity </abbr></th>
-                            <th><abbr> Description </abbr></th>
-                            <th><abbr> Actions </abbr></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($transfer->transferDetails as $transferDetail)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    <span>
-                                        {{ $transferDetail->product->name }}
-                                    </span>
-                                    <span class="has-text-grey {{ $transferDetail->product->code ? '' : 'is-hidden' }}">
-                                        ({{ $transferDetail->product->code }})
-                                    </span>
-                                </td>
-                                <td>
-                                    {{ number_format($transferDetail->quantity, 2) }}
-                                    {{ $transferDetail->product->unit_of_measurement }}
-                                </td>
-                                <td>
-                                    {!! nl2br(e($transferDetail->description)) !!}
-                                </td>
-                                <td>
-                                    <x-common.action-buttons
-                                        :buttons="['delete']"
-                                        model="transfer-details"
-                                        :id="$transferDetail->id"
-                                    />
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+            {{ $dataTable->table() }}
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush

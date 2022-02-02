@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\DataTables\TransferDatatable;
+use App\DataTables\TransferDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTransferRequest;
 use App\Http\Requests\UpdateTransferRequest;
@@ -65,11 +66,13 @@ class TransferController extends Controller
         return redirect()->route('transfers.show', $transfer->id);
     }
 
-    public function show(Transfer $transfer)
+    public function show(Transfer $transfer, TransferDetailDatatable $datatable)
     {
+        $datatable->builder()->setTableId('transfer-details');
+
         $transfer->load(['transferDetails.product', 'transferredFrom', 'transferredTo']);
 
-        return view('transfers.show', compact('transfer'));
+        return $datatable->render('transfers.show', compact('transfer'));
     }
 
     public function edit(Transfer $transfer)
