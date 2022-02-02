@@ -153,7 +153,7 @@
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Lots" />
         <x-content.footer>
-            <x-common.success-message :message="session('lotDetailDeleted') || session('lotDeleted')" />
+            <x-common.success-message :message="session('lotDetailDeleted') ?? session('lotDeleted')" />
             @foreach ($tender->tenderLots as $tenderLot)
                 <x-common.content-wrapper>
                     <x-content.header title="Lot #{{ $loop->iteration }}">
