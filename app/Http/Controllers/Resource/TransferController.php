@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\TransferDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTransferRequest;
 use App\Http\Requests\UpdateTransferRequest;
@@ -21,14 +22,11 @@ class TransferController extends Controller
         $this->authorizeResource(Transfer::class, 'transfer');
     }
 
-    public function index()
+    public function index(TransferDatatable $datatable)
     {
-        $transfers = Transfer::query()
-            ->with(['createdBy', 'updatedBy', 'approvedBy', 'transferredFrom', 'transferredTo'])
-            ->latest('code')
-            ->get();
+        $datatable->builder()->setTableId('transfers-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
-        $totalTransferred = Transfer::added()->count();
+        $totalAdded = Transfer::added()->count();
 
         $totalSubtracted = Transfer::subtracted()->notAdded()->count();
 
@@ -38,7 +36,7 @@ class TransferController extends Controller
 
         $totalTransfers = Transfer::count();
 
-        return view('transfers.index', compact('transfers', 'totalTransfers', 'totalTransferred', 'totalSubtracted', 'totalApproved', 'totalNotApproved'));
+        return $datatable->render('transfers.index', compact('totalTransfers', 'totalAdded', 'totalSubtracted', 'totalApproved', 'totalNotApproved'));
     }
 
     public function create()
