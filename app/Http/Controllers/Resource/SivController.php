@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\DataTables\SivDatatable;
+use App\DataTables\SivDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSivRequest;
 use App\Http\Requests\UpdateSivRequest;
@@ -58,11 +59,13 @@ class SivController extends Controller
         return redirect()->route('sivs.show', $siv->id);
     }
 
-    public function show(Siv $siv)
+    public function show(Siv $siv, SivDetailDatatable $datatable)
     {
+        $datatable->builder()->setTableId('siv-details-datatable');
+
         $siv->load(['sivDetails.product', 'sivDetails.warehouse']);
 
-        return view('sivs.show', compact('siv'));
+        return $datatable->render('sivs.show', compact('siv'));
     }
 
     public function edit(Siv $siv)

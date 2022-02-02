@@ -69,7 +69,7 @@ class GrnController extends Controller
 
     public function show(Grn $grn, GrnDetailDatatable $datatable)
     {
-        $datatable->builder()->setTableId('grn-details-datatable')->orderBy(1, 'desc');
+        $datatable->builder()->setTableId('grn-details-datatable');
 
         $grn->load(['grnDetails.product', 'grnDetails.warehouse', 'supplier', 'purchase']);
 
