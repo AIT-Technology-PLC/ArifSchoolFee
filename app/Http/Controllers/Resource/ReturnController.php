@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\ReturnDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReturnRequest;
 use App\Http\Requests\UpdateReturnRequest;
@@ -59,11 +60,13 @@ class ReturnController extends Controller
         return redirect()->route('returns.show', $return->id);
     }
 
-    public function show(Returnn $return)
+    public function show(Returnn $return, ReturnDetailDatatable $datatable)
     {
+        $datatable->builder()->setTableId('return-details-datatable');
+
         $return->load(['returnDetails.product', 'returnDetails.warehouse', 'customer']);
 
-        return view('returns.show', compact('return'));
+        return $datatable->render('returns.show', compact('return'));
     }
 
     public function edit(Returnn $return)

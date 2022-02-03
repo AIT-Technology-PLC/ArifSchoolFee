@@ -233,62 +233,11 @@
                 @endcan
             @endif
             <x-common.success-message :message="session('deleted')" />
-            <div class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7">
-                    <thead>
-                        <tr>
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> To </abbr></th>
-                            <th><abbr> Product </abbr></th>
-                            <th><abbr> Quantity </abbr></th>
-                            <th><abbr> Unit Price </abbr></th>
-                            <th><abbr> Total </abbr></th>
-                            <th><abbr> Description </abbr></th>
-                            <th><abbr> Actions </abbr></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($return->returnDetails as $returnDetail)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    {{ $returnDetail->warehouse->name }}
-                                </td>
-                                <td class="is-capitalized">
-                                    <span>
-                                        {{ $returnDetail->product->name }}
-                                    </span>
-                                    <span class="has-text-grey {{ $returnDetail->product->code ? '' : 'is-hidden' }}">
-                                        ({{ $returnDetail->product->code }})
-                                    </span>
-                                </td>
-                                <td>
-                                    {{ number_format($returnDetail->quantity, 2) }}
-                                    {{ $returnDetail->product->unit_of_measurement }}
-                                </td>
-                                <td>
-                                    {{ userCompany()->currency }}.
-                                    {{ number_format($returnDetail->unit_price, 2) }}
-                                </td>
-                                <td>
-                                    {{ userCompany()->currency }}.
-                                    {{ number_format($returnDetail->totalPrice, 2) }}
-                                </td>
-                                <td>
-                                    {!! nl2br(e($returnDetail->description)) !!}
-                                </td>
-                                <td>
-                                    <x-common.action-buttons
-                                        :buttons="['delete']"
-                                        model="return-details"
-                                        :id="$returnDetail->id"
-                                    />
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+            {{ $dataTable->table() }}
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush
