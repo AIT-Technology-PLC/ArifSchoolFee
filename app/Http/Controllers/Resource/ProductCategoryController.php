@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\ProductCategoryDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductCategoryRequest;
 use App\Http\Requests\UpdateProductCategoryRequest;
@@ -16,16 +17,13 @@ class ProductCategoryController extends Controller
         $this->authorizeResource(ProductCategory::class, 'category');
     }
 
-    public function index()
+    public function index(ProductCategoryDatatable $datatable)
     {
-        $categories = ProductCategory::with(['createdBy', 'updatedBy'])
-            ->withCount('products')
-            ->orderBy('name')
-            ->get();
+        $datatable->builder()->setTableId('product-categories-datatable')->orderBy(1, 'asc');
 
-        $totalProductCategoriesOfCompany = ProductCategory::count();
+        $totalProductCategories = ProductCategory::count();
 
-        return view('categories.index', compact('categories', 'totalProductCategoriesOfCompany'));
+        return $datatable->render('categories.index', compact('totalProductCategories'));
     }
 
     public function create()
