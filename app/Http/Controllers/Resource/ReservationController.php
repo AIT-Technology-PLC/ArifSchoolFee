@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\ReservationDatatable;
 use App\DataTables\ReservationDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReservationRequest;
@@ -26,12 +27,9 @@ class ReservationController extends Controller
         $this->reservationService = $reservationService;
     }
 
-    public function index()
+    public function index(ReservationDatatable $datatable)
     {
-        $reservations = Reservation::query()
-            ->with(['reservationDetails', 'createdBy', 'updatedBy', 'approvedBy', 'customer', 'reservable'])
-            ->latest('code')
-            ->get();
+        $datatable->builder()->setTableId('reservations-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
         $totalReservations = Reservation::count();
 
@@ -45,8 +43,8 @@ class ReservationController extends Controller
 
         $totalCancelled = Reservation::cancelled()->count();
 
-        return view('reservations.index',
-            compact('reservations', 'totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalNotApproved', 'totalApproved'));
+        return $datatable->render('reservations.index',
+            compact('totalReservations', 'totalConverted', 'totalReserved', 'totalCancelled', 'totalNotApproved', 'totalApproved'));
     }
 
     public function create()
