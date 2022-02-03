@@ -1,188 +1,112 @@
 @extends('layouts.app')
 
-@section('title')
-    Employee Management
-@endsection
+@section('title', 'Employee Management')
 
 @section('content')
-    <div class="columns is-marginless is-multiline is-centered">
-        <div class="column is-6">
-            <div class="box text-green">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-users"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalEmployees }}
-                        </div>
-                        <div class="is-uppercase is-size-7">
-                            Total Employees
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="columns is-marginless is-multiline">
+        <div class="column is-4 p-lr-0">
+            <x-common.total-model
+                model="Employees"
+                :amount="$totalEmployees"
+                icon="fas fa-users"
+            />
         </div>
-        <div class="column is-6">
-            <div class="box text-purple">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column is-paddingless has-text-centered">
-                        <div class="is-uppercase is-size-7">
-                            Create new accounts for employees and managers
-                        </div>
-                        <div class="is-size-3">
-                            <a href="{{ route('employees.create') }}" class="button bg-purple has-text-white has-text-weight-medium is-size-7 px-5 py-4 mt-3">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    Create New Account
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="column is-4 p-lr-0">
+            <x-common.index-insight
+                :amount="$totalEnabledEmployees"
+                border-color="#3d8660"
+                text-color="text-green"
+                label="Enabled"
+            />
         </div>
-        <div class="column is-4">
-            <div class="box text-blue">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-user-check"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalEnabledEmployees }}
-                        </div>
-                        <div class="is-uppercase is-size-7">
-                            Enabled Employees
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="column is-4">
-            <div class="box text-purple">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-user-alt-slash"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalBlockedEmployees }}
-                        </div>
-                        <div class="is-uppercase is-size-7">
-                            Blocked Employees
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="column is-4 p-lr-0">
+            <x-common.index-insight
+                :amount="$totalBlockedEmployees"
+                border-color="#863d63"
+                text-color="text-purple"
+                label="Disabled"
+            />
         </div>
     </div>
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                Employee Account Management
-            </h1>
-        </div>
-        <div class="box radius-top-0">
+
+    <x-common.content-wrapper>
+        <x-content.header title="Transfers">
+            @can('Create Employee')
+                <x-common.button
+                    tag="a"
+                    href="{{ route('employees.create') }}"
+                    mode="button"
+                    icon="fas fa-plus-circle"
+                    label="Create Employee"
+                    class="btn-green is-outlined is-small"
+                />
+            @endcan
+        </x-content.header>
+        <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
+            <x-datatables.filter filters="'branch', 'status'">
+                <div class="columns is-marginless is-vcentered">
+                    @can('Read Employee')
+                        <div class="column is-3 p-lr-0 pt-0">
+                            <x-forms.field class="has-text-centered">
+                                <x-forms.control>
+                                    <x-forms.select
+                                        id=""
+                                        name=""
+                                        class="is-size-7-mobile is-fullwidth"
+                                        x-model="filters.branch"
+                                        x-on:change="add('branch')"
+                                    >
+                                        <option
+                                            disabled
+                                            selected
+                                            value=""
+                                        >
+                                            Branches
+                                        </option>
+                                        <option value="all"> All </option>
+                                        @foreach ($warehouses as $warehouse)
+                                            <option value="{{ $warehouse->id }}"> {{ $warehouse->name }} </option>
+                                        @endforeach
+                                    </x-forms.select>
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endcan
+                    <div class="column is-3 p-lr-0 pt-0">
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id=""
+                                    name=""
+                                    class="is-size-7-mobile is-fullwidth"
+                                    x-model="filters.status"
+                                    x-on:change="add('status')"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                        value=""
+                                    >
+                                        Statuses
+                                    </option>
+                                    <option value="all"> All </option>
+                                    @foreach (['Enabled', 'Disabled'] as $status)
+                                        <option value="{{ Str::lower($status) }}"> {{ $status }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                </div>
+            </x-datatables.filter>
             <div>
-                <table class="regular-datatable is-hoverable is-size-7 display nowrap" data-date="[7]" data-numeric="[]">
-                    <thead>
-                        <tr>
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> Name </abbr></th>
-                            <th><abbr> Branch </abbr></th>
-                            <th><abbr> Email </abbr></th>
-                            <th class="text-green"><abbr> Job Title </abbr></th>
-                            <th class="text-gold"><abbr> Role </abbr></th>
-                            <th><abbr> Enabled </abbr></th>
-                            <th class="has-text-right"><abbr> Last Login </abbr></th>
-                            <th class="has-text-right"><abbr> Added On </abbr></th>
-                            <th><abbr> Added By </abbr></th>
-                            <th><abbr> Edited By </abbr></th>
-                            <th class="has-text-centered"><abbr> Actions </abbr></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($employees as $employee)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized"> {{ $employee->user->name }} </td>
-                                <td class="is-capitalized"> {{ $employee->user->warehouse->name ?? 'N/A' }} </td>
-                                <td> {{ $employee->user->email }} </td>
-                                <td class="is-capitalized">
-                                    <span class="tag is-small bg-green has-text-white">
-                                        {{ $employee->position }}
-                                    </span>
-                                </td>
-                                <td class="is-capitalized">
-                                    <span class="tag is-small bg-gold has-text-white">
-                                        {{ $employee->user->roles[0]->name }}
-                                    </span>
-                                </td>
-                                <td>
-                                    @if ($employee->enabled)
-                                        <span class="tag bg-blue has-text-white">
-                                            <span class="icon">
-                                                <i class="fas fa-user-check"></i>
-                                            </span>
-                                            <span>
-                                                Enabled
-                                            </span>
-                                        </span>
-                                    @else
-                                        <span class="tag bg-purple has-text-white">
-                                            <span class="icon">
-                                                <i class="fas fa-user-alt-slash"></i>
-                                            </span>
-                                            <span>
-                                                Blocked
-                                            </span>
-                                        </span>
-                                    @endif
-                                </td>
-                                <td class="has-text-right">
-                                    {{ $employee->user->last_online_at ? $employee->user->last_online_at->diffForHumans() : 'New User' }}
-                                </td>
-                                <td class="has-text-right"> {{ $employee->user->created_at->toFormattedDateString() }} </td>
-                                <td> {{ $employee->createdBy->name ?? 'N/A' }} </td>
-                                <td> {{ $employee->updatedBy->name ?? 'N/A' }} </td>
-                                <td>
-                                    <a href="{{ route('permissions.edit', $employee->id) }}" data-title="Modify Employee Permissions">
-                                        <span class="tag is-white btn-purple is-outlined is-small text-purple has-text-weight-medium">
-                                            <span class="icon">
-                                                <i class="fas fa-lock"></i>
-                                            </span>
-                                            <span>
-                                                Permissions
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <a href="{{ route('employees.edit', $employee->id) }}" data-title="Modify Employee Data">
-                                        <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
-                                            <span class="icon">
-                                                <i class="fas fa-pen-square"></i>
-                                            </span>
-                                            <span>
-                                                Edit
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <x-common.delete-button route="employees.destroy" :id="$employee->id" />
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                {{ $dataTable->table() }}
             </div>
-        </div>
-    </section>
+        </x-content.footer>
+    </x-common.content-wrapper>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush

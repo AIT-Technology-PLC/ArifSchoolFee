@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Resource;
 
 use App\Actions\CreateUserAction;
 use App\Actions\UpdateUserAction;
+use App\DataTables\EmployeeDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Employee;
 use App\Models\Warehouse;
+use App\Scopes\ActiveWarehouseScope;
 use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
@@ -20,9 +22,9 @@ class EmployeeController extends Controller
         $this->authorizeResource(Employee::class, 'employee');
     }
 
-    public function index()
+    public function index(EmployeeDatatable $datatable)
     {
-        $employees = Employee::with(['user.roles', 'user.warehouse', 'createdBy', 'updatedBy'])->get();
+        $datatable->builder()->setTableId('employees-datatable')->orderBy(0, 'asc');
 
         $totalEmployees = Employee::count();
 
@@ -30,7 +32,9 @@ class EmployeeController extends Controller
 
         $totalBlockedEmployees = Employee::disabled()->count();
 
-        return view('employees.index', compact('employees', 'totalEmployees', 'totalEnabledEmployees', 'totalBlockedEmployees'));
+        $warehouses = Warehouse::withoutGlobalScopes([ActiveWarehouseScope::class])->get();
+
+        return $datatable->render('employees.index', compact('totalEmployees', 'totalEnabledEmployees', 'totalBlockedEmployees', 'warehouses'));
     }
 
     public function create()
