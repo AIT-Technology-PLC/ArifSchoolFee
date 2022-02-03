@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\ReturnDatatable;
 use App\DataTables\ReturnDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReturnRequest;
@@ -21,9 +22,9 @@ class ReturnController extends Controller
         $this->authorizeResource(Returnn::class, 'return');
     }
 
-    public function index()
+    public function index(ReturnDatatable $datatable)
     {
-        $returns = Returnn::with(['returnDetails', 'createdBy', 'updatedBy', 'approvedBy', 'customer'])->latest('code')->get();
+        $datatable->builder()->setTableId('returns-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
         $totalReturns = Returnn::count();
 
@@ -33,7 +34,7 @@ class ReturnController extends Controller
 
         $totalAdded = Returnn::added()->count();
 
-        return view('returns.index', compact('returns', 'totalReturns', 'totalNotApproved', 'totalNotAdded', 'totalAdded'));
+        return $datatable->render('returns.index', compact('totalReturns', 'totalNotApproved', 'totalNotAdded', 'totalAdded'));
     }
 
     public function create()
