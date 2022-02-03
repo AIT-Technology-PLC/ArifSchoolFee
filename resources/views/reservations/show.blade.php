@@ -469,69 +469,11 @@
                 </div>
             @endif
             <x-common.success-message :message="session('deleted')" />
-            <div class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7">
-                    <thead>
-                        <tr>
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> From </abbr></th>
-                            <th><abbr> Product </abbr></th>
-                            <th><abbr> Quantity </abbr></th>
-                            <th><abbr> Unit Price </abbr></th>
-                            @if (userCompany()->isDiscountBeforeVAT())
-                                <th><abbr> Discount </abbr></th>
-                            @endif
-                            <th><abbr> Total </abbr></th>
-                            <th><abbr> Description </abbr></th>
-                            <th><abbr> Actions </abbr></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($reservation->reservationDetails as $reservationDetail)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    {{ $reservationDetail->warehouse->name }}
-                                </td>
-                                <td class="is-capitalized">
-                                    <span>
-                                        {{ $reservationDetail->product->name }}
-                                    </span>
-                                    <span class="has-text-grey {{ $reservationDetail->product->code ? '' : 'is-hidden' }}">
-                                        ({{ $reservationDetail->product->code }})
-                                    </span>
-                                </td>
-                                <td>
-                                    {{ number_format($reservationDetail->quantity, 2) }}
-                                    {{ $reservationDetail->product->unit_of_measurement }}
-                                </td>
-                                <td>
-                                    {{ userCompany()->currency }}.
-                                    {{ number_format($reservationDetail->unit_price, 2) }}
-                                </td>
-                                @if (userCompany()->isDiscountBeforeVAT())
-                                    <td>
-                                        {{ number_format($reservationDetail->discount * 100, 2) }}%
-                                    </td>
-                                @endif
-                                <td>
-                                    {{ number_format($reservationDetail->totalPrice, 2) }}
-                                </td>
-                                <td>
-                                    {!! nl2br(e($reservationDetail->description)) !!}
-                                </td>
-                                <td>
-                                    <x-common.action-buttons
-                                        :buttons="['delete']"
-                                        model="reservation-details"
-                                        :id="$reservationDetail->id"
-                                    />
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+            {{ $dataTable->table() }}
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush

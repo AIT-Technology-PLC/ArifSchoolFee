@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\ReservationDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
@@ -72,11 +73,13 @@ class ReservationController extends Controller
         return redirect()->route('reservations.show', $reservation->id);
     }
 
-    public function show(Reservation $reservation)
+    public function show(Reservation $reservation, ReservationDetailDatatable $datatable)
     {
+        $datatable->builder()->setTableId('reservation-details-datatable');
+
         $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse', 'customer']);
 
-        return view('reservations.show', compact('reservation'));
+        return $datatable->render('reservations.show', compact('reservation'));
     }
 
     public function edit(Reservation $reservation)
