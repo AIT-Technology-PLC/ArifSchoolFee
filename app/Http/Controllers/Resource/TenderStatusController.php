@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\TenderStatusDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTenderStatusRequest;
 use App\Http\Requests\UpdateTenderStatusRequest;
@@ -16,15 +17,13 @@ class TenderStatusController extends Controller
         $this->authorizeResource(TenderStatus::class);
     }
 
-    public function index()
+    public function index(TenderStatusDatatable $datatable)
     {
-        $tenderStatuses = TenderStatus::orderBy('status')
-            ->with(['createdBy', 'updatedBy'])
-            ->get();
+        $datatable->builder()->setTableId('tender-statuses-datatable')->orderBy('1', 'asc');
 
         $totalTenderStatuses = TenderStatus::count();
 
-        return view('tender-statuses.index', compact('tenderStatuses', 'totalTenderStatuses'));
+        return $datatable->render('tender-statuses.index', compact('totalTenderStatuses'));
     }
 
     public function create()
