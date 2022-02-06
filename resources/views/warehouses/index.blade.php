@@ -44,95 +44,40 @@
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
-            <x-common.client-datatable date-columns="[9]">
-                <x-slot name="headings">
-                    <th><abbr> # </abbr></th>
-                    <th><abbr> Warehouse Name </abbr></th>
-                    <th><abbr> Location </abbr></th>
-                    <th><abbr> Status </abbr></th>
-                    <th><abbr> Type </abbr></th>
-                    <th><abbr> Can Be Sold From </abbr></th>
-                    <th><abbr> Email </abbr></th>
-                    <th><abbr> Phone </abbr></th>
-                    <th><abbr> Description </abbr></th>
-                    <th class="has-text-right"><abbr> Created On </abbr></th>
-                    <th><abbr> Added By </abbr></th>
-                    <th><abbr> Edited By </abbr></th>
-                    <th><abbr> Actions </abbr></th>
-                </x-slot>
-                <x-slot name="body">
-                    @foreach ($warehouses as $warehouse)
-                        <tr>
-                            <td> {{ $loop->index + 1 }} </td>
-                            <td class="is-capitalized"> {{ $warehouse->name }} </td>
-                            <td class="is-capitalized">{{ $warehouse->location ?? 'N/A' }}</span>
-                            </td>
-                            <td>
-                                @if ($warehouse->isActive())
-                                    <span class="icon is-small text-green">
-                                        <i class="fas fa-circle"></i>
-                                    </span>
-                                    <span class="text-green"> Active </span>
-                                @else
-                                    <span class="icon is-small text-purple">
-                                        <i class="fas fa-circle"></i>
-                                    </span>
-                                    <span class="text-purple"> Not Active </span>
-                                @endif
-                            </td>
-                            <td>
-                                @if ($warehouse->is_sales_store)
-                                    Sales Store
-                                @else
-                                    Main Store
-                                @endif
-                            </td>
-                            <td>
-                                @if ($warehouse->can_be_sold_from)
-                                    <span class="tag btn-green is-outlined has-text-white">
-                                        <span class="icon">
-                                            <i class="fas fa-lock-open"></i>
-                                        </span>
-                                        <span> Yes </span>
-                                    </span>
-                                @else
-                                    <span class="tag btn-purple is-outlined has-text-white">
-                                        <span class="icon">
-                                            <i class="fas fa-lock"></i>
-                                        </span>
-                                        <span> No </span>
-                                    </span>
-                                @endif
-                            </td>
-                            <td>{{ $warehouse->email ?? 'N/A' }}</td>
-                            <td>{{ $warehouse->phone ?? 'N/A' }}</td>
-                            <td> {!! nl2br(e(substr($warehouse->description, 0, 40))) ?? 'N/A' !!} </td>
-                            <td class="has-text-right"> {{ $warehouse->created_at->toFormattedDateString() }} </td>
-                            <td> {{ $warehouse->createdBy->name ?? 'N/A' }} </td>
-                            <td> {{ $warehouse->updatedBy->name ?? 'N/A' }} </td>
-                            <td>
-                                <a
-                                    href="{{ route('warehouses.edit', $warehouse->id) }}"
-                                    data-title="Modify Warehouse Data"
+            <x-datatables.filter filters="'branch', 'status'">
+                <div class="columns is-marginless is-vcentered">
+                    <div class="column is-3 p-lr-0 pt-0">
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id=""
+                                    name=""
+                                    class="is-size-7-mobile is-fullwidth"
+                                    x-model="filters.status"
+                                    x-on:change="add('status')"
                                 >
-                                    <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
-                                        <span class="icon">
-                                            <i class="fas fa-pen-square"></i>
-                                        </span>
-                                        <span>
-                                            Edit
-                                        </span>
-                                    </span>
-                                </a>
-                                <x-common.delete-button
-                                    route="warehouses.destroy"
-                                    :id="$warehouse->id"
-                                />
-                            </td>
-                        </tr>
-                    @endforeach
-                </x-slot>
-            </x-common.client-datatable>
+                                    <option
+                                        disabled
+                                        selected
+                                        value=""
+                                    >
+                                        Statuses
+                                    </option>
+                                    <option value="all"> All </option>
+                                    @foreach (['Active', 'Inactive'] as $status)
+                                        <option value="{{ Str::lower($status) }}"> {{ $status }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                </div>
+            </x-datatables.filter>
+            <div> {{ $dataTable->table() }} </div>
         </x-content.footer>
     </x-common.content-wrapper>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush

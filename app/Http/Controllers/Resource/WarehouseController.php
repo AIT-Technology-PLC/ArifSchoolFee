@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\WarehouseDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreWarehouseRequest;
 use App\Http\Requests\UpdateWarehouseRequest;
@@ -16,9 +17,9 @@ class WarehouseController extends Controller
         $this->authorizeResource(Warehouse::class, 'warehouse');
     }
 
-    public function index()
+    public function index(WarehouseDatatable $datatable)
     {
-        $warehouses = Warehouse::with(['createdBy', 'updatedBy'])->orderBy('name')->get();
+        $datatable->builder()->setTableId('warehouses-datatable')->orderBy(1, 'asc');
 
         $totalWarehouses = Warehouse::count();
 
@@ -26,7 +27,7 @@ class WarehouseController extends Controller
 
         $totalInActiveWarehouses = $totalWarehouses - $totalActiveWarehouses;
 
-        return view('warehouses.index', compact('warehouses', 'totalWarehouses', 'totalActiveWarehouses', 'totalInActiveWarehouses'));
+        return $datatable->render('warehouses.index', compact('totalWarehouses', 'totalActiveWarehouses', 'totalInActiveWarehouses'));
     }
 
     public function create()
