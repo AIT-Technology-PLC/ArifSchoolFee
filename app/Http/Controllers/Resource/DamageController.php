@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\DamageDatatable;
 use App\DataTables\DamageDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDamageRequest;
@@ -21,9 +22,9 @@ class DamageController extends Controller
         $this->authorizeResource(Damage::class, 'damage');
     }
 
-    public function index()
+    public function index(DamageDatatable $datatable)
     {
-        $damages = Damage::with(['damageDetails', 'createdBy', 'updatedBy', 'approvedBy'])->latest('code')->get();
+        $datatable->builder()->setTableId('damages-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
         $totalDamages = Damage::count();
 
@@ -33,7 +34,7 @@ class DamageController extends Controller
 
         $totalSubtracted = Damage::subtracted()->count();
 
-        return view('damages.index', compact('damages', 'totalDamages', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
+        return $datatable->render('damages.index', compact('totalDamages', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }
 
     public function create()
