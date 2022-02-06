@@ -163,52 +163,11 @@
                 @endcan
             @endif
             <x-common.success-message :message="session('deleted')" />
-            <div class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7">
-                    <thead>
-                        <tr>
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> From </abbr></th>
-                            <th><abbr> Product </abbr></th>
-                            <th><abbr> Quantity </abbr></th>
-                            <th><abbr> Description </abbr></th>
-                            <th><abbr> Actions </abbr></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($damage->damageDetails as $damageDetail)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    {{ $damageDetail->warehouse->name }}
-                                </td>
-                                <td class="is-capitalized">
-                                    <span>
-                                        {{ $damageDetail->product->name }}
-                                    </span>
-                                    <span class="has-text-grey {{ $damageDetail->product->code ? '' : 'is-hidden' }}">
-                                        ({{ $damageDetail->product->code }})
-                                    </span>
-                                </td>
-                                <td>
-                                    {{ number_format($damageDetail->quantity, 2) }}
-                                    {{ $damageDetail->product->unit_of_measurement }}
-                                </td>
-                                <td>
-                                    {!! nl2br(e($damageDetail->description)) !!}
-                                </td>
-                                <td>
-                                    <x-common.action-buttons
-                                        :buttons="['delete']"
-                                        model="damage-details"
-                                        :id="$damageDetail->id"
-                                    />
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+            {{ $dataTable->table() }}
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush

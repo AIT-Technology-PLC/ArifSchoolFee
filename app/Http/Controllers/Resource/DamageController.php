@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\DamageDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDamageRequest;
 use App\Http\Requests\UpdateDamageRequest;
@@ -59,11 +60,11 @@ class DamageController extends Controller
         return redirect()->route('damages.show', $damage->id);
     }
 
-    public function show(Damage $damage)
+    public function show(Damage $damage, DamageDetailDatatable $datatable)
     {
-        $damage->load(['damageDetails.product', 'damageDetails.warehouse']);
+        $datatable->builder()->setTableId('damage-details-datatable');
 
-        return view('damages.show', compact('damage'));
+        return $datatable->render('damages.show', compact('damage'));
     }
 
     public function edit(Damage $damage)
