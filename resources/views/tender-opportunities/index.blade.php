@@ -11,7 +11,7 @@
                     <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-comment-dollar" />
                         <span>
-                            {{ number_format($totalTenderOpportunities) }} {{ Str::plural('tender opportunities', $totalTenderOpportunities) }}
+                            {{ number_format($totalTenderOpportunities) }} {{ Str::plural('tender opportunity', $totalTenderOpportunities) }}
                         </span>
                     </span>
                 </h1>

@@ -11,7 +11,7 @@
                     <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-info" />
                         <span>
-                            {{ number_format($totalTenderStatuses) }} {{ Str::plural('statuses', $totalTenderStatuses) }}
+                            {{ number_format($totalTenderStatuses) }} {{ Str::plural('status', $totalTenderStatuses) }}
                         </span>
                     </span>
                 </h1>
