@@ -18,6 +18,10 @@ class TenderLotDetailController extends Controller
 
         $tenderLotDetail->forceDelete();
 
+        if ($tenderLotDetail->tenderLot->tenderLotDetails()->count() == 0) {
+            $tenderLotDetail->tenderLot->forceDelete();
+        }
+
         return back()->with('lotDetailDeleted', 'Deleted successfully.');
     }
 }
