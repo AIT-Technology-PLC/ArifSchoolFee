@@ -49,7 +49,7 @@ class GeneralTenderChecklistDatatable extends DataTable
             Column::make('item')->addClass('text-green has-text-weight-bold'),
             Column::make('type', 'tenderChecklistType.name'),
             Column::make('description'),
-            Column::make('added on')->className('has-text-right'),
+            Column::make('added on', 'created_at')->className('has-text-right'),
             Column::make('added by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
