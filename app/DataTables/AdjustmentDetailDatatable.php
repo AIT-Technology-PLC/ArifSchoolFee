@@ -16,7 +16,7 @@ class AdjustmentDetailDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('operation', function ($adjustmentDetail) {
-                return $adjustmentDetail->is_subtract ? 'Subtract From ' : 'Add To ' . $adjustmentDetail->warehouse->name;
+                return ($adjustmentDetail->is_subtract ? 'Subtract From ' : 'Add To ') . $adjustmentDetail->warehouse->name;
             })
             ->editColumn('product', function ($adjustmentDetail) {
                 return view('components.datatables.product-code', [
