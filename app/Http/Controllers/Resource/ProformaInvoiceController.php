@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\ProformaInvoiceDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProformaInvoiceRequest;
 use App\Http\Requests\UpdateProformaInvoiceRequest;
@@ -20,10 +21,8 @@ class ProformaInvoiceController extends Controller
         $this->authorizeResource(ProformaInvoice::class);
     }
 
-    public function index()
+    public function index(ProformaInvoiceDatatable $datatable)
     {
-        $proformaInvoices = ProformaInvoice::with(['createdBy', 'updatedBy', 'convertedBy', 'customer'])->latest('code')->get();
-
         $totalProformaInvoices = ProformaInvoice::count();
 
         $totalConverted = ProformaInvoice::converted()->count();
@@ -32,8 +31,7 @@ class ProformaInvoiceController extends Controller
 
         $totalCancelled = ProformaInvoice::notPending()->notConverted()->count();
 
-        return view('proforma-invoices.index', compact('proformaInvoices', 'totalProformaInvoices',
-            'totalConverted', 'totalPending', 'totalCancelled'));
+        return $datatable->render('proforma-invoices.index', compact('totalProformaInvoices', 'totalConverted', 'totalPending', 'totalCancelled'));
     }
 
     public function create()
