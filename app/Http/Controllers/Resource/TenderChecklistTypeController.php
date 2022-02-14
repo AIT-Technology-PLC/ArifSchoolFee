@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\TenderChecklistTypeDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTenderChecklistTypeRequest;
 use App\Http\Requests\UpdateTenderChecklistTypeRequest;
@@ -16,14 +17,13 @@ class TenderChecklistTypeController extends Controller
         $this->authorizeResource(TenderChecklistType::class);
     }
 
-    public function index()
+    public function index(TenderChecklistTypeDatatable $datatable)
     {
-        $tenderChecklistTypes = TenderChecklistType::withCount('generalTenderChecklists')
-            ->with(['createdBy', 'updatedBy'])->get();
+        $datatable->builder()->setTableId('tender-checklist-types-datatable');
 
         $totalTenderChecklistTypes = TenderChecklistType::count();
 
-        return view('tender-checklist-types.index', compact('tenderChecklistTypes', 'totalTenderChecklistTypes'));
+        return $datatable->render('tender-checklist-types.index', compact('totalTenderChecklistTypes'));
     }
 
     public function create()
