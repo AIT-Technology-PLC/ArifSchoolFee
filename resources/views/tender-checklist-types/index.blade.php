@@ -11,7 +11,7 @@
                     <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-tasks" />
                         <span>
-                            {{ number_format($totalTenderChecklistTypes) }} {{ Str::plural('checklist types', $totalTenderChecklistTypes) }}
+                            {{ number_format($totalTenderChecklistTypes) }} {{ Str::plural('checklist type', $totalTenderChecklistTypes) }}
                         </span>
                     </span>
                 </h1>

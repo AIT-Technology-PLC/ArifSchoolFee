@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\SaleDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
@@ -17,13 +18,13 @@ class SaleController extends Controller
         $this->authorizeResource(Sale::class, 'sale');
     }
 
-    public function index()
+    public function index(SaleDatatable $datatable)
     {
-        $sales = Sale::with(['createdBy', 'updatedBy', 'saleDetails'])->latest('code')->get();
+        $datatable->builder()->setTableId('sales-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
         $totalSales = Sale::count();
 
-        return view('sales.index', compact('sales', 'totalSales'));
+        return $datatable->render('sales.index', compact('totalSales'));
     }
 
     public function create()
