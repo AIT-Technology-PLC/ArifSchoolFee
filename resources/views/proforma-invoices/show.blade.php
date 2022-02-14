@@ -299,61 +299,13 @@
                 </x-common.fail-message>
             @endif
             <x-common.success-message :message="session('deleted')" />
-            <div class="table-container">
-                <table class="table is-hoverable is-fullwidth is-size-7">
-                    <thead>
-                        <tr>
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> Product </abbr></th>
-                            <th><abbr> Quantity </abbr></th>
-                            <th><abbr> Unit Price </abbr></th>
-                            @if (userCompany()->isDiscountBeforeVAT())
-                                <th><abbr> Discount </abbr></th>
-                            @endif
-                            <th><abbr> Total </abbr></th>
-                            <th><abbr> Actions </abbr></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($proformaInvoice->proformaInvoiceDetails as $proformaInvoiceDetail)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    {{ $proformaInvoiceDetail->product->name ?? $proformaInvoiceDetail->custom_product }}
-                                    @if ($proformaInvoiceDetail->product)
-                                        <span class="has-text-grey {{ $proformaInvoiceDetail->product->code ? '' : 'is-hidden' }}">
-                                            ({{ $proformaInvoiceDetail->product->code }})
-                                        </span>
-                                    @endif
-                                </td>
-                                <td>
-                                    {{ number_format($proformaInvoiceDetail->quantity, 2) }}
-                                    {{ $proformaInvoiceDetail->product->unit_of_measurement ?? '' }}
-                                </td>
-                                <td>
-                                    {{ userCompany()->currency }}.
-                                    {{ number_format($proformaInvoiceDetail->unit_price, 2) }}
-                                </td>
-                                @if (userCompany()->isDiscountBeforeVAT())
-                                    <td>
-                                        {{ number_format($proformaInvoiceDetail->discount * 100, 2) }}%
-                                    </td>
-                                @endif
-                                <td>
-                                    {{ number_format($proformaInvoiceDetail->totalPrice, 2) }}
-                                </td>
-                                <td>
-                                    <x-common.action-buttons
-                                        :buttons="['delete']"
-                                        model="proforma-invoice-details"
-                                        :id="$proformaInvoiceDetail->id"
-                                    />
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div>
+                {{ $dataTable->table() }}
             </div>
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush

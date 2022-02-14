@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\DataTables\ProformaInvoiceDatatable;
+use App\DataTables\ProformaInvoiceDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProformaInvoiceRequest;
 use App\Http\Requests\UpdateProformaInvoiceRequest;
@@ -23,6 +24,8 @@ class ProformaInvoiceController extends Controller
 
     public function index(ProformaInvoiceDatatable $datatable)
     {
+        $datatable->builder()->setTableId('proforma-invoices-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
+
         $totalProformaInvoices = ProformaInvoice::count();
 
         $totalConverted = ProformaInvoice::converted()->count();
@@ -56,11 +59,13 @@ class ProformaInvoiceController extends Controller
         return redirect()->route('proforma-invoices.show', $proformaInvoice->id);
     }
 
-    public function show(ProformaInvoice $proformaInvoice)
+    public function show(ProformaInvoice $proformaInvoice, ProformaInvoiceDetailDatatable $datatable)
     {
+        $datatable->builder()->setTableId('proforma-invoice-details-datatable');
+
         $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer']);
 
-        return view('proforma-invoices.show', compact('proformaInvoice'));
+        return $datatable->render('proforma-invoices.show', compact('proformaInvoice'));
     }
 
     public function edit(ProformaInvoice $proformaInvoice)
