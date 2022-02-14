@@ -7,7 +7,7 @@
         <x-content.header>
             <x-slot name="header">
                 <h1 class="title text-green has-text-weight-medium is-size-5">
-                    Products
+                    Tender Checklist Types
                     <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-tasks" />
                         <span>
