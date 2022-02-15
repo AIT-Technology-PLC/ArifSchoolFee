@@ -26,7 +26,7 @@ class DamageDatatable extends DataTable
             ->filterColumn('status', function ($query, $keyword) {
                 $query
                     ->when($keyword == 'waiting-approval', fn($query) => $query->notApproved())
-                    ->when($keyword == 'approved', fn($query) => $query->notAdjusted()->approved())
+                    ->when($keyword == 'approved', fn($query) => $query->notSubtracted()->approved())
                     ->when($keyword == 'subtracted', fn($query) => $query->subtracted());
             })
             ->editColumn('description', fn($damage) => view('components.datatables.searchable-description', ['description' => $damage->description]))
@@ -51,7 +51,7 @@ class DamageDatatable extends DataTable
             ->select('damages.*')
             ->when(is_numeric(request('branch')), fn($query) => $query->where('damages.warehouse_id', request('branch')))
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
-            ->when(request('status') == 'approved', fn($query) => $query->notAdjusted()->approved())
+            ->when(request('status') == 'approved', fn($query) => $query->notSubtracted()->approved())
             ->when(request('status') == 'subtracted', fn($query) => $query->subtracted())
             ->with([
                 'createdBy:id,name',
