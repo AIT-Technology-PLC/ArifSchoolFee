@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\DataTables\CreditDatatable;
+use App\DataTables\CreditSettlementDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCreditRequest;
 use App\Http\Requests\UpdateCreditRequest;
@@ -96,11 +97,13 @@ class CreditController extends Controller
         return redirect()->route('credits.show', $credit->id);
     }
 
-    public function show(Credit $credit)
+    public function show(Credit $credit, CreditSettlementDatatable $datatable)
     {
-        $credit->load(['gdn', 'customer', 'creditSettlements']);
+        $datatable->builder()->setTableId('credit-settlements-datatable');
 
-        return view('credits.show', compact('credit'));
+        $credit->load(['gdn', 'customer']);
+
+        return $datatable->render('credits.show', compact('credit'));
     }
 
     public function destroy(Credit $credit)

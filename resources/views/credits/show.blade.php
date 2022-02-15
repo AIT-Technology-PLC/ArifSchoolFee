@@ -126,38 +126,11 @@
             @else
                 <x-common.fail-message message="No settlements was made to this credit." />
             @endif
-            <x-common.client-datatable date-columns="[4]">
-                <x-slot name="headings">
-                    <th> # </th>
-                    <th> Method </th>
-                    <th> Bank </th>
-                    <th> Reference No </th>
-                    <th> Settlement Date </th>
-                    <th class="has-text-right"> Amount </th>
-                    <th> Description </th>
-                    <th> Actions </th>
-                </x-slot>
-                <x-slot name="body">
-                    @foreach ($credit->creditSettlements as $creditSettlement)
-                        <tr>
-                            <td> {{ $loop->index + 1 }} </td>
-                            <td class="is-capitalized"> {{ $creditSettlement->method }} </td>
-                            <td class="is-capitalized"> {{ $creditSettlement->bank_name ?? 'N/A' }} </td>
-                            <td class="is-capitalized"> {{ $creditSettlement->reference_number ?? 'N/A' }} </td>
-                            <td> {{ $creditSettlement->settled_at->toFormattedDateString() }}</td>
-                            <td class="has-text-right">{{ userCompany()->currency . '. ' . number_format($creditSettlement->amount, 2) }}</td>
-                            <td> {!! nl2br(e($creditSettlement->description)) !!} </td>
-                            <td>
-                                <x-common.action-buttons
-                                    :buttons="['edit', 'delete']"
-                                    model="credit-settlements"
-                                    :id="$creditSettlement->id"
-                                />
-                            </td>
-                        </tr>
-                    @endforeach
-                </x-slot>
-            </x-common.client-datatable>
+            {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush
