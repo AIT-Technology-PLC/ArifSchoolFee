@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\DataTables\SaleDatatable;
+use App\DataTables\SaleDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
@@ -47,11 +48,13 @@ class SaleController extends Controller
         return redirect()->route('sales.show', $sale->id);
     }
 
-    public function show(Sale $sale)
+    public function show(Sale $sale, SaleDetailDatatable $datatable)
     {
+        $datatable->builder()->setTableId('sale-details-datatable');
+
         $sale->load(['saleDetails.product', 'gdns', 'customer']);
 
-        return view('sales.show', compact('sale'));
+        return $datatable->render('sales.show', compact('sale'));
     }
 
     public function edit(Sale $sale)
