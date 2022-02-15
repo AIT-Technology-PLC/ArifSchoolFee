@@ -52,11 +52,6 @@ class Product extends Model
         return $this->hasMany(TransferDetail::class);
     }
 
-    public function purchaseOrderDetails()
-    {
-        return $this->hasMany(PurchaseOrderDetail::class);
-    }
-
     public function grnDetails()
     {
         return $this->hasMany(GrnDetail::class);

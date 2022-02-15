@@ -155,7 +155,7 @@
             </section>
         @endcanany
 
-        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read PO', 'Read Credit', 'Read Price', 'Read Customer'])
+        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer'])
             <section class="mb-5">
                 <x-content.header>
                     <x-slot name="header">
@@ -259,25 +259,6 @@
                                     <br>
                                     <span class="is-size-6 is-size-7-mobile text-green">
                                         Returns
-                                    </span>
-                                </div>
-                            @endif
-                        @endcan
-
-                        @can('Read PO')
-                            @if (isFeatureEnabled('Purchase Order'))
-                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                    <a
-                                        href="{{ route('purchase-orders.index') }}"
-                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                    >
-                                        <span class="icon is-size-5">
-                                            <i class="fas fa-file-alt"></i>
-                                        </span>
-                                    </a>
-                                    <br>
-                                    <span class="is-size-6 is-size-7-mobile text-green">
-                                        Purchase Orders
                                     </span>
                                 </div>
                             @endif

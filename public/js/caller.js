@@ -35,13 +35,6 @@ if (d.getElementById("addNewTransferForm")) {
     );
 }
 
-if (d.getElementById("addNewPurchaseOrderForm")) {
-    d.getElementById("addNewPurchaseOrderForm").addEventListener(
-        "click",
-        addPurchaseOrderDetail
-    );
-}
-
 if (d.getElementById("addNewGrnForm")) {
     d.getElementById("addNewGrnForm").addEventListener("click", addGrnDetail);
 }

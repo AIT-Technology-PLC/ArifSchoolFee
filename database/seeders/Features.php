@@ -78,11 +78,6 @@ class Features extends Seeder
             );
 
             Feature::updateOrCreate(
-                ['name' => 'Purchase Order'],
-                ['is_enabled' => 0]
-            );
-
-            Feature::updateOrCreate(
                 ['name' => 'Tender Management'],
                 ['is_enabled' => 1]
             );

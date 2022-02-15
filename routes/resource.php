@@ -35,10 +35,6 @@ Route::resource('transfers', Resource\TransferController::class);
 
 Route::resource('transfer-details', Resource\TransferDetailController::class)->only('destroy');
 
-Route::resource('purchase-orders', Resource\PurchaseOrderController::class);
-
-Route::resource('purchase-order-details', Resource\PurchaseOrderDetailController::class)->only('destroy');
-
 Route::resource('grns', Resource\GrnController::class);
 
 Route::resource('grn-details', Resource\GrnDetailController::class)->only('destroy');

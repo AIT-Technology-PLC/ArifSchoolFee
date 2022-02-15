@@ -132,11 +132,6 @@ Route::post('/notifications/delete-all',
     [Action\NotificationController::class, 'deleteAll'])
     ->name('notifications.delete_all');
 
-// Purchase Orders
-Route::post('purchase-orders/{purchaseOrder}/close',
-    [Action\PurchaseOrderController::class, 'close'])
-    ->name('purchase-orders.close');
-
 // Grns
 Route::post('/grns/{grn}/approve',
     [Action\GrnController::class, 'approve'])

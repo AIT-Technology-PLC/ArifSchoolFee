@@ -296,19 +296,6 @@
                             </li>
                         @endcan
                     @endif
-                    @can('Read PO')
-                        @if (isFeatureEnabled('Purchase Order'))
-                            <li>
-                                <x-common.button
-                                    tag="a"
-                                    href="{{ route('purchase-orders.index') }}"
-                                    label="Purchase Orders"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('purchase-orders.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->routeIs('purchase-orders.*') ? 'activateAccordion' : '' }}"
-                                />
-                            </li>
-                        @endcan
-                    @endif
                     @can('Read Credit')
                         @if (isFeatureEnabled('Credit Management'))
                             <li>

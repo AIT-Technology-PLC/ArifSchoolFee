@@ -376,37 +376,6 @@ class CoreV1 extends Migration
             $table->index('transfer_id');
         });
 
-        Schema::create('purchase_orders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
-            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
-            $table->string('code')->nullable();
-            $table->boolean('is_closed');
-            $table->longText('description')->nullable();
-            $table->dateTime('received_on')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('company_id');
-        });
-
-        Schema::create('purchase_order_details', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('purchase_order_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->decimal('quantity', 22);
-            $table->decimal('quantity_left', 22);
-            $table->decimal('unit_price', 22);
-            $table->longText('description')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('purchase_order_id');
-        });
-
         Schema::create('grns', function (Blueprint $table) {
             $table->id();
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
@@ -890,8 +859,6 @@ class CoreV1 extends Migration
         Schema::drop('gdn_details');
         Schema::drop('transfers');
         Schema::drop('transfer_details');
-        Schema::drop('purchase_orders');
-        Schema::drop('purchase_order_details');
         Schema::drop('grns');
         Schema::drop('grn_details');
         Schema::drop('tender_checklist_types');

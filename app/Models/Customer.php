@@ -23,11 +23,6 @@ class Customer extends Model
         return $this->hasMany(Gdn::class);
     }
 
-    public function purchaseOrders()
-    {
-        return $this->hasMany(PurchaseOrder::class);
-    }
-
     public function tenders()
     {
         return $this->hasMany(Tender::class);

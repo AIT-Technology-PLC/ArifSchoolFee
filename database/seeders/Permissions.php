@@ -140,14 +140,6 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Close Purchase']);
             Permission::firstOrCreate(['name' => 'Delete Approved Purchase']);
 
-            // PO
-            Permission::firstOrCreate(['name' => 'Create PO']);
-            Permission::firstOrCreate(['name' => 'Read PO']);
-            Permission::firstOrCreate(['name' => 'Update PO']);
-            Permission::firstOrCreate(['name' => 'Delete PO']);
-            Permission::firstOrCreate(['name' => 'Approve PO']);
-            Permission::firstOrCreate(['name' => 'Delete Approved PO']);
-
             // Product
             Permission::firstOrCreate(['name' => 'Create Product']);
             Permission::firstOrCreate(['name' => 'Read Product']);
@@ -206,7 +198,6 @@ class Permissions extends Seeder
             $analyst->syncPermissions([
                 'Read GDN',
                 'Read GRN',
-                'Read PO',
                 'Read Purchase',
                 'Read Sale',
                 'Read Proforma Invoice',
@@ -236,14 +227,12 @@ class Permissions extends Seeder
                 'Create Sale',
                 'Create Proforma Invoice',
                 'Create Customer',
-                'Create PO',
                 'Create Return',
                 'Create Reservation',
                 'Read GDN',
                 'Read Sale',
                 'Read Proforma Invoice',
                 'Read Customer',
-                'Read PO',
                 'Read Return',
                 'Read Product',
                 'Read Reservation',
@@ -251,7 +240,6 @@ class Permissions extends Seeder
                 'Update Sale',
                 'Update Proforma Invoice',
                 'Update Customer',
-                'Update PO',
                 'Update Return',
                 'Update Reservation',
                 'Convert Proforma Invoice',

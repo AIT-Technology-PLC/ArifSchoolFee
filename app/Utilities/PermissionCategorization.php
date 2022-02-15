@@ -53,10 +53,6 @@ class PermissionCategorization
             'label' => 'Purchase',
             'feature' => 'Purchase Management',
         ],
-        'po' => [
-            'label' => 'Purchase Order',
-            'feature' => 'Purchase Order',
-        ],
         'product' => [
             'label' => 'Product & Category',
             'feature' => 'Product Management',
