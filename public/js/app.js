@@ -514,8 +514,14 @@ document.addEventListener("alpine:init", () => {
             this.select2.append(emptyOption);
 
             this.products.forEach((product) => {
+                let productName = product.text;
+
+                if (product.code) {
+                    productName = `${productName} (${product.code})`;
+                }
+
                 let newOption = new Option(
-                    product.text,
+                    productName,
                     product.id,
                     false,
                     (this.product.id || null) == product.id

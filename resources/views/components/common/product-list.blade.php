@@ -17,7 +17,13 @@
                 {{ $selectedProductId == $product->id ? 'selected' : '' }}
                 data-code="{{ $product->code ?? '' }}"
                 data-category="{{ Str::of($product->productCategory->name)->replace('  ', ' ') }}"
-            >{{ $product->name }}</option>
+            >
+                {{ $product->name }}
+
+                @if ($product->code)
+                    ({{ $product->code }})
+                @endif
+            </option>
         @endforeach
         @if (!is_numeric($selectedProductId))
             <option
@@ -45,6 +51,12 @@
             value="{{ $product->id }}"
             data-code="{{ $product->code ?? '' }}"
             data-category="{{ Str::of($product->productCategory->name)->replace('  ', ' ') }}"
-        >{{ $product->name }}</option>
+        >
+            {{ $product->name }}
+
+            @if ($product->code)
+                ({{ $product->code }})
+            @endif
+        </option>
     @endforeach
 </select>
