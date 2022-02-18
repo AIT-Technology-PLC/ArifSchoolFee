@@ -375,7 +375,7 @@
                                                     rows="5"
                                                     class="summernote textarea"
                                                     placeholder="Specification about the product"
-                                                > {{ $proformaInvoiceDetail['specification'] ?? '' }} </textarea>
+                                                >{{ $proformaInvoiceDetail['specification'] ?? '' }}</textarea>
                                                 @error('proformaInvoice.' . $loop->index . '.specification')
                                                     <span
                                                         class="help has-text-danger"
