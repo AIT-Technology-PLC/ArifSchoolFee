@@ -1,187 +1,107 @@
 @extends('layouts.app')
 
-@section('title')
-    Notifications
-@endsection
+@section('title', 'Notifications')
 
 @section('content')
-    <div class="columns is-marginless">
-        <div class="column">
-            <div class="box text-green">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-bell"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 has-text-weight-bold">
-                            {{ $notifications->count() }}
-                        </div>
-                        <div class="is-uppercase is-size-7">
-                            Total Notifications Received
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="columns is-marginless is-multiline">
+        <div class="column is-4 p-lr-0">
+            <x-common.total-model
+                model="Notificatoins"
+                :amount="$totalNotifications"
+                icon="fas fa-bell"
+            />
         </div>
-        <div class="column">
-            <div class="box has-text-grey-dark">
-                <div class="columns is-marginless is-vcentered is-mobile">
-                    <div class="column has-text-centered is-paddingless">
-                        <span class="icon is-large is-size-1">
-                            <i class="fas fa-bell"></i>
-                        </span>
-                    </div>
-                    <div class="column is-paddingless">
-                        <div class="is-size-3 has-text-weight-bold">
-                            {{ $totalUnreadNotifications }}
-                        </div>
-                        <div class="is-uppercase is-size-7">
-                            Total Unseen Notifications
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="column is-4 p-lr-0">
+            <x-common.index-insight
+                :amount="$totalReadNotifications"
+                border-color="#3d8660"
+                text-color="text-green"
+                label="Seen"
+            />
+        </div>
+        <div class="column is-4 p-lr-0">
+            <x-common.index-insight
+                :amount="$totalUnreadNotifications"
+                border-color="#863d63"
+                text-color="text-purple"
+                label="Unseen"
+            />
         </div>
     </div>
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item is-justify-content-left">
-                        <div>
-                            <h1 class="title text-green has-text-weight-medium is-size-5">
-                                Notifications
-                            </h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="level-right">
-                    <div class="level-item is-justify-content-left">
-                        <div>
-                            @if ($notifications->isNotEmpty())
-                                <form
-                                    x-data="swal('mark all as read', 'mark all notifications as read')"
-                                    class="is-inline"
-                                    action="{{ route('notifications.markAllAsRead') }}"
-                                    method="POST"
-                                    enctype="multipart/form-data"
-                                    novalidate
-                                    @submit.prevent="open"
-                                >
-                                    @csrf
-                                    @method('PATCH')
-                                    <button
-                                        class="button is-small bg-green has-text-white"
-                                        x-ref="submitButton"
-                                    >
-                                        <span class="icon">
-                                            <i class="fas fa-check-double"></i>
-                                        </span>
-                                        <span>
-                                            Mark all as read
-                                        </span>
-                                    </button>
-                                </form>
-                                <x-common.transaction-button
-                                    :route="route('notifications.delete_all')"
-                                    action="delete"
-                                    intention="delete all of the notifications"
-                                    icon="fas fa-trash"
-                                    label="Delete All"
-                                    class="has-text-weight-medium"
-                                />
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="box radius-top-0">
-            <x-common.success-message :message="session('successMessage')" />
-            <x-common.fail-message :message="session('failedMessage')" />
-            <div>
-                <table
-                    class="regular-datatable is-hoverable is-size-7 display nowrap"
-                    data-date="[3,4]"
-                    data-numeric="[]"
+
+    <x-common.content-wrapper>
+        <x-content.header title="Store Issue Vouchers">
+            @if ($totalUnreadNotifications)
+                <form
+                    x-data="swal('mark all as read', 'mark all notifications as read')"
+                    class="is-inline"
+                    action="{{ route('notifications.markAllAsRead') }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                    novalidate
+                    @submit.prevent="open"
                 >
-                    <thead>
-                        <tr>
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> Notification </abbr></th>
-                            <th><abbr> Status </abbr></th>
-                            <th class="has-text-right"><abbr> Read at </abbr></th>
-                            <th class="has-text-right"><abbr> Received On </abbr></th>
-                            <th><abbr> Action</abbr></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($notifications as $notification)
-                            <tr
-                                class="showRowDetails is-clickable"
-                                data-id="{{ route('notifications.show', $notification->id) }}"
-                            >
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $notification->data['message'] }} </td>
-                                <td>
-                                    @if ($notification->read())
-                                        <span class="tag is-small bg-green has-text-white">
-                                            Seen
-                                        </span>
-                                    @else
-                                        <span class="tag is-small has-background-grey-dark has-text-white">
-                                            Unseen
-                                        </span>
-                                    @endif
-                                </td>
-                                <td class="has-text-right"> {{ $notification->read() ? $notification->read_at->toDayDateTimeString() : 'N/A' }} </td>
-                                <td class="has-text-right"> {{ $notification->created_at->toDayDateTimeString() }} </td>
-                                <td class="actions">
-                                    <a href="{{ route('notifications.show', $notification->id) }}">
-                                        <span class="tag btn-purple is-outlined is-small text-green has-text-weight-medium">
-                                            <span class="icon">
-                                                <i class="fas fa-info-circle"></i>
-                                            </span>
-                                            <span>
-                                                View
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <x-common.delete-button
-                                        route="notifications.destroy"
-                                        :id="$notification->id"
-                                    />
-                                    @if (!$notification->read())
-                                        <form
-                                            x-data="swal('mark as read', 'mark this notification as read')"
-                                            class="is-inline"
-                                            action="{{ route('notifications.update', $notification->id) }}"
-                                            method="post"
-                                            @submit.prevent="open"
-                                        >
-                                            @csrf
-                                            @method('PATCH')
-                                            <button
-                                                class="tag btn-green is-outlined is-small text-green has-text-weight-medium is-pointer"
-                                                x-ref="submitButton"
-                                            >
-                                                <span class="icon">
-                                                    <i class="fas fa-check-double"></i>
-                                                </span>
-                                                <span>
-                                                    Mark as read
-                                                </span>
-                                            </button>
-                                        </form>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                    @csrf
+                    @method('PATCH')
+                    <x-common.button
+                        tag="button"
+                        mode="button"
+                        icon="fas fa-check-double"
+                        label="Mark all as read"
+                        class="is-small btn-green is-outlined has-text-weight-medium"
+                        x-ref="submitButton"
+                    />
+                </form>
+            @endif
+            @if ($totalNotifications)
+                <x-common.transaction-button
+                    :route="route('notifications.delete_all')"
+                    action="delete"
+                    intention="delete all of the notifications"
+                    icon="fas fa-trash"
+                    label="Delete All"
+                    class="has-text-weight-medium"
+                />
+            @endif
+        </x-content.header>
+        <x-content.footer>
+            <x-common.success-message :message="session('deleted')" />
+            <x-datatables.filter filters="'status'">
+                <div class="columns is-marginless is-vcentered">
+                    <div class="column is-3 p-lr-0 pt-0">
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id=""
+                                    name=""
+                                    class="is-size-7-mobile is-fullwidth"
+                                    x-model="filters.status"
+                                    x-on:change="add('status')"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                        value=""
+                                    >
+                                        Statuses
+                                    </option>
+                                    <option value="all"> All </option>
+                                    @foreach (['Unseen', 'Seen'] as $status)
+                                        <option value="{{ Str::lower($status) }}"> {{ $status }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                </div>
+            </x-datatables.filter>
+            <div>
+                {{ $dataTable->table() }}
             </div>
-        </div>
-    </section>
+        </x-content.footer>
+    </x-common.content-wrapper>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush
