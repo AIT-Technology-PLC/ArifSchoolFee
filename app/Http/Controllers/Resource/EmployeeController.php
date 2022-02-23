@@ -48,6 +48,10 @@ class EmployeeController extends Controller
 
     public function store(StoreEmployeeRequest $request, CreateUserAction $action)
     {
+        if (limitReached('user', Employee::enabled()->count())) {
+            return back()->with('limitReachedMessage', 'You have reached the allowed number of users as per your package.');
+        }
+
         $action->execute($request->validated());
 
         return redirect()->route('employees.index');

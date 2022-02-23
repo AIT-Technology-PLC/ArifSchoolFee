@@ -45,7 +45,7 @@ class RegisterController extends Controller
                 'name' => $data['company_name'],
                 'currency' => 'ETB',
                 'enabled' => 0,
-                'plan_id' => Plan::firstWhere('name', 'premium')->id,
+                'plan_id' => Plan::firstWhere('name', 'professional')->id,
             ]);
 
             $warehouse = Warehouse::create([

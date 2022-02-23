@@ -132,19 +132,34 @@ class Features extends Seeder
                 ['is_enabled' => 1]
             );
 
-            $professional = Plan::where('name', 'professional')->first();
-            $premium = Plan::where('name', 'premium')->first();
-            $enterprise = Plan::where('name', 'enterprise')->first();
+            $standard = Plan::firstWhere('name', 'standard');
+            $professional = Plan::firstWhere('name', 'professional');
+
+            $standard->features()->sync(
+                Feature::query
+                    ->whereIn('name', [
+                        'Merchandise Inventory',
+                        'Inventory History',
+                        'Gdn Management',
+                        'Grn Management',
+                        'Transfer Management',
+                        'Inventory Adjustment',
+                        'Proforma Invoice',
+                        'Customer Management',
+                        'Purchase Management',
+                        'Supplier Management',
+                        'Product Management',
+                        'Warehouse Management',
+                        'User Management',
+                        'General Settings',
+                        'Notification Management',
+                        'Return Management',
+                    ])
+                    ->pluck('id')
+                    ->toArray()
+            );
 
             $professional->features()->sync(
-                Feature::all()->pluck('id')->toArray()
-            );
-
-            $premium->features()->sync(
-                Feature::all()->pluck('id')->toArray()
-            );
-
-            $enterprise->features()->sync(
                 Feature::all()->pluck('id')->toArray()
             );
         });

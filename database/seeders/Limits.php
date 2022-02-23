@@ -18,16 +18,20 @@ class Limits extends Seeder
     {
 
         DB::transaction(function () {
+            $standard = Plan::firstWhere('name', 'standard');
+            $professional = Plan::firstWhere('name', 'professional');
+
             $warehouseLimit = Limit::firstOrCreate(['name' => 'warehouse']);
+            $userLimit = Limit::firstOrCreate(['name' => 'user']);
 
-            $professional = Plan::where('name', 'professional')->first();
-            $premium = Plan::where('name', 'premium')->first();
-            $enterprise = Plan::where('name', 'enterprise')->first();
+            $standard->limits()->sync([
+                $warehouseLimit->id => ['amount' => 2],
+                $userLimit->id => ['amount' => 4],
+            ]);
 
-            $warehouseLimit->plans()->sync([
-                $professional->id => ['amount' => 2],
-                $premium->id => ['amount' => 5],
-                $enterprise->id => ['amount' => 10],
+            $professional->limits()->sync([
+                $warehouseLimit->id => ['amount' => 4],
+                $userLimit->id => ['amount' => 6],
             ]);
         });
     }
