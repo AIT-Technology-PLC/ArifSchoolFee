@@ -78,8 +78,6 @@ class TransferController extends Controller
 
     public function convertToSiv(Transfer $transfer)
     {
-        $this->authorize('view', $transfer);
-
         $this->authorize('create', Siv::class);
 
         [$isExecuted, $message, $siv] = $this->transferService->convertToSiv($transfer, auth()->user());

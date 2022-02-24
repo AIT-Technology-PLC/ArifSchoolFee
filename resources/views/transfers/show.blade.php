@@ -124,13 +124,15 @@
                                 />
                             @endif
                             @if ($transfer->isSubtracted() && !$transfer->isClosed())
-                                <x-common.transaction-button
-                                    :route="route('transfers.convert_to_siv', $transfer->id)"
-                                    action="attach"
-                                    intention="attach SIV to this transfer"
-                                    icon="fas fa-file-export"
-                                    label="Attach SIV"
-                                />
+                                @can('Create SIV')
+                                    <x-common.transaction-button
+                                        :route="route('transfers.convert_to_siv', $transfer->id)"
+                                        action="attach"
+                                        intention="attach SIV to this transfer"
+                                        icon="fas fa-file-export"
+                                        label="Attach SIV"
+                                    />
+                                @endcan
                             @endif
                             <a
                                 href="{{ route('transfers.edit', $transfer->id) }}"

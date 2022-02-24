@@ -70,8 +70,6 @@ class ProformaInvoiceController extends Controller
 
     public function convertToGdn(Request $request, ProformaInvoice $proformaInvoice)
     {
-        $this->authorize('view', $proformaInvoice);
-
         $this->authorize('create', Gdn::class);
 
         [$isExecuted, $message, $data] = $this->proformaInvoiceService->convertToGdn($proformaInvoice);

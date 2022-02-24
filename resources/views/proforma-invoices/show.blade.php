@@ -200,17 +200,19 @@
                                     icon="fas fa-ban"
                                     label="Close"
                                 />
-                                <a
-                                    href="{{ route('proforma-invoices.convert_to_gdn', $proformaInvoice->id) }}"
-                                    class="button btn-purple is-outlined is-small"
-                                >
-                                    <span class="icon">
-                                        <i class="fas fa-file-invoice"></i>
-                                    </span>
-                                    <span>
-                                        Convert to DO
-                                    </span>
-                                </a>
+                                @can('Create GDN')
+                                    <a
+                                        href="{{ route('proforma-invoices.convert_to_gdn', $proformaInvoice->id) }}"
+                                        class="button btn-purple is-outlined is-small"
+                                    >
+                                        <span class="icon">
+                                            <i class="fas fa-file-invoice"></i>
+                                        </span>
+                                        <span>
+                                            Convert to DO
+                                        </span>
+                                    </a>
+                                @endcan
                             @endif
                             @if (!$proformaInvoice->isCancelled())
                                 <a

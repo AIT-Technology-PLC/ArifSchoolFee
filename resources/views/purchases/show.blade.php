@@ -112,7 +112,7 @@
                     />
                 @endcan
             @elseif(!$purchase->isClosed())
-                @can('Make Purchase')
+                @can('Create GRN')
                     <x-common.button
                         tag="a"
                         icon="fas fa-plus"

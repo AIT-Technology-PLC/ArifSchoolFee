@@ -26,8 +26,6 @@ class PurchaseController extends Controller
 
     public function convertToGrn(Request $request, Purchase $purchase)
     {
-        $this->authorize('view', $purchase);
-
         $this->authorize('create', Grn::class);
 
         [$isExecuted, $message, $data] = $this->purchaseService->convertToGrn($purchase);

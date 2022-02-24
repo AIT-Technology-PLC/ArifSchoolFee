@@ -58,8 +58,6 @@ class GdnController extends Controller
 
     public function convertToSiv(Gdn $gdn)
     {
-        $this->authorize('view', $gdn);
-
         $this->authorize('create', Siv::class);
 
         [$isExecuted, $message, $siv] = $this->gdnService->convertToSiv($gdn, auth()->user());
