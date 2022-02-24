@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tender;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TenderController extends Controller
 {
@@ -18,8 +19,6 @@ class TenderController extends Controller
 
         $tender->load(['tenderChecklists.generalTenderChecklist']);
 
-        return \PDF::loadView('tenders.print', compact('tender'))
-            ->setPaper('a4', 'portrait')
-            ->stream();
+        return Pdf::loadView('tenders.print', compact('tender'))->stream();
     }
 }

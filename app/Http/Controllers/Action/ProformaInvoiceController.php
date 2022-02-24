@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Gdn;
 use App\Models\ProformaInvoice;
 use App\Services\Models\ProformaInvoiceService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class ProformaInvoiceController extends Controller
@@ -63,9 +64,7 @@ class ProformaInvoiceController extends Controller
 
         $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'company']);
 
-        return \PDF::loadView('proforma-invoices.print', compact('proformaInvoice'))
-            ->setPaper('a4', 'portrait')
-            ->stream();
+        return Pdf::loadView('proforma-invoices.print', compact('proformaInvoice'))->stream();
     }
 
     public function convertToGdn(Request $request, ProformaInvoice $proformaInvoice)

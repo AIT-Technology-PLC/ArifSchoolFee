@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Siv;
 use App\Notifications\SivApproved;
 use App\Utilities\Notifiables;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Notification;
 
 class SivController extends Controller
@@ -49,8 +50,6 @@ class SivController extends Controller
 
         $siv->load(['sivDetails.product', 'sivDetails.warehouse', 'company', 'createdBy', 'approvedBy']);
 
-        return \PDF::loadView('sivs.print', compact('siv'))
-            ->setPaper('a4', 'portrait')
-            ->stream();
+        return Pdf::loadView('sivs.print', compact('siv'))->stream();
     }
 }

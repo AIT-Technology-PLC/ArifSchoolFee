@@ -9,6 +9,7 @@ use App\Notifications\ReturnAdded;
 use App\Notifications\ReturnApproved;
 use App\Services\Models\ReturnService;
 use App\Utilities\Notifiables;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Notification;
 
 class ReturnController extends Controller
@@ -41,9 +42,7 @@ class ReturnController extends Controller
 
         $return->load(['returnDetails.product', 'customer', 'company', 'createdBy', 'approvedBy']);
 
-        return \PDF::loadView('returns.print', compact('return'))
-            ->setPaper('a4', 'portrait')
-            ->stream();
+        return Pdf::loadView('returns.print', compact('return'))->stream();
     }
 
     public function add(Returnn $return, ReturnService $returnService)

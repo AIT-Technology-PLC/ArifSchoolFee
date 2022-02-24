@@ -11,6 +11,7 @@ use App\Notifications\GdnApproved;
 use App\Notifications\GdnSubtracted;
 use App\Services\Models\GdnService;
 use App\Utilities\Notifiables;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Notification;
 
 class GdnController extends Controller
@@ -51,9 +52,7 @@ class GdnController extends Controller
 
         $gdn->load(['gdnDetails.product', 'customer', 'company', 'createdBy', 'approvedBy']);
 
-        return \PDF::loadView('gdns.print', compact('gdn'))
-            ->setPaper('a4', 'portrait')
-            ->stream();
+        return Pdf::loadView('gdns.print', compact('gdn'))->stream();
     }
 
     public function convertToSiv(Gdn $gdn)
