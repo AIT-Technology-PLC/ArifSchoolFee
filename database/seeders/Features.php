@@ -136,7 +136,7 @@ class Features extends Seeder
             $professional = Plan::firstWhere('name', 'professional');
 
             $standard->features()->sync(
-                Feature::query
+                Feature::query()
                     ->whereIn('name', [
                         'Merchandise Inventory',
                         'Inventory History',
