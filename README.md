@@ -50,9 +50,10 @@ At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) us
 ## Requirements
 
 -   PHP >= 8.0
+-   RAM: >= 2GB
 -   Composer
 -   MySQL or MariaDB
--   [PHP extensions required by Laravel](https://laravel.com/docs/8.x/deployment#server-requirements)
+-   [PHP extensions required by Laravel](https://laravel.com/docs/9.x/deployment#server-requirements)
 -   [OPTIONAL] To make use of PWA capabilities, install browsers that support **Service Workers** and **Add To Home Screen** from the links below:
     -   [Browsers that support Service Workers](https://caniuse.com/?search=service%20worker)
     -   [Browsers that support website installation](https://caniuse.com/?search=a2hs)
