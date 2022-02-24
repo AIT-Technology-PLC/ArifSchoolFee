@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\DataTables\PurchaseDatatable;
+use App\DataTables\PurchaseDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
@@ -61,11 +62,13 @@ class PurchaseController extends Controller
         return redirect()->route('purchases.show', $purchase->id);
     }
 
-    public function show(Purchase $purchase)
+    public function show(Purchase $purchase, PurchaseDetailDatatable $datatable)
     {
-        $purchase->load(['purchaseDetails.product', 'supplier', 'grns']);
+        $datatable->builder()->setTableId('purchase-details-datatable');
 
-        return view('purchases.show', compact('purchase'));
+        $purchase->load(['supplier', 'grns']);
+
+        return $datatable->render('purchases.show', compact('purchase'));
     }
 
     public function edit(Purchase $purchase)

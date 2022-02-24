@@ -152,57 +152,7 @@
                 <x-common.fail-message message="Product(s) listed below are still not purchased." />
             @endif
             <x-common.success-message :message="session('deleted')" />
-            <x-common.bulma-table>
-                <x-slot name="headings">
-                    <th> # </th>
-                    <th> Product </th>
-                    <th> Quantity </th>
-                    <th> Unit Price </th>
-                    @if (userCompany()->isDiscountBeforeVAT())
-                        <th> Discount </th>
-                    @endif
-                    <th> Total </th>
-                    <th> Actions </th>
-                </x-slot>
-                <x-slot name="body">
-                    @foreach ($purchase->purchaseDetails as $purchaseDetail)
-                        <tr>
-                            <td> {{ $loop->index + 1 }} </td>
-                            <td class="is-capitalized">
-                                <span>
-                                    {{ $purchaseDetail->product->name }}
-                                </span>
-                                <span class="has-text-grey {{ $purchaseDetail->product->code ? '' : 'is-hidden' }}">
-                                    ({{ $purchaseDetail->product->code }})
-                                </span>
-                            </td>
-                            <td>
-                                {{ number_format($purchaseDetail->quantity, 2) }}
-                                {{ $purchaseDetail->product->unit_of_measurement }}
-                            </td>
-                            <td>
-                                {{ userCompany()->currency }}.
-                                {{ number_format($purchaseDetail->unit_price, 2) }}
-                            </td>
-                            @if (userCompany()->isDiscountBeforeVAT())
-                                <td>
-                                    {{ number_format($purchaseDetail->discount * 100, 2) }}%
-                                </td>
-                            @endif
-                            <td>
-                                {{ number_format($purchaseDetail->totalPrice, 2) }}
-                            </td>
-                            <td>
-                                <x-common.action-buttons
-                                    :buttons="['delete']"
-                                    model="purchase-details"
-                                    :id="$purchaseDetail->id"
-                                />
-                            </td>
-                        </tr>
-                    @endforeach
-                </x-slot>
-            </x-common.bulma-table>
+            <div> {{ $dataTable->table() }} </div>
         </x-content.footer>
     </x-common.content-wrapper>
 
@@ -241,3 +191,7 @@
         </x-content.footer>
     </x-common.content-wrapper>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush
