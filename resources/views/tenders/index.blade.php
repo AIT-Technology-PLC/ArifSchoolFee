@@ -11,7 +11,7 @@
                     <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-project-diagram" />
                         <span>
-                            {{ number_format($totalTenders) }} {{ Str::plural('tender', $totalTenders) }}
+                            {{ number_format($totalTenders) }} {{ str()->plural('tender', $totalTenders) }}
                         </span>
                     </span>
                 </h1>

@@ -11,7 +11,7 @@
                     <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-cash-register" />
                         <span>
-                            {{ number_format($totalSales) }} {{ Str::plural('invoice', $totalSales) }}
+                            {{ number_format($totalSales) }} {{ str()->plural('invoice', $totalSales) }}
                         </span>
                     </span>
                 </h1>

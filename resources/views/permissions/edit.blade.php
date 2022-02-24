@@ -32,8 +32,8 @@
                         @continue(!isFeatureEnabled($value['feature']))
                         <div
                             class="column is-6"
-                            x-init="addToPermissionList('{{ Str::of($value['label'])->remove(' ')->lower() }}')"
-                            x-ref="{{ Str::of($value['label'])->remove(' ')->lower() }}"
+                            x-init="addToPermissionList('{{ str($value['label'])->remove(' ')->lower() }}')"
+                            x-ref="{{ str($value['label'])->remove(' ')->lower() }}"
                         >
                             <div class="message">
                                 <div class="message-header has-background-white-ter text-gold">

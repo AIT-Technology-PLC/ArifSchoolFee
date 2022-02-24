@@ -11,7 +11,7 @@
                     <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-user" />
                         <span>
-                            {{ number_format($totalSuppliers) }} {{ Str::plural('supplier', $totalSuppliers) }}
+                            {{ number_format($totalSuppliers) }} {{ str()->plural('supplier', $totalSuppliers) }}
                         </span>
                         <span class="is-hidden-mobile">
                             &nbsp; registered

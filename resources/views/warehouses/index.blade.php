@@ -65,7 +65,7 @@
                                     </option>
                                     <option value="all"> All </option>
                                     @foreach (['Active', 'Inactive'] as $status)
-                                        <option value="{{ Str::lower($status) }}"> {{ $status }} </option>
+                                        <option value="{{ str()->lower($status) }}"> {{ $status }} </option>
                                     @endforeach
                                 </x-forms.select>
                             </x-forms.control>

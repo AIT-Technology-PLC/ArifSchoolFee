@@ -1,8 +1,8 @@
 <div class="select is-fullwidth">
     <select
-        {{ $name ? Str::of('id=')->append($name, '[product_id]') : '' }}
-        {{ $name ? Str::of('name=')->append($name, '[product_id]') : '' }}
-        {{ $tags ? Str::of('data-tags=')->append($tags) : '' }}
+        {{ $name ? str('id=')->append($name, '[product_id]') : '' }}
+        {{ $name ? str('name=')->append($name, '[product_id]') : '' }}
+        {{ $tags ? str('data-tags=')->append($tags) : '' }}
         {{ $attributes->has('x-init') ? '' : 'onchange=getProductSelected(this.id,this.value)' }}
         {{ $attributes->has('x-init') ? '' : 'x-init=initializeSelect2($el)' }}
         {{ $attributes->whereStartsWith('x-') }}
@@ -16,7 +16,7 @@
                 value="{{ $product->id }}"
                 {{ $selectedProductId == $product->id ? 'selected' : '' }}
                 data-code="{{ $product->code ?? '' }}"
-                data-category="{{ Str::of($product->productCategory->name)->replace('  ', ' ') }}"
+                data-category="{{ str($product->productCategory->name)->replace('  ', ' ') }}"
             >
                 {{ $product->name }}
 
@@ -40,7 +40,7 @@
     id="original-select"
     class="is-hidden"
     onchange="getProductSelected(this.id, this.value)"
-    {{ $tags ? Str::of('data-tags=')->append($tags) : '' }}
+    {{ $tags ? str('data-tags=')->append($tags) : '' }}
 >
     <option
         data-code=""
@@ -50,7 +50,7 @@
         <option
             value="{{ $product->id }}"
             data-code="{{ $product->code ?? '' }}"
-            data-category="{{ Str::of($product->productCategory->name)->replace('  ', ' ') }}"
+            data-category="{{ str($product->productCategory->name)->replace('  ', ' ') }}"
         >
             {{ $product->name }}
 

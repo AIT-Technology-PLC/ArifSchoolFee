@@ -93,7 +93,7 @@
                                     </option>
                                     <option value="all"> All </option>
                                     @foreach (['Waiting Approval', 'Approved'] as $status)
-                                        <option value="{{ Str::lower($status) }}"> {{ $status }} </option>
+                                        <option value="{{ str()->lower($status) }}"> {{ $status }} </option>
                                     @endforeach
                                 </x-forms.select>
                             </x-forms.control>

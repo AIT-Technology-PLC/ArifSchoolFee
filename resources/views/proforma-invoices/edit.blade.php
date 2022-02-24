@@ -202,7 +202,7 @@
                             </div>
                             <div
                                 x-data="productDataProvider({{ $proformaInvoiceDetail->product_id ??
-                                    Str::of($proformaInvoiceDetail->custom_product)->append('\'')->prepend('\'') }}, {{ $proformaInvoiceDetail->originalUnitPrice ?? 0.0 }})"
+                                    str($proformaInvoiceDetail->custom_product)->append('\'')->prepend('\'') }}, {{ $proformaInvoiceDetail->originalUnitPrice ?? 0.0 }})"
                                 class="box has-background-white-bis radius-top-0"
                             >
                                 <div

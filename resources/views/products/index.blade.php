@@ -11,7 +11,7 @@
                     <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-th" />
                         <span>
-                            {{ number_format($totalProducts) }} {{ Str::plural('product', $totalProducts) }}
+                            {{ number_format($totalProducts) }} {{ str()->plural('product', $totalProducts) }}
                         </span>
                     </span>
                 </h1>
