@@ -2,6 +2,6 @@
 
 return [
 
-    'limitReached' => 'You have reached the allowed number of :limit as per your package.',
+    'limit_reached' => 'You have reached the allowed number of :limit as per your package.',
 
 ];
