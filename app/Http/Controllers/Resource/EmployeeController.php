@@ -49,7 +49,7 @@ class EmployeeController extends Controller
     public function store(StoreEmployeeRequest $request, CreateUserAction $action)
     {
         if (limitReached('user', Employee::enabled()->count())) {
-            return back()->with('limitReachedMessage', 'You have reached the allowed number of users as per your package.');
+            return back()->with('limitReachedMessage', __('messages.limitReached', ['limit' => 'users']));
         }
 
         $action->execute($request->validated());
@@ -77,6 +77,12 @@ class EmployeeController extends Controller
 
     public function update(UpdateEmployeeRequest $request, Employee $employee, UpdateUserAction $action)
     {
+        if (!$employee->isEnabled() && $request->input('enabled') && limitReached('user', Employee::enabled()->count())) {
+            $action->execute($employee, $request->safe()->except('enabled'));
+
+            return back()->with('limitReachedMessage', __('messages.limitReached', ['limit' => 'users']));
+        }
+
         $action->execute($employee, $request->validated());
 
         return redirect()->route('employees.index');

@@ -31,4 +31,9 @@ class Employee extends Model
     {
         return $query->where('enabled', 0);
     }
+
+    public function isEnabled()
+    {
+        return $this->enabled;
+    }
 }
