@@ -39,9 +39,9 @@ At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) us
 ## Branches
 
 -   main
-    -   Should always be equivalent to version on the production server
-    -   Should not fork be forked
-    -   Should not submit PR to this branch
+    -   This is the branch that runs on the production server
+    -   Should not be forked
+    -   Do not submit PR to this branch
 -   dev
     -   Always use this branch for development and making changes
     -   Could be forked
@@ -69,7 +69,7 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-Go to the root folder (i.e. smartwork), find .env file and set values of the following: DB_DATABASE, DB_USERNAME, and DB_PASSWORD.
+Go to the root folder (i.e. smartwork), find .env file and set the values of the following: DB_DATABASE, DB_USERNAME, and DB_PASSWORD.
 
 ```bash
 php artisan migrate --seed
