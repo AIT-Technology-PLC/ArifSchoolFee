@@ -18,7 +18,7 @@ class StoreCreditSettlementRequest extends FormRequest
             'method' => ['required', 'string'],
             'bank_name' => ['nullable', 'string', 'required_unless:method,Cash', 'exclude_if:method,Cash'],
             'reference_number' => ['nullable', 'string', 'required_unless:method,Cash', 'exclude_if:method,Cash'],
-            'settled_at' => ['required', 'date', 'after_or_equal:' . $this->route('credit')->issued_on->toFormattedDateString()],
+            'settled_at' => ['required', 'date', 'after_or_equal:' . $this->route('credit')->issued_on->toDateString()],
             'description' => ['nullable', 'string'],
         ];
     }
