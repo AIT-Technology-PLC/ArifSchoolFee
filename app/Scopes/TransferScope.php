@@ -24,17 +24,17 @@ class TransferScope implements Scope
                     ->whereIn("{$table}.transferred_from", $this->activeAndAllowedWarehouses())
                     ->orWhereIn("{$table}.transferred_to", $this->activeAndAllowedWarehouses());
             })
-            ->whereNotIn("{$table}.transferred_from", $this->inactiveAndTrashedWarehouses())
-            ->whereNotIn("{$table}.transferred_to", $this->inactiveAndTrashedWarehouses());
+            ->whereNotIn("{$table}.transferred_from", $this->inactiveWarehouses())
+            ->whereNotIn("{$table}.transferred_to", $this->inactiveWarehouses());
     }
 
-    private function inactiveAndTrashedWarehouses()
+    private function inactiveWarehouses()
     {
-        $cacheKey = auth()->id() . '_' . 'inactiveAndTrashedWarehouses';
+        $cacheKey = auth()->id() . '_' . 'inactiveWarehouses';
 
         return Cache::store('array')
             ->rememberForever($cacheKey, function () {
-                return Warehouse::withTrashed()->inactive()->orWhereNotNull('deleted_at')->pluck('id');
+                return Warehouse::inactive()->pluck('id');
             });
     }
 
