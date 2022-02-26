@@ -5,12 +5,13 @@ namespace App\Models;
 use App\Scopes\ActiveWarehouseScope;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Warehouse extends Model
 {
-    use MultiTenancy, SoftDeletes, HasUserstamps;
+    use MultiTenancy, SoftDeletes, HasUserstamps, CascadeSoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -18,6 +19,21 @@ class Warehouse extends Model
         'is_active' => 'boolean',
         'is_sales_store' => 'boolean',
         'can_be_sold_from' => 'boolean',
+    ];
+
+    protected $cascadeDeletes = [
+        'merchandises',
+        'gdnDetails',
+        'grnDetails',
+        'sivDetails',
+        'damageDetails',
+        'adjustmentDetails',
+        'returnDetails',
+        'reservationDetails',
+        'originalUsers',
+        'fromTransfers',
+        'toTransfers',
+        'credits',
     ];
 
     public static function booted()
@@ -77,12 +93,12 @@ class Warehouse extends Model
 
     public function fromTransfers()
     {
-        return $this->hasMany(Warehouse::class, 'transferred_from');
+        return $this->hasMany(Transfer::class, 'transferred_from');
     }
 
     public function toTransfers()
     {
-        return $this->hasMany(Warehouse::class, 'transferred_to');
+        return $this->hasMany(Transfer::class, 'transferred_to');
     }
 
     public function credits()

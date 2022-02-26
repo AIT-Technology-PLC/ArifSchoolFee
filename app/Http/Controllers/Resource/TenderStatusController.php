@@ -55,7 +55,7 @@ class TenderStatusController extends Controller
 
     public function destroy(TenderStatus $tenderStatus)
     {
-        $tenderStatus->forceDelete();
+        $tenderStatus->delete();
 
         return back()->with('deleted', 'Deleted successfully.');
     }

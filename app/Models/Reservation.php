@@ -27,17 +27,17 @@ class Reservation extends Model
 
     public function reservedBy()
     {
-        return $this->belongsTo(User::class, 'reserved_by');
+        return $this->belongsTo(User::class, 'reserved_by')->withDefault(['name' => 'N/A']);
     }
 
     public function cancelledBy()
     {
-        return $this->belongsTo(User::class, 'cancelled_by');
+        return $this->belongsTo(User::class, 'cancelled_by')->withDefault(['name' => 'N/A']);
     }
 
     public function convertedBy()
     {
-        return $this->belongsTo(User::class, 'converted_by');
+        return $this->belongsTo(User::class, 'converted_by')->withDefault(['name' => 'N/A']);
     }
 
     public function customer()

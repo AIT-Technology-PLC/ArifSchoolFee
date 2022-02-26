@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\ActiveWarehouseScope;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes, HasRoles;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles, CascadeSoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'last_online_at'];
 
@@ -24,6 +25,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'last_online_at' => 'datetime',
     ];
+
+    protected $cascadeDeletes = ['employee'];
 
     public function employee()
     {

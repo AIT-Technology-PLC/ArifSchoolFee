@@ -23,7 +23,7 @@ class TenderChecklistTypeDatatable extends DataTable
             ->editColumn('edited by', fn($tenderChecklistType) => $tenderChecklistType->updatedBy->name)
             ->editColumn('actions', function ($tenderChecklistType) {
                 return view('components.common.action-buttons', [
-                    'model' => 'tender-statuses',
+                    'model' => 'tender-checklist-types',
                     'id' => $tenderChecklistType->id,
                     'buttons' => ['edit', 'delete'],
                 ]);

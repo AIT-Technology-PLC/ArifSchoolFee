@@ -39,7 +39,7 @@ class Purchase extends Model
 
     public function purchasedBy()
     {
-        return $this->belongsTo(User::class, 'purchased_by');
+        return $this->belongsTo(User::class, 'purchased_by')->withDefault(['name' => 'N/A']);
     }
 
     public function scopePurchased($query)

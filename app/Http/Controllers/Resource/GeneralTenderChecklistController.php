@@ -60,7 +60,7 @@ class GeneralTenderChecklistController extends Controller
 
     public function destroy(GeneralTenderChecklist $generalTenderChecklist)
     {
-        $generalTenderChecklist->forceDelete();
+        $generalTenderChecklist->delete();
 
         return back()->with('deleted', 'Deleted successfully.');
     }

@@ -6,7 +6,7 @@ trait Addable
 {
     public function addedBy()
     {
-        return $this->belongsTo(User::class, 'added_by');
+        return $this->belongsTo(User::class, 'added_by')->withDefault(['name' => 'N/A']);
     }
 
     public function add()

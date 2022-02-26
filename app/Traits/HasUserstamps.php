@@ -24,11 +24,11 @@ trait HasUserstamps
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class, 'created_by')->withDefault(['name' => 'N/A']);
     }
 
     public function updatedBy()
     {
-        return $this->belongsTo(User::class, 'updated_by');
+        return $this->belongsTo(User::class, 'updated_by')->withDefault(['name' => 'N/A']);
     }
 }

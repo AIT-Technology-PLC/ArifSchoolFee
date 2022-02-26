@@ -31,7 +31,7 @@ class ProformaInvoice extends Model
 
     public function convertedBy()
     {
-        return $this->belongsTo(User::class, 'converted_by');
+        return $this->belongsTo(User::class, 'converted_by')->withDefault(['name' => 'N/A']);
     }
 
     public function customer()

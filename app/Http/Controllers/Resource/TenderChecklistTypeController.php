@@ -55,7 +55,7 @@ class TenderChecklistTypeController extends Controller
 
     public function destroy(TenderChecklistType $tenderChecklistType)
     {
-        $tenderChecklistType->forceDelete();
+        $tenderChecklistType->delete();
 
         return back()->with('deleted', 'Deleted successfully.');
     }

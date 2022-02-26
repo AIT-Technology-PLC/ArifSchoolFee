@@ -60,7 +60,7 @@ class ProductCategoryController extends Controller
 
     public function destroy(ProductCategory $category)
     {
-        $category->forceDelete();
+        $category->delete();
 
         return back()->with('deleted', 'Deleted successfully.');
     }

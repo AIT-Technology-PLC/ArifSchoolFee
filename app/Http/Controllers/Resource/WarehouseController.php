@@ -69,7 +69,7 @@ class WarehouseController extends Controller
 
     public function destroy(Warehouse $warehouse)
     {
-        $warehouse->forceDelete();
+        $warehouse->delete();
 
         return back()->with('deleted', 'Deleted successfully.');
     }

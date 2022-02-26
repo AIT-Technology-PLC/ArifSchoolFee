@@ -19,7 +19,7 @@ class AllowOnlyEnabledUsers
         if (
             userCompany()->isEnabled() &&
             auth()->user()->isEnabled() &&
-            (auth()->user()->hasRole('System Manager') || auth()->user()->warehouse->isActive())
+            (auth()->user()->hasRole('System Manager') || auth()->user()->warehouse?->isActive())
         ) {
             return $next($request);
         }

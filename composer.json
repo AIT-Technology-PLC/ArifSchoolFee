@@ -11,6 +11,7 @@
         "php": "^8.0.2",
         "barryvdh/laravel-dompdf": "^1.0.0",
         "doctrine/dbal": "^3.3",
+        "dyrynda/laravel-cascade-soft-deletes": "^4.2",
         "guzzlehttp/guzzle": "^7.2",
         "larabug/larabug": "^2.5",
         "laravel/framework": "^9.0",

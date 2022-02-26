@@ -8,7 +8,7 @@ trait Approvable
 {
     public function approvedBy()
     {
-        return $this->belongsTo(User::class, 'approved_by');
+        return $this->belongsTo(User::class, 'approved_by')->withDefault(['name' => 'N/A']);
     }
 
     public function approve()

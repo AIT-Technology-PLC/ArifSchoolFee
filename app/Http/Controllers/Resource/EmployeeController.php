@@ -90,7 +90,7 @@ class EmployeeController extends Controller
 
     public function destroy(Employee $employee)
     {
-        $employee->user->forceDelete();
+        $employee->user->delete();
 
         return back()->with('deleted', 'Deleted successfully.');
     }

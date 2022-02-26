@@ -6,7 +6,7 @@ trait Subtractable
 {
     public function subtractedBy()
     {
-        return $this->belongsTo(User::class, 'subtracted_by');
+        return $this->belongsTo(User::class, 'subtracted_by')->withDefault(['name' => 'N/A']);
     }
 
     public function subtract()
