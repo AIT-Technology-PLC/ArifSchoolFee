@@ -22,26 +22,26 @@ With its number of modules & features, **Onrica SmartWork** allows businesses to
 
 At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) uses [**Laravel**](https://laravel.com) as a fullstack framework.
 
-| Frontend Tools     | Backend Tools               |
-| ------------------ | --------------------------- |
-| Bulma              | Laravel                     |
-| Font Awesome Icons | Livewire                    |
-| jQuery             | Laravel DomPDF              |
-| AlpineJS           | Doctrine Dbal               |
-| Axios              | Spatie - Laravel Permission |
-| jQuery DataTables  | Yajra - Laravel DataTables  |
-| Summernote Editor  | Laravel Debugbar            |
-| Select2 Dropdown   | LaraBug                     |
-| Sweetalert         | Flysystem Google Drive      |
-| Pace.js            | Spatie - Laravel Backup     |
-| Workbox            |                             |
+| Frontend Tools     | Backend Tools                |
+| ------------------ | ---------------------------- |
+| Bulma              | Laravel                      |
+| Font Awesome Icons | Livewire                     |
+| jQuery             | Laravel DomPDF               |
+| AlpineJS           | Doctrine Dbal                |
+| Axios              | Spatie - Laravel Permission  |
+| jQuery DataTables  | Yajra - Laravel DataTables   |
+| Summernote Editor  | Laravel Debugbar             |
+| Select2 Dropdown   | LaraBug                      |
+| Sweetalert         | Flysystem Google Drive       |
+| Pace.js            | Spatie - Laravel Backup      |
+| Workbox            | laravel-cascade-soft-deletes |
 
 ## Branches
 
 -   main
-    -   Should always be the same branch as the production server
-    -   Do not fork this branch
-    -   Do not submit PR to this branch
+    -   Should always be equivalent to version on the production server
+    -   Should not fork be forked
+    -   Should not submit PR to this branch
 -   dev
     -   Always use this branch for development and making changes
     -   Could be forked
@@ -50,7 +50,7 @@ At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) us
 ## Requirements
 
 -   PHP >= 8.0
--   RAM: >= 2GB
+-   RAM >= 2GB
 -   Composer
 -   MySQL or MariaDB
 -   [PHP extensions required by Laravel](https://laravel.com/docs/9.x/deployment#server-requirements)
@@ -69,7 +69,7 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-Go to the root folder, find .env file and set values of: DB_DATABASE, DB_USERNAME, and DB_PASSWORD.
+Go to the root folder (i.e. smartwork), find .env file and set values of the following: DB_DATABASE, DB_USERNAME, and DB_PASSWORD.
 
 ```bash
 php artisan migrate --seed
