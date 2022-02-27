@@ -33,7 +33,6 @@ class Warehouse extends Model
         'originalUsers',
         'fromTransfers',
         'toTransfers',
-        'credits',
     ];
 
     public static function booted()
@@ -99,11 +98,6 @@ class Warehouse extends Model
     public function toTransfers()
     {
         return $this->hasMany(Transfer::class, 'transferred_to');
-    }
-
-    public function credits()
-    {
-        return $this->hasMany(Credit::class);
     }
 
     public function scopeActive($query)
