@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CoreV1 extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -889,4 +889,4 @@ class CoreV1 extends Migration
         Schema::drop('credits');
         Schema::drop('prices');
     }
-}
+};
