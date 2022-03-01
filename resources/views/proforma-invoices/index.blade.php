@@ -39,7 +39,7 @@
 
     <x-common.content-wrapper>
         <x-content.header title="Proforma Invoices">
-            @can('Create Proforma Invoices')
+            @can('Create Proforma Invoice')
                 <x-common.button
                     tag="a"
                     href="{{ route('proforma-invoices.create') }}"
