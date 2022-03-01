@@ -23,7 +23,7 @@ class UpdateGdnRequest extends FormRequest
             'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('sales')->pluck('id'))],
             'gdn.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
-            'gdn.*.quantity' => ['required', 'numeric', 'min:1'],
+            'gdn.*.quantity' => ['required', 'numeric', 'gt:0'],
             'gdn.*.description' => ['nullable', 'string'],
             'gdn.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],

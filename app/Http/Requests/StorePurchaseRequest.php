@@ -20,7 +20,7 @@ class StorePurchaseRequest extends FormRequest
             'type' => ['required', 'string'],
             'purchase' => ['required', 'array'],
             'purchase.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            'purchase.*.quantity' => ['required', 'numeric'],
+            'purchase.*.quantity' => ['required', 'numeric', 'gt:0'],
             'purchase.*.unit_price' => ['required', 'numeric'],
             'purchase.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],

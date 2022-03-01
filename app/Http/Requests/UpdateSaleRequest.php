@@ -20,7 +20,7 @@ class UpdateSaleRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('sales', $this->route('sale')->id)],
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            'sale.*.quantity' => ['required', 'numeric', 'min:1'],
+            'sale.*.quantity' => ['required', 'numeric', 'gt:0'],
             'sale.*.unit_price' => ['required', 'numeric', new ValidatePrice],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
             'sold_on' => ['required', 'date'],

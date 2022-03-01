@@ -22,7 +22,7 @@ class StoreAdjustmentRequest extends FormRequest
             'adjustment.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('adjustment')->pluck('id'))],
             'adjustment.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'adjustment.*.is_subtract' => ['required', 'integer'],
-            'adjustment.*.quantity' => ['required', 'numeric', 'min:1'],
+            'adjustment.*.quantity' => ['required', 'numeric', 'gt:0'],
             'adjustment.*.reason' => ['required', 'string'],
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],

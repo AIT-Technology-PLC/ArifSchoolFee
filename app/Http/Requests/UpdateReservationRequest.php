@@ -23,7 +23,7 @@ class UpdateReservationRequest extends FormRequest
             'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('sales')->pluck('id'))],
             'reservation.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
-            'reservation.*.quantity' => ['required', 'numeric', 'min:1'],
+            'reservation.*.quantity' => ['required', 'numeric', 'gt:0'],
             'reservation.*.description' => ['nullable', 'string'],
             'reservation.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],

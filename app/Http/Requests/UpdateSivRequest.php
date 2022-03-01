@@ -23,7 +23,7 @@ class UpdateSivRequest extends FormRequest
             'siv' => ['required', 'array'],
             'siv.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'siv.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('siv')->pluck('id'))],
-            'siv.*.quantity' => ['required', 'numeric', 'min:1'],
+            'siv.*.quantity' => ['required', 'numeric', 'gt:0'],
             'siv.*.description' => ['nullable', 'string'],
             'issued_on' => ['required', 'date'],
             'received_by' => ['nullable', 'string'],

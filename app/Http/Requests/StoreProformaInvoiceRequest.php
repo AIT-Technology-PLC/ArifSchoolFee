@@ -25,7 +25,7 @@ class StoreProformaInvoiceRequest extends FormRequest
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'proformaInvoice' => ['required', 'array'],
             'proformaInvoice.*.product_id' => ['required', 'string', new MustBelongToCompany('products')],
-            'proformaInvoice.*.quantity' => ['required', 'numeric', 'min:1'],
+            'proformaInvoice.*.quantity' => ['required', 'numeric', 'gt:0'],
             'proformaInvoice.*.unit_price' => ['required', 'numeric'],
             'proformaInvoice.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'proformaInvoice.*.specification' => ['nullable', 'string'],

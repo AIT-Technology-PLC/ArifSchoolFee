@@ -20,7 +20,7 @@ class StoreTransferRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('transfers')],
             'transfer' => ['required', 'array'],
             'transfer.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            'transfer.*.quantity' => ['required', 'numeric', 'min:1'],
+            'transfer.*.quantity' => ['required', 'numeric', 'gt:0'],
             'transfer.*.description' => ['nullable', 'string'],
             'transferred_from' => ['required', 'integer', new MustBelongToCompany('warehouses')],
             'transferred_to' => ['required', 'integer', 'different:transferred_from', Rule::in(auth()->user()->getAllowedWarehouses('add')->pluck('id'))],

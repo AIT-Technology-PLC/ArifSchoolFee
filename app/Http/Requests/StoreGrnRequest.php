@@ -21,7 +21,7 @@ class StoreGrnRequest extends FormRequest
             'grn' => ['required', 'array'],
             'grn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'grn.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('add')->pluck('id'))],
-            'grn.*.quantity' => ['required', 'numeric', 'min:1'],
+            'grn.*.quantity' => ['required', 'numeric', 'gt:0'],
             'grn.*.description' => ['nullable', 'string'],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'purchase_id' => ['nullable', 'integer', new MustBelongToCompany('purchases')],

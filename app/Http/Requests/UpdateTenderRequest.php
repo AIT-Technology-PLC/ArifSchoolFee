@@ -34,7 +34,7 @@ class UpdateTenderRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'lot' => ['required', 'array'],
             'lot.*.lotDetails.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            'lot.*.lotDetails.*.quantity' => ['required', 'numeric'],
+            'lot.*.lotDetails.*.quantity' => ['required', 'numeric', 'gt:0'],
             'lot.*.lotDetails.*.description' => ['nullable', 'string'],
         ];
     }
