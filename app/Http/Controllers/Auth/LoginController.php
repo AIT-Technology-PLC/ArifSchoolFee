@@ -20,9 +20,10 @@ class LoginController extends Controller
 
     public function authenticated(Request $request, $user)
     {
-        $user->last_online_at = now();
-
-        $user->save();
+        if ($user->isAccessAllowed()) {
+            $user->last_online_at = now();
+            $user->save();
+        }
     }
 
     public function loggedOut()

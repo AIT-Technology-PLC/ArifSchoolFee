@@ -16,11 +16,7 @@ class AllowOnlyEnabledUsers
      */
     public function handle($request, Closure $next)
     {
-        if (
-            userCompany()->isEnabled() &&
-            auth()->user()->isEnabled() &&
-            (auth()->user()->hasRole('System Manager') || auth()->user()->warehouse?->isActive())
-        ) {
+        if (auth()->user()->isAccessAllowed()) {
             return $next($request);
         }
 

@@ -48,6 +48,12 @@ class User extends Authenticatable
         return $this->employee->enabled;
     }
 
+    public function isAccessAllowed()
+    {
+        return $this->employee->company->isEnabled() && $this->isEnabled() &&
+            ($this->hasRole('System Manager') || $this->warehouse?->isActive());
+    }
+
     public function hasWarehousePermission($type, $warehouses)
     {
         if (is_numeric($warehouses) || $warehouses instanceof Warehouse) {
