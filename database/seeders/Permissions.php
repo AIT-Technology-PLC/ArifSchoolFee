@@ -191,6 +191,12 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Update Price']);
             Permission::firstOrCreate(['name' => 'Delete Price']);
 
+            // Pad
+            Permission::firstOrCreate(['name' => 'Create Pad']);
+            Permission::firstOrCreate(['name' => 'Read Pad']);
+            Permission::firstOrCreate(['name' => 'Update Pad']);
+            Permission::firstOrCreate(['name' => 'Delete Pad']);
+
             // Company
             Permission::firstOrCreate(['name' => 'Update Company']);
 

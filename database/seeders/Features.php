@@ -132,6 +132,11 @@ class Features extends Seeder
                 ['is_enabled' => 1]
             );
 
+            Feature::updateOrCreate(
+                ['name' => 'Pad Management'],
+                ['is_enabled' => 1]
+            );
+
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');
 

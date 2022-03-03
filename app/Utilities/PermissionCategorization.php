@@ -85,6 +85,10 @@ class PermissionCategorization
             'label' => 'Tender',
             'feature' => 'Tender Management',
         ],
+        'pad' => [
+            'label' => 'Pad',
+            'feature' => 'Pad Management',
+        ],
         'company' => [
             'label' => 'Company',
             'feature' => 'General Settings',
