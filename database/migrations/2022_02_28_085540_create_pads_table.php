@@ -33,7 +33,6 @@ return new class extends Migration
 
         Schema::create('pad_relations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pad_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('relationship_type'); // e.g. hasmany, belongsto
             $table->string('model_name'); // App/Models/Customer::class
             $table->string('primary_key'); // id
@@ -65,18 +64,17 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['pad_id', 'name']);
+            $table->unique('name');
         });
 
         Schema::create('pad_permissions_users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pad_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('pad_permission_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['pad_id', 'pad_permission_id', 'user_id']);
+            $table->unique(['pad_permission_id', 'user_id']);
         });
     }
 
