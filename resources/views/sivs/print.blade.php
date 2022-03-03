@@ -173,7 +173,7 @@
         </section>
     </main>
 
-    <div style="margin-top: 20%">&nbsp;</div>
+    <div style="margin-top: 26%">&nbsp;</div>
 
     <div
         class="has-background-white-bis"
