@@ -26,7 +26,19 @@ class Pad extends Model
         'padPermissions',
     ];
 
-    public const INVENTORY_OPERATIONS = ['add', 'subtract', 'none'];
+    public const INVENTORY_OPERATIONS = [
+        'add',
+        'subtract',
+        'none',
+    ];
+
+    public const MODULES = [
+        'Warehouse & Inventory',
+        'Sales & Customers',
+        'Tenders',
+        'Purchase & Suppliers',
+        'General Settings',
+    ];
 
     public function padFields()
     {
@@ -36,6 +48,16 @@ class Pad extends Model
     public function padPermissions()
     {
         return $this->hasMany(PadPermission::class);
+    }
+
+    public function scopeEnabled($query)
+    {
+        return $query->where('is_enabled', 1);
+    }
+
+    public function scopeDisabled($query)
+    {
+        return $query->where('is_enabled', 0);
     }
 
     public function isApprovable()

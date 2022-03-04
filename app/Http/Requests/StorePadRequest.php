@@ -17,6 +17,7 @@ class StorePadRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
+            'abbreviation' => ['nullable', 'string'],
             'inventory_operation_type' => ['required', 'string', Rule::in(Pad::INVENTORY_OPERATIONS)],
             'is_approvable' => ['required', 'boolean'],
             'is_closable' => ['required', 'boolean'],
@@ -24,7 +25,7 @@ class StorePadRequest extends FormRequest
             'is_printable' => ['required', 'boolean'],
             'has_prices' => ['required', 'boolean'],
             'is_enabled' => ['required', 'boolean'],
-            'module' => ['required', 'string'],
+            'module' => ['required', 'string', Rule::in(Pad::MODULES)],
 
             'fields.*.pad_relation_id' => ['nullable', 'integer'],
             'fields.*.relationship_type' => ['nullable', 'string', 'required_unless:fields.*.pad_relation_id,null', 'prohibited_if:fields.*.pad_relation_id,null'],
