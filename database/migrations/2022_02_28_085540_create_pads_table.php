@@ -64,7 +64,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique('name');
+            $table->unique(['pad_id', 'name']);
         });
 
         Schema::create('pad_permissions_users', function (Blueprint $table) {

@@ -26,6 +26,8 @@ class Pad extends Model
         'padPermissions',
     ];
 
+    public const INVENTORY_OPERATIONS = ['add', 'subtract', 'none'];
+
     public function padFields()
     {
         return $this->hasMany(PadField::class);
