@@ -88,3 +88,5 @@ Route::resource('credits.credit-settlements', Resource\CreditSettlementControlle
 Route::resource('customers.credits', Resource\CustomerCreditController::class)->only('index');
 
 Route::resource('prices', Resource\PriceController::class)->except('show');
+
+Route::resource('pads', Resource\PadController::class);

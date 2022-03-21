@@ -9,6 +9,8 @@ class PadPermission extends Model
 {
     use SoftDeletes;
 
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
+
     public function pad()
     {
         return $this->belongsTo(Pad::class);

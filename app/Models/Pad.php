@@ -12,6 +12,8 @@ class Pad extends Model
 {
     use MultiTenancy, HasUserstamps, SoftDeletes, CascadeSoftDeletes;
 
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
+
     protected $casts = [
         'is_approvable',
         'is_closable',
@@ -38,6 +40,13 @@ class Pad extends Model
         'Tenders',
         'Purchase & Suppliers',
         'General Settings',
+    ];
+
+    public const RELATIONSHIP_TYPES = [
+        'Belongs To',
+        'Belongs To Many',
+        'Has One',
+        'Has Many',
     ];
 
     public function padFields()
@@ -83,5 +92,10 @@ class Pad extends Model
     public function isEnabled()
     {
         return $this->is_enabled;
+    }
+
+    public function getInventoryOperationType()
+    {
+        return $this->inventory_operation_type;
     }
 }

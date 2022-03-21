@@ -9,6 +9,8 @@ class PadField extends Model
 {
     use SoftDeletes;
 
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
+
     protected $casts = [
         'is_master_field' => 'boolean',
         'is_required' => 'boolean',

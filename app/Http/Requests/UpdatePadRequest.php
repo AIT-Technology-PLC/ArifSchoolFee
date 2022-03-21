@@ -27,21 +27,21 @@ class UpdatePadRequest extends FormRequest
             'is_enabled' => ['required', 'boolean'],
             'module' => ['required', 'string', Rule::in(Pad::MODULES)],
 
-            'fields.*.pad_relation_id' => ['nullable', 'integer'],
-            'fields.*.relationship_type' => ['nullable', 'string', 'required_unless:fields.*.pad_relation_id,null', 'prohibited_if:fields.*.pad_relation_id,null'],
-            'fields.*.model_name' => ['nullable', 'string', 'required_unless:fields.*.pad_relation_id,null', 'prohibited_if:fields.*.pad_relation_id,null'],
-            'fields.*.primary_key' => ['nullable', 'string', 'required_unless:fields.*.pad_relation_id,null', 'prohibited_if:fields.*.pad_relation_id,null'],
+            'field' => ['nullable', 'array'],
 
-            'fields.*.label' => ['required', 'string'],
-            'fields.*.icon' => ['required', 'string'],
-            'fields.*.is_master_field' => ['required', 'boolean'],
-            'fields.*.is_required' => ['required', 'boolean'],
-            'fields.*.is_visible' => ['required', 'boolean'],
-            'fields.*.is_printable' => ['required', 'boolean'],
-            'fields.*.tag' => ['required', 'string'],
-            'fields.*.tag_type' => ['nullable', 'string', 'required_if:fields.*.tag,input', 'prohibited_unless:fields.*.tag,input'],
+            'field.*.is_relational_field' => ['nullable', 'string', 'required_with:field'],
+            'field.*.relationship_type' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0'],
+            'field.*.model_name' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0'],
+            'field.*.primary_key' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0'],
 
-            'permissions.*.name' => ['required', 'string'],
+            'field.*.label' => ['sometimes', 'required', 'string', 'required_with:field'],
+            'field.*.icon' => ['sometimes', 'required', 'string', 'required_with:field'],
+            'field.*.is_master_field' => ['sometimes', 'required', 'boolean', 'required_with:field'],
+            'field.*.is_required' => ['sometimes', 'required', 'boolean', 'required_with:field'],
+            'field.*.is_visible' => ['sometimes', 'required', 'boolean', 'required_with:field'],
+            'field.*.is_printable' => ['sometimes', 'required', 'boolean', 'required_with:field'],
+            'field.*.tag' => ['sometimes', 'required', 'string', 'required_with:field'],
+            'field.*.tag_type' => ['nullable', 'string', 'required_if:field.*.tag,input', 'exclude_unless:field.*.tag,input'],
         ];
     }
 }

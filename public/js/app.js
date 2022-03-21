@@ -628,4 +628,46 @@ document.addEventListener("alpine:init", () => {
             );
         },
     }));
+
+    Alpine.data("padMasterDetailForm", ({ field }) => ({
+        fields: [],
+        errors: {},
+
+        init() {
+            if (field) {
+                this.fields = field;
+                return;
+            }
+        },
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        add() {
+            this.fields.push({
+                relationship_typ: "",
+                model_name: "",
+                primary_key: "",
+                label: "",
+                icon: "",
+                is_relational_field: "0",
+                is_master_field: "0",
+                is_required: "0",
+                is_visible: "0",
+                is_printable: "0",
+                tag: "",
+                tag_type: "",
+            });
+
+            console.log(this.fields);
+        },
+        remove(index) {
+            this.fields.splice(index, 1);
+        },
+        isFieldRelational(fieldType) {
+            return fieldType === "1";
+        },
+        isTagInput(tagName) {
+            return tagName.toLowerCase() === "input";
+        },
+    }));
 });
