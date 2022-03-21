@@ -47,9 +47,9 @@ class PadController extends Controller
         return redirect()->route('pads.show', $pad);
     }
 
-    public function show($id)
+    public function show(Pad $pad)
     {
-        //
+        return view('pads.show', compact('pad'));
     }
 
     public function edit($id)

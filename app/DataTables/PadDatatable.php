@@ -15,6 +15,12 @@ class PadDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->setRowClass('is-clickable')
+            ->setRowAttr([
+                'data-url' => fn($pad) => route('pads.show', $pad->id),
+                'x-data' => 'showRowDetails',
+                '@click' => 'showDetails',
+            ])
             ->editColumn('status', fn($pad) => view('components.datatables.pad-status', compact('pad')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
