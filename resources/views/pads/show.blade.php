@@ -95,6 +95,33 @@
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
+            {{ $dataTable->table() }}
+        </x-content.footer>
+    </x-common.content-wrapper>
+
+    <x-common.content-wrapper class="mt-5">
+        <x-content.header title="Permissions" />
+        <x-content.footer>
+            <x-common.bulma-table>
+                <x-slot name="headings">
+                    <th> # </th>
+                    <th class="has-text-centered"> Name </th>
+                </x-slot>
+                <x-slot name="body">
+                    @foreach ($pad->padPermissions as $padPermission)
+                        <tr>
+                            <td> {{ $loop->index + 1 }} </td>
+                            <td class="is-capitalized has-text-centered">
+                                {{ $padPermission->name }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </x-slot>
+            </x-common.bulma-table>
         </x-content.footer>
     </x-common.content-wrapper>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\DataTables\PadDatatable;
+use App\DataTables\PadFieldDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePadRequest;
 use App\Models\Pad;
@@ -47,9 +48,13 @@ class PadController extends Controller
         return redirect()->route('pads.show', $pad);
     }
 
-    public function show(Pad $pad)
+    public function show(Pad $pad, PadFieldDatatable $datatable)
     {
-        return view('pads.show', compact('pad'));
+        $datatable->builder()->setTableId('pad-fields-datatable');
+
+        $pad->load(['padPermissions']);
+
+        return $datatable->render('pads.show', compact('pad'));
     }
 
     public function edit($id)
