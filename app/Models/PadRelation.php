@@ -9,12 +9,14 @@ class PadRelation extends Model
 {
     use SoftDeletes;
 
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
+
     protected $cascadeDeletes = [
-        'padFields',
+        'padField',
     ];
 
-    public function padFields()
+    public function padField()
     {
-        return $this->hasMany(PadField::class);
+        return $this->hasOne(PadField::class);
     }
 }

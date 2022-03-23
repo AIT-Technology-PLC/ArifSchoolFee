@@ -3,6 +3,7 @@
 namespace App\Services\Models;
 
 use App\Models\Pad;
+use App\Models\PadRelation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
@@ -13,7 +14,7 @@ class PadService
         return DB::transaction(function () use ($data) {
             $pad = Pad::create(Arr::except($data, ['field']));
 
-            $pad->padFields()->createMany($data['field']);
+            $this->storePadDetails($pad, $data['field']);
 
             $pad->padPermissions()->createMany($this->generatePermissions($pad));
 
@@ -21,7 +22,23 @@ class PadService
         });
     }
 
-    public function generatePermissions($pad)
+    private function storePadDetails($pad, $fields)
+    {
+        collect($fields)
+            ->each(function ($field) use ($pad) {
+                $padField = $pad->padFields()->create($field);
+
+                if ($field['is_relational_field']) {
+                    $padField->padRelation()->associate(
+                        PadRelation::create(Arr::only($field, ['relationship_type', 'model_name', 'primary_key']))
+                    );
+
+                    $padField->save();
+                }
+            });
+    }
+
+    private function generatePermissions($pad)
     {
         $permissions = [
             ['name' => 'Create ' . $pad->name],

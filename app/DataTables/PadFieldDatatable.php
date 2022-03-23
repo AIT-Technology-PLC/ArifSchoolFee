@@ -38,6 +38,7 @@ class PadFieldDatatable extends DataTable
         return $padField
             ->newQuery()
             ->select('pad_fields.*')
+            ->where('pad_id', request()->route('pad')->id)
             ->with(['padRelation']);
     }
 

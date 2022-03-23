@@ -45,7 +45,7 @@ class PadController extends Controller
     {
         $pad = $this->padService->store($request->validated());
 
-        return redirect()->route('pads.show', $pad);
+        return redirect()->route('pads.show', $pad->id);
     }
 
     public function show(Pad $pad, PadFieldDatatable $datatable)
@@ -57,9 +57,11 @@ class PadController extends Controller
         return $datatable->render('pads.show', compact('pad'));
     }
 
-    public function edit($id)
+    public function edit(Pad $pad)
     {
-        //
+        $pad->load(['padFields']);
+
+        return view('pads.edit', compact('pad'));
     }
 
     public function update(Request $request, $id)
