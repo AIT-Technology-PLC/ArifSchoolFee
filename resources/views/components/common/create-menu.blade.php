@@ -437,7 +437,7 @@
                 </x-content.footer>
             @endcan
 
-            @can('Create Employee')
+            @canany(['Create Pad', 'Create Employee'])
                 <x-content.header>
                     <x-slot name="header">
                         <x-common.icon
@@ -449,6 +449,22 @@
                 </x-content.header>
                 <x-content.footer>
                     <div class="columns is-marginless is-multiline is-mobile">
+                        @can('Create Pad')
+                            @if (isFeatureEnabled('Pad Management'))
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                    <x-common.button
+                                        tag="a"
+                                        mode="button"
+                                        href="{{ route('pads.create') }}"
+                                        icon="fas fa-book"
+                                        class="text-green bg-lightgreen is-borderless"
+                                    />
+                                    <br>
+                                    <span class="is-size-7"> New Pad </span>
+                                </div>
+                            @endif
+                        @endcan
+
                         @can('Create Employee')
                             @if (isFeatureEnabled('User Management'))
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-green">

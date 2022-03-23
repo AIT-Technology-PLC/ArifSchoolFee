@@ -547,7 +547,7 @@
         @endif
     @endcan
 
-    @canany(['Read Employee', 'Update Company'])
+    @canany(['Read Pad', 'Read Employee', 'Update Company'])
         <ul
             x-data="sideMenuAccordion"
             class="menu-list mb-2"
@@ -580,6 +580,19 @@
                     x-show="isAccordionOpen"
                     x-collapse
                 >
+                    @if (isFeatureEnabled('Pad Management'))
+                        @can('Read Pad')
+                            <li>
+                                <x-common.button
+                                    tag="a"
+                                    href="{{ route('pads.index') }}"
+                                    label="Pads"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.index') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('pads.index') ? 'activateAccordion' : '' }}"
+                                />
+                            </li>
+                        @endcan
+                    @endif
                     @if (isFeatureEnabled('User Management'))
                         @can('Read Employee')
                             <li>

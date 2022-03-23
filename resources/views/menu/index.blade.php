@@ -525,7 +525,7 @@
             </section>
         @endcan
 
-        @canany(['Read Employee', 'Update Company'])
+        @canany(['Read Pad', 'Read Employee', 'Update Company'])
             <section>
                 <x-content.header>
                     <x-slot name="header">
@@ -539,6 +539,25 @@
                 </x-content.header>
                 <x-content.footer>
                     <div class="columns is-marginless is-multiline is-mobile">
+                        @can('Read Pad')
+                            @if (isFeatureEnabled('Pad Management'))
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('pads.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-book"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Pads
+                                    </span>
+                                </div>
+                            @endif
+                        @endcan
+
                         @can('Read Employee')
                             @if (isFeatureEnabled('User Management'))
                                 <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
