@@ -587,8 +587,8 @@
                                     tag="a"
                                     href="{{ route('pads.index') }}"
                                     label="Pads"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.index') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->routeIs('pads.index') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('pads.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
