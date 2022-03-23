@@ -6,9 +6,9 @@ use App\DataTables\PadDatatable;
 use App\DataTables\PadFieldDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePadRequest;
+use App\Http\Requests\UpdatePadRequest;
 use App\Models\Pad;
 use App\Services\Models\PadService;
-use Illuminate\Http\Request;
 
 class PadController extends Controller
 {
@@ -64,9 +64,11 @@ class PadController extends Controller
         return view('pads.edit', compact('pad'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdatePadRequest $request, Pad $pad)
     {
-        //
+        $pad = $this->padService->update($pad, $request->validated());
+
+        return redirect()->route('pads.show', $pad->id);
     }
 
     public function destroy(Pad $pad)
