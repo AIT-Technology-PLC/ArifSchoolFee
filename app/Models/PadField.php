@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PadField extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, CascadeSoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -18,6 +19,10 @@ class PadField extends Model
         'is_printable' => 'boolean',
     ];
 
+    protected $cascadeDeletes = [
+        'padRelation',
+    ];
+
     public function pad()
     {
         return $this->belongsTo(Pad::class);
@@ -25,7 +30,7 @@ class PadField extends Model
 
     public function padRelation()
     {
-        return $this->belongsTo(PadRelation::class);
+        return $this->hasOne(PadRelation::class);
     }
 
     public function isMasterField()

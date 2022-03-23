@@ -59,7 +59,7 @@ class PadController extends Controller
 
     public function edit(Pad $pad)
     {
-        $pad->load(['padFields']);
+        $pad->load(['padFields.padRelation']);
 
         return view('pads.edit', compact('pad'));
     }

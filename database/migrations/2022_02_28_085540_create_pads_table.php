@@ -32,19 +32,9 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('pad_relations', function (Blueprint $table) {
-            $table->id();
-            $table->string('relationship_type'); // e.g. hasmany, belongsto
-            $table->string('model_name'); // App/Models/Customer::class
-            $table->string('primary_key'); // id
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
         Schema::create('pad_fields', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pad_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('pad_relation_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             // for prices there should be quantity, unit price, discount (master = true), discount (master = false)
             $table->string('label');
             $table->string('icon');
@@ -54,6 +44,16 @@ return new class extends Migration
             $table->boolean('is_printable');
             $table->string('tag');
             $table->string('tag_type')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('pad_relations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('pad_field_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->string('relationship_type'); // e.g. hasmany, belongsto
+            $table->string('model_name'); // App/Models/Customer::class
+            $table->string('primary_key'); // id
             $table->timestamps();
             $table->softDeletes();
         });

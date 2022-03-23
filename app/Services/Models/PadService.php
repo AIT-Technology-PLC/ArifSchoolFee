@@ -19,11 +19,7 @@ class PadService
                     $padField = $pad->padFields()->create($field);
 
                     if ($field['is_relational_field']) {
-                        $padField->padRelation()->associate(
-                            PadRelation::create(Arr::only($field, ['relationship_type', 'model_name', 'primary_key']))
-                        );
-
-                        $padField->save();
+                        $padField->padRelation()->create(Arr::only($field, ['relationship_type', 'model_name', 'primary_key']));
                     }
                 });
 

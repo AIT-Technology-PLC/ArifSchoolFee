@@ -11,12 +11,8 @@ class PadRelation extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
-    protected $cascadeDeletes = [
-        'padField',
-    ];
-
     public function padField()
     {
-        return $this->hasOne(PadField::class);
+        return $this->belongsTo(PadField::class);
     }
 }

@@ -316,7 +316,7 @@
                                                     name="field[{{ $loop->index }}][is_relational_field]"
                                                     id="field[{{ $loop->index }}][is_relational_field]"
                                                     value="1"
-                                                    @checked($padField->pad_relation_id)
+                                                    @checked($padField->padRelation)
                                                 />
                                                 Yes
                                             </x-forms.label>
@@ -326,7 +326,7 @@
                                                     name="field[{{ $loop->index }}][is_relational_field]"
                                                     id="field[{{ $loop->index }}][is_relational_field]"
                                                     value="0"
-                                                    @checked(!$padField->pad_relation_id)
+                                                    @checked(!$padField->padRelation)
                                                 />
                                                 No
                                             </x-forms.label>
