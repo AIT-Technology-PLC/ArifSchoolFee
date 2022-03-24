@@ -156,40 +156,42 @@
         </x-content.footer>
     </x-common.content-wrapper>
 
-    <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Goods Received Notes" />
-        <x-content.footer>
-            <x-common.bulma-table>
-                <x-slot name="headings">
-                    <th> # </th>
-                    <th class="has-text-centered"> GRN No </th>
-                    <th> Status </th>
-                    <th> Issued on </th>
-                </x-slot>
-                <x-slot name="body">
-                    @foreach ($purchase->grns as $grn)
-                        <tr>
-                            <td> {{ $loop->index + 1 }} </td>
-                            <td class="is-capitalized has-text-centered">
-                                <a
-                                    class="text-blue has-text-weight-medium"
-                                    href="{{ route('grns.show', $grn->id) }}"
-                                >
-                                    {{ $grn->code }}
-                                </a>
-                            </td>
-                            <td>
-                                @include('components.datatables.grn-status')
-                            </td>
-                            <td class="is-capitalized">
-                                {{ $grn->issued_on->toFormattedDateString() }}
-                            </td>
-                        </tr>
-                    @endforeach
-                </x-slot>
-            </x-common.bulma-table>
-        </x-content.footer>
-    </x-common.content-wrapper>
+    @if (isFeatureEnabled('Grn Management'))
+        <x-common.content-wrapper class="mt-5">
+            <x-content.header title="Goods Received Notes" />
+            <x-content.footer>
+                <x-common.bulma-table>
+                    <x-slot name="headings">
+                        <th> # </th>
+                        <th class="has-text-centered"> GRN No </th>
+                        <th> Status </th>
+                        <th> Issued on </th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($purchase->grns as $grn)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td class="is-capitalized has-text-centered">
+                                    <a
+                                        class="text-blue has-text-weight-medium"
+                                        href="{{ route('grns.show', $grn->id) }}"
+                                    >
+                                        {{ $grn->code }}
+                                    </a>
+                                </td>
+                                <td>
+                                    @include('components.datatables.grn-status')
+                                </td>
+                                <td class="is-capitalized">
+                                    {{ $grn->issued_on->toFormattedDateString() }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.bulma-table>
+            </x-content.footer>
+        </x-common.content-wrapper>
+    @endif
 @endsection
 
 @push('scripts')
