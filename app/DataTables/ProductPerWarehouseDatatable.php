@@ -41,7 +41,7 @@ class ProductPerWarehouseDatatable extends DataTable
             Column::make('type'),
             Column::make('code')->addClass('has-text-centered')->title('Ref No'),
             Column::make('quantity')->addClass('has-text-right'),
-            Column::computed('details'),
+            Column::make('details'),
             Column::make('balance')->addClass('has-text-right'),
         ];
     }

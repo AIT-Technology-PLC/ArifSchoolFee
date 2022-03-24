@@ -219,52 +219,54 @@
             </div>
             <x-common.success-message :message="session('deleted')" />
             {{ $dataTable->table() }}
-            <div class="box has-background-white-bis radius-bottom-0">
-                <h1 class="title is-size-5 text-green has-text-centered">
-                    DO for this sale
-                </h1>
-                <div class="table-container has-background-white-bis">
-                    <table class="table is-hoverable is-fullwidth is-size-7 has-background-white-bis">
-                        <thead>
-                            <tr>
-                                <th><abbr> # </abbr></th>
-                                <th><abbr> DO No </abbr></th>
-                                <th><abbr> Status </abbr></th>
-                                <th><abbr> Issued on </abbr></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($sale->gdns as $gdn)
+            @if (isFeatureEnabled('Gdn Management'))
+                <div class="box has-background-white-bis radius-bottom-0">
+                    <h1 class="title is-size-5 text-green has-text-centered">
+                        DO for this sale
+                    </h1>
+                    <div class="table-container has-background-white-bis">
+                        <table class="table is-hoverable is-fullwidth is-size-7 has-background-white-bis">
+                            <thead>
                                 <tr>
-                                    <td> {{ $loop->index + 1 }} </td>
-                                    <td class="is-capitalized">
-                                        <a
-                                            class="is-underlined"
-                                            href="{{ route('gdns.show', $gdn->id) }}"
-                                        >
-                                            {{ $gdn->code }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        @if ($gdn->isSubtracted())
-                                            <span class="tag is-small bg-purple has-text-white">
-                                                Subtracted from inventory
-                                            </span>
-                                        @else
-                                            <span class="tag is-small bg-blue has-text-white">
-                                                Not subtracted from inventory
-                                            </span>
-                                        @endif
-                                    </td>
-                                    <td class="is-capitalized">
-                                        {{ $gdn->issued_on->toFormattedDateString() }}
-                                    </td>
+                                    <th><abbr> # </abbr></th>
+                                    <th><abbr> DO No </abbr></th>
+                                    <th><abbr> Status </abbr></th>
+                                    <th><abbr> Issued on </abbr></th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($sale->gdns as $gdn)
+                                    <tr>
+                                        <td> {{ $loop->index + 1 }} </td>
+                                        <td class="is-capitalized">
+                                            <a
+                                                class="is-underlined"
+                                                href="{{ route('gdns.show', $gdn->id) }}"
+                                            >
+                                                {{ $gdn->code }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @if ($gdn->isSubtracted())
+                                                <span class="tag is-small bg-purple has-text-white">
+                                                    Subtracted from inventory
+                                                </span>
+                                            @else
+                                                <span class="tag is-small bg-blue has-text-white">
+                                                    Not subtracted from inventory
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td class="is-capitalized">
+                                            {{ $gdn->issued_on->toFormattedDateString() }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </section>
 @endsection
