@@ -112,16 +112,18 @@
                     />
                 @endcan
             @elseif(!$purchase->isClosed())
-                @can('Create GRN')
-                    <x-common.button
-                        tag="a"
-                        icon="fas fa-plus"
-                        label="Issue GRN"
-                        mode="button"
-                        :href="route('purchases.convert_to_grn', $purchase->id)"
-                        class="is-small btn-purple is-outlined"
-                    />
-                @endcan
+                @if (isFeatureEnabled('Grn Management'))
+                    @can('Create GRN')
+                        <x-common.button
+                            tag="a"
+                            icon="fas fa-plus"
+                            label="Issue GRN"
+                            mode="button"
+                            :href="route('purchases.convert_to_grn', $purchase->id)"
+                            class="is-small btn-purple is-outlined"
+                        />
+                    @endcan
+                @endif
                 @can('Close Purchase')
                     <x-common.transaction-button
                         :route="route('purchases.close', $purchase->id)"
