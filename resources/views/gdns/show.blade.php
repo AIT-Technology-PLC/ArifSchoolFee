@@ -409,7 +409,7 @@
             {{ $dataTable->table() }}
         </div>
     </section>
-    @if (isFeatureEnabled('Siv Management'))
+    @if (isFeatureEnabled('Siv Management') && $sivs->count())
         <x-common.content-wrapper class="mt-5">
             <x-content.header title="Store Issue Vouchers" />
             <x-content.footer>
