@@ -9,6 +9,7 @@ use App\Http\Requests\StoreGdnRequest;
 use App\Http\Requests\UpdateGdnRequest;
 use App\Models\Gdn;
 use App\Models\Sale;
+use App\Models\Siv;
 use App\Notifications\GdnPrepared;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
@@ -70,7 +71,9 @@ class GdnController extends Controller
 
         $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'customer', 'sale']);
 
-        return $datatable->render('gdns.show', compact('gdn'));
+        $sivs = Siv::where('purpose', 'DO')->where('ref_num', $gdn->code)->get();
+
+        return $datatable->render('gdns.show', compact('gdn', 'sivs'));
     }
 
     public function edit(Gdn $gdn)

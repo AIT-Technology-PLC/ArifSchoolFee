@@ -257,6 +257,42 @@
             {{ $dataTable->table() }}
         </div>
     </section>
+    @if (isFeatureEnabled('Siv Management'))
+        <x-common.content-wrapper class="mt-5">
+            <x-content.header title="Store Issue Vouchers" />
+            <x-content.footer>
+                <x-common.bulma-table>
+                    <x-slot name="headings">
+                        <th> # </th>
+                        <th class="has-text-centered"> Siv No </th>
+                        <th> Status </th>
+                        <th> Issued on </th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($sivs as $siv)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td class="is-capitalized has-text-centered">
+                                    <a
+                                        class="text-blue has-text-weight-medium"
+                                        href="{{ route('sivs.show', $siv->id) }}"
+                                    >
+                                        {{ $siv->code }}
+                                    </a>
+                                </td>
+                                <td>
+                                    @include('components.datatables.siv-status')
+                                </td>
+                                <td class="is-capitalized">
+                                    {{ $siv->issued_on->toFormattedDateString() }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.bulma-table>
+            </x-content.footer>
+        </x-common.content-wrapper>
+    @endif
 @endsection
 
 @push('scripts')
