@@ -59,6 +59,11 @@ class Pad extends Model
         return $this->hasMany(PadPermission::class);
     }
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('is_enabled', 1);
