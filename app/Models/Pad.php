@@ -103,4 +103,19 @@ class Pad extends Model
     {
         return $this->inventory_operation_type;
     }
+
+    public function isInventoryOperationAdd()
+    {
+        return $this->inventory_operation_type == 'add';
+    }
+
+    public function isInventoryOperationSubtract()
+    {
+        return $this->inventory_operation_type == 'subtract';
+    }
+
+    public function isInventoryOperationNone()
+    {
+        return $this->inventory_operation_type == 'none';
+    }
 }

@@ -26,7 +26,9 @@ class TransactionController extends Controller
 
         $transactions = Transaction::where('pad_id', $pad->id)->get();
 
-        if ($pad->getInventoryOperationType() == 'add') {
+        $data = [];
+
+        if ($pad->isInventoryOperationAdd()) {
             $data['totalAdded'] = Transaction::query()
                 ->where('pad_id', $pad->id)
                 ->whereRelation('transactionFields', 'key', '=', 'added_by')
@@ -44,7 +46,7 @@ class TransactionController extends Controller
                 ->count();
         }
 
-        if ($pad->getInventoryOperationType() == 'subtract') {
+        if ($pad->isInventoryOperationSubtract()) {
             $data['totalSubtracted'] = Transaction::query()
                 ->where('pad_id', $pad->id)
                 ->whereRelation('transactionFields', 'key', '=', 'subtracted_by')

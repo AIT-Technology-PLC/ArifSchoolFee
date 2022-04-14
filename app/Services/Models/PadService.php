@@ -77,7 +77,7 @@ class PadService
             $permissions[] = ['name' => 'Cancel'];
         }
 
-        if ($pad->getInventoryOperationType() != 'none') {
+        if (!$pad->isInventoryOperationNone()) {
             $permissions[] = ['name' => ucfirst($pad->getInventoryOperationType())];
         }
 

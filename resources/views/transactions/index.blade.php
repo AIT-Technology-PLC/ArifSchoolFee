@@ -11,7 +11,7 @@
                 icon="{{ $pad->icon ?? 'fas fa-book' }}"
             />
         </div>
-        @if ($pad->getInventoryOperationType() == 'add')
+        @if ($pad->isInventoryOperationAdd())
             <div class="column p-lr-0">
                 <x-common.index-insight
                     :amount="$data['totalAdded']"
@@ -20,7 +20,7 @@
                     label="Added"
                 />
             </div>
-        @elseif ($pad->getInventoryOperationType() == 'subtract')
+        @elseif ($pad->isInventoryOperationSubtract())
             <div class="column p-lr-0">
                 <x-common.index-insight
                     :amount="$data['totalSubtracted']"
