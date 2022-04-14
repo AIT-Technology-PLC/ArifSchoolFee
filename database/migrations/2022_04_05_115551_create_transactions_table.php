@@ -35,6 +35,7 @@ return new class extends Migration
             $table->foreignId('pad_field_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('key')->nullable();
             $table->string('value')->nullable();
+            $table->bigInteger('line')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

@@ -52,4 +52,29 @@ class PadField extends Model
     {
         return $this->is_printable;
     }
+
+    public function isTagInput()
+    {
+        return str($this->tag)->lower() == 'input';
+    }
+
+    public function isTagSelect()
+    {
+        return str($this->tag)->lower() == 'select';
+    }
+
+    public function isTagTextarea()
+    {
+        return str($this->tag)->lower() == 'textarea';
+    }
+
+    public function isInputTypeCheckbox()
+    {
+        return str($this->tag_type)->lower() == 'checkbox';
+    }
+
+    public function isInputTypeRadio()
+    {
+        return str($this->tag_type)->lower() == 'radio';
+    }
 }

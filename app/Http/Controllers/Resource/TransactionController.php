@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Resource;
 
 use App\DataTables\TransactionDatatable;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTransactionRequest;
 use App\Models\Pad;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -83,12 +84,16 @@ class TransactionController extends Controller
         return $datatable->render('transactions.index', compact('pad', 'transactions', 'data'));
     }
 
-    public function create()
+    public function create(Pad $pad)
     {
-        //
+        $pad->load(['padFields']);
+
+        $currentReferenceCode = nextReferenceNumber('transactions');
+
+        return view('transactions.create', compact('pad', 'currentReferenceCode'));
     }
 
-    public function store(Request $request)
+    public function store(Pad $pad, StoreTransactionRequest $request)
     {
         //
     }

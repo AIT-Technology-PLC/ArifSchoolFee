@@ -17,9 +17,8 @@ class UpdateTransactionRequest extends FormRequest
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('transactions')],
             'issued_on' => ['required', 'date'],
-            'transaction' => ['required', 'array'],
-            'transaction.*.pad_field_id' => ['required', 'integer'],
-            'transaction.*.value' => ['required', 'string'],
+            'master' => ['sometimes', 'required', 'array'],
+            'detail' => ['sometimes', 'required', 'array'],
         ];
     }
 }
