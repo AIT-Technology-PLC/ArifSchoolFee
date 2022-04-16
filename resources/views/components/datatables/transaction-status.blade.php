@@ -1,4 +1,4 @@
-@if ($transaction->pad->isCancellable())
+@if ($transaction->pad->isCancellable() && $transaction->isCancelled())
     <span class="tag is-small bg-gold has-text-white">
         <span class="icon">
             <i class="fas fa-times-circle"></i>

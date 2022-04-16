@@ -27,4 +27,29 @@ class Transaction extends Model
     {
         return $this->hasMany(TransactionField::class);
     }
+
+    public function isAdded()
+    {
+        return $this->transactionFields()->where('key', 'added_by')->exists();
+    }
+
+    public function isSubtracted()
+    {
+        return $this->transactionFields()->where('key', 'subtracted_by')->exists();
+    }
+
+    public function isApproved()
+    {
+        return $this->transactionFields()->where('key', 'approved_by')->exists();
+    }
+
+    public function isCancelled()
+    {
+        return $this->transactionFields()->where('key', 'cancelled_by')->exists();
+    }
+
+    public function isClosed()
+    {
+        return $this->transactionFields()->where('key', 'closed_by')->exists();
+    }
 }
