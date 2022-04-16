@@ -118,4 +118,9 @@ class Pad extends Model
     {
         return $this->inventory_operation_type == 'none';
     }
+
+    public function hasStatus()
+    {
+        return $this->isInventoryOperationNone() || $this->isApprovable() || $this->isCancellable();
+    }
 }
