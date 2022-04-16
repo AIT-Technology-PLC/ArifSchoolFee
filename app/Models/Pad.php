@@ -121,6 +121,6 @@ class Pad extends Model
 
     public function hasStatus()
     {
-        return $this->isInventoryOperationNone() || $this->isApprovable() || $this->isCancellable();
+        return !$this->isInventoryOperationNone() || $this->isApprovable() || $this->isCancellable();
     }
 }

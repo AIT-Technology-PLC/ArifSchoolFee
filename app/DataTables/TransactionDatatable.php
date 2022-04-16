@@ -6,6 +6,7 @@ use App\Models\PadField;
 use App\Models\Transaction;
 use App\Models\TransactionField;
 use App\Traits\DataTableHtmlBuilder;
+use Illuminate\Support\Arr;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -71,7 +72,7 @@ class TransactionDatatable extends DataTable
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Reference No'),
-            Column::make('status')->orderable(false),
+            request()->route('pad')->hasStatus() ? Column::computed('status') : '',
         ];
 
         foreach ($this->padFields as $padField) {
@@ -87,7 +88,7 @@ class TransactionDatatable extends DataTable
 
         array_push($columns, ...$moreColumns);
 
-        return $columns;
+        return Arr::where($columns, fn($column) => $column != null);
     }
 
     protected function filename()
