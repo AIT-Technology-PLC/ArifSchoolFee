@@ -15,12 +15,13 @@ class Pad extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
-        'is_approvable',
-        'is_closable',
-        'is_cancellable',
-        'is_printable',
-        'has_prices',
-        'is_enabled',
+        'is_approvable' => 'boolean',
+        'is_closable' => 'boolean',
+        'is_cancellable' => 'boolean',
+        'is_printable' => 'boolean',
+        'has_prices' => 'boolean',
+        'has_payment_term' => 'boolean',
+        'is_enabled' => 'boolean',
     ];
 
     protected $cascadeDeletes = [
@@ -122,5 +123,15 @@ class Pad extends Model
     public function hasStatus()
     {
         return !$this->isInventoryOperationNone() || $this->isApprovable() || $this->isCancellable();
+    }
+
+    public function hasPrices()
+    {
+        return $this->has_prices;
+    }
+
+    public function hasPaymentTerm()
+    {
+        return $this->has_payment_term;
     }
 }

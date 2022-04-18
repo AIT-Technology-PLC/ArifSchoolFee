@@ -3,7 +3,6 @@
 namespace App\Services\Models;
 
 use App\Models\Pad;
-use App\Models\PadRelation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
@@ -24,6 +23,10 @@ class PadService
                 });
 
             $pad->padPermissions()->createMany($this->generatePermissions($pad));
+
+            $pad->padFields()->createMany($this->generatePaymentTermFields($pad));
+
+            $pad->padFields()->createMany($this->generatePriceFields($pad));
 
             return $pad;
         });
@@ -82,5 +85,75 @@ class PadService
         }
 
         return $permissions;
+    }
+
+    private function generatePriceFields($pad)
+    {
+        if (!$pad->hasPrices()) {
+            return [];
+        }
+
+        return [
+            [
+                'label' => 'Unit Price',
+                'icon' => 'fas fa-dollar-sign',
+                'is_master_field' => 0,
+                'is_required' => 1,
+                'is_visible' => 1,
+                'is_printable' => 1,
+                'tag' => 'input',
+                'tag_type' => 'number',
+            ],
+            [
+                'label' => 'Quantity',
+                'icon' => 'fas fa-balance-scale',
+                'is_master_field' => 0,
+                'is_required' => 1,
+                'is_visible' => 1,
+                'is_printable' => 1,
+                'tag' => 'input',
+                'tag_type' => 'number',
+            ],
+        ];
+    }
+
+    private function generatePaymentTermFields($pad)
+    {
+        if (!$pad->hasPaymentTerm()) {
+            return;
+        }
+
+        return [
+            [
+                'label' => 'Payment Method',
+                'icon' => 'fas fa-credit-card',
+                'is_master_field' => 1,
+                'is_required' => 1,
+                'is_visible' => 1,
+                'is_printable' => 1,
+                'tag' => 'select',
+                'tag_type' => '',
+            ],
+            [
+                'label' => 'Cash Received',
+                'icon' => 'fas fa-dollar-bill',
+                'is_master_field' => 1,
+                'is_required' => 1,
+                'is_visible' => 1,
+                'is_printable' => 1,
+                'tag' => 'input',
+                'tag_type' => 'number',
+            ],
+            [
+                'label' => 'Credit Due Date',
+                'icon' => 'fas fa-calendar',
+                'is_master_field' => 1,
+                'is_required' => 1,
+                'is_visible' => 1,
+                'is_printable' => 1,
+                'tag' => 'input',
+                'tag_type' => 'date',
+            ],
+        ];
     }
 }
