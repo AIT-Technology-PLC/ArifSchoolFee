@@ -69,7 +69,7 @@
                                     @foreach (App\Models\Pad::INVENTORY_OPERATIONS as $operation)
                                         <option
                                             value="{{ $operation }}"
-                                            @selected(old('inventory_operation_type')==$operation)
+                                            @selected(old('inventory_operation_type') == $operation)
                                         >
                                             {{ str()->ucfirst($operation) }}
                                         </option>
@@ -97,7 +97,7 @@
                                     @foreach (App\Models\Pad::MODULES as $module)
                                         <option
                                             value="{{ $module }}"
-                                            @selected(old('module')==$module)
+                                            @selected(old('module') == $module)
                                         >
                                             {{ $module }}
                                         </option>
@@ -123,7 +123,7 @@
                                         name="is_approvable"
                                         id="is_approvable"
                                         value="1"
-                                        @checked(old('is_approvable')==1)
+                                        @checked(old('is_approvable') == 1)
                                     />
                                     Yes
                                 </x-forms.label>
@@ -133,7 +133,7 @@
                                         name="is_approvable"
                                         id="is_approvable"
                                         value="0"
-                                        @checked(old('is_approvable')==0)
+                                        @checked(old('is_approvable') == 0)
                                     />
                                     No
                                 </x-forms.label>
@@ -153,7 +153,7 @@
                                         name="is_closable"
                                         id="is_closable"
                                         value="1"
-                                        @checked(old('is_closable')==1)
+                                        @checked(old('is_closable') == 1)
                                     />
                                     Yes
                                 </x-forms.label>
@@ -163,7 +163,7 @@
                                         name="is_closable"
                                         id="is_closable"
                                         value="0"
-                                        @checked(old('is_closable')==0)
+                                        @checked(old('is_closable') == 0)
                                     />
                                     No
                                 </x-forms.label>
@@ -183,7 +183,7 @@
                                         name="is_cancellable"
                                         id="is_cancellable"
                                         value="1"
-                                        @checked(old('is_cancellable')==1)
+                                        @checked(old('is_cancellable') == 1)
                                     />
                                     Yes
                                 </x-forms.label>
@@ -193,7 +193,7 @@
                                         name="is_cancellable"
                                         id="is_cancellable"
                                         value="0"
-                                        @checked(old('is_cancellable')==0)
+                                        @checked(old('is_cancellable') == 0)
                                     />
                                     No
                                 </x-forms.label>
@@ -213,7 +213,7 @@
                                         name="is_printable"
                                         id="is_printable"
                                         value="1"
-                                        @checked(old('is_printable')==1)
+                                        @checked(old('is_printable') == 1)
                                     />
                                     Yes
                                 </x-forms.label>
@@ -223,7 +223,7 @@
                                         name="is_printable"
                                         id="is_printable"
                                         value="0"
-                                        @checked(old('is_printable')==0)
+                                        @checked(old('is_printable') == 0)
                                     />
                                     No
                                 </x-forms.label>
@@ -243,7 +243,7 @@
                                         name="has_prices"
                                         id="has_prices"
                                         value="1"
-                                        @checked(old('has_prices')==1)
+                                        @checked(old('has_prices') == 1)
                                     />
                                     Yes
                                 </x-forms.label>
@@ -253,11 +253,41 @@
                                         name="has_prices"
                                         id="has_prices"
                                         value="0"
-                                        @checked(old('has_prices')==0)
+                                        @checked(old('has_prices') == 0)
                                     />
                                     No
                                 </x-forms.label>
                                 <x-common.validation-error property="has_prices" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-4">
+                        <x-forms.field>
+                            <x-forms.label>
+                                Payment Terms <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.label class="radio is-inline">
+                                    <input
+                                        type="radio"
+                                        name="has_payment_term"
+                                        id="has_payment_term"
+                                        value="1"
+                                        @checked(old('has_payment_term') == 1)
+                                    />
+                                    Yes
+                                </x-forms.label>
+                                <x-forms.label class="radio is-inline">
+                                    <input
+                                        type="radio"
+                                        name="has_payment_term"
+                                        id="has_payment_term"
+                                        value="0"
+                                        @checked(old('has_payment_term') == 0)
+                                    />
+                                    No
+                                </x-forms.label>
+                                <x-common.validation-error property="has_payment_term" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
@@ -273,7 +303,7 @@
                                         name="is_enabled"
                                         id="is_enabled"
                                         value="1"
-                                        @checked(old('is_enabled')==1)
+                                        @checked(old('is_enabled') == 1)
                                     />
                                     Yes
                                 </x-forms.label>
@@ -283,7 +313,7 @@
                                         name="is_enabled"
                                         id="is_enabled"
                                         value="0"
-                                        @checked(old('is_enabled')==0)
+                                        @checked(old('is_enabled') == 0)
                                     />
                                     No
                                 </x-forms.label>

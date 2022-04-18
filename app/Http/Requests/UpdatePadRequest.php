@@ -24,6 +24,7 @@ class UpdatePadRequest extends FormRequest
             'is_cancellable' => ['required', 'boolean'],
             'is_printable' => ['required', 'boolean'],
             'has_prices' => ['required', 'boolean'],
+            'has_payment_term' => ['required', 'boolean'],
             'is_enabled' => ['required', 'boolean'],
             'module' => ['required', 'string', Rule::in(Pad::MODULES)],
 

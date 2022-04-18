@@ -26,6 +26,7 @@ return new class extends Migration
             $table->boolean('is_cancellable');
             $table->boolean('is_printable');
             $table->boolean('has_prices');
+            $table->boolean('has_payment_term');
             $table->boolean('is_enabled');
             $table->string('module');
             $table->timestamps();
