@@ -89,8 +89,8 @@ return new class extends Migration
     {
         Schema::drop('pad_permissions_users');
         Schema::drop('pad_permissions');
-        Schema::drop('pad_fields');
         Schema::drop('pad_relations');
+        Schema::drop('pad_fields');
         Schema::drop('pads');
     }
 };
