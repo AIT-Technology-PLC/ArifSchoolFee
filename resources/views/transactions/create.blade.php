@@ -101,6 +101,9 @@
                         </div>
                     @endforeach
                 </div>
+                @if ($pad->hasDetailPadFields())
+                    <livewire:transaction-detail-form :pad-id="$pad->id" />
+                @endif
             </x-content.main>
             <x-content.footer>
                 <x-common.save-button />

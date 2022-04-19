@@ -77,4 +77,9 @@ class PadField extends Model
     {
         return str($this->tag_type)->lower() == 'radio';
     }
+
+    public function hasRelation()
+    {
+        return $this->padRelation()->exists();
+    }
 }

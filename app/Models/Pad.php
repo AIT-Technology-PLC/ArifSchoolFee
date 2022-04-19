@@ -134,4 +134,9 @@ class Pad extends Model
     {
         return $this->has_payment_term;
     }
+
+    public function hasDetailPadFields()
+    {
+        return $this->padFields()->where('is_master_field', 0)->exists();
+    }
 }

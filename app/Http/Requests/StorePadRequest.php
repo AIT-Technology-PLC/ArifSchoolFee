@@ -28,7 +28,7 @@ class StorePadRequest extends FormRequest
             'is_enabled' => ['required', 'boolean'],
             'module' => ['required', 'string', Rule::in(Pad::MODULES)],
 
-            'field' => ['nullable', 'array'],
+            'field' => ['required', 'array'],
 
             'field.*.is_relational_field' => ['sometimes', 'required', 'boolean', 'required_with:field'],
             'field.*.relationship_type' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0'],

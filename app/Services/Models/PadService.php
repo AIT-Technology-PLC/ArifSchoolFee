@@ -130,7 +130,7 @@ class PadService
     private function generatePaymentTermFields($pad)
     {
         if (!$pad->hasPaymentTerm()) {
-            return;
+            return [];
         }
 
         return [
@@ -143,7 +143,7 @@ class PadService
                 'is_printable' => 1,
                 'tag' => 'input',
                 'tag_type' => 'number',
-            ],,
+            ],
             [
                 'label' => 'Payment Method',
                 'icon' => 'fas fa-credit-card',
