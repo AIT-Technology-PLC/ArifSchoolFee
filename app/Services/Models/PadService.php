@@ -114,6 +114,16 @@ class PadService
                 'tag' => 'input',
                 'tag_type' => 'number',
             ],
+            [
+                'label' => 'Discount',
+                'icon' => 'fas fa-percent',
+                'is_master_field' => 0,
+                'is_required' => 1,
+                'is_visible' => 1,
+                'is_printable' => 1,
+                'tag' => 'input',
+                'tag_type' => 'number',
+            ],
         ];
     }
 
@@ -124,6 +134,16 @@ class PadService
         }
 
         return [
+            [
+                'label' => 'Discount',
+                'icon' => 'fas fa-percent',
+                'is_master_field' => 1,
+                'is_required' => 1,
+                'is_visible' => 1,
+                'is_printable' => 1,
+                'tag' => 'input',
+                'tag_type' => 'number',
+            ],,
             [
                 'label' => 'Payment Method',
                 'icon' => 'fas fa-credit-card',
