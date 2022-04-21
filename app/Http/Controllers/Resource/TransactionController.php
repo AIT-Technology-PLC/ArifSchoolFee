@@ -64,7 +64,7 @@ class TransactionController extends Controller
                 ->count();
         }
 
-        if ($pad->isApprovable()) {
+        if ($pad->isApprovable() && $pad->isInventoryOperationNone()) {
             $data['totalApproved'] = Transaction::query()
                 ->where('pad_id', $pad->id)
                 ->whereRelation('transactionFields', 'key', '=', 'approved_by')

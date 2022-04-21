@@ -193,6 +193,21 @@
                             </li>
                         @endcan
                     @endif
+                    @foreach (pads('Warehouse & Inventory') as $pad)
+                        @if ($pad->isEnabled())
+                            {{-- @can('') --}}
+                            <li>
+                                <x-common.button
+                                    tag="a"
+                                    href="{{ route('pads.transactions.index', $pad->id) }}"
+                                    label="{{ $pad->name }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'text-green has-text-weight-bold': '' }}"
+                                    x-init="{{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'activateAccordion': '' }}"
+                                />
+                            </li>
+                            {{-- @endcan --}}
+                        @endif
+                    @endforeach
                 </ul>
             </li>
         </ul>
@@ -335,6 +350,21 @@
                             </li>
                         @endcan
                     @endif
+                    @foreach (pads('Sales & Customers') as $pad)
+                        @if ($pad->isEnabled())
+                            {{-- @can('') --}}
+                            <li>
+                                <x-common.button
+                                    tag="a"
+                                    href="{{ route('pads.transactions.index', $pad->id) }}"
+                                    label="{{ $pad->name }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'text-green has-text-weight-bold': '' }}"
+                                    x-init="{{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'activateAccordion': '' }}"
+                                />
+                            </li>
+                            {{-- @endcan --}}
+                        @endif
+                    @endforeach
                 </ul>
             </li>
         </ul>
@@ -484,6 +514,21 @@
                             </li>
                         @endcan
                     @endif
+                    @foreach (pads('Purchases & Suppliers') as $pad)
+                        @if ($pad->isEnabled())
+                            {{-- @can('') --}}
+                            <li>
+                                <x-common.button
+                                    tag="a"
+                                    href="{{ route('pads.transactions.index', $pad->id) }}"
+                                    label="{{ $pad->name }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'text-green has-text-weight-bold': '' }}"
+                                    x-init="{{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'activateAccordion': '' }}"
+                                />
+                            </li>
+                            {{-- @endcan --}}
+                        @endif
+                    @endforeach
                 </ul>
             </li>
         </ul>
@@ -587,8 +632,8 @@
                                     tag="a"
                                     href="{{ route('pads.index') }}"
                                     label="Pads"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->routeIs('pads.*') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.*') && !request()->routeIs('pads.transactions.*')? 'text-green has-text-weight-bold': '' }}"
+                                    x-init="{{ request()->routeIs('pads.*') && !request()->routeIs('pads.transactions.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -619,6 +664,21 @@
                             </li>
                         @endcan
                     @endif
+                    @foreach (pads('General Settings') as $pad)
+                        @if ($pad->isEnabled())
+                            {{-- @can('') --}}
+                            <li>
+                                <x-common.button
+                                    tag="a"
+                                    href="{{ route('pads.transactions.index', $pad->id) }}"
+                                    label="{{ $pad->name }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'text-green has-text-weight-bold': '' }}"
+                                    x-init="{{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'activateAccordion': '' }}"
+                                />
+                            </li>
+                            {{-- @endcan --}}
+                        @endif
+                    @endforeach
                 </ul>
             </li>
         </ul>

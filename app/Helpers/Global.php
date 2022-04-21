@@ -2,6 +2,7 @@
 
 use App\Models\Feature;
 use App\Models\Limit;
+use App\Models\Pad;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -53,5 +54,16 @@ if (!function_exists('quantity')) {
     function quantity($amount = 0.00, $unitOfMeasurement = 'Piece')
     {
         return number_format($amount, 2) . ' ' . $unitOfMeasurement;
+    }
+}
+
+if (!function_exists('pads')) {
+    function pads($module)
+    {
+        $pads = Cache::store('array')->rememberForever(auth()->id() . '_' . 'pads', function () use ($module) {
+            return Pad::enabled()->get();
+        });
+
+        return $pads->where('module', $module);
     }
 }
