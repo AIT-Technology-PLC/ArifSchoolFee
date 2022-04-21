@@ -150,6 +150,27 @@
                                 </div>
                             @endif
                         @endcan
+
+                        {{-- @can() --}}
+                        @foreach (pads('Warehouse & Inventory') as $pad)
+                            @if ($pad->isEnabled())
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('pads.transactions.index', $pad->id) }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="{{ $pad->icon ?? 'fas fa-book' }}"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        {{ $pad->abbreviation ?? $pad->name }}
+                                    </span>
+                                </div>
+                            @endif
+                        @endforeach
+                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             </section>
@@ -320,6 +341,27 @@
                                 </div>
                             @endif
                         @endcan
+
+                        {{-- @can() --}}
+                        @foreach (pads('Sales & Customers') as $pad)
+                            @if ($pad->isEnabled())
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('pads.transactions.index', $pad->id) }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="{{ $pad->icon ?? 'fas fa-book' }}"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        {{ $pad->abbreviation ?? $pad->name }}
+                                    </span>
+                                </div>
+                            @endif
+                        @endforeach
+                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             </section>
@@ -469,6 +511,27 @@
                                 </div>
                             @endif
                         @endcan
+
+                        {{-- @can() --}}
+                        @foreach (pads('Purchases & Suppliers') as $pad)
+                            @if ($pad->isEnabled())
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('pads.transactions.index', $pad->id) }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="{{ $pad->icon ?? 'fas fa-book' }}"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        {{ $pad->abbreviation ?? $pad->name }}
+                                    </span>
+                                </div>
+                            @endif
+                        @endforeach
+                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             </section>
@@ -595,6 +658,27 @@
                                 </div>
                             @endif
                         @endcan
+
+                        {{-- @can() --}}
+                        @foreach (pads('General Settings') as $pad)
+                            @if ($pad->isEnabled())
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('pads.transactions.index', $pad->id) }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="{{ $pad->icon ?? 'fas fa-book' }}"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        {{ $pad->abbreviation ?? $pad->name }}
+                                    </span>
+                                </div>
+                            @endif
+                        @endforeach
+                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             </section>

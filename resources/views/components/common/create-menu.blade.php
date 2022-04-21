@@ -124,6 +124,24 @@
                                 </div>
                             @endif
                         @endcan
+
+                        {{-- @can() --}}
+                        @foreach (pads('Warehouse & Inventory') as $pad)
+                            @if ($pad->isEnabled())
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                    <x-common.button
+                                        tag="a"
+                                        mode="button"
+                                        href="{{ route('pads.transactions.create', $pad->id) }}"
+                                        icon="{{ $pad->icon ?? 'fas fa-book' }}"
+                                        class="text-green bg-lightgreen is-borderless"
+                                    />
+                                    <br>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation ?? $pad->name }} </span>
+                                </div>
+                            @endif
+                        @endforeach
+                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             @endcanany
@@ -269,6 +287,24 @@
                                 </div>
                             @endif
                         @endcan
+
+                        {{-- @can() --}}
+                        @foreach (pads('Sales & Customers') as $pad)
+                            @if ($pad->isEnabled())
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                    <x-common.button
+                                        tag="a"
+                                        mode="button"
+                                        href="{{ route('pads.transactions.create', $pad->id) }}"
+                                        icon="{{ $pad->icon ?? 'fas fa-book' }}"
+                                        class="text-green bg-lightgreen is-borderless"
+                                    />
+                                    <br>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation ?? $pad->name }} </span>
+                                </div>
+                            @endif
+                        @endforeach
+                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             @endcanany
@@ -391,6 +427,24 @@
                                 </div>
                             @endif
                         @endcan
+
+                        {{-- @can() --}}
+                        @foreach (pads('Purchases & Suppliers') as $pad)
+                            @if ($pad->isEnabled())
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                    <x-common.button
+                                        tag="a"
+                                        mode="button"
+                                        href="{{ route('pads.transactions.create', $pad->id) }}"
+                                        icon="{{ $pad->icon ?? 'fas fa-book' }}"
+                                        class="text-green bg-lightgreen is-borderless"
+                                    />
+                                    <br>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation ?? $pad->name }} </span>
+                                </div>
+                            @endif
+                        @endforeach
+                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             @endcanany
@@ -480,6 +534,24 @@
                                 </div>
                             @endif
                         @endcan
+
+                        {{-- @can() --}}
+                        @foreach (pads('General Settings') as $pad)
+                            @if ($pad->isEnabled())
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                    <x-common.button
+                                        tag="a"
+                                        mode="button"
+                                        href="{{ route('pads.transactions.create', $pad->id) }}"
+                                        icon="{{ $pad->icon ?? 'fas fa-book' }}"
+                                        class="text-green bg-lightgreen is-borderless"
+                                    />
+                                    <br>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation ?? $pad->name }} </span>
+                                </div>
+                            @endif
+                        @endforeach
+                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             @endcan
