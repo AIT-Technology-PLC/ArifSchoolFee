@@ -208,7 +208,7 @@
                             > Customer <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <x-common.customer-list :selected-customer-id="$tender->customer_id ?? ''" />
+                                    <x-common.customer-list :selected-id="$tender->customer_id ?? ''" />
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-address-card"></i>
@@ -230,7 +230,7 @@
                                     rows="3"
                                     class="textarea pl-6"
                                     placeholder="Price Description"
-                                >{{ $tender->price ?? '' }}</textarea>
+>{{ $tender->price ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-money-bill-wave"></i>
                                 </span>
@@ -259,7 +259,7 @@
                                     rows="3"
                                     class="textarea pl-6"
                                     placeholder="Payment Term"
-                                >{{ $tender->payment_term ?? '' }}</textarea>
+>{{ $tender->payment_term ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-file-invoice-dollar"></i>
                                 </span>
@@ -288,7 +288,7 @@
                                     rows="3"
                                     class="textarea pl-6"
                                     placeholder="Description or note to be taken"
-                                >{{ $tender->description ?? '' }}</textarea>
+>{{ $tender->description ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-edit"></i>
                                 </span>
@@ -599,7 +599,7 @@
                                                             rows="3"
                                                             class="textarea pl-6"
                                                             placeholder="Description or note to be taken"
-                                                        >{{ $tenderLotDetail->description ?? '' }}</textarea>
+>{{ $tenderLotDetail->description ?? '' }}</textarea>
                                                         <span class="icon is-large is-left">
                                                             <i class="fas fa-edit"></i>
                                                         </span>

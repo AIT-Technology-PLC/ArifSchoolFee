@@ -155,7 +155,7 @@
                             > Customer <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <x-common.customer-list :selected-customer-id="old('customer_id') ?? ''" />
+                                    <x-common.customer-list :selected-id="old('customer_id') ?? ''" />
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-address-card"></i>
@@ -177,7 +177,7 @@
                                     rows="3"
                                     class="textarea pl-6"
                                     placeholder="Description or note to be taken"
-                                >{{ old('description') ?? '' }}</textarea>
+>{{ old('description') ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-edit"></i>
                                 </span>

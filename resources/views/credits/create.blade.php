@@ -64,7 +64,7 @@
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <x-common.customer-list :selected-customer-id="old('customer_id') ?? ''" />
+                                    <x-common.customer-list :selected-id="old('customer_id') ?? ''" />
                                 </div>
                                 <x-common.icon
                                     name="fas fa-user"

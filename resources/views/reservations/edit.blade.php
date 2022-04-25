@@ -58,7 +58,7 @@
                             > Customer <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <x-common.customer-list :selected-customer-id="$reservation->customer_id ?? ''" />
+                                    <x-common.customer-list :selected-id="$reservation->customer_id ?? ''" />
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-user"></i>
@@ -138,7 +138,7 @@
                                     rows="3"
                                     class="textarea pl-6"
                                     placeholder="Description or note to be taken"
-                                >{{ $reservation->description ?? '' }}</textarea>
+>{{ $reservation->description ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-edit"></i>
                                 </span>
@@ -502,7 +502,7 @@
                                             rows="3"
                                             class="textarea pl-6"
                                             placeholder="Description or note to be taken"
-                                        >{{ $reservationDetail->description ?? '' }}</textarea>
+>{{ $reservationDetail->description ?? '' }}</textarea>
                                         <span class="icon is-large is-left">
                                             <i class="fas fa-edit"></i>
                                         </span>

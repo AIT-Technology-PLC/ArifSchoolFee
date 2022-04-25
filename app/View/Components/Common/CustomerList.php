@@ -7,13 +7,13 @@ use Illuminate\View\Component;
 
 class CustomerList extends Component
 {
-    public $customers, $selectedCustomerId, $id, $name, $value;
+    public $customers, $selectedId, $id, $name, $value;
 
-    public function __construct($selectedCustomerId, $id = 'customer_id', $name = 'customer_id', $value = 'id')
+    public function __construct($selectedId, $id = 'customer_id', $name = 'customer_id', $value = 'id')
     {
         $this->customers = Customer::orderBy('company_name')->get(['id', 'company_name']);
 
-        $this->selectedCustomerId = $selectedCustomerId;
+        $this->selectedId = $selectedId;
 
         $this->id = $id;
 

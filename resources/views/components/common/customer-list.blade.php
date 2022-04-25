@@ -1,14 +1,14 @@
 <select
     id="{{ $id }}"
     name="{{ $name }}"
-    x-init="$('#{{ $id }}').select2({placeholder: 'Select Customer', allowClear: true})"
+    x-init="$('#{{ $id }}').select2({ placeholder: 'Select Customer', allowClear: true })"
 >
     @foreach ($customers as $customer)
         <option></option>
 
         <option
             value="{{ $customer->$value }}"
-            {{ $selectedCustomerId == $customer->$value ? 'selected' : '' }}
+            {{ $selectedId == $customer->$value ? 'selected' : '' }}
         >
             {{ $customer->company_name }}
         </option>

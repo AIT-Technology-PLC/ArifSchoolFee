@@ -179,7 +179,7 @@
                             > Customer <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <x-common.customer-list :selected-customer-id="old('customer_id') ?? ''" />
+                                    <x-common.customer-list :selected-id="old('customer_id') ?? ''" />
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-address-card"></i>
@@ -201,7 +201,7 @@
                                     rows="3"
                                     class="textarea pl-6"
                                     placeholder="Price Description"
-                                >{{ old('price') ?? '' }}</textarea>
+>{{ old('price') ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-money-bill-wave"></i>
                                 </span>
@@ -230,7 +230,7 @@
                                     rows="3"
                                     class="textarea pl-6"
                                     placeholder="Payment Term"
-                                >{{ old('payment_term') ?? '' }}</textarea>
+>{{ old('payment_term') ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-file-invoice-dollar"></i>
                                 </span>
@@ -259,7 +259,7 @@
                                     rows="3"
                                     class="textarea pl-6"
                                     placeholder="Description or note to be taken"
-                                >{{ old('description') ?? '' }}</textarea>
+>{{ old('description') ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-edit"></i>
                                 </span>
@@ -540,7 +540,8 @@
                                                             <x-common.product-list
                                                                 x-bind:name="`lot[${lotIndex}][lotDetails][${lotDetailIndex}][product_id]`"
                                                                 x-bind:id="`lot[${lotIndex}][lotDetails][${lotDetailIndex}][product_id]`"
-                                                                x-init="select2();select2Tender(lotIndex, lotDetailIndex)"
+                                                                x-init="select2();
+                                                                select2Tender(lotIndex, lotDetailIndex)"
                                                                 x-model="lotDetail.product_id"
                                                             />
                                                             <div class="icon is-small is-left">
@@ -600,7 +601,7 @@
                                                                 class="textarea pl-6"
                                                                 placeholder="Description or note to be taken"
                                                                 x-model="lotDetail.description"
-                                                            ></textarea>
+></textarea>
                                                             <span class="icon is-large is-left">
                                                                 <i class="fas fa-edit"></i>
                                                             </span>

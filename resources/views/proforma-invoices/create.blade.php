@@ -66,7 +66,7 @@
                             > Customer <sup class="has-text-danger"></sup> </label>
                             <div class="control has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <x-common.customer-list :selected-customer-id="old('customer_id') ?? ''" />
+                                    <x-common.customer-list :selected-id="old('customer_id') ?? ''" />
                                 </div>
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-address-card"></i>
@@ -176,7 +176,7 @@
                                     rows="5"
                                     class="summernote textarea"
                                     placeholder="Description or note to be taken"
-                                >{{ old('terms') ?? '' }}</textarea>
+>{{ old('terms') ?? '' }}</textarea>
                                 @error('terms')
                                     <span
                                         class="help has-text-danger"
@@ -375,7 +375,7 @@
                                                     rows="5"
                                                     class="summernote textarea"
                                                     placeholder="Specification about the product"
-                                                >{{ $proformaInvoiceDetail['specification'] ?? '' }}</textarea>
+>{{ $proformaInvoiceDetail['specification'] ?? '' }}</textarea>
                                                 @error('proformaInvoice.' . $loop->index . '.specification')
                                                     <span
                                                         class="help has-text-danger"

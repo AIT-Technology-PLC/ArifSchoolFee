@@ -98,7 +98,7 @@
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <div class="select is-fullwidth">
-                                    <x-common.customer-list :selected-customer-id="$tenderOpportunity->customer_id ?? ''" />
+                                    <x-common.customer-list :selected-id="$tenderOpportunity->customer_id ?? ''" />
                                 </div>
                                 <x-common.icon
                                     name="fas fa-user"
@@ -158,7 +158,7 @@
                                     id="currency"
                                     name="currency"
                                 >
-                                <option
+                                    <option
                                         disabled
                                         selected
                                     >
