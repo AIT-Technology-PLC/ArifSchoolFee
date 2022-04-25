@@ -58,7 +58,29 @@
                     </div>
                     @foreach ($pad->padFields as $padField)
                         <div class="column is-6">
-                            @if ($padField->isMasterField() && $padField->isTagInput() && !$padField->isInputTypeCheckbox() && !$padField->isInputTypeRadio())
+                            @if ($padField->isMasterField() && $padField->hasRelation())
+                                <x-forms.field>
+                                    <x-forms.label
+                                        for="{{ $padField->id }}"
+                                        class="label text-green has-text-weight-normal"
+                                    >
+                                        {{ $padField->label }} <sup class="has-text-danger">{{ $padField->isRequired() ? '*' : '' }}</sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="control has-icons-left">
+                                        <div class="select is-fullwidth">
+                                            <x-dynamic-component
+                                                :component="$padField->component_name"
+                                                :selected-id="old($padField->id)"
+                                                name="master[{{ $padField->id }}]"
+                                                id="{{ $padField->id }}"
+                                            />
+                                        </div>
+                                        <div class="icon is-small is-left">
+                                            <i class="{{ $padField->icon }}"></i>
+                                        </div>
+                                    </x-forms.control>
+                                </x-forms.field>
+                            @elseif ($padField->isMasterField() && $padField->isTagInput() && !$padField->isInputTypeCheckbox() && !$padField->isInputTypeRadio())
                                 <x-forms.field>
                                     <x-forms.label for="{{ $padField->id }}">
                                         {{ $padField->label }} <sup class="has-text-danger">{{ $padField->isRequired() ? '*' : '' }}</sup>
