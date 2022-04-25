@@ -69,7 +69,7 @@
                                     <x-forms.control class="control has-icons-left">
                                         <div class="select is-fullwidth">
                                             <x-dynamic-component
-                                                :component="$padField->component_name"
+                                                :component="$padField->padRelation->component_name"
                                                 :selected-id="old($padField->id)"
                                                 name="master[{{ $padField->id }}]"
                                                 id="{{ $padField->id }}"

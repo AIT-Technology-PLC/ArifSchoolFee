@@ -646,7 +646,7 @@ document.addEventListener("alpine:init", () => {
             this.fields.push({
                 relationship_type: "",
                 model_name: "",
-                primary_key: "",
+                component_name: "",
                 label: "",
                 icon: "",
                 is_relational_field: "0",

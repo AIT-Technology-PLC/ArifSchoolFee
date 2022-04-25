@@ -54,7 +54,7 @@ return new class extends Migration
             $table->foreignId('pad_field_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('relationship_type'); // e.g. hasmany, belongsto
             $table->string('model_name'); // App/Models/Customer::class
-            $table->string('primary_key'); // id
+            $table->string('component_name');
             $table->timestamps();
             $table->softDeletes();
         });

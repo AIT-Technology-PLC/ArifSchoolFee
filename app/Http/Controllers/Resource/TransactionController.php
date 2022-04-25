@@ -88,7 +88,7 @@ class TransactionController extends Controller
 
     public function create(Pad $pad)
     {
-        $pad->load(['padFields']);
+        $pad->load(['padFields.padRelation']);
 
         $currentReferenceCode = nextReferenceNumber('transactions');
 

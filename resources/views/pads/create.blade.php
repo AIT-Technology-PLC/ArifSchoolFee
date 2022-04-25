@@ -450,16 +450,16 @@
                                         x-show="isFieldRelational(field.is_relational_field)"
                                         class="column is-4"
                                     >
-                                        <x-forms.label for="`field[${index}][primary_key]`">
-                                            Primary Key <sup class="has-text-danger">*</sup>
+                                        <x-forms.label for="`field[${index}][component_name]`">
+                                            Component <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
                                         <x-forms.field>
                                             <x-forms.control class="has-icons-left">
                                                 <x-forms.input
                                                     type="text"
-                                                    x-bind:name="`field[${index}][primary_key]`"
-                                                    x-bind:id="`field[${index}][primary_key]`"
-                                                    x-model="field.primary_key"
+                                                    x-bind:name="`field[${index}][component_name]`"
+                                                    x-bind:id="`field[${index}][component_name]`"
+                                                    x-model="field.component_name"
                                                 />
                                                 <x-common.icon
                                                     name="fas fa-key"
@@ -468,7 +468,7 @@
                                             </x-forms.control>
                                             <span
                                                 class="help has-text-danger"
-                                                x-text="errors[`field.${index}.primary_key`]"
+                                                x-text="errors[`field.${index}.component_name`]"
                                             ></span>
                                         </x-forms.field>
                                     </div>

@@ -18,7 +18,7 @@ class PadService
                     $padField = $pad->padFields()->create($field);
 
                     if ($field['is_relational_field']) {
-                        $padField->padRelation()->create(Arr::only($field, ['relationship_type', 'model_name', 'primary_key']));
+                        $padField->padRelation()->create(Arr::only($field, ['relationship_type', 'model_name', 'component_name']));
                     }
                 });
 
@@ -43,7 +43,7 @@ class PadService
 
                     if ($field['is_relational_field']) {
                         $pad->padFields[$i]->padRelation->update(
-                            Arr::only($field, ['relationship_type', 'model_name', 'primary_key'])
+                            Arr::only($field, ['relationship_type', 'model_name', 'component_name'])
                         );
                     }
                 });

@@ -414,23 +414,23 @@
                                         </x-forms.field>
                                     </div>
                                     <div class="column is-4">
-                                        <x-forms.label for="field[{{ $loop->index }}][primary_key]">
-                                            Primary Key <sup class="has-text-danger">*</sup>
+                                        <x-forms.label for="field[{{ $loop->index }}][component_name]">
+                                            Component <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
                                         <x-forms.field>
                                             <x-forms.control class="has-icons-left">
                                                 <x-forms.input
                                                     type="text"
-                                                    name="field[{{ $loop->index }}][primary_key]"
-                                                    id="field[{{ $loop->index }}][primary_key]"
-                                                    value="{{ $padField->padRelation->primary_key }}"
+                                                    name="field[{{ $loop->index }}][component_name]"
+                                                    id="field[{{ $loop->index }}][component_name]"
+                                                    value="{{ $padField->padRelation->component_name }}"
                                                 />
                                                 <x-common.icon
                                                     name="fas fa-key"
                                                     class="is-large is-left"
                                                 />
                                             </x-forms.control>
-                                            <x-common.validation-error property="field.{{ $loop->index }}.primary_key" />
+                                            <x-common.validation-error property="field.{{ $loop->index }}.component_name" />
                                         </x-forms.field>
                                     </div>
                                 @endif
