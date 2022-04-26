@@ -1,4 +1,7 @@
-<div class="select is-fullwidth">
+<div
+    class="select is-fullwidth"
+    {{ $attributes->wire('ignore') }}
+>
     <select
         {{ $name ? str('id=')->append($name, '[product_id]') : '' }}
         {{ $name ? str('name=')->append($name, '[product_id]') : '' }}

@@ -23,7 +23,38 @@
                 <div class="columns is-marginless is-multiline">
                     @foreach ($padFields as $padField)
                         <div class="column is-6">
-                            @if ($padField->hasRelation() && $padField->padRelation->model_name != 'Product')
+                            @if ($padField->hasRelation() && $padField->padRelation->model_name == 'Product')
+                                <x-forms.label for="{{ $loop->parent->index }}{{ $padField->id }}">
+                                    {{ $padField->label }} <sup class="has-text-danger">{{ $padField->isRequired() ? '*' : '' }}</sup>
+                                </x-forms.label>
+                                <x-forms.field
+                                    class="has-addons"
+                                    x-data="productDataProvider({{ $detail[$padField->id] ?? '' }})"
+                                >
+                                    <x-forms.control
+                                        class="has-icons-left"
+                                        style="width: 30%"
+                                    >
+                                        <x-common.category-list
+                                            x-model="selectedCategory"
+                                            x-on:change="getProductsByCategory"
+                                        />
+                                    </x-forms.control>
+                                    <x-forms.control class="has-icons-left is-expanded">
+                                        <x-common.product-list
+                                            tags="false"
+                                            name="detail[{{ $loop->parent->index }}][{{ $padField->id }}]"
+                                            :selected-product-id="$detail[$padField->id] ?? ''"
+                                            x-init="select2"
+                                            wire:ignore
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-th"
+                                            class="is-large is-left"
+                                        />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            @elseif ($padField->hasRelation() && $padField->padRelation->model_name != 'Product')
                                 <x-forms.field>
                                     <x-forms.label
                                         for="{{ $loop->parent->index }}{{ $padField->id }}"
@@ -65,7 +96,6 @@
                                             name="{{ $padField->icon }}"
                                             class="is-large is-left"
                                         />
-                                        {{-- <x-common.validation-error property="{{ $padField->id }}" /> --}}
                                     </x-forms.control>
                                 </x-forms.field>
                             @elseif($padField->isTagTextarea())
@@ -85,7 +115,6 @@
                                             name="{{ $padField->icon }}"
                                             class="is-large is-left"
                                         />
-                                        {{-- <x-common.validation-error property="{{ $padField->id }}" /> --}}
                                     </x-forms.control>
                                 </x-forms.field>
                             @endif
