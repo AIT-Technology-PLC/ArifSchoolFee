@@ -44,6 +44,7 @@
                                         <x-common.product-list
                                             tags="false"
                                             name="detail[{{ $loop->parent->index }}][{{ $padField->id }}]"
+                                            key=""
                                             :selected-product-id="$detail[$padField->id] ?? ''"
                                             x-init="select2"
                                             wire:ignore

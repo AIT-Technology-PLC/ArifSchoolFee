@@ -3,8 +3,8 @@
     {{ $attributes->wire('ignore') }}
 >
     <select
-        {{ $name ? str('id=')->append($name, '[product_id]') : '' }}
-        {{ $name ? str('name=')->append($name, '[product_id]') : '' }}
+        {{ $name ? str('id=')->append($name, $key) : '' }}
+        {{ $name ? str('name=')->append($name, $key) : '' }}
         {{ $tags ? str('data-tags=')->append($tags) : '' }}
         {{ $attributes->has('x-init') ? '' : 'onchange=getProductSelected(this.id,this.value)' }}
         {{ $attributes->has('x-init') ? '' : 'x-init=initializeSelect2($el)' }}

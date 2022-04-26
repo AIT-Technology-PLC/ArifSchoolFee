@@ -8,13 +8,14 @@ use Illuminate\View\Component;
 
 class ProductList extends Component
 {
-    public $products, $name, $selectedProductId, $tags, $excludedProducts;
+    public $products, $name, $selectedProductId, $tags, $excludedProducts, $key;
 
     public function __construct(
         $name = null,
         $selectedProductId = null,
         $tags = false,
-        $excludedProducts = null
+        $excludedProducts = null,
+        $key = '[product_id]'
     ) {
         $this->name = $name;
 
@@ -23,6 +24,8 @@ class ProductList extends Component
         $this->tags = $tags;
 
         $this->excludedProducts = $excludedProducts;
+
+        $this->key = $key;
 
         $this->products = Cache::store('array')->rememberForever(auth()->id() . '_' . 'productLists', function () {
             return Product::select(['id', 'product_category_id', 'name', 'code'])
