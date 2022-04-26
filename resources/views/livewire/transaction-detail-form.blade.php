@@ -41,7 +41,7 @@
                                                 :selected-id="$detail[$padField->id] ?? ''"
                                                 name="detail[{{ $loop->parent->index }}][{{ $padField->id }}]"
                                                 id="{{ $loop->parent->index }}{{ $padField->id }}"
-                                                x-init="initSelect2($el, 'details.{{ $loop->parent->index }}.{{ $padField->id }}')"
+                                                x-init="initSelect2($el, '{{ $padField->padRelation->model_name }}', 'details.{{ $loop->parent->index }}.{{ $padField->id }}')"
                                             />
                                         </div>
                                         <div class="icon is-small is-left">
@@ -107,9 +107,9 @@
 
 @push('scripts')
     <script type="text/javascript">
-        function initSelect2(element, prop) {
+        function initSelect2(element, label, prop) {
             let select2 = $(element).select2({
-                placeholder: 'Select Customer',
+                placeholder: `Select ${label}`,
                 allowClear: true
             });
 
