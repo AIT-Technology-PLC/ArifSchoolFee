@@ -1,7 +1,7 @@
 <select
     id="{{ $id }}"
     name="{{ $name }}"
-    x-init="$('#{{ $id }}').select2({ placeholder: 'Select Customer', allowClear: true })"
+    {{ $attributes->whereStartsWith('x-init') }}
 >
     @foreach ($customers as $customer)
         <option></option>

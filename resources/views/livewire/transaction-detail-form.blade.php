@@ -26,19 +26,22 @@
                             @if ($padField->hasRelation() && $padField->padRelation->model_name != 'Product')
                                 <x-forms.field>
                                     <x-forms.label
-                                        for="{{ $padField->id }}"
+                                        for="{{ $loop->parent->index }}{{ $padField->id }}"
                                         class="label text-green has-text-weight-normal"
                                     >
                                         {{ $padField->label }} <sup class="has-text-danger">{{ $padField->isRequired() ? '*' : '' }}</sup>
                                     </x-forms.label>
                                     <x-forms.control class="control has-icons-left">
-                                        <div class="select is-fullwidth">
+                                        <div
+                                            class="select is-fullwidth"
+                                            wire:ignore
+                                        >
                                             <x-dynamic-component
                                                 :component="$padField->padRelation->component_name"
-                                                :selected-id="old($padField->id)"
+                                                :selected-id="$detail[$padField->id] ?? ''"
                                                 name="detail[{{ $loop->parent->index }}][{{ $padField->id }}]"
                                                 id="{{ $loop->parent->index }}{{ $padField->id }}"
-                                                wire:model="details.{{ $loop->parent->index }}.{{ $padField->id }}"
+                                                x-init="initSelect2($el, 'details.{{ $loop->parent->index }}.{{ $padField->id }}')"
                                             />
                                         </div>
                                         <div class="icon is-small is-left">
@@ -101,3 +104,19 @@
         wire:click="addDetail"
     />
 </div>
+
+@push('scripts')
+    <script type="text/javascript">
+        function initSelect2(element, prop) {
+            let select2 = $(element).select2({
+                placeholder: 'Select Customer',
+                allowClear: true
+            });
+
+            select2.on('change', function(e) {
+                let value = select2.select2("val");
+                @this.set(prop, value);
+            });
+        }
+    </script>
+@endpush
