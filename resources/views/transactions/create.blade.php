@@ -57,8 +57,8 @@
                         </x-forms.field>
                     </div>
                     @foreach ($pad->padFields as $padField)
-                        <div class="column is-6">
-                            @if ($padField->isMasterField() && $padField->hasRelation())
+                        @if ($padField->isMasterField() && $padField->hasRelation())
+                            <div class="column is-6">
                                 <x-forms.field>
                                     <x-forms.label
                                         for="{{ $padField->id }}"
@@ -80,7 +80,9 @@
                                         </div>
                                     </x-forms.control>
                                 </x-forms.field>
-                            @elseif ($padField->isMasterField() && $padField->isTagInput() && !$padField->isInputTypeCheckbox() && !$padField->isInputTypeRadio())
+                            </div>
+                        @elseif ($padField->isMasterField() && $padField->isTagInput() && !$padField->isInputTypeCheckbox() && !$padField->isInputTypeRadio())
+                            <div class="column is-6">
                                 <x-forms.field>
                                     <x-forms.label for="{{ $padField->id }}">
                                         {{ $padField->label }} <sup class="has-text-danger">{{ $padField->isRequired() ? '*' : '' }}</sup>
@@ -99,7 +101,9 @@
                                         <x-common.validation-error property="{{ $padField->id }}" />
                                     </x-forms.control>
                                 </x-forms.field>
-                            @elseif($padField->isMasterField() && $padField->isTagTextarea())
+                            </div>
+                        @elseif($padField->isMasterField() && $padField->isTagTextarea())
+                            <div class="column is-6">
                                 <x-forms.field>
                                     <x-forms.label for="{{ $padField->id }}">
                                         {{ $padField->label }} <sup class="has-text-danger">{{ $padField->isRequired() ? '*' : '' }}</sup>
@@ -119,8 +123,8 @@
                                         <x-common.validation-error property="{{ $padField->id }}" />
                                     </x-forms.control>
                                 </x-forms.field>
-                            @endif
-                        </div>
+                            </div>
+                        @endif
                     @endforeach
                 </div>
                 @if ($pad->hasDetailPadFields())
