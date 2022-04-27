@@ -455,8 +455,6 @@ document.addEventListener("alpine:init", () => {
         select2(index) {
             let select2 = initializeSelect2(this.$el);
 
-            this.$nextTick(() => $(select2).trigger("change"));
-
             select2.on("select2:select", (event) => {
                 this.prices[index].product_id = event.target.value;
             });

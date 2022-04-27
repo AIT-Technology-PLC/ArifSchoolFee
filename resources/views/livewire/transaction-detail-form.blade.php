@@ -73,7 +73,8 @@
                                                 :selected-id="$detail[$padField->id] ?? ''"
                                                 name="detail[{{ $loop->parent->index }}][{{ $padField->id }}]"
                                                 id="{{ $loop->parent->index }}{{ $padField->id }}"
-                                                x-init="initSelect2($el, '{{ $padField->padRelation->model_name }}', 'details.{{ $loop->parent->index }}.{{ $padField->id }}')"
+                                                x-init="initSelect2($el, '{{ $padField->padRelation->model_name }}');
+                                                bindData($el, 'details.{{ $loop->parent->index }}.{{ $padField->id }}')"
                                             />
                                         </div>
                                         <div class="icon is-small is-left">
@@ -137,15 +138,9 @@
 
 @push('scripts')
     <script type="text/javascript">
-        function initSelect2(element, label, prop) {
-            let select2 = $(element).select2({
-                placeholder: `Select ${label}`,
-                allowClear: true
-            });
-
-            select2.on('change', function(e) {
-                let value = select2.select2("val");
-                @this.set(prop, value);
+        function bindData(element, prop) {
+            $(element).on('change', function(e) {
+                @this.set(prop, $(element).select2("val"));
             });
         }
     </script>
