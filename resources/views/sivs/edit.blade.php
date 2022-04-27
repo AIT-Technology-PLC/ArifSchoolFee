@@ -63,7 +63,6 @@
                                         name="issued_to"
                                         value="company_name"
                                         :selected-id="$siv->issued_to ?? ''"
-                                        x-init="initSelect2($el, 'Customer')"
                                     />
                                 </div>
                                 <div class="icon is-small is-left">
