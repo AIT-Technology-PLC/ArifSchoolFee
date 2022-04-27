@@ -61,7 +61,8 @@
                                         id="issued_to"
                                         name="issued_to"
                                         value="company_name"
-                                        :selected-customer-id="old('issued_to') ?? ''"
+                                        :selected-id="old('issued_to')"
+                                        x-init="initSelect2($el, 'Customer')"
                                     />
                                 </div>
                                 <div class="icon is-small is-left">
@@ -244,7 +245,7 @@
                                     rows="3"
                                     class="summernote textarea"
                                     placeholder="Description or note to be taken"
-                                >{{ old('description') ?? '' }}</textarea>
+>{{ old('description') ?? '' }}</textarea>
                                 @error('description')
                                     <span
                                         class="help has-text-danger"
@@ -412,7 +413,7 @@
                                                     rows="3"
                                                     class="textarea pl-6"
                                                     placeholder="Description or note to be taken"
-                                                >{{ $sivDetail['description'] ?? '' }}</textarea>
+>{{ $sivDetail['description'] ?? '' }}</textarea>
                                                 <span class="icon is-large is-left">
                                                     <i class="fas fa-edit"></i>
                                                 </span>

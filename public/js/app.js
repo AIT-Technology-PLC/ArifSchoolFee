@@ -227,6 +227,13 @@ const initializeSelect2 = (element) => {
     });
 };
 
+function initSelect2(element, placeholder) {
+    $(element).select2({
+        placeholder: `Select ${placeholder}`,
+        allowClear: true,
+    });
+}
+
 document.addEventListener("alpine:init", () => {
     Alpine.data("inventoryTypeToggler", () => ({
         isOnHand: true,
