@@ -93,6 +93,7 @@ return new class extends Migration
             $table->boolean('is_price_before_vat')->default(1);
             $table->boolean('is_discount_before_vat')->default(1);
             $table->boolean('is_convert_to_siv_as_approved')->default(1);
+            $table->boolean('is_show_details')->default(1);
             $table->timestamps();
             $table->softDeletes();
 

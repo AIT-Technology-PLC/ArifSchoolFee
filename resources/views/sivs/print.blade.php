@@ -60,6 +60,36 @@
                 style="width: 300px !important; height: 130px !important"
             >
         </aside>
+    @if($siv->company->is_show_details == 1)
+        <aside class="is-pulled-right mr-2 ml-4">
+          @foreach ($siv->sivDetails->unique('warehouse.name') as $sivDetail)
+            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-0">
+                Branch Name
+            </h1>
+            <h1 class="heading is-capitalized has-text-black has-text-weight-medium is-size-6">
+                {{ $sivDetail->warehouse->name ?? '-' }}
+            </h1>
+            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-0">
+                Branch Tel/Phone
+            </h1>
+            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                {{ $sivDetail->warehouse->phone ?? '-' }}
+            </p>
+            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                Branch Email
+            </h1>
+            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                {{ $sivDetail->warehouse->email ?? '-' }}
+            </p>
+            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                Branch Location
+            </h1>
+            <p class="has-text-grey-dark has-text-weight-medium is-size-6 pb-2">
+                {{ $sivDetail->warehouse->location ?? '-' }}
+            </p>
+          @endforeach
+        </aside>
+    @endif
         <aside class="is-pulled-right mr-6">
             <h1 class="heading is-capitalized has-text-black has-text-weight-medium is-size-5">
                 {{ $siv->company->name }}
@@ -84,7 +114,6 @@
             </p>
         </aside>
     </header>
-
     <main>
         <section class="is-clearfix has-background-white-bis py-3 pl-6 pr-6">
             <aside class="is-pulled-left">
@@ -134,7 +163,7 @@
                 Store Issue Voucher
             </h1>
         </section>
-
+ {{ dd($siv->issued_on->toFormattedDateString()) }}
         <section class="px-6 table-breaked">
             <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
                 <thead>
@@ -172,9 +201,7 @@
             </table>
         </section>
     </main>
-
     <div style="margin-top: 26%">&nbsp;</div>
-
     <div
         class="has-background-white-bis"
         style="position:absolute;bottom: 14%;left: 0;right: 0;"
