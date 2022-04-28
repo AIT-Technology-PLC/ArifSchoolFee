@@ -107,7 +107,7 @@
                             <li>
                                 <x-common.button
                                     tag="a"
-                                    href="{{ route('merchandises.index', 'on-hand') }}"
+                                    href="{{ route('merchandises.index', 'available') }}"
                                     label="Inventory Level"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('merchandises.*') ? 'text-green has-text-weight-bold' : '' }} "
                                     x-init="{{ request()->routeIs('merchandises.*') ? 'activateAccordion' : '' }}"
