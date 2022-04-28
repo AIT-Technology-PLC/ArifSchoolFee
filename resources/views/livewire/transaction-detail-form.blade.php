@@ -46,7 +46,8 @@
                                             name="detail[{{ $loop->parent->index }}][{{ $padField->id }}]"
                                             key=""
                                             :selected-product-id="$detail[$padField->id] ?? ''"
-                                            x-init="select2"
+                                            x-init="select2;
+                                            bindData($el, 'details.{{ $loop->parent->index }}.{{ $padField->id }}')"
                                             wire:ignore
                                         />
                                         <x-common.icon
