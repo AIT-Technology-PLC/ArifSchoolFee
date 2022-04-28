@@ -110,7 +110,7 @@
                             </h1>
                             <div></div>
                             <h2 class="subtitle has-text-grey is-size-7">
-                                On hand, Available, Reserved, Limited and Out of Stock
+                                Available, Reserved, On hand, Limited and Out of Stock
                             </h2>
                         </div>
                     </div>
@@ -149,11 +149,6 @@
         </div>
         <div class="tabs is-toggle is-fullwidth has-background-white-bis">
             <ul>
-                <li class="on-hand {{ request()->is('merchandises/on-hand') ? 'is-active' : '' }}">
-                    <a href="{{ route('merchandises.index', 'on-hand') }}">
-                        <span>On Hand</span>
-                    </a>
-                </li>
                 <li class="available {{ request()->is('merchandises/available') ? 'is-active' : '' }}">
                     <a href="{{ route('merchandises.index', 'available') }}">
                         <span>Available</span>
@@ -166,6 +161,11 @@
                         </a>
                     </li>
                 @endif
+                <li class="on-hand {{ request()->is('merchandises/on-hand') ? 'is-active' : '' }}">
+                    <a href="{{ route('merchandises.index', 'on-hand') }}">
+                        <span>On Hand</span>
+                    </a>
+                </li>
                 <li class="out-of-stock {{ request()->is('merchandises/out-of-stock') ? 'is-active' : '' }}">
                     <a href="{{ route('merchandises.index', 'out-of-stock') }}">
                         <span>Out of Stock</span>
