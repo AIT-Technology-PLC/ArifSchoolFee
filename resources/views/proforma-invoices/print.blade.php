@@ -3,12 +3,30 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title> @yield('title') - {{ userCompany()->name }} </title>
-    <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
+    <title> PI #{{ $proformaInvoice->reference }} - {{ userCompany()->name }} </title>
+    <link
+        rel="shortcut icon"
+        type="image/png"
+        href="{{ asset('img/favicon.png') }}"
+    />
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+        integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM="
+        crossorigin="anonymous"
+    >
+    <link
+        href="{{ asset('css/app.css') }}"
+        rel="stylesheet"
+    >
     <style>
         .page-break {
             page-break-inside: avoid;
@@ -37,7 +55,10 @@
 <body>
     <header class="is-clearfix py-5 has-background-white-ter">
         <aside class="is-pulled-left ml-6 mt-5 pt-4">
-            <img src="{{ asset('storage/' . $proformaInvoice->company->logo) }}" style="width: 300px !important; height: 130px !important">
+            <img
+                src="{{ asset('storage/' . $proformaInvoice->company->logo) }}"
+                style="width: 300px !important; height: 130px !important"
+            >
         </aside>
         <aside class="is-pulled-right mr-6">
             <h1 class="heading is-capitalized has-text-black has-text-weight-medium is-size-5">
@@ -72,14 +93,22 @@
                         Customer
                     </h1>
                     <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                        {{ $proformaInvoice->customer->company_name ?? '-' }}
+                        {{ $proformaInvoice->customer->company_name }}
                     </h1>
+                    @if ($proformaInvoice->customer->contact_name)
+                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                            Contact
+                        </h1>
+                        <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
+                            {{ $proformaInvoice->customer->contact_name }}
+                        </h1>
+                    @endif
                     @if ($proformaInvoice->customer->tin)
                         <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
                             TIN
                         </h1>
                         <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                            {{ $proformaInvoice->customer->tin ?? '-' }}
+                            {{ $proformaInvoice->customer->tin }}
                         </h1>
                     @endif
                     @if ($proformaInvoice->customer->address)
@@ -87,7 +116,7 @@
                             Address
                         </h1>
                         <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                            {{ $proformaInvoice->customer->address ?? '-' }}
+                            {{ $proformaInvoice->customer->address }}
                         </h1>
                     @endif
                 </aside>
@@ -126,16 +155,23 @@
             <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
                 <thead>
                     <tr class="is-borderless">
-                        <td colspan="{{ userCompany()->isDiscountBeforeVAT() ? 7 : 6 }}" class="is-borderless">&nbsp;</td>
+                        <td
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 8 : 7 }}"
+                            class="is-borderless"
+                        >&nbsp;</td>
                     </tr>
                     <tr class="is-borderless">
-                        <td colspan="{{ userCompany()->isDiscountBeforeVAT() ? 7 : 6 }}" class="is-borderless">&nbsp;</td>
+                        <td
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 8 : 7 }}"
+                            class="is-borderless"
+                        >&nbsp;</td>
                     </tr>
                     <tr>
                         <th>#</th>
-                        <th>Product Description</th>
-                        <th>Category</th>
+                        <th>Product</th>
+                        <th>Code</th>
                         <th>Quantity</th>
+                        <th>Unit</th>
                         <th>Unit Price</th>
                         @if (userCompany()->isDiscountBeforeVAT())
                             <th>Discount</th>
@@ -153,8 +189,9 @@
                                     {!! $proformaInvoiceDetail->specification ?? '' !!}
                                 </span>
                             </td>
-                            <td> {{ $proformaInvoiceDetail->product->productCategory->name ?? '' }} </td>
-                            <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->quantity, 2) }} {{ $proformaInvoiceDetail->product->unit_of_measurement ?? '' }} </td>
+                            <td> {{ $proformaInvoiceDetail->product->code ?? '-' }} </td>
+                            <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->quantity, 2) }} </td>
+                            <td class="has-text-centered"> {{ $proformaInvoiceDetail->product->unit_of_measurement }} </td>
                             <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->unit_price, 2) }} </td>
                             @if (userCompany()->isDiscountBeforeVAT())
                                 <td class="has-text-right"> {{ number_format($proformaInvoiceDetail->discount * 100, 2) }}% </td>
@@ -163,28 +200,43 @@
                         </tr>
                     @endforeach
                     <tr>
-                        <td colspan="{{ userCompany()->isDiscountBeforeVAT() ? 5 : 4 }}" class="is-borderless"></td>
+                        <td
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 6 : 5 }}"
+                            class="is-borderless"
+                        ></td>
                         <td class="has-text-weight-bold">Sub-Total</td>
                         <td class="has-text-right">{{ number_format($proformaInvoice->subtotalPrice, 2) }}</td>
                     </tr>
                     <tr>
-                        <td colspan="{{ userCompany()->isDiscountBeforeVAT() ? 5 : 4 }}" class="is-borderless"></td>
+                        <td
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 6 : 5 }}"
+                            class="is-borderless"
+                        ></td>
                         <td class="has-text-weight-bold">VAT 15%</td>
                         <td class="has-text-right">{{ number_format($proformaInvoice->vat, 2) }}</td>
                     </tr>
                     <tr>
-                        <td colspan="{{ userCompany()->isDiscountBeforeVAT() ? 5 : 4 }}" class="is-borderless"></td>
+                        <td
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 6 : 5 }}"
+                            class="is-borderless"
+                        ></td>
                         <td class="has-text-weight-bold">Grand Total</td>
                         <td class="has-text-right has-text-weight-bold">{{ number_format($proformaInvoice->grandTotalPrice, 2) }}</td>
                     </tr>
                     @if (!userCompany()->isDiscountBeforeVAT())
                         <tr>
-                            <td colspan="4" class="is-borderless"></td>
+                            <td
+                                colspan="5"
+                                class="is-borderless"
+                            ></td>
                             <td class="has-text-weight-bold">Discount</td>
                             <td class="has-text-right has-text-weight-bold">{{ number_format($proformaInvoice->discount * 100, 2) }}%</td>
                         </tr>
                         <tr>
-                            <td colspan="4" class="is-borderless"></td>
+                            <td
+                                colspan="5"
+                                class="is-borderless"
+                            ></td>
                             <td class="has-text-weight-bold">
                                 Grand Total
                                 <br>
@@ -200,7 +252,10 @@
         </section>
 
         @if ($proformaInvoice->terms)
-            <section class="page-break mt-5 px-6" style="width: 60% !important">
+            <section
+                class="page-break mt-5 px-6"
+                style="width: 60% !important"
+            >
                 <aside>
                     <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
                         Terms and Conditions
@@ -213,7 +268,10 @@
         @endif
     </main>
 
-    <footer class="has-background-white-ter" style="position:absolute;bottom: 0%;left: 0;right: 0;margin-top: 132px">
+    <footer
+        class="has-background-white-ter"
+        style="position:absolute;bottom: 0%;left: 0;right: 0;margin-top: 132px"
+    >
         <aside class="has-text-centered">
             <h1 class="is-size-7 is-uppercase has-text-grey-light mb-0 mt-3">
                 Prepared By
