@@ -131,7 +131,7 @@
                                         </x-forms.control>
                                         <x-forms.control
                                             x-data="productDataProvider(price.product_id)"
-                                            x-init="$watch(`price.product_id`, (value) => getProduct(value))"
+                                            x-init="getProduct(price.product_id) && $watch(`price.product_id`, (value) => getProduct(value))"
                                         >
                                             <x-common.button
                                                 tag="button"
@@ -172,7 +172,7 @@
                                         </x-forms.control>
                                         <x-forms.control
                                             x-data="productDataProvider(price.product_id)"
-                                            x-init="$watch(`price.product_id`, (value) => getProduct(value))"
+                                            x-init="getProduct(price.product_id) && $watch(`price.product_id`, (value) => getProduct(value))"
                                         >
                                             <x-common.button
                                                 tag="button"
@@ -213,7 +213,7 @@
                                         </x-forms.control>
                                         <x-forms.control
                                             x-data="productDataProvider(price.product_id)"
-                                            x-init="$watch(`price.product_id`, (value) => getProduct(value))"
+                                            x-init="getProduct(price.product_id) && $watch(`price.product_id`, (value) => getProduct(value))"
                                         >
                                             <x-common.button
                                                 tag="button"

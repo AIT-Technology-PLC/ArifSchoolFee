@@ -455,6 +455,8 @@ document.addEventListener("alpine:init", () => {
         select2(index) {
             let select2 = initializeSelect2(this.$el);
 
+            this.$nextTick(() => $(select2).trigger("change"));
+
             select2.on("select2:select", (event) => {
                 this.prices[index].product_id = event.target.value;
             });
@@ -487,6 +489,10 @@ document.addEventListener("alpine:init", () => {
             }
         },
         async getProduct(productId) {
+            if (productId == "" || Number.isNaN(productId)) {
+                return;
+            }
+
             const response = await axios.get(`/api/products/${productId}`);
 
             this.product = response.data;
