@@ -163,7 +163,6 @@
                 Store Issue Voucher
             </h1>
         </section>
- {{ dd($siv->issued_on->toFormattedDateString()) }}
         <section class="px-6 table-breaked">
             <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
                 <thead>
