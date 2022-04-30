@@ -3,6 +3,7 @@
     {{ $attributes->wire('ignore') }}
 >
     <select
+        {{ $attributes->class([]) }}
         {{ $name ? str('id=')->append($name, $key) : '' }}
         {{ $name ? str('name=')->append($name, $key) : '' }}
         {{ $tags ? str('data-tags=')->append($tags) : '' }}

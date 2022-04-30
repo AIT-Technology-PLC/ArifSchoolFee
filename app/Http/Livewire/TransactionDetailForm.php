@@ -31,6 +31,8 @@ class TransactionDetailForm extends Component
         unset($this->details[$index]);
 
         $this->details = array_values($this->details);
+
+        $this->dispatchBrowserEvent('select2-removed');
     }
 
     public function render()

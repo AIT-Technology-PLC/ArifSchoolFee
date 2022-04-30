@@ -2,6 +2,7 @@
     id="{{ $id }}"
     name="{{ $name }}"
     {{ $attributes->whereStartsWith('x-init') }}
+    {{ $attributes->class([]) }}
 >
     @foreach ($warehouses as $warehouse)
         <option></option>

@@ -40,12 +40,16 @@
                                             x-on:change="getProductsByCategory"
                                         />
                                     </x-forms.control>
-                                    <x-forms.control class="has-icons-left is-expanded">
+                                    <x-forms.control
+                                        class="has-icons-left is-expanded"
+                                        data-selected-value="{{ $detail[$padField->id] ?? '' }}"
+                                    >
                                         <x-common.product-list
+                                            class="select2-picker"
                                             tags="false"
                                             name="detail[{{ $loop->parent->index }}][{{ $padField->id }}]"
                                             key=""
-                                            :selected-product-id="$detail[$padField->id] ?? ''"
+                                            :selected-product-id="''"
                                             x-init="select2;
                                             bindData($el, 'details.{{ $loop->parent->index }}.{{ $padField->id }}')"
                                             wire:ignore
@@ -64,14 +68,18 @@
                                     >
                                         {{ $padField->label }} <sup class="has-text-danger">{{ $padField->isRequired() ? '*' : '' }}</sup>
                                     </x-forms.label>
-                                    <x-forms.control class="control has-icons-left">
+                                    <x-forms.control
+                                        class="control has-icons-left"
+                                        data-selected-value="{{ $detail[$padField->id] ?? '' }}"
+                                    >
                                         <div
                                             class="select is-fullwidth"
                                             wire:ignore
                                         >
                                             <x-dynamic-component
+                                                class="select2-picker"
                                                 :component="$padField->padRelation->component_name"
-                                                :selected-id="$detail[$padField->id] ?? ''"
+                                                :selected-id="''"
                                                 name="detail[{{ $loop->parent->index }}][{{ $padField->id }}]"
                                                 id="{{ $loop->parent->index }}{{ $padField->id }}"
                                                 x-init="initSelect2($el, '{{ $padField->padRelation->model_name }}');
@@ -144,5 +152,13 @@
                 @this.set(prop, $(element).select2("val"));
             });
         }
+
+        window.addEventListener('select2-removed', () => {
+            $('.select2-picker').each(function(index, element) {
+                let value = $(this).closest('.control').attr('data-selected-value');
+
+                $(this).val(value).trigger('change');
+            })
+        })
     </script>
 @endpush

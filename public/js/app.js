@@ -457,7 +457,7 @@ document.addEventListener("alpine:init", () => {
 
             this.$nextTick(() => $(select2).trigger("change"));
 
-            select2.on("select2:select", (event) => {
+            select2.on("change", (event) => {
                 this.prices[index].product_id = event.target.value;
             });
 
@@ -547,7 +547,7 @@ document.addEventListener("alpine:init", () => {
         select2() {
             this.select2 = initializeSelect2(this.$el);
 
-            this.select2.on("select2:select", (event) => {
+            this.select2.on("change", (event) => {
                 this.getProduct(event.target.value);
             });
         },
@@ -628,7 +628,7 @@ document.addEventListener("alpine:init", () => {
 
             this.$nextTick(() => $(select2).trigger("change"));
 
-            select2.on("select2:select", (event) => {
+            select2.on("change", (event) => {
                 this.lots[lotIndex].lotDetails[lotDetailIndex].product_id =
                     event.target.value;
             });
