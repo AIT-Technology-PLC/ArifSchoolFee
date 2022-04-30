@@ -62,8 +62,7 @@ class ProformaInvoiceController extends Controller
             return back()->with('failedMessage', 'This Proforma Invoice is cancelled.');
         }
 
-        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'company']);
-
+        $proformaInvoice->load(['proformaInvoiceDetails.product', 'warehouse', 'customer', 'company']);
         return Pdf::loadView('proforma-invoices.print', compact('proformaInvoice'))->stream();
     }
 

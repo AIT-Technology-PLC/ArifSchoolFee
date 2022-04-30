@@ -401,31 +401,31 @@
                     <div class="column is-6">
                         <div class="field">
                             <label
-                                for="is_show_details"
+                                for="can_show_branch_detail_on_print"
                                 class="label text-green has-text-weight-normal"
-                            > Show Branch Details On SIV <sup class="has-text-danger">*</sup> </label>
+                            > Can Show Branch Detail On Print <sup class="has-text-danger">*</sup> </label>
                             <div class="control">
                                 <label class="radio has-text-grey has-text-weight-normal">
                                     <input
                                         type="radio"
-                                        name="is_show_details"
+                                        name="can_show_branch_detail_on_print"
                                         value="1"
                                         class="mt-3"
-                                        {{ $company->is_show_details ? 'checked' : '' }}
+                                        {{ $company->can_show_branch_detail_on_print ? 'checked' : '' }}
                                     >
-                                    YES
+                                    Yes
                                 </label>
                                 <br>
                                 <label class="radio has-text-grey has-text-weight-normal mt-2">
                                     <input
                                         type="radio"
-                                        name="is_show_details"
+                                        name="can_show_branch_detail_on_print"
                                         value="0"
-                                        {{ $company->is_show_details ? '' : 'checked' }}
+                                        {{ $company->can_show_branch_detail_on_print ? '' : 'checked' }}
                                     >
-                                    NO
+                                    No
                                 </label>
-                                @error('is_show_details')
+                                @error('can_show_branch_detail_on_print')
                                     <span
                                         class="help has-text-danger"
                                         role="alert"

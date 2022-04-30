@@ -93,7 +93,7 @@ return new class extends Migration
             $table->boolean('is_price_before_vat')->default(1);
             $table->boolean('is_discount_before_vat')->default(1);
             $table->boolean('is_convert_to_siv_as_approved')->default(1);
-            $table->boolean('is_show_details')->default(1);
+            $table->boolean('can_show_branch_detail_on_print')->default(1);
             $table->timestamps();
             $table->softDeletes();
 
@@ -317,6 +317,7 @@ return new class extends Migration
             $table->string('discount')->nullable();
             $table->string('payment_type');
             $table->decimal('cash_received_in_percentage', 22);
+            $table->decimal('cash_received_in_amount', 22);
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('due_date')->nullable();
@@ -737,6 +738,7 @@ return new class extends Migration
             $table->string('discount')->nullable();
             $table->string('payment_type');
             $table->decimal('cash_received_in_percentage', 22);
+            $table->decimal('cash_received_in_amount', 22);
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('expires_on')->nullable();

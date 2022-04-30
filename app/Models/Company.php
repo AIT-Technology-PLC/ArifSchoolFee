@@ -17,7 +17,7 @@ class Company extends Model
         'is_discount_before_vat' => 'boolean',
         'is_price_before_vat' => 'boolean',
         'is_convert_to_siv_as_approved' => 'boolean',
-        'is_show_details' =>'boolean',
+        'can_show_branch_detail_on_print' => 'boolean',
     ];
 
     public function plan()

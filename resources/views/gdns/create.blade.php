@@ -239,7 +239,7 @@
                                 <div class="control has-icons-left is-expanded">
                                     <input
                                         class="input"
-                                        type="number"
+                                        type="number" min=0 max=100
                                         name="cash_received_in_percentage"
                                         id="cash_received_in_percentage"
                                         placeholder="eg. 50"
@@ -262,6 +262,41 @@
                                         class="button bg-green has-text-white"
                                         type="button"
                                     >%</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-6">
+                            <label
+                                for="cash_received_in_amount"
+                                class="label text-green has-text-weight-normal"
+                            >Cash Received <sup class="has-text-danger">*</sup> <sup class="has-text-weight-light"> (In Amount)</sup> </label>
+                            <div class="field has-addons">
+                                <div class="control has-icons-left is-expanded">
+                                    <input
+                                        class="input"
+                                        type="number" min=0
+                                        name="cash_received_in_amount"
+                                        id="cash_received_in_amount"
+                                        placeholder="eg. 5000"
+                                        value="{{ old('cash_received_in_amount') ?? '' }}"
+                                    >
+                                    <span class="icon is-large is-left">
+                                        <i class="fas fa-money-bill"></i>
+                                    </span>
+                                    @error('cash_received_in_amount')
+                                        <span
+                                            class="help has-text-danger"
+                                            role="alert"
+                                        >
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="control">
+                                    <button
+                                        class="button bg-green has-text-white"
+                                        type="button"
+                                    >Birr</button>
                                 </div>
                             </div>
                         </div>

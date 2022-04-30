@@ -22,7 +22,7 @@ class UpdateCompanyRequest extends FormRequest
             'proforma_invoice_prefix' => ['nullable', 'string', 'max:255'],
             'is_price_before_vat' => ['required', 'boolean'],
             'is_convert_to_siv_as_approved' => ['required', 'boolean'],
-            'is_show_details' =>['required','boolean'],
+            'can_show_branch_detail_on_print' => ['required', 'boolean'],
 
             'is_discount_before_vat' => [
                 'required',

@@ -56,65 +56,83 @@
     <header class="is-clearfix pt-5 has-background-white-ter">
         <aside class="is-pulled-left ml-6 mt-5 pt-4">
             <img
-                src="{{ asset('storage/' . $siv->company->logo) }}"
+                src="{{ asset('storage/' . userCompany()->logo) }}"
                 style="width: 300px !important; height: 130px !important"
             >
         </aside>
-    @if($siv->company->is_show_details == 1)
-        <aside class="is-pulled-right mr-2 ml-4">
-          @foreach ($siv->sivDetails->unique('warehouse.name') as $sivDetail)
-            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-0">
-                Branch Name
-            </h1>
-            <h1 class="heading is-capitalized has-text-black has-text-weight-medium is-size-6">
-                {{ $sivDetail->warehouse->name ?? '-' }}
-            </h1>
-            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-0">
-                Branch Tel/Phone
-            </h1>
-            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ $sivDetail->warehouse->phone ?? '-' }}
-            </p>
-            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                Branch Email
-            </h1>
-            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ $sivDetail->warehouse->email ?? '-' }}
-            </p>
-            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                Branch Location
-            </h1>
-            <p class="has-text-grey-dark has-text-weight-medium is-size-6 pb-2">
-                {{ $sivDetail->warehouse->location ?? '-' }}
-            </p>
-          @endforeach
-        </aside>
-    @endif
         <aside class="is-pulled-right mr-6">
             <h1 class="heading is-capitalized has-text-black has-text-weight-medium is-size-5">
-                {{ $siv->company->name }}
+                {{ userCompany()->name }}
             </h1>
             <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-0">
                 Tel/Phone
             </h1>
             <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ $siv->company->phone ?? '-' }}
+                {{ userCompany()->phone ?? '-' }}
             </p>
             <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
                 Email
             </h1>
             <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ $siv->company->email ?? '-' }}
+                {{ userCompany()->email ?? '-' }}
             </p>
             <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
                 Address
             </h1>
             <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ $siv->company->address ?? '-' }}
+                {{ userCompany()->address ?? '-' }}
             </p>
         </aside>
     </header>
     <main>
+        @if (userCompany()->can_show_branch_detail_on_print == 1)
+            <section class="is-clearfix has-background-white-bis py-3 pl-6 pr-6">
+                <aside class="is-pulled-left mr-6 pt-3">
+                    <div>
+                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                            Branch Name
+                        </h1>
+                        <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                            {{ $siv->warehouse->name ?? '-' }}
+                        </p>
+                    </div>
+                </aside>
+                <aside class="is-pulled-left mr-6 pt-3">
+                    <div>
+                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                            Location
+                        </h1>
+                        <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                            {{ $siv->warehouse->location ?? '-' }}
+                        </p>
+                    </div>
+                </aside>
+                @if ($siv->warehouse->phone)
+                    <aside class="is-pulled-left mr-6 pt-3">
+                        <div>
+                            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                                Tel/Phone
+                            </h1>
+                            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                                {{ $siv->warehouse->phone ?? '-' }}
+                            </p>
+                        </div>
+                    </aside>
+                @endif
+                @if ($siv->warehouse->email)
+                    <aside class="is-pulled-left pt-3">
+                        <div>
+                            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                                Email
+                            </h1>
+                            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                                {{ $siv->warehouse->email ?? '-' }}
+                            </p>
+                        </div>
+                    </aside>
+                @endif
+            </section>
+        @endif
         <section class="is-clearfix has-background-white-bis py-3 pl-6 pr-6">
             <aside class="is-pulled-left">
                 @if ($siv->issued_to)

@@ -3,12 +3,30 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
     <title> DO #{{ $gdn->code }} - {{ userCompany()->name }} </title>
-    <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link
+        rel="shortcut icon"
+        type="image/png"
+        href="{{ asset('img/favicon.png') }}"
+    />
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+        integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM="
+        crossorigin="anonymous"
+    >
+    <link
+        href="{{ asset('css/app.css') }}"
+        rel="stylesheet"
+    >
     <style>
         .page-break {
             page-break-inside: avoid;
@@ -37,34 +55,85 @@
 <body>
     <header class="is-clearfix pt-5 has-background-white-ter">
         <aside class="is-pulled-left ml-6 mt-5 pt-4">
-            <img src="{{ asset('storage/' . $gdn->company->logo) }}" style="width: 300px !important; height: 130px !important">
+            <img
+                src="{{ asset('storage/' . userCompany()->logo) }}"
+                style="width: 300px !important; height: 130px !important"
+            >
         </aside>
         <aside class="is-pulled-right mr-6">
             <h1 class="heading is-capitalized has-text-black has-text-weight-medium is-size-5">
-                {{ $gdn->company->name }}
+                {{ userCompany()->name }}
             </h1>
             <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-0">
                 Tel/Phone
             </h1>
             <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ $gdn->company->phone ?? '-' }}
+                {{ userCompany()->phone ?? '-' }}
             </p>
             <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
                 Email
             </h1>
             <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ $gdn->company->email ?? '-' }}
+                {{ userCompany()->email ?? '-' }}
             </p>
             <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
                 Address
             </h1>
             <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ $gdn->company->address ?? '-' }}
+                {{ userCompany()->address ?? '-' }}
             </p>
         </aside>
     </header>
 
     <main>
+        @if (userCompany()->can_show_branch_detail_on_print == 1)
+            <section class="is-clearfix has-background-white-bis py-3 pl-6 pr-6">
+                <aside class="is-pulled-left mr-6 pt-3">
+                    <div>
+                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                            Branch Name
+                        </h1>
+                        <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                            {{ $gdn->warehouse->name ?? '-' }}
+                        </p>
+                    </div>
+                </aside>
+                <aside class="is-pulled-left mr-6 pt-3">
+                    <div>
+                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                            Location
+                        </h1>
+                        <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                            {{ $gdn->warehouse->location ?? '-' }}
+                        </p>
+                    </div>
+                </aside>
+                @if ($gdn->warehouse->phone)
+                    <aside class="is-pulled-left mr-6 pt-3">
+                        <div>
+                            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                                Tel/Phone
+                            </h1>
+                            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                                {{ $gdn->warehouse->phone ?? '-' }}
+                            </p>
+                        </div>
+                    </aside>
+                @endif
+                @if ($gdn->warehouse->email)
+                    <aside class="is-pulled-left pt-3">
+                        <div>
+                            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                                Email
+                            </h1>
+                            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                                {{ $gdn->warehouse->email ?? '-' }}
+                            </p>
+                        </div>
+                    </aside>
+                @endif
+            </section>
+        @endif
         @if ($gdn->customer)
             <section class="pt-5 pb-3 has-background-white-bis">
                 <aside class="ml-6">
@@ -89,7 +158,10 @@
         @endif
 
         <section class="is-clearfix has-background-white-bis pl-6 py-3">
-            <aside class="is-pulled-left" style="width: 33.3% !important">
+            <aside
+                class="is-pulled-left"
+                style="width: 33.3% !important"
+            >
                 <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
                     N<u>o</u>
                 </h1>
@@ -97,7 +169,10 @@
                     {{ $gdn->code }}
                 </h1>
             </aside>
-            <aside class="is-pulled-left" style="width: 33.3% !important">
+            <aside
+                class="is-pulled-left"
+                style="width: 33.3% !important"
+            >
                 <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
                     Issued On
                 </h1>
@@ -105,7 +180,10 @@
                     {{ $gdn->issued_on->toFormattedDateString() }}
                 </h1>
             </aside>
-            <aside class="is-pulled-left" style="width: 33.3% !important">
+            <aside
+                class="is-pulled-left"
+                style="width: 33.3% !important"
+            >
                 <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
                     Payment Type
                 </h1>
@@ -125,10 +203,16 @@
             <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
                 <thead>
                     <tr class="is-borderless">
-                        <td colspan="{{ userCompany()->isDiscountBeforeVAT() ? 7 : 6 }}" class="is-borderless">&nbsp;</td>
+                        <td
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 7 : 6 }}"
+                            class="is-borderless"
+                        >&nbsp;</td>
                     </tr>
                     <tr class="is-borderless">
-                        <td colspan="{{ userCompany()->isDiscountBeforeVAT() ? 7 : 6 }}" class="is-borderless">&nbsp;</td>
+                        <td
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 7 : 6 }}"
+                            class="is-borderless"
+                        >&nbsp;</td>
                     </tr>
                     <tr>
                         <th>#</th>
@@ -159,28 +243,43 @@
                         </tr>
                     @endforeach
                     <tr>
-                        <td colspan="{{ userCompany()->isDiscountBeforeVAT() ? 5 : 4 }}" class="is-borderless"></td>
+                        <td
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 5 : 4 }}"
+                            class="is-borderless"
+                        ></td>
                         <td class="has-text-weight-bold">Sub-Total</td>
                         <td class="has-text-right">{{ number_format($gdn->subtotalPrice, 2) }}</td>
                     </tr>
                     <tr>
-                        <td colspan="{{ userCompany()->isDiscountBeforeVAT() ? 5 : 4 }}" class="is-borderless"></td>
+                        <td
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 5 : 4 }}"
+                            class="is-borderless"
+                        ></td>
                         <td class="has-text-weight-bold">VAT 15%</td>
                         <td class="has-text-right">{{ number_format($gdn->vat, 2) }}</td>
                     </tr>
                     <tr>
-                        <td colspan="{{ userCompany()->isDiscountBeforeVAT() ? 5 : 4 }}" class="is-borderless"></td>
+                        <td
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 5 : 4 }}"
+                            class="is-borderless"
+                        ></td>
                         <td class="has-text-weight-bold">Grand Total</td>
                         <td class="has-text-right has-text-weight-bold">{{ number_format($gdn->grandTotalPrice, 2) }}</td>
                     </tr>
                     @if (!userCompany()->isDiscountBeforeVAT())
                         <tr>
-                            <td colspan="4" class="is-borderless"></td>
+                            <td
+                                colspan="4"
+                                class="is-borderless"
+                            ></td>
                             <td class="has-text-weight-bold">Discount</td>
                             <td class="has-text-right has-text-weight-bold">{{ number_format($gdn->discount * 100, 2) }}%</td>
                         </tr>
                         <tr>
-                            <td colspan="4" class="is-borderless"></td>
+                            <td
+                                colspan="4"
+                                class="is-borderless"
+                            ></td>
                             <td class="has-text-weight-bold">
                                 Grand Total
                                 <br>
@@ -199,7 +298,10 @@
                 <table class="table is-bordered is-striped is-hoverable is-fullwidth is-size-7">
                     <tbody>
                         <tr>
-                            <td colspan="2" class="has-text-weight-bold">Payment Details</td>
+                            <td
+                                colspan="2"
+                                class="has-text-weight-bold"
+                            >Payment Details</td>
                         </tr>
                         <tr>
                             <td>
@@ -230,8 +332,10 @@
             </aside>
         </section>
     </main>
-
-    <footer class="has-background-white-bis" style="position:absolute;bottom: 14%;left: 0;right: 0;margin-top: 20%">
+    <footer
+        class="has-background-white-bis"
+        style="position:absolute;bottom: 14%;left: 0;right: 0;margin-top: 20%"
+    >
         <aside class="pl-6 my-5">
             <h1 class="title is-size-7 is-uppercase mb-6">
                 I received the above goods/services in good condition
@@ -241,7 +345,10 @@
         </aside>
     </footer>
     @if ($gdn->createdBy->is($gdn->approvedBy))
-        <footer class="has-background-white-ter" style="position:absolute;bottom: 0%;left: 0;right: 0;">
+        <footer
+            class="has-background-white-ter"
+            style="position:absolute;bottom: 0%;left: 0;right: 0;"
+        >
             <aside class="pl-6">
                 <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                     Prepared & Approved By
@@ -253,12 +360,18 @@
                     <div>
                         Signature
                     </div>
-                    <div class="mt-6" style="border: 1px solid lightgrey;width: 30%"></div>
+                    <div
+                        class="mt-6"
+                        style="border: 1px solid lightgrey;width: 30%"
+                    ></div>
                 </h1>
             </aside>
         </footer>
     @else
-        <footer class="has-background-white-ter" style="position:absolute;bottom: 0%;left: 0;right: 0;">
+        <footer
+            class="has-background-white-ter"
+            style="position:absolute;bottom: 0%;left: 0;right: 0;"
+        >
             <aside class="pl-6">
                 <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                     Prepared By
@@ -270,11 +383,17 @@
                     <div>
                         Signature
                     </div>
-                    <div class="mt-6" style="border: 1px solid lightgrey;width: 30%"></div>
+                    <div
+                        class="mt-6"
+                        style="border: 1px solid lightgrey;width: 30%"
+                    ></div>
                 </h1>
             </aside>
         </footer>
-        <footer class="has-background-white-ter" style="position:absolute;bottom: 0%;left: 15%;right: 0;margin-left: 40%">
+        <footer
+            class="has-background-white-ter"
+            style="position:absolute;bottom: 0%;left: 15%;right: 0;margin-left: 40%"
+        >
             <aside class="pl-6">
                 <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                     Approved By
@@ -286,7 +405,10 @@
                     <div>
                         Signature
                     </div>
-                    <div class="mt-6" style="border: 1px solid lightgrey;width: 70%"></div>
+                    <div
+                        class="mt-6"
+                        style="border: 1px solid lightgrey;width: 70%"
+                    ></div>
                 </h1>
             </aside>
         </footer>
