@@ -49,7 +49,6 @@
                                             tags="false"
                                             name="detail[{{ $loop->parent->index }}][{{ $padField->id }}]"
                                             key=""
-                                            :selected-product-id="''"
                                             x-init="select2;
                                             bindData($el, 'details.{{ $loop->parent->index }}.{{ $padField->id }}')"
                                             wire:ignore
@@ -79,7 +78,7 @@
                                             <x-dynamic-component
                                                 class="select2-picker"
                                                 :component="$padField->padRelation->component_name"
-                                                :selected-id="''"
+                                                selected-id=""
                                                 name="detail[{{ $loop->parent->index }}][{{ $padField->id }}]"
                                                 id="{{ $loop->parent->index }}{{ $padField->id }}"
                                                 x-init="initSelect2($el, '{{ $padField->padRelation->model_name }}');

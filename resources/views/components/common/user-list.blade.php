@@ -1,8 +1,8 @@
 <select
     id="{{ $id }}"
     name="{{ $name }}"
-    {{ $attributes->whereStartsWith('x-init') }}
-    {{ $attributes->class([]) }}
+    x-init="{{ $attributes->get('x-init') ?? 'initSelect2($el, "User")' }}"
+    class="{{ $attributes->get('class') }}"
 >
     @foreach ($users as $user)
         <option></option>
