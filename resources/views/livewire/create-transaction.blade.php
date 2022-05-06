@@ -6,6 +6,7 @@
             method="POST"
             enctype="multipart/form-data"
             novalidate
+            wire:submit.prevent="store"
         >
             @csrf
             <x-content.main>
@@ -18,9 +19,8 @@
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
                                     type="number"
-                                    name="code"
                                     id="code"
-                                    value="{{ $currentReferenceCode }}"
+                                    wire:model="code"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
@@ -38,10 +38,9 @@
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
                                     type="datetime-local"
-                                    name="issued_on"
                                     id="issued_on"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ old('issued_on', now()->toDateTimeLocalString()) }}"
+                                    wire:model="issued_on"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"
@@ -62,17 +61,22 @@
                                         {{ $masterPadField->label }} <sup class="has-text-danger">{{ $masterPadField->isRequired() ? '*' : '' }}</sup>
                                     </x-forms.label>
                                     <x-forms.control class="control has-icons-left">
-                                        <div class="select is-fullwidth">
+                                        <div
+                                            class="select is-fullwidth"
+                                            wire:ignore
+                                        >
                                             <x-dynamic-component
                                                 :component="$masterPadField->padRelation->component_name"
-                                                :selected-id="old($masterPadField->id)"
-                                                name="master[{{ $masterPadField->id }}]"
+                                                selected-id=""
                                                 id="{{ $masterPadField->id }}"
+                                                x-init="initSelect2($el, '{{ $masterPadField->padRelation->model_name }}');
+                                                bindData($el, 'master.{{ $masterPadField->id }}')"
                                             />
                                         </div>
                                         <div class="icon is-small is-left">
                                             <i class="{{ $masterPadField->icon }}"></i>
                                         </div>
+                                        <x-common.validation-error property="master.{{ $masterPadField->id }}" />
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
@@ -85,15 +89,14 @@
                                     <x-forms.control class="has-icons-left">
                                         <x-forms.input
                                             type="{{ $masterPadField->tag_type }}"
-                                            name="master[{{ $masterPadField->id }}]"
                                             id="{{ $masterPadField->id }}"
-                                            value="{{ old($masterPadField->id) }}"
+                                            wire:model="master.{{ $masterPadField->id }}"
                                         />
                                         <x-common.icon
                                             name="{{ $masterPadField->icon }}"
                                             class="is-large is-left"
                                         />
-                                        <x-common.validation-error property="{{ $masterPadField->id }}" />
+                                        <x-common.validation-error property="master.{{ $masterPadField->id }}" />
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
@@ -105,9 +108,9 @@
                                     </x-forms.label>
                                     <x-forms.control class="has-icons-left">
                                         <x-forms.textarea
-                                            name="master[{{ $masterPadField->id }}]"
                                             id="{{ $masterPadField->id }}"
                                             class="pl-6"
+                                            wire:model="master.{{ $masterPadField->id }}"
                                         >
                                             {{ old($masterPadField->id) ?? '' }}
                                         </x-forms.textarea>
@@ -115,7 +118,58 @@
                                             name="{{ $masterPadField->icon }}"
                                             class="is-large is-left"
                                         />
-                                        <x-common.validation-error property="{{ $masterPadField->id }}" />
+                                        <x-common.validation-error property="master.{{ $masterPadField->id }}" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                        @elseif($masterPadField->isTagTextarea())
+                            <div class="column is-6">
+                                <x-forms.field>
+                                    <x-forms.label for="{{ $masterPadField->id }}">
+                                        {{ $masterPadField->label }} <sup class="has-text-danger">{{ $masterPadField->isRequired() ? '*' : '' }}</sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.textarea
+                                            id="{{ $masterPadField->id }}"
+                                            class="pl-6"
+                                            wire:model="master.{{ $masterPadField->id }}"
+                                        >
+                                            {{ old($masterPadField->id) ?? '' }}
+                                        </x-forms.textarea>
+                                        <x-common.icon
+                                            name="{{ $masterPadField->icon }}"
+                                            class="is-large is-left"
+                                        />
+                                        <x-common.validation-error property="master.{{ $masterPadField->id }}" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                        @elseif($masterPadField->isTagSelect())
+                            <div class="column is-6">
+                                <x-forms.field>
+                                    <x-forms.label for="{{ $masterPadField->id }}">
+                                        {{ $masterPadField->label }} <sup class="has-text-danger">{{ $masterPadField->isRequired() ? '*' : '' }}</sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.select
+                                            class="is-fullwidth"
+                                            id="{{ $masterPadField->id }}"
+                                            wire:model="master.{{ $masterPadField->id }}"
+                                        >
+                                            <option
+                                                value="Cash"
+                                                @selected($master[$masterPadField->id] ?? '' == 'Cash')
+                                            > Cash </option>
+                                            <option
+                                                value="Credit"
+                                                @selected($master[$masterPadField->id] ?? '' == 'Credit')
+                                            > Credit </option>
+                                        </x-forms.select>
+                                        <x-common.icon
+                                            name="{{ $masterPadField->icon }}"
+                                            class="is-large is-left"
+                                        />
+                                        <x-common.validation-error property="master.{{ $masterPadField->id }}" />
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
@@ -171,7 +225,6 @@
                                                         <x-common.product-list
                                                             class="select2-picker"
                                                             tags="false"
-                                                            name="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]"
                                                             key=""
                                                             x-init="select2;
                                                             bindData($el, 'details.{{ $loop->parent->index }}.{{ $detailPadField->id }}')"
@@ -181,6 +234,7 @@
                                                             name="fas fa-th"
                                                             class="is-large is-left"
                                                         />
+                                                        <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                     </x-forms.control>
                                                 </x-forms.field>
                                             @elseif ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name != 'Product')
@@ -203,7 +257,6 @@
                                                                 class="select2-picker"
                                                                 :component="$detailPadField->padRelation->component_name"
                                                                 selected-id=""
-                                                                name="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]"
                                                                 id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
                                                                 x-init="initSelect2($el, '{{ $detailPadField->padRelation->model_name }}');
                                                                 bindData($el, 'details.{{ $loop->parent->index }}.{{ $detailPadField->id }}')"
@@ -212,35 +265,35 @@
                                                         <div class="icon is-small is-left">
                                                             <i class="{{ $detailPadField->icon }}"></i>
                                                         </div>
+                                                        <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                     </x-forms.control>
                                                 </x-forms.field>
                                             @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio())
                                                 <x-forms.field>
-                                                    <x-forms.label for="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]">
+                                                    <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
                                                         {{ $detailPadField->label }} <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
                                                     </x-forms.label>
                                                     <x-forms.control class="has-icons-left">
                                                         <x-forms.input
                                                             type="{{ $detailPadField->tag_type }}"
-                                                            name="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]"
-                                                            id="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]"
+                                                            id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
                                                             wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                         />
                                                         <x-common.icon
                                                             name="{{ $detailPadField->icon }}"
                                                             class="is-large is-left"
                                                         />
+                                                        <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                     </x-forms.control>
                                                 </x-forms.field>
                                             @elseif($detailPadField->isTagTextarea())
                                                 <x-forms.field>
-                                                    <x-forms.label for="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]">
+                                                    <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
                                                         {{ $detailPadField->label }} <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
                                                     </x-forms.label>
                                                     <x-forms.control class="has-icons-left">
                                                         <x-forms.textarea
-                                                            name="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]"
-                                                            id="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]"
+                                                            id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
                                                             class="pl-6"
                                                             wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                         >
@@ -249,6 +302,7 @@
                                                             name="{{ $detailPadField->icon }}"
                                                             class="is-large is-left"
                                                         />
+                                                        <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                     </x-forms.control>
                                                 </x-forms.field>
                                             @endif
