@@ -317,7 +317,6 @@ return new class extends Migration
             $table->string('discount')->nullable();
             $table->string('payment_type');
             $table->decimal('cash_received_in_percentage', 22);
-            $table->decimal('cash_received_in_amount', 22);
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('due_date')->nullable();
@@ -738,7 +737,6 @@ return new class extends Migration
             $table->string('discount')->nullable();
             $table->string('payment_type');
             $table->decimal('cash_received_in_percentage', 22);
-            $table->decimal('cash_received_in_amount', 22);
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('expires_on')->nullable();
