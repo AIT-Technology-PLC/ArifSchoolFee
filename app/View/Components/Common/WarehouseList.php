@@ -3,6 +3,7 @@
 namespace App\View\Components\Common;
 
 use App\Models\Warehouse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\Component;
 
 class WarehouseList extends Component
@@ -11,7 +12,9 @@ class WarehouseList extends Component
 
     public function __construct($selectedId, $id = 'warehouse_id', $name = 'warehouse_id', $value = 'id')
     {
-        $this->warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
+        $this->warehouses = Cache::store('array')->rememberForever(auth()->id() . '_' . 'warehouseLists', function () {
+            return Warehouse::orderBy('name')->get(['id', 'name']);
+        });
 
         $this->selectedId = $selectedId;
 
