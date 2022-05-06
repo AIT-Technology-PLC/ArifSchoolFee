@@ -88,11 +88,7 @@ class TransactionController extends Controller
 
     public function create(Pad $pad)
     {
-        $pad->load(['padFields.padRelation']);
-
-        $currentReferenceCode = nextReferenceNumber('transactions');
-
-        return view('transactions.create', compact('pad', 'currentReferenceCode'));
+        return view('transactions.create', compact('pad'));
     }
 
     public function store(Pad $pad, StoreTransactionRequest $request)

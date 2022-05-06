@@ -1,0 +1,294 @@
+<div>
+    <x-common.content-wrapper>
+        <x-content.header title="New {{ $pad->name }}" />
+        <form
+            id="formOne"
+            method="POST"
+            enctype="multipart/form-data"
+            novalidate
+        >
+            @csrf
+            <x-content.main>
+                <div class="columns is-marginless is-multiline">
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="code">
+                                Reference Number <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="number"
+                                    name="code"
+                                    id="code"
+                                    value="{{ $currentReferenceCode }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-hashtag"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="code" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="issued_on">
+                                Issued On <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="datetime-local"
+                                    name="issued_on"
+                                    id="issued_on"
+                                    placeholder="mm/dd/yyyy"
+                                    value="{{ old('issued_on', now()->toDateTimeLocalString()) }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-calendar-alt"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="issued_on" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    @foreach ($masterPadFields as $masterPadField)
+                        @if ($masterPadField->hasRelation())
+                            <div class="column is-6">
+                                <x-forms.field>
+                                    <x-forms.label
+                                        for="{{ $masterPadField->id }}"
+                                        class="label text-green has-text-weight-normal"
+                                    >
+                                        {{ $masterPadField->label }} <sup class="has-text-danger">{{ $masterPadField->isRequired() ? '*' : '' }}</sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="control has-icons-left">
+                                        <div class="select is-fullwidth">
+                                            <x-dynamic-component
+                                                :component="$masterPadField->padRelation->component_name"
+                                                :selected-id="old($masterPadField->id)"
+                                                name="master[{{ $masterPadField->id }}]"
+                                                id="{{ $masterPadField->id }}"
+                                            />
+                                        </div>
+                                        <div class="icon is-small is-left">
+                                            <i class="{{ $masterPadField->icon }}"></i>
+                                        </div>
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                        @elseif ($masterPadField->isTagInput() && !$masterPadField->isInputTypeCheckbox() && !$masterPadField->isInputTypeRadio())
+                            <div class="column is-6">
+                                <x-forms.field>
+                                    <x-forms.label for="{{ $masterPadField->id }}">
+                                        {{ $masterPadField->label }} <sup class="has-text-danger">{{ $masterPadField->isRequired() ? '*' : '' }}</sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            type="{{ $masterPadField->tag_type }}"
+                                            name="master[{{ $masterPadField->id }}]"
+                                            id="{{ $masterPadField->id }}"
+                                            value="{{ old($masterPadField->id) }}"
+                                        />
+                                        <x-common.icon
+                                            name="{{ $masterPadField->icon }}"
+                                            class="is-large is-left"
+                                        />
+                                        <x-common.validation-error property="{{ $masterPadField->id }}" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                        @elseif($masterPadField->isTagTextarea())
+                            <div class="column is-6">
+                                <x-forms.field>
+                                    <x-forms.label for="{{ $masterPadField->id }}">
+                                        {{ $masterPadField->label }} <sup class="has-text-danger">{{ $masterPadField->isRequired() ? '*' : '' }}</sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.textarea
+                                            name="master[{{ $masterPadField->id }}]"
+                                            id="{{ $masterPadField->id }}"
+                                            class="pl-6"
+                                        >
+                                            {{ old($masterPadField->id) ?? '' }}
+                                        </x-forms.textarea>
+                                        <x-common.icon
+                                            name="{{ $masterPadField->icon }}"
+                                            class="is-large is-left"
+                                        />
+                                        <x-common.validation-error property="{{ $masterPadField->id }}" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+                @if ($pad->hasDetailPadFields())
+                    @foreach ($details as $detail)
+                        <div class="mx-3">
+                            <div class="field has-addons mb-0 mt-5">
+                                <div class="control">
+                                    <span class="tag bg-green has-text-white is-medium is-radiusless">
+                                        Item {{ $loop->iteration }}
+                                    </span>
+                                </div>
+                                <div class="control">
+                                    <button
+                                        type="button"
+                                        class="tag bg-lightgreen has-text-white is-medium is-radiusless is-pointer"
+                                        wire:click="removeDetail({{ $loop->index }})"
+                                    >
+                                        <span class="icon text-green">
+                                            <i class="fas fa-times-circle"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="box has-background-white-bis radius-top-0">
+                                <div class="columns is-marginless is-multiline">
+                                    @foreach ($detailPadFields as $detailPadField)
+                                        <div class="column is-6">
+                                            @if ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name == 'Product')
+                                                <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
+                                                    {{ $detailPadField->label }} <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
+                                                </x-forms.label>
+                                                <x-forms.field
+                                                    class="has-addons"
+                                                    x-data="productDataProvider({{ $detail[$detailPadField->id] ?? '' }})"
+                                                >
+                                                    <x-forms.control
+                                                        class="has-icons-left"
+                                                        style="width: 30%"
+                                                    >
+                                                        <x-common.category-list
+                                                            x-model="selectedCategory"
+                                                            x-on:change="getProductsByCategory"
+                                                        />
+                                                    </x-forms.control>
+                                                    <x-forms.control
+                                                        class="has-icons-left is-expanded"
+                                                        data-selected-value="{{ $detail[$detailPadField->id] ?? '' }}"
+                                                    >
+                                                        <x-common.product-list
+                                                            class="select2-picker"
+                                                            tags="false"
+                                                            name="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]"
+                                                            key=""
+                                                            x-init="select2;
+                                                            bindData($el, 'details.{{ $loop->parent->index }}.{{ $detailPadField->id }}')"
+                                                            wire:ignore
+                                                        />
+                                                        <x-common.icon
+                                                            name="fas fa-th"
+                                                            class="is-large is-left"
+                                                        />
+                                                    </x-forms.control>
+                                                </x-forms.field>
+                                            @elseif ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name != 'Product')
+                                                <x-forms.field>
+                                                    <x-forms.label
+                                                        for="{{ $loop->parent->index }}{{ $detailPadField->id }}"
+                                                        class="label text-green has-text-weight-normal"
+                                                    >
+                                                        {{ $detailPadField->label }} <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
+                                                    </x-forms.label>
+                                                    <x-forms.control
+                                                        class="control has-icons-left"
+                                                        data-selected-value="{{ $detail[$detailPadField->id] ?? '' }}"
+                                                    >
+                                                        <div
+                                                            class="select is-fullwidth"
+                                                            wire:ignore
+                                                        >
+                                                            <x-dynamic-component
+                                                                class="select2-picker"
+                                                                :component="$detailPadField->padRelation->component_name"
+                                                                selected-id=""
+                                                                name="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]"
+                                                                id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
+                                                                x-init="initSelect2($el, '{{ $detailPadField->padRelation->model_name }}');
+                                                                bindData($el, 'details.{{ $loop->parent->index }}.{{ $detailPadField->id }}')"
+                                                            />
+                                                        </div>
+                                                        <div class="icon is-small is-left">
+                                                            <i class="{{ $detailPadField->icon }}"></i>
+                                                        </div>
+                                                    </x-forms.control>
+                                                </x-forms.field>
+                                            @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio())
+                                                <x-forms.field>
+                                                    <x-forms.label for="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]">
+                                                        {{ $detailPadField->label }} <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
+                                                    </x-forms.label>
+                                                    <x-forms.control class="has-icons-left">
+                                                        <x-forms.input
+                                                            type="{{ $detailPadField->tag_type }}"
+                                                            name="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]"
+                                                            id="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]"
+                                                            wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                        />
+                                                        <x-common.icon
+                                                            name="{{ $detailPadField->icon }}"
+                                                            class="is-large is-left"
+                                                        />
+                                                    </x-forms.control>
+                                                </x-forms.field>
+                                            @elseif($detailPadField->isTagTextarea())
+                                                <x-forms.field>
+                                                    <x-forms.label for="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]">
+                                                        {{ $detailPadField->label }} <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
+                                                    </x-forms.label>
+                                                    <x-forms.control class="has-icons-left">
+                                                        <x-forms.textarea
+                                                            name="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]"
+                                                            id="detail[{{ $loop->parent->index }}][{{ $detailPadField->id }}]"
+                                                            class="pl-6"
+                                                            wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                        >
+                                                        </x-forms.textarea>
+                                                        <x-common.icon
+                                                            name="{{ $detailPadField->icon }}"
+                                                            class="is-large is-left"
+                                                        />
+                                                    </x-forms.control>
+                                                </x-forms.field>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    <x-common.button
+                        tag="button"
+                        type="button"
+                        mode="button"
+                        label="Add More Item"
+                        class="bg-purple has-text-white is-small ml-3 mt-6"
+                        wire:click="addDetail"
+                    />
+                @endif
+            </x-content.main>
+            <x-content.footer>
+                <x-common.save-button />
+            </x-content.footer>
+        </form>
+    </x-common.content-wrapper>
+</div>
+
+@push('scripts')
+    <script type="text/javascript">
+        function bindData(element, prop) {
+            $(element).on('change', function(e) {
+                @this.set(prop, $(element).select2("val"));
+            });
+        }
+
+        window.addEventListener('select2-removed', () => {
+            $('.select2-picker').each(function(index, element) {
+                let value = $(this).closest('.control').attr('data-selected-value');
+
+                $(this).val(value).trigger('change');
+            })
+        })
+    </script>
+@endpush

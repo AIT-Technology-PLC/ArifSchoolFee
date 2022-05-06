@@ -80,6 +80,6 @@ class PadField extends Model
 
     public function hasRelation()
     {
-        return $this->padRelation()->exists();
+        return $this->padRelation ? true : false;
     }
 }
