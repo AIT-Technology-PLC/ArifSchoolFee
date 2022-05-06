@@ -199,6 +199,7 @@ class Company extends Model
     {
         return $this->is_convert_to_siv_as_approved;
     }
+
     public function canShowBranchDetailOnPrint()
     {
         return $this->can_show_branch_detail_on_print;
