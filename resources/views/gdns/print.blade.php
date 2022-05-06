@@ -86,7 +86,7 @@
     </header>
 
     <main>
-        @if (userCompany()->can_show_branch_detail_on_print == 1)
+        @if (userCompany()->canShowBranchDetailOnPrint())
             <section class="is-clearfix has-background-white-bis py-3 pl-6 pr-6">
                 <aside class="is-pulled-left mr-6 pt-3">
                     <div>
@@ -94,7 +94,7 @@
                             Branch Name
                         </h1>
                         <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                            {{ $gdn->warehouse->name ?? '-' }}
+                            {{ $gdn->warehouse->name }}
                         </p>
                     </div>
                 </aside>
@@ -104,7 +104,7 @@
                             Location
                         </h1>
                         <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                            {{ $gdn->warehouse->location ?? '-' }}
+                            {{ $gdn->warehouse->location }}
                         </p>
                     </div>
                 </aside>

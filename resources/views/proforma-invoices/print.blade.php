@@ -86,7 +86,7 @@
     </header>
 
     <main>
-        @if (userCompany()->can_show_branch_detail_on_print == 1)
+        @if (userCompany()->canShowBranchDetailOnPrint())
             <section class="is-clearfix has-background-white-bis py-3 pl-6 pr-6">
                 <aside class="is-pulled-left mr-6 pt-3">
                     <div>
@@ -94,7 +94,7 @@
                             Branch Name
                         </h1>
                         <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                            {{ $proformaInvoice->warehouse->name ?? '-' }}
+                            {{ $proformaInvoice->warehouse->name }}
                         </p>
                     </div>
                 </aside>
@@ -104,7 +104,7 @@
                             Location
                         </h1>
                         <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                            {{ $proformaInvoice->warehouse->location ?? '-' }}
+                            {{ $proformaInvoice->warehouse->location }}
                         </p>
                     </div>
                 </aside>
@@ -336,7 +336,6 @@
             </section>
         @endif
     </main>
-
     <footer
         class="has-background-white-ter"
         style="position:absolute;bottom: 0%;left: 0;right: 0;margin-top: 132px"
