@@ -122,28 +122,6 @@
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
-                        @elseif($masterPadField->isTagTextarea())
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="{{ $masterPadField->id }}">
-                                        {{ $masterPadField->label }} <sup class="has-text-danger">{{ $masterPadField->isRequired() ? '*' : '' }}</sup>
-                                    </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.textarea
-                                            id="{{ $masterPadField->id }}"
-                                            class="pl-6"
-                                            wire:model="master.{{ $masterPadField->id }}"
-                                        >
-                                            {{ old($masterPadField->id) ?? '' }}
-                                        </x-forms.textarea>
-                                        <x-common.icon
-                                            name="{{ $masterPadField->icon }}"
-                                            class="is-large is-left"
-                                        />
-                                        <x-common.validation-error property="master.{{ $masterPadField->id }}" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
                         @elseif($masterPadField->isTagSelect())
                             <div class="column is-6">
                                 <x-forms.field>
@@ -157,13 +135,13 @@
                                             wire:model="master.{{ $masterPadField->id }}"
                                         >
                                             <option
-                                                value="Cash"
-                                                @selected($master[$masterPadField->id] ?? '' == 'Cash')
-                                            > Cash </option>
-                                            <option
-                                                value="Credit"
-                                                @selected($master[$masterPadField->id] ?? '' == 'Credit')
-                                            > Credit </option>
+                                                selected
+                                                hidden
+                                            >
+                                                Select Method
+                                            </option>
+                                            <option value="Cash"> Cash </option>
+                                            <option value="Credit"> Credit </option>
                                         </x-forms.select>
                                         <x-common.icon
                                             name="{{ $masterPadField->icon }}"

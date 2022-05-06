@@ -21,6 +21,8 @@ class CreateTransaction extends Component
 
         $this->detailPadFields = $this->pad->padFields()->with('padRelation')->where('is_master_field', 0)->get();
 
+        $this->master = [];
+
         $this->details = [
             [],
         ];
