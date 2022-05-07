@@ -398,6 +398,44 @@
                             </div>
                         </div>
                     </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label
+                                for="can_show_branch_detail_on_print"
+                                class="label text-green has-text-weight-normal"
+                            > Can Show Branch Detail On Print <sup class="has-text-danger">*</sup> </label>
+                            <div class="control">
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input
+                                        type="radio"
+                                        name="can_show_branch_detail_on_print"
+                                        value="1"
+                                        class="mt-3"
+                                        {{ $company->can_show_branch_detail_on_print ? 'checked' : '' }}
+                                    >
+                                    Yes
+                                </label>
+                                <br>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                    <input
+                                        type="radio"
+                                        name="can_show_branch_detail_on_print"
+                                        value="0"
+                                        {{ $company->can_show_branch_detail_on_print ? '' : 'checked' }}
+                                    >
+                                    No
+                                </label>
+                                @error('can_show_branch_detail_on_print')
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="box radius-top-0">

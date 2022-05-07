@@ -40,7 +40,7 @@ class ReturnController extends Controller
             return back()->with('failedMessage', 'This return is not approved yet.');
         }
 
-        $return->load(['returnDetails.product', 'customer', 'company', 'createdBy', 'approvedBy']);
+        $return->load(['returnDetails.product', 'customer', 'warehouse', 'company', 'createdBy', 'approvedBy']);
 
         return Pdf::loadView('returns.print', compact('return'))->stream();
     }

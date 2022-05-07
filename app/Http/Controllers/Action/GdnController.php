@@ -50,7 +50,7 @@ class GdnController extends Controller
             return back()->with('failedMessage', 'This Delivery Order is not approved yet.');
         }
 
-        $gdn->load(['gdnDetails.product', 'customer', 'company', 'createdBy', 'approvedBy']);
+        $gdn->load(['gdnDetails.product', 'customer', 'warehouse', 'company', 'createdBy', 'approvedBy']);
 
         return Pdf::loadView('gdns.print', compact('gdn'))->stream();
     }

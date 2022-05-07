@@ -17,6 +17,7 @@ class Company extends Model
         'is_discount_before_vat' => 'boolean',
         'is_price_before_vat' => 'boolean',
         'is_convert_to_siv_as_approved' => 'boolean',
+        'can_show_branch_detail_on_print' => 'boolean',
     ];
 
     public function plan()
@@ -106,7 +107,7 @@ class Company extends Model
 
     public function proformaInvoices()
     {
-        return $this->hasMany(ProformaInvoice::clas);
+        return $this->hasMany(ProformaInvoice::class);
     }
 
     public function damages()
@@ -197,5 +198,10 @@ class Company extends Model
     public function isConvertToSivAsApproved()
     {
         return $this->is_convert_to_siv_as_approved;
+    }
+
+    public function canShowBranchDetailOnPrint()
+    {
+        return $this->can_show_branch_detail_on_print;
     }
 }

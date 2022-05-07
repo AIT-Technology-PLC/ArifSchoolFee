@@ -240,6 +240,8 @@
                                     <input
                                         class="input"
                                         type="number"
+                                        min="0"
+                                        max="100"
                                         name="cash_received_in_percentage"
                                         id="cash_received_in_percentage"
                                         placeholder="eg. 50"
