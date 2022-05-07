@@ -22,7 +22,7 @@ class TransactionController extends Controller
 
         $this->authorize('viewAny', $pad);
 
-        $datatable->builder()->setTableId($pad->label . '-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
+        $datatable->builder()->setTableId(str($pad->name)->slug() . '-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
         $transactions = Transaction::where('pad_id', $pad->id)->get();
 

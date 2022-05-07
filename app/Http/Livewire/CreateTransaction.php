@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Pad;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
+use App\Services\Models\TransactionService;
 use Livewire\Component;
 
 class CreateTransaction extends Component
@@ -48,7 +49,9 @@ class CreateTransaction extends Component
 
     public function store()
     {
-        $this->validate();
+        $transaction = (new TransactionService)->store($this->pad, $this->validate());
+
+        return redirect()->route('transactions.show', $transaction->id);
     }
 
     public function render()

@@ -50,6 +50,10 @@ class TransactionDatatable extends DataTable
                     'buttons' => 'all',
                 ]);
             })
+            ->rawColumns([
+                'status',
+                ...$this->padFields->pluck('label')->toArray(),
+            ])
             ->addIndexColumn();
     }
 
@@ -57,6 +61,7 @@ class TransactionDatatable extends DataTable
     {
         return $transaction
             ->newQuery()
+            ->select('transactions.*')
             ->where('pad_id', request()->route('pad')->id)
             ->when(is_numeric(request('branch')), fn($query) => $query->where('transactions.warehouse_id', request('branch')))
             ->with([
@@ -96,7 +101,7 @@ class TransactionDatatable extends DataTable
         return 'Transactions_' . date('YmdHis');
     }
 
-    private function addDynamicColumns($query)
+    public function addDynamicColumns($query)
     {
         $datatable = datatables()->eloquent($query);
 
