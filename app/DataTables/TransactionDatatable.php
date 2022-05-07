@@ -7,6 +7,7 @@ use App\Models\Transaction;
 use App\Models\TransactionField;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -50,10 +51,6 @@ class TransactionDatatable extends DataTable
                     'buttons' => 'all',
                 ]);
             })
-            ->rawColumns([
-                'status',
-                ...$this->padFields->pluck('label')->toArray(),
-            ])
             ->addIndexColumn();
     }
 
@@ -76,7 +73,7 @@ class TransactionDatatable extends DataTable
         $columns = [
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
-            Column::make('code')->className('has-text-centered')->title('Reference No'),
+            Column::make('code')->className('has-text-centered')->title(request()->route('pad')->abbreviation . ' No'),
             request()->route('pad')->hasStatus() ? Column::computed('status') : '',
         ];
 
@@ -108,11 +105,17 @@ class TransactionDatatable extends DataTable
         foreach ($this->padFields as $padField) {
             $datatable
                 ->editColumn($padField->label, function ($transaction) use ($padField) {
-                    return TransactionField::query()
+                    $value = TransactionField::query()
                         ->where('pad_field_id', $padField->id)
                         ->where('transaction_id', $transaction->id)
                         ->first()
                         ->value ?? 'N/A';
+
+                    if ($padField->hasRelation()) {
+                        $value = DB::table(str($padField->padRelation->model_name)->plural()->lower())->find($value)->company_name;
+                    }
+
+                    return $value;
                 });
         }
 
