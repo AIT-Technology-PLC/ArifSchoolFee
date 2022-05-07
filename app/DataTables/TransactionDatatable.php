@@ -109,13 +109,13 @@ class TransactionDatatable extends DataTable
                         ->where('pad_field_id', $padField->id)
                         ->where('transaction_id', $transaction->id)
                         ->first()
-                        ->value ?? 'N/A';
+                        ->value ?? null;
 
-                    if ($padField->hasRelation()) {
+                    if ($value && $padField->hasRelation()) {
                         $value = DB::table(str($padField->padRelation->model_name)->plural()->lower())->find($value)->company_name;
                     }
 
-                    return $value;
+                    return $value ?? 'N/A';
                 });
         }
 

@@ -13,7 +13,7 @@ class TransactionService
         $line = 0;
 
         return DB::transaction(function () use ($pad, $data, $line) {
-            $transaction = $pad->create(Arr::only($data, ['code', 'issued_on']));
+            $transaction = $pad->transactions()->create(Arr::only($data, ['code', 'issued_on']));
 
             foreach ($data['master'] as $key => $value) {
                 $transaction->transactionFields()->create([
@@ -27,7 +27,7 @@ class TransactionService
                     $transaction->transactionFields()->create([
                         'pad_field_id' => $key,
                         'value' => $value,
-                        'line' => 0,
+                        'line' => $line,
                     ]);
                 }
 
