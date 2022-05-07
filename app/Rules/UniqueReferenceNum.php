@@ -24,7 +24,8 @@ class UniqueReferenceNum implements Rule
             ->where('warehouse_id', auth()->user()->warehouse_id)
             ->where('company_id', userCompany()->id)
             ->where('code', $value)
-            ->where('id', '<>', $this->excludedId)
+            ->when(is_numeric($this->excludedId), fn($q) => $q->where('id', '<>', $this->excludedId))
+            ->when(is_countable($this->excludedId), fn($q) => $q->whereNotIn('id', $this->excludedId))
             ->doesntExist();
     }
 

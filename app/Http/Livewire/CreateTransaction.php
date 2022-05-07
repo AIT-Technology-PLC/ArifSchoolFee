@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Pad;
+use App\Models\Transaction;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Services\Models\TransactionService;
@@ -16,7 +17,7 @@ class CreateTransaction extends Component
     {
         $this->pad = $pad;
 
-        $this->currentReferenceCode = nextReferenceNumber('transactions');
+        $this->currentReferenceCode = Transaction::where('pad_id', $pad->id)->max('code') + 1;
 
         $this->masterPadFields = $this->pad->padFields()->with('padRelation')->where('is_master_field', 1)->get();
 
@@ -62,7 +63,10 @@ class CreateTransaction extends Component
     protected function rules()
     {
         $rules = [
-            'code' => ['required', 'integer', new UniqueReferenceNum('transactions')],
+            'code' => ['required', 'integer', new UniqueReferenceNum(
+                'transactions',
+                Transaction::where('pad_id', '<>', $this->pad->id)->pluck('id')
+            )],
             'issued_on' => ['required', 'date'],
         ];
 

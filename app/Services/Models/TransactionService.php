@@ -15,23 +15,27 @@ class TransactionService
         return DB::transaction(function () use ($pad, $data, $line) {
             $transaction = $pad->transactions()->create(Arr::only($data, ['code', 'issued_on']));
 
-            foreach ($data['master'] as $key => $value) {
-                $transaction->transactionFields()->create([
-                    'pad_field_id' => $key,
-                    'value' => $value,
-                ]);
-            }
-
-            foreach ($data['details'] as $detail) {
-                foreach ($detail as $key => $value) {
+            if (array_key_exists('master', $data)) {
+                foreach ($data['master'] as $key => $value) {
                     $transaction->transactionFields()->create([
                         'pad_field_id' => $key,
                         'value' => $value,
-                        'line' => $line,
                     ]);
                 }
+            }
 
-                $line++;
+            if (array_key_exists('details', $data)) {
+                foreach ($data['details'] as $detail) {
+                    foreach ($detail as $key => $value) {
+                        $transaction->transactionFields()->create([
+                            'pad_field_id' => $key,
+                            'value' => $value,
+                            'line' => $line,
+                        ]);
+                    }
+
+                    $line++;
+                }
             }
 
             return $transaction;
