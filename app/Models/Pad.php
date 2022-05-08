@@ -137,6 +137,6 @@ class Pad extends Model
 
     public function hasDetailPadFields()
     {
-        return $this->padFields()->where('is_master_field', 0)->exists();
+        return $this->padFields()->detailFields()->exists();
     }
 }

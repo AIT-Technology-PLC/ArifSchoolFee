@@ -23,7 +23,7 @@ class TransactionDatatable extends DataTable
     {
         $this->padFields = PadField::query()
             ->where('pad_id', request()->route('pad')->id)
-            ->where('is_master_field', 1)
+            ->masterFields()
             ->where('is_visible', 1)
             ->get();
     }

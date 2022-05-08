@@ -35,9 +35,9 @@ class CreateTransaction extends Component
 
         $this->currentReferenceCode = $this->pad->transactions()->max('code') + 1;
 
-        $this->masterPadFields = $this->pad->padFields()->with('padRelation')->where('is_master_field', 1)->get();
+        $this->masterPadFields = $this->pad->padFields()->with('padRelation')->masterFields()->get();
 
-        $this->detailPadFields = $this->pad->padFields()->with('padRelation')->where('is_master_field', 0)->get();
+        $this->detailPadFields = $this->pad->padFields()->with('padRelation')->detailFields()->get();
 
         $this->master = [];
 
