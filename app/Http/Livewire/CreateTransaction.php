@@ -11,13 +11,29 @@ use Livewire\Component;
 
 class CreateTransaction extends Component
 {
-    public $pad, $currentReferenceCode, $masterPadFields, $detailPadFields, $master, $details, $code, $issued_on;
+    public $pad;
+
+    public $currentReferenceCode;
+
+    public $masterPadFields;
+
+    public $detailPadFields;
+
+    public $master;
+
+    public $details;
+
+    public $code;
+
+    public $excludedTransactions;
+
+    public $issued_on;
 
     public function mount(Pad $pad)
     {
         $this->pad = $pad;
 
-        $this->currentReferenceCode = Transaction::where('pad_id', $pad->id)->max('code') + 1;
+        $this->currentReferenceCode = $this->pad->transactions()->max('code') + 1;
 
         $this->masterPadFields = $this->pad->padFields()->with('padRelation')->where('is_master_field', 1)->get();
 
@@ -30,6 +46,8 @@ class CreateTransaction extends Component
         ];
 
         $this->code = $this->currentReferenceCode;
+
+        $this->excludedTransactions = Transaction::where('pad_id', '<>', $this->pad->id)->pluck('id');
 
         $this->issued_on = now()->toDateTimeLocalString();
     }
@@ -63,10 +81,7 @@ class CreateTransaction extends Component
     protected function rules()
     {
         $rules = [
-            'code' => ['required', 'integer', new UniqueReferenceNum(
-                'transactions',
-                Transaction::where('pad_id', '<>', $this->pad->id)->pluck('id')
-            )],
+            'code' => ['required', 'integer', new UniqueReferenceNum('transactions', $this->excludedTransactions)],
             'issued_on' => ['required', 'date'],
         ];
 
