@@ -24,9 +24,13 @@ class PadService
 
             $pad->padPermissions()->createMany($this->generatePermissions($pad));
 
-            $pad->padFields()->createMany($this->generatePaymentTermFields($pad));
+            if ($data['has_prices']) {
+                $pad->padFields()->createMany($this->generatePriceFields());
+            }
 
-            $pad->padFields()->createMany($this->generatePriceFields($pad));
+            if ($data['has_payment_term']) {
+                $pad->padFields()->createMany($this->generatePaymentTermFields());
+            }
 
             return $pad;
         });
@@ -48,12 +52,23 @@ class PadService
                     }
                 });
 
-            $pad->padPermissions()->whereNotIn('name', collect($this->generatePermissions($pad))->pluck('name'))->forceDelete();
+            $pad->padPermissions()->whereNotIn('name', $this->generatePermissions($pad)->pluck('name'))->forceDelete();
 
-            collect($this->generatePermissions($pad))
-                ->each(function ($permission) use ($pad) {
-                    $pad->padPermissions()->firstOrCreate($permission);
-                });
+            $this->generatePermissions($pad)->each(function ($permission) use ($pad) {
+                $pad->padPermissions()->firstOrCreate($permission);
+            });
+
+            $pad->padFields()->when(
+                $data['has_prices'],
+                fn($q) => $q->createMany($this->generatePriceFields()),
+                fn($q) => $q->whereIn('label', $this->generatePriceFields()->pluck('label'))->forceDelete()
+            );
+
+            $pad->padFields()->when(
+                $data['has_payment_term'],
+                fn($q) => $q->createMany($this->generatePaymentTermFields()),
+                fn($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->forceDelete()
+            );
 
             return $pad;
         });
@@ -84,16 +99,12 @@ class PadService
             $permissions[] = ['name' => ucfirst($pad->getInventoryOperationType())];
         }
 
-        return $permissions;
+        return collect($permissions);
     }
 
-    private function generatePriceFields($pad)
+    private function generatePriceFields()
     {
-        if (!$pad->hasPrices()) {
-            return [];
-        }
-
-        return [
+        return collect([
             [
                 'label' => 'Unit Price',
                 'icon' => 'fas fa-dollar-sign',
@@ -124,16 +135,12 @@ class PadService
                 'tag' => 'input',
                 'tag_type' => 'number',
             ],
-        ];
+        ]);
     }
 
-    private function generatePaymentTermFields($pad)
+    private function generatePaymentTermFields()
     {
-        if (!$pad->hasPaymentTerm()) {
-            return [];
-        }
-
-        return [
+        return collect([
             [
                 'label' => 'Discount',
                 'icon' => 'fas fa-percent',
@@ -174,6 +181,6 @@ class PadService
                 'tag' => 'input',
                 'tag_type' => 'date',
             ],
-        ];
+        ]);
     }
 }
