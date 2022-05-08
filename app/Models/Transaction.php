@@ -128,13 +128,9 @@ class Transaction extends Model
     {
         return Attribute::make(
             get:function () {
-                $discountPadField = PadField::firstWhere([
-                    ['label', 'Discount'],
-                    ['is_master_field', 0],
-                    ['pad_id', $this->pad_id],
-                ]);
+                $discountPadField = $this->pad->padFields()->masterFields()->where('label', 'Discount')->first();
 
-                $discount = $this->transactionFields()->firstWhere('pad_field_id', $discountPadField->id)->value;
+                $discount = $this->transactionFields()->firstWhere('pad_field_id', $discountPadField->id)->value / 100;
 
                 $discountAmount = number_format($this->grandTotalPrice * $discount, 2, thousands_separator:'');
 
