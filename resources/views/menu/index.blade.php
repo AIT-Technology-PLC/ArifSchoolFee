@@ -160,7 +160,7 @@
                                         class="general-menu-item button text-green bg-lightgreen is-borderless"
                                     >
                                         <span class="icon is-size-5">
-                                            <i class="{{ $pad->icon ?? 'fas fa-book' }}"></i>
+                                            <i class="{{ $pad->icon }}"></i>
                                         </span>
                                     </a>
                                     <br>
@@ -351,7 +351,7 @@
                                         class="general-menu-item button text-green bg-lightgreen is-borderless"
                                     >
                                         <span class="icon is-size-5">
-                                            <i class="{{ $pad->icon ?? 'fas fa-book' }}"></i>
+                                            <i class="{{ $pad->icon }}"></i>
                                         </span>
                                     </a>
                                     <br>
@@ -521,7 +521,7 @@
                                         class="general-menu-item button text-green bg-lightgreen is-borderless"
                                     >
                                         <span class="icon is-size-5">
-                                            <i class="{{ $pad->icon ?? 'fas fa-book' }}"></i>
+                                            <i class="{{ $pad->icon }}"></i>
                                         </span>
                                     </a>
                                     <br>
@@ -668,7 +668,7 @@
                                         class="general-menu-item button text-green bg-lightgreen is-borderless"
                                     >
                                         <span class="icon is-size-5">
-                                            <i class="{{ $pad->icon ?? 'fas fa-book' }}"></i>
+                                            <i class="{{ $pad->icon }}"></i>
                                         </span>
                                     </a>
                                     <br>

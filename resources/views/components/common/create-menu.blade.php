@@ -133,7 +133,7 @@
                                         tag="a"
                                         mode="button"
                                         href="{{ route('pads.transactions.create', $pad->id) }}"
-                                        icon="{{ $pad->icon ?? 'fas fa-book' }}"
+                                        icon="{{ $pad->icon }}"
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
@@ -296,7 +296,7 @@
                                         tag="a"
                                         mode="button"
                                         href="{{ route('pads.transactions.create', $pad->id) }}"
-                                        icon="{{ $pad->icon ?? 'fas fa-book' }}"
+                                        icon="{{ $pad->icon }}"
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
@@ -436,7 +436,7 @@
                                         tag="a"
                                         mode="button"
                                         href="{{ route('pads.transactions.create', $pad->id) }}"
-                                        icon="{{ $pad->icon ?? 'fas fa-book' }}"
+                                        icon="{{ $pad->icon }}"
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
@@ -543,7 +543,7 @@
                                         tag="a"
                                         mode="button"
                                         href="{{ route('pads.transactions.create', $pad->id) }}"
-                                        icon="{{ $pad->icon ?? 'fas fa-book' }}"
+                                        icon="{{ $pad->icon }}"
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>

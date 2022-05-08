@@ -16,6 +16,20 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
+                        icon="fas fa-font"
+                        :data="$pad->abbreviation"
+                        label="Abbreviation"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-icons"
+                        :data="$pad->icon"
+                        label="Icon"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
                         icon="fas fa-cog"
                         :data="str()->ucfirst($pad->inventory_operation_type)"
                         label="Inventory Operation"

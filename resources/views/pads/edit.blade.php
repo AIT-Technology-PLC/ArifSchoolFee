@@ -57,6 +57,26 @@
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
+                        <x-forms.label for="icon">
+                            Icon <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="text"
+                                    name="icon"
+                                    id="icon"
+                                    value="{{ $pad->icon }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-icons"
+                                    class="is-large is-left"
+                                />
+                            </x-forms.control>
+                            <x-common.validation-error property="icon" />
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="inventory_operation_type">
                                 Inventory Operation Type <sup class="has-text-danger">*</sup>

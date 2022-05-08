@@ -8,7 +8,7 @@
             <x-common.total-model
                 model="{{ $pad->abbreviation }}"
                 :amount="$transactions->count()"
-                icon="{{ $pad->icon ?? 'fas fa-book' }}"
+                icon="{{ $pad->icon }}"
             />
         </div>
         @if ($pad->isInventoryOperationAdd())
