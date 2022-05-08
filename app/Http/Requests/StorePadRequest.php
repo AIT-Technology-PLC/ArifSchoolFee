@@ -17,7 +17,7 @@ class StorePadRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'abbreviation' => ['nullable', 'string'],
+            'abbreviation' => ['required', 'string'],
             'inventory_operation_type' => ['required', 'string', Rule::in(Pad::INVENTORY_OPERATIONS)],
             'is_approvable' => ['required', 'boolean'],
             'is_closable' => ['required', 'boolean'],

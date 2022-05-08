@@ -165,7 +165,7 @@
                                     </a>
                                     <br>
                                     <span class="is-size-6 is-size-7-mobile text-green">
-                                        {{ $pad->abbreviation ?? $pad->name }}
+                                        {{ $pad->abbreviation }}
                                     </span>
                                 </div>
                             @endif
@@ -356,7 +356,7 @@
                                     </a>
                                     <br>
                                     <span class="is-size-6 is-size-7-mobile text-green">
-                                        {{ $pad->abbreviation ?? $pad->name }}
+                                        {{ $pad->abbreviation }}
                                     </span>
                                 </div>
                             @endif
@@ -526,7 +526,7 @@
                                     </a>
                                     <br>
                                     <span class="is-size-6 is-size-7-mobile text-green">
-                                        {{ $pad->abbreviation ?? $pad->name }}
+                                        {{ $pad->abbreviation }}
                                     </span>
                                 </div>
                             @endif
@@ -673,7 +673,7 @@
                                     </a>
                                     <br>
                                     <span class="is-size-6 is-size-7-mobile text-green">
-                                        {{ $pad->abbreviation ?? $pad->name }}
+                                        {{ $pad->abbreviation }}
                                     </span>
                                 </div>
                             @endif

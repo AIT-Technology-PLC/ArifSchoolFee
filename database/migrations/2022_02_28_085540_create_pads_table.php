@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('name');
-            $table->string('abbreviation')->nullable();
+            $table->string('abbreviation');
             $table->string('inventory_operation_type'); // add, subtract, none
             $table->boolean('is_approvable');
             $table->boolean('is_closable');

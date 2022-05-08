@@ -137,7 +137,7 @@
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
-                                    <span class="is-size-7"> New {{ $pad->abbreviation ?? $pad->name }} </span>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
                             @endif
                         @endforeach
@@ -300,7 +300,7 @@
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
-                                    <span class="is-size-7"> New {{ $pad->abbreviation ?? $pad->name }} </span>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
                             @endif
                         @endforeach
@@ -440,7 +440,7 @@
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
-                                    <span class="is-size-7"> New {{ $pad->abbreviation ?? $pad->name }} </span>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
                             @endif
                         @endforeach
@@ -547,7 +547,7 @@
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
-                                    <span class="is-size-7"> New {{ $pad->abbreviation ?? $pad->name }} </span>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
                             @endif
                         @endforeach
