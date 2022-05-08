@@ -17,6 +17,7 @@ class PadFieldDatatable extends DataTable
             ->eloquent($query)
             ->editColumn('relationship_type', fn($padField) => $padField->padRelation->relationship_type ?? '-')
             ->editColumn('model_name', fn($padField) => $padField->padRelation->model_name ?? '-')
+            ->editColumn('representative_column', fn($padField) => $padField->padRelation->representative_column ?? '-')
             ->editColumn('component_name', fn($padField) => $padField->padRelation->component_name ?? '-')
             ->editColumn('is_master_field', fn($padField) => $padField->is_master_field ? 'Yes' : 'No')
             ->editColumn('is_required', fn($padField) => $padField->is_required ? 'Yes' : 'No')
@@ -50,6 +51,7 @@ class PadFieldDatatable extends DataTable
             Column::make('icon'),
             Column::make('relationship_type', 'padRelation.relationship_type'),
             Column::make('model_name', 'padRelation.model_name'),
+            Column::make('representative_column', 'padRelation.representative_column'),
             Column::make('component_name', 'padRelation.component_name'),
             Column::make('is_master_field')->title('Master Field'),
             Column::make('is_required')->title('Required'),

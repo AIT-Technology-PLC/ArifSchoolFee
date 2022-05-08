@@ -450,6 +450,32 @@
                                         x-show="isFieldRelational(field.is_relational_field)"
                                         class="column is-4"
                                     >
+                                        <x-forms.label for="`field[${index}][representative_column]`">
+                                            Representative Column <sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.field>
+                                            <x-forms.control class="has-icons-left">
+                                                <x-forms.input
+                                                    type="text"
+                                                    x-bind:name="`field[${index}][representative_column]`"
+                                                    x-bind:id="`field[${index}][representative_column]`"
+                                                    x-model="field.representative_column"
+                                                />
+                                                <x-common.icon
+                                                    name="fas fa-square"
+                                                    class="is-large is-left"
+                                                />
+                                            </x-forms.control>
+                                            <span
+                                                class="help has-text-danger"
+                                                x-text="errors[`field.${index}.representative_column`]"
+                                            ></span>
+                                        </x-forms.field>
+                                    </div>
+                                    <div
+                                        x-show="isFieldRelational(field.is_relational_field)"
+                                        class="column is-4"
+                                    >
                                         <x-forms.label for="`field[${index}][component_name]`">
                                             Component <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
@@ -522,7 +548,7 @@
                                         <x-forms.label for="`field[${index}][tag]`">
                                             Tag <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
-                                        <x-forms.field x-bind:class="{ 'has-addons' : isTagInput(field.tag) }">
+                                        <x-forms.field x-bind:class="{ 'has-addons': isTagInput(field.tag) }">
                                             <x-forms.control class="has-icons-left">
                                                 <x-forms.input
                                                     type="text"

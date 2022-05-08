@@ -56,18 +56,20 @@ class Transaction extends Model
 
     public function subtotalPrice(): Attribute
     {
-        $unitPricePadField = PadField::firstWhere('label', 'Unit Price');
-        $quantityPadField = PadField::firstWhere('label', 'Quantity');
-
-        $unitPrice = $this->transactionFields()->where('pad_field_id', $unitPricePadField->id)->sum('value');
-        $quantity = $this->transactionFields()->where('pad_field_id', $quantityPadField->id)->sum('value');
-
         return Attribute::make(
-            get:fn() => number_format(
-                $unitPrice * $quantity,
-                2,
-                thousands_separator:''
-            )
+            get:function () {
+                $unitPricePadField = PadField::firstWhere('label', 'Unit Price');
+                $quantityPadField = PadField::firstWhere('label', 'Quantity');
+
+                $unitPrice = $this->transactionFields()->where('pad_field_id', $unitPricePadField->id)->sum('value');
+                $quantity = $this->transactionFields()->where('pad_field_id', $quantityPadField->id)->sum('value');
+
+                return number_format(
+                    $unitPrice * $quantity,
+                    2,
+                    thousands_separator:''
+                );
+            }
         );
     }
 

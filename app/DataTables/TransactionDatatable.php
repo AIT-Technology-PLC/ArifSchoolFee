@@ -112,7 +112,9 @@ class TransactionDatatable extends DataTable
                         ->value ?? null;
 
                     if ($value && $padField->hasRelation()) {
-                        $value = DB::table(str($padField->padRelation->model_name)->plural()->lower())->find($value)->company_name;
+                        $value = DB::table(
+                            str($padField->padRelation->model_name)->plural()->lower()
+                        )->find($value)->{$padField->padRelation->representative_column};
                     }
 
                     return $value ?? 'N/A';

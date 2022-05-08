@@ -414,6 +414,26 @@
                                         </x-forms.field>
                                     </div>
                                     <div class="column is-4">
+                                        <x-forms.label for="field[{{ $loop->index }}][representative_column]">
+                                            Representative Column <sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.field>
+                                            <x-forms.control class="has-icons-left">
+                                                <x-forms.input
+                                                    type="text"
+                                                    name="field[{{ $loop->index }}][representative_column]"
+                                                    id="field[{{ $loop->index }}][representative_column]"
+                                                    value="{{ $padField->padRelation->representative_column }}"
+                                                />
+                                                <x-common.icon
+                                                    name="fas fa-square"
+                                                    class="is-large is-left"
+                                                />
+                                            </x-forms.control>
+                                            <x-common.validation-error property="field.{{ $loop->index }}.representative_column" />
+                                        </x-forms.field>
+                                    </div>
+                                    <div class="column is-4">
                                         <x-forms.label for="field[{{ $loop->index }}][component_name]">
                                             Component <sup class="has-text-danger">*</sup>
                                         </x-forms.label>

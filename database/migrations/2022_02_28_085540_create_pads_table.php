@@ -52,8 +52,9 @@ return new class extends Migration
         Schema::create('pad_relations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pad_field_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->string('relationship_type'); // e.g. hasmany, belongsto
-            $table->string('model_name'); // App/Models/Customer::class
+            $table->string('relationship_type');
+            $table->string('model_name');
+            $table->string('representative_column');
             $table->string('component_name');
             $table->timestamps();
             $table->softDeletes();

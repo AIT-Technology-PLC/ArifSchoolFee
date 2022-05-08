@@ -33,6 +33,7 @@ class UpdatePadRequest extends FormRequest
             'field.*.is_relational_field' => ['sometimes', 'required', 'boolean', 'required_with:field'],
             'field.*.relationship_type' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0'],
             'field.*.model_name' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0'],
+            'field.*.representative_column' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0'],
             'field.*.component_name' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0'],
 
             'field.*.label' => ['sometimes', 'required', 'string', 'required_with:field'],
