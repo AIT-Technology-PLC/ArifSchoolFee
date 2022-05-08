@@ -96,7 +96,7 @@ class TransactionController extends Controller
         //
     }
 
-    public function show($id)
+    public function show(Transaction $transaction)
     {
         //
     }

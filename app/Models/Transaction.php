@@ -8,6 +8,7 @@ use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Transaction extends Model
 {
@@ -54,18 +55,46 @@ class Transaction extends Model
         return $this->transactionFields()->where('key', 'closed_by')->exists();
     }
 
+    public function transactionDetails(): Attribute
+    {
+        return Attribute::make(
+            get:function () {
+                $padFields = $this->pad->padFields()->detailFields()->get();
+
+                $groupedTransactionFields = $this->transactionFields()->with('padField.padRelation')->whereIn('pad_field_id', $padFields->pluck('id'))->get()->groupBy('line');
+
+                return $groupedTransactionFields->map(function ($groupedTransactionField) {
+                    $data = [];
+
+                    foreach ($groupedTransactionField as $transactionField) {
+                        $value = $transactionField->value;
+
+                        if ($transactionField->padField->hasRelation()) {
+                            $value = DB::table(
+                                str($transactionField->padField->padRelation->model_name)->plural()->lower()
+                            )->find($value)->{$transactionField->padField->padRelation->representative_column};
+                        }
+                        $data[str()->snake($transactionField->padField->label)] = $value;
+                    }
+
+                    return $data;
+                });
+            }
+        );
+    }
+
     public function subtotalPrice(): Attribute
     {
         return Attribute::make(
             get:function () {
-                $unitPricePadField = PadField::firstWhere('label', 'Unit Price');
-                $quantityPadField = PadField::firstWhere('label', 'Quantity');
+                $transactionDetails = $this->transactionDetails;
 
-                $unitPrice = $this->transactionFields()->where('pad_field_id', $unitPricePadField->id)->sum('value');
-                $quantity = $this->transactionFields()->where('pad_field_id', $quantityPadField->id)->sum('value');
+                $total = $transactionDetails->reduce(function ($carry, $item) {
+                    return $carry + ($item['unit_price'] * $item['quantity']);
+                });
 
                 return number_format(
-                    $unitPrice * $quantity,
+                    $total,
                     2,
                     thousands_separator:''
                 );

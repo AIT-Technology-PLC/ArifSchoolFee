@@ -33,6 +33,16 @@ class PadField extends Model
         return $this->hasOne(PadRelation::class);
     }
 
+    public function scopeMasterFields($query)
+    {
+        return $query->where('is_master_field', 1);
+    }
+
+    public function scopeDetailFields($query)
+    {
+        return $query->where('is_master_field', 0);
+    }
+
     public function isMasterField()
     {
         return $this->is_master_field;
