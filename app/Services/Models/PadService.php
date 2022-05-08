@@ -60,13 +60,13 @@ class PadService
 
             $pad->padFields()->when(
                 $data['has_prices'],
-                fn($q) => $q->createMany($this->generatePriceFields()),
+                fn() => $pad->padFields()->createMany($this->generatePriceFields()),
                 fn($q) => $q->whereIn('label', $this->generatePriceFields()->pluck('label'))->forceDelete()
             );
 
             $pad->padFields()->when(
                 $data['has_payment_term'],
-                fn($q) => $q->createMany($this->generatePaymentTermFields()),
+                fn() => $pad->padFields()->createMany($this->generatePaymentTermFields()),
                 fn($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->forceDelete()
             );
 
@@ -74,7 +74,7 @@ class PadService
         });
     }
 
-    private function generatePermissions($pad)
+    public function generatePermissions($pad)
     {
         $permissions = [
             ['name' => 'Create'],
@@ -102,7 +102,7 @@ class PadService
         return collect($permissions);
     }
 
-    private function generatePriceFields()
+    public function generatePriceFields()
     {
         return collect([
             [
@@ -138,7 +138,7 @@ class PadService
         ]);
     }
 
-    private function generatePaymentTermFields()
+    public function generatePaymentTermFields()
     {
         return collect([
             [

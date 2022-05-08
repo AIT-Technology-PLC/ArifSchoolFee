@@ -59,7 +59,12 @@ class PadController extends Controller
 
     public function edit(Pad $pad)
     {
-        $pad->load(['padFields.padRelation']);
+        $pricesFields = $this->padService->generatePriceFields()->pluck('label');
+        $excludedPadFields = $this->padService->generatePaymentTermFields()->pluck('label')->merge($pricesFields);
+
+        $pad->load(['padFields' => function ($query) use ($excludedPadFields) {
+            $query->with('padRelation')->whereNotIn('label', $excludedPadFields);
+        }]);
 
         return view('pads.edit', compact('pad'));
     }
