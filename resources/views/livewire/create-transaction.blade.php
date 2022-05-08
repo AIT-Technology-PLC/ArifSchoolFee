@@ -81,6 +81,7 @@
                                 </x-forms.field>
                             </div>
                         @elseif ($masterPadField->isTagInput() && !$masterPadField->isInputTypeCheckbox() && !$masterPadField->isInputTypeRadio())
+                            @continue($masterPadField->label == 'Discount' && userCompany()->isDiscountBeforeVAT())
                             <div class="column is-6">
                                 <x-forms.field>
                                     <x-forms.label for="{{ $masterPadField->id }}">
@@ -247,9 +248,18 @@
                                                     </x-forms.control>
                                                 </x-forms.field>
                                             @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio())
+                                                @continue($detailPadField->label == 'Discount' && !userCompany()->isDiscountBeforeVAT())
                                                 <x-forms.field>
                                                     <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
-                                                        {{ $detailPadField->label }} <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
+                                                        {{ $detailPadField->label }}
+                                                        <sup class="has-text-danger">
+                                                            {{ $detailPadField->isRequired() ? '*' : '' }}
+                                                        </sup>
+                                                        @if ($detailPadField->label == 'Unit Price')
+                                                            <sup class="has-text-weight-light">
+                                                                ({{ userCompany()->getPriceMethod() }})
+                                                            </sup>
+                                                        @endif
                                                     </x-forms.label>
                                                     <x-forms.control class="has-icons-left">
                                                         <x-forms.input

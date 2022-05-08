@@ -60,13 +60,15 @@ class PadService
 
             $pad->padFields()->when(
                 $data['has_prices'],
-                fn() => $pad->padFields()->createMany($this->generatePriceFields()),
+                fn($q) => $q->whereIn('label', $this->generatePriceFields()->pluck('label'))->exists()
+                ?: $pad->padFields()->createMany($this->generatePriceFields()),
                 fn($q) => $q->whereIn('label', $this->generatePriceFields()->pluck('label'))->forceDelete()
             );
 
             $pad->padFields()->when(
                 $data['has_payment_term'],
-                fn() => $pad->padFields()->createMany($this->generatePaymentTermFields()),
+                fn($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->exists()
+                ?: $pad->padFields()->createMany($this->generatePaymentTermFields()),
                 fn($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->forceDelete()
             );
 
