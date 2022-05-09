@@ -400,7 +400,17 @@ document.addEventListener("alpine:init", () => {
             this.isChecked = !this.isChecked;
         },
     }));
+    Alpine.data("cashReceivedType", () => ({
+        paymentType:"",
+        isPaymentInCash() {
+            if (!this.paymentType) {
+                return true;
+            }
 
+            return this.paymentType === "Cash Payment";
+        },
+        
+    }));
     Alpine.data("priceMasterDetailForm", ({ price }) => ({
         prices: [],
         errors: {},
