@@ -38,6 +38,8 @@ class CustomerCreditController extends Controller
 
         $averageCreditSettlementDays = $customer->credits()->settled()->averageCreditSettlementDays();
 
+        $currentCreditLimit = $customer->credit_amount_limit - $currentCreditBalance;
+
         return $datatable->render('customers.credits.index', compact(
             'customer',
             'totalCredits',
@@ -46,7 +48,8 @@ class CustomerCreditController extends Controller
             'totalNotSettledAtAll',
             'totalCreditAmountProvided',
             'currentCreditBalance',
-            'averageCreditSettlementDays')
+            'averageCreditSettlementDays',
+            'currentCreditLimit')
         );
     }
 }
