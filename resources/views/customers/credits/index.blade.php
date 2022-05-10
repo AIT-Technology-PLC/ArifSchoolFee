@@ -115,13 +115,21 @@
             </div>
             <div class="column is-6 p-lr-0 px-0">
                 <x-common.index-insight
+                    amount="{{ number_format($currentCreditLimit, 2) }}"
+                    border-color="#863d3e"
+                    text-color="text-brown"
+                    label="Current Credit Limit (in {{ userCompany()->currency }})"
+                />
+            </div>
+            <div class="column is-4 p-lr-0 pl-0">
+                <x-common.index-insight
                     amount="{{ number_format($totalCreditAmountProvided, 2) }}"
                     border-color="#3d8660"
                     text-color="text-green"
                     label="Credit Provided To Date (in {{ userCompany()->currency }})"
                 />
             </div>
-            <div class="column is-6 p-lr-0 pl-0">
+            <div class="column is-4 p-lr-0 pl-0">
                 <x-common.index-insight
                     amount="{{ number_format($currentCreditBalance, 2) }}"
                     border-color="#86843d"
@@ -129,7 +137,7 @@
                     label="Unsettled Credit Balance (in {{ userCompany()->currency }})"
                 />
             </div>
-            <div class="column is-6 p-lr-0 px-0">
+            <div class="column is-4 p-lr-0 px-0">
                 <x-common.index-insight
                     amount="{{ number_format($averageCreditSettlementDays, 2) }}"
                     border-color="#863d63"
