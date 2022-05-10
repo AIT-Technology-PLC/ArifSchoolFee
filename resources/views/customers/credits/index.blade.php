@@ -137,6 +137,14 @@
                     label="Average Credit Settlement Period (in Days)"
                 />
             </div>
+            <div class="column is-6 p-lr-0 pl-0">
+                <x-common.index-insight
+                    amount="{{ number_format($averageCreditSettlementDays, 2) }}"
+                    border-color="#863d3e"
+                    text-color="text-brown"
+                    label="Current Credit Limit (in ETB)"
+                />
+            </div>
         </div>
     </x-common.content-wrapper>
 
