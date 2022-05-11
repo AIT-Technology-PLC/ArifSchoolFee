@@ -8,7 +8,6 @@ use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class Transaction extends Model
@@ -79,13 +78,13 @@ class Transaction extends Model
                         $data[str()->snake($transactionField->padField->label)] = $value;
                     }
 
-                    if (Arr::has($data, 'unit_price')) {
+                    if ($this->pad->hasPrices()) {
+                        $data['discount'] = $data['discount'] ?? 0.00;
+
                         $unitPrice = userCompany()->isPriceBeforeVAT() ? $data['unit_price'] : $data['unit_price'] / 1.15;
 
                         $data['total'] = number_format($unitPrice * $data['quantity'], 2, thousands_separator:'');
-                    }
 
-                    if (Arr::has($data, 'discount')) {
                         $discount = userCompany()->isDiscountBeforeVAT() ? $data['discount'] / 100 : 0.00;
 
                         $discountAmount = number_format($data['total'] * $discount, 2, thousands_separator:'');
