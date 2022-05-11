@@ -316,7 +316,8 @@ return new class extends Migration
             $table->boolean('is_closed')->default(0);
             $table->string('discount')->nullable();
             $table->string('payment_type');
-            $table->decimal('cash_received_in_percentage', 22);
+            $table->string('cash_received_type')->default('percent');
+            $table->decimal('cash_received', 22)->default(100);
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('due_date')->nullable();

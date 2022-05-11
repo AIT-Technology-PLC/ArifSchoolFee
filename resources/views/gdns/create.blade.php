@@ -246,7 +246,7 @@
                             >Cash Received <sup class="has-text-danger">*</sup></label>
                             <div class="field has-addons">
                                 <span class="select">
-                                    <select>
+                                    <select name="cash_received_type">
                                         <option
                                             selected
                                             disabled
