@@ -40,7 +40,7 @@ class StoreGdnRequest extends FormRequest
             }],
 
             'description' => ['nullable', 'string'],
-            'cash_received' => ['nullable', 'numeric', 'required_if:payment_type,Credit Payment'],
+            'cash_received' => ['required_if:payment_type,Credit Payment', 'nullable', 'numeric'],
             'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
         ];
