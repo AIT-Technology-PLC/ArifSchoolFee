@@ -234,7 +234,7 @@
                             <td>
                                 {{ $gdnDetail->product->name }}
                             </td>
-                            <td> {{ $gdnDetail->product->code ?? '' }} </td>
+                            <td> {{ $gdnDetail->product->code ?? '-' }} </td>
                             <td class="has-text-right"> {{ number_format($gdnDetail->quantity, 2) }} </td>
                             <td class="has-text-centered"> {{ $gdnDetail->product->unit_of_measurement }} </td>
                             <td class="has-text-right"> {{ number_format($gdnDetail->unit_price, 2) }} </td>
