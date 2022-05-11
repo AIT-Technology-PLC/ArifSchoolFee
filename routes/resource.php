@@ -93,4 +93,6 @@ Route::resource('pads', Resource\PadController::class);
 
 Route::resource('pad-fields', Resource\PadFieldController::class)->only('destroy');
 
-Route::resource('pads.transactions', Resource\TransactionController::class)->shallow();
+Route::resource('pads.transactions', Resource\TransactionController::class)->shallow()->except(['store', 'update']);
+
+Route::resource('transaction-fields', Resource\TransactionFieldController::class)->only(['destroy']);

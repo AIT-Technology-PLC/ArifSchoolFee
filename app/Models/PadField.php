@@ -43,6 +43,11 @@ class PadField extends Model
         return $query->where('is_master_field', 0);
     }
 
+    public function scopeVisible($query)
+    {
+        return $query->where('is_visible', 1);
+    }
+
     public function isMasterField()
     {
         return $this->is_master_field;

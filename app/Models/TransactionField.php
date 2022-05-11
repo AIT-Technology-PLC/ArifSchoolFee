@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\Traits\TouchParentUserstamp;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class TransactionField extends Model
 {
@@ -26,5 +28,26 @@ class TransactionField extends Model
     public function parentModel()
     {
         return $this->transaction;
+    }
+
+    public function scopeMasterFields($query)
+    {
+        return $query->whereNull('line');
+    }
+
+    public function scopeDetailFields($query)
+    {
+        return $query->whereNotNull('line');
+    }
+
+    public function relationValue(): Attribute
+    {
+        return Attribute::make(
+            get:function () {
+                return DB::table(str($this->padField->padRelation->model_name)->lower()->plural())
+                    ->find($this->value)
+                    ->{$this->padField->padRelation->representative_column};
+            }
+        );
     }
 }

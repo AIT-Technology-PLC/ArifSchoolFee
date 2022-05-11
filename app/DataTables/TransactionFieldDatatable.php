@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Models\PadField;
-use App\Models\TransactionField;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
 use Yajra\DataTables\Html\Column;
@@ -13,25 +12,17 @@ class TransactionFieldDatatable extends DataTable
 {
     use DataTableHtmlBuilder;
 
-    private $padFields;
-
-    private $datatable;
+    private $transactionDetails;
 
     public function __construct()
     {
-        $this->padFields = PadField::query()
-            ->where('pad_id', request()->route('transaction')->pad->id)
-            ->detailFields()
-            ->where('is_visible', 1)
-            ->get();
+        $this->transactionDetails = request()->route('transaction')->transactionDetails;
     }
 
     public function dataTable($query)
     {
-        $this->addDynamicColumns($query);
-
-        return $this
-            ->datatable
+        return datatables()
+            ->collection($query->all())
             ->editColumn('actions', function ($row) {
                 return view('components.common.action-buttons', [
                     'model' => 'transaction-fields',
@@ -44,59 +35,33 @@ class TransactionFieldDatatable extends DataTable
 
     public function query()
     {
-        $newTransactionFields = [];
-        $row = 0;
-
-        $groupedTransactionFields = TransactionField::query()
-            ->where('transaction_id', request()->route('transaction')->id)
-            ->whereNotNull('line')
-            ->with(['padField'])
-            ->get()
-            ->groupBy('line');
-
-        foreach ($groupedTransactionFields as $key => $transactionFields) {
-            foreach ($transactionFields as $transactionField) {
-                $newTransactionFields[$row][$transactionField->padField->label] = $transactionField->value ?? 'N/A';
-                $newTransactionFields[row]['id'] = $transactionField->id;
-            }
-
-            $row++;
-        }
-
-        return collect($newTransactionFields);
+        return $this->transactionDetails;
     }
 
     protected function getColumns()
     {
-        foreach ($this->padFields as $padField) {
-            $columns[] = Column::computed($padField->label);
+        $columns = [];
+
+        $columns[] = Column::computed('#');
+
+        $padFields = PadField::detailFields()->where('pad_id', request()->route('transaction')->pad_id)->get();
+
+        foreach ($padFields as $padField) {
+            $columns[] = Column::computed(str()->snake($padField->label))->visible($padField->isVisible());
         }
 
-        Arr::prepend($columns, Column::computed('#'));
+        if (request()->route('transaction')->pad->hasPrices()) {
+            $columns[] = userCompany()->isDiscountBeforeVAT() && $padFields->contains('label', 'discount') ? Column::computed('discount') : null;
+            $columns[] = Column::computed('total');
+        }
 
         $columns[] = Column::computed('actions')->className('actions');
 
-        return $columns;
+        return Arr::where($columns, fn($column) => $column != null);
     }
 
     protected function filename()
     {
         return 'Transaction Details_' . date('YmdHis');
-    }
-
-    private function addDynamicColumns($query)
-    {
-        $datatable = datatables()->collection($query->all());
-
-        $this
-            ->padFields
-            ->each(function ($padField) use ($datatable) {
-                $datatable
-                    ->editColumn($padField->label, function ($row) use ($padField) {
-                        return $row[$padField->label];
-                    });
-            });
-
-        $this->datatable = $datatable;
     }
 }

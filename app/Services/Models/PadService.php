@@ -58,14 +58,14 @@ class PadService
                 $pad->padPermissions()->firstOrCreate($permission);
             });
 
-            $pad->padFields()->when(
+            $pad->padFields()->detailFields()->when(
                 $data['has_prices'],
                 fn($q) => $q->whereIn('label', $this->generatePriceFields()->pluck('label'))->exists()
                 ?: $pad->padFields()->createMany($this->generatePriceFields()),
                 fn($q) => $q->whereIn('label', $this->generatePriceFields()->pluck('label'))->forceDelete()
             );
 
-            $pad->padFields()->when(
+            $pad->padFields()->masterFields()->when(
                 $data['has_payment_term'],
                 fn($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->exists()
                 ?: $pad->padFields()->createMany($this->generatePaymentTermFields()),
@@ -108,8 +108,8 @@ class PadService
     {
         return collect([
             [
-                'label' => 'Unit Price',
-                'icon' => 'fas fa-dollar-sign',
+                'label' => 'Quantity',
+                'icon' => 'fas fa-balance-scale',
                 'is_master_field' => 0,
                 'is_required' => 1,
                 'is_visible' => 1,
@@ -118,8 +118,8 @@ class PadService
                 'tag_type' => 'number',
             ],
             [
-                'label' => 'Quantity',
-                'icon' => 'fas fa-balance-scale',
+                'label' => 'Unit Price',
+                'icon' => 'fas fa-dollar-sign',
                 'is_master_field' => 0,
                 'is_required' => 1,
                 'is_visible' => 1,

@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Resource;
 
 use App\DataTables\TransactionDatatable;
+use App\DataTables\TransactionFieldDatatable;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreTransactionRequest;
 use App\Models\Pad;
 use App\Models\Transaction;
-use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
@@ -91,14 +90,15 @@ class TransactionController extends Controller
         return view('transactions.create', compact('pad'));
     }
 
-    public function store(Pad $pad, StoreTransactionRequest $request)
+    public function show(Transaction $transaction, TransactionFieldDatatable $datatable)
     {
-        //
-    }
+        $transaction->load(['pad', 'transactionFields']);
 
-    public function show(Transaction $transaction)
-    {
-        //
+        $datatable->builder()->setTableId(str($transaction->pad->name)->slug()->append('-details-datatable'));
+
+        $masterTransactionFields = $transaction->transactionFields()->with('padField.padRelation')->masterFields()->get();
+
+        return $datatable->render('transactions.show', compact('transaction', 'masterTransactionFields'));
     }
 
     public function edit($id)
@@ -106,13 +106,10 @@ class TransactionController extends Controller
         //
     }
 
-    public function update(Request $request, $id)
+    public function destroy(Transaction $transaction)
     {
-        //
-    }
+        $transaction->forceDelete();
 
-    public function destroy($id)
-    {
-        //
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }
