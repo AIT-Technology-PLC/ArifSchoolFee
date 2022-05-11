@@ -216,9 +216,10 @@
                     </tr>
                     <tr>
                         <th>#</th>
-                        <th>Product Description</th>
-                        <th>Category</th>
+                        <th>Product</th>
+                        <th>Code</th>
                         <th>Quantity</th>
+                        <th>Unit</th>
                         <th>Unit Price</th>
                         @if (userCompany()->isDiscountBeforeVAT())
                             <th>Discount</th>
@@ -233,8 +234,9 @@
                             <td>
                                 {{ $gdnDetail->product->name }}
                             </td>
-                            <td> {{ $gdnDetail->product->productCategory->name ?? '' }} </td>
-                            <td class="has-text-right"> {{ number_format($gdnDetail->quantity, 2) }} {{ $gdnDetail->product->unit_of_measurement ?? '' }} </td>
+                            <td> {{ $gdnDetail->product->code ?? '' }} </td>
+                            <td class="has-text-right"> {{ number_format($gdnDetail->quantity, 2) }} </td>
+                            <td class="has-text-centered"> {{ $gdnDetail->product->unit_of_measurement }} </td>
                             <td class="has-text-right"> {{ number_format($gdnDetail->unit_price, 2) }} </td>
                             @if (userCompany()->isDiscountBeforeVAT())
                                 <td class="has-text-right"> {{ number_format($gdnDetail->discount * 100, 2) }}% </td>
@@ -244,7 +246,7 @@
                     @endforeach
                     <tr>
                         <td
-                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 5 : 4 }}"
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 6 : 5 }}"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">Sub-Total</td>
@@ -252,7 +254,7 @@
                     </tr>
                     <tr>
                         <td
-                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 5 : 4 }}"
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 6 : 5 }}"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">VAT 15%</td>
@@ -260,7 +262,7 @@
                     </tr>
                     <tr>
                         <td
-                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 5 : 4 }}"
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? 6 : 5 }}"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">Grand Total</td>
@@ -269,7 +271,7 @@
                     @if (!userCompany()->isDiscountBeforeVAT())
                         <tr>
                             <td
-                                colspan="4"
+                                colspan="5"
                                 class="is-borderless"
                             ></td>
                             <td class="has-text-weight-bold">Discount</td>
@@ -277,7 +279,7 @@
                         </tr>
                         <tr>
                             <td
-                                colspan="4"
+                                colspan="5"
                                 class="is-borderless"
                             ></td>
                             <td class="has-text-weight-bold">
