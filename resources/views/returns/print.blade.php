@@ -205,9 +205,10 @@
                     </tr>
                     <tr>
                         <th>#</th>
-                        <th>Product Description</th>
-                        <th>Category</th>
+                        <th>Product</th>
+                        <th>Code</th>
                         <th>Quantity</th>
+                        <th>Unit</th>
                         <th>Unit Price</th>
                         <th>Total</th>
                     </tr>
@@ -217,15 +218,16 @@
                         <tr>
                             <td class="has-text-centered"> {{ $loop->index + 1 }} </td>
                             <td> {{ $returnDetail->product->name }} </td>
-                            <td> {{ $returnDetail->product->productCategory->name ?? '' }} </td>
-                            <td class="has-text-right"> {{ number_format($returnDetail->quantity, 2) }} {{ $returnDetail->product->unit_of_measurement ?? '' }} </td>
+                            <td> {{ $returnDetail->product->code ?? '-' }} </td>
+                            <td class="has-text-right"> {{ number_format($returnDetail->quantity, 2) }} </td>
+                            <td class="has-text-centered"> {{ $returnDetail->product->unit_of_measurement }} </td>
                             <td class="has-text-right"> {{ number_format($returnDetail->unit_price, 2) }} </td>
                             <td class="has-text-right"> {{ number_format($returnDetail->totalPrice, 2) }} </td>
                         </tr>
                     @endforeach
                     <tr>
                         <td
-                            colspan="4"
+                            colspan="5"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">Sub-Total</td>
@@ -233,7 +235,7 @@
                     </tr>
                     <tr>
                         <td
-                            colspan="4"
+                            colspan="5"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">VAT 15%</td>
@@ -241,7 +243,7 @@
                     </tr>
                     <tr>
                         <td
-                            colspan="4"
+                            colspan="5"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">Grand Total</td>
