@@ -101,9 +101,11 @@ class TransactionController extends Controller
         return $datatable->render('transactions.show', compact('transaction', 'masterTransactionFields'));
     }
 
-    public function edit($id)
+    public function edit(Transaction $transaction)
     {
-        //
+        $transaction->load('pad');
+
+        return view('transactions.edit', compact('transaction'));
     }
 
     public function destroy(Transaction $transaction)
