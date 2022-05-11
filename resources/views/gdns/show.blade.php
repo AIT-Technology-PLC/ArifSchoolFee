@@ -136,7 +136,7 @@
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
                                 {{ number_format($gdn->paymentInCash, 2) }}
-                                ({{ (float) $gdn->cash_received_in_percentage }}%)
+                                ({{ (float) $gdn->cash_received }}%)
                             </div>
                             <div class="is-uppercase is-size-7">
                                 In Cash ({{ userCompany()->currency }})
