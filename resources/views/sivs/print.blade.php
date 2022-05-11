@@ -198,9 +198,10 @@
                     </tr>
                     <tr>
                         <th>#</th>
-                        <th>Product Description</th>
-                        <th>Category</th>
+                        <th>Product</th>
+                        <th>Code</th>
                         <th>Quantity</th>
+                        <th>Unit</th>
                         <th>From</th>
                     </tr>
                 </thead>
@@ -209,8 +210,9 @@
                         <tr>
                             <td> {{ $loop->index + 1 }} </td>
                             <td> {{ $sivDetail->product->name }} </td>
-                            <td> {{ $sivDetail->product->productCategory->name }} </td>
-                            <td> {{ number_format($sivDetail->quantity, 2) }} {{ $sivDetail->product->unit_of_measurement }} </td>
+                            <td> {{ $sivDetail->product->code }} </td>
+                            <td> {{ number_format($sivDetail->quantity, 2) }} </td>
+                            <td> {{ $sivDetail->product->unit_of_measurement }} </td>
                             <td> {{ $sivDetail->warehouse->name }} </td>
                         </tr>
                     @endforeach
