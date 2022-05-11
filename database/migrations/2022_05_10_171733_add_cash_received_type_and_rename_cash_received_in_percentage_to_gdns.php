@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::table('gdns', function (Blueprint $table) {
             $table->string('cash_received_type')->default('percent')->after('payment_type');
             $table->renameColumn('cash_received_in_percentage', 'cash_received');
-            $table->decimal('cash_received', 22)->default(100.00)->change();
+            $table->decimal('cash_received', 22)->default(100)->change();
         });
 
     }
