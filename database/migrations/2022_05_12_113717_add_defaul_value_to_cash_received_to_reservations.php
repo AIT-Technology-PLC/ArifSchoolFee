@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -14,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('gdns', function (Blueprint $table) {
-            //
+        Schema::table('reservations', function (Blueprint $table) {
+            $table->decimal('cash_received', 22)->default(100)->change();
         });
-        DB::table('gdns')->update(['cash_received_type' => 'percent']);
     }
 
     /**
@@ -27,8 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('gdns', function (Blueprint $table) {
-            //
+        Schema::table('reservations', function (Blueprint $table) {
         });
     }
 };
