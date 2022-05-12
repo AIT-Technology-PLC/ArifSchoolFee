@@ -234,7 +234,11 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="column {{ $gdn->payment_type == 'Cash Payment' ? 'is-hidden' : '' }}">
+                        <div
+                            class="column {{ $gdn->payment_type == 'Cash Payment' ? 'is-hidden' : '' }}"
+                            x-cloak
+                            x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                        >
                             <label
                                 for="cash_received"
                                 class="label text-green has-text-weight-normal"
@@ -242,10 +246,7 @@
                             <div class="field has-addons">
                                 <span class="select">
                                     <select name="cash_received_type">
-                                        <option
-                                            selected
-                                            disabled
-                                        >Type</option>
+                                        <option disabled>Type</option>
                                         <option
                                             value="amount"
                                             {{ $gdn->cash_received_type == 'amount' ? 'selected' : '' }}
@@ -279,7 +280,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="column {{ $gdn->payment_type == 'Cash Payment' ? 'is-hidden' : '' }}">
+                        <div
+                            class="column {{ $gdn->payment_type == 'Cash Payment' ? 'is-hidden' : '' }}"
+                            x-cloak
+                            x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                        >
                             <div class="field">
                                 <label
                                     for="due_date"

@@ -159,7 +159,10 @@
                         Payment Details
                     </h1>
                 </div>
-                <div class="box is-radiusless mx-3 mb-6">
+                <div
+                    class="box is-radiusless mx-3 mb-6"
+                    x-data="cashReceivedType"
+                >
                     <div class="columns is-marginless is-multiline">
                         <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
                             <label
@@ -230,7 +233,11 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="column {{ $reservation->payment_type == 'Cash Payment' ? 'is-hidden' : '' }}">
+                        <div
+                            class="column {{ $reservation->payment_type == 'Cash Payment' ? 'is-hidden' : '' }}"
+                            x-cloak
+                            x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                        >
                             <label
                                 for="cash_received"
                                 class="label text-green has-text-weight-normal"
@@ -238,10 +245,7 @@
                             <div class="field has-addons">
                                 <span class="select">
                                     <select name="cash_received_type">
-                                        <option
-                                            selected
-                                            disabled
-                                        >Type</option>
+                                        <option disabled>Type</option>
                                         <option
                                             value="amount"
                                             {{ $reservation->cash_received_type == 'amount' ? 'selected' : '' }}
@@ -275,7 +279,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="column {{ $reservation->payment_type == 'Cash Payment' ? 'is-hidden' : '' }}">
+                        <div
+                            class="column {{ $reservation->payment_type == 'Cash Payment' ? 'is-hidden' : '' }}"
+                            x-cloak
+                            x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                        >
                             <div class="
                             field">
                                 <label
