@@ -160,7 +160,10 @@
                         Payment Details
                     </h1>
                 </div>
-                <div class="box is-radiusless mx-3 mb-6">
+                <div
+                    class="box is-radiusless mx-3 mb-6"
+                    x-data="cashReceivedType"
+                >
                     <div class="columns is-marginless is-multiline">
                         <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
                             <label
@@ -191,7 +194,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="column is-6">
+                        <div class="column">
                             <div class="field">
                                 <label
                                     for="payment_type"
@@ -231,25 +234,41 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="column is-6">
+                        <div class="column {{ $gdn->payment_type == 'Cash Payment' ? 'is-hidden' : '' }}">
                             <label
-                                for="cash_received_in_percentage"
+                                for="cash_received"
                                 class="label text-green has-text-weight-normal"
-                            >Cash Received <sup class="has-text-danger">*</sup> <sup class="has-text-weight-light"> (In Percentage)</sup> </label>
+                            >Cash Received <sup class="has-text-danger">*</sup></label>
                             <div class="field has-addons">
+                                <span class="select">
+                                    <select name="cash_received_type">
+                                        <option
+                                            selected
+                                            disabled
+                                        >Type</option>
+                                        <option
+                                            value="amount"
+                                            {{ $gdn->cash_received_type == 'amount' ? 'selected' : '' }}
+                                        >Amount</option>
+                                        <option
+                                            value="percent"
+                                            {{ $gdn->cash_received_type == 'percent' ? 'selected' : '' }}
+                                        >Percent</option>
+                                    </select>
+                                </span>
                                 <div class="control has-icons-left is-expanded">
                                     <input
                                         class="input"
                                         type="number"
-                                        name="cash_received_in_percentage"
-                                        id="cash_received_in_percentage"
+                                        name="cash_received"
+                                        id="cash_received"
                                         placeholder="eg. 50"
-                                        value="{{ $gdn->cash_received_in_percentage ?? '' }}"
+                                        value="{{ $gdn->cash_received ?? '' }}"
                                     >
                                     <span class="icon is-large is-left">
                                         <i class="fas fa-money-bill"></i>
                                     </span>
-                                    @error('cash_received_in_percentage')
+                                    @error('cash_received')
                                         <span
                                             class="help has-text-danger"
                                             role="alert"
@@ -258,15 +277,9 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="control">
-                                    <button
-                                        class="button bg-green has-text-white"
-                                        type="button"
-                                    >%</button>
-                                </div>
                             </div>
                         </div>
-                        <div class="column is-6">
+                        <div class="column {{ $gdn->payment_type == 'Cash Payment' ? 'is-hidden' : '' }}">
                             <div class="field">
                                 <label
                                     for="due_date"
