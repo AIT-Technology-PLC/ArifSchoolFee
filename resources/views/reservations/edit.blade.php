@@ -230,25 +230,41 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="column is-6">
+                        <div class="column {{ $reservation->payment_type == 'Cash Payment' ? 'is-hidden' : '' }}">
                             <label
-                                for="cash_received_in_percentage"
+                                for="cash_received"
                                 class="label text-green has-text-weight-normal"
-                            >Cash Received <sup class="has-text-danger">*</sup> <sup class="has-text-weight-light"> (In Percentage)</sup> </label>
+                            >Cash Received <sup class="has-text-danger">*</sup></label>
                             <div class="field has-addons">
+                                <span class="select">
+                                    <select name="cash_received_type">
+                                        <option
+                                            selected
+                                            disabled
+                                        >Type</option>
+                                        <option
+                                            value="amount"
+                                            {{ $reservation->cash_received_type == 'amount' ? 'selected' : '' }}
+                                        >Amount</option>
+                                        <option
+                                            value="percent"
+                                            {{ $reservation->cash_received_type == 'percent' ? 'selected' : '' }}
+                                        >Percent</option>
+                                    </select>
+                                </span>
                                 <div class="control has-icons-left is-expanded">
                                     <input
                                         class="input"
                                         type="number"
-                                        name="cash_received_in_percentage"
-                                        id="cash_received_in_percentage"
+                                        name="cash_received"
+                                        id="cash_received"
                                         placeholder="eg. 50"
-                                        value="{{ $reservation->cash_received_in_percentage ?? '' }}"
+                                        value="{{ $reservation->cash_received ?? '' }}"
                                     >
                                     <span class="icon is-large is-left">
                                         <i class="fas fa-money-bill"></i>
                                     </span>
-                                    @error('cash_received_in_percentage')
+                                    @error('cash_received')
                                         <span
                                             class="help has-text-danger"
                                             role="alert"
@@ -257,16 +273,11 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="control">
-                                    <button
-                                        class="button bg-green has-text-white"
-                                        type="button"
-                                    >%</button>
-                                </div>
                             </div>
                         </div>
-                        <div class="column is-6">
-                            <div class="field">
+                        <div class="column {{ $reservation->payment_type == 'Cash Payment' ? 'is-hidden' : '' }}">
+                            <div class="
+                            field">
                                 <label
                                     for="due_date"
                                     class="label text-green has-text-weight-normal"
