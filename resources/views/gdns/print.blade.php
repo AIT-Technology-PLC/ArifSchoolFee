@@ -334,9 +334,12 @@
             </aside>
         </section>
     </main>
+
+    <div style="margin-bottom: 27% !important">&nbsp;</div>
+
     <footer
         class="has-background-white-bis"
-        style="position:absolute;bottom: 14%;left: 0;right: 0;margin-top: 20%"
+        style="position:absolute;bottom: 14%;left: 0;right: 0;"
     >
         <aside class="pl-6 my-5">
             <h1 class="title is-size-7 is-uppercase mb-6">

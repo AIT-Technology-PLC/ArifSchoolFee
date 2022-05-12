@@ -134,28 +134,6 @@
                 @endif
             </section>
         @endif
-        @if ($proformaInvoice->customer)
-            <section class="pb-3 has-background-white-bis">
-                <aside class="ml-6">
-                    <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                        Customer
-                    </h1>
-                    <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                        {{ $proformaInvoice->customer->company_name ?? '-' }}
-                    </h1>
-                    @if ($proformaInvoice->customer->tin)
-                        <h1 class="has-text-weight-normal has-text-grey-dark is-size-6 is-capitalized">
-                            {{ $proformaInvoice->customer->tin ?? '-' }}
-                        </h1>
-                    @endif
-                    @if ($proformaInvoice->customer->address)
-                        <h1 class="has-text-weight-normal has-text-grey-dark is-size-6 is-capitalized">
-                            {{ $proformaInvoice->customer->address ?? '-' }}
-                        </h1>
-                    @endif
-                </aside>
-            </section>
-        @endif
         <section class="is-clearfix py-5 has-background-white-bis">
             @if ($proformaInvoice->customer)
                 <aside class="is-pulled-left ml-6">
@@ -336,9 +314,12 @@
             </section>
         @endif
     </main>
+
+    <div style="margin-top: 15% !important">&nbsp;</div>
+
     <footer
         class="has-background-white-ter"
-        style="position:absolute;bottom: 0%;left: 0;right: 0;margin-top: 132px"
+        style="position:absolute;bottom: 0%;left: 0;right: 0"
     >
         <aside class="has-text-centered">
             <h1 class="is-size-7 is-uppercase has-text-grey-light mb-0 mt-3">

@@ -220,7 +220,9 @@
             </table>
         </section>
     </main>
-    <div style="margin-top: 26%">&nbsp;</div>
+
+    <div style="margin-top: 36%">&nbsp;</div>
+
     <div
         class="has-background-white-bis"
         style="position:absolute;bottom: 14%;left: 0;right: 0;"
