@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -16,8 +17,8 @@ return new class extends Migration
         Schema::table('gdns', function (Blueprint $table) {
             $table->string('cash_received_type')->default('percent')->after('payment_type');
             $table->renameColumn('cash_received_in_percentage', 'cash_received');
-            $table->decimal('cash_received', 22)->default(100)->change();
         });
+        DB::table('gdns')->update(['cash_received_type' => 'percent']);
 
     }
 
@@ -30,7 +31,6 @@ return new class extends Migration
     {
         Schema::table('gdns', function (Blueprint $table) {
             $table->dropColumn('cash_received_type');
-            $table->dropColumn('cash_received');
             $table->renameColumn('cash_received', 'cash_received_in_percentage');
         });
     }
