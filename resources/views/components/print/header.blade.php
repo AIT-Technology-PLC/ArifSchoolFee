@@ -2,15 +2,18 @@
     'warehouse' => $warehouse,
 ])
 
-<header class="has-text-centered mb-2">
-    <aside class="pt-4 pb-2">
+<header class="is-clearfix py-4">
+    <aside class="is-pulled-left ml-6">
         <img
             src="{{ asset('storage/' . userCompany()->logo) }}"
             style="width: 180px !important; height: 78px !important"
         >
     </aside>
-    <aside>
-        <h1 class="is-capitalized has-text-black has-text-weight-bold is-size-5">
+    <aside
+        class="is-pulled-right"
+        style="width: 500px !important;"
+    >
+        <h1 class="is-uppercase has-text-black has-text-weight-bold is-size-4">
             {{ userCompany()->name }}
         </h1>
         <p class="has-text-grey has-text-weight-medium">

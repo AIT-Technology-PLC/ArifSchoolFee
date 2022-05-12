@@ -152,10 +152,7 @@
 
     <div style="margin-top: 36%">&nbsp;</div>
 
-    <div
-        class="has-background-white-bis"
-        style="position:absolute;bottom: 14%;left: 0;right: 0;"
-    >
+    <div style="position:absolute;bottom: 14%;left: 0;right: 0;">
         <aside class="pl-6">
             <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                 Received By
@@ -182,10 +179,7 @@
             </h1>
         </aside>
     </div>
-    <div
-        class="has-background-white-bis"
-        style="position:absolute;bottom: 14%;left: 15%;right: 0;margin-left: 40%"
-    >
+    <div style="position:absolute;bottom: 14%;left: 15%;right: 0;margin-left: 40%">
         <aside class="pl-6">
             <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                 Delivered By
@@ -213,10 +207,7 @@
         </aside>
     </div>
     @if ($siv->createdBy->is($siv->approvedBy))
-        <footer
-            class="has-background-white-ter"
-            style="position:absolute;bottom: 0%;left: 0;right: 0;"
-        >
+        <footer style="position:absolute;bottom: 0%;left: 0;right: 0;">
             <aside class="pl-6">
                 <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                     Prepared & Approved By
@@ -236,10 +227,7 @@
             </aside>
         </footer>
     @else
-        <footer
-            class="has-background-white-ter"
-            style="position:absolute;bottom: 0%;left: 0;right: 0;"
-        >
+        <footer style="position:absolute;bottom: 0%;left: 0;right: 0;">
             <aside class="pl-6">
                 <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                     Prepared By
@@ -258,10 +246,7 @@
                 </h1>
             </aside>
         </footer>
-        <footer
-            class="has-background-white-ter"
-            style="position:absolute;bottom: 0%;left: 15%;right: 0;margin-left: 40%"
-        >
+        <footer style="position:absolute;bottom: 0%;left: 15%;right: 0;margin-left: 40%">
             <aside class="pl-6">
                 <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                     Approved By

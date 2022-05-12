@@ -220,10 +220,7 @@
 
     <div style="margin-top: 15% !important">&nbsp;</div>
 
-    <footer
-        class="has-background-white-ter"
-        style="position:absolute;bottom: 0%;left: 0;right: 0"
-    >
+    <footer style="position:absolute;bottom: 0%;left: 0;right: 0">
         <aside class="has-text-centered">
             <h1 class="is-size-7 is-uppercase has-text-grey-light mb-0 mt-3">
                 Prepared By

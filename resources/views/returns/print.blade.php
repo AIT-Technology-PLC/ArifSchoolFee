@@ -157,10 +157,7 @@
         </section>
     </main>
     @if ($return->createdBy->is($return->approvedBy))
-        <footer
-            class="has-background-white-ter"
-            style="position:absolute;bottom: 0%;left: 0;right: 0;margin-top: 20%"
-        >
+        <footer style="position:absolute;bottom: 0%;left: 0;right: 0;margin-top: 20%">
             <aside class="pl-6">
                 <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                     Prepared & Approved By
@@ -180,10 +177,7 @@
             </aside>
         </footer>
     @else
-        <footer
-            class="has-background-white-ter"
-            style="position:absolute;bottom: 0%;left: 0;right: 0;"
-        >
+        <footer style="position:absolute;bottom: 0%;left: 0;right: 0;">
             <aside class="pl-6">
                 <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                     Prepared By
@@ -203,10 +197,7 @@
             </aside>
         </footer>
 
-        <footer
-            class="has-background-white-ter"
-            style="position:absolute;bottom: 0%;left: 15%;right: 0;margin-left: 40%"
-        >
+        <footer style="position:absolute;bottom: 0%;left: 15%;right: 0;margin-left: 40%">
             <aside class="pl-6">
                 <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
                     Approved By

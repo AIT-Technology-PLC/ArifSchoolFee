@@ -91,10 +91,7 @@
 
     </main>
 
-    <footer
-        class="has-background-white-ter"
-        style="position:absolute;bottom: 0%;left: 0;right: 0;margin-top: 132px"
-    >
+    <footer style="position:absolute;bottom: 0%;left: 0;right: 0;margin-top: 132px">
         <aside class="has-text-centered">
             <h1 class="is-size-7 is-uppercase has-text-grey-light mb-5 mt-5">
                 Approved By
