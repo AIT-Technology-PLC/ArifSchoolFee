@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Transaction Details')
+@section('title', $transaction->pad->name . ' Details')
 
 @section('content')
     <x-common.content-wrapper>

@@ -201,8 +201,8 @@
                                     tag="a"
                                     href="{{ route('pads.transactions.index', $pad->id) }}"
                                     label="{{ $pad->name }}"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'text-green has-text-weight-bold': '' }}"
-                                    x-init="{{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'activateAccordion': '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                             {{-- @endcan --}}
@@ -358,8 +358,8 @@
                                     tag="a"
                                     href="{{ route('pads.transactions.index', $pad->id) }}"
                                     label="{{ $pad->name }}"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'text-green has-text-weight-bold': '' }}"
-                                    x-init="{{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'activateAccordion': '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                             {{-- @endcan --}}
@@ -522,8 +522,8 @@
                                     tag="a"
                                     href="{{ route('pads.transactions.index', $pad->id) }}"
                                     label="{{ $pad->name }}"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'text-green has-text-weight-bold': '' }}"
-                                    x-init="{{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'activateAccordion': '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                             {{-- @endcan --}}
@@ -632,7 +632,7 @@
                                     tag="a"
                                     href="{{ route('pads.index') }}"
                                     label="Pads"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.*') && !request()->routeIs('pads.transactions.*')? 'text-green has-text-weight-bold': '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.*') && !request()->routeIs('pads.transactions.*') ? 'text-green has-text-weight-bold' : '' }}"
                                     x-init="{{ request()->routeIs('pads.*') && !request()->routeIs('pads.transactions.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
@@ -672,8 +672,8 @@
                                     tag="a"
                                     href="{{ route('pads.transactions.index', $pad->id) }}"
                                     label="{{ $pad->name }}"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'text-green has-text-weight-bold': '' }}"
-                                    x-init="{{ request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id? 'activateAccordion': '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                             {{-- @endcan --}}
