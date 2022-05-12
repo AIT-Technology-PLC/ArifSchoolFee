@@ -53,143 +53,48 @@
 </head>
 
 <body>
-    <header class="is-clearfix py-5 has-background-white-ter">
-        <aside class="is-pulled-left ml-6 mt-5 pt-4">
-            <img
-                src="{{ asset('storage/' . userCompany()->logo) }}"
-                style="width: 300px !important; height: 130px !important"
-            >
-        </aside>
-        <aside class="is-pulled-right mr-6">
-            <h1 class="heading is-capitalized has-text-black has-text-weight-medium is-size-5">
-                {{ userCompany()->name }}
-            </h1>
-            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-0">
-                Tel/Phone
-            </h1>
-            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ userCompany()->phone ?? '-' }}
-            </p>
-            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                Email
-            </h1>
-            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ userCompany()->email ?? '-' }}
-            </p>
-            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                Address
-            </h1>
-            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ userCompany()->address ?? '-' }}
-            </p>
-        </aside>
-    </header>
+    <x-print.header />
 
     <main>
-        @if (userCompany()->canShowBranchDetailOnPrint())
-            <section class="is-clearfix has-background-white-bis py-3 pl-6 pr-6">
-                <aside class="is-pulled-left mr-6 pt-3">
-                    <div>
-                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                            Branch Name
-                        </h1>
-                        <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                            {{ $proformaInvoice->warehouse->name }}
-                        </p>
-                    </div>
-                </aside>
-                <aside class="is-pulled-left mr-6 pt-3">
-                    <div>
-                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                            Location
-                        </h1>
-                        <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                            {{ $proformaInvoice->warehouse->location }}
-                        </p>
-                    </div>
-                </aside>
-                @if ($proformaInvoice->warehouse->phone)
-                    <aside class="is-pulled-left mr-6 pt-3">
-                        <div>
-                            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                                Tel/Phone
-                            </h1>
-                            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                                {{ $proformaInvoice->warehouse->phone ?? '-' }}
-                            </p>
-                        </div>
-                    </aside>
-                @endif
-                @if ($proformaInvoice->warehouse->email)
-                    <aside class="is-pulled-left pt-3">
-                        <div>
-                            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                                Email
-                            </h1>
-                            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                                {{ $proformaInvoice->warehouse->email ?? '-' }}
-                            </p>
-                        </div>
-                    </aside>
-                @endif
-            </section>
-        @endif
-        <section class="is-clearfix py-5 has-background-white-bis">
-            @if ($proformaInvoice->customer)
-                <aside class="is-pulled-left ml-6">
-                    <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                        Customer
-                    </h1>
-                    <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                        {{ $proformaInvoice->customer->company_name }}
-                    </h1>
-                    @if ($proformaInvoice->customer->contact_name)
-                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                            Contact
-                        </h1>
-                        <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                            {{ $proformaInvoice->customer->contact_name }}
-                        </h1>
-                    @endif
-                    @if ($proformaInvoice->customer->tin)
-                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                            TIN
-                        </h1>
-                        <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                            {{ $proformaInvoice->customer->tin }}
-                        </h1>
-                    @endif
-                    @if ($proformaInvoice->customer->address)
-                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                            Address
-                        </h1>
-                        <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                            {{ $proformaInvoice->customer->address }}
-                        </h1>
-                    @endif
-                </aside>
-            @endif
-            <aside class="is-pulled-right mr-6">
-                <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+        <x-print.branch :warehouse="$proformaInvoice->warehouse" />
+
+        <x-print.customer :customer="$proformaInvoice->customer ?? ''" />
+
+        <hr class="my-0">
+
+        <section class="is-clearfix has-background-white-bis pl-6 py-3">
+            <aside
+                class="is-pulled-left"
+                style="width: 33.3% !important"
+            >
+                <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
                     PI N<u>o</u>
                 </h1>
-                <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
+                <h1 class="has-text-black is-size-6 is-capitalized">
                     {{ $proformaInvoice->reference }}
                 </h1>
-                <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                    Date
+            </aside>
+            <aside
+                class="is-pulled-left"
+                style="width: 33.3% !important"
+            >
+                <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
+                    Issued On
                 </h1>
-                <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
+                <h1 class="has-text-black is-size-6 is-capitalized">
                     {{ $proformaInvoice->issued_on->toFormattedDateString() }}
                 </h1>
-                @if ($proformaInvoice->expires_on)
-                    <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                        Expiry Date
-                    </h1>
-                    <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                        {{ $proformaInvoice->expires_on->toFormattedDateString() }}
-                    </h1>
-                @endif
+            </aside>
+            <aside
+                class="is-pulled-left"
+                style="width: 33.3% !important"
+            >
+                <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
+                    Expiry Date
+                </h1>
+                <h1 class="has-text-black is-size-6 is-capitalized">
+                    {{ $proformaInvoice->expires_on->toFormattedDateString() }}
+                </h1>
             </aside>
         </section>
 

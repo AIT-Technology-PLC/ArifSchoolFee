@@ -53,127 +53,58 @@
 </head>
 
 <body>
-    <header class="is-clearfix pt-5 has-background-white-ter">
-        <aside class="is-pulled-left ml-6 mt-5 pt-4">
-            <img
-                src="{{ asset('storage/' . userCompany()->logo) }}"
-                style="width: 300px !important; height: 130px !important"
-            >
-        </aside>
-        <aside class="is-pulled-right mr-6">
-            <h1 class="heading is-capitalized has-text-black has-text-weight-medium is-size-5">
-                {{ userCompany()->name }}
-            </h1>
-            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-0">
-                Tel/Phone
-            </h1>
-            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ userCompany()->phone ?? '-' }}
-            </p>
-            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                Email
-            </h1>
-            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ userCompany()->email ?? '-' }}
-            </p>
-            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                Address
-            </h1>
-            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ userCompany()->address ?? '-' }}
-            </p>
-        </aside>
-    </header>
+    <x-print.header />
+
     <main>
-        @if (userCompany()->canShowBranchDetailOnPrint())
-            <section class="is-clearfix has-background-white-bis py-3 pl-6 pr-6">
-                <aside class="is-pulled-left mr-6 pt-3">
-                    <div>
-                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                            Branch Name
-                        </h1>
-                        <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                            {{ $siv->warehouse->name }}
-                        </p>
-                    </div>
-                </aside>
-                <aside class="is-pulled-left mr-6 pt-3">
-                    <div>
-                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                            Location
-                        </h1>
-                        <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                            {{ $siv->warehouse->location }}
-                        </p>
-                    </div>
-                </aside>
-                @if ($siv->warehouse->phone)
-                    <aside class="is-pulled-left mr-6 pt-3">
-                        <div>
-                            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                                Tel/Phone
-                            </h1>
-                            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                                {{ $siv->warehouse->phone ?? '-' }}
-                            </p>
-                        </div>
-                    </aside>
-                @endif
-                @if ($siv->warehouse->email)
-                    <aside class="is-pulled-left pt-3">
-                        <div>
-                            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                                Email
-                            </h1>
-                            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                                {{ $siv->warehouse->email ?? '-' }}
-                            </p>
-                        </div>
-                    </aside>
-                @endif
-            </section>
-        @endif
-        <section class="is-clearfix has-background-white-bis py-3 pl-6 pr-6">
-            <aside class="is-pulled-left">
-                @if ($siv->issued_to)
-                    <div class="mb-3">
-                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                            Issued To
-                        </h1>
-                        <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                            {{ $siv->issued_to }}
-                        </h1>
-                    </div>
-                @endif
-                <div>
-                    @if ($siv->purpose)
-                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                            Purpose
-                        </h1>
-                        <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                            {{ $siv->purpose }}{{ $siv->ref_num ? ' No: ' . $siv->ref_num : '' }}
-                        </h1>
-                    @endif
-                </div>
+        <x-print.branch :warehouse="$siv->warehouse" />
+
+        <section class="is-clearfix has-background-white-bis pl-6 py-3">
+            <aside
+                class="is-pulled-left"
+                style="width: 25% !important"
+            >
+                <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
+                    SIV N<u>o</u>
+                </h1>
+                <h1 class="has-text-black is-size-6 is-capitalized">
+                    {{ $siv->code }}
+                </h1>
             </aside>
-            <aside class="is-pulled-right">
-                <div class="mb-3">
-                    <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                        SIV N<u>o</u>
-                    </h1>
-                    <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                        {{ $siv->code }}
-                    </h1>
-                </div>
-                <div>
-                    <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
-                        Issued On
-                    </h1>
-                    <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized">
-                        {{ $siv->issued_on->toFormattedDateString() }}
-                    </h1>
-                </div>
+            <aside
+                class="is-pulled-left"
+                style="width: 25% !important"
+            >
+                <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
+                    Issued On
+                </h1>
+                <h1 class="has-text-black is-size-6 is-capitalized">
+                    {{ $siv->issued_on->toFormattedDateString() }}
+                </h1>
             </aside>
+            <aside
+                class="is-pulled-left"
+                style="width: 25% !important"
+            >
+                <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
+                    Purpose
+                </h1>
+                <h1 class="has-text-black is-size-6 is-capitalized">
+                    {{ $siv->purpose }}{{ $siv->ref_num ? ' No: ' . $siv->ref_num : '' }}
+                </h1>
+            </aside>
+            @if ($siv->issued_to)
+                <aside
+                    class="is-pulled-left"
+                    style="width: 25% !important"
+                >
+                    <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
+                        Issued To
+                    </h1>
+                    <h1 class="has-text-black is-size-6 is-capitalized">
+                        {{ $siv->issued_to }}
+                    </h1>
+                </aside>
+            @endif
         </section>
 
         <section class="pt-5 has-text-centered">
