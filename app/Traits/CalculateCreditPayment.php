@@ -31,13 +31,41 @@ trait CalculateCreditPayment
         if ($this->cash_received < 0) {
             return $price;
         }
+
         if ($this->cash_received_type == 'percent') {
             $paymntInCash = $price * ($this->cash_received / 100);
         }
+
         if ($this->cash_received_type == 'amount') {
-            $paymntInCash = $price - $this->cash_received;
+            $paymntInCash = $this->cash_received;
         }
+
         return $paymntInCash;
+    }
+
+    public function getPaymentPercentInCashAttribute()
+    {
+        if (userCompany()->isDiscountBeforeVAT()) {
+            $price = $this->grandTotalPrice;
+        }
+
+        if (!userCompany()->isDiscountBeforeVAT()) {
+            $price = $this->grandTotalPriceAfterDiscount;
+        }
+
+        if ($this->cash_received < 0) {
+            return $price;
+        }
+
+        if ($this->cash_received_type == 'percent') {
+            $paymentPercentInCash = $this->cash_received;
+        }
+
+        if ($this->cash_received_type == 'amount') {
+            $paymentPercentInCash = ($this->cash_received * 100) / $price;
+        }
+
+        return $paymentPercentInCash;
     }
 
     public function getPaymentInCreditAttribute()
