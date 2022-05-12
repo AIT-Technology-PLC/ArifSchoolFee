@@ -56,36 +56,84 @@
     <header class="is-clearfix pt-5 has-background-white-ter">
         <aside class="is-pulled-left ml-6 mt-5 pt-4">
             <img
-                src="{{ asset('storage/' . $return->company->logo) }}"
+                src="{{ asset('storage/' . userCompany()->logo) }}"
                 style="width: 300px !important; height: 130px !important"
             >
         </aside>
         <aside class="is-pulled-right mr-6">
             <h1 class="heading is-capitalized has-text-black has-text-weight-medium is-size-5">
-                {{ $return->company->name }}
+                {{ userCompany()->name }}
             </h1>
             <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-0">
                 Tel/Phone
             </h1>
             <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ $return->company->phone ?? '-' }}
+                {{ userCompany()->phone ?? '-' }}
             </p>
             <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
                 Email
             </h1>
             <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ $return->company->email ?? '-' }}
+                {{ userCompany()->email ?? '-' }}
             </p>
             <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
                 Address
             </h1>
             <p class="has-text-grey-dark has-text-weight-medium is-size-6">
-                {{ $return->company->address ?? '-' }}
+                {{ userCompany()->address ?? '-' }}
             </p>
         </aside>
     </header>
 
     <main>
+        @if (userCompany()->canShowBranchDetailOnPrint())
+            <section class="is-clearfix has-background-white-bis py-3 pl-6 pr-6">
+                <aside class="is-pulled-left mr-6 pt-3">
+                    <div>
+                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                            Branch Name
+                        </h1>
+                        <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                            {{ $return->warehouse->name }}
+                        </p>
+                    </div>
+                </aside>
+                <aside class="is-pulled-left mr-6 pt-3">
+                    <div>
+                        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                            Location
+                        </h1>
+                        <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                            {{ $return->warehouse->location }}
+                        </p>
+                    </div>
+                </aside>
+                @if ($return->warehouse->phone)
+                    <aside class="is-pulled-left mr-6 pt-3">
+                        <div>
+                            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                                Tel/Phone
+                            </h1>
+                            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                                {{ $return->warehouse->phone ?? '-' }}
+                            </p>
+                        </div>
+                    </aside>
+                @endif
+                @if ($return->warehouse->email)
+                    <aside class="is-pulled-left pt-3">
+                        <div>
+                            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7">
+                                Email
+                            </h1>
+                            <p class="has-text-grey-dark has-text-weight-medium is-size-6">
+                                {{ $return->warehouse->email ?? '-' }}
+                            </p>
+                        </div>
+                    </aside>
+                @endif
+            </section>
+        @endif
         @if ($return->customer)
             <section class="pt-5 pb-3 has-background-white-bis">
                 <aside class="ml-6">
@@ -157,9 +205,10 @@
                     </tr>
                     <tr>
                         <th>#</th>
-                        <th>Product Description</th>
-                        <th>Category</th>
+                        <th>Product</th>
+                        <th>Code</th>
                         <th>Quantity</th>
+                        <th>Unit</th>
                         <th>Unit Price</th>
                         <th>Total</th>
                     </tr>
@@ -169,15 +218,16 @@
                         <tr>
                             <td class="has-text-centered"> {{ $loop->index + 1 }} </td>
                             <td> {{ $returnDetail->product->name }} </td>
-                            <td> {{ $returnDetail->product->productCategory->name ?? '' }} </td>
-                            <td class="has-text-right"> {{ number_format($returnDetail->quantity, 2) }} {{ $returnDetail->product->unit_of_measurement ?? '' }} </td>
+                            <td> {{ $returnDetail->product->code ?? '-' }} </td>
+                            <td class="has-text-right"> {{ number_format($returnDetail->quantity, 2) }} </td>
+                            <td class="has-text-centered"> {{ $returnDetail->product->unit_of_measurement }} </td>
                             <td class="has-text-right"> {{ number_format($returnDetail->unit_price, 2) }} </td>
                             <td class="has-text-right"> {{ number_format($returnDetail->totalPrice, 2) }} </td>
                         </tr>
                     @endforeach
                     <tr>
                         <td
-                            colspan="4"
+                            colspan="5"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">Sub-Total</td>
@@ -185,7 +235,7 @@
                     </tr>
                     <tr>
                         <td
-                            colspan="4"
+                            colspan="5"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">VAT 15%</td>
@@ -193,7 +243,7 @@
                     </tr>
                     <tr>
                         <td
-                            colspan="4"
+                            colspan="5"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">Grand Total</td>
@@ -203,7 +253,6 @@
             </table>
         </section>
     </main>
-
     @if ($return->createdBy->is($return->approvedBy))
         <footer
             class="has-background-white-ter"
@@ -250,6 +299,7 @@
                 </h1>
             </aside>
         </footer>
+
         <footer
             class="has-background-white-ter"
             style="position:absolute;bottom: 0%;left: 15%;right: 0;margin-left: 40%"

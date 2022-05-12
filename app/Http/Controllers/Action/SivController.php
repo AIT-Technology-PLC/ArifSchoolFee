@@ -48,7 +48,7 @@ class SivController extends Controller
             return back()->with('failedMessage', 'This Store Issue Voucher is not approve yet.');
         }
 
-        $siv->load(['sivDetails.product', 'sivDetails.warehouse', 'company', 'createdBy', 'approvedBy']);
+        $siv->load(['sivDetails.product', 'sivDetails.warehouse', 'warehouse', 'company', 'createdBy', 'approvedBy']);
 
         return Pdf::loadView('sivs.print', compact('siv'))->stream();
     }
