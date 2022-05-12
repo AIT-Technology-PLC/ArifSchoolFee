@@ -56,8 +56,6 @@
     <x-print.header />
 
     <main>
-        <x-print.branch :warehouse="$siv->warehouse" />
-
         <section class="is-clearfix has-background-white-bis pl-6 py-3">
             <aside
                 class="is-pulled-left"
@@ -66,7 +64,7 @@
                 <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
                     SIV N<u>o</u>
                 </h1>
-                <h1 class="has-text-black is-size-6 is-capitalized">
+                <h1 class="has-text-black is-size-6 pr-2">
                     {{ $siv->code }}
                 </h1>
             </aside>
@@ -77,7 +75,7 @@
                 <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
                     Issued On
                 </h1>
-                <h1 class="has-text-black is-size-6 is-capitalized">
+                <h1 class="has-text-black is-size-6 pr-2">
                     {{ $siv->issued_on->toFormattedDateString() }}
                 </h1>
             </aside>
@@ -88,7 +86,7 @@
                 <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
                     Purpose
                 </h1>
-                <h1 class="has-text-black is-size-6 is-capitalized">
+                <h1 class="has-text-black is-size-6 pr-2">
                     {{ $siv->purpose }}{{ $siv->ref_num ? ' No: ' . $siv->ref_num : '' }}
                 </h1>
             </aside>
@@ -100,7 +98,7 @@
                     <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
                         Issued To
                     </h1>
-                    <h1 class="has-text-black is-size-6 is-capitalized">
+                    <h1 class="has-text-black is-size-6 pr-2">
                         {{ $siv->issued_to }}
                     </h1>
                 </aside>

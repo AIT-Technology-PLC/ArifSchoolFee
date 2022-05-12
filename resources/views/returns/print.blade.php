@@ -56,8 +56,6 @@
     <x-print.header />
 
     <main>
-        <x-print.branch :warehouse="$return->warehouse" />
-
         <x-print.customer :customer="$return->customer ?? ''" />
 
         <hr class="my-0">
@@ -65,23 +63,23 @@
         <section class="is-clearfix has-background-white-bis pl-6 py-3">
             <aside
                 class="is-pulled-left"
-                style="width: 33.3% !important"
+                style="width: 25% !important"
             >
                 <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
                     N<u>o</u>
                 </h1>
-                <h1 class="has-text-black is-size-6 is-capitalized">
+                <h1 class="has-text-black is-size-6 pr-2">
                     {{ $return->code }}
                 </h1>
             </aside>
             <aside
                 class="is-pulled-left"
-                style="width: 33.3% !important"
+                style="width: 25% !important"
             >
                 <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
                     Issued On
                 </h1>
-                <h1 class="has-text-black is-size-6 is-capitalized">
+                <h1 class="has-text-black is-size-6 pr-2">
                     {{ $return->issued_on->toFormattedDateString() }}
                 </h1>
             </aside>

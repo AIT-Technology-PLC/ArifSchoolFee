@@ -3,7 +3,7 @@
 ])
 
 @if ($customer)
-    <section class="is-clearfix has-background-white-bis py-3 pl-6 pr-6">
+    <section class="is-clearfix has-background-white-bis py-3 pl-6">
         <aside
             class="is-pulled-left"
             style="width: 25% !important"
@@ -11,7 +11,7 @@
             <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
                 Customer
             </h1>
-            <p class="has-text-black is-size-6">
+            <p class="has-text-black is-size-6 pr-2">
                 {{ $customer->company_name }}
             </p>
         </aside>
@@ -23,7 +23,7 @@
                 <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
                     TIN
                 </h1>
-                <p class="has-text-black is-size-6">
+                <p class="has-text-black is-size-6 pr-2">
                     {{ $customer->tin }}
                 </p>
             </aside>
@@ -36,7 +36,7 @@
                 <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
                     Contact
                 </h1>
-                <p class="has-text-black is-size-6">
+                <p class="has-text-black is-size-6 pr-2">
                     {{ $customer->contact_name }}
                 </p>
             </aside>
@@ -49,7 +49,7 @@
                 <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
                     Location
                 </h1>
-                <p class="has-text-black is-size-6">
+                <p class="has-text-black is-size-6 pr-2">
                     {{ $customer->address }}
                 </p>
             </aside>

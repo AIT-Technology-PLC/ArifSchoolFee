@@ -1,24 +1,25 @@
-<header class="is-clearfix">
-    <aside
-        class="is-pulled-left ml-6"
-        style="padding-top: 10px !important;"
-    >
+@props([
+    'warehouse' => $warehouse,
+])
+
+<header class="has-text-centered mb-2">
+    <aside class="pt-4 pb-2">
         <img
             src="{{ asset('storage/' . userCompany()->logo) }}"
             style="width: 180px !important; height: 78px !important"
         >
     </aside>
-    <aside
-        class="is-pulled-right mr-6"
-        style="width: 450px !important;padding-top: 10px !important;"
-    >
+    <aside>
         <h1 class="is-capitalized has-text-black has-text-weight-bold is-size-5">
             {{ userCompany()->name }}
         </h1>
         <p class="has-text-grey has-text-weight-medium">
-            {{ userCompany()->phone ?? '-' }} -
-            {{ userCompany()->email ?? '-' }} -
-            {{ userCompany()->address ?? '-' }}
+            {!! collect([$warehouse->location ?? userCompany()->address, $warehouse->email ?? userCompany()->email, $warehouse->phone ?? userCompany()->phone])->filter()->join(' ' . htmlspecialchars_decode('&middot;') . ' ') !!}
         </p>
+        @if (userCompany()->canShowBranchDetailOnPrint())
+            <p class="has-text-grey has-text-weight-medium">
+                {{ $warehouse->name }}
+            </p>
+        @endif
     </aside>
 </header>
