@@ -6,11 +6,10 @@
     href="/history/products/{{ $productId }}/warehouses/{{ $warehouseId }}"
     data-title="View Product History"
 >
-    <span class='tag is-small btn-green is-outlined'>
+    <span class='tag is-small @if ($amount > $limited_amount) btn-green is-outlined @elseif($amount == 0) btn-purple is-outlined @else btn bg-gold has-text-white @endif'>
         @if (isset($amount))
             {{ number_format($amount, 2, '.', '') }} {{ $unit }}
         @else
-            Track History
-        @endif
+            Track History @endif
     </span>
 </a>
