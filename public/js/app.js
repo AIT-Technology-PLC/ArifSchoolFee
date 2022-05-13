@@ -335,7 +335,7 @@ document.addEventListener("alpine:init", () => {
     Alpine.data("changeWarehouse", () => ({
         change() {
             if (this.$el.value == 0) {
-                location.href = "/merchandises/on-hand";
+                location.href = "/merchandises/available";
             }
 
             if (this.$el.value != 0) {
