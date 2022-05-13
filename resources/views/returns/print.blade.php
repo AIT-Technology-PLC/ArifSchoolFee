@@ -53,7 +53,7 @@
 </head>
 
 <body>
-    <x-print.header />
+    <x-print.header :warehouse="$return->warehouse" />
 
     <main>
         <x-print.customer :customer="$return->customer ?? ''" />

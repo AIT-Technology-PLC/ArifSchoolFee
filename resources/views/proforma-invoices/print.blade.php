@@ -53,7 +53,7 @@
 </head>
 
 <body>
-    <x-print.header />
+    <x-print.header :warehouse="$proformaInvoice->warehouse" />
 
     <main>
         <x-print.customer :customer="$proformaInvoice->customer ?? ''" />

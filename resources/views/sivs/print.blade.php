@@ -53,7 +53,7 @@
 </head>
 
 <body>
-    <x-print.header />
+    <x-print.header :warehouse="$siv->warehouse" />
 
     <main>
         <section class="is-clearfix has-background-white-bis pl-6 py-3">

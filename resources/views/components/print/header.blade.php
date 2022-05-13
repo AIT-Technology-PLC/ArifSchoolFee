@@ -1,5 +1,5 @@
 @props([
-    'warehouse' => $warehouse,
+    'warehouse' => null,
 ])
 
 <header class="is-clearfix py-4">
@@ -16,12 +16,16 @@
         <h1 class="is-uppercase has-text-black has-text-weight-bold is-size-4">
             {{ userCompany()->name }}
         </h1>
-        <p class="has-text-grey has-text-weight-medium">
-            {!! collect([$warehouse->location ?? userCompany()->address, $warehouse->email ?? userCompany()->email, $warehouse->phone ?? userCompany()->phone])->filter()->join(' ' . htmlspecialchars_decode('&middot;') . ' ') !!}
-        </p>
-        @if (userCompany()->canShowBranchDetailOnPrint())
+        @if ($warehouse && userCompany()->canShowBranchDetailOnPrint())
+            <p class="has-text-grey has-text-weight-medium">
+                {!! collect([$warehouse->location ?? userCompany()->address, $warehouse->email ?? userCompany()->email, $warehouse->phone ?? userCompany()->phone])->filter()->join(' ' . htmlspecialchars_decode('&middot;') . ' ') !!}
+            </p>
             <p class="has-text-grey has-text-weight-medium">
                 {{ $warehouse->name }}
+            </p>
+        @else
+            <p class="has-text-grey has-text-weight-medium">
+                {!! collect([userCompany()->address, userCompany()->email, userCompany()->phone])->filter()->join(' ' . htmlspecialchars_decode('&middot;') . ' ') !!}
             </p>
         @endif
     </aside>
