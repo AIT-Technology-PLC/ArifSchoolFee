@@ -40,6 +40,7 @@ class VerifyCashReceivedAmountIsValid implements Rule
             return $this->grandTotalPriceAfterDiscount() >= request('cash_received');
         }
 
+        return true;
     }
     /**
      * Get the validation error message.
@@ -48,7 +49,7 @@ class VerifyCashReceivedAmountIsValid implements Rule
      */
     public function message()
     {
-        return 'If "Cash Received" is Equals to GrandTotalPriceAfterDiscount, then "Payment Type" should be "Cash Payment"';
+        return '"Cash Received" can not be greater than "Grand Total Price"';
     }
 
     private function totalPrice()

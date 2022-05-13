@@ -161,10 +161,10 @@
                 </div>
                 <div
                     class="box is-radiusless mx-3 mb-6"
-                    x-data="cashReceivedType"
+                    x-data="cashReceivedType('{{ old('payment_type') }}', '{{ old('cash_received_type') }}', {{ old('cash_received') }})"
                 >
                     <div class="columns is-marginless is-multiline">
-                        <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
+                        <div class="column {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
                             <label
                                 for="discount"
                                 class="label text-green has-text-weight-normal"
@@ -244,16 +244,18 @@
                                 class="label text-green has-text-weight-normal"
                             >Cash Received <sup class="has-text-danger">*</sup></label>
                             <div class="field has-addons">
-                                <span class="select">
-                                    <select name="cash_received_type">
-                                        <option
-                                            selected
-                                            disabled
-                                        >Type</option>
-                                        <option value="amount">Amount</option>
-                                        <option value="percent">Percent</option>
-                                    </select>
-                                </span>
+                                <div class="control">
+                                    <span class="select">
+                                        <select name="cash_received_type">
+                                            <option
+                                                selected
+                                                disabled
+                                            >Type</option>
+                                            <option value="amount">Amount</option>
+                                            <option value="percent">Percent</option>
+                                        </select>
+                                    </span>
+                                </div>
                                 <div class="control has-icons-left is-expanded">
                                     <input
                                         class="input"
@@ -261,12 +263,20 @@
                                         name="cash_received"
                                         id="cash_received"
                                         placeholder="eg. 50"
-                                        value="{{ old('cash_received') ?? '' }}"
+                                        x-model="cashReceived"
                                     >
                                     <span class="icon is-large is-left">
                                         <i class="fas fa-money-bill"></i>
                                     </span>
                                     @error('cash_received')
+                                        <span
+                                            class="help has-text-danger"
+                                            role="alert"
+                                        >
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                    @error('cash_received_type')
                                         <span
                                             class="help has-text-danger"
                                             role="alert"
@@ -294,7 +304,7 @@
                                         name="due_date"
                                         id="due_date"
                                         placeholder="mm/dd/yyyy"
-                                        value="{{ old('due_date') ?? '' }}"
+                                        value="{{ old('due_date') }}"
                                     >
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-calendar-alt"></i>

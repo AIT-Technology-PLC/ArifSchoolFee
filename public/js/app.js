@@ -400,14 +400,23 @@ document.addEventListener("alpine:init", () => {
             this.isChecked = !this.isChecked;
         },
     }));
-    Alpine.data("cashReceivedType", () => ({
-        paymentType:"",
+    Alpine.data("cashReceivedType", (paymentType = "", cashReceivedType = "", cashReceived = "") => ({
+        paymentType: paymentType,
+        cashReceivedType: cashReceivedType,
+        cashReceived: cashReceived,
+
         isPaymentInCash() {
-            if (!this.paymentType) {
-                return true;
+            if (this.paymentType === "Cash Payment") {
+                this.cashReceivedType = "percent";
+                this.cashReceived = 100;
             }
 
-            return this.paymentType === "Cash Payment";
+            if (this.paymentType === "Credit Payment") {
+                this.cashReceivedType = cashReceivedType;
+                this.cashReceived = cashReceived;
+            }
+
+            return this.paymentType === "" || this.paymentType === "Cash Payment";
         },
         
     }));

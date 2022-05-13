@@ -33,15 +33,15 @@ class StoreGdnRequest extends FormRequest
             'payment_type' => ['required', 'string'],
 
             'cash_received_type' => ['required_if:payment_type,Credit Payment', 'string', new VerifyCashReceivedAmountIsValid($this->get('discount'), $this->get('gdn'), $this->get('cash_received_type')), function ($attribute, $value, $fail) {
-                if ($this->get('cash_received') == 100 && $value == 'percent') {
+                if ($this->get('cash_received') == 100 && $value == 'percent' && $this->get('payment_type') == 'Credit Payment') {
                     $fail('If "Cash Received" is 100%, then "Payment Type" should be "Cash Payment"');
 
                 }
             }],
 
             'description' => ['nullable', 'string'],
-            'cash_received' => ['required_if:payment_type,Credit Payment', 'nullable', 'numeric', 'exclude_if:payment_type,Cash Payment'],
-            'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment'],
+            'cash_received' => ['required_if:payment_type,Credit Payment', 'nullable', 'numeric', 'exclude_if:payment_type,Cash Payment', 'gt:0'],
+            'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'exclude_if:payment_type,Cash Payment'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
         ];
     }
