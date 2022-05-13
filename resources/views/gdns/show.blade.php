@@ -136,7 +136,7 @@
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
                                 {{ number_format($gdn->paymentInCash, 2) }}
-                                ({{ (float) $gdn->cash_received_in_percentage }}%)
+                                ({{ number_format($gdn->PaymentPercentInCash, 2) }}%)
                             </div>
                             <div class="is-uppercase is-size-7">
                                 In Cash ({{ userCompany()->currency }})
@@ -156,7 +156,7 @@
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
                                 {{ number_format($gdn->paymentInCredit, 2) }}
-                                ({{ $gdn->credit_payable_in_percentage }}%)
+                                ({{ number_format($gdn->credit_payable_in_percentage, 2) }}%)
                             </div>
                             <div class="is-uppercase is-size-7">
                                 On Credit ({{ userCompany()->currency }})
@@ -274,7 +274,7 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            @if (isFeatureEnabled('Credit Management') && $gdn->isApproved() && !$gdn->credit()->exists() && $gdn->cash_received_in_percentage < 100 && $gdn->payment_in_credit > 0 && $gdn->customer()->exists())
+                            @if (isFeatureEnabled('Credit Management') && $gdn->isApproved() && !$gdn->credit()->exists() && (($gdn->cash_received < 100 && $gdn->cash_received_type == 'percent') || ($gdn->cash_received < $gdn->grandTotalPriceAfterDiscount && $gdn->cash_received_type == 'amount')) && $gdn->payment_in_credit > 0 && $gdn->customer()->exists())
                                 @can('Create Credit')
                                     <x-common.transaction-button
                                         :route="route('gdns.convert_to_credit', $gdn->id)"

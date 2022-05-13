@@ -400,7 +400,26 @@ document.addEventListener("alpine:init", () => {
             this.isChecked = !this.isChecked;
         },
     }));
+    Alpine.data("cashReceivedType", (paymentType = "", cashReceivedType = "", cashReceived = "") => ({
+        paymentType: paymentType,
+        cashReceivedType: cashReceivedType,
+        cashReceived: cashReceived,
 
+        isPaymentInCash() {
+            if (this.paymentType === "Cash Payment") {
+                this.cashReceivedType = "percent";
+                this.cashReceived = 100;
+            }
+
+            if (this.paymentType === "Credit Payment") {
+                this.cashReceivedType = cashReceivedType;
+                this.cashReceived = cashReceived;
+            }
+
+            return this.paymentType === "" || this.paymentType === "Cash Payment";
+        },
+        
+    }));
     Alpine.data("priceMasterDetailForm", ({ price }) => ({
         prices: [],
         errors: {},

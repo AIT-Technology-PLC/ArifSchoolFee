@@ -59,7 +59,7 @@ class ReservationController extends Controller
     public function store(StoreReservationRequest $request)
     {
         $reservation = DB::transaction(function () use ($request) {
-            $reservation = Reservation::create($request->except('reservation'));
+            $reservation = Reservation::create($request->safe()->except('reservation'));
 
             $reservation->reservationDetails()->createMany($request->reservation);
 
@@ -92,7 +92,7 @@ class ReservationController extends Controller
     public function update(UpdateReservationRequest $request, Reservation $reservation)
     {
         [$isExecuted, $message] = $this->reservationService->update(
-            $reservation, $request->except('reservation'), $request->reservation
+            $reservation, $request->safe()->except('reservation'), $request->reservation
         );
 
         if (!$isExecuted) {

@@ -160,9 +160,12 @@
                         Payment Details
                     </h1>
                 </div>
-                <div class="box is-radiusless mx-3 mb-6">
+                <div
+                    class="box is-radiusless mx-3 mb-6"
+                    x-data="cashReceivedType('{{ $gdn->payment_type }}', '{{ $gdn->cash_received_type }}', {{ $gdn->cash_received }})"
+                >
                     <div class="columns is-marginless is-multiline">
-                        <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
+                        <div class="column {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
                             <label
                                 for="discount"
                                 class="label text-green has-text-weight-normal"
@@ -191,7 +194,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="column is-6">
+                        <div class="column">
                             <div class="field">
                                 <label
                                     for="payment_type"
@@ -202,19 +205,11 @@
                                         <select
                                             id="payment_type"
                                             name="payment_type"
+                                            x-model="paymentType"
                                         >
-                                            <option
-                                                selected
-                                                disabled
-                                            >Select Payment</option>
-                                            <option
-                                                value="Cash Payment"
-                                                {{ $gdn->payment_type == 'Cash Payment' ? 'selected' : '' }}
-                                            >Cash Payment</option>
-                                            <option
-                                                value="Credit Payment"
-                                                {{ $gdn->payment_type == 'Credit Payment' ? 'selected' : '' }}
-                                            >Credit Payment</option>
+                                            <option disabled>Select Payment</option>
+                                            <option value="Cash Payment">Cash Payment</option>
+                                            <option value="Credit Payment">Credit Payment</option>
                                         </select>
                                     </div>
                                     <div class="icon is-small is-left">
@@ -231,25 +226,55 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="column is-6">
+                        <div
+                            class="column"
+                            x-cloak
+                            x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                        >
                             <label
-                                for="cash_received_in_percentage"
+                                for="cash_received"
                                 class="label text-green has-text-weight-normal"
-                            >Cash Received <sup class="has-text-danger">*</sup> <sup class="has-text-weight-light"> (In Percentage)</sup> </label>
+                            >Cash Received <sup class="has-text-danger">*</sup></label>
                             <div class="field has-addons">
+                                <div class="control">
+                                    <span class="select">
+                                        <select
+                                            name="cash_received_type"
+                                            x-model="cashReceivedType"
+                                        >
+                                            <option disabled>Type</option>
+                                            <option
+                                                value="amount"
+                                                {{ $gdn->cash_received_type == 'amount' ? 'selected' : '' }}
+                                            >Amount</option>
+                                            <option
+                                                value="percent"
+                                                {{ $gdn->cash_received_type == 'percent' ? 'selected' : '' }}
+                                            >Percent</option>
+                                        </select>
+                                    </span>
+                                </div>
                                 <div class="control has-icons-left is-expanded">
                                     <input
                                         class="input"
                                         type="number"
-                                        name="cash_received_in_percentage"
-                                        id="cash_received_in_percentage"
+                                        name="cash_received"
+                                        id="cash_received"
                                         placeholder="eg. 50"
-                                        value="{{ $gdn->cash_received_in_percentage ?? '' }}"
+                                        x-model="cashReceived"
                                     >
                                     <span class="icon is-large is-left">
                                         <i class="fas fa-money-bill"></i>
                                     </span>
-                                    @error('cash_received_in_percentage')
+                                    @error('cash_received')
+                                        <span
+                                            class="help has-text-danger"
+                                            role="alert"
+                                        >
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                    @error('cash_received_type')
                                         <span
                                             class="help has-text-danger"
                                             role="alert"
@@ -258,15 +283,13 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="control">
-                                    <button
-                                        class="button bg-green has-text-white"
-                                        type="button"
-                                    >%</button>
-                                </div>
                             </div>
                         </div>
-                        <div class="column is-6">
+                        <div
+                            class="column"
+                            x-cloak
+                            x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                        >
                             <div class="field">
                                 <label
                                     for="due_date"
