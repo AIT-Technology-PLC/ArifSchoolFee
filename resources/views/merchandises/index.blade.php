@@ -147,6 +147,41 @@
                 </div>
             </div>
         </div>
+        @if (request()->is('merchandises/available'))
+            <div>
+                <x-content.footer>
+                    <x-datatables.filter filters="'level'">
+                        <div class="columns is-marginless is-vcentered">
+                            <div class="column is-3 p-lr-0 pt-0">
+                                <x-forms.field class="has-text-centered">
+                                    <x-forms.control>
+                                        <x-forms.select
+                                            id=""
+                                            name=""
+                                            class="is-size-7-mobile is-fullwidth"
+                                            x-model="filters.level"
+                                            x-on:change="add('level')"
+                                        >
+                                            <option
+                                                disabled
+                                                selected
+                                                value=""
+                                            >
+                                                Level
+                                            </option>
+                                            <option value="all"> All </option>
+                                            @foreach (['Sufficient', 'Limited'] as $level)
+                                                <option value="{{ str()->lower($level) }}"> {{ $level }} </option>
+                                            @endforeach
+                                        </x-forms.select>
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                        </div>
+                    </x-datatables.filter>
+                </x-content.footer>
+            </div>
+        @endif
         <div class="tabs is-toggle is-fullwidth has-background-white-bis">
             <ul>
                 <li class="available {{ request()->is('merchandises/available') ? 'is-active' : '' }}">
@@ -174,7 +209,6 @@
             </ul>
         </div>
     </section>
-
     <section class="mx-3 m-lr-0">
         <div class="box radius-top-0">
             <div>
@@ -182,7 +216,6 @@
             </div>
         </div>
     </section>
-
     @push('scripts')
         {{ $dataTable->scripts() }}
     @endpush
