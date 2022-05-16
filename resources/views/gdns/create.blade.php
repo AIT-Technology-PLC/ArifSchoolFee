@@ -255,6 +255,7 @@
                                             <option
                                                 selected
                                                 disabled
+                                                value=""
                                             >Type</option>
                                             <option value="amount">Amount</option>
                                             <option value="percent">Percent</option>
