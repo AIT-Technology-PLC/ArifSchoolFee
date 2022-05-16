@@ -32,6 +32,12 @@ class StoreGdnRequest extends FormRequest
             'issued_on' => ['required', 'date'],
             'payment_type' => ['required', 'string'],
 
+            'cash_received_type' => ['required', 'string', function ($attribute, $value, $fail) {
+                if ($this->get('payment_type') == 'Cash Payment' && $value != 'percent') {
+                    $fail('When payment type is "Cash Payment", the type should be "Percent".');
+                }
+            }],
+
             'cash_received' => ['required', 'numeric', 'gt:0', new VerifyCashReceivedAmountIsValid($this->get('discount'), $this->get('gdn'), $this->get('cash_received_type')), function ($attribute, $value, $fail) {
                 if ($this->get('cash_received_type') == 'percent' && $value > 100) {
                     $fail('When type is "Percent", the percentage amount must be between 0 and 100.');
