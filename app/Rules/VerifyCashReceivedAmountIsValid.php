@@ -7,7 +7,9 @@ use Illuminate\Contracts\Validation\Rule;
 class VerifyCashReceivedAmountIsValid implements Rule
 {
     private $discount;
+
     private $details;
+
     private $cashReceivedType;
 
     /**
@@ -23,7 +25,7 @@ class VerifyCashReceivedAmountIsValid implements Rule
 
         $this->cashReceivedType = $cashReceivedType;
 
-        $this->TotalPrice();
+        $this->totalPrice();
     }
 
     /**

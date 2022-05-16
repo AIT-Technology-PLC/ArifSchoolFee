@@ -34,17 +34,19 @@ class UpdateReservationRequest extends FormRequest
 
             'payment_type' => ['required', 'string'],
 
-            'cash_received_type' => ['required_if:payment_type,Credit Payment', 'string', new VerifyCashReceivedAmountIsValid($this->get('discount'), $this->get('reservation'), $this->get('cash_received_type')), function ($attribute, $value, $fail) {
-                if ($this->get('cash_received') == 100 && $value == 'percent' && $this->get('payment_type') == 'Credit Payment') {
-                    $fail('If "Cash Received" is 100%, then "Payment Type" should be "Cash Payment"');
-
-                }
-            }],
+'cash_received' => ['required', 'numeric', 'gt:0', new VerifyCashReceivedAmountIsValid($this->get('discount'), $this->get('reservation'), $this->get('cash_received_type')), function($attribute, $value, $fail){
+if($this->get('cash_received_type') == 'percent' && $value > 100){
+$fail('When type is "Percent", the percentage amount must be between 0 and 100.');
+}
+if($this->get('payment_type') == 'Cash Payment' && $value != 100){
+$fail('When payment type is "Cash Payment", the percentage amount must be 100.');
+}
+}],
 
             'description' => ['nullable', 'string'],
             'cash_received' => ['required_if:payment_type,Credit Payment', 'nullable', 'numeric', 'gt:0'],
-            'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment'],
-            'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
+            'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment','prohibited_if:payment_type,Cash Payment'],
+            'discount' => ['nullable', 'numeric', 'min:0', 'max:100','prohibited_if:payment_type,Cash Payment'],
         ];
     }
 }
