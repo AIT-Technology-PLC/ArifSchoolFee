@@ -38,6 +38,8 @@ class UpdateReservationRequest extends FormRequest
                 }
             }],
 
+            'description' => ['nullable', 'string'],
+
             'cash_received' => ['required', 'numeric', 'gt:0', new VerifyCashReceivedAmountIsValid($this->get('discount'), $this->get('reservation'), $this->get('cash_received_type')), function ($attribute, $value, $fail) {
                 if ($this->get('cash_received_type') == 'percent' && $value > 100) {
                     $fail('When type is "Percent", the percentage amount must be between 0 and 100.');
@@ -47,10 +49,8 @@ class UpdateReservationRequest extends FormRequest
                 }
             }],
 
-            'description' => ['nullable', 'string'],
-            'cash_received' => ['required_if:payment_type,Credit Payment', 'nullable', 'numeric', 'gt:0'],
             'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
-            'discount' => ['nullable', 'numeric', 'min:0', 'max:100', 'prohibited_if:payment_type,Cash Payment'],
+            'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
         ];
     }
 }

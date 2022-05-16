@@ -161,7 +161,7 @@
                 </div>
                 <div
                     class="box is-radiusless mx-3 mb-6"
-                    x-data="cashReceivedType('{{ $reservation->payment_type }}', '{{ $reservation->cash_received_type }}', {{ $reservation->cash_received }})"
+                    x-data="cashReceivedType('{{ $reservation->payment_type }}', '{{ $reservation->cash_received_type }}', {{ $reservation->cash_received }}, '{{ $reservation->due_date?->toDateString() }}')"
                 >
                     <div class="columns is-marginless is-multiline">
                         <div class="column {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
@@ -297,7 +297,7 @@
                                         name="due_date"
                                         id="due_date"
                                         placeholder="mm/dd/yyyy"
-                                        value="{{ $reservation->due_date ? $reservation->due_date->toDateString() : '' }}"
+                                        x-model="dueDate"
                                     >
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-calendar-alt"></i>

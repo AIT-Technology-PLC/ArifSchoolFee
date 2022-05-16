@@ -142,6 +142,7 @@ class ReservationService
                 'code' => nextReferenceNumber('gdns'),
                 'discount' => $reservation->discount * 100,
                 'payment_type' => $reservation->payment_type,
+                'cash_received_type' => $reservation->cash_received_type,
                 'cash_received' => $reservation->cash_received,
                 'description' => $reservation->description ?? '',
                 'issued_on' => now(),

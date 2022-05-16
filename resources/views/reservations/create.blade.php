@@ -210,6 +210,7 @@
                                             <option
                                                 selected
                                                 disabled
+                                                value=""
                                             >Select Payment</option>
                                             <option
                                                 value="Cash Payment"
@@ -247,7 +248,10 @@
                             <div class="field has-addons">
                                 <div class="control">
                                     <span class="select">
-                                        <select name="cash_received_type">
+                                        <select
+                                            name="cash_received_type"
+                                            x-model="cashReceivedType"
+                                        >
                                             <option
                                                 selected
                                                 disabled

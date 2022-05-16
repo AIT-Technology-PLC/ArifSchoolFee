@@ -400,25 +400,34 @@ document.addEventListener("alpine:init", () => {
             this.isChecked = !this.isChecked;
         },
     }));
-    Alpine.data("cashReceivedType", (paymentType = "", cashReceivedType = "", cashReceived = "") => ({
-        paymentType: paymentType,
-        cashReceivedType: cashReceivedType,
-        cashReceived: cashReceived,
+    Alpine.data("cashReceivedType", (paymentType = "", cashReceivedType = "", cashReceived = "", dueDate = "") => ({
+        paymentType: "",
+        cashReceivedType: "",
+        cashReceived: "",
+        dueDate: "",
+
+        init(){
+            this.paymentType = paymentType;
+            this.cashReceivedType = cashReceivedType;
+            this.cashReceived = cashReceived;
+            this.dueDate = dueDate;
+        },
+        changePaymentMethod(){
+            if (this.paymentType === "Cash Payment") {
+                 this.cashReceivedType = "percent";
+                 this.cashReceived = 100;
+                 this.dueDate = "";
+            }
+            if (this.paymentType === "Credit Payment") {
+                 this.cashReceivedType = "";
+                 this.cashReceived = "";
+                 this.dueDate = "";
+             }
+            },
 
         isPaymentInCash() {
-            if (this.paymentType === "Cash Payment") {
-                this.cashReceivedType = "percent";
-                this.cashReceived = 100;
-            }
-
-            if (this.paymentType === "Credit Payment") {
-                this.cashReceivedType = cashReceivedType;
-                this.cashReceived = cashReceived;
-            }
-
             return this.paymentType === "" || this.paymentType === "Cash Payment";
         },
-        
     }));
     Alpine.data("priceMasterDetailForm", ({ price }) => ({
         prices: [],
