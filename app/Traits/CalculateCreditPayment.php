@@ -28,10 +28,6 @@ trait CalculateCreditPayment
             $price = $this->grandTotalPriceAfterDiscount;
         }
 
-        if ($this->cash_received < 0) {
-            return $price;
-        }
-
         if ($this->cash_received_type == 'percent') {
             $paymntInCash = $price * ($this->cash_received / 100);
         }
