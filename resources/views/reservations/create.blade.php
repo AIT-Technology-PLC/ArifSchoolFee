@@ -161,7 +161,7 @@
                 </div>
                 <div
                     class="box is-radiusless mx-3 mb-6"
-                    x-data="cashReceivedType('{{ old('payment_type') }}', '{{ old('cash_received_type') }}', {{ old('cash_received') }})"
+                    x-data="cashReceivedType('{{ old('payment_type') }}', '{{ old('cash_received_type') }}', '{{ old('cash_received') }}', '{{ old('due_date') }}')"
                 >
                     <div class="columns is-marginless is-multiline">
                         <div class="column {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
@@ -310,7 +310,7 @@
                                         name="due_date"
                                         id="due_date"
                                         placeholder="mm/dd/yyyy"
-                                        value="{{ old('due_date') }}"
+                                        x-model="dueDate"
                                     >
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-calendar-alt"></i>
