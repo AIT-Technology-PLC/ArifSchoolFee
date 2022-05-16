@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Services\Inventory\MerchandiseProductService;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -44,6 +45,7 @@ class AvailableInventoryDatatable extends DataTable
                         'productId' => $row['product_id'],
                         'warehouseId' => $warehouse->id,
                         'unit' => $row['unit'],
+                        'min_on_hand' => $row['min_on_hand'],
                     ]);
                 })
                 ->editColumn('total balance', function ($row) {
@@ -59,11 +61,15 @@ class AvailableInventoryDatatable extends DataTable
 
     public function query()
     {
+        $limitedProducts = (new MerchandiseProductService)->getLimitedMerchandiseProductsQuery(user:auth()->user())->pluck('id');
+
         $availableMerchandises = DB::table('merchandises')
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
             ->where('merchandises.company_id', '=', userCompany()->id)
+            ->when(request('level') == 'sufficient', fn($query) => $query->whereNotIn('products.id', $limitedProducts))
+            ->when(request('level') == 'limited', fn($query) => $query->whereIn('products.id', $limitedProducts))
             ->where('merchandises.available', '>', 0)
             ->whereIn('warehouses.id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
             ->select([
@@ -72,6 +78,7 @@ class AvailableInventoryDatatable extends DataTable
                 'products.name as product',
                 'products.code as code',
                 'products.unit_of_measurement as unit',
+                'products.min_on_hand as min_on_hand',
                 'product_categories.name as category',
                 'warehouses.name as warehouse',
             ])
@@ -87,6 +94,7 @@ class AvailableInventoryDatatable extends DataTable
                 'code' => $merchandiseValue->first()->code ?? '',
                 'product_id' => $merchandiseValue->first()->product_id,
                 'unit' => $merchandiseValue->first()->unit,
+                'min_on_hand' => $merchandiseValue->first()->min_on_hand,
                 'category' => $merchandiseValue->first()->category,
                 'total balance' => $merchandiseValue->sum('available'),
             ];
