@@ -205,6 +205,7 @@
                                             id="payment_type"
                                             name="payment_type"
                                             x-model="paymentType"
+                                            x-on:change="changePaymentMethod"
                                         >
                                             <option
                                                 selected

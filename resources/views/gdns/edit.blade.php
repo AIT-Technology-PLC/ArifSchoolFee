@@ -206,6 +206,7 @@
                                             id="payment_type"
                                             name="payment_type"
                                             x-model="paymentType"
+                                            x-on:change="changePaymentMethod"
                                         >
                                             <option disabled>Select Payment</option>
                                             <option value="Cash Payment">Cash Payment</option>
@@ -243,14 +244,8 @@
                                             x-model="cashReceivedType"
                                         >
                                             <option disabled>Type</option>
-                                            <option
-                                                value="amount"
-                                                {{ $gdn->cash_received_type == 'amount' ? 'selected' : '' }}
-                                            >Amount</option>
-                                            <option
-                                                value="percent"
-                                                {{ $gdn->cash_received_type == 'percent' ? 'selected' : '' }}
-                                            >Percent</option>
+                                            <option value="amount">Amount</option>
+                                            <option value="percent">Percent</option>
                                         </select>
                                     </span>
                                 </div>

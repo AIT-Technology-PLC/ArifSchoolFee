@@ -39,7 +39,7 @@ trait CalculateCreditPayment
         return $paymentInCash;
     }
 
-    public function getPaymentPercentInCashAttribute()
+    public function getCashReceivedInPercentageAttribute()
     {
         if (userCompany()->isDiscountBeforeVAT()) {
             $price = $this->grandTotalPrice;
@@ -49,19 +49,15 @@ trait CalculateCreditPayment
             $price = $this->grandTotalPriceAfterDiscount;
         }
 
-        if ($this->cash_received < 0) {
-            return $price;
-        }
-
         if ($this->cash_received_type == 'percent') {
-            $paymentPercentInCash = $this->cash_received;
+            $cashReceivedInPercentage = $this->cash_received;
         }
 
         if ($this->cash_received_type == 'amount') {
-            $paymentPercentInCash = ($this->cash_received * 100) / $price;
+            $cashReceivedInPercentage = ($this->cash_received * 100) / $price;
         }
 
-        return $paymentPercentInCash;
+        return $cashReceivedInPercentage;
     }
 
     public function getPaymentInCreditAttribute()

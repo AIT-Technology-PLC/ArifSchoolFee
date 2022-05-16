@@ -307,7 +307,7 @@
                             <td>
                                 <p>
                                     <span class="has-text-weight-bold is-uppercase">
-                                        In Cash ({{ (float) $gdn->PaymentPercentInCash }}%)
+                                        In Cash ({{ (float) $gdn->cashReceivedInPercentage }}%)
                                     </span>
                                     <br>
                                     <span>
