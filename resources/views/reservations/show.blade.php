@@ -134,7 +134,7 @@
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
                                 {{ number_format($reservation->paymentInCash, 2) }}
-                                ({{ number_format($reservation->PaymentPercentInCash, 2) }}%)
+                                ({{ number_format($reservation->cashReceivedInPercentage, 2) }}%)
                             </div>
                             <div class="is-uppercase is-size-7">
                                 In Cash ({{ userCompany()->currency }})
@@ -154,7 +154,7 @@
                         <div class="column m-lr-20">
                             <div class="is-size- has-text-weight-bold">
                                 {{ number_format($reservation->paymentInCredit, 2) }}
-                                ({{ number_format($reservation->credit_payable_in_percentage, 2) }}%)
+                                ({{ number_format($reservation->creditPayableInPercentage, 2) }}%)
                             </div>
                             <div class="is-uppercase is-size-7">
                                 On Credit ({{ userCompany()->currency }})

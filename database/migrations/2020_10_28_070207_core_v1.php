@@ -316,8 +316,8 @@ return new class extends Migration
             $table->boolean('is_closed')->default(0);
             $table->string('discount')->nullable();
             $table->string('payment_type');
-            $table->string('cash_received_type')->default('percent');
-            $table->decimal('cash_received', 22)->default(100);
+            $table->string('cash_received_type');
+            $table->decimal('cash_received', 22);
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('due_date')->nullable();
@@ -737,8 +737,8 @@ return new class extends Migration
             $table->bigInteger('code');
             $table->string('discount')->nullable();
             $table->string('payment_type');
-            $table->string('cash_received_type')->default('percent');
-            $table->decimal('cash_received', 22)->default(100);
+            $table->string('cash_received_type');
+            $table->decimal('cash_received', 22);
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('expires_on')->nullable();

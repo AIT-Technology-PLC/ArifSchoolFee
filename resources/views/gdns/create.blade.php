@@ -205,6 +205,7 @@
                                             id="payment_type"
                                             name="payment_type"
                                             x-model="paymentType"
+                                            x-on:change="changePaymentMethod"
                                         >
                                             <option
                                                 selected
@@ -308,6 +309,7 @@
                                         name="due_date"
                                         id="due_date"
                                         placeholder="mm/dd/yyyy"
+                                        value="{{ old('due_date') ?? '' }}"
                                     >
                                     <div class="icon is-small is-left">
                                         <i class="fas fa-calendar-alt"></i>

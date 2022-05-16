@@ -7,7 +7,9 @@ use Illuminate\Contracts\Validation\Rule;
 class VerifyCashReceivedAmountIsValid implements Rule
 {
     private $discount;
+
     private $details;
+
     private $cashReceivedType;
 
     /**
@@ -23,7 +25,7 @@ class VerifyCashReceivedAmountIsValid implements Rule
 
         $this->cashReceivedType = $cashReceivedType;
 
-        $this->TotalPrice();
+        $this->totalPrice(); 
     }
 
     /**
@@ -37,7 +39,7 @@ class VerifyCashReceivedAmountIsValid implements Rule
     public function passes($attribute, $value)
     {
         if ($this->cashReceivedType == 'amount') {
-            return $this->grandTotalPriceAfterDiscount() >= request('cash_received');
+            return $this->grandTotalPriceAfterDiscount() >= $value;
         }
 
         return true;
