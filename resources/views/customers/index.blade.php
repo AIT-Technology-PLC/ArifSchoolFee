@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Customers')
+@section('title', 'ustomers')
 
 @section('content')
     <x-common.content-wrapper>
@@ -19,6 +19,15 @@
                     </span>
                 </h1>
             </x-slot>
+            <x-common.button
+                tag="button"
+                mode="button"
+                x-on
+                @click="$dispatch('open-import-modal') "
+                icon="fas fa-upload"
+                label="Import Customers"
+                class="btn-green is-outlined is-small"
+            />
             @can('Create Customer')
                 <x-common.button
                     tag="a"
@@ -32,9 +41,18 @@
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
+            <x-common.success-message :message="session('imported')" />
+            @if (isset($errors) && $errors->any())
+                <x-common.fail-message :message="$errors->all() ?? []" />
+            @endif
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
+
+    <x-common.import
+        title="Import Customers"
+        action="{{ route('customers.import') }}"
+    />
 @endsection
 
 @push('scripts')

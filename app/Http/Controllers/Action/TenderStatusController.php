@@ -11,11 +11,14 @@ class TenderStatusController extends Controller
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Tender Management');
+
+        $this->authorizeResource(TenderStatus::class);
     }
+
     public function import()
     {
         Excel::import(new TenderStatusImport, request()->file('file'));
 
-        return redirect()->route('tenders-tatus.index');
+        return redirect()->route('tenders-status.index');
     }
 }
