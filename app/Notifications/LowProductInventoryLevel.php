@@ -36,7 +36,7 @@ class LowProductInventoryLevel extends Notification
         return [
             'icon' => 'balance-scale',
             'message' => $message,
-            'endpoint' => '/merchandises/on-hand',
+            'endpoint' => '/merchandises/available?level=limited',
         ];
     }
 }
