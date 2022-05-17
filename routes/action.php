@@ -187,3 +187,7 @@ Route::patch('/tender-checklist-assignments/{tender}',
 Route::post('/customers/import',
     [Action\CustomerController::class, 'import'])
     ->name('customers.import');
+
+Route::post('/suppliers/import',
+    [Action\SupplierController::class, 'import'])
+    ->name('suppliers.import');
