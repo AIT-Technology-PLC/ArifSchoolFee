@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Action as Action;
 
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
@@ -184,3 +183,7 @@ Route::get('/tender-checklist-assignments/{tender}/edit',
 Route::patch('/tender-checklist-assignments/{tender}',
     [Action\TenderChecklistAssignmentController::class, 'update'])
     ->name('tender-checklists-assignments.update');
+
+Route::post('/customers/import',
+    [Action\CustomerController::class, 'import'])
+    ->name('customers.import');
