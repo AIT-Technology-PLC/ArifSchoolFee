@@ -8,6 +8,10 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('isFeatureAccessible:Customer Management');
+    }
     public function import()
     {
         Excel::import(new CustomerImport, request()->file('file'));

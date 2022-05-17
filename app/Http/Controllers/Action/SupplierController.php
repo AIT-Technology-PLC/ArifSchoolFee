@@ -8,6 +8,10 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class SupplierController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('isFeatureAccessible:Supplier Management');
+    }
     public function import()
     {
         Excel::import(new SupplierImport, request()->file('file'));

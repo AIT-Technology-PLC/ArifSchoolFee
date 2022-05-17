@@ -191,3 +191,7 @@ Route::post('/customers/import',
 Route::post('/suppliers/import',
     [Action\SupplierController::class, 'import'])
     ->name('suppliers.import');
+
+Route::post('/tender-status/import',
+    [Action\TenderStatusController::class, 'import'])
+    ->name('tender-status.import');
