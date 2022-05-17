@@ -331,7 +331,10 @@
                 <div id="reservation-details">
                     @foreach (old('reservation', [[]]) as $reservationDetail)
                         <div
-                            x-data="productDataProvider({{ $reservationDetail['product_id'] ?? '' }})"
+                            x-data="productDataProvider(
+                                {{ $reservationDetail['product_id'] ?? '""' }},
+                                {{ $reservationDetail['unit_price'] ?? '""' }}
+                            )"
                             class="reservation-detail mx-3"
                         >
                             <div class="field has-addons mb-0 mt-5">
@@ -484,7 +487,6 @@
                                                     type="number"
                                                     class="input"
                                                     placeholder="Unit Price"
-                                                    value="{{ $reservationDetail['unit_price'] ?? ('' ?? '.00') }}"
                                                     :readonly="isDisabled"
                                                     x-model="product.price"
                                                 >

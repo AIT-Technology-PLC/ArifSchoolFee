@@ -331,7 +331,10 @@
                 <div id="gdn-details">
                     @foreach (old('gdn', [[]]) as $gdnDetail)
                         <div
-                            x-data="productDataProvider({{ $gdnDetail['product_id'] ?? '' }})"
+                            x-data="productDataProvider(
+                                {{ $gdnDetail['product_id'] ?? '""' }},
+                                {{ $gdnDetail['unit_price'] ?? '""' }}
+                            )"
                             class="gdn-detail mx-3"
                         >
                             <div class="field has-addons mb-0 mt-5">
@@ -482,7 +485,6 @@
                                                     type="number"
                                                     class="input"
                                                     placeholder="Unit Price"
-                                                    value="{{ $gdnDetail['unit_price'] ?? '0.00' }}"
                                                     :readonly="isDisabled"
                                                     x-model="product.price"
                                                 >
