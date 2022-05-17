@@ -682,4 +682,15 @@ document.addEventListener("alpine:init", () => {
             return tagName.toLowerCase() === "input";
         },
     }));
+
+    Alpine.data("importFile", () => ({
+        file: "",
+
+        remove() {
+            this.file = "";
+        }
+
+    }));
+
+
 });
