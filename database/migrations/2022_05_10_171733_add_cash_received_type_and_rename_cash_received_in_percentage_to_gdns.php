@@ -15,10 +15,15 @@ return new class extends Migration
     public function up()
     {
         Schema::table('gdns', function (Blueprint $table) {
-            $table->string('cash_received_type')->after('payment_type');
+            $table->string('cash_received_type')->nullable()->after('payment_type');
             $table->renameColumn('cash_received_in_percentage', 'cash_received');
         });
+
         DB::table('gdns')->update(['cash_received_type' => 'percent']);
+
+        Schema::table('gdns', function (Blueprint $table) {
+            $table->string('cash_received_type')->nullable(false)->change();
+        });
 
     }
 
