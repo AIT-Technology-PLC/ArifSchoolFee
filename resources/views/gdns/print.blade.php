@@ -212,7 +212,7 @@
                             <td>
                                 <p>
                                     <span class="has-text-weight-bold is-uppercase">
-                                        In Cash ({{ (float) $gdn->cash_received_in_percentage }}%)
+                                        In Cash ({{ number_format($gdn->cashReceivedInPercentage, 2) }}%)
                                     </span>
                                     <br>
                                     <span>
@@ -223,7 +223,7 @@
                             <td>
                                 <p>
                                     <span class="has-text-weight-bold is-uppercase">
-                                        On Credit ({{ $gdn->credit_payable_in_percentage }}%)
+                                        On Credit ({{ $gdn->creditPayableInPercentage }}%)
                                     </span>
                                     <br>
                                     <span>

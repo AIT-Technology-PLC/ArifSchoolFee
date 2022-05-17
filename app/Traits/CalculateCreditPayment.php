@@ -19,11 +19,36 @@ trait CalculateCreditPayment
             $price = $this->grandTotalPriceAfterDiscount;
         }
 
-        if ($this->cash_received_in_percentage < 0) {
-            return $price;
+        if ($this->cash_received_type == 'percent') {
+            $paymentInCash = $price * ($this->cash_received_in_percentage / 100);
         }
 
-        return $price * ($this->cash_received_in_percentage / 100);
+        if ($this->cash_received_type == 'amount') {
+            $paymentInCash = $this->cash_received_in_percentage;
+        }
+
+        return $paymentInCash;
+    }
+
+    public function getCashReceivedInPercentageAttribute()
+    {
+        if (userCompany()->isDiscountBeforeVAT()) {
+            $price = $this->grandTotalPrice;
+        }
+
+        if (!userCompany()->isDiscountBeforeVAT()) {
+            $price = $this->grandTotalPriceAfterDiscount;
+        }
+
+        if ($this->cash_received_type == 'percent') {
+            $cashReceivedInPercentage = $this->cash_received;
+        }
+
+        if ($this->cash_received_type == 'amount') {
+            $cashReceivedInPercentage = ($this->cash_received / $price) * 100;
+        }
+
+        return $cashReceivedInPercentage;
     }
 
     public function getPaymentInCreditAttribute()
@@ -36,10 +61,6 @@ trait CalculateCreditPayment
             $price = $this->grandTotalPriceAfterDiscount;
         }
 
-        if ($this->credit_payable_in_percentage < 0) {
-            return $price;
-        }
-
-        return $price * ($this->credit_payable_in_percentage / 100);
+        return $price - $this->paymentInCash;
     }
 }

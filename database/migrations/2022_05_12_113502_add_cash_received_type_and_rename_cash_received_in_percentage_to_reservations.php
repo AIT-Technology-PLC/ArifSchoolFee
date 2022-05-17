@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('reservations', function (Blueprint $table) {
+            $table->string('cash_received_type')->after('payment_type');
+            $table->renameColumn('cash_received_in_percentage', 'cash_received');
+
+        });
+        DB::table('reservations')->update(['cash_received_type' => 'percent']);
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('reservations', function (Blueprint $table) {
+            $table->dropColumn('cash_received_type');
+            $table->renameColumn('cash_received', 'cash_received_in_percentage');
+
+        });
+    }
+};

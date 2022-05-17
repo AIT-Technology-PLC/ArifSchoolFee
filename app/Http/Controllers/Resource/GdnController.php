@@ -53,7 +53,7 @@ class GdnController extends Controller
     public function store(StoreGdnRequest $request)
     {
         $gdn = DB::transaction(function () use ($request) {
-            $gdn = Gdn::create($request->except('gdn'));
+            $gdn = Gdn::create($request->safe()->except('gdn'));
 
             $gdn->gdnDetails()->createMany($request->gdn);
 
@@ -101,7 +101,7 @@ class GdnController extends Controller
         }
 
         DB::transaction(function () use ($request, $gdn) {
-            $gdn->update($request->except('gdn'));
+            $gdn->update($request->safe()->except('gdn'));
 
             for ($i = 0; $i < count($request->gdn); $i++) {
                 $gdn->gdnDetails[$i]->update($request->gdn[$i]);
