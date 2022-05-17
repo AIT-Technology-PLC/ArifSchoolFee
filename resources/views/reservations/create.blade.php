@@ -164,7 +164,7 @@
                     x-data="cashReceivedType('{{ old('payment_type') }}', '{{ old('cash_received_type') }}', '{{ old('cash_received') }}', '{{ old('due_date') }}')"
                 >
                     <div class="columns is-marginless is-multiline">
-                        <div class="column {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
+                        <div class="column is-12 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
                             <label
                                 for="discount"
                                 class="label text-green has-text-weight-normal"

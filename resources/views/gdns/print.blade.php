@@ -223,7 +223,7 @@
                             <td>
                                 <p>
                                     <span class="has-text-weight-bold is-uppercase">
-                                        On Credit ({{ $gdn->creditPayableInPercentage }}%)
+                                        On Credit ({{ number_format($gdn->creditPayableInPercentage, 2) }}%)
                                     </span>
                                     <br>
                                     <span>

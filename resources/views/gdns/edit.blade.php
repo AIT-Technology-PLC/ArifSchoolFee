@@ -165,7 +165,7 @@
                     x-data="cashReceivedType('{{ $gdn->payment_type }}', '{{ $gdn->cash_received_type }}', {{ $gdn->cash_received }}, '{{ $gdn->due_date?->toDateString() }}')"
                 >
                     <div class="columns is-marginless is-multiline">
-                        <div class="column {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
+                        <div class="column is-12 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
                             <label
                                 for="discount"
                                 class="label text-green has-text-weight-normal"
