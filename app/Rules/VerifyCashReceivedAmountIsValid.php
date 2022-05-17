@@ -25,7 +25,7 @@ class VerifyCashReceivedAmountIsValid implements Rule
 
         $this->cashReceivedType = $cashReceivedType;
 
-        $this->totalPrice(); 
+        $this->totalPrice();
     }
 
     /**
@@ -38,8 +38,16 @@ class VerifyCashReceivedAmountIsValid implements Rule
 
     public function passes($attribute, $value)
     {
+        if (userCompany()->isDiscountBeforeVAT()) {
+            $price = $this->grandTotalPrice();
+        }
+
+        if (!userCompany()->isDiscountBeforeVAT()) {
+            $price = $this->grandTotalPriceAfterDiscount();
+        }
+
         if ($this->cashReceivedType == 'amount') {
-            return $this->grandTotalPriceAfterDiscount() >= $value;
+            return $price >= $value;
         }
 
         return true;

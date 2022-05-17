@@ -40,7 +40,7 @@ class UpdateGdnRequest extends FormRequest
 
             'description' => ['nullable', 'string'],
 
-            'cash_received' => ['required', 'numeric', 'gt:0', new VerifyCashReceivedAmountIsValid($this->get('discount'), $this->get('gdn'), $this->get('cash_received_type')), function ($attribute, $value, $fail) {
+            'cash_received' => ['required', 'numeric', 'gte:0', new VerifyCashReceivedAmountIsValid($this->get('discount'), $this->get('gdn'), $this->get('cash_received_type')), function ($attribute, $value, $fail) {
                 if ($this->get('cash_received_type') == 'percent' && $value > 100) {
                     $fail('When type is "Percent", the percentage amount must be between 0 and 100.');
                 }
