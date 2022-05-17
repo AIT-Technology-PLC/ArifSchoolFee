@@ -223,7 +223,7 @@
                             <td>
                                 <p>
                                     <span class="has-text-weight-bold is-uppercase">
-                                        On Credit ({{ $gdn->creditPpayableInPercentage }}%)
+                                        On Credit ({{ $gdn->creditPayableInPercentage }}%)
                                     </span>
                                     <br>
                                     <span>
