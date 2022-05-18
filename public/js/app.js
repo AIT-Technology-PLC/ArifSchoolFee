@@ -504,7 +504,7 @@ document.addEventListener("alpine:init", () => {
         },
     }));
 
-    Alpine.data("productDataProvider", (productId, unitPrice = null) => ({
+    Alpine.data("productDataProvider", (productId, unitPrice = "") => ({
         product: {
             name: "",
             category: "",
@@ -521,14 +521,12 @@ document.addEventListener("alpine:init", () => {
         select2: "",
 
         init() {
-            this.product.price = unitPrice;
-
-            if (Number.isInteger(productId)) {
-                this.getProduct(productId);
-            }
+            this.getProduct(productId);
         },
         async getProduct(productId) {
-            if (productId == "" || Number.isNaN(productId)) {
+            if (productId == "" || isNaN(productId)) {
+                this.product.price = unitPrice;
+                unitPrice = "";
                 return;
             }
 
@@ -540,9 +538,9 @@ document.addEventListener("alpine:init", () => {
 
             this.selectedCategory = this.product.category;
 
-            if (unitPrice !== null) {
+            if (unitPrice != "") {
                 this.product.price = unitPrice;
-                unitPrice = null;
+                unitPrice = "";
             }
         },
         async getProductsByCategory() {

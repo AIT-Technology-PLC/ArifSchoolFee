@@ -242,7 +242,10 @@
                                             name="cash_received_type"
                                             x-model="cashReceivedType"
                                         >
-                                            <option disabled>Type</option>
+                                            <option
+                                                disabled
+                                                value=""
+                                            >Type</option>
                                             <option value="amount">Amount</option>
                                             <option value="percent">Percent</option>
                                         </select>

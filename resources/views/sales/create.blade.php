@@ -196,7 +196,10 @@
                 <div id="sale-details">
                     @foreach (old('sale', [[]]) as $saleDetail)
                         <div
-                            x-data="productDataProvider({{ $saleDetail['product_id'] ?? '' }})"
+                            x-data="productDataProvider(
+                                {{ $saleDetail['product_id'] ?? '""' }},
+                                {{ $saleDetail['unit_price'] ?? '""' }}
+                            )"
                             class="sale-detail mx-3"
                         >
                             <div class="field has-addons mb-0 mt-5">
@@ -310,7 +313,6 @@
                                                     type="number"
                                                     class="input"
                                                     placeholder="Unit Price"
-                                                    value="{{ $saleDetail['unit_price'] ?? '' }}"
                                                     :readonly="isDisabled"
                                                     x-model="product.price"
                                                 >
