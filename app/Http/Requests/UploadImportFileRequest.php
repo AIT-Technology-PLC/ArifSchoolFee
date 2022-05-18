@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UploadFileImportRequest extends FormRequest
+class UploadImportFileRequest extends FormRequest
 {
     public function authorize()
     {
@@ -14,7 +14,7 @@ class UploadFileImportRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|mimes:csv,xlx,xls,xlsx|file',
+            'file' => ['required', 'file', 'mimes:csv,xlx,xls,xlsx'],
         ];
     }
 }

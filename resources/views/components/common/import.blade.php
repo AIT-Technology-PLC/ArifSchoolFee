@@ -1,4 +1,5 @@
 @props(['title', 'action'])
+
 <div
     x-data="toggler"
     @open-import-modal.window="toggle"
@@ -20,7 +21,7 @@
                 method="POST"
                 enctype="multipart/form-data"
                 novalidate
-                x-data="importFile"
+                x-data="UploadedFileNameHandler"
                 x-on:reset="remove"
             >
                 @csrf
@@ -33,19 +34,19 @@
                                     type="file"
                                     name="file"
                                     x-model="file"
-                                    {{-- x-on:change="file.lastIndexOf('/')" --}}
+                                    x-on:change="getFileName"
                                 >
                                 <span class="file-cta bg-green has-text-white">
                                     <span class="file-icon">
                                         <i class="fas fa-upload"></i>
                                     </span>
                                     <span class="file-label">
-                                        import file
+                                        Upload file
                                     </span>
                                 </span>
                                 <span
                                     class="file-name"
-                                    x-text="file || 'Select File...'"
+                                    x-text="fileName || 'Select File...'"
                                 >
                                 </span>
                             </label>
