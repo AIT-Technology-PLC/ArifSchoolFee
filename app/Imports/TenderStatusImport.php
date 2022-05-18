@@ -14,6 +14,10 @@ class TenderStatusImport implements ToModel, WithHeadingRow, WithValidation
 
     public function model(array $row)
     {
+        if (TenderStatus::where('status', $row['status'])->exists()) {
+            return null;
+        }
+
         return new TenderStatus([
             'status' => $row['status'],
         ]);

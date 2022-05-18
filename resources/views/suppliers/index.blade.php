@@ -23,10 +23,9 @@
                 <x-common.button
                     tag="button"
                     mode="button"
-                    x-on
                     @click="$dispatch('open-import-modal') "
                     icon="fas fa-upload"
-                    label="Import Supplier"
+                    label="Import Suppliers"
                     class="btn-green is-outlined is-small"
                 />
             @endcan
@@ -48,7 +47,7 @@
         </x-content.footer>
     </x-common.content-wrapper>
     <x-common.import
-        title="Import Suppier"
+        title="Import Suppliers"
         action="{{ route('suppliers.import') }}"
     />
 @endsection

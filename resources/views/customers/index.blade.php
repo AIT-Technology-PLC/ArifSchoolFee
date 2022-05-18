@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'ustomers')
+@section('title', 'Customers')
 
 @section('content')
     <x-common.content-wrapper>
@@ -23,10 +23,9 @@
                 <x-common.button
                     tag="button"
                     mode="button"
-                    x-on
                     @click="$dispatch('open-import-modal') "
                     icon="fas fa-upload"
-                    label="Import Customer"
+                    label="Import Customers"
                     class="btn-green is-outlined is-small"
                 />
             @endcan
@@ -49,7 +48,7 @@
     </x-common.content-wrapper>
 
     <x-common.import
-        title="Import Customer"
+        title="Import Customers"
         action="{{ route('customers.import') }}"
     />
 @endsection

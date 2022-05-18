@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImportFileRequest;
 use App\Imports\TenderStatusImport;
-use App\Models\Tender;
+use App\Models\TenderStatus;
 
 class TenderStatusController extends Controller
 {
@@ -16,7 +16,7 @@ class TenderStatusController extends Controller
 
     public function import(UploadImportFileRequest $request)
     {
-        $this->authorize('import', Tender::class);
+        $this->authorize('import', TenderStatus::class);
 
         (new TenderStatusImport)->import($request->safe()['file']);
 

@@ -20,10 +20,9 @@
                 <x-common.button
                     tag="button"
                     mode="button"
-                    x-on
                     @click="$dispatch('open-import-modal') "
                     icon="fas fa-upload"
-                    label="Import Status"
+                    label="Import Statuses"
                     class="btn-green is-outlined is-small"
                 />
             @endcan
@@ -45,7 +44,7 @@
         </x-content.footer>
     </x-common.content-wrapper>
     <x-common.import
-        title="Import Status"
+        title="Import Statuses"
         action="{{ route('tender-statuses.import') }}"
     />
 @endsection
