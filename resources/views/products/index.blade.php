@@ -16,6 +16,16 @@
                     </span>
                 </h1>
             </x-slot>
+            @can('Import Product')
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-import-modal') "
+                    icon="fas fa-upload"
+                    label="Import Product"
+                    class="btn-green is-outlined is-small"
+                />
+            @endcan
             @can('Create Product')
                 <x-common.button
                     tag="a"
@@ -28,12 +38,16 @@
             @endcan
         </x-content.header>
         <x-content.footer>
-            <x-common.success-message :message="session('deleted')" />
+            <x-common.success-message :message="session('deleted') ?? session('imported')" />
+            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
+    <x-common.import
+        title="Import Products"
+        action="{{ route('products.import') }}"
+    />
 @endsection
-
 @push('scripts')
     {{ $dataTable->scripts() }}
 @endpush

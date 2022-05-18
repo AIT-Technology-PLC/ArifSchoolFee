@@ -184,3 +184,8 @@ Route::get('/tender-checklist-assignments/{tender}/edit',
 Route::patch('/tender-checklist-assignments/{tender}',
     [Action\TenderChecklistAssignmentController::class, 'update'])
     ->name('tender-checklists-assignments.update');
+
+// Products
+Route::post('/products/import',
+    [Action\ProductController::class, 'import'])
+    ->name('products.import');
