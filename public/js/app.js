@@ -683,14 +683,16 @@ document.addEventListener("alpine:init", () => {
         },
     }));
 
-    Alpine.data("importFile", () => ({
+    Alpine.data("UploadedFileNameHandler", () => ({
         file: "",
+        fileName: "",
 
         remove() {
             this.file = "";
+            this.fileName = "";
+        },
+        getFileName() {
+            this.fileName = this.file.slice(this.file.lastIndexOf("\\") + 1)
         }
-
     }));
-
-
 });

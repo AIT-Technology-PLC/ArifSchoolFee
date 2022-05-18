@@ -15,26 +15,24 @@ class ProductImport implements WithHeadingRow, OnEachRow, WithValidation
 
     public function onRow(Row $row)
     {
-        $rowIndex = $row->getIndex();
-        $row = $row->toArray();
-
         $productCategory = ProductCategory::firstOrCreate([
-            'name' => $row['product_category_name']
+            'name' => $row['product_category_name'],
         ]);
 
         $productCategory->products()->firstOrCreate(
             [
                 'name' => $row['name'],
                 'product_category_id' => $productCategory->id,
-                'company_id' => userCompany()->id
+                'company_id' => userCompany()->id,
             ],
             [
                 'type' => $row['type'],
                 'code' => $row['code'],
                 'unit_of_measurement' => $row['unit_of_measurement'],
-                'min_on_hand' => $row['min_on_hand']
+                'min_on_hand' => $row['min_on_hand'],
             ]);
     }
+
     public function rules(): array
     {
         return [
@@ -45,8 +43,7 @@ class ProductImport implements WithHeadingRow, OnEachRow, WithValidation
             'min_on_hand' => ['required', 'numeric'],
             'description' => ['nullable', 'string'],
             'properties' => ['nullable', 'array'],
-            'product_category_name' => ['required', 'string', 'max:255']
+            'product_category_name' => ['required', 'string', 'max:255'],
         ];
     }
-
 }
