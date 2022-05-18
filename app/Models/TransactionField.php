@@ -44,9 +44,11 @@ class TransactionField extends Model
     {
         return Attribute::make(
             get:function () {
-                return DB::table(str($this->padField->padRelation->model_name)->lower()->plural())
+                return is_numeric($this->value)
+                ? DB::table(str($this->padField->padRelation->model_name)->lower()->plural())
                     ->find($this->value)
-                    ->{$this->padField->padRelation->representative_column};
+                    ->{$this->padField->padRelation->representative_column}
+                : null;
             }
         );
     }

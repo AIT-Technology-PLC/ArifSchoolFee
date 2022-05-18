@@ -164,7 +164,7 @@
                     x-data="cashReceivedType('{{ old('payment_type') }}', '{{ old('cash_received_type') }}', '{{ old('cash_received') }}', '{{ old('due_date') }}')"
                 >
                     <div class="columns is-marginless is-multiline">
-                        <div class="column {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
+                        <div class="column is-12 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
                             <label
                                 for="discount"
                                 class="label text-green has-text-weight-normal"
@@ -331,7 +331,10 @@
                 <div id="gdn-details">
                     @foreach (old('gdn', [[]]) as $gdnDetail)
                         <div
-                            x-data="productDataProvider({{ $gdnDetail['product_id'] ?? '' }})"
+                            x-data="productDataProvider(
+                                {{ $gdnDetail['product_id'] ?? '""' }},
+                                {{ $gdnDetail['unit_price'] ?? '""' }}
+                            )"
                             class="gdn-detail mx-3"
                         >
                             <div class="field has-addons mb-0 mt-5">
@@ -482,7 +485,6 @@
                                                     type="number"
                                                     class="input"
                                                     placeholder="Unit Price"
-                                                    value="{{ $gdnDetail['unit_price'] ?? '0.00' }}"
                                                     :readonly="isDisabled"
                                                     x-model="product.price"
                                                 >

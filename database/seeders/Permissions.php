@@ -145,6 +145,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Read Product']);
             Permission::firstOrCreate(['name' => 'Update Product']);
             Permission::firstOrCreate(['name' => 'Delete Product']);
+            Permission::firstOrCreate(['name' => 'Import Product']);
 
             // Warehouse
             Permission::firstOrCreate(['name' => 'Create Warehouse']);

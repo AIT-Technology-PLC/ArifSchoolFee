@@ -400,35 +400,46 @@ document.addEventListener("alpine:init", () => {
             this.isChecked = !this.isChecked;
         },
     }));
-    Alpine.data("cashReceivedType", (paymentType = "", cashReceivedType = "", cashReceived = "", dueDate = "") => ({
-        paymentType: "",
-        cashReceivedType: "",
-        cashReceived: "",
-        dueDate: "",
+    Alpine.data(
+        "cashReceivedType",
+        (
+            paymentType = "",
+            cashReceivedType = "",
+            cashReceived = "",
+            dueDate = ""
+        ) => ({
+            paymentType: "",
+            cashReceivedType: "",
+            cashReceived: "",
+            dueDate: "",
 
-        init(){
-            this.paymentType = paymentType;
-            this.cashReceivedType = cashReceivedType;
-            this.cashReceived = cashReceived;
-            this.dueDate = dueDate;
-        },
-        changePaymentMethod(){
-            if (this.paymentType === "Cash Payment") {
-                 this.cashReceivedType = "percent";
-                 this.cashReceived = 100;
-                 this.dueDate = "";
-            }
-            if (this.paymentType === "Credit Payment") {
-                 this.cashReceivedType = "";
-                 this.cashReceived = "";
-                 this.dueDate = "";
-             }
+            init() {
+                this.paymentType = paymentType;
+                this.cashReceivedType = cashReceivedType;
+                this.cashReceived = cashReceived;
+                this.dueDate = dueDate;
+            },
+            changePaymentMethod() {
+                if (this.paymentType === "Cash Payment") {
+                    this.cashReceivedType = "percent";
+                    this.cashReceived = 100;
+                    this.dueDate = "";
+                }
+                if (this.paymentType === "Credit Payment") {
+                    this.cashReceivedType = "";
+                    this.cashReceived = "";
+                    this.dueDate = "";
+                }
             },
 
-        isPaymentInCash() {
-            return this.paymentType === "" || this.paymentType === "Cash Payment";
-        },
-    }));
+            isPaymentInCash() {
+                return (
+                    this.paymentType === "" ||
+                    this.paymentType === "Cash Payment"
+                );
+            },
+        })
+    );
     Alpine.data("priceMasterDetailForm", ({ price }) => ({
         prices: [],
         errors: {},
@@ -493,7 +504,7 @@ document.addEventListener("alpine:init", () => {
         },
     }));
 
-    Alpine.data("productDataProvider", (productId, unitPrice = null) => ({
+    Alpine.data("productDataProvider", (productId, unitPrice = "") => ({
         product: {
             name: "",
             category: "",
@@ -510,14 +521,12 @@ document.addEventListener("alpine:init", () => {
         select2: "",
 
         init() {
-            this.product.price = unitPrice;
-
-            if (Number.isInteger(productId)) {
-                this.getProduct(productId);
-            }
+            this.getProduct(productId);
         },
         async getProduct(productId) {
-            if (productId == "" || Number.isNaN(productId)) {
+            if (productId == "" || isNaN(productId)) {
+                this.product.price = unitPrice;
+                unitPrice = "";
                 return;
             }
 
@@ -529,9 +538,9 @@ document.addEventListener("alpine:init", () => {
 
             this.selectedCategory = this.product.category;
 
-            if (unitPrice !== null) {
+            if (unitPrice != "") {
                 this.product.price = unitPrice;
-                unitPrice = null;
+                unitPrice = "";
             }
         },
         async getProductsByCategory() {
@@ -709,5 +718,18 @@ document.addEventListener("alpine:init", () => {
         isTagInput(tagName) {
             return tagName.toLowerCase() === "input";
         },
+    }));
+
+    Alpine.data("UploadedFileNameHandler", () => ({
+        file: "",
+        fileName: "",
+
+        remove() {
+            this.file = "";
+            this.fileName = "";
+        },
+        getFileName() {
+            this.fileName = this.file.slice(this.file.lastIndexOf("\\") + 1)
+        }
     }));
 });

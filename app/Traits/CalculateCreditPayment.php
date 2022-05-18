@@ -24,7 +24,7 @@ trait CalculateCreditPayment
         }
 
         if ($this->cash_received_type == 'amount') {
-            $paymentInCash = $this->cash_received_in_percentage;
+            $paymentInCash = $this->cash_received;
         }
 
         return $paymentInCash;
@@ -40,12 +40,16 @@ trait CalculateCreditPayment
             $price = $this->grandTotalPriceAfterDiscount;
         }
 
+        if ($price <= 0) {
+            return 0.00;
+        }
+
         if ($this->cash_received_type == 'percent') {
             $cashReceivedInPercentage = $this->cash_received;
         }
 
         if ($this->cash_received_type == 'amount') {
-            $cashReceivedInPercentage = ($this->cash_received / $price) * 100;
+            $cashReceivedInPercentage = ($this->paymentInCash / $price) * 100;
         }
 
         return $cashReceivedInPercentage;

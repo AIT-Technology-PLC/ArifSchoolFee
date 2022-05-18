@@ -47,7 +47,7 @@ class TransactionFieldDatatable extends DataTable
         $padFields = PadField::detailFields()->where('pad_id', request()->route('transaction')->pad_id)->get();
 
         foreach ($padFields as $padField) {
-            $columns[] = Column::computed(str()->snake($padField->label))->visible($padField->isVisible());
+            $columns[] = Column::computed(str()->snake($padField->label))->visible($padField->isVisible())->content('N/A');
         }
 
         if (request()->route('transaction')->pad->hasPrices()) {
