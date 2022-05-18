@@ -3,23 +3,20 @@
 namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadImportFileRequest;
 use App\Imports\CustomerImport;
 use App\Models\Customer;
-use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
 {
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Customer Management');
-
-        $this->authorizeResource(Customer::class, 'customer');
     }
 
-    public function import()
+    public function import(UploadImportFileRequest $request)
     {
-        $this->authorize(Customer::class, 'import');
+        $this->authorize('import', Customer::class);
 
         (new CustomerImport)->import($request->safe()['file']);
 

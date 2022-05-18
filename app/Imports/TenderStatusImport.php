@@ -3,12 +3,15 @@
 namespace App\Imports;
 
 use App\Models\TenderStatus;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
 class TenderStatusImport implements ToModel, WithHeadingRow, WithValidation
 {
+    use Importable;
+
     public function model(array $row)
     {
         return new TenderStatus([

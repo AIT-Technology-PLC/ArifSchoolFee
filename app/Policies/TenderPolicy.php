@@ -40,4 +40,9 @@ class TenderPolicy
     {
         return $user->can('Assign Tender Checklists');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import Tender');
+    }
 }

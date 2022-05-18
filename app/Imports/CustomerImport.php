@@ -3,12 +3,15 @@
 namespace App\Imports;
 
 use App\Models\Customer;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
 class CustomerImport implements ToModel, WithHeadingRow, WithValidation
 {
+    use Importable;
+
     public function model(array $row)
     {
         if (Customer::where('company_name', $row['company_name'])->exists()) {
