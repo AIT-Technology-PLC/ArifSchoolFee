@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
 use App\Imports\SupplierImport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Supplier;
 
 class SupplierController extends Controller
 {
@@ -17,8 +17,10 @@ class SupplierController extends Controller
 
     public function import()
     {
-        Excel::import(new SupplierImport, request()->file('file'));
+        $this->authorize(Supplier::class, 'import');
 
-        return redirect()->route('supplier.index');
+        (new SupplierImport)->import($request->safe()['file']);
+
+        return back()->with('imported', 'File uploaded succesfully !');
     }
 }

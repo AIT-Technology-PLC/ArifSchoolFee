@@ -34,4 +34,9 @@ class SupplierPolicy
     {
         return $user->can('Delete Supplier');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import Supplier');
+    }
 }

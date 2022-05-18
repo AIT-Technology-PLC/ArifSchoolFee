@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
 use App\Imports\TenderStatusImport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Tender;
 
 class TenderStatusController extends Controller
 {
@@ -17,8 +17,10 @@ class TenderStatusController extends Controller
 
     public function import()
     {
-        Excel::import(new TenderStatusImport, request()->file('file'));
+        $this->authorize(Tender::class, 'import');
 
-        return redirect()->route('tenders-status.index');
+        (new TenderStatusImport)->import($request->safe()['file']);
+
+        return back()->with('imported', 'File uploaded succesfully !');
     }
 }

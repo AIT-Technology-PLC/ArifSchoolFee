@@ -191,10 +191,14 @@ Route::post('/suppliers/import',
     [Action\SupplierController::class, 'import'])
     ->name('suppliers.import');
 
-Route::post('/tender-status/import',
+Route::post('/tender-statuses/import',
     [Action\TenderStatusController::class, 'import'])
-    ->name('tender-status.import');
+<<<<<<< Updated upstream
+    ->name('tender-statuses.import');
+
 // Products
 Route::post('/products/import',
     [Action\ProductController::class, 'import'])
     ->name('products.import');
+=======
+>>>>>>> Stashed changes
