@@ -43,7 +43,7 @@ class User extends Authenticatable
         return $this->belongsTo(Warehouse::class)->withoutGlobalScopes([ActiveWarehouseScope::class]);
     }
 
-    public function padPermission()
+    public function padPermissions()
     {
         return $this->belongsToMany(PadPermission::class);
     }

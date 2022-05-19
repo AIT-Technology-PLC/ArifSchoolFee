@@ -16,6 +16,8 @@ class UpdatePermissionRequest extends FormRequest
         return [
             'permissions' => ['nullable', 'array'],
             'permissions.*' => ['nullable', 'string'],
+            'padPermissions' => ['nullable', 'array'],
+            'padPermissions.*' => ['nullable', 'integer'],
         ];
     }
 }

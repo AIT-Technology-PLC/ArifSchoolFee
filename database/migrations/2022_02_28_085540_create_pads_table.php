@@ -71,12 +71,10 @@ return new class extends Migration
             $table->unique(['pad_id', 'name']);
         });
 
-        Schema::create('pad_permissions_users', function (Blueprint $table) {
+        Schema::create('pad_permission_user', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pad_permission_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->timestamps();
-            $table->softDeletes();
 
             $table->unique(['pad_permission_id', 'user_id']);
         });
