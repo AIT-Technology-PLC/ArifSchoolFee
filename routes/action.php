@@ -204,3 +204,8 @@ Route::post('/tender-statuses/import',
 Route::post('/products/import',
     [Action\ProductController::class, 'import'])
     ->name('products.import');
+
+// Employees
+Route::post('/employees/import',
+    [Action\EmployeeController::class, 'import'])
+    ->name('employees.import');

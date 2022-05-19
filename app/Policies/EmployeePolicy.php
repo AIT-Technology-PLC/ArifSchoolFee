@@ -63,4 +63,9 @@ class EmployeePolicy
         return true;
     }
 
+    public function import(User $user)
+    {
+        return $user->can('Import Employee');
+    }
+
 }
