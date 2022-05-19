@@ -151,9 +151,8 @@
                             @endif
                         @endcan
 
-                        {{-- @can() --}}
                         @foreach (pads('Warehouse & Inventory') as $pad)
-                            @if ($pad->isEnabled())
+                            @canpad('Read', $pad)
                                 <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                     <a
                                         href="{{ route('pads.transactions.index', $pad->id) }}"
@@ -168,9 +167,8 @@
                                         {{ $pad->abbreviation }}
                                     </span>
                                 </div>
-                            @endif
+                            @endcanpad
                         @endforeach
-                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             </section>
@@ -342,9 +340,8 @@
                             @endif
                         @endcan
 
-                        {{-- @can() --}}
                         @foreach (pads('Sales & Customers') as $pad)
-                            @if ($pad->isEnabled())
+                            @canpad('Read', $pad)
                                 <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                     <a
                                         href="{{ route('pads.transactions.index', $pad->id) }}"
@@ -359,9 +356,8 @@
                                         {{ $pad->abbreviation }}
                                     </span>
                                 </div>
-                            @endif
+                            @endcanpad
                         @endforeach
-                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             </section>
@@ -512,9 +508,8 @@
                             @endif
                         @endcan
 
-                        {{-- @can() --}}
                         @foreach (pads('Purchases & Suppliers') as $pad)
-                            @if ($pad->isEnabled())
+                            @canpad('Read', $pad)
                                 <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                     <a
                                         href="{{ route('pads.transactions.index', $pad->id) }}"
@@ -529,9 +524,8 @@
                                         {{ $pad->abbreviation }}
                                     </span>
                                 </div>
-                            @endif
+                            @endcanpad
                         @endforeach
-                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             </section>
@@ -659,9 +653,8 @@
                             @endif
                         @endcan
 
-                        {{-- @can() --}}
                         @foreach (pads('General Settings') as $pad)
-                            @if ($pad->isEnabled())
+                            @canpad('Read', $pad)
                                 <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                     <a
                                         href="{{ route('pads.transactions.index', $pad->id) }}"
@@ -676,9 +669,8 @@
                                         {{ $pad->abbreviation }}
                                     </span>
                                 </div>
-                            @endif
+                            @endcanpad
                         @endforeach
-                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             </section>

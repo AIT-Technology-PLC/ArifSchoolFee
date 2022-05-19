@@ -11,55 +11,65 @@ class TransactionPolicy
 {
     use HandlesAuthorization, VerifyModelIssuer;
 
-    public function viewAny(User $user, Pad $pad)
+    public function viewAny(User $user, $pad)
     {
-        return $user->padPermissions()->where('pad_id', $pad->id)->where('name', 'Read')->exists();
+        return $user->hasRole('System Manager') ||
+        $user->padPermissions()->where('pad_id', $pad->id)->where('name', 'Read')->exists();
     }
 
-    public function view(User $user, Pad $pad, Transaction $transaction)
+    public function view(User $user, Transaction $transaction)
     {
-        return $user->padPermissions()->where('pad_id', $pad->id)->where('name', 'Read')->exists();
+        return $user->hasRole('System Manager') ||
+        $user->padPermissions()->where('pad_id', $transaction->pad_id)->where('name', 'Read')->exists();
     }
 
-    public function create(User $user, Pad $pad)
+    public function create(User $user, $pad)
     {
-        return $user->padPermissions()->where('pad_id', $pad->id)->where('name', 'Create')->exists();
+        return $user->hasRole('System Manager') ||
+        $user->padPermissions()->where('pad_id', $pad->id)->where('name', 'Create')->exists();
     }
 
-    public function update(User $user, Pad $pad, Transaction $transaction)
+    public function update(User $user, Transaction $transaction)
     {
-        return $this->isIssuedByMyBranch($user, $transaction) &&
-        $user->padPermissions()->where('pad_id', $pad->id)->where('name', 'Update')->exists();
+        return $user->hasRole('System Manager') ||
+            ($this->isIssuedByMyBranch($user, $transaction) &&
+            $user->padPermissions()->where('pad_id', $transaction->pad_id)->where('name', 'Update')->exists());
     }
 
-    public function delete(User $user, Pad $pad, Transaction $transaction)
+    public function delete(User $user, Transaction $transaction)
     {
-        return $this->isIssuedByMyBranch($user, $transaction) &&
-        $user->padPermissions()->where('pad_id', $pad->id)->where('name', 'Delete')->exists();
+        return $user->hasRole('System Manager') ||
+            ($this->isIssuedByMyBranch($user, $transaction) &&
+            $user->padPermissions()->where('pad_id', $transaction->pad_id)->where('name', 'Delete')->exists());
     }
 
-    public function approve(User $user, Pad $pad, Transaction $transaction)
+    public function approve(User $user, Transaction $transaction)
     {
-        return $user->padPermissions()->where('pad_id', $pad->id)->where('name', 'Approve')->exists();
+        return $user->hasRole('System Manager') ||
+        $user->padPermissions()->where('pad_id', $transaction->pad_id)->where('name', 'Approve')->exists();
     }
 
-    public function subtract(User $user, Pad $pad, Transaction $transaction)
+    public function subtract(User $user, Transaction $transaction)
     {
-        return $user->padPermissions()->where('pad_id', $pad->id)->where('name', 'Subtract')->exists();
+        return $user->hasRole('System Manager') ||
+        $user->padPermissions()->where('pad_id', $transaction->pad_id)->where('name', 'Subtract')->exists();
     }
 
-    public function add(User $user, Pad $pad, Transaction $transaction)
+    public function add(User $user, Transaction $transaction)
     {
-        return $user->padPermissions()->where('pad_id', $pad->id)->where('name', 'Add')->exists();
+        return $user->hasRole('System Manager') ||
+        $user->padPermissions()->where('pad_id', $transaction->pad_id)->where('name', 'Add')->exists();
     }
 
-    public function close(User $user, Pad $pad, Transaction $transaction)
+    public function close(User $user, Transaction $transaction)
     {
-        return $user->padPermissions()->where('pad_id', $pad->id)->where('name', 'Close')->exists();
+        return $user->hasRole('System Manager') ||
+        $user->padPermissions()->where('pad_id', $transaction->pad_id)->where('name', 'Close')->exists();
     }
 
-    public function cancel(User $user, Pad $pad, Transaction $transaction)
+    public function cancel(User $user, Transaction $transaction)
     {
-        return $user->padPermissions()->where('pad_id', $pad->id)->where('name', 'Cancel')->exists();
+        return $user->hasRole('System Manager') ||
+        $user->padPermissions()->where('pad_id', $transaction->pad_id)->where('name', 'Cancel')->exists();
     }
 }

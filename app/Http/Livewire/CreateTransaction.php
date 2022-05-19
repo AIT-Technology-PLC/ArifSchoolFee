@@ -7,10 +7,13 @@ use App\Models\Transaction;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Services\Models\TransactionService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class CreateTransaction extends Component
 {
+    use AuthorizesRequests;
+
     public $pad;
 
     public $currentReferenceCode;
@@ -68,6 +71,8 @@ class CreateTransaction extends Component
 
     public function store()
     {
+        $this->authorize('create', [Transaction::class, $this->pad]);
+
         $transaction = (new TransactionService)->store($this->pad, $this->validate());
 
         return redirect()->route('transactions.show', $transaction->id);

@@ -19,7 +19,7 @@ class TransactionController extends Controller
     {
         abort_if(!$pad->isEnabled(), 403);
 
-        $this->authorize('viewAny', $pad);
+        $this->authorize('viewAny', [Transaction::class, $pad]);
 
         $datatable->builder()->setTableId(str($pad->name)->slug() . '-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
@@ -87,11 +87,15 @@ class TransactionController extends Controller
 
     public function create(Pad $pad)
     {
+        $this->authorize('create', [Transaction::class, $pad]);
+
         return view('transactions.create', compact('pad'));
     }
 
     public function show(Transaction $transaction, TransactionFieldDatatable $datatable)
     {
+        $this->authorize('view', $transaction);
+
         $transaction->load(['pad', 'transactionFields']);
 
         $datatable->builder()->setTableId(str($transaction->pad->name)->slug()->append('-details-datatable'));
@@ -103,6 +107,8 @@ class TransactionController extends Controller
 
     public function edit(Transaction $transaction)
     {
+        $this->authorize('update', $transaction);
+
         $transaction->load('pad');
 
         return view('transactions.edit', compact('transaction'));
@@ -110,6 +116,8 @@ class TransactionController extends Controller
 
     public function destroy(Transaction $transaction)
     {
+        $this->authorize('delete', $transaction);
+
         $transaction->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');

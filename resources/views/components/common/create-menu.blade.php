@@ -125,9 +125,8 @@
                             @endif
                         @endcan
 
-                        {{-- @can() --}}
                         @foreach (pads('Warehouse & Inventory') as $pad)
-                            @if ($pad->isEnabled())
+                            @canpad('Create', $pad)
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
@@ -139,9 +138,8 @@
                                     <br>
                                     <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
-                            @endif
+                            @endcanpad
                         @endforeach
-                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             @endcanany
@@ -288,9 +286,8 @@
                             @endif
                         @endcan
 
-                        {{-- @can() --}}
                         @foreach (pads('Sales & Customers') as $pad)
-                            @if ($pad->isEnabled())
+                            @canpad('Create', $pad)
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
@@ -302,9 +299,8 @@
                                     <br>
                                     <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
-                            @endif
+                            @endcanpad
                         @endforeach
-                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             @endcanany
@@ -428,9 +424,8 @@
                             @endif
                         @endcan
 
-                        {{-- @can() --}}
                         @foreach (pads('Purchases & Suppliers') as $pad)
-                            @if ($pad->isEnabled())
+                            @canpad('Create', $pad)
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
@@ -442,9 +437,8 @@
                                     <br>
                                     <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
-                            @endif
+                            @endcanpad
                         @endforeach
-                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             @endcanany
@@ -535,9 +529,8 @@
                             @endif
                         @endcan
 
-                        {{-- @can() --}}
                         @foreach (pads('General Settings') as $pad)
-                            @if ($pad->isEnabled())
+                            @canpad('Create', $pad)
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button
                                         tag="a"
@@ -549,9 +542,8 @@
                                     <br>
                                     <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
-                            @endif
+                            @endcanpad
                         @endforeach
-                        {{-- @endcan --}}
                     </div>
                 </x-content.footer>
             @endcan

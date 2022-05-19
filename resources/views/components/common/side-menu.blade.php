@@ -194,8 +194,7 @@
                         @endcan
                     @endif
                     @foreach (pads('Warehouse & Inventory') as $pad)
-                        @if ($pad->isEnabled())
-                            {{-- @can('') --}}
+                        @canpad('Read', $pad)
                             <li>
                                 <x-common.button
                                     tag="a"
@@ -205,8 +204,7 @@
                                     x-init="{{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'activateAccordion' : '' }}"
                                 />
                             </li>
-                            {{-- @endcan --}}
-                        @endif
+                        @endcanpad
                     @endforeach
                 </ul>
             </li>
@@ -351,8 +349,7 @@
                         @endcan
                     @endif
                     @foreach (pads('Sales & Customers') as $pad)
-                        @if ($pad->isEnabled())
-                            {{-- @can('') --}}
+                        @canpad('Read', $pad)
                             <li>
                                 <x-common.button
                                     tag="a"
@@ -362,8 +359,7 @@
                                     x-init="{{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'activateAccordion' : '' }}"
                                 />
                             </li>
-                            {{-- @endcan --}}
-                        @endif
+                        @endcanpad
                     @endforeach
                 </ul>
             </li>
@@ -515,8 +511,7 @@
                         @endcan
                     @endif
                     @foreach (pads('Purchases & Suppliers') as $pad)
-                        @if ($pad->isEnabled())
-                            {{-- @can('') --}}
+                        @canpad('Read', $pad)
                             <li>
                                 <x-common.button
                                     tag="a"
@@ -526,8 +521,7 @@
                                     x-init="{{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'activateAccordion' : '' }}"
                                 />
                             </li>
-                            {{-- @endcan --}}
-                        @endif
+                        @endcanpad
                     @endforeach
                 </ul>
             </li>
@@ -665,8 +659,7 @@
                         @endcan
                     @endif
                     @foreach (pads('General Settings') as $pad)
-                        @if ($pad->isEnabled())
-                            {{-- @can('') --}}
+                        @canpad('Read', $pad)
                             <li>
                                 <x-common.button
                                     tag="a"
@@ -676,8 +669,7 @@
                                     x-init="{{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'activateAccordion' : '' }}"
                                 />
                             </li>
-                            {{-- @endcan --}}
-                        @endif
+                        @endcanpad
                     @endforeach
                 </ul>
             </li>

@@ -7,10 +7,13 @@ use App\Models\Transaction;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Services\Models\TransactionService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class EditTransaction extends Component
 {
+    use AuthorizesRequests;
+
     public $transaction;
 
     public $pad;
@@ -71,6 +74,8 @@ class EditTransaction extends Component
 
     public function update()
     {
+        $this->authorize('update', $this->transaction);
+
         (new TransactionService)->update($this->transaction, $this->validate());
 
         return redirect()->route('transactions.show', $this->transaction->id);

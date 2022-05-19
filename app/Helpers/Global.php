@@ -67,3 +67,12 @@ if (!function_exists('pads')) {
         return $pads->where('module', $module);
     }
 }
+
+if (!function_exists('getPadPermissions')) {
+    function getPadPermissions()
+    {
+        return Cache::store('array')->rememberForever(auth()->id() . '_' . 'padPermissions', function () {
+            return auth()->user()->padPermissions()->get();
+        });
+    }
+}
