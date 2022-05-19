@@ -20,12 +20,12 @@ class SupplierImport implements ToModel, WithHeadingRow, WithValidation
 
         return new Supplier([
             'company_name' => $row['company_name'],
-            'tin' => $row['tin'],
-            'address' => $row['address'],
-            'contact_name' => $row['contact_name'],
-            'email' => $row['email'],
-            'phone' => $row['phone'],
-            'country' => $row['country'],
+            'tin' => $row['tin'] ?? '',
+            'address' => $row['address'] ?? '',
+            'contact_name' => $row['contact_name'] ?? '',
+            'email' => $row['email'] ?? '',
+            'phone' => $row['phone'] ?? '',
+            'country' => $row['country'] ?? '',
         ]);
     }
 
