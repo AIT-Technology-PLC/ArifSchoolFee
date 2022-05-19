@@ -272,7 +272,7 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
-                            @if ($reservation->isApproved())
+                            @if ($reservation->isApproved() && !$reservation->isCancelled())
                                 <a
                                     class="button btn-purple is-outlined is-small is-hidden-mobile"
                                     href="{{ route('reservations.print', $reservation->id) }}"
