@@ -4,21 +4,21 @@ namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImportFileRequest;
-use App\Imports\ProductImport;
-use App\Models\Product;
+use App\Imports\SupplierImport;
+use App\Models\Supplier;
 
-class ProductController extends Controller
+class SupplierController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('isFeatureAccessible:Product Management');
+        $this->middleware('isFeatureAccessible:Supplier Management');
     }
 
     public function import(UploadImportFileRequest $request)
     {
-        $this->authorize('import', Product::class);
+        $this->authorize('import', Supplier::class);
 
-        (new ProductImport)->import($request->safe()['file']);
+        (new SupplierImport)->import($request->safe()['file']);
 
         return back()->with('imported', 'File uploaded succesfully !');
     }

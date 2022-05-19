@@ -34,4 +34,9 @@ class CustomerPolicy
     {
         return $user->can('Delete Customer');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import Customer');
+    }
 }

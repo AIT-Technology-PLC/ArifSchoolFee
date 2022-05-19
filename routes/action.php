@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Action as Action;
 
@@ -184,6 +183,18 @@ Route::get('/tender-checklist-assignments/{tender}/edit',
 Route::patch('/tender-checklist-assignments/{tender}',
     [Action\TenderChecklistAssignmentController::class, 'update'])
     ->name('tender-checklists-assignments.update');
+
+Route::post('/customers/import',
+    [Action\CustomerController::class, 'import'])
+    ->name('customers.import');
+
+Route::post('/suppliers/import',
+    [Action\SupplierController::class, 'import'])
+    ->name('suppliers.import');
+
+Route::post('/tender-statuses/import',
+    [Action\TenderStatusController::class, 'import'])
+    ->name('tender-statuses.import');
 
 // Products
 Route::post('/products/import',

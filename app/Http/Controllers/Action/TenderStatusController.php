@@ -4,21 +4,21 @@ namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImportFileRequest;
-use App\Imports\ProductImport;
-use App\Models\Product;
+use App\Imports\TenderStatusImport;
+use App\Models\TenderStatus;
 
-class ProductController extends Controller
+class TenderStatusController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('isFeatureAccessible:Product Management');
+        $this->middleware('isFeatureAccessible:Tender Management');
     }
 
     public function import(UploadImportFileRequest $request)
     {
-        $this->authorize('import', Product::class);
+        $this->authorize('import', TenderStatus::class);
 
-        (new ProductImport)->import($request->safe()['file']);
+        (new TenderStatusImport)->import($request->safe()['file']);
 
         return back()->with('imported', 'File uploaded succesfully !');
     }
