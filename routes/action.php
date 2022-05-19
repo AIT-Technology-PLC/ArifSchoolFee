@@ -209,3 +209,7 @@ Route::post('/products/import',
 Route::post('/employees/import',
     [Action\EmployeeController::class, 'import'])
     ->name('employees.import');
+
+Route::post('/warehouses/import',
+    [Action\WarehouseController::class, 'import'])
+    ->name('warehouses.import');

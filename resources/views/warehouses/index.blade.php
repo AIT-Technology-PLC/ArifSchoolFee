@@ -31,6 +31,16 @@
 
     <x-common.content-wrapper>
         <x-content.header title="Warehouses">
+            @can('Import Warehouse')
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-import-modal') "
+                    icon="fas fa-upload"
+                    label="Import Warehouses"
+                    class="btn-green is-outlined is-small"
+                />
+            @endcan
             @can('Create Warehouse')
                 <x-common.button
                     tag="a"
@@ -43,7 +53,8 @@
             @endcan
         </x-content.header>
         <x-content.footer>
-            <x-common.success-message :message="session('deleted')" />
+            <x-common.success-message :message="session('deleted') ?? session('imported')" />
+            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
             <x-datatables.filter filters="'branch', 'status'">
                 <div class="columns is-marginless is-vcentered">
                     <div class="column is-3 p-lr-0 pt-0">
@@ -76,6 +87,10 @@
             <div> {{ $dataTable->table() }} </div>
         </x-content.footer>
     </x-common.content-wrapper>
+    <x-common.import
+        title="Import Warehouses"
+        action="{{ route('warehouses.import') }}"
+    />
 @endsection
 
 @push('scripts')

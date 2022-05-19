@@ -34,4 +34,9 @@ class WarehousePolicy
     {
         return $user->can('Delete Warehouse');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import Warehouse');
+    }
 }
