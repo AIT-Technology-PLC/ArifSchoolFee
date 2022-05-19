@@ -272,6 +272,20 @@
                 <div class="level-right">
                     <div class="level-item is-justify-content-left">
                         <div>
+                            @if ($reservation->isApproved() && !$reservation->isCancelled())
+                                <a
+                                    class="button btn-purple is-outlined is-small is-hidden-mobile"
+                                    href="{{ route('reservations.print', $reservation->id) }}"
+                                    target="_blank"
+                                >
+                                    <span class="icon">
+                                        <i class="fas fa-print"></i>
+                                    </span>
+                                    <span>
+                                        Print
+                                    </span>
+                                </a>
+                            @endif
                             <a
                                 href="{{ route('reservations.edit', $reservation->id) }}"
                                 class="button is-small bg-green has-text-white"

@@ -27,9 +27,9 @@ class ProductImport implements WithHeadingRow, OnEachRow, WithValidation
             ],
             [
                 'type' => $row['type'],
-                'code' => $row['code'],
+                'code' => $row['code'] ?? '',
                 'unit_of_measurement' => $row['unit_of_measurement'],
-                'min_on_hand' => $row['min_on_hand'],
+                'min_on_hand' => $row['min_on_hand'] ?? 0.00,
             ]);
     }
 
@@ -40,9 +40,7 @@ class ProductImport implements WithHeadingRow, OnEachRow, WithValidation
             'type' => ['required', 'string', 'max:255'],
             'code' => ['nullable', 'string', 'max:255'],
             'unit_of_measurement' => ['required', 'string', 'max:255'],
-            'min_on_hand' => ['required', 'numeric'],
-            'description' => ['nullable', 'string'],
-            'properties' => ['nullable', 'array'],
+            'min_on_hand' => ['nullable', 'numeric'],
             'product_category_name' => ['required', 'string', 'max:255'],
         ];
     }

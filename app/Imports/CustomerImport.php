@@ -20,12 +20,12 @@ class CustomerImport implements ToModel, WithHeadingRow, WithValidation
 
         return new Customer([
             'company_name' => $row['company_name'],
-            'tin' => $row['tin'],
-            'address' => $row['address'],
-            'contact_name' => $row['contact_name'],
-            'email' => $row['email'],
-            'phone' => $row['phone'],
-            'country' => $row['country'],
+            'tin' => $row['tin'] ?? '',
+            'address' => $row['address'] ?? '',
+            'contact_name' => $row['contact_name'] ?? '',
+            'email' => $row['email'] ?? '',
+            'phone' => $row['phone'] ?? '',
+            'country' => $row['country'] ?? '',
             'credit_amount_limit' => $row['credit_amount_limit'] ?? 0.00,
         ]);
     }
@@ -40,7 +40,7 @@ class CustomerImport implements ToModel, WithHeadingRow, WithValidation
             'email' => ['nullable', 'string', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:255'],
             'country' => ['nullable', 'string', 'max:255'],
-            'credit_amount_limit' => ['required', 'numeric', 'min:0'],
+            'credit_amount_limit' => ['nullable', 'numeric', 'min:0'],
         ];
     }
 }
