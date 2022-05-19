@@ -31,13 +31,13 @@
 
     <x-common.content-wrapper>
         <x-content.header title="Employees">
-            @can('Import User')
+            @can('Import Employee')
                 <x-common.button
                     tag="button"
                     mode="button"
                     @click="$dispatch('open-import-modal') "
                     icon="fas fa-upload"
-                    label="Import Users"
+                    label="Import Employee"
                     class="btn-green is-outlined is-small"
                 />
             @endcan
@@ -117,8 +117,8 @@
         </x-content.footer>
     </x-common.content-wrapper>
     <x-common.import
-        title="Import Users"
-        action="{{ route('Users.import') }}"
+        title="Import Employees"
+        action="{{ route('Employees.import') }}"
     />
 @endsection
 

@@ -1,6 +1,5 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Action as Action;
 
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
@@ -201,7 +200,7 @@ Route::post('/products/import',
     [Action\ProductController::class, 'import'])
     ->name('products.import');
 
-// Users
+// Employees
 Route::post('/employees/import',
-    [Action\UserController::class, 'import'])
-    ->name('Users.import');
+    [Action\EmployeeController::class, 'import'])
+    ->name('Employees.import');
