@@ -18,15 +18,19 @@ class WarehouseImport implements ToModel, WithHeadingRow, WithValidation
             return null;
         }
 
+        if (limitReached('warehouse', Warehouse::active()->count())) {
+            session('limitReachedMessage', __('messages.limit_reached', ['limit' => 'branches']));
+            return;
+        }
+
         return new Warehouse([
             'name' => $row['name'],
             'location' => $row['location'],
-            'is_active' => $row['is_active'],
-            'is_sales_store' => $row['is_sales_store'],
-            'can_be_sold_from' => $row['can_be_sold_from'],
+            'is_active' => '1',
+            'is_sales_store' => $row['is_sales_store'] == 'Yes' ? '1' : '0',
+            'can_be_sold_from' => '1',
             'email' => $row['email'] ?? '',
             'phone' => $row['phone'] ?? '',
-            'description' => $row['description'] ?? '',
         ]);
     }
 
@@ -35,12 +39,9 @@ class WarehouseImport implements ToModel, WithHeadingRow, WithValidation
         return [
             'name' => ['required', 'string', 'max:255'],
             'location' => ['required', 'string', 'max:255'],
-            'is_active' => ['required', 'boolean'],
-            'is_sales_store' => ['required', 'boolean'],
-            'can_be_sold_from' => ['required', 'boolean'],
+            'is_sales_store' => ['required', 'string'],
             'email' => ['nullable', 'string', 'email'],
             'phone' => ['nullable', 'string'],
-            'description' => ['nullable', 'string'],
         ];
     }
 }
