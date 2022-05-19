@@ -12,6 +12,7 @@ use App\Notifications\ReservationConverted;
 use App\Notifications\ReservationMade;
 use App\Services\Models\ReservationService;
 use App\Utilities\Notifiables;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Notification;
 
 class ReservationController extends Controller
@@ -54,6 +55,23 @@ class ReservationController extends Controller
         );
 
         return back();
+    }
+
+    public function printed(Reservation $reservation)
+    {
+        $this->authorize('view', $reservation);
+
+        if (!$reservation->isApproved()) {
+            return back()->with('failedMessage', 'This Reservation is not approved yet.');
+        }
+
+        if ($reservation->isCancelled()) {
+            return back()->with('failedMessage', 'This Reservation is cancelled.');
+        }
+
+        $reservation->load(['reservationDetails.product', 'customer', 'warehouse', 'company', 'createdBy', 'approvedBy']);
+
+        return Pdf::loadView('reservations.print', compact('reservation'))->stream();
     }
 
     public function cancel(Reservation $reservation)

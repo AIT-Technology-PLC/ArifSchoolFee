@@ -175,6 +175,10 @@ Route::post('/reservations/{reservation}/reserve',
     [Action\ReservationController::class, 'reserve'])
     ->name('reservations.reserve');
 
+Route::get('/reservations/{reservation}/print',
+    [Action\ReservationController::class, 'printed'])
+    ->name('reservations.print');
+
 // Tender Checklist Assignments
 Route::get('/tender-checklist-assignments/{tender}/edit',
     [Action\TenderChecklistAssignmentController::class, 'edit'])
@@ -200,3 +204,8 @@ Route::post('/tender-statuses/import',
 Route::post('/products/import',
     [Action\ProductController::class, 'import'])
     ->name('products.import');
+
+// Employees
+Route::post('/employees/import',
+    [Action\EmployeeController::class, 'import'])
+    ->name('employees.import');
