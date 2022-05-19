@@ -118,7 +118,7 @@
     </x-common.content-wrapper>
     <x-common.import
         title="Import Users"
-        action="{{ route('users.import') }}"
+        action="{{ route('Users.import') }}"
     />
 @endsection
 
