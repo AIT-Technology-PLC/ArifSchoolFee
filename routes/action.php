@@ -175,6 +175,10 @@ Route::post('/reservations/{reservation}/reserve',
     [Action\ReservationController::class, 'reserve'])
     ->name('reservations.reserve');
 
+Route::get('/reservations/{reservation}/print',
+    [Action\ReservationController::class, 'printed'])
+    ->name('reservations.print');
+
 // Tender Checklist Assignments
 Route::get('/tender-checklist-assignments/{tender}/edit',
     [Action\TenderChecklistAssignmentController::class, 'edit'])
