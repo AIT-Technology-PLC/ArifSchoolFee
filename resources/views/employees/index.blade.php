@@ -31,6 +31,16 @@
 
     <x-common.content-wrapper>
         <x-content.header title="Employees">
+            @can('Import User')
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-import-modal') "
+                    icon="fas fa-upload"
+                    label="Import Users"
+                    class="btn-green is-outlined is-small"
+                />
+            @endcan
             @can('Create Employee')
                 <x-common.button
                     tag="a"
@@ -43,7 +53,8 @@
             @endcan
         </x-content.header>
         <x-content.footer>
-            <x-common.success-message :message="session('deleted')" />
+            <x-common.success-message :message="session('deleted') ?? session('imported')" />
+            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
             <x-datatables.filter filters="'branch', 'status'">
                 <div class="columns is-marginless is-vcentered">
                     @can('Read Employee')
@@ -105,6 +116,10 @@
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
+    <x-common.import
+        title="Import Users"
+        action="{{ route('users.import') }}"
+    />
 @endsection
 
 @push('scripts')
