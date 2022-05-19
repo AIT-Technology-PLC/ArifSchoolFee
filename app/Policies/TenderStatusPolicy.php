@@ -34,4 +34,9 @@ class TenderStatusPolicy
     {
         return $user->can('Delete Tender');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import Tender');
+    }
 }

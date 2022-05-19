@@ -145,6 +145,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Read Product']);
             Permission::firstOrCreate(['name' => 'Update Product']);
             Permission::firstOrCreate(['name' => 'Delete Product']);
+            Permission::firstOrCreate(['name' => 'Import Product']);
 
             // Warehouse
             Permission::firstOrCreate(['name' => 'Create Warehouse']);
@@ -163,12 +164,14 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Read Supplier']);
             Permission::firstOrCreate(['name' => 'Update Supplier']);
             Permission::firstOrCreate(['name' => 'Delete Supplier']);
+            Permission::firstOrCreate(['name' => 'Import Supplier']);
 
             // Customer
             Permission::firstOrCreate(['name' => 'Create Customer']);
             Permission::firstOrCreate(['name' => 'Read Customer']);
             Permission::firstOrCreate(['name' => 'Update Customer']);
             Permission::firstOrCreate(['name' => 'Delete Customer']);
+            Permission::firstOrCreate(['name' => 'Import Customer']);
 
             // Credit
             Permission::firstOrCreate(['name' => 'Create Credit']);
@@ -184,6 +187,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Delete Tender']);
             Permission::firstOrCreate(['name' => 'Read Tender Sensitive Data']);
             Permission::firstOrCreate(['name' => 'Assign Tender Checklists']);
+            Permission::firstOrCreate(['name' => 'Import Tender']);
 
             // Price
             Permission::firstOrCreate(['name' => 'Create Price']);
