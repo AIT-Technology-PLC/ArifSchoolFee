@@ -66,7 +66,7 @@ class ReservationController extends Controller
         }
 
         if ($reservation->isCancelled()) {
-            return back()->with('failedMessage', 'This Reservation cancelled.');
+            return back()->with('failedMessage', 'This Reservation is cancelled.');
         }
 
         $reservation->load(['reservationDetails.product', 'customer', 'warehouse', 'company', 'createdBy', 'approvedBy']);
