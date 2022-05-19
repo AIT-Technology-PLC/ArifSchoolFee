@@ -37,7 +37,7 @@
                     mode="button"
                     @click="$dispatch('open-import-modal') "
                     icon="fas fa-upload"
-                    label="Import Employee"
+                    label="Import Employees"
                     class="btn-green is-outlined is-small"
                 />
             @endcan
@@ -118,7 +118,7 @@
     </x-common.content-wrapper>
     <x-common.import
         title="Import Employees"
-        action="{{ route('Employees.import') }}"
+        action="{{ route('employees.import') }}"
     />
 @endsection
 
