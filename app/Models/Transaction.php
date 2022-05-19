@@ -92,6 +92,7 @@ class Transaction extends Model
                     }
 
                     $data['id'] = $groupedTransactionField->first()->id;
+                    $data['transaction'] = $groupedTransactionField->first()->transaction;
 
                     return $data;
                 });

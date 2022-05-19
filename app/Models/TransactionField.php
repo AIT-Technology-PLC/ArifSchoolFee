@@ -32,12 +32,12 @@ class TransactionField extends Model
 
     public function scopeMasterFields($query)
     {
-        return $query->whereNull('line');
+        return $query->whereNotNull('pad_field_id')->whereNull('line');
     }
 
     public function scopeDetailFields($query)
     {
-        return $query->whereNotNull('line');
+        return $query->whereNotNull('pad_field_id')->whereNotNull('line');
     }
 
     public function relationValue(): Attribute
@@ -51,5 +51,34 @@ class TransactionField extends Model
                 : null;
             }
         );
+    }
+
+    public function getByWarehouseAndProduct($warehouse, $product)
+    {
+        $data = collect();
+
+        $transactions = $this
+            ->with('transaction')
+            ->where(function ($query) {
+                $query->where('key', 'subtracted_by')
+                    ->orWhere('key', 'added_by');
+            })
+            ->get()
+            ->pluck('transaction');
+
+        if ($transactions->isNotEmpty()) {
+            $transactions
+                ->each(function ($transaction) use ($warehouse, $product, $data) {
+                    $transaction
+                        ->transactionDetails
+                        ->each(function ($transactionDetail) use ($warehouse, $product, $data) {
+                            if ($transactionDetail['product'] == $product->name && $transactionDetail['warehouse'] == $warehouse->name) {
+                                $data->push($transactionDetail);
+                            }
+                        });
+                });
+        }
+
+        return $data;
     }
 }

@@ -7,9 +7,7 @@
             Cancelled
         </span>
     </span>
-@endif
-
-@if ($transaction->pad->isInventoryOperationAdd() && $transaction->isAdded())
+@elseif ($transaction->pad->isInventoryOperationAdd() && $transaction->isAdded())
     <span class="tag is-small bg-green has-text-white">
         <span class="icon">
             <i class="fas fa-check-circle"></i>
@@ -18,9 +16,7 @@
             Added
         </span>
     </span>
-@endif
-
-@if ($transaction->pad->isInventoryOperationSubtract() && $transaction->isSubtracted())
+@elseif ($transaction->pad->isInventoryOperationSubtract() && $transaction->isSubtracted())
     <span class="tag is-small bg-green has-text-white">
         <span class="icon">
             <i class="fas fa-check-circle"></i>
@@ -29,9 +25,7 @@
             Subtracted
         </span>
     </span>
-@endif
-
-@if ($transaction->pad->isApprovable() && $transaction->isApproved())
+@elseif ($transaction->pad->isApprovable() && $transaction->isApproved())
     <span class="tag is-small bg-gold has-text-white">
         <span class="icon">
             <i class="fas fa-exclamation-circle"></i>
