@@ -11,7 +11,7 @@
         name="csrf-token"
         content="{{ csrf_token() }}"
     >
-    <title> DO #{{ $reservation->code }} - {{ userCompany()->name }} </title>
+    <title> Reservation #{{ $reservation->code }} - {{ userCompany()->name }} </title>
     <link
         rel="shortcut icon"
         type="image/png"
@@ -98,7 +98,7 @@
 
         <section class="pt-5 has-text-centered">
             <h1 class="is-uppercase has-text-grey-dark has-text-weight-bold is-size-4 is-underlined">
-                Delivery Note
+                Reservation Voucher
             </h1>
         </section>
 
