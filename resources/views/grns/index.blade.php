@@ -39,6 +39,16 @@
 
     <x-common.content-wrapper>
         <x-content.header title="Goods Received Notes">
+            @can('Import GRN')
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-import-modal') "
+                    icon="fas fa-upload"
+                    label="Import GRN"
+                    class="btn-green is-outlined is-small"
+                />
+            @endcan
             @can('Create GRN')
                 <x-common.button
                     tag="a"
@@ -51,7 +61,8 @@
             @endcan
         </x-content.header>
         <x-content.footer>
-            <x-common.success-message :message="session('deleted')" />
+            <x-common.success-message :message="session('deleted') ?? session('imported')" />
+            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
             <x-datatables.filter filters="'branch', 'status'">
                 <div class="columns is-marginless is-vcentered">
                     @if (auth()->user()->getAllowedWarehouses('transactions')->count() > 1)
@@ -114,6 +125,10 @@
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
+    <x-common.import
+        title="Import GRN"
+        action="{{ route('grns.import') }}"
+    />
 @endsection
 
 @push('scripts')

@@ -140,6 +140,10 @@ Route::post('/grns/{grn}/add',
     [Action\GrnController::class, 'add'])
     ->name('grns.add');
 
+Route::post('/grns/import',
+    [Action\GrnController::class, 'import'])
+    ->name('grns.import');
+
 // Damages
 Route::post('/damages/{damage}/approve',
     [Action\DamageController::class, 'approve'])

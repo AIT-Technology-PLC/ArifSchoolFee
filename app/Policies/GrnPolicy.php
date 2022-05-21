@@ -45,4 +45,9 @@ class GrnPolicy
     {
         return $user->can('Add GRN');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import GRN');
+    }
 }
