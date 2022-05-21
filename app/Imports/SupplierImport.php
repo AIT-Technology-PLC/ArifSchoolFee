@@ -5,10 +5,11 @@ namespace App\Imports;
 use App\Models\Supplier;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class SupplierImport implements ToModel, WithHeadingRow, WithValidation
+class SupplierImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading
 {
     use Importable;
 
@@ -40,5 +41,10 @@ class SupplierImport implements ToModel, WithHeadingRow, WithValidation
             'phone' => ['nullable', 'string', 'max:255'],
             'country' => ['nullable', 'string', 'max:255'],
         ];
+    }
+
+    public function chunkSize(): int
+    {
+        return 50;
     }
 }
