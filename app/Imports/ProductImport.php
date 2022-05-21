@@ -5,11 +5,12 @@ namespace App\Imports;
 use App\Models\ProductCategory;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\OnEachRow;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Row;
 
-class ProductImport implements WithHeadingRow, OnEachRow, WithValidation
+class ProductImport implements WithHeadingRow, OnEachRow, WithValidation, WithChunkReading
 {
     use Importable;
 
@@ -43,5 +44,10 @@ class ProductImport implements WithHeadingRow, OnEachRow, WithValidation
             'min_on_hand' => ['nullable', 'numeric'],
             'product_category_name' => ['required', 'string', 'max:255'],
         ];
+    }
+
+    public function chunkSize(): int
+    {
+        return 50;
     }
 }
