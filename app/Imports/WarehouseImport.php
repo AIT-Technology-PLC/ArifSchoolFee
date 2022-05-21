@@ -46,7 +46,7 @@ class WarehouseImport implements ToModel, WithHeadingRow, WithValidation, WithCh
         ];
     }
 
-    public function ChunkSize(): int
+    public function chunkSize(): int
     {
         return 50;
     }
