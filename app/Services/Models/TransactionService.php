@@ -36,6 +36,10 @@ class TransactionService
 
     public function subtract($transaction, $user)
     {
+        if (!$transaction->pad->isInventoryOperationSubtract()) {
+            return [false, 'This transaction can not be subtracted from inventory.'];
+        }
+
         $transactionDetails = $this->formatTransactionDetails($transaction);
 
         if (!$user->hasWarehousePermission('subtract',
@@ -47,7 +51,7 @@ class TransactionService
             return [false, 'This transaction is not approved yet.'];
         }
 
-        if ($transaction->pad->isInventoryOperationSubtract() && $transaction->isSubtracted()) {
+        if ($transaction->isSubtracted()) {
             return [false, 'This transaction is already subtracted from inventory'];
         }
 
@@ -68,6 +72,10 @@ class TransactionService
 
     public function add($transaction, $user)
     {
+        if (!$transaction->pad->isInventoryOperationAdd()) {
+            return [false, 'This transaction can not be added to inventory.'];
+        }
+
         $transactionDetails = $this->formatTransactionDetails($transaction);
 
         if (!$user->hasWarehousePermission('add',
@@ -79,7 +87,7 @@ class TransactionService
             return [false, 'This transaction is not approved yet.'];
         }
 
-        if ($transaction->pad->isInventoryOperationAdd() && $transaction->isAdded()) {
+        if ($transaction->isAdded()) {
             return [false, 'This transaction is already add to inventory'];
         }
 
