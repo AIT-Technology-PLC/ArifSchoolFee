@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImportFileRequest;
-use App\Imports\ProductImport;
-use App\Models\Product;
+use App\Imports\ProductCategoryImport;
+use App\Models\ProductCategory;
 
-class ProductController extends Controller
+class ProductCategoryController extends Controller
 {
     public function __construct()
     {
@@ -16,11 +16,11 @@ class ProductController extends Controller
 
     public function import(UploadImportFileRequest $request)
     {
-        $this->authorize('import', Product::class);
+        $this->authorize('import', ProductCategory::class);
 
         ini_set('max_execution_time', '-1');
 
-        (new ProductImport)->import($request->safe()['file']);
+        (new ProductCategoryImport)->import($request->safe()['file']);
 
         return back()->with('imported', 'File uploaded succesfully !');
     }

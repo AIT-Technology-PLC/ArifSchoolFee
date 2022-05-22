@@ -34,4 +34,9 @@ class ProductCategoryPolicy
     {
         return $user->can('Delete Product');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import Product');
+    }
 }
