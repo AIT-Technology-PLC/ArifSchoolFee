@@ -66,6 +66,32 @@ class TransactionService
         return [true, ''];
     }
 
+    public function add($transaction, $user)
+    {
+        $transactionDetails = $this->formatTransactionDetails($transaction);
+
+        if (!$user->hasWarehousePermission('add',
+            $transactionDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permission to add to one or more of the warehouses.'];
+        }
+
+        if ($transaction->pad->isApprovable() && !$transaction->isApproved()) {
+            return [false, 'This transaction is not approved yet.'];
+        }
+
+        if ($transaction->pad->isInventoryOperationAdd() && $transaction->isAdded()) {
+            return [false, 'This transaction is already add to inventory'];
+        }
+
+        DB::transaction(function () use ($transaction, $transactionDetails) {
+            InventoryOperationService::add($transactionDetails);
+
+            $transaction->add();
+        });
+
+        return [true, ''];
+    }
+
     private function storeTransactionFields($transaction, $data)
     {
         $line = 0;
