@@ -5,10 +5,11 @@ namespace App\Imports;
 use App\Models\Warehouse;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class WarehouseImport implements ToModel, WithHeadingRow, WithValidation
+class WarehouseImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading
 {
     use Importable;
 
@@ -43,5 +44,10 @@ class WarehouseImport implements ToModel, WithHeadingRow, WithValidation
             'email' => ['nullable', 'string', 'email'],
             'phone' => ['nullable', 'string'],
         ];
+    }
+
+    public function chunkSize(): int
+    {
+        return 50;
     }
 }
