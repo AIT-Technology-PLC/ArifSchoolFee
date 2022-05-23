@@ -5,26 +5,41 @@ namespace App\Imports;
 use App\Models\Warehouse;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class WarehouseImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading
+class WarehouseImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading, WithBatchInserts
 {
     use Importable;
 
+    private $warehouses;
+
+    private $totalActiveWarehouses;
+
+    public function __construct()
+    {
+        $this->warehouses = Warehouse::all();
+
+        $this->totalActiveWarehouses = Warehouse::active()->count();
+    }
+
     public function model(array $row)
     {
-        if (Warehouse::where('name', $row['name'])->exists()) {
+        if ($this->warehouses->where('name', $row['name'])->count()) {
             return null;
         }
 
-        if (limitReached('warehouse', Warehouse::active()->count())) {
+        if (limitReached('warehouse', $this->totalActiveWarehouses)) {
             session('limitReachedMessage', __('messages.limit_reached', ['limit' => 'branches']));
             return;
         }
 
         return new Warehouse([
+            'company_id' => userCompany()->id,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
             'name' => $row['name'],
             'location' => $row['location'],
             'is_active' => '1',
@@ -48,6 +63,11 @@ class WarehouseImport implements ToModel, WithHeadingRow, WithValidation, WithCh
 
     public function chunkSize(): int
     {
-        return 50;
+        return 500;
+    }
+
+    public function batchSize(): int
+    {
+        return 500;
     }
 }

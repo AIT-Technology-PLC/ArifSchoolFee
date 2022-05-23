@@ -18,6 +18,8 @@ class SupplierController extends Controller
     {
         $this->authorize('import', Supplier::class);
 
+        ini_set('max_execution_time', '-1');
+
         (new SupplierImport)->import($request->safe()['file']);
 
         return back()->with('imported', 'File uploaded succesfully !');
