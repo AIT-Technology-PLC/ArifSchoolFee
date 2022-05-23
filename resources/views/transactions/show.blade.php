@@ -36,18 +36,90 @@
 
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Details">
-            <x-common.button
-                tag="a"
-                href="{{ route('transactions.edit', $transaction->id) }}"
-                mode="button"
-                icon="fas fa-pen"
-                label="Edit"
-                class="is-small bg-green has-text-white"
-            />
+            @if ($transaction->pad->isApprovable() && !$transaction->isApproved())
+                @can('approve', $transaction)
+                    <x-common.transaction-button
+                        :route="route('transactions.approve', $transaction->id)"
+                        action="approve"
+                        intention="approve this transaction"
+                        icon="fas fa-signature"
+                        label="Approve Transaction"
+                        class="has-text-weight-medium"
+                    />
+                @endcan
+            @elseif($transaction->pad->isInventoryOperationSubtract() && !$transaction->isSubtracted())
+                @can('subtract', $transaction)
+                    <x-common.transaction-button
+                        :route="route('transactions.subtract', $transaction->id)"
+                        action="subtract"
+                        intention="subtract this transaction"
+                        icon="fas fa-signature"
+                        label="Subtract Transaction"
+                        class="has-text-weight-medium"
+                    />
+                @endcan
+            @elseif($transaction->pad->isInventoryOperationAdd() && !$transaction->isAdded())
+                @can('add', $transaction)
+                    <x-common.transaction-button
+                        :route="route('transactions.add', $transaction->id)"
+                        action="add"
+                        intention="add this transaction"
+                        icon="fas fa-signature"
+                        label="Add Transaction"
+                        class="has-text-weight-medium"
+                    />
+                @endcan
+            @elseif($transaction->pad->isClosable() && !$transaction->isClosed())
+                @can('close', $transaction)
+                    <x-common.transaction-button
+                        :route="route('transactions.close', $transaction->id)"
+                        action="close"
+                        intention="close this transaction"
+                        icon="fas fa-signature"
+                        label="Close Transaction"
+                        class="has-text-weight-medium"
+                    />
+                @endcan
+            @elseif($transaction->pad->isCancellable() && !$transaction->isCancelled())
+                @can('cancel', $transaction)
+                    <x-common.transaction-button
+                        :route="route('transactions.cancel', $transaction->id)"
+                        action="cancel"
+                        intention="cancel this transaction"
+                        icon="fas fa-signature"
+                        label="Cancel Transaction"
+                        class="has-text-weight-medium"
+                    />
+                @endcan
+            @endif
+            @can('update', $transaction)
+                <x-common.button
+                    tag="a"
+                    href="{{ route('transactions.edit', $transaction->id) }}"
+                    mode="button"
+                    icon="fas fa-pen"
+                    label="Edit"
+                    class="is-small bg-green has-text-white"
+                />
+            @endcan
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
+            @if ($transaction->pad->isCancellable() && $transaction->isCancelled())
+                <x-common.fail-message message="This transaction is cancelled." />
+            @elseif ($transaction->pad->isClosable() && $transaction->isClosed())
+                <x-common.success-message message="This transaction is closed and archived." />
+            @elseif ($transaction->pad->isInventoryOperationAdd() && $transaction->isAdded())
+                <x-common.success-message message="Products have been added to the inventory." />
+            @elseif ($transaction->pad->isInventoryOperationSubtract() && $transaction->isSubtracted())
+                <x-common.success-message message="Products have been subtracted from the inventory." />
+            @elseif ($transaction->pad->isApprovable() && $transaction->isApproved())
+                <x-common.success-message message="This transaction is approved only." />
+            @elseif ($transaction->pad->isApprovable() && !$transaction->isApproved())
+                <x-common.fail-message message="This transaction is not approved yet." />
+            @endif
+
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
