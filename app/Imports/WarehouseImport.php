@@ -27,7 +27,7 @@ class WarehouseImport implements ToModel, WithHeadingRow, WithValidation, WithCh
 
     public function model(array $row)
     {
-        if ($this->warehouses->where('name', $row['name'])->count()) {
+        if ($this->warehouses->where('name', $row['warehouse_name'])->count()) {
             return null;
         }
 
@@ -40,24 +40,24 @@ class WarehouseImport implements ToModel, WithHeadingRow, WithValidation, WithCh
             'company_id' => userCompany()->id,
             'created_by' => auth()->id(),
             'updated_by' => auth()->id(),
-            'name' => $row['name'],
-            'location' => $row['location'],
+            'name' => $row['warehouse_name'],
+            'location' => $row['warehouse_location'],
             'is_active' => '1',
-            'is_sales_store' => $row['is_sales_store'] == 'Yes' ? '1' : '0',
+            'is_sales_store' => $row['warehouse_is_sales_store'] == 'Yes' ? '1' : '0',
             'can_be_sold_from' => '1',
-            'email' => $row['email'] ?? '',
-            'phone' => $row['phone'] ?? '',
+            'email' => $row['warehouse_email'] ?? '',
+            'phone' => $row['warehouse_phone'] ?? '',
         ]);
     }
 
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'location' => ['required', 'string', 'max:255'],
-            'is_sales_store' => ['required', 'string'],
-            'email' => ['nullable', 'string', 'email'],
-            'phone' => ['nullable', 'string'],
+            'warehouse_name' => ['required', 'string', 'max:255'],
+            'warehouse_location' => ['required', 'string', 'max:255'],
+            'warehouse_is_sales_store' => ['required', 'string'],
+            'warehouse_email' => ['nullable', 'string', 'email'],
+            'warehouse_phone' => ['nullable', 'string'],
         ];
     }
 

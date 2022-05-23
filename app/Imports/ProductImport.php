@@ -4,7 +4,6 @@ namespace App\Imports;
 
 use App\Models\Product;
 use App\Models\ProductCategory;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -30,8 +29,8 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
 
     public function model(array $row)
     {
-        $productName = $row['name'];
-        $code = $row['code'] ?? '';
+        $productName = $row['product_name'];
+        $code = $row['product_code'] ?? '';
         $productCategory = $this->productCategories->firstWhere('name', $row['product_category_name']);
 
         if ($this->products->where('name', $productName)->where('code', $code)->where('product_category_id', $productCategory->id)->count()) {
@@ -43,11 +42,11 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
             'created_by' => auth()->id(),
             'updated_by' => auth()->id(),
             'product_category_id' => $productCategory->id,
-            'name' => $row['name'],
-            'code' => $row['code'] ?? '',
-            'type' => $row['type'],
-            'unit_of_measurement' => $row['unit_of_measurement'],
-            'min_on_hand' => $row['min_on_hand'] ?? 0.00,
+            'name' => $row['product_name'],
+            'code' => $row['product_code'] ?? '',
+            'type' => $row['product_type'],
+            'unit_of_measurement' => $row['product_unit_of_measurement'],
+            'min_on_hand' => $row['product_min_on_hand'] ?? 0.00,
         ]);
 
         $this->products->push($product);
@@ -58,11 +57,11 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'string', 'max:255', Rule::in(['Merchandise Inventory'])],
-            'code' => ['nullable', 'string', 'max:255'],
-            'unit_of_measurement' => ['required', 'string', 'max:255'],
-            'min_on_hand' => ['nullable', 'numeric'],
+            'product_name' => ['required', 'string', 'max:255'],
+            'product_type' => ['required', 'string', 'max:255', Rule::in(['Merchandise Inventory'])],
+            'product_code' => ['nullable', 'string', 'max:255'],
+            'product_unit_of_measurement' => ['required', 'string', 'max:255'],
+            'product_min_on_hand' => ['nullable', 'numeric'],
             'product_category_name' => ['required', 'string', 'max:255', Rule::in($this->productCategories->pluck('name'))],
         ];
     }
