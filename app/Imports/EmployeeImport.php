@@ -11,11 +11,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\OnEachRow;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Row;
 
-class EmployeeImport implements WithHeadingRow, OnEachRow, WithValidation
+class EmployeeImport implements WithHeadingRow, OnEachRow, WithValidation, WithChunkReading
 {
     use Importable;
 
@@ -52,5 +53,10 @@ class EmployeeImport implements WithHeadingRow, OnEachRow, WithValidation
             'role' => ['required', 'string', Rule::notIn(['System Manager']), new MustBelongToCompany('roles', 'name')],
             'warehouse_name' => ['required', 'string', new MustBelongToCompany('warehouses', 'name')],
         ];
+    }
+
+    public function chunkSize(): int
+    {
+        return 50;
     }
 }

@@ -54,6 +54,46 @@ class Transaction extends Model
         return $this->transactionFields()->where('key', 'closed_by')->exists();
     }
 
+    public function approve()
+    {
+        $this->transactionFields()->create([
+            'key' => 'approved_by',
+            'value' => auth()->id(),
+        ]);
+    }
+
+    public function subtract()
+    {
+        $this->transactionFields()->create([
+            'key' => 'subtracted_by',
+            'value' => auth()->id(),
+        ]);
+    }
+
+    public function add()
+    {
+        $this->transactionFields()->create([
+            'key' => 'added_by',
+            'value' => auth()->id(),
+        ]);
+    }
+
+    public function close()
+    {
+        $this->transactionFields()->create([
+            'key' => 'closed_by',
+            'value' => auth()->id(),
+        ]);
+    }
+
+    public function cancel()
+    {
+        $this->transactionFields()->create([
+            'key' => 'cancelled_by',
+            'value' => auth()->id(),
+        ]);
+    }
+
     public function transactionDetails(): Attribute
     {
         return Attribute::make(

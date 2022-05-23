@@ -118,6 +118,12 @@ class TransactionController extends Controller
     {
         $this->authorize('delete', $transaction);
 
+        abort_if(
+            $transaction->isApproved() || $transaction->isCancelled() ||
+            $transaction->isClosed() || $transaction->isAdded() || $transaction->isSubtracted(),
+            403
+        );
+
         $transaction->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');
