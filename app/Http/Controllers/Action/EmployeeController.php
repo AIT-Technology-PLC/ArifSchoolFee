@@ -18,6 +18,8 @@ class EmployeeController extends Controller
     {
         $this->authorize('import', Employee::class);
 
+        ini_set('max_execution_time', '-1');
+
         (new EmployeeImport)->import($request->safe()['file']);
 
         return back()->with('imported', 'File uploaded succesfully !');

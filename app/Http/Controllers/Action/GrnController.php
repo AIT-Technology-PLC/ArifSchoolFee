@@ -60,6 +60,8 @@ class GrnController extends Controller
     {
         $this->authorize('import', Grn::class);
 
+        ini_set('max_execution_time', '-1');
+
         DB::transaction(function () use ($request) {
             $grn = Grn::create([
                 'code' => nextReferenceNumber('grns'),

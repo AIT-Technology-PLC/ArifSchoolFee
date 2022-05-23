@@ -57,6 +57,6 @@ class EmployeeImport implements WithHeadingRow, OnEachRow, WithValidation, WithC
 
     public function chunkSize(): int
     {
-        return 50;
+        return 500;
     }
 }
