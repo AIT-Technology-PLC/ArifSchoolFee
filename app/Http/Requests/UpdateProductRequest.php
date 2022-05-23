@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\MustBelongToCompany;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateProductRequest extends FormRequest
 {
@@ -16,7 +17,7 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'string', 'max:255', Rule::in(['Merchandise Inventory'])],
             'code' => ['nullable', 'string', 'max:255'],
             'unit_of_measurement' => ['required', 'string', 'max:255'],
             'min_on_hand' => ['required', 'numeric'],

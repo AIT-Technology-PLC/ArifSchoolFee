@@ -125,10 +125,12 @@
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
-    <x-common.import
-        title="Import GRN"
-        action="{{ route('grns.import') }}"
-    />
+    @can('Import GRN')
+        <x-common.import
+            title="Import GRN"
+            action="{{ route('grns.import') }}"
+        />
+    @endcan
 @endsection
 
 @push('scripts')

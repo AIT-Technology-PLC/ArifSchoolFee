@@ -116,10 +116,12 @@
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
-    <x-common.import
-        title="Import Employees"
-        action="{{ route('employees.import') }}"
-    />
+    @can('Import Employee')
+        <x-common.import
+            title="Import Employees"
+            action="{{ route('employees.import') }}"
+        />
+    @endcan
 @endsection
 
 @push('scripts')
