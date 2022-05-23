@@ -30,6 +30,31 @@
                         />
                     </div>
                 @endforeach
+                @if ($transaction->pad->hasPrices())
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-dollar-sign"
+                            :data="number_format($transaction->subtotal_price, 2)"
+                            label="Subtotal Price ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-dollar-sign"
+                            :data="number_format($transaction->grand_total_price, 2)"
+                            label="Grand Total Price ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                    @if (!userCompany()->isDiscountBeforeVAT())
+                        <div class="column is-6">
+                            <x-common.show-data-section
+                                icon="fas fa-dollar-sign"
+                                :data="number_format($transaction->grand_total_price_after_discount, 2)"
+                                label="Grand Total Price (After Discount) ({{ userCompany()->currency }})"
+                            />
+                        </div>
+                    @endif
+                @endif
             </div>
         </x-content.footer>
     </x-common.content-wrapper>

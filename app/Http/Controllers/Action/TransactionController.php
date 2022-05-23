@@ -24,7 +24,7 @@ class TransactionController extends Controller
         [$isExecuted, $message] = $this->transactionService->approve($transaction);
 
         if (!$isExecuted) {
-            back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
         return back()->with('successMessage', $message);
@@ -37,7 +37,7 @@ class TransactionController extends Controller
         [$isExecuted, $message] = $this->transactionService->subtract($transaction, auth()->user());
 
         if (!$isExecuted) {
-            back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
         return back()->with('successMessage', $message);
@@ -50,7 +50,7 @@ class TransactionController extends Controller
         [$isExecuted, $message] = $this->transactionService->add($transaction, auth()->user());
 
         if (!$isExecuted) {
-            back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
         return back()->with('successMessage', $message);
@@ -63,7 +63,7 @@ class TransactionController extends Controller
         [$isExecuted, $message] = $this->transactionService->close($transaction);
 
         if (!$isExecuted) {
-            back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
         return back()->with('successMessage', $message);
@@ -76,7 +76,7 @@ class TransactionController extends Controller
         [$isExecuted, $message] = $this->transactionService->cancel($transaction);
 
         if (!$isExecuted) {
-            back()->with('failedMessage', $message);
+            return back()->with('failedMessage', $message);
         }
 
         return back()->with('successMessage', $message);
