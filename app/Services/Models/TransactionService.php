@@ -47,6 +47,10 @@ class TransactionService
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
         }
 
+        if ($transaction->isCancellable() && $transaction->isCancelled()) {
+            return [false, 'This transaction is cancelled.'];
+        }
+
         if ($transaction->pad->isApprovable() && !$transaction->isApproved()) {
             return [false, 'This transaction is not approved yet.'];
         }
@@ -83,6 +87,10 @@ class TransactionService
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
 
+        if ($transaction->isCancellable() && $transaction->isCancelled()) {
+            return [false, 'This transaction is cancelled.'];
+        }
+
         if ($transaction->pad->isApprovable() && !$transaction->isApproved()) {
             return [false, 'This transaction is not approved yet.'];
         }
@@ -96,6 +104,40 @@ class TransactionService
 
             $transaction->add();
         });
+
+        return [true, ''];
+    }
+
+    public function close($transaction)
+    {
+        if ($transaction->isInventoryOperationSubtract() && !$transaction->isSubtracted()) {
+            return [false, 'This transaction is not subtracted yet.'];
+        }
+
+        if ($transaction->isInventoryOperationAdd() && !$transaction->isAdded()) {
+            return [false, 'This transaction is not added yet.'];
+        }
+
+        if ($transaction->isCancellable() && $transaction->isCancelled()) {
+            return [false, 'This transaction is cancelled.'];
+        }
+
+        if ($transaction->isClosed()) {
+            return [false, 'This transaction is already closed.'];
+        }
+
+        $transaction->close();
+
+        return [true, ''];
+    }
+
+    public function cancel($transaction)
+    {
+        if ($transaction->isCancellable() && $transaction->isCancelled()) {
+            return [false, 'This transaction is already cancelled.'];
+        }
+
+        $transaction->cancel();
 
         return [true, ''];
     }
