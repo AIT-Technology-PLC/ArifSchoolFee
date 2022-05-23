@@ -56,7 +56,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'string', 'max:255', Rule::in(['Merchandise Inventory'])],
             'code' => ['nullable', 'string', 'max:255'],
             'unit_of_measurement' => ['required', 'string', 'max:255'],
             'min_on_hand' => ['nullable', 'numeric'],
