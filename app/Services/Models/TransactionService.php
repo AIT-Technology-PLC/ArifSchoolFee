@@ -34,6 +34,25 @@ class TransactionService
         });
     }
 
+    public function approve($transaction)
+    {
+        if ($transaction->isCancellable() && $transaction->isCancelled()) {
+            return [false, 'This transaction is cancelled.'];
+        }
+
+        if ($transaction->isClosable() && $transaction->isCLosed()) {
+            return [false, 'This transaction is closed.'];
+        }
+
+        if ($transaction->isApprovable() && $transaction->isApproved()) {
+            return [false, 'This transaction is already approved.'];
+        }
+
+        $transaction->approve();
+
+        return [true, ''];
+    }
+
     public function subtract($transaction, $user)
     {
         if (!$transaction->pad->isInventoryOperationSubtract()) {
@@ -122,7 +141,7 @@ class TransactionService
             return [false, 'This transaction is cancelled.'];
         }
 
-        if ($transaction->isClosed()) {
+        if ($transaction->isClosable() && $transaction->isClosed()) {
             return [false, 'This transaction is already closed.'];
         }
 

@@ -218,3 +218,12 @@ Route::post('/warehouses/import',
 Route::post('/categories/import',
     [Action\ProductCategoryController::class, 'import'])
     ->name('categories.import');
+
+// Transaction
+Route::controller(Action\TransactionController::class)->group(function () {
+    Route::post('/transactions/{transaction}/approve', 'approve')->name('transactions.approve');
+    Route::post('/transactions/{transaction}/subtract', 'subtract')->name('transactions.subtract');
+    Route::post('/transactions/{transaction}/add', 'add')->name('transactions.add');
+    Route::post('/transactions/{transaction}/close', 'close')->name('transactions.close');
+    Route::post('/transactions/{transaction}/cancel', 'cancel')->name('transactions.cancel');
+});
