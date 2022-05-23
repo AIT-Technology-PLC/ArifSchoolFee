@@ -46,10 +46,12 @@
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
-    <x-common.import
-        title="Import Suppliers"
-        action="{{ route('suppliers.import') }}"
-    />
+    @can('Import Supplier')
+        <x-common.import
+            title="Import Suppliers"
+            action="{{ route('suppliers.import') }}"
+        />
+    @endcan
 @endsection
 
 @push('scripts')

@@ -5,21 +5,32 @@ namespace App\Imports;
 use App\Models\Customer;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class CustomerImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading
+class CustomerImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading, WithBatchInserts
 {
     use Importable;
 
+    private $customers;
+
+    public function __construct()
+    {
+        $this->customers = Customer::all();
+    }
+
     public function model(array $row)
     {
-        if (Customer::where('company_name', $row['company_name'])->exists()) {
+        if ($this->customers->where('company_name', $row['company_name'])->count()) {
             return null;
         }
 
         return new Customer([
+            'company_id' => userCompany()->id,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
             'company_name' => $row['company_name'],
             'tin' => $row['tin'] ?? '',
             'address' => $row['address'] ?? '',
@@ -47,6 +58,11 @@ class CustomerImport implements ToModel, WithHeadingRow, WithValidation, WithChu
 
     public function chunkSize(): int
     {
-        return 50;
+        return 500;
+    }
+
+    public function batchSize(): int
+    {
+        return 500;
     }
 }

@@ -49,6 +49,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Approve GRN']);
             Permission::firstOrCreate(['name' => 'Add GRN']);
             Permission::firstOrCreate(['name' => 'Delete Approved GRN']);
+            Permission::firstOrCreate(['name' => 'Import GRN']);
 
             // Transfer
             Permission::firstOrCreate(['name' => 'Create Transfer']);

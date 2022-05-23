@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Action;
 
 use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadImportFileRequest;
+use App\Imports\GrnImport;
 use App\Models\Grn;
 use App\Notifications\GrnAdded;
 use App\Notifications\GrnApproved;
 use App\Services\Models\GrnService;
 use App\Utilities\Notifiables;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class GrnController extends Controller
@@ -51,5 +54,23 @@ class GrnController extends Controller
         );
 
         return back();
+    }
+
+    public function import(UploadImportFileRequest $request)
+    {
+        $this->authorize('import', Grn::class);
+
+        ini_set('max_execution_time', '-1');
+
+        DB::transaction(function () use ($request) {
+            $grn = Grn::create([
+                'code' => nextReferenceNumber('grns'),
+                'issued_on' => now(),
+            ]);
+
+            (new GrnImport($grn))->import($request->safe()['file']);
+        });
+
+        return back()->with('imported', 'File uploaded succesfully !');
     }
 }

@@ -5,21 +5,32 @@ namespace App\Imports;
 use App\Models\Supplier;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class SupplierImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading
+class SupplierImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading, WithBatchInserts
 {
     use Importable;
 
+    private $suppliers;
+
+    public function __construct()
+    {
+        $this->suppliers = Supplier::all();
+    }
+
     public function model(array $row)
     {
-        if (Supplier::where('company_name', $row['company_name'])->exists()) {
+        if ($this->suppliers->where('company_name', $row['company_name'])->count()) {
             return null;
         }
 
         return new Supplier([
+            'company_id' => userCompany()->id,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
             'company_name' => $row['company_name'],
             'tin' => $row['tin'] ?? '',
             'address' => $row['address'] ?? '',
@@ -45,6 +56,11 @@ class SupplierImport implements ToModel, WithHeadingRow, WithValidation, WithChu
 
     public function chunkSize(): int
     {
-        return 50;
+        return 500;
+    }
+
+    public function batchSize(): int
+    {
+        return 500;
     }
 }
