@@ -18,6 +18,8 @@ class CustomerController extends Controller
     {
         $this->authorize('import', Customer::class);
 
+        ini_set('max_execution_time', '-1');
+
         (new CustomerImport)->import($request->safe()['file']);
 
         return back()->with('imported', 'File uploaded succesfully !');

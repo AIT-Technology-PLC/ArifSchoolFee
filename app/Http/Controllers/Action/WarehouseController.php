@@ -17,6 +17,8 @@ class WarehouseController extends Controller
     {
         $this->authorize('import', Warehouse::class);
 
+        ini_set('max_execution_time', '-1');
+
         (new WarehouseImport)->import($request->safe()['file']);
 
         return back()->with('imported', 'File uploaded succesfully !');
