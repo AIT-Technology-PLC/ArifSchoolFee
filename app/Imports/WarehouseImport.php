@@ -16,13 +16,13 @@ class WarehouseImport implements ToModel, WithHeadingRow, WithValidation, WithCh
 
     private $warehouses;
 
-    private $totalActiveWarehouses;
+    private $activeWarehouses;
 
     public function __construct()
     {
         $this->warehouses = Warehouse::all();
 
-        $this->totalActiveWarehouses = Warehouse::active()->count();
+        $this->activeWarehouses = Warehouse::active()->get();
     }
 
     public function model(array $row)
@@ -31,12 +31,12 @@ class WarehouseImport implements ToModel, WithHeadingRow, WithValidation, WithCh
             return null;
         }
 
-        if (limitReached('warehouse', $this->totalActiveWarehouses)) {
+        if (limitReached('warehouse', $this->activeWarehouses->count())) {
             session('limitReachedMessage', __('messages.limit_reached', ['limit' => 'branches']));
-            return;
+            return null;
         }
 
-        return new Warehouse([
+        $warehouse = new Warehouse([
             'company_id' => userCompany()->id,
             'created_by' => auth()->id(),
             'updated_by' => auth()->id(),
@@ -48,6 +48,10 @@ class WarehouseImport implements ToModel, WithHeadingRow, WithValidation, WithCh
             'email' => $row['warehouse_email'] ?? '',
             'phone' => $row['warehouse_phone'] ?? '',
         ]);
+
+        $this->activeWarehouses->push($warehouse);
+
+        return $warehouse;
     }
 
     public function rules(): array
