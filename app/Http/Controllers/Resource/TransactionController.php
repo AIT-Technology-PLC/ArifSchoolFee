@@ -109,6 +109,12 @@ class TransactionController extends Controller
     {
         $this->authorize('update', $transaction);
 
+        abort_if(
+            $transaction->isApproved() || $transaction->isCancelled() ||
+            $transaction->isClosed() || $transaction->isAdded() || $transaction->isSubtracted(),
+            403
+        );
+
         $transaction->load('pad');
 
         return view('transactions.edit', compact('transaction'));

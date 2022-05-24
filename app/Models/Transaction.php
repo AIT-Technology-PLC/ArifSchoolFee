@@ -98,44 +98,44 @@ class Transaction extends Model
     {
         return Attribute::make(
             get:function () {
-                $padFields = $this->pad->padFields()->detailFields()->get();
+                return $this->transactionFields()
+                    ->with('padField.padRelation')
+                    ->detailFields()
+                    ->get()
+                    ->groupBy('line')
+                    ->map(function ($transactionFields) {
+                        $data = [];
+                        $data['id'] = $transactionFields->first()->id;
+                        $data['transaction'] = $transactionFields->first()->transaction;
 
-                $groupedTransactionFields = $this->transactionFields()->with('padField.padRelation')->whereIn('pad_field_id', $padFields->pluck('id'))->get()->groupBy('line');
+                        foreach ($transactionFields as $transactionField) {
+                            $value = $transactionField->value;
 
-                return $groupedTransactionFields->map(function ($groupedTransactionField) {
-                    $data = [];
+                            if ($transactionField->padField->hasRelation()) {
+                                $value = $transactionField->relationValue;
+                            }
 
-                    foreach ($groupedTransactionField as $transactionField) {
-                        $value = $transactionField->value;
-
-                        if ($transactionField->padField->hasRelation()) {
-                            $value = $transactionField->relationValue;
+                            $data[str()->snake($transactionField->padField->label)] = $value;
                         }
 
-                        $data[str()->snake($transactionField->padField->label)] = $value;
-                    }
+                        if ($this->pad->hasPrices()) {
+                            $data['discount'] = $data['discount'] ?? 0.00;
 
-                    if ($this->pad->hasPrices()) {
-                        $data['discount'] = $data['discount'] ?? 0.00;
+                            $unitPrice = userCompany()->isPriceBeforeVAT() ? $data['unit_price'] : $data['unit_price'] / 1.15;
 
-                        $unitPrice = userCompany()->isPriceBeforeVAT() ? $data['unit_price'] : $data['unit_price'] / 1.15;
+                            $data['total'] = number_format($unitPrice * $data['quantity'], 2, thousands_separator:'');
 
-                        $data['total'] = number_format($unitPrice * $data['quantity'], 2, thousands_separator:'');
+                            $discount = userCompany()->isDiscountBeforeVAT() ? $data['discount'] / 100 : 0.00;
 
-                        $discount = userCompany()->isDiscountBeforeVAT() ? $data['discount'] / 100 : 0.00;
+                            $discountAmount = number_format($data['total'] * $discount, 2, thousands_separator:'');
 
-                        $discountAmount = number_format($data['total'] * $discount, 2, thousands_separator:'');
+                            $data['discount'] = number_format($discount * 100, 2) . '%';
 
-                        $data['discount'] = number_format($discount * 100, 2) . '%';
+                            $data['total'] = number_format($data['total'] - $discountAmount, 2, thousands_separator:'');
+                        }
 
-                        $data['total'] = number_format($data['total'] - $discountAmount, 2, thousands_separator:'');
-                    }
-
-                    $data['id'] = $groupedTransactionField->first()->id;
-                    $data['transaction'] = $groupedTransactionField->first()->transaction;
-
-                    return $data;
-                });
+                        return $data;
+                    });
             }
         );
     }
