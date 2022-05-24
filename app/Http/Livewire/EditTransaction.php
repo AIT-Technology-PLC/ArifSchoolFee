@@ -70,7 +70,7 @@ class EditTransaction extends Component
         $this->dispatchBrowserEvent('select2-removed');
     }
 
-    public function update()
+    public function store()
     {
         abort_if(
             $this->transaction->isApproved() || $this->transaction->isCancelled() ||
@@ -87,7 +87,7 @@ class EditTransaction extends Component
 
     public function render()
     {
-        return view('livewire.edit-transaction');
+        return view('livewire.create-edit-transaction');
     }
 
     protected function rules()

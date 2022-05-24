@@ -1,12 +1,12 @@
 <div>
     <x-common.content-wrapper>
-        <x-content.header title="Edit {{ $pad->name }}" />
+        <x-content.header title="New {{ $pad->name }}" />
         <form
             id="formOne"
             method="POST"
             enctype="multipart/form-data"
             novalidate
-            wire:submit.prevent="update"
+            wire:submit.prevent="store"
         >
             @csrf
             <x-content.main>
@@ -110,7 +110,7 @@
                                     <x-forms.control class="has-icons-left">
                                         <x-forms.textarea
                                             id="{{ $masterPadField->id }}"
-                                            class="pl-6"
+                                            class="summernote pl-6"
                                             wire:model="master.{{ $masterPadField->id }}"
                                         >
                                             {{ old($masterPadField->id) ?? '' }}
@@ -319,15 +319,15 @@
 
 @push('scripts')
     <script type="text/javascript">
+        window.addEventListener('select2-removed', triggerSelect2Change)
+
+        window.addEventListener("load", triggerSelect2Change);
+
         function bindData(element, prop) {
             $(element).on('change', function(e) {
                 @this.set(prop, $(element).select2("val"));
             });
         }
-
-        window.addEventListener('select2-removed', triggerSelect2Change)
-
-        window.addEventListener("load", triggerSelect2Change);
 
         function triggerSelect2Change() {
             $('.select2-picker').each(function(index, element) {
