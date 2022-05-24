@@ -190,7 +190,7 @@ class Transaction extends Model
                 $discountPadField = $this->pad->padFields()->masterFields()->where('label', 'Discount')->first();
 
                 if ($discountPadField) {
-                    $discount = $this->transactionFields()->firstWhere('pad_field_id', $discountPadField->id)->value / 100;
+                    $discount = ($this->transactionFields()->firstWhere('pad_field_id', $discountPadField->id)->value) ?? 0.00 / 100;
                 }
 
                 $discountAmount = number_format($this->grandTotalPrice * $discount, 2, thousands_separator:'');
