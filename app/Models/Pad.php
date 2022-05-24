@@ -85,6 +85,11 @@ class Pad extends Model
         return $this->is_closable;
     }
 
+    public function isClosableOnly()
+    {
+        return $this->isClosable() && !$this->isApprovable() && $this->isInventoryOperationNone() && !$this->isCancellable();
+    }
+
     public function isCancellable()
     {
         return $this->is_cancellable;
