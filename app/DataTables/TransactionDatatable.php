@@ -121,7 +121,7 @@ class TransactionDatatable extends DataTable
                 });
         }
 
-        if (request()->route('pad')->hasStatus()) {
+        if (request()->route('pad')->hasStatus() || request()->route('pad')->hasStatus()) {
             $datatable
                 ->editColumn('status', function ($transaction) {
                     return view('components.datatables.transaction-status', compact('transaction'));
