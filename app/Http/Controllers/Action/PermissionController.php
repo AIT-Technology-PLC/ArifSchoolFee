@@ -56,7 +56,7 @@ class PermissionController extends Controller
 
         $employee->user->syncPermissions($request->permissions);
 
-        $employee->user->padPermissions()->sync($request->safe()['padPermissions']);
+        $employee->user->padPermissions()->sync($request->safe()['padPermissions'] ?? []);
 
         return back()->with('message', 'Permissions updated successfully');
     }
