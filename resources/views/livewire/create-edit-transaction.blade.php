@@ -179,8 +179,8 @@
                             <div class="box has-background-white-bis radius-top-0">
                                 <div class="columns is-marginless is-multiline">
                                     @foreach ($detailPadFields as $detailPadField)
-                                        <div class="column is-6">
-                                            @if ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name == 'Product')
+                                        @if ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name == 'Product')
+                                            <div class="column is-6">
                                                 <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
                                                     {{ $detailPadField->label }} <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
                                                 </x-forms.label>
@@ -216,7 +216,9 @@
                                                         <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                     </x-forms.control>
                                                 </x-forms.field>
-                                            @elseif ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name != 'Product')
+                                            </div>
+                                        @elseif ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name != 'Product')
+                                            <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label
                                                         for="{{ $loop->parent->index }}{{ $detailPadField->id }}"
@@ -247,8 +249,10 @@
                                                         <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                     </x-forms.control>
                                                 </x-forms.field>
-                                            @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio())
-                                                @continue($detailPadField->label == 'Discount' && !userCompany()->isDiscountBeforeVAT())
+                                            </div>
+                                        @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio())
+                                            @continue($detailPadField->label == 'Discount' && !userCompany()->isDiscountBeforeVAT())
+                                            <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
                                                         {{ $detailPadField->label }}
@@ -274,7 +278,9 @@
                                                         <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                     </x-forms.control>
                                                 </x-forms.field>
-                                            @elseif($detailPadField->isTagTextarea())
+                                            </div>
+                                        @elseif($detailPadField->isTagTextarea())
+                                            <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
                                                         {{ $detailPadField->label }} <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
@@ -293,8 +299,8 @@
                                                         <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                     </x-forms.control>
                                                 </x-forms.field>
-                                            @endif
-                                        </div>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>
