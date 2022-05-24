@@ -1,12 +1,12 @@
 <div>
     <x-common.content-wrapper>
-        <x-content.header title="New {{ $pad->name }}" />
+        <x-content.header title="{{ isset($transaction) ? 'Edit' : 'New' }} {{ $pad->name }}" />
         <form
             id="formOne"
             method="POST"
             enctype="multipart/form-data"
             novalidate
-            wire:submit.prevent="store"
+            wire:submit.prevent="{{ isset($transaction) ? 'update' : 'store' }}"
         >
             @csrf
             <x-content.main>

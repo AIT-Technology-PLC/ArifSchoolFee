@@ -42,9 +42,9 @@ class EditTransaction extends Component
 
         $this->detailPadFields = $this->pad->padFields()->with('padRelation')->detailFields()->get();
 
-        $this->master = $this->transaction->transactionFields()->masterFields()->pluck('value', 'pad_field_id');
+        $this->master = $this->transaction->transactionFields()->masterFields()->pluck('value', 'pad_field_id')->toArray();
 
-        $this->details = $this->transaction->transactionFields()->detailFields()->get()->groupBy('line')->map->pluck('value', 'pad_field_id');
+        $this->details = $this->transaction->transactionFields()->detailFields()->get()->groupBy('line')->map->pluck('value', 'pad_field_id')->toArray();
 
         $this->code = $this->transaction->code;
 
@@ -70,7 +70,7 @@ class EditTransaction extends Component
         $this->dispatchBrowserEvent('select2-removed');
     }
 
-    public function store()
+    public function update()
     {
         abort_if(
             $this->transaction->isApproved() || $this->transaction->isCancelled() ||
