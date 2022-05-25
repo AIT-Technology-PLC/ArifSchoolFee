@@ -21,6 +21,6 @@ class WarehouseController extends Controller
 
         (new WarehouseImport)->import($request->safe()['file']);
 
-        return back()->with('imported', 'File uploaded succesfully !');
+        return back()->with('imported', __('messages.file_imported'));
     }
 }
