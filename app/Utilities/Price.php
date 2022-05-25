@@ -7,7 +7,7 @@ class Price
     public static function getVat($details)
     {
         return number_format(
-            static::getSubTotalPrice($details) * 0.15,
+            self::getSubTotalPrice($details) * 0.15,
             2,
             thousands_separator:''
         );
@@ -54,7 +54,7 @@ class Price
     public static function getGrandTotalPrice($details)
     {
         return number_format(
-            static::getSubTotalPrice($details) + (static::getVat($details)),
+            self::getSubTotalPrice($details) + (self::getVat($details)),
             2,
             thousands_separator:''
         );
@@ -63,10 +63,10 @@ class Price
     public static function grandTotalPriceAfterDiscount($discount, $details)
     {
         $discount = ($discount ?? 0.00) / 100;
-        $discountAmount = number_format(static::getGrandTotalPrice($details) * $discount, 2, thousands_separator:'');
+        $discountAmount = number_format(self::getGrandTotalPrice($details) * $discount, 2, thousands_separator:'');
 
         return number_format(
-            static::getGrandTotalPrice($details) - $discountAmount,
+            self::getGrandTotalPrice($details) - $discountAmount,
             2,
             thousands_separator:''
         );
