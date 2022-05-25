@@ -64,7 +64,8 @@ class TransactionField extends Model
                     ->orWhere('key', 'added_by');
             })
             ->get()
-            ->pluck('transaction');
+            ->pluck('transaction')
+            ->filter();
 
         if ($transactions->isNotEmpty()) {
             $transactions
