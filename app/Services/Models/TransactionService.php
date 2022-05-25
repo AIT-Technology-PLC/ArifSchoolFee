@@ -202,12 +202,12 @@ class TransactionService
             ->detailFields()
             ->get()
             ->groupBy('line')
-            ->map(function ($transactionField) use ($padFields) {
-                $data['quantity'] = $transactionField->firstWhere('pad_field_id', $padFields->firstWhere('label', 'Quantity')->id)->value;
+            ->map(function ($transactionFields) use ($padFields) {
+                $data['quantity'] = $transactionFields->firstWhere('pad_field_id', $padFields->firstWhere('label', 'Quantity')->id)->value;
 
-                $data['product_id'] = $transactionField->firstWhere('pad_field_id', $padFields->firstWhere('label', 'Product')->id)->value;
+                $data['product_id'] = $transactionFields->firstWhere('pad_field_id', $padFields->firstWhere('label', 'Product')->id)->value;
 
-                $data['warehouse_id'] = $transactionField->firstWhere('pad_field_id', $padFields->firstWhere('label', 'Warehouse')->id)->value;
+                $data['warehouse_id'] = $transactionFields->firstWhere('pad_field_id', $padFields->firstWhere('label', 'Warehouse')->id)->value;
 
                 return new GdnDetail($data);
             });

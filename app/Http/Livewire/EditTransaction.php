@@ -42,11 +42,9 @@ class EditTransaction extends Component
 
         $this->detailPadFields = $this->pad->padFields()->with('padRelation')->detailFields()->get();
 
-        $this->master = $this->transaction->transactionFields()->masterFields()->pluck('value', 'pad_field_id');
+        $this->master = $this->transaction->transactionFields()->masterFields()->pluck('value', 'pad_field_id')->toArray();
 
-        $this->details = $this->transaction->transactionFields()->detailFields()->get(['value', 'pad_field_id', 'line'])->groupBy('line');
-
-        $this->details = $this->details->transform(fn($detail) => $detail->pluck('value', 'pad_field_id'))->toArray();
+        $this->details = $this->transaction->transactionFields()->detailFields()->get()->groupBy('line')->map->pluck('value', 'pad_field_id')->toArray();
 
         $this->code = $this->transaction->code;
 
@@ -74,6 +72,12 @@ class EditTransaction extends Component
 
     public function update()
     {
+        abort_if(
+            $this->transaction->isApproved() || $this->transaction->isCancelled() ||
+            $this->transaction->isClosed() || $this->transaction->isAdded() || $this->transaction->isSubtracted(),
+            403
+        );
+
         $this->authorize('update', $this->transaction);
 
         (new TransactionService)->update($this->transaction, $this->validate());
@@ -83,7 +87,7 @@ class EditTransaction extends Component
 
     public function render()
     {
-        return view('livewire.edit-transaction');
+        return view('livewire.create-edit-transaction');
     }
 
     protected function rules()

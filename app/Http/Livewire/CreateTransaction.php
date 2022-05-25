@@ -80,7 +80,7 @@ class CreateTransaction extends Component
 
     public function render()
     {
-        return view('livewire.create-transaction');
+        return view('livewire.create-edit-transaction');
     }
 
     protected function rules()

@@ -1,12 +1,12 @@
 <div>
     <x-common.content-wrapper>
-        <x-content.header title="Edit {{ $pad->name }}" />
+        <x-content.header title="{{ isset($transaction) ? 'Edit' : 'New' }} {{ $pad->name }}" />
         <form
             id="formOne"
             method="POST"
             enctype="multipart/form-data"
             novalidate
-            wire:submit.prevent="update"
+            wire:submit.prevent="{{ isset($transaction) ? 'update' : 'store' }}"
         >
             @csrf
             <x-content.main>
@@ -110,7 +110,7 @@
                                     <x-forms.control class="has-icons-left">
                                         <x-forms.textarea
                                             id="{{ $masterPadField->id }}"
-                                            class="pl-6"
+                                            class="summernote pl-6"
                                             wire:model="master.{{ $masterPadField->id }}"
                                         >
                                             {{ old($masterPadField->id) ?? '' }}
@@ -179,8 +179,8 @@
                             <div class="box has-background-white-bis radius-top-0">
                                 <div class="columns is-marginless is-multiline">
                                     @foreach ($detailPadFields as $detailPadField)
-                                        <div class="column is-6">
-                                            @if ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name == 'Product')
+                                        @if ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name == 'Product')
+                                            <div class="column is-6">
                                                 <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
                                                     {{ $detailPadField->label }} <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
                                                 </x-forms.label>
@@ -216,7 +216,9 @@
                                                         <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                     </x-forms.control>
                                                 </x-forms.field>
-                                            @elseif ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name != 'Product')
+                                            </div>
+                                        @elseif ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name != 'Product')
+                                            <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label
                                                         for="{{ $loop->parent->index }}{{ $detailPadField->id }}"
@@ -247,8 +249,10 @@
                                                         <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                     </x-forms.control>
                                                 </x-forms.field>
-                                            @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio())
-                                                @continue($detailPadField->label == 'Discount' && !userCompany()->isDiscountBeforeVAT())
+                                            </div>
+                                        @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio())
+                                            @continue($detailPadField->label == 'Discount' && !userCompany()->isDiscountBeforeVAT())
+                                            <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
                                                         {{ $detailPadField->label }}
@@ -274,7 +278,9 @@
                                                         <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                     </x-forms.control>
                                                 </x-forms.field>
-                                            @elseif($detailPadField->isTagTextarea())
+                                            </div>
+                                        @elseif($detailPadField->isTagTextarea())
+                                            <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
                                                         {{ $detailPadField->label }} <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
@@ -293,8 +299,8 @@
                                                         <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                     </x-forms.control>
                                                 </x-forms.field>
-                                            @endif
-                                        </div>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>
@@ -319,15 +325,15 @@
 
 @push('scripts')
     <script type="text/javascript">
+        window.addEventListener('select2-removed', triggerSelect2Change)
+
+        window.addEventListener("load", triggerSelect2Change);
+
         function bindData(element, prop) {
             $(element).on('change', function(e) {
                 @this.set(prop, $(element).select2("val"));
             });
         }
-
-        window.addEventListener('select2-removed', triggerSelect2Change)
-
-        window.addEventListener("load", triggerSelect2Change);
 
         function triggerSelect2Change() {
             $('.select2-picker').each(function(index, element) {

@@ -1,10 +1,10 @@
-<br/>
+<!-- <br/>
 
 <p>
 	<img src="https://onricatech.com/img/logo.png" width="200" />
 </p>
 
-<br/>
+<br/> -->
 
 ## About Onrica SmartWork
 
@@ -35,6 +35,7 @@ At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) us
 | Sweetalert         | Flysystem Google Drive       |
 | Pace.js            | Spatie - Laravel Backup      |
 | Workbox            | laravel-cascade-soft-deletes |
+|                    | Maatwebsite - Laravel Excel  |
 
 ## Branches
 

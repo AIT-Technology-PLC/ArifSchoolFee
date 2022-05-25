@@ -82,6 +82,18 @@ class TransactionController extends Controller
                 ->count();
         }
 
+        if ($pad->isClosableOnly()) {
+            $data['totalClosed'] = Transaction::query()
+                ->where('pad_id', $pad->id)
+                ->whereRelation('transactionFields', 'key', '=', 'closed_by')
+                ->count();
+
+            $data['totalNotClosed'] = Transaction::query()
+                ->where('pad_id', $pad->id)
+                ->whereDoesntHave('transactionFields', fn($q) => $q->where('key', '=', 'closed_by'))
+                ->count();
+        }
+
         return $datatable->render('transactions.index', compact('pad', 'transactions', 'data'));
     }
 
@@ -108,6 +120,12 @@ class TransactionController extends Controller
     public function edit(Transaction $transaction)
     {
         $this->authorize('update', $transaction);
+
+        abort_if(
+            $transaction->isApproved() || $transaction->isCancelled() ||
+            $transaction->isClosed() || $transaction->isAdded() || $transaction->isSubtracted(),
+            403
+        );
 
         $transaction->load('pad');
 

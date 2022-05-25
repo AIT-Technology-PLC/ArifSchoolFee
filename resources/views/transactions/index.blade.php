@@ -50,6 +50,25 @@
             </div>
         @endif
 
+        @if ($pad->isClosableOnly())
+            <div class="column p-lr-0">
+                <x-common.index-insight
+                    :amount="$data['totalClosed']"
+                    border-color="#86843d"
+                    text-color="text-gold"
+                    label="Closed"
+                />
+            </div>
+            <div class="column p-lr-0">
+                <x-common.index-insight
+                    :amount="$data['totalNotClosed']"
+                    border-color="#863d63"
+                    text-color="text-purple"
+                    label="Open"
+                />
+            </div>
+        @endif
+
         @if ($pad->isCancellable())
             <div class="column p-lr-0">
                 <x-common.index-insight
@@ -64,7 +83,7 @@
 
     <x-common.content-wrapper>
         <x-content.header title="{{ $pad->name }}">
-            {{-- @can() --}}
+            @canpad('Create', $pad)
             <x-common.button
                 tag="a"
                 href="{{ route('pads.transactions.create', $pad->id) }}"
@@ -73,7 +92,7 @@
                 label="Create {{ $pad->name }}"
                 class="btn-green is-outlined is-small"
             />
-            {{-- @endcan --}}
+            @endcanpad
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />

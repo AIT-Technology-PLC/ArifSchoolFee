@@ -7,6 +7,15 @@
             Cancelled
         </span>
     </span>
+@elseif ($transaction->pad->isClosable() && $transaction->isClosed())
+    <span class="tag is-small bg-gold has-text-white">
+        <span class="icon">
+            <i class="fas fa-times-circle"></i>
+        </span>
+        <span>
+            Closed
+        </span>
+    </span>
 @elseif ($transaction->pad->isInventoryOperationAdd() && $transaction->isAdded())
     <span class="tag is-small bg-green has-text-white">
         <span class="icon">
@@ -34,13 +43,22 @@
             Approved
         </span>
     </span>
-@else
+@elseif ($transaction->pad->isApprovable() && !$transaction->isApproved())
     <span class="tag is-small bg-purple has-text-white">
         <span class="icon">
             <i class="fas fa-clock"></i>
         </span>
         <span>
             Waiting Approval
+        </span>
+    </span>
+@elseif ($transaction->pad->isClosable() && !$transaction->isClosed())
+    <span class="tag is-small bg-purple has-text-white">
+        <span class="icon">
+            <i class="fas fa-clock"></i>
+        </span>
+        <span>
+            Open
         </span>
     </span>
 @endif

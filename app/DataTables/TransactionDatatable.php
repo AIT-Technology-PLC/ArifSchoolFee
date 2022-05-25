@@ -74,7 +74,7 @@ class TransactionDatatable extends DataTable
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title(request()->route('pad')->abbreviation . ' No'),
-            request()->route('pad')->hasStatus() ? Column::computed('status') : '',
+            (request()->route('pad')->hasStatus() || request()->route('pad')->isClosableOnly()) ? Column::computed('status') : '',
         ];
 
         foreach ($this->padFields as $padField) {
@@ -121,7 +121,7 @@ class TransactionDatatable extends DataTable
                 });
         }
 
-        if (request()->route('pad')->hasStatus()) {
+        if (request()->route('pad')->hasStatus() || request()->route('pad')->isClosableOnly()) {
             $datatable
                 ->editColumn('status', function ($transaction) {
                     return view('components.datatables.transaction-status', compact('transaction'));

@@ -117,16 +117,18 @@
                     />
                 @endcan
             @endif
-            @can('update', $transaction)
-                <x-common.button
-                    tag="a"
-                    href="{{ route('transactions.edit', $transaction->id) }}"
-                    mode="button"
-                    icon="fas fa-pen"
-                    label="Edit"
-                    class="is-small bg-green has-text-white"
-                />
-            @endcan
+            @if (!$transaction->isApproved() && !$transaction->isCancelled() && !$transaction->isClosed() && !$transaction->isAdded() && !$transaction->isSubtracted())
+                @can('update', $transaction)
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('transactions.edit', $transaction->id) }}"
+                        mode="button"
+                        icon="fas fa-pen"
+                        label="Edit"
+                        class="is-small bg-green has-text-white"
+                    />
+                @endcan
+            @endif
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
@@ -140,7 +142,7 @@
             @elseif ($transaction->pad->isInventoryOperationSubtract() && $transaction->isSubtracted())
                 <x-common.success-message message="Products have been subtracted from the inventory." />
             @elseif ($transaction->pad->isApprovable() && $transaction->isApproved())
-                <x-common.success-message message="This transaction is approved only." />
+                <x-common.success-message message="This transaction is approved." />
             @elseif ($transaction->pad->isApprovable() && !$transaction->isApproved())
                 <x-common.fail-message message="This transaction is not approved yet." />
             @endif

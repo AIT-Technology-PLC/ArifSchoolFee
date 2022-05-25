@@ -165,7 +165,7 @@ class PadService
             ],
             [
                 'label' => 'Cash Received',
-                'icon' => 'fas fa-dollar-bill',
+                'icon' => 'fas fa-money-bill',
                 'is_master_field' => 1,
                 'is_required' => 1,
                 'is_visible' => 0,
