@@ -54,14 +54,14 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-hand-holding-usd"
-                        :data="number_format($reservation->paymentInCash, 2) . ' (' . number_format($reservation->cashReceivedInPercentage, 2) . ' %' . ')'"
+                        data="{{ number_format($reservation->paymentInCash, 2) }} ({{ number_format($reservation->cashReceivedInPercentage, 2) }}%)"
                         label="In Cash ({{ userCompany()->currency }})"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-money-check"
-                        :data="number_format($reservation->paymentInCredit, 2) . ' (' . number_format($reservation->creditPayableInPercentage, 2) . ' %' . ')'"
+                        data="{{ number_format($reservation->paymentInCredit, 2) }} ({{ number_format($reservation->creditPayableInPercentage, 2) }}%)"
                         label="On Credit ({{ userCompany()->currency }})"
                     />
                 </div>
@@ -83,7 +83,7 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-percentage"
-                            :data="number_format($reservation->discount * 100, 2) . '%'"
+                            data="{{ number_format($reservation->discount * 100, 2) }}%"
                             label="Discount"
                         />
                     </div>
