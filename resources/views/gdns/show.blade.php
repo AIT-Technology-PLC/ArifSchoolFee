@@ -56,14 +56,14 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-hand-holding-usd"
-                        :data="number_format($gdn->paymentInCash, 2) . ' (' . number_format($gdn->cashReceivedInPercentage, 2) . ' %' . ')'"
+                        data="{{ number_format($gdn->paymentInCash, 2) }} ({{ number_format($gdn->cashReceivedInPercentage, 2) }}%)"
                         label="In Cash ({{ userCompany()->currency }})"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-money-check"
-                        :data="number_format($gdn->paymentInCredit, 2) . ' (' . number_format($gdn->credit_payable_in_percentage, 2) . ' %' . ')'"
+                        data="{{ number_format($gdn->paymentInCredit, 2) }} ({{ number_format($gdn->credit_payable_in_percentage, 2) }}%)"
                         label="On Credit ({{ userCompany()->currency }})"
                     />
                 </div>
@@ -85,7 +85,7 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-percentage"
-                            :data="number_format($gdn->discount * 100, 2) . ' %'"
+                            data="{{ number_format($gdn->discount * 100, 2) }}%"
                             label="Discount"
                         />
                     </div>
