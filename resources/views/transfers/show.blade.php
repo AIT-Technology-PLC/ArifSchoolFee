@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-    Transfer Details
-@endsection
+@section('title', 'Transfer Details')
 
 @section('content')
     <x-common.content-wrapper>
@@ -10,94 +8,39 @@
         <x-content.footer>
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
-                    <div>
-                        <div class="columns is-marginless is-vcentered is-mobile text-green">
-                            <div class="column is-1">
-                                <span class="icon is-size-3">
-                                    <i class="fas fa-exchange-alt"></i>
-                                </span>
-                            </div>
-                            <div class="column m-lr-20">
-                                <div class="is-size- has-text-weight-bold">
-                                    {{ $transfer->code ?? 'N/A' }}
-                                </div>
-                                <div class="is-uppercase is-size-7">
-                                    Transfer No
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <x-common.show-data-section
+                        icon="fas fa-exchange-alt"
+                        :data="$transfer->code ?? 'N/A'"
+                        label="Transfer No"
+                    />
                 </div>
                 <div class="column is-6">
-                    <div>
-                        <div class="columns is-marginless is-vcentered is-mobile text-green">
-                            <div class="column is-1">
-                                <span class="icon is-size-3">
-                                    <i class="fas fa-calendar-day"></i>
-                                </span>
-                            </div>
-                            <div class="column m-lr-20">
-                                <div class="is-size- has-text-weight-bold">
-                                    {{ $transfer->issued_on->toFormattedDateString() ?? 'N/A' }}
-                                </div>
-                                <div class="is-uppercase is-size-7">
-                                    Issued On
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <x-common.show-data-section
+                        icon="fas fa-calendar-day"
+                        :data="$transfer->issued_on->toFormattedDateString() ?? 'N/A'"
+                        label="Issued On"
+                    />
                 </div>
                 <div class="column is-6">
-                    <div>
-                        <div class="columns is-marginless is-vcentered is-mobile text-purple">
-                            <div class="column is-1">
-                                <span class="icon is-size-3">
-                                    <i class="fas fa-warehouse"></i>
-                                </span>
-                            </div>
-                            <div class="column m-lr-20">
-                                <div class="is-size- has-text-weight-bold">
-                                    {{ $transfer->transferredFrom->name }}
-                                </div>
-                                <div class="is-uppercase is-size-7">
-                                    Transferred From
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <x-common.show-data-section
+                        icon="fas fa-warehouse"
+                        :data="$transfer->transferredFrom->name"
+                        label="Transferred From"
+                    />
                 </div>
                 <div class="column is-6">
-                    <div>
-                        <div class="columns is-marginless is-vcentered is-mobile text-green">
-                            <div class="column is-1">
-                                <span class="icon is-size-3">
-                                    <i class="fas fa-warehouse"></i>
-                                </span>
-                            </div>
-                            <div class="column m-lr-20">
-                                <div class="is-size- has-text-weight-bold">
-                                    {{ $transfer->transferredTo->name }}
-                                </div>
-                                <div class="is-uppercase is-size-7">
-                                    Transferred To
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <x-common.show-data-section
+                        icon="fas fa-warehouse"
+                        :data="$transfer->transferredTo->name"
+                        label="Transferred To"
+                    />
                 </div>
                 <div class="column is-12">
-                    <div>
-                        <div class="columns is-marginless is-vcentered text-green">
-                            <div class="column">
-                                <div class="has-text-weight-bold">
-                                    Details
-                                </div>
-                                <div class="is-size-7 mt-3">
-                                    {!! is_null($transfer->description) ? 'N/A' : nl2br(e($transfer->description)) !!}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <x-common.show-data-section
+                        type="long"
+                        :data="is_null($transfer->description) ? 'N/A' : nl2br(e($transfer->description))"
+                        label="Details"
+                    />
                 </div>
             </div>
         </x-content.footer>
