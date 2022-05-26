@@ -22,6 +22,6 @@ class TenderStatusController extends Controller
 
         (new TenderStatusImport)->import($request->safe()['file']);
 
-        return back()->with('imported', 'File uploaded succesfully !');
+        return back()->with('imported', __('messages.file_imported'));
     }
 }
