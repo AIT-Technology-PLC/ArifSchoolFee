@@ -16,7 +16,7 @@ class Price
     public static function getSubtotalPrice($details)
     {
         foreach ($details as &$detail) {
-            $detail['total_price'] = static::getTotalPrice($detail['unit_price'], $detail['quantity'], $detail['discount']);
+            $detail['total_price'] = static::getTotalPrice($detail['unit_price'], $detail['quantity'], $detail['discount'] ?? 0.00);
         }
 
         return number_format(
