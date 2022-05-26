@@ -7,7 +7,7 @@ class Price
     public static function getVat($details)
     {
         return number_format(
-            self::getSubTotalPrice($details) * 0.15,
+            static::getSubTotalPrice($details) * 0.15,
             2,
             thousands_separator:''
         );
@@ -16,16 +16,7 @@ class Price
     public static function getSubtotalPrice($details)
     {
         foreach ($details as &$detail) {
-            $detail['unit_price'] = userCompany()->isPriceBeforeVAT() ? $detail['unit_price'] : $detail['unit_price'] / 1.15;
-            $totalPrice = number_format($detail['unit_price'] * $detail['quantity'], 2, thousands_separator:'');
-            $discountAmount = 0.00;
-
-            if (userCompany()->isDiscountBeforeVAT()) {
-                $discount = ($detail['discount'] ?? 0.00) / 100;
-                $discountAmount = number_format($totalPrice * $discount, 2, thousands_separator:'');
-            }
-
-            $detail['total_price'] = number_format($totalPrice - $discountAmount, 2, thousands_separator:'');
+            $detail['total_price'] = static::getTotalPrice($detail['unit_price'], $detail['quantity'], $detail['discount']);
         }
 
         return number_format(
@@ -35,26 +26,26 @@ class Price
         );
     }
 
-    public static function getTotalPrice($details)
+    public static function getTotalPrice($unitPrice, $quantity, $discount)
     {
-        foreach ($details as &$detail) {
-            $detail['unit_price'] = userCompany()->isPriceBeforeVAT() ? $detail['unit_price'] : $detail['unit_price'] / 1.15;
-            $totalPrice = number_format($detail['unit_price'] * $detail['quantity'], 2, thousands_separator:'');
-            $discountAmount = 0.00;
+        $unitPrice = userCompany()->isPriceBeforeVAT() ? $unitPrice : $unitPrice / 1.15;
+        $totalPrice = number_format($unitPrice * $quantity, 2, thousands_separator:'');
+        $discountAmount = 0.00;
 
-            if (userCompany()->isDiscountBeforeVAT()) {
-                $discount = ($detail['discount'] ?? 0.00) / 100;
-                $discountAmount = number_format($totalPrice * $discount, 2, thousands_separator:'');
-            }
-
-            return $detail['total_price'] = number_format($totalPrice - $discountAmount, 2, thousands_separator:'');
+        if (userCompany()->isDiscountBeforeVAT()) {
+            $discount = ($discount ?? 0.00) / 100;
+            $discountAmount = number_format($totalPrice * $discount, 2, thousands_separator:'');
         }
+
+        $totalPrice = number_format($totalPrice - $discountAmount, 2, thousands_separator:'');
+
+        return $totalPrice;
     }
 
     public static function getGrandTotalPrice($details)
     {
         return number_format(
-            self::getSubTotalPrice($details) + (self::getVat($details)),
+            static::getSubTotalPrice($details) + (static::getVat($details)),
             2,
             thousands_separator:''
         );
@@ -63,10 +54,10 @@ class Price
     public static function grandTotalPriceAfterDiscount($discount, $details)
     {
         $discount = ($discount ?? 0.00) / 100;
-        $discountAmount = number_format(self::getGrandTotalPrice($details) * $discount, 2, thousands_separator:'');
+        $discountAmount = number_format(static::getGrandTotalPrice($details) * $discount, 2, thousands_separator:'');
 
         return number_format(
-            self::getGrandTotalPrice($details) - $discountAmount,
+            static::getGrandTotalPrice($details) - $discountAmount,
             2,
             thousands_separator:''
         );
