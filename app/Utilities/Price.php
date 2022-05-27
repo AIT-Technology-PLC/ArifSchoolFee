@@ -51,7 +51,7 @@ class Price
         );
     }
 
-    public static function grandTotalPriceAfterDiscount($discount, $details)
+    public static function getGrandTotalPriceAfterDiscount($discount, $details)
     {
         $discount = ($discount ?? 0.00) / 100;
         $discountAmount = number_format(static::getGrandTotalPrice($details) * $discount, 2, thousands_separator:'');
