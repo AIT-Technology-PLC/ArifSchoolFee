@@ -7,7 +7,7 @@ class Price
     public static function getVat($details)
     {
         return number_format(
-            static::getSubTotalPrice($details) * 0.15,
+            static::getSubtotalPrice($details) * 0.15,
             2,
             thousands_separator:''
         );
@@ -30,22 +30,22 @@ class Price
     {
         $unitPrice = userCompany()->isPriceBeforeVAT() ? $unitPrice : $unitPrice / 1.15;
         $totalPrice = number_format($unitPrice * $quantity, 2, thousands_separator:'');
-        $discountAmount = 0.00;
-
-        if (userCompany()->isDiscountBeforeVAT()) {
-            $discount = ($discount ?? 0.00) / 100;
-            $discountAmount = number_format($totalPrice * $discount, 2, thousands_separator:'');
-        }
-
-        $totalPrice = number_format($totalPrice - $discountAmount, 2, thousands_separator:'');
+        $totalPrice = number_format($totalPrice-static::getDiscountAmount($discount, $totalPrice), 2, thousands_separator:'');
 
         return $totalPrice;
+    }
+
+    public static function getDiscountAmount($discount, $price)
+    {
+        $discount = ($discount ?? 0.00) / 100;
+
+        return number_format($price * $discount, 2, thousands_separator:'');
     }
 
     public static function getGrandTotalPrice($details)
     {
         return number_format(
-            static::getSubTotalPrice($details) + (static::getVat($details)),
+            static::getSubtotalPrice($details) + (static::getVat($details)),
             2,
             thousands_separator:''
         );
@@ -53,11 +53,8 @@ class Price
 
     public static function getGrandTotalPriceAfterDiscount($discount, $details)
     {
-        $discount = ($discount ?? 0.00) / 100;
-        $discountAmount = number_format(static::getGrandTotalPrice($details) * $discount, 2, thousands_separator:'');
-
         return number_format(
-            static::getGrandTotalPrice($details) - $discountAmount,
+            static::getGrandTotalPrice($details)-static::getDiscountAmount($discount, static::getGrandTotalPrice($details)),
             2,
             thousands_separator:''
         );
