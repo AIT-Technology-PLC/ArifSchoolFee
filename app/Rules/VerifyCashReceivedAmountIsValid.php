@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Utilities\Price;
 use Illuminate\Contracts\Validation\Rule;
 
 class VerifyCashReceivedAmountIsValid implements Rule
@@ -24,8 +25,6 @@ class VerifyCashReceivedAmountIsValid implements Rule
         $this->details = $details;
 
         $this->cashReceivedType = $cashReceivedType;
-
-        $this->totalPrice();
     }
 
     /**
@@ -39,11 +38,11 @@ class VerifyCashReceivedAmountIsValid implements Rule
     public function passes($attribute, $value)
     {
         if (userCompany()->isDiscountBeforeVAT()) {
-            $price = $this->grandTotalPrice();
+            $price = Price::getGrandTotalPrice($this->details);
         }
 
         if (!userCompany()->isDiscountBeforeVAT()) {
-            $price = $this->grandTotalPriceAfterDiscount();
+            $price = Price::getGrandTotalPriceAfterDiscount($this->discount, $this->details);
         }
 
         if ($this->cashReceivedType == 'amount') {
@@ -61,60 +60,4 @@ class VerifyCashReceivedAmountIsValid implements Rule
     {
         return '"Cash Received" can not be greater than "Grand Total Price"';
     }
-
-    private function totalPrice()
-    {
-        foreach ($this->details as &$detail) {
-            $detail['unit_price'] = userCompany()->isPriceBeforeVAT() ? $detail['unit_price'] : $detail['unit_price'] / 1.15;
-            $totalPrice = number_format($detail['unit_price'] * $detail['quantity'], 2, thousands_separator:'');
-            $discountAmount = 0.00;
-
-            if (userCompany()->isDiscountBeforeVAT()) {
-                $discount = ($detail['discount'] ?? 0.00) / 100;
-                $discountAmount = number_format($totalPrice * $discount, 2, thousands_separator:'');
-            }
-
-            $detail['total_price'] = number_format($totalPrice - $discountAmount, 2, thousands_separator:'');
-        }
-    }
-
-    private function subTotalPrice()
-    {
-        return number_format(
-            collect($this->details)->sum('total_price'),
-            2,
-            thousands_separator:''
-        );
-    }
-
-    private function vat()
-    {
-        return number_format(
-            $this->subTotalPrice() * 0.15,
-            2,
-            thousands_separator:''
-        );
-    }
-
-    private function grandTotalPrice()
-    {
-        return number_format(
-            $this->subTotalPrice() + $this->vat(),
-            2,
-            thousands_separator:''
-        );
-    }
-
-    private function grandTotalPriceAfterDiscount()
-    {
-        $discount = ($this->discount ?? 0.00) / 100;
-        $discountAmount = number_format($this->grandTotalPrice() * $discount, 2, thousands_separator:'');
-
-        return number_format(
-            $this->grandTotalPrice() - $discountAmount,
-            2,
-            thousands_separator:''
-        );
-    }
-
 }
