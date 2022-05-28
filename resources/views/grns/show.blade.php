@@ -5,7 +5,7 @@
 @section('content')
     <x-common.content-wrapper>
         <x-content.header title="General Information" />
-        <x-content.footer>
+        <x-content.footer></x-content.footer>
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
