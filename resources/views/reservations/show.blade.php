@@ -108,90 +108,108 @@
 
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Details">
-            @if ($reservation->reservable && !$reservation->reservable->isSubtracted())
-                @can('Cancel Reservation')
-                    <x-common.transaction-button
-                        :route="route('reservations.cancel', $reservation->id)"
-                        action="cancel"
-                        intention="cancel this reservation"
-                        icon="fas fa-times-circle"
-                        label="Cancel Reservation"
-                        class="has-text-weight-medium"
+            <x-common.dropdown name="Actions">
+                @if ($reservation->reservable && !$reservation->reservable->isSubtracted())
+                    @can('Cancel Reservation')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('reservations.cancel', $reservation->id)"
+                                action="cancel"
+                                intention="cancel this reservation"
+                                icon="fas fa-times-circle"
+                                label="Cancel Reservation"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif($reservation->isReserved())
+                    @can('Convert Reservation')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('reservations.convert', $reservation->id)"
+                                action="convert"
+                                intention="convert this reservation to delivery order"
+                                icon="fas fa-check-circle"
+                                label="Convert to DO"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                    @can('Cancel Reservation')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('reservations.cancel', $reservation->id)"
+                                action="cancel"
+                                intention="cancel this reservation"
+                                icon="fas fa-times-circle"
+                                label="Cancel Reservation"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif($reservation->isApproved())
+                    @can('Make Reservation')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('reservations.reserve', $reservation->id)"
+                                action="reserve"
+                                intention="reserve products of this reservation"
+                                icon="fas fa-signature"
+                                label="Make Reservation"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                    @can('Cancel Reservation')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('reservations.cancel', $reservation->id)"
+                                action="cancel"
+                                intention="cancel this reservation"
+                                icon="fas fa-times-circle"
+                                label="Cancel"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @else
+                    @can('Approve Reservation')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('reservations.approve', $reservation->id)"
+                                action="approve"
+                                intention="approve this reservation"
+                                icon="fas fa-signature"
+                                label="Approve Reservation"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                @if ($reservation->isApproved() && !$reservation->isCancelled())
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('reservations.print', $reservation->id) }}"
+                            target="_blank"
+                            mode="button"
+                            icon="fas fa-print"
+                            label="Print"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                        />
+                    </x-common.dropdown-item>
+                @endif
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('reservations.edit', $reservation->id) }}"
+                        mode="button"
+                        icon="fas fa-pen"
+                        label="Edit"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
                     />
-                @endcan
-            @elseif($reservation->isReserved())
-                @can('Convert Reservation')
-                    <x-common.transaction-button
-                        :route="route('reservations.convert', $reservation->id)"
-                        action="convert"
-                        intention="convert this reservation to delivery order"
-                        icon="fas fa-check-circle"
-                        label="Convert to DO"
-                        class="has-text-weight-medium"
-                    />
-                @endcan
-                @can('Cancel Reservation')
-                    <x-common.transaction-button
-                        :route="route('reservations.cancel', $reservation->id)"
-                        action="cancel"
-                        intention="cancel this reservation"
-                        icon="fas fa-times-circle"
-                        label="Cancel Reservation"
-                        class="has-text-weight-medium"
-                    />
-                @endcan
-            @elseif($reservation->isApproved())
-                @can('Make Reservation')
-                    <x-common.transaction-button
-                        :route="route('reservations.reserve', $reservation->id)"
-                        action="reserve"
-                        intention="reserve products of this reservation"
-                        icon="fas fa-signature"
-                        label="Make Reservation"
-                        class="has-text-weight-medium"
-                    />
-                @endcan
-                @can('Cancel Reservation')
-                    <x-common.transaction-button
-                        :route="route('reservations.cancel', $reservation->id)"
-                        action="cancel"
-                        intention="cancel this reservation"
-                        icon="fas fa-times-circle"
-                        label="Cancel"
-                        class="has-text-weight-medium"
-                    />
-                @endcan
-            @else
-                @can('Approve Reservation')
-                    <x-common.transaction-button
-                        :route="route('reservations.approve', $reservation->id)"
-                        action="approve"
-                        intention="approve this reservation"
-                        icon="fas fa-signature"
-                        label="Approve Reservation"
-                        class="has-text-weight-medium"
-                    />
-                @endcan
-            @endif
-            @if ($reservation->isApproved() && !$reservation->isCancelled())
-                <x-common.button
-                    tag="a"
-                    href="{{ route('reservations.print', $reservation->id) }}"
-                    target="_blank"
-                    mode="button"
-                    icon="fas fa-print"
-                    label="Print"
-                    class="btn-purple is-outlined is-small is-hidden-mobile"
-                />
-            @endif
-            <x-common.button
-                tag="a"
-                href="{{ route('reservations.edit', $reservation->id) }}"
-                mode="button"
-                icon="fas fa-pen"
-                label="Edit"
-                class="is-small bg-green has-text-white"
-            />
+                </x-common.dropdown-item>
+            </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
