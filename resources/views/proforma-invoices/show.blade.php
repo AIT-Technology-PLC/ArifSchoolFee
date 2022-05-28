@@ -78,64 +78,81 @@
 
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Details">
-            @if ($proformaInvoice->isPending())
-                @can('Convert Proforma Invoice')
-                    <x-common.transaction-button
-                        :route="route('proforma-invoices.convert', $proformaInvoice->id)"
-                        action="confirm"
-                        intention="confirm this proforma invoice"
-                        icon="fas fa-check-circle"
-                        label="Confirm"
-                    />
-                @endcan
-                @can('Cancel Proforma Invoice')
-                    <x-common.transaction-button
-                        :route="route('proforma-invoices.cancel', $proformaInvoice->id)"
-                        action="cancel"
-                        intention="cancel this proforma invoice"
-                        icon="fas fa-times"
-                        label="Cancel"
-                    />
-                @endcan
-            @endif
-            @if ($proformaInvoice->isConverted() && !$proformaInvoice->isClosed())
-                <x-common.transaction-button
-                    :route="route('proforma-invoices.close', $proformaInvoice->id)"
-                    action="close"
-                    intention="close this proforma invoice"
-                    icon="fas fa-ban"
-                    label="Close"
-                />
-                @can('Create GDN')
+            <x-common.dropdown name="Actions">
+                @if ($proformaInvoice->isPending())
+                    @can('Convert Proforma Invoice')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('proforma-invoices.convert', $proformaInvoice->id)"
+                                action="confirm"
+                                intention="confirm this proforma invoice"
+                                icon="fas fa-check-circle"
+                                label="Confirm"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                    @can('Cancel Proforma Invoice')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('proforma-invoices.cancel', $proformaInvoice->id)"
+                                action="cancel"
+                                intention="cancel this proforma invoice"
+                                icon="fas fa-times"
+                                label="Cancel"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                @if ($proformaInvoice->isConverted() && !$proformaInvoice->isClosed())
+                    <x-common.dropdown-item>
+                        <x-common.transaction-button
+                            :route="route('proforma-invoices.close', $proformaInvoice->id)"
+                            action="close"
+                            intention="close this proforma invoice"
+                            icon="fas fa-ban"
+                            label="Close"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                        />
+                    </x-common.dropdown-item>
+                    @can('Create GDN')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="a"
+                                href="{{ route('proforma-invoices.convert_to_gdn', $proformaInvoice->id) }}"
+                                mode="button"
+                                icon="fas fa-file-invoice"
+                                label="Convert to DO"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                @if (!$proformaInvoice->isCancelled())
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('proforma-invoices.print', $proformaInvoice->id) }}"
+                            target="_blank"
+                            mode="button"
+                            icon="fas fa-print"
+                            label="Print"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                        />
+                    </x-common.dropdown-item>
+                @endif
+                <x-common.dropdown-item>
                     <x-common.button
                         tag="a"
-                        href="{{ route('proforma-invoices.convert_to_gdn', $proformaInvoice->id) }}"
+                        href="{{ route('proforma-invoices.edit', $proformaInvoice->id) }}"
                         mode="button"
-                        icon="fas fa-file-invoice"
-                        label="Convert to DO"
-                        class="btn-purple is-outlined is-small"
+                        icon="fas fa-pen"
+                        label="Edit"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
                     />
-                @endcan
-            @endif
-            @if (!$proformaInvoice->isCancelled())
-                <x-common.button
-                    tag="a"
-                    href="{{ route('proforma-invoices.print', $proformaInvoice->id) }}"
-                    target="_blank"
-                    mode="button"
-                    icon="fas fa-print"
-                    label="Print"
-                    class="btn-purple is-outlined is-small is-hidden-mobile"
-                />
-            @endif
-            <x-common.button
-                tag="a"
-                href="{{ route('proforma-invoices.edit', $proformaInvoice->id) }}"
-                mode="button"
-                icon="fas fa-pen"
-                label="Edit"
-                class="is-small bg-green has-text-white"
-            />
+                </x-common.dropdown-item>
+            </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('successMessage')" />
