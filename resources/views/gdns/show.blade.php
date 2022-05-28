@@ -110,79 +110,98 @@
 
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Details">
-            @if (!$gdn->isApproved())
-                @can('Approve GDN')
-                    <x-common.transaction-button
-                        :route="route('gdns.approve', $gdn->id)"
-                        action="approve"
-                        intention="approve this delivery order"
-                        icon="fas fa-signature"
-                        label="Approve"
-                        class="has-text-weight-medium"
+            <x-common.dropdown name="Actions">
+                @if (!$gdn->isApproved())
+                    @can('Approve GDN')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('gdns.approve', $gdn->id)"
+                                action="approve"
+                                intention="approve this delivery order"
+                                icon="fas fa-signature"
+                                label="Approve"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif(!$gdn->isSubtracted())
+                    @can('Subtract GDN')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('gdns.subtract', $gdn->id)"
+                                action="subtract"
+                                intention="subtract products of this delivery order"
+                                icon="fas fa-minus-circle"
+                                label="Subtract from inventory"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                @if (isFeatureEnabled('Credit Management') && $gdn->isApproved() && !$gdn->credit()->exists() && $gdn->payment_type == 'Credit Payment' && $gdn->customer()->exists())
+                    @can('Create Credit')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('gdns.convert_to_credit', $gdn->id)"
+                                action="convert"
+                                intention="convert this delivery order to credit"
+                                icon="fas fa-money-check"
+                                label="Convert to Credit"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                @if ($gdn->isSubtracted() && !$gdn->isClosed())
+                    <x-common.dropdown-item>
+                        <x-common.transaction-button
+                            :route="route('gdns.close', $gdn->id)"
+                            action="close"
+                            intention="close this delivery order"
+                            icon="fas fa-ban"
+                            label="Close"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                        />
+                    </x-common.dropdown-item>
+                @endif
+                @if ($gdn->isApproved())
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('gdns.print', $gdn->id) }}"
+                            target="_blank"
+                            mode="button"
+                            icon="fas fa-print"
+                            label="Print"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                        />
+                    </x-common.dropdown-item>
+                @endif
+                @if ($gdn->isSubtracted() && !$gdn->isClosed())
+                    @can('Create SIV')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('gdns.convert_to_siv', $gdn->id)"
+                                action="attach"
+                                intention="attach SIV to this delivery order"
+                                icon="fas fa-file-export"
+                                label="Attach SIV"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('gdns.edit', $gdn->id) }}"
+                        mode="button"
+                        icon="fas fa-pen"
+                        label="Edit"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
                     />
-                @endcan
-            @elseif(!$gdn->isSubtracted())
-                @can('Subtract GDN')
-                    <x-common.transaction-button
-                        :route="route('gdns.subtract', $gdn->id)"
-                        action="subtract"
-                        intention="subtract products of this delivery order"
-                        icon="fas fa-minus-circle"
-                        label="Subtract from inventory"
-                        class="has-text-weight-medium"
-                    />
-                @endcan
-            @endif
-            @if (isFeatureEnabled('Credit Management') && $gdn->isApproved() && !$gdn->credit()->exists() && $gdn->payment_type == 'Credit Payment' && $gdn->customer()->exists())
-                @can('Create Credit')
-                    <x-common.transaction-button
-                        :route="route('gdns.convert_to_credit', $gdn->id)"
-                        action="convert"
-                        intention="convert this delivery order to credit"
-                        icon="fas fa-money-check"
-                        label="Convert to Credit"
-                    />
-                @endcan
-            @endif
-            @if ($gdn->isSubtracted() && !$gdn->isClosed())
-                <x-common.transaction-button
-                    :route="route('gdns.close', $gdn->id)"
-                    action="close"
-                    intention="close this delivery order"
-                    icon="fas fa-ban"
-                    label="Close"
-                />
-            @endif
-            @if ($gdn->isApproved())
-                <x-common.button
-                    tag="a"
-                    href="{{ route('gdns.print', $gdn->id) }}"
-                    target="_blank"
-                    mode="button"
-                    icon="fas fa-print"
-                    label="Print"
-                    class="btn-purple is-outlined is-small is-hidden-mobile"
-                />
-            @endif
-            @if ($gdn->isSubtracted() && !$gdn->isClosed())
-                @can('Create SIV')
-                    <x-common.transaction-button
-                        :route="route('gdns.convert_to_siv', $gdn->id)"
-                        action="attach"
-                        intention="attach SIV to this delivery order"
-                        icon="fas fa-file-export"
-                        label="Attach SIV"
-                    />
-                @endcan
-            @endif
-            <x-common.button
-                tag="a"
-                href="{{ route('gdns.edit', $gdn->id) }}"
-                mode="button"
-                icon="fas fa-pen"
-                label="Edit"
-                class="is-small bg-green has-text-white"
-            />
+                </x-common.dropdown-item>
+            </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />

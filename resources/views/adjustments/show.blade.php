@@ -57,7 +57,7 @@
                                 intention="execute this adjustment"
                                 icon="fas fa-eraser"
                                 label="Execute Adjustment"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color text-green"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
                             />
                         </x-common.dropdown-item>
                     @endcan
