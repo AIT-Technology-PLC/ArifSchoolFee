@@ -69,36 +69,44 @@
 
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Details">
-            @if ($siv->isApproved())
-                <x-common.button
-                    tag="a"
-                    href="{{ route('sivs.print', $siv->id) }}"
-                    target="_blank"
-                    mode="button"
-                    icon="fas fa-print"
-                    label="Print"
-                    class="is-small bg-purple has-text-white is-hidden-mobile"
-                />
-            @elseif(!$siv->isApproved())
-                @can('Approve SIV')
-                    <x-common.transaction-button
-                        :route="route('sivs.approve', $siv->id)"
-                        action="approve"
-                        intention="approve this SIV"
-                        icon="fas fa-signature"
-                        label="Approve SIV"
-                        class="has-text-weight-medium"
+            <x-common.dropdown name="Actions">
+                @if ($siv->isApproved())
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('sivs.print', $siv->id) }}"
+                            target="_blank"
+                            mode="button"
+                            icon="fas fa-print"
+                            label="Print"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                        />
+                    </x-common.dropdown-item>
+                @elseif(!$siv->isApproved())
+                    @can('Approve SIV')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('sivs.approve', $siv->id)"
+                                action="approve"
+                                intention="approve this SIV"
+                                icon="fas fa-signature"
+                                label="Approve SIV"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('sivs.edit', $siv->id) }}"
+                        mode="button"
+                        icon="fas fa-pen"
+                        label="Edit"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
                     />
-                @endcan
-            @endif
-            <x-common.button
-                tag="a"
-                href="{{ route('sivs.edit', $siv->id) }}"
-                mode="button"
-                icon="fas fa-pen"
-                label="Edit"
-                class="is-small bg-green has-text-white"
-            />
+                </x-common.dropdown-item>
+            </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />

@@ -34,37 +34,45 @@
 
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Details">
-            @if (!$adjustment->isApproved())
-                @can('Approve Adjustment')
-                    <x-common.transaction-button
-                        :route="route('adjustments.approve', $adjustment->id)"
-                        action="approve"
-                        intention="approve this adjustment"
-                        icon="fas fa-signature"
-                        label="Approve Adjustment"
-                        class="has-text-weight-medium"
+            <x-common.dropdown name="Actions">
+                @if (!$adjustment->isApproved())
+                    @can('Approve Adjustment')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('adjustments.approve', $adjustment->id)"
+                                action="approve"
+                                intention="approve this adjustment"
+                                icon="fas fa-signature"
+                                label="Approve Adjustment"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif(!$adjustment->isAdjusted())
+                    @can('Make Adjustment')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('adjustments.adjust', $adjustment->id)"
+                                action="execute"
+                                intention="execute this adjustment"
+                                icon="fas fa-eraser"
+                                label="Execute Adjustment"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('adjustments.edit', $adjustment->id) }}"
+                        mode="button"
+                        icon="fas fa-pen"
+                        label="Edit"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
                     />
-                @endcan
-            @elseif(!$adjustment->isAdjusted())
-                @can('Make Adjustment')
-                    <x-common.transaction-button
-                        :route="route('adjustments.adjust', $adjustment->id)"
-                        action="execute"
-                        intention="execute this adjustment"
-                        icon="fas fa-eraser"
-                        label="Execute Adjustment"
-                        class="has-text-weight-medium"
-                    />
-                @endcan
-            @endif
-            <x-common.button
-                tag="a"
-                href="{{ route('adjustments.edit', $adjustment->id) }}"
-                mode="button"
-                icon="fas fa-pen"
-                label="Edit"
-                class="is-small bg-green has-text-white"
-            />
+                </x-common.dropdown-item>
+            </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />

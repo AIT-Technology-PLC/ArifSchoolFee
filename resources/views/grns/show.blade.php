@@ -50,37 +50,45 @@
 
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Details">
-            @if (!$grn->isApproved())
-                @can('Approve GRN')
-                    <x-common.transaction-button
-                        :route="route('grns.approve', $grn->id)"
-                        action="approve"
-                        intention="approve this GRN"
-                        icon="fas fa-signature"
-                        label="Approve GRN"
-                        class="has-text-weight-medium"
+            <x-common.dropdown name="Actions">
+                @if (!$grn->isApproved())
+                    @can('Approve GRN')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('grns.approve', $grn->id)"
+                                action="approve"
+                                intention="approve this GRN"
+                                icon="fas fa-signature"
+                                label="Approve GRN"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif(!$grn->isAdded())
+                    @can('Add GRN')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('grns.add', $grn->id)"
+                                action="add"
+                                intention="add products of this GRN"
+                                icon="fas fa-plus-circle"
+                                label="Add to Inventory"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('grns.edit', $grn->id) }}"
+                        mode="button"
+                        icon="fas fa-pen"
+                        label="Edit"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
                     />
-                @endcan
-            @elseif(!$grn->isAdded())
-                @can('Add GRN')
-                    <x-common.transaction-button
-                        :route="route('grns.add', $grn->id)"
-                        action="add"
-                        intention="add products of this GRN"
-                        icon="fas fa-plus-circle"
-                        label="Add to Inventory"
-                        class="has-text-weight-medium"
-                    />
-                @endcan
-            @endif
-            <x-common.button
-                tag="a"
-                href="{{ route('grns.edit', $grn->id) }}"
-                mode="button"
-                icon="fas fa-pen"
-                label="Edit"
-                class="is-small bg-green has-text-white"
-            />
+                </x-common.dropdown-item>
+            </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />

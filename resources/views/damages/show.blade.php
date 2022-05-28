@@ -34,37 +34,45 @@
 
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Details">
-            @if (!$damage->isApproved())
-                @can('Approve Damage')
-                    <x-common.transaction-button
-                        :route="route('damages.approve', $damage->id)"
-                        action="approve"
-                        intention="approve this damage claim"
-                        icon="fas fa-signature"
-                        label="Approve Damage"
-                        class="has-text-weight-medium"
+            <x-common.dropdown name="Actions">
+                @if (!$damage->isApproved())
+                    @can('Approve Damage')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('damages.approve', $damage->id)"
+                                action="approve"
+                                intention="approve this damage claim"
+                                icon="fas fa-signature"
+                                label="Approve Damage"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif(!$damage->isSubtracted())
+                    @can('Subtract Damage')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('damages.subtract', $damage->id)"
+                                action="subtract"
+                                intention="subtract the damaged products"
+                                icon="fas fa-minus-circle"
+                                label="Subtract from inventory"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('damages.edit', $damage->id) }}"
+                        mode="button"
+                        icon="fas fa-pen"
+                        label="Edit"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
                     />
-                @endcan
-            @elseif(!$damage->isSubtracted())
-                @can('Subtract Damage')
-                    <x-common.transaction-button
-                        :route="route('damages.subtract', $damage->id)"
-                        action="subtract"
-                        intention="subtract the damaged products"
-                        icon="fas fa-minus-circle"
-                        label="Subtract from inventory"
-                        class="has-text-weight-medium"
-                    />
-                @endcan
-            @endif
-            <x-common.button
-                tag="a"
-                href="{{ route('damages.edit', $damage->id) }}"
-                mode="button"
-                icon="fas fa-pen"
-                label="Edit"
-                class="is-small bg-green has-text-white"
-            />
+                </x-common.dropdown-item>
+            </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />

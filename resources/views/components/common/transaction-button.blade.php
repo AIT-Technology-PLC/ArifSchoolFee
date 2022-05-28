@@ -15,6 +15,6 @@
         label="{{ $label }}"
         icon="{{ $icon }}"
         x-ref="submitButton"
-        {{ $attributes->merge(['class' => 'btn-purple is-outlined is-small']) }}
+        {{ $attributes->merge(['class' => '']) }}
     />
 </form>
