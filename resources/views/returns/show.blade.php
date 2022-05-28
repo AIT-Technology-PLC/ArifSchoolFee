@@ -55,48 +55,58 @@
 
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Details">
-            @if (!$return->isApproved())
-                @can('Approve Return')
-                    <x-common.transaction-button
-                        :route="route('returns.approve', $return->id)"
-                        action="approve"
-                        intention="approve this return"
-                        icon="fas fa-signature"
-                        label="Approve Return"
-                        class="has-text-weight-medium"
+            <x-common.dropdown name="Actions">
+                @if (!$return->isApproved())
+                    @can('Approve Return')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('returns.approve', $return->id)"
+                                action="approve"
+                                intention="approve this return"
+                                icon="fas fa-signature"
+                                label="Approve Return"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif(!$return->isAdded())
+                    @can('Make Return')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('returns.add', $return->id)"
+                                action="add"
+                                intention="add products of this return voucher"
+                                icon="fas fa-plus-circle"
+                                label="Add to Inventory"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                @if ($return->isApproved())
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('returns.print', $return->id) }}"
+                            target="_blank"
+                            mode="button"
+                            icon="fas fa-print"
+                            label="Print"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                        />
+                    </x-common.dropdown-item>
+                @endif
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('returns.edit', $return->id) }}"
+                        mode="button"
+                        icon="fas fa-pen"
+                        label="Edit"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
                     />
-                @endcan
-            @elseif(!$return->isAdded())
-                @can('Make Return')
-                    <x-common.transaction-button
-                        :route="route('returns.add', $return->id)"
-                        action="add"
-                        intention="add products of this return voucher"
-                        icon="fas fa-plus-circle"
-                        label="Add to Inventory"
-                        class="has-text-weight-medium"
-                    />
-                @endcan
-            @endif
-            @if ($return->isApproved())
-                <x-common.button
-                    tag="a"
-                    href="{{ route('returns.print', $return->id) }}"
-                    target="_blank"
-                    mode="button"
-                    icon="fas fa-print"
-                    label="Print"
-                    class="is-small bg-purple has-text-white is-hidden-mobile"
-                />
-            @endif
-            <x-common.button
-                tag="a"
-                href="{{ route('returns.edit', $return->id) }}"
-                mode="button"
-                icon="fas fa-pen"
-                label="Edit"
-                class="is-small bg-green has-text-white"
-            />
+                </x-common.dropdown-item>
+            </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('successMessage')" />
