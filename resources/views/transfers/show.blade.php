@@ -48,68 +48,84 @@
 
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Details">
-            @if (!$transfer->isApproved())
-                @can('Approve Transfer')
-                    <x-common.transaction-button
-                        :route="route('transfers.approve', $transfer->id)"
-                        action="approve"
-                        intention="approve this transfer"
-                        icon="fas fa-signature"
-                        label="Approve Transfer"
-                        class="has-text-weight-medium"
+            <x-common.dropdown name="Actions">
+                @if (!$transfer->isApproved())
+                    @can('Approve Transfer')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('transfers.approve', $transfer->id)"
+                                action="approve"
+                                intention="approve this transfer"
+                                icon="fas fa-signature"
+                                label="Approve Transfer"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif(!$transfer->isSubtracted())
+                    @can('Make Transfer')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('transfers.subtract', $transfer->id)"
+                                action="subtract"
+                                intention="subtract products of this transfer"
+                                icon="fas fa-minus-circle"
+                                label="Subtract from inventory"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif(!$transfer->isAdded())
+                    @can('Make Transfer')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('transfers.add', $transfer->id)"
+                                action="add"
+                                intention="add products of this transfer"
+                                icon="fas fa-plus-circle"
+                                label="Add to inventory"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                @if ($transfer->isAdded() && !$transfer->isClosed())
+                    <x-common.dropdown-item>
+                        <x-common.transaction-button
+                            :route="route('transfers.close', $transfer->id)"
+                            action="close"
+                            intention="close this transfer"
+                            icon="fas fa-ban"
+                            label="Close"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                        />
+                    </x-common.dropdown-item>
+                @endif
+                @if ($transfer->isSubtracted() && !$transfer->isClosed())
+                    @can('Create SIV')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('transfers.convert_to_siv', $transfer->id)"
+                                action="attach"
+                                intention="attach SIV to this transfer"
+                                icon="fas fa-file-export"
+                                label="Attach SIV"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('transfers.edit', $transfer->id) }}"
+                        mode="button"
+                        icon="fas fa-pen"
+                        label="Edit"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
                     />
-                @endcan
-            @elseif(!$transfer->isSubtracted())
-                @can('Make Transfer')
-                    <x-common.transaction-button
-                        :route="route('transfers.subtract', $transfer->id)"
-                        action="subtract"
-                        intention="subtract products of this transfer"
-                        icon="fas fa-minus-circle"
-                        label="Subtract from inventory"
-                        class="has-text-weight-medium"
-                    />
-                @endcan
-            @elseif(!$transfer->isAdded())
-                @can('Make Transfer')
-                    <x-common.transaction-button
-                        :route="route('transfers.add', $transfer->id)"
-                        action="add"
-                        intention="add products of this transfer"
-                        icon="fas fa-plus-circle"
-                        label="Add to inventory"
-                        class="has-text-weight-medium"
-                    />
-                @endcan
-            @endif
-            @if ($transfer->isAdded() && !$transfer->isClosed())
-                <x-common.transaction-button
-                    :route="route('transfers.close', $transfer->id)"
-                    action="close"
-                    intention="close this transfer"
-                    icon="fas fa-ban"
-                    label="Close"
-                />
-            @endif
-            @if ($transfer->isSubtracted() && !$transfer->isClosed())
-                @can('Create SIV')
-                    <x-common.transaction-button
-                        :route="route('transfers.convert_to_siv', $transfer->id)"
-                        action="attach"
-                        intention="attach SIV to this transfer"
-                        icon="fas fa-file-export"
-                        label="Attach SIV"
-                    />
-                @endcan
-            @endif
-            <x-common.button
-                tag="a"
-                href="{{ route('transfers.edit', $transfer->id) }}"
-                mode="button"
-                icon="fas fa-pen"
-                label="Edit"
-                class="is-small bg-green has-text-white"
-            />
+                </x-common.dropdown-item>
+            </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
