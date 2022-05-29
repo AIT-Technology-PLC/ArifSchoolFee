@@ -33,7 +33,10 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Details">
+        <x-content.header
+            title="Details"
+            is-mobile
+        >
             <x-common.dropdown name="Actions">
                 @if (!$damage->isApproved())
                     @can('Approve Damage')
@@ -43,8 +46,8 @@
                                 action="approve"
                                 intention="approve this damage claim"
                                 icon="fas fa-signature"
-                                label="Approve Damage"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                label="Approve"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -56,8 +59,8 @@
                                 action="subtract"
                                 intention="subtract the damaged products"
                                 icon="fas fa-minus-circle"
-                                label="Subtract from inventory"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                label="Subtract"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -69,7 +72,7 @@
                         mode="button"
                         icon="fas fa-pen"
                         label="Edit"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
             </x-common.dropdown>

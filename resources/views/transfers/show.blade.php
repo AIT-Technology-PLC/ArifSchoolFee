@@ -47,7 +47,10 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Details">
+        <x-content.header
+            title="Details"
+            is-mobile
+        >
             <x-common.dropdown name="Actions">
                 @if (!$transfer->isApproved())
                     @can('Approve Transfer')
@@ -57,8 +60,8 @@
                                 action="approve"
                                 intention="approve this transfer"
                                 icon="fas fa-signature"
-                                label="Approve Transfer"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                label="Approve"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -70,8 +73,8 @@
                                 action="subtract"
                                 intention="subtract products of this transfer"
                                 icon="fas fa-minus-circle"
-                                label="Subtract from inventory"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                label="Subtract"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -83,8 +86,8 @@
                                 action="add"
                                 intention="add products of this transfer"
                                 icon="fas fa-plus-circle"
-                                label="Add to inventory"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                label="Add"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -97,7 +100,7 @@
                             intention="close this transfer"
                             icon="fas fa-ban"
                             label="Close"
-                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
                 @endif
@@ -110,7 +113,7 @@
                                 intention="attach SIV to this transfer"
                                 icon="fas fa-file-export"
                                 label="Attach SIV"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -122,7 +125,7 @@
                         mode="button"
                         icon="fas fa-pen"
                         label="Edit"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
             </x-common.dropdown>

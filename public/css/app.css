@@ -371,8 +371,9 @@ td {
 .is-transparent-color {
     background-color: transparent !important;
 }
-.dropdown-item:hover{
+.dropdown-item:hover {
     background-color: hsl(0, 0%, 96%) !important;
+    cursor: pointer !important;
 }
 
 /* Override bootstrap table classes */

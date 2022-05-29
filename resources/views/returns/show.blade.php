@@ -54,7 +54,10 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Details">
+        <x-content.header
+            title="Details"
+            is-mobile
+        >
             <x-common.dropdown name="Actions">
                 @if (!$return->isApproved())
                     @can('Approve Return')
@@ -64,8 +67,8 @@
                                 action="approve"
                                 intention="approve this return"
                                 icon="fas fa-signature"
-                                label="Approve Return"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                label="Approve"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -77,8 +80,8 @@
                                 action="add"
                                 intention="add products of this return voucher"
                                 icon="fas fa-plus-circle"
-                                label="Add to Inventory"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                label="Add"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -92,7 +95,7 @@
                             mode="button"
                             icon="fas fa-print"
                             label="Print"
-                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
                 @endif
@@ -103,7 +106,7 @@
                         mode="button"
                         icon="fas fa-pen"
                         label="Edit"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
             </x-common.dropdown>

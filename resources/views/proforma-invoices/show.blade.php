@@ -77,7 +77,10 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Details">
+        <x-content.header
+            title="Details"
+            is-mobile
+        >
             <x-common.dropdown name="Actions">
                 @if ($proformaInvoice->isPending())
                     @can('Convert Proforma Invoice')
@@ -88,7 +91,7 @@
                                 intention="confirm this proforma invoice"
                                 icon="fas fa-check-circle"
                                 label="Confirm"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -100,7 +103,7 @@
                                 intention="cancel this proforma invoice"
                                 icon="fas fa-times"
                                 label="Cancel"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -113,7 +116,7 @@
                             intention="close this proforma invoice"
                             icon="fas fa-ban"
                             label="Close"
-                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
                     @can('Create GDN')
@@ -124,7 +127,7 @@
                                 mode="button"
                                 icon="fas fa-file-invoice"
                                 label="Convert to DO"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -138,7 +141,7 @@
                             mode="button"
                             icon="fas fa-print"
                             label="Print"
-                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
                 @endif
@@ -149,7 +152,7 @@
                         mode="button"
                         icon="fas fa-pen"
                         label="Edit"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
             </x-common.dropdown>

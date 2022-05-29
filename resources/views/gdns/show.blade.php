@@ -109,7 +109,10 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Details">
+        <x-content.header
+            title="Details"
+            is-mobile
+        >
             <x-common.dropdown name="Actions">
                 @if (!$gdn->isApproved())
                     @can('Approve GDN')
@@ -120,7 +123,7 @@
                                 intention="approve this delivery order"
                                 icon="fas fa-signature"
                                 label="Approve"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -132,8 +135,8 @@
                                 action="subtract"
                                 intention="subtract products of this delivery order"
                                 icon="fas fa-minus-circle"
-                                label="Subtract from inventory"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                label="Subtract"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -147,7 +150,7 @@
                                 intention="convert this delivery order to credit"
                                 icon="fas fa-money-check"
                                 label="Convert to Credit"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -160,7 +163,7 @@
                             intention="close this delivery order"
                             icon="fas fa-ban"
                             label="Close"
-                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
                 @endif
@@ -173,7 +176,7 @@
                             mode="button"
                             icon="fas fa-print"
                             label="Print"
-                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
                 @endif
@@ -186,7 +189,7 @@
                                 intention="attach SIV to this delivery order"
                                 icon="fas fa-file-export"
                                 label="Attach SIV"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -198,7 +201,7 @@
                         mode="button"
                         icon="fas fa-pen"
                         label="Edit"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
             </x-common.dropdown>

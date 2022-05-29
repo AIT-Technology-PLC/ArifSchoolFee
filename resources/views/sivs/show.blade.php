@@ -7,7 +7,7 @@
         <x-content.header title="General Information" />
         <x-content.footer>
             <div class="columns is-marginless is-multiline">
-                <div class="column is-6"></div>
+                <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-file-export"
                         :data="$siv->code ?? 'N/A'"
@@ -68,7 +68,10 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Details">
+        <x-content.header
+            title="Details"
+            is-mobile
+        >
             <x-common.dropdown name="Actions">
                 @if ($siv->isApproved())
                     <x-common.dropdown-item>
@@ -79,7 +82,7 @@
                             mode="button"
                             icon="fas fa-print"
                             label="Print"
-                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
                 @elseif(!$siv->isApproved())
@@ -90,8 +93,8 @@
                                 action="approve"
                                 intention="approve this SIV"
                                 icon="fas fa-signature"
-                                label="Approve SIV"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                                label="Approve"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
@@ -103,7 +106,7 @@
                         mode="button"
                         icon="fas fa-pen"
                         label="Edit"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
             </x-common.dropdown>
