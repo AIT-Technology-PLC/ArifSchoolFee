@@ -30,39 +30,48 @@
     </div>
 
     <x-common.content-wrapper>
-        <x-content.header title="Store Issue Vouchers">
-            @if ($totalUnreadNotifications)
-                <form
-                    x-data="swal('mark all as read', 'mark all notifications as read')"
-                    class="is-inline"
-                    action="{{ route('notifications.markAllAsRead') }}"
-                    method="POST"
-                    enctype="multipart/form-data"
-                    novalidate
-                    @submit.prevent="open"
-                >
-                    @csrf
-                    @method('PATCH')
-                    <x-common.button
-                        tag="button"
-                        mode="button"
-                        icon="fas fa-check-double"
-                        label="Mark all as read"
-                        class="is-small btn-green is-outlined has-text-weight-medium"
-                        x-ref="submitButton"
-                    />
-                </form>
-            @endif
-            @if ($totalNotifications)
-                <x-common.transaction-button
-                    :route="route('notifications.delete_all')"
-                    action="delete"
-                    intention="delete all of the notifications"
-                    icon="fas fa-trash"
-                    label="Delete All"
-                    class="has-text-weight-medium"
-                />
-            @endif
+        <x-content.header
+            title="Notifications"
+            is-mobile
+        >
+            <x-common.dropdown name="Actions">
+                @if ($totalUnreadNotifications)
+                    <x-common.dropdown-item>
+                        <form
+                            x-data="swal('mark all as read', 'mark all notifications as read')"
+                            class="is-inline"
+                            action="{{ route('notifications.markAllAsRead') }}"
+                            method="POST"
+                            enctype="multipart/form-data"
+                            novalidate
+                            @submit.prevent="open"
+                        >
+                            @csrf
+                            @method('PATCH')
+                            <x-common.button
+                                tag="button"
+                                mode="button"
+                                icon="fas fa-check-double"
+                                label="Mark all as read"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                                x-ref="submitButton"
+                            />
+                        </form>
+                    </x-common.dropdown-item>
+                @endif
+                @if ($totalNotifications)
+                    <x-common.dropdown-item>
+                        <x-common.transaction-button
+                            :route="route('notifications.delete_all')"
+                            action="delete"
+                            intention="delete all of the notifications"
+                            icon="fas fa-trash"
+                            label="Delete All"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                @endif
+            </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
