@@ -9,7 +9,7 @@
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-file-invoice"
+                        icon="fas fa-arrow-alt-circle-left"
                         :data="$return->code ?? 'N/A'"
                         label="Return No"
                     />
