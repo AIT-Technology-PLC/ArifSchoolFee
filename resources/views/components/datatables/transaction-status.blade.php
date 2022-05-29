@@ -7,7 +7,7 @@
             Cancelled
         </span>
     </span>
-@elseif ($transaction->pad->isClosable() && $transaction->isClosed())
+@elseif ($transaction->pad->isClosableOnly() && $transaction->isClosed())
     <span class="tag is-small bg-gold has-text-white">
         <span class="icon">
             <i class="fas fa-times-circle"></i>
