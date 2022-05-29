@@ -7,9 +7,9 @@
         <x-content.header title="General Information" />
         <x-content.footer>
             <div class="columns is-marginless is-multiline">
-                <div class="column is-6">
+                <div class="column is-6"></div>
                     <x-common.show-data-section
-                        icon="fas fa-file-invoice"
+                        icon="fas fa-file-export"
                         :data="$siv->code ?? 'N/A'"
                         label="SIV No"
                     />
