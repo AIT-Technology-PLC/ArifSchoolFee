@@ -5,7 +5,7 @@
         <button class="button is-small btn-green is-outlined">
             <span>{{ $name }}</span>
             <span class="icon is-small">
-                <i class="fas fa-angle-down"></i>
+                <i class="fas fa-ellipsis-v"></i>
             </span>
         </button>
     </div>
