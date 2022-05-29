@@ -368,6 +368,12 @@ td {
     border-color: none !important;
     color: none !important;
 }
+.is-transparent-color {
+    background-color: transparent !important;
+}
+.dropdown-item:hover{
+    background-color: hsl(0, 0%, 96%) !important;
+}
 
 /* Override bootstrap table classes */
 .table.table-bordered {
