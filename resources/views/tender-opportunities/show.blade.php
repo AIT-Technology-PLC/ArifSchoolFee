@@ -5,14 +5,18 @@
 @section('content')
     <x-common.content-wrapper>
         <x-content.header title="General Information">
-            <x-common.button
-                tag="a"
-                :href="route('tender-opportunities.edit', $tenderOpportunity->id)"
-                mode="button"
-                icon="fas fa-pen"
-                label="Edit"
-                class="btn-green is-outlined is-small"
-            />
+            <x-common.dropdown name="Actions">
+                <x-common.dropdown-item></x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        :href="route('tender-opportunities.edit', $tenderOpportunity->id)"
+                        mode="button"
+                        icon="fas fa-pen"
+                        label="Edit"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                    />
+                </x-common.dropdown-item>
+            </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <div class="columns is-marginless is-multiline">
