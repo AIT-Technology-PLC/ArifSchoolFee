@@ -88,8 +88,11 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Details">
-            <x-common.dropdown name="Actions"></x-common.dropdown>
+        <x-content.header
+            title="Details"
+            is-mobile
+        >
+            <x-common.dropdown name="Actions">
                 @if (!$purchase->isApproved())
                     @can('Approve Purchase')
                         <x-common.dropdown-item>

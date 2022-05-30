@@ -92,7 +92,10 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Credit Settlements">
+        <x-content.header
+            title="Credit Settlements"
+            is-mobile
+        >
             <x-common.dropdown name="Actions">
                 @if (!$credit->isSettled())
                     @can('Settle Credit')

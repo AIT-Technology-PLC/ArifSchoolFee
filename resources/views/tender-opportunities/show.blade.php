@@ -4,9 +4,12 @@
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="General Information">
+        <x-content.header
+            title="General Information"
+            is-mobile
+        >
             <x-common.dropdown name="Actions">
-                <x-common.dropdown-item></x-common.dropdown-item>
+                <x-common.dropdown-item>
                     <x-common.button
                         tag="a"
                         :href="route('tender-opportunities.edit', $tenderOpportunity->id)"
