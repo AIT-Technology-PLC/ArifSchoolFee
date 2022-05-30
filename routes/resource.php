@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\Resource as Resource;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Resource as Resource;
+use App\Http\Controllers\BillOfMaterialController;
+use App\Http\Controllers\BillOfMaterialDetailController;
 
 Route::resource('products', Resource\ProductController::class)->except('show');
 
@@ -96,3 +98,6 @@ Route::resource('pad-fields', Resource\PadFieldController::class)->only('destroy
 Route::resource('pads.transactions', Resource\TransactionController::class)->shallow()->except(['store', 'update']);
 
 Route::resource('transaction-fields', Resource\TransactionFieldController::class)->only(['destroy']);
+
+Route::resource('bill-of-materials', Resource\BillOfMaterialController::class);
+Route::resource('bill-of-material-details', Resource\BillOfMaterialDetailController::class)->only(['destroy']);
