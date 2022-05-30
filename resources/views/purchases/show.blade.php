@@ -88,60 +88,76 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Details">
-            @if (!$purchase->isApproved())
-                @can('Approve Purchase')
-                    <x-common.transaction-button
-                        :route="route('purchases.approve', $purchase->id)"
-                        action="approve"
-                        intention="approve this purchase"
-                        icon="fas fa-signature"
-                        label="Approve Purchase"
-                        class="has-text-weight-medium"
-                    />
-                @endcan
-            @elseif(!$purchase->isPurchased())
-                @can('Make Purchase')
-                    <x-common.transaction-button
-                        :route="route('purchases.purchase', $purchase->id)"
-                        action="execute"
-                        intention="execute this purchase"
-                        icon="fas fa-eraser"
-                        label="Execute Purchase"
-                        class="has-text-weight-medium"
-                    />
-                @endcan
-            @elseif(!$purchase->isClosed())
-                @if (isFeatureEnabled('Grn Management'))
-                    @can('Create GRN')
-                        <x-common.button
-                            tag="a"
-                            icon="fas fa-plus"
-                            label="Issue GRN"
-                            mode="button"
-                            :href="route('purchases.convert_to_grn', $purchase->id)"
-                            class="is-small btn-purple is-outlined"
-                        />
+        <x-content.header
+            title="Details"
+            is-mobile
+        >
+            <x-common.dropdown name="Actions">
+                @if (!$purchase->isApproved())
+                    @can('Approve Purchase')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('purchases.approve', $purchase->id)"
+                                action="approve"
+                                intention="approve this purchase"
+                                icon="fas fa-signature"
+                                label="Approve Purchase"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif(!$purchase->isPurchased())
+                    @can('Make Purchase')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('purchases.purchase', $purchase->id)"
+                                action="execute"
+                                intention="execute this purchase"
+                                icon="fas fa-eraser"
+                                label="Execute Purchase"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif(!$purchase->isClosed())
+                    @if (isFeatureEnabled('Grn Management'))
+                        @can('Create GRN')
+                            <x-common.dropdown-item>
+                                <x-common.button
+                                    tag="a"
+                                    icon="fas fa-plus"
+                                    label="Issue GRN"
+                                    mode="button"
+                                    :href="route('purchases.convert_to_grn', $purchase->id)"
+                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                                />
+                            </x-common.dropdown-item>
+                        @endcan
+                    @endif
+                    @can('Close Purchase')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('purchases.close', $purchase->id)"
+                                action="close"
+                                intention="close this purchase"
+                                icon="fas fa-ban"
+                                label="Close"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
                     @endcan
                 @endif
-                @can('Close Purchase')
-                    <x-common.transaction-button
-                        :route="route('purchases.close', $purchase->id)"
-                        action="close"
-                        intention="close this purchase"
-                        icon="fas fa-ban"
-                        label="Close"
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('purchases.edit', $purchase->id) }}"
+                        mode="button"
+                        icon="fas fa-pen"
+                        label="Edit"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
-                @endcan
-            @endif
-            <x-common.button
-                tag="a"
-                href="{{ route('purchases.edit', $purchase->id) }}"
-                mode="button"
-                icon="fas fa-pen"
-                label="Edit"
-                class="is-small bg-green has-text-white"
-            />
+                </x-common.dropdown-item>
+            </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />

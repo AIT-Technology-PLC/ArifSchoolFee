@@ -5,16 +5,6 @@
 @section('content')
     <x-common.content-wrapper>
         <x-content.header title="General Information">
-            @can('Update Credit')
-                <x-common.button
-                    tag="a"
-                    href="{{ route('credits.edit', $credit->id) }}"
-                    mode="button"
-                    icon="fas fa-pen"
-                    label="Edit Credit"
-                    class="btn-purple is-outlined is-small"
-                />
-            @endcan
         </x-content.header>
         <x-content.footer>
             <div class="columns is-marginless is-multiline">
@@ -102,19 +92,38 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Credit Settlements">
-            @if (!$credit->isSettled())
-                @can('Settle Credit')
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('credits.credit-settlements.create', $credit->id) }}"
-                        mode="button"
-                        icon="fas fa-money-check"
-                        label="Add Settlement"
-                        class="is-small btn-purple is-outlined"
-                    />
+        <x-content.header
+            title="Credit Settlements"
+            is-mobile
+        >
+            <x-common.dropdown name="Actions">
+                @if (!$credit->isSettled())
+                    @can('Settle Credit')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="a"
+                                href="{{ route('credits.credit-settlements.create', $credit->id) }}"
+                                mode="button"
+                                icon="fas fa-money-check"
+                                label="Add Settlement"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                @can('Update Credit')
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('credits.edit', $credit->id) }}"
+                            mode="button"
+                            icon="fas fa-pen"
+                            label="Edit"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
                 @endcan
-            @endif
+            </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
