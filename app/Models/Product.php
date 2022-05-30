@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\BillOfMaterial;
+use App\Models\BillOfMaterialDetail;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -33,6 +35,8 @@ class Product extends Model
         'returnDetails',
         'reservationDetails',
         'price',
+        'billOfMaterials',
+        'billOfMaterialDetails',
     ];
 
     public function merchandises()
@@ -108,6 +112,16 @@ class Product extends Model
     public function reservationDetails()
     {
         return $this->hasMany(ReservationDetail::class);
+    }
+
+    public function billOfMaterials()
+    {
+        return $this->hasMany(BillOfMaterial::class);
+    }
+
+    public function billOfMaterialDetails()
+    {
+        return $this->hasMany(BillOfMaterialDetail::class);
     }
 
     public function price()
