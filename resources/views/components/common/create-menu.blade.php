@@ -17,6 +17,37 @@
                 <span> Create New </span>
             </h1>
 
+            @canany(['Create BOM'])
+                <x-content.header>
+                    <x-slot name="header">
+                        <x-common.icon
+                            name="fas fa-warehouse"
+                            class="is-size-6 text-green"
+                        />
+                        <span class="ml-2 is-size-6 text-green"> Production </span>
+                    </x-slot>
+                </x-content.header>
+                <x-content.footer>
+                    <div class="columns is-marginless is-multiline is-mobile">
+                        @can('Create BOM')
+                            @if (isFeatureEnabled('Bill Of Material Management'))
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                    <x-common.button
+                                        tag="a"
+                                        mode="button"
+                                        href="{{ route('bill-of-materials.create') }}"
+                                        icon="fas fa-file-import"
+                                        class="text-green bg-lightgreen is-borderless"
+                                    />
+                                    <br>
+                                    <span class="is-size-7"> New Bill Of Material </span>
+                                </div>
+                            @endif
+                        @endcan
+                    </div>
+                </x-content.footer>
+            @endcanany
+
             @canany(['Create Merchandise', 'Create Warehouse', 'Create GRN', 'Create Transfer', 'Create Damage', 'Create Adjustment', 'Create SIV'])
                 <x-content.header>
                     <x-slot name="header">
@@ -127,17 +158,17 @@
 
                         @foreach (pads('Warehouse & Inventory') as $pad)
                             @canpad('Create', $pad)
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                    <x-common.button
-                                        tag="a"
-                                        mode="button"
-                                        href="{{ route('pads.transactions.create', $pad->id) }}"
-                                        icon="{{ $pad->icon }}"
-                                        class="text-green bg-lightgreen is-borderless"
-                                    />
-                                    <br>
-                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
-                                </div>
+                            <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                <x-common.button
+                                    tag="a"
+                                    mode="button"
+                                    href="{{ route('pads.transactions.create', $pad->id) }}"
+                                    icon="{{ $pad->icon }}"
+                                    class="text-green bg-lightgreen is-borderless"
+                                />
+                                <br>
+                                <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
+                            </div>
                             @endcanpad
                         @endforeach
                     </div>
@@ -288,17 +319,17 @@
 
                         @foreach (pads('Sales & Customers') as $pad)
                             @canpad('Create', $pad)
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                    <x-common.button
-                                        tag="a"
-                                        mode="button"
-                                        href="{{ route('pads.transactions.create', $pad->id) }}"
-                                        icon="{{ $pad->icon }}"
-                                        class="text-green bg-lightgreen is-borderless"
-                                    />
-                                    <br>
-                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
-                                </div>
+                            <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                <x-common.button
+                                    tag="a"
+                                    mode="button"
+                                    href="{{ route('pads.transactions.create', $pad->id) }}"
+                                    icon="{{ $pad->icon }}"
+                                    class="text-green bg-lightgreen is-borderless"
+                                />
+                                <br>
+                                <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
+                            </div>
                             @endcanpad
                         @endforeach
                     </div>
@@ -426,17 +457,17 @@
 
                         @foreach (pads('Purchases & Suppliers') as $pad)
                             @canpad('Create', $pad)
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                    <x-common.button
-                                        tag="a"
-                                        mode="button"
-                                        href="{{ route('pads.transactions.create', $pad->id) }}"
-                                        icon="{{ $pad->icon }}"
-                                        class="text-green bg-lightgreen is-borderless"
-                                    />
-                                    <br>
-                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
-                                </div>
+                            <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                <x-common.button
+                                    tag="a"
+                                    mode="button"
+                                    href="{{ route('pads.transactions.create', $pad->id) }}"
+                                    icon="{{ $pad->icon }}"
+                                    class="text-green bg-lightgreen is-borderless"
+                                />
+                                <br>
+                                <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
+                            </div>
                             @endcanpad
                         @endforeach
                     </div>
@@ -531,17 +562,17 @@
 
                         @foreach (pads('General Settings') as $pad)
                             @canpad('Create', $pad)
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                    <x-common.button
-                                        tag="a"
-                                        mode="button"
-                                        href="{{ route('pads.transactions.create', $pad->id) }}"
-                                        icon="{{ $pad->icon }}"
-                                        class="text-green bg-lightgreen is-borderless"
-                                    />
-                                    <br>
-                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
-                                </div>
+                            <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                <x-common.button
+                                    tag="a"
+                                    mode="button"
+                                    href="{{ route('pads.transactions.create', $pad->id) }}"
+                                    icon="{{ $pad->icon }}"
+                                    class="text-green bg-lightgreen is-borderless"
+                                />
+                                <br>
+                                <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
+                            </div>
                             @endcanpad
                         @endforeach
                     </div>
