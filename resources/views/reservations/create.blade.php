@@ -138,7 +138,9 @@
                                     rows="3"
                                     class="textarea pl-6"
                                     placeholder="Description or note to be taken"
->{{ old('description') ?? '' }}</textarea>
+                                >
+                                    {{ old('description') ?? '' }}
+                                </textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-edit"></i>
                                 </span>
@@ -302,7 +304,7 @@
                                 <label
                                     for="due_date"
                                     class="label text-green has-text-weight-normal"
-                                > Credit Due Date <sup class="has-text-danger"></sup> </label>
+                                > Credit Due Date <sup class="has-text-danger">*</sup> </label>
                                 <div class="control has-icons-left">
                                     <input
                                         class="input"
@@ -448,7 +450,7 @@
                                                     type="number"
                                                     class="input"
                                                     placeholder="Quantity"
-                                                    value="{{ $reservationDetail['quantity'] ?? ('' ?? '') }}"
+                                                    value="{{ $reservationDetail['quantity'] ?? '' }}"
                                                 >
                                                 <span class="icon is-small is-left">
                                                     <i class="fas fa-balance-scale"></i>
@@ -476,9 +478,7 @@
                                         <label
                                             for="reservation[{{ $loop->index }}][unit_price]"
                                             class="label text-green has-text-weight-normal"
-                                        >Unit Price<sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup>
-                                            <unit_price class="has-text-danger"></sup>
-                                        </label>
+                                        >Unit Price <sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }}) </sup> </label>
                                         <div class="field has-addons">
                                             <div class="control has-icons-left is-expanded">
                                                 <input
@@ -555,7 +555,9 @@
                                                     rows="3"
                                                     class="textarea pl-6"
                                                     placeholder="Description or note to be taken"
->{{ $reservationDetail['description'] ?? ('' ?? '') }}</textarea>
+                                                >
+                                                    {{ $reservationDetail['description'] ?? '' }}
+                                                </textarea>
                                                 <span class="icon is-large is-left">
                                                     <i class="fas fa-edit"></i>
                                                 </span>

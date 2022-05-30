@@ -392,7 +392,7 @@ function addReservationDetail() {
         .querySelectorAll(".column")[0]
         .querySelectorAll(
             "select"
-        ).name = `reservation[${totalReservationDetails}][product_id]`;
+        )[1].name = `reservation[${totalReservationDetails}][product_id]`;
 
     reservationDetail
         .querySelectorAll(".column")[0]
