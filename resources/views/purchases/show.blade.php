@@ -101,7 +101,7 @@
                                 action="approve"
                                 intention="approve this purchase"
                                 icon="fas fa-signature"
-                                label="Approve Purchase"
+                                label="Approve"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
@@ -113,8 +113,8 @@
                                 :route="route('purchases.purchase', $purchase->id)"
                                 action="execute"
                                 intention="execute this purchase"
-                                icon="fas fa-eraser"
-                                label="Execute Purchase"
+                                icon="fas fa-check"
+                                label="Execute"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
