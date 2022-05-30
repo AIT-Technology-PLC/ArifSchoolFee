@@ -18,5 +18,10 @@ class Plans extends Seeder
             'name' => 'professional',
             'is_enabled' => 1,
         ]);
+
+        Plan::firstOrCreate([
+            'name' => 'premium',
+            'is_enabled' => 1,
+        ]);
     }
 }
