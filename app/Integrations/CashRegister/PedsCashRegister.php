@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\Http;
 
 class PedsCashRegister implements CashRegisterInterface
 {
+    private $sale;
+
+    public function __construct(Sale $sale)
+    {
+        $this->sale = $sale;
+    }
+
     private function getHeaders()
     {
         return [
@@ -15,9 +22,9 @@ class PedsCashRegister implements CashRegisterInterface
         ];
     }
 
-    private function getRequestBody($sale)
+    private function getRequestBody()
     {
-        $holdSalesItems = $sale
+        $holdSalesItems = $this->sale
             ->saleDetails
             ->map(function ($saleDetail) {
                 return [
@@ -37,44 +44,70 @@ class PedsCashRegister implements CashRegisterInterface
             ->toArray();
 
         $holdSales = [
-            'HoldSalesIdentifierId' => $sale->id,
+            'HoldSalesIdentifierId' => $this->sale->id,
             'TransactionType' => '0',
-            'InvoiceNo' => $sale->code,
-            'PaymentType' => $sale->payment_type == 'Cash Payment' ? '0' : '2',
+            'InvoiceNo' => $this->sale->code,
+            'PaymentType' => $this->sale->payment_type == 'Cash Payment' ? '0' : '2',
             // 'TableNumber' => '',
-            'SalesPerson' => $sale->createdBy->name,
+            'SalesPerson' => $this->sale->createdBy->name,
             // 'HoldMemo' => '',
-            'Date' => $sale->created_at,
-            'CustomerName' => $sale->customer->company_name,
-            'CustomerTIN' => $sale->customer?->tin,
+            'Date' => $this->sale->created_at,
+            'CustomerName' => $this->sale->customer->company_name,
+            'CustomerTIN' => $this->sale->customer?->tin,
             'CustomerVAT' => '',
-            'CashierUpdated' => $sale->updatedBy->name,
-            'POSId' => $sale->warehouse_id,
+            'CashierUpdated' => $this->sale->updatedBy->name,
+            'POSId' => $this->sale->warehouse_id,
             'HoldSalesItems' => $holdSalesItems,
         ];
 
         return $holdSales;
     }
 
-    public function create(Sale $sale)
+    public function create()
     {
-        return Http::withHeaders($this->getHeaders())
-            ->post('http://localhost:2010/PEDS/API/HoldSalesService/Add', $this->getRequestBody($sale));
+        $response = Http::withHeaders($this->getHeaders())
+            ->post('http://localhost:2010/PEDS/API/HoldSalesService/Add', $this->getRequestBody($this->sale));
+
+        return [$response['Success'], $response['Message']];
     }
 
-    public function cancel($saleCode)
+    public function void()
     {
-        return Http::withHeaders($this->getHeaders())
+        $response = Http::withHeaders($this->getHeaders())
             ->post('http://localhost:2010/PEDS/api/HoldSalesService/Void', [
-                'value' => $saleCode,
+                'value' => $this->sale->code,
             ]);
+
+        return [$response['Success'], $response['Message']];
     }
 
-    public function getStatus($saleCode)
+    public function exists()
     {
-        return Http::withHeaders($this->getHeaders())
-            ->post('http://localhost:2010/PEDS/api/HoldSalesService/Void', [
-                'value' => $saleCode,
+        $response = Http::withHeaders($this->getHeaders())
+            ->post('http://localhost:2010/PEDS/api/HoldSalesService/Exists', [
+                'value' => $this->sale->code,
             ]);
+
+        return [$response['Success'], $response['Message']];
+    }
+
+    public function getStatus()
+    {
+        $response = Http::withHeaders($this->getHeaders())
+            ->post('http://localhost:2010/PEDS/api/HoldSalesService/GetInvoiceStatus', [
+                'value' => $this->sale->code,
+            ]);
+
+        return $response;
+    }
+
+    public function isVoid()
+    {
+        return $this->getStatus()['Content']['IsVoid'];
+    }
+
+    public function isPrinted()
+    {
+        return $this->getStatus()['Content']['IsPrinted'];
     }
 }

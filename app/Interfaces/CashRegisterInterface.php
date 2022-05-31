@@ -2,13 +2,17 @@
 
 namespace App\Interfaces;
 
-use App\Models\Sale;
-
 interface CashRegisterInterface
 {
-    public function create(Sale $sale);
+    public function create();
 
-    public function cancel($saleCode);
+    public function void();
 
-    public function getStatus($saleCode);
+    public function exists();
+
+    public function getStatus();
+
+    public function isVoid();
+
+    public function isPrinted();
 }

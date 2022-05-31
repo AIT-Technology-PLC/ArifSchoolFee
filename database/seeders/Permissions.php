@@ -40,6 +40,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Subtract GDN']);
             Permission::firstOrCreate(['name' => 'Close GDN']);
             Permission::firstOrCreate(['name' => 'Delete Approved GDN']);
+            Permission::firstOrCreate(['name' => 'Convert To Credit']);
 
             // GRN
             Permission::firstOrCreate(['name' => 'Create GRN']);
