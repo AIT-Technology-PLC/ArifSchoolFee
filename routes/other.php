@@ -21,7 +21,7 @@ Route::get('/history/products/{product}/warehouses/{warehouse}',
 Route::get('/merchandises/{type}',
     Invokable\MerchandiseInventoryLevelController::class)
     ->name('merchandises.index')
-    ->where('type', 'on-hand|available|reserved|out-of-stock');
+    ->where('type', 'on-hand|available|wip|reserved|out-of-stock');
 
 Route::get('/warehouses/{warehouse}/merchandises',
     Invokable\MerchandiseInventoryLevelByWarehouseController::class)

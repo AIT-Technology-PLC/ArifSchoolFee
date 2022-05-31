@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Rules\MustBelongToCompany;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreProductRequest extends FormRequest
 {
@@ -17,7 +17,7 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'string', 'max:255', Rule::in(['Merchandise Inventory'])],
+            'type' => ['required', 'string', 'max:255', Rule::when(userCompany()->pad->isPremium(), Rule::in(['Finished Goods', 'Raw Material']), Rule::in(['Finished Goods']))],
             'code' => ['nullable', 'string', 'max:255'],
             'unit_of_measurement' => ['required', 'string', 'max:255'],
             'min_on_hand' => ['required', 'numeric'],
