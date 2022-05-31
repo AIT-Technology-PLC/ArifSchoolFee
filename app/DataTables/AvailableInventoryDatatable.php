@@ -70,6 +70,8 @@ class AvailableInventoryDatatable extends DataTable
             ->where('merchandises.company_id', '=', userCompany()->id)
             ->when(request('level') == 'sufficient', fn($query) => $query->whereNotIn('products.id', $limitedProducts))
             ->when(request('level') == 'limited', fn($query) => $query->whereIn('products.id', $limitedProducts))
+            ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
+            ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
             ->where('merchandises.available', '>', 0)
             ->whereIn('warehouses.id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
             ->select([
@@ -77,6 +79,7 @@ class AvailableInventoryDatatable extends DataTable
                 'products.id as product_id',
                 'products.name as product',
                 'products.code as code',
+                'products.type as type',
                 'products.unit_of_measurement as unit',
                 'products.min_on_hand as min_on_hand',
                 'product_categories.name as category',
@@ -94,6 +97,7 @@ class AvailableInventoryDatatable extends DataTable
                 'code' => $merchandiseValue->first()->code ?? '',
                 'product_id' => $merchandiseValue->first()->product_id,
                 'unit' => $merchandiseValue->first()->unit,
+                'type' => $merchandiseValue->first()->type,
                 'min_on_hand' => $merchandiseValue->first()->min_on_hand,
                 'category' => $merchandiseValue->first()->category,
                 'total balance' => $merchandiseValue->sum('available'),
@@ -119,6 +123,7 @@ class AvailableInventoryDatatable extends DataTable
                 'sortable' => false,
             ],
             'product',
+            'type',
             'category',
             ...$warehouses,
             'total balance',

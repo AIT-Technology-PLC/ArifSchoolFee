@@ -14,11 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('prodcuts', function (Blueprint $table) {
-            //
-        });
         DB::table('products')->update(['type' => 'Finished Goods']);
-
     }
 
     /**
@@ -28,9 +24,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('prodcuts', function (Blueprint $table) {
-            //
-        });
         DB::table('products')->update(['type' => 'Merchandise Inventory']);
     }
 };
