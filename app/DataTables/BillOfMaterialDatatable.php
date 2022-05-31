@@ -2,10 +2,11 @@
 
 namespace App\DataTables;
 
-use Yajra\DataTables\Html\Button;
+use App\Models\BillOfMaterial;
+use App\Traits\DataTableHtmlBuilder;
+use Illuminate\Support\Arr;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
-use Yajra\DataTables\Contracts\DataTableHtmlBuilder;
 
 class BillOfMaterialDatatable extends DataTable
 {
@@ -15,44 +16,51 @@ class BillOfMaterialDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'billofmaterialdatatable.action');
+            ->setRowClass('is-clickable')
+            ->setRowAttr([
+                'data-url' => fn($billOfMaterial) => route('bill-of-materials.show', $billOfMaterial->id),
+                'x-data' => 'showRowDetails',
+                '@click' => 'showDetails',
+            ])
+            ->editColumn('name', fn($billOfMaterial) => $billOfMaterial->name)
+            ->editColumn('product', fn($billOfMaterial) => $billOfMaterial->product->name)
+            ->editColumn('prepared by', fn($billOfMaterial) => $billOfMaterial->createdBy->name)
+            ->editColumn('edited by', fn($billOfMaterial) => $billOfMaterial->updatedBy->name)
+            ->editColumn('actions', function ($billOfMaterial) {
+                return view('components.common.action-buttons', [
+                    'model' => 'bill-of-materials',
+                    'id' => $billOfMaterial->id,
+                    'buttons' => 'all',
+                ]);
+            })
+            ->addIndexColumn();
     }
 
-    public function query(BillOfMaterialDatatable $model)
+    public function query(BillOfMaterial $billOfMaterial)
     {
-        return $model->newQuery();
-    }
-
-    public function html()
-    {
-        return $this->builder()
-            ->setTableId('billofmaterialdatatable-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Bfrtip')
-            ->orderBy(1)
-            ->buttons(
-                Button::make('create'),
-                Button::make('export'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
-            );
+        return $billOfMaterial
+            ->newQuery()
+            ->select('bill_of_materials.*')
+            ->with([
+                'billOfMaterialDetails',
+                'createdBy:id,name',
+                'updatedBy:id,name',
+                'product:id,name',
+            ]);
     }
 
     protected function getColumns()
     {
-        return [
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+        $columns = [
+            Column::computed('#'),
+            Column::make('name'),
+            Column::make('product', 'product.name'),
+            Column::make('prepared by', 'createdBy.name'),
+            Column::make('edited by', 'updatedBy.name')->visible(false),
+            Column::computed('actions')->className('actions'),
         ];
+
+        return Arr::where($columns, fn($column) => $column != null);
     }
 
     protected function filename()

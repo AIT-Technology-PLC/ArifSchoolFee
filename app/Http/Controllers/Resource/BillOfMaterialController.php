@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
 use App\DataTables\BillOfMaterialDatatable;
 use App\DataTables\BillOfMaterialDetailDatatable;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBillOfMaterialRequest;
 use App\Http\Requests\UpdateBillOfMaterialRequest;
 use App\Models\BillOfMaterial;
@@ -23,8 +24,10 @@ class BillOfMaterialController extends Controller
         $datatable->builder()->setTableId('bill-of-materials-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
         $totalBillOfMaterials = BillOfMaterial::count();
+        $totalActiveBillOfMaterials = BillOfMaterial::Active()->count();
+        $totalInActiveBillOfMaterials = $totalBillOfMaterials - $totalActiveBillOfMaterials;
 
-        return $datatable->render('bill-of-materials.index', compact('totalBillOfMaterials'));
+        return $datatable->render('bill-of-materials.index', compact('totalBillOfMaterials', 'totalActiveBillOfMaterials', 'totalInActiveBillOfMaterials'));
     }
 
     public function create()
@@ -76,8 +79,6 @@ class BillOfMaterialController extends Controller
 
     public function destroy(BillOfMaterial $billOfMaterial)
     {
-        abort_if(!auth()->user()->can('Delete BOM'), 403);
-
         $billOfMaterial->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');

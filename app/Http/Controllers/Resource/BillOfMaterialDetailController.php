@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resource;
 
+use App\Http\Controllers\Controller;
 use App\Models\BillOfMaterialDetail;
 
 class BillOfMaterialDetailController extends Controller
@@ -14,8 +15,6 @@ class BillOfMaterialDetailController extends Controller
     public function destroy(BillOfMaterialDetail $billOfMaterialDetail)
     {
         $this->authorize('delete', $billOfMaterialDetail->billOfMaterial);
-
-        abort_if(!auth()->user()->can('Delete BOM'), 403);
 
         $billOfMaterialDetail->forceDelete();
 
