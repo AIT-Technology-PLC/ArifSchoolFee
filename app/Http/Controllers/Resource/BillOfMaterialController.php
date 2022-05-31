@@ -16,7 +16,7 @@ class BillOfMaterialController extends Controller
     {
         $this->middleware('isFeatureAccessible:Bill Of Material Management');
 
-        $this->authorizeResource(BillOfMaterial::class, 'billOfMaterial');
+        $this->authorizeResource(BillOfMaterial::class);
     }
 
     public function index(BillOfMaterialDatatable $datatable)
@@ -52,7 +52,7 @@ class BillOfMaterialController extends Controller
     {
         $datatable->builder()->setTableId('bill-of-material-details-datatable');
 
-        $billOfMaterial->load(['billOfMaterialDetails.product']);
+        $billOfMaterial->load(['billOfMaterialDetails.product', 'billOfMaterialDetails']);
 
         return $datatable->render('bill-of-materials.show', compact('billOfMaterial'));
     }

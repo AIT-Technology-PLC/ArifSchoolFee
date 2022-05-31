@@ -15,9 +15,10 @@ class BillOfMaterialDetailDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('from', fn($billOfMaterialDetail) => $billOfMaterialDetail->product->name)
+            ->editColumn('product', fn($billOfMaterialDetail) => $billOfMaterialDetail->product->name)
+            ->editColumn('code', fn($billOfMaterialDetail) => $billOfMaterialDetail->product->code ?? 'N/A')
             ->editColumn('quantity', function ($billOfMaterialDetail) {
-                return quantity($billOfMaterialDetail->quantity, $billOfMaterialDetail->product->name);
+                return quantity($billOfMaterialDetail->quantity, $billOfMaterialDetail->product->unit_of_measurement);
             })
 
             ->editColumn('actions', function ($billOfMaterialDetail) {
@@ -35,7 +36,7 @@ class BillOfMaterialDetailDatatable extends DataTable
         return $billOfMaterialDetail
             ->newQuery()
             ->select('bill_of_material_details.*')
-            ->where('bill_of_material_id', request()->route('billOfMaterialDetail')->id)
+            ->where('bill_of_material_id', request()->route('bill_of_material')->id)
             ->with([
                 'product',
             ]);
@@ -46,7 +47,8 @@ class BillOfMaterialDetailDatatable extends DataTable
         $columns = [
             Column::computed('#'),
             Column::make('product', 'product.name'),
-            Column::make('quantity')->addClass('has-text-right'),
+            Column::make('code', 'product.code'),
+            Column::make('quantity'),
             Column::computed('actions'),
         ];
 
