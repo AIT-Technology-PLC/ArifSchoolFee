@@ -2,54 +2,55 @@
 
 namespace App\DataTables;
 
-use Yajra\DataTables\Html\Button;
+use App\Models\BillOfMaterialDetail;
+use App\Traits\DataTableHtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
 class BillOfMaterialDetailDatatable extends DataTable
 {
+    use DataTableHtmlBuilder;
+
     public function dataTable($query)
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'billofmaterialdetaildatatable.action');
+            ->editColumn('from', fn($billOfMaterialDetail) => $billOfMaterialDetail->product->name)
+            ->editColumn('quantity', function ($billOfMaterialDetail) {
+                return quantity($billOfMaterialDetail->quantity, $billOfMaterialDetail->product->name);
+            })
+
+            ->editColumn('actions', function ($billOfMaterialDetail) {
+                return view('components.common.action-buttons', [
+                    'model' => 'bill-of-material-details',
+                    'id' => $billOfMaterialDetail->id,
+                    'buttons' => ['delete'],
+                ]);
+            })
+            ->addIndexColumn();
     }
 
-    public function query(BillOfMaterialDetailDatatable $model)
+    public function query(BillOfMaterialDetail $billOfMaterialDetail)
     {
-        return $model->newQuery();
-    }
-
-    public function html()
-    {
-        return $this->builder()
-            ->setTableId('billofmaterialdetaildatatable-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Bfrtip')
-            ->orderBy(1)
-            ->buttons(
-                Button::make('create'),
-                Button::make('export'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
-            );
+        return $billOfMaterialDetail
+            ->newQuery()
+            ->select('bill_of_material_details.*')
+            ->where('bill_of_material_id', request()->route('billOfMaterialDetail')->id)
+            ->with([
+                'product',
+            ]);
     }
 
     protected function getColumns()
     {
-        return [
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+        $columns = [
+            Column::computed('#'),
+            Column::make('product', 'product.name'),
+            Column::make('quantity')->addClass('has-text-right'),
+            Column::computed('actions'),
         ];
+
+        return collect($columns)->filter()->toArray();
     }
 
     protected function filename()

@@ -107,7 +107,7 @@
                                 <x-common.button
                                     tag="a"
                                     href="{{ route('bill-of-materials.index') }}"
-                                    label="Bill Of Material Management"
+                                    label="Bill Of Materials"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('bill-of-materials.*') ? 'text-green has-text-weight-bold' : '' }}"
                                     x-init="{{ request()->routeIs('bill-of-materials.*') ? 'activateAccordion' : '' }}"
                                 />

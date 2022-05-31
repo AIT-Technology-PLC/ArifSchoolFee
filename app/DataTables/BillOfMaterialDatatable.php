@@ -22,6 +22,7 @@ class BillOfMaterialDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
+
             ->editColumn('name', fn($billOfMaterial) => $billOfMaterial->name)
             ->editColumn('product', fn($billOfMaterial) => $billOfMaterial->product->name)
             ->editColumn('prepared by', fn($billOfMaterial) => $billOfMaterial->createdBy->name)
