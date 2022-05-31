@@ -2,13 +2,12 @@
 
 namespace App\DataTables;
 
-use App\Services\Inventory\MerchandiseProductService;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 
-class AvailableInventoryDatatable extends DataTable
+class WipInventoryDatatable extends DataTable
 {
     use DataTableHtmlBuilder;
 
@@ -40,12 +39,9 @@ class AvailableInventoryDatatable extends DataTable
         $this->warehouses->each(function ($warehouse) use ($datatable) {
             $datatable
                 ->editColumn($warehouse->name, function ($row) use ($warehouse) {
-                    return view('components.datatables.history-link', [
+                    return view('components.datatables.green-outlined-tag', [
                         'amount' => Arr::has($row, $warehouse->name) ? $row[$warehouse->name] : 0.00,
-                        'productId' => $row['product_id'],
-                        'warehouseId' => $warehouse->id,
                         'unit' => $row['unit'],
-                        'min_on_hand' => $row['min_on_hand'],
                     ]);
                 })
                 ->editColumn('total balance', function ($row) {
@@ -61,57 +57,47 @@ class AvailableInventoryDatatable extends DataTable
 
     public function query()
     {
-        $limitedProducts = (new MerchandiseProductService)->getLimitedMerchandiseProductsQuery(user:auth()->user())->pluck('id');
-
-        $availableMerchandises = DB::table('merchandises')
+        $wipMerchandises = DB::table('merchandises')
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
             ->where('merchandises.company_id', '=', userCompany()->id)
-            ->when(request('level') == 'sufficient', fn($query) => $query->whereNotIn('products.id', $limitedProducts))
-            ->when(request('level') == 'limited', fn($query) => $query->whereIn('products.id', $limitedProducts))
-            ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
-            ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
-            ->where('merchandises.available', '>', 0)
+            ->where('merchandises.wip', '>', 0)
             ->whereIn('warehouses.id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
             ->select([
-                'merchandises.available as available',
+                'merchandises.wip as wip',
                 'products.id as product_id',
                 'products.name as product',
                 'products.code as code',
-                'products.type as type',
                 'products.unit_of_measurement as unit',
-                'products.min_on_hand as min_on_hand',
                 'product_categories.name as category',
                 'warehouses.name as warehouse',
             ])
             ->get();
 
-        $availableMerchandises = $availableMerchandises->groupBy('product_id')->map->keyBy('warehouse');
+        $wipMerchandises = $wipMerchandises->groupBy('product_id')->map->keyBy('warehouse');
 
-        $organizedAvailableMerchandise = collect();
+        $organizedWipMerchandise = collect();
 
-        foreach ($availableMerchandises as $merchandiseKey => $merchandiseValue) {
+        foreach ($wipMerchandises as $merchandiseKey => $merchandiseValue) {
             $currentMerchandiseItem = [
                 'product' => $merchandiseValue->first()->product,
                 'code' => $merchandiseValue->first()->code ?? '',
                 'product_id' => $merchandiseValue->first()->product_id,
                 'unit' => $merchandiseValue->first()->unit,
-                'type' => $merchandiseValue->first()->type,
-                'min_on_hand' => $merchandiseValue->first()->min_on_hand,
                 'category' => $merchandiseValue->first()->category,
-                'total balance' => $merchandiseValue->sum('available'),
+                'total balance' => $merchandiseValue->sum('wip'),
             ];
 
             foreach ($merchandiseValue as $key => $value) {
 
-                $currentMerchandiseItem = Arr::add($currentMerchandiseItem, $key, $value->available);
+                $currentMerchandiseItem = Arr::add($currentMerchandiseItem, $key, $value->wip);
             }
 
-            $organizedAvailableMerchandise->push($currentMerchandiseItem);
+            $organizedWipMerchandise->push($currentMerchandiseItem);
         }
 
-        return $organizedAvailableMerchandise;
+        return $organizedWipMerchandise;
     }
 
     protected function getColumns()
@@ -123,7 +109,6 @@ class AvailableInventoryDatatable extends DataTable
                 'sortable' => false,
             ],
             'product',
-            'type',
             'category',
             ...$warehouses,
             'total balance',

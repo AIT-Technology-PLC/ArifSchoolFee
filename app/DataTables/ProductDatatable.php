@@ -78,7 +78,7 @@ class ProductDatatable extends DataTable
             Column::make('code')->className('text-purple has-text-weight-medium')->content('N/A'),
             Column::make('category', 'productCategory.name'),
             Column::computed('price')->addClass('has-text-centered')->visible(false),
-            Column::make('type')->visible(false),
+            Column::make('type'),
             Column::make('supplier', 'supplier.company_name')->visible(false),
             Column::make('description')->visible(false),
             Column::make('min_on_hand')->title('Reorder Level'),

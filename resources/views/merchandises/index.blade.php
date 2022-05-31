@@ -150,7 +150,7 @@
         @if (request()->is('merchandises/available'))
             <div>
                 <x-content.footer>
-                    <x-datatables.filter filters="'level'">
+                    <x-datatables.filter filters="'level', 'type'">
                         <div class="columns is-marginless is-vcentered">
                             <div class="column is-3 p-lr-0 pt-0">
                                 <x-forms.field class="has-text-centered">
@@ -177,6 +177,33 @@
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
+                            @if (userCompany()->plan->isPremium())
+                                <div class="column is-3 p-lr-0 pt-0">
+                                    <x-forms.field class="has-text-centered">
+                                        <x-forms.control>
+                                            <x-forms.select
+                                                id=""
+                                                name=""
+                                                class="is-size-7-mobile is-fullwidth"
+                                                x-model="filters.type"
+                                                x-on:change="add('type')"
+                                            >
+                                                <option
+                                                    disabled
+                                                    selected
+                                                    value=""
+                                                >
+                                                    Type
+                                                </option>
+                                                <option value="all"> All </option>
+                                                @foreach (['Finished Goods', 'Raw Material'] as $type)
+                                                    <option value="{{ str()->lower($type) }}"> {{ $type }} </option>
+                                                @endforeach
+                                            </x-forms.select>
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
+                            @endif
                         </div>
                     </x-datatables.filter>
                 </x-content.footer>
@@ -193,6 +220,13 @@
                     <li class="reserved {{ request()->is('merchandises/reserved') ? 'is-active' : '' }}">
                         <a href="{{ route('merchandises.index', 'reserved') }}">
                             <span>Reserved</span>
+                        </a>
+                    </li>
+                @endif
+                @if (userCompany()->plan->isPremium())
+                    <li class="wip {{ request()->is('merchandises/wip') ? 'is-active' : '' }}">
+                        <a href="{{ route('merchandises.index', 'wip') }}">
+                            <span>Work in Process</span>
                         </a>
                     </li>
                 @endif
