@@ -21,6 +21,9 @@
                         @if (isFeatureEnabled('Reservation Management'))
                             <th class="has-text-right text-green"><abbr> Reserved </abbr></th>
                         @endif
+                        @if (userCompany()->plan->isPremium())
+                            <th class="has-text-right text-green"><abbr> Wip </abbr></th>
+                        @endif
                         <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
                         <th><abbr> Level </abbr></th>
                         <th><abbr> Actions </abbr></th>
@@ -50,6 +53,14 @@
                                 <td class="has-text-right">
                                     <span class="tag is-small btn-green is-outlined has-text-white">
                                         {{ $merchandise->reserved }}
+                                        {{ $merchandise->product->unit_of_measurement }}
+                                    </span>
+                                </td>
+                            @endif
+                            @if (userCompany()->plan->isPremium())
+                                <td class="has-text-right">
+                                    <span class="tag is-small btn-green is-outlined has-text-white">
+                                        {{ $merchandise->wip }}
                                         {{ $merchandise->product->unit_of_measurement }}
                                     </span>
                                 </td>
