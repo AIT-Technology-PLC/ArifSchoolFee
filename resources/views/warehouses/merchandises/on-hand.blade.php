@@ -22,7 +22,7 @@
                             <th class="has-text-right text-green"><abbr> Reserved </abbr></th>
                         @endif
                         @if (userCompany()->plan->isPremium())
-                            <th class="has-text-right text-green"><abbr> Wip </abbr></th>
+                            <th class="has-text-right text-green"><abbr> Work In Process </abbr></th>
                         @endif
                         <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
                         <th><abbr> Level </abbr></th>

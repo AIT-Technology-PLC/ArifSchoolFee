@@ -33,12 +33,10 @@ class InventoryOperationService
 
     public static function subtract($details, $from = 'available')
     {
+        $merchandises = Merchandise::all();
+
         foreach ($details as $detail) {
-            $merchandise = Merchandise::where([
-                ['product_id', $detail->product_id],
-                ['warehouse_id', $detail->warehouse_id],
-                [$from, '>=', $detail->quantity],
-            ])->first();
+            $merchandise = $merchandises->where('product_id', $detail->product_id)->where('warehouse_id', $detail->warehouse_id)->where($from, '>=', $detail->quantity)->first();
 
             $merchandise->$from = $merchandise->$from - $detail->quantity;
 
@@ -49,6 +47,7 @@ class InventoryOperationService
     public static function unavailableProducts($details, $in = 'available')
     {
         $unavailableProducts = collect();
+
         $merchandises = Merchandise::all();
 
         foreach ($details as $detail) {
