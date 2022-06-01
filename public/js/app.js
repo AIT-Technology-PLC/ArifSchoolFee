@@ -440,6 +440,40 @@ document.addEventListener("alpine:init", () => {
             },
         })
     );
+
+    Alpine.data("billOfMaterialMasterDetailForm", ({ billOfMaterial }) => ({
+        billOfMaterials: [],
+        errors: {},
+
+        init() {
+            if (billOfMaterial) {
+                this.billOfMaterials = billOfMaterial;
+                return;
+            }
+
+            this.add();
+        },
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        getErrors(property) {
+            return this.errors[property];
+        },
+        add() {
+            this.billOfMaterials.push({
+                product_id: "",
+                quantity: "",
+            });
+        },
+        remove(index) {
+            if (this.billOfMaterial.length === 1) {
+                return;
+            }
+
+            this.billOfMaterials.splice(index, 1);
+        },
+    }));
+
     Alpine.data("priceMasterDetailForm", ({ price }) => ({
         prices: [],
         errors: {},

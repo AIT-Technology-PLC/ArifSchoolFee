@@ -36,9 +36,9 @@ class BillOfMaterialController extends Controller
     }
 
     public function store(StoreBillOfMaterialRequest $request)
-    {
+    {;
         $billOfMaterial = DB::transaction(function () use ($request) {
-            $billOfMaterial = BillOfMaterial::create($request->safe()->except('billOfMaterial'));
+            $billOfMaterial = BillOfMaterial::create($request->except('billOfMaterial'));
 
             $billOfMaterial->billOfMaterialDetails()->createMany($request->billOfMaterial);
 

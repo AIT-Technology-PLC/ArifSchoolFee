@@ -30,7 +30,7 @@
     </div>
 
     <x-common.content-wrapper>
-        <x-content.header title="Delivery Orders">
+        <x-content.header title="Bill Of Materials">
             @can('Create BOM')
                 <x-common.button
                     tag="a"
