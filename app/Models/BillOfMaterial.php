@@ -38,4 +38,14 @@ class BillOfMaterial extends Model
     {
         return $query->where('is_active', 1);
     }
+
+    public function scopeInactive($query)
+    {
+        return $query->where('is_active', 0);
+    }
+
+    public function isActive()
+    {
+        return $this->is_active;
+    }
 }

@@ -26,6 +26,12 @@ class BillOfMaterialDatatable extends DataTable
             ->editColumn('name', fn($billOfMaterial) => $billOfMaterial->name)
             ->editColumn('product', fn($billOfMaterial) => $billOfMaterial->product->name)
             ->editColumn('prepared by', fn($billOfMaterial) => $billOfMaterial->createdBy->name)
+            ->editColumn('status', fn($billOfMaterial) => view('components.datatables.bill-of-material-status', compact('billOfMaterial')))
+            ->filterColumn('status', function ($query, $keyword) {
+                $query
+                    ->when($keyword == 'active', fn($query) => $query->active())
+                    ->when($keyword == 'inactive', fn($query) => $query->inactive());
+            })
             ->editColumn('edited by', fn($billOfMaterial) => $billOfMaterial->updatedBy->name)
             ->editColumn('actions', function ($billOfMaterial) {
                 return view('components.common.action-buttons', [
@@ -41,6 +47,8 @@ class BillOfMaterialDatatable extends DataTable
     {
         return $billOfMaterial
             ->newQuery()
+            ->when(request('status') == 'active', fn($query) => $query->active())
+            ->when(request('status') == 'inactive', fn($query) => $query->inactive())
             ->select('bill_of_materials.*')
             ->with([
                 'billOfMaterialDetails',
@@ -56,6 +64,7 @@ class BillOfMaterialDatatable extends DataTable
             Column::computed('#'),
             Column::make('name'),
             Column::make('product', 'product.name'),
+            Column::make('status')->orderable(false),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),

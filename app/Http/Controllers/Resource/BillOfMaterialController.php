@@ -24,7 +24,9 @@ class BillOfMaterialController extends Controller
         $datatable->builder()->setTableId('bill-of-materials-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
         $totalBillOfMaterials = BillOfMaterial::count();
+
         $totalActiveBillOfMaterials = BillOfMaterial::Active()->count();
+
         $totalInActiveBillOfMaterials = $totalBillOfMaterials - $totalActiveBillOfMaterials;
 
         return $datatable->render('bill-of-materials.index', compact('totalBillOfMaterials', 'totalActiveBillOfMaterials', 'totalInActiveBillOfMaterials'));
