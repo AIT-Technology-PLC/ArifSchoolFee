@@ -166,6 +166,11 @@ class Company extends Model
         return $this->hasMany(Transaction::class);
     }
 
+    public function integrations()
+    {
+        return $this->belongsToMany(Integration::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);

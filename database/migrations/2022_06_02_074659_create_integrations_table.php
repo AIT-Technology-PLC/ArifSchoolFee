@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->boolean('is_enabled');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('company_integration', function (Blueprint $table) {
