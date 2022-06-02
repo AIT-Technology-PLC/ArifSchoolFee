@@ -16,6 +16,10 @@ class SaleDetailController extends Controller
     {
         $this->authorize('delete', $saleDetail->sale);
 
+        if ($saleDetail->sale->isApproved() || $saleDetail->sale->isCancelled()) {
+            return back()->with('failedMessage', 'Invoices that are approved/cancelled can not be deleted.');
+        }
+
         $saleDetail->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');

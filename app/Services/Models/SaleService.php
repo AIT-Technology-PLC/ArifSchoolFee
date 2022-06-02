@@ -30,7 +30,7 @@ class SaleService
                 return [$isExecuted, $message];
             }
 
-            [true, 'Invoice approved successfully'];
+            return [true, 'Invoice approved successfully'];
         });
     }
 
@@ -45,7 +45,7 @@ class SaleService
                 return [$isExecuted, $message];
             }
 
-            [true, 'Invoice cancelled successfully'];
+            return [true, 'Invoice cancelled successfully'];
         });
     }
 }

@@ -44,9 +44,9 @@ class SaleController extends Controller
     public function store(StoreSaleRequest $request)
     {
         $sale = DB::transaction(function () use ($request) {
-            $sale = Sale::create($request->except('sale'));
+            $sale = Sale::create($request->safe()->except('sale'));
 
-            $sale->saleDetails()->createMany($request->sale);
+            $sale->saleDetails()->createMany($request->safe()['sale']);
 
             return $sale;
         });
@@ -81,10 +81,10 @@ class SaleController extends Controller
         }
 
         DB::transaction(function () use ($request, $sale) {
-            $sale->update($request->except('sale'));
+            $sale->update($request->safe()->except('sale'));
 
             for ($i = 0; $i < count($request->sale); $i++) {
-                $sale->saleDetails[$i]->update($request->sale[$i]);
+                $sale->saleDetails[$i]->update($request->safe()['sale'][$i]);
             }
         });
 
