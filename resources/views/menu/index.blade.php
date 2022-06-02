@@ -9,7 +9,7 @@
                 <x-content.header>
                     <x-slot name="header">
                         <span class="icon">
-                            <i class="fas fa-warehouse"></i>
+                            <i class="fas fa-industry"></i>
                         </span>
                         <span class="ml-2">
                             Production
@@ -26,7 +26,7 @@
                                         class="general-menu-item button text-green bg-lightgreen is-borderless"
                                     >
                                         <span class="icon is-size-5">
-                                            <i class="fas fa-file-import"></i>
+                                            <i class="fas fa-clipboard-list"></i>
                                         </span>
                                     </a>
                                     <br>

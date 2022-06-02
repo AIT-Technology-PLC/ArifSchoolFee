@@ -472,6 +472,17 @@ document.addEventListener("alpine:init", () => {
 
             this.billOfMaterials.splice(index, 1);
         },
+        select2(index) {
+            let select2 = initializeSelect2(this.$el);
+
+            this.$nextTick(() => $(select2).trigger("change"));
+
+            select2.on("change", (event) => {
+                this.billOfMaterials[index].product_id = event.target.value;
+            });
+
+            this.$watch(`billOfMaterials`, () => select2.trigger("change"));
+        },
     }));
 
     Alpine.data("priceMasterDetailForm", ({ price }) => ({

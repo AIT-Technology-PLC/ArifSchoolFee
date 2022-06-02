@@ -21,7 +21,7 @@
                 <x-content.header>
                     <x-slot name="header">
                         <x-common.icon
-                            name="fas fa-warehouse"
+                            name="fas fa-industry"
                             class="is-size-6 text-green"
                         />
                         <span class="ml-2 is-size-6 text-green"> Production </span>
@@ -36,7 +36,7 @@
                                         tag="a"
                                         mode="button"
                                         href="{{ route('bill-of-materials.create') }}"
-                                        icon="fas fa-file-import"
+                                        icon="fas fa-clipboard-list"
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>

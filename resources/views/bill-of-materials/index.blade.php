@@ -8,7 +8,7 @@
             <x-common.total-model
                 model="Bill Of Materials"
                 :amount="$totalBillOfMaterials"
-                icon="fas fa-file-invoice"
+                icon="fas fa-clipboard-list"
             />
         </div>
         <div class="column is-4 p-lr-0">

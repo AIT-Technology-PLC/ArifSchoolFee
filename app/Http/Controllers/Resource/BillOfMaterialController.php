@@ -25,7 +25,7 @@ class BillOfMaterialController extends Controller
 
         $totalBillOfMaterials = BillOfMaterial::count();
 
-        $totalActiveBillOfMaterials = BillOfMaterial::Active()->count();
+        $totalActiveBillOfMaterials = BillOfMaterial::active()->count();
 
         $totalInActiveBillOfMaterials = $totalBillOfMaterials - $totalActiveBillOfMaterials;
 
@@ -40,9 +40,9 @@ class BillOfMaterialController extends Controller
     public function store(StoreBillOfMaterialRequest $request)
     {
         $billOfMaterial = DB::transaction(function () use ($request) {
-            $billOfMaterial = BillOfMaterial::create($request->except('billOfMaterial'));
+            $billOfMaterial = BillOfMaterial::create($request->safe()->except('billOfMaterial'));
 
-            $billOfMaterial->billOfMaterialDetails()->createMany($request->billOfMaterial);
+            $billOfMaterial->billOfMaterialDetails()->createMany($request->safe()['billOfMaterial']);
 
             return $billOfMaterial;
         });
@@ -71,9 +71,9 @@ class BillOfMaterialController extends Controller
         DB::transaction(function () use ($request, $billOfMaterial) {
             $billOfMaterial->update($request->safe()->except('billOfMaterial'));
 
-            for ($i = 0; $i < count($request->billOfMaterial); $i++) {
-                $billOfMaterial->billOfMaterialDetails[$i]->update($request->billOfMaterial[$i]);
-            }
+            $billOfMaterial->billOfMaterialDetails()->forceDelete();
+
+            $billOfMaterial->billOfMaterialDetails()->createMany($request->safe()['billOfMaterial']);
         });
 
         return redirect()->route('bill-of-materials.show', $billOfMaterial->id);

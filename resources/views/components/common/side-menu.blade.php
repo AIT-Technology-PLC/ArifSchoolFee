@@ -82,7 +82,7 @@
                     @click="toggleAccordion"
                 >
                     <x-common.icon
-                        name="fas fa-warehouse"
+                        name="fas fa-industry"
                         class="m-0"
                     />
                     <span class="ml-2"> Production </span>

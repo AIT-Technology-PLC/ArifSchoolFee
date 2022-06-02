@@ -9,14 +9,7 @@
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-file-invoice"
-                        :data="$billOfMaterial->product->name ?? 'N/A'"
-                        label="Product Name"
-                    />
-                </div>
-                <div class="column is-6">
-                    <x-common.show-data-section
-                        icon="fas fa-file-invoice"
+                        icon="fas fa-clipboard-list"
                         :data="$billOfMaterial->name ?? 'N/A'"
                         label="Bill Of Material Name"
                     />
