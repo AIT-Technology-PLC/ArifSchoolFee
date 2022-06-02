@@ -52,6 +52,8 @@
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
+            <x-common.fail-message :message="session('failedMessage')" />
+
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>

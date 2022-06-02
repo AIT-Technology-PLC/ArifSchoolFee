@@ -95,19 +95,8 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                    @can('Cancel Sale')
-                        <x-common.dropdown-item>
-                            <x-common.transaction-button
-                                :route="route('sales.cancel', $sale->id)"
-                                action="cancel"
-                                intention="cancel this sale"
-                                icon="fas fa-times"
-                                label="Cancel"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
-                    @endcan
-                @elseif(!$sale->isCancelled())
+                @endif
+                @if (!$sale->isCancelled())
                     @can('Cancel Sale')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -134,15 +123,17 @@
             </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
-            <div class="notification bg-gold has-text-white has-text-weight-medium {{ session('message') ? '' : 'is-hidden' }}">
-                <span class="icon">
-                    <i class="fas fa-times-circle"></i>
-                </span>
-                <span>
-                    {{ session('message') }}
-                </span>
-            </div>
             <x-common.success-message :message="session('deleted')" />
+            <x-common.fail-message :message="session('failedMessage')" />
+
+            @if ($sale->isCancelled())
+                <x-common.fail-message message="This invoice is cancelled." />
+            @elseif ($sale->isApproved())
+                <x-common.success-message message="This invoice is approved." />
+            @else
+                <x-common.fail-message message="This invoice is not approved yet." />
+            @endif
+
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
