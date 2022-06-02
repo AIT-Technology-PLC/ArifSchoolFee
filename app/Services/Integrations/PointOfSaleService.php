@@ -10,11 +10,11 @@ class PointOfSaleService
             return [true, ''];
         }
 
-        if (is_null(userCompany()->pos_provider)) {
+        if (is_null($sale->warehouse->pos_provider)) {
             return [true, ''];
         }
 
-        $posClass = (string) str(userCompany()->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\');
+        $posClass = (string) str($sale->warehouse->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\');
 
         return (new $posClass($sale))->create();
     }
@@ -25,11 +25,11 @@ class PointOfSaleService
             return [true, ''];
         }
 
-        if (is_null(userCompany()->pos_provider)) {
+        if (is_null($sale->warehouse->pos_provider)) {
             return [true, ''];
         }
 
-        $posClass = (string) str(userCompany()->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\');
+        $posClass = (string) str($sale->warehouse->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\');
 
         return (new $posClass($sale))->cancel();
     }
