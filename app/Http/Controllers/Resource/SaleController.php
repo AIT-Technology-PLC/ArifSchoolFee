@@ -65,6 +65,10 @@ class SaleController extends Controller
 
     public function edit(Sale $sale)
     {
+        if ($sale->isApproved() || $sale->isCancelled()) {
+            return back()->with('failedMessage', 'Invoices that are approved/cancelled can not be edited.');
+        }
+
         $sale->load('saleDetails.product');
 
         return view('sales.edit', compact('sale'));
@@ -72,6 +76,10 @@ class SaleController extends Controller
 
     public function update(UpdateSaleRequest $request, Sale $sale)
     {
+        if ($sale->isApproved() || $sale->isCancelled()) {
+            return back()->with('failedMessage', 'Invoices that are approved/cancelled can not be edited.');
+        }
+
         DB::transaction(function () use ($request, $sale) {
             $sale->update($request->except('sale'));
 
@@ -85,6 +93,10 @@ class SaleController extends Controller
 
     public function destroy(Sale $sale)
     {
+        if ($sale->isApproved() || $sale->isCancelled()) {
+            return back()->with('failedMessage', 'Invoices that are approved/cancelled can not be deleted.');
+        }
+
         $sale->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');
