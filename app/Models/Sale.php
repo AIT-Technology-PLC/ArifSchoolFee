@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\Discountable;
 use App\Traits\HasUserstamps;
@@ -12,13 +13,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sale extends Model
 {
-    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Discountable;
+    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Discountable, Approvable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
         'sold_on' => 'datetime',
     ];
+
+    public function cancelledBy()
+    {
+        return $this->belongsTo(User::class, 'cancelled_by')->withDefault(['name' => 'N/A']);
+    }
 
     public function customer()
     {
@@ -38,5 +44,31 @@ class Sale extends Model
     public function details()
     {
         return $this->saleDetails;
+    }
+
+    public function scopeCancelled($query)
+    {
+        return $query->whereNotNull('cancelled_by');
+    }
+
+    public function scopeNotCancelled($query)
+    {
+        return $query->whereNull('cancelled_by');
+    }
+
+    public function cancel()
+    {
+        $this->cancelled_by = auth()->id();
+
+        $this->save();
+    }
+
+    public function isCancelled()
+    {
+        if (is_null($this->cancelled_by)) {
+            return false;
+        }
+
+        return true;
     }
 }

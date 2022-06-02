@@ -3,19 +3,42 @@
 @section('title', 'Invoices')
 
 @section('content')
+    <div class="columns is-marginless is-multiline">
+        <div class="column is-3 p-lr-0">
+            <x-common.total-model
+                model="Sales"
+                :amount="$totalSales"
+                icon="fas fa-cash-register"
+            />
+        </div>
+        <div class="column is-3 p-lr-0">
+            <x-common.index-insight
+                :amount="$totalCancelled"
+                border-color="#86843d"
+                text-color="text-gold"
+                label="Cancelled"
+            />
+        </div>
+        <div class="column is-3 p-lr-0">
+            <x-common.index-insight
+                :amount="$totalApproved"
+                border-color="#3d8660"
+                text-color="text-green"
+                label="Approved"
+            />
+        </div>
+        <div class="column is-3 p-lr-0">
+            <x-common.index-insight
+                :amount="$totalNotApproved"
+                border-color="#863d63"
+                text-color="text-purple"
+                label="Waiting Approval"
+            />
+        </div>
+    </div>
+
     <x-common.content-wrapper>
-        <x-content.header>
-            <x-slot name="header">
-                <h1 class="title text-green has-text-weight-medium is-size-5">
-                    Invoices
-                    <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
-                        <x-common.icon name="fas fa-cash-register" />
-                        <span>
-                            {{ number_format($totalSales) }} {{ str()->plural('invoice', $totalSales) }}
-                        </span>
-                    </span>
-                </h1>
-            </x-slot>
+        <x-content.header title="Invoices">
             @can('Create Sale')
                 <x-common.button
                     tag="a"

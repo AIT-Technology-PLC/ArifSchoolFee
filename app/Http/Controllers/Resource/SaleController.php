@@ -25,7 +25,13 @@ class SaleController extends Controller
 
         $totalSales = Sale::count();
 
-        return $datatable->render('sales.index', compact('totalSales'));
+        $totalNotApproved = Sale::notApproved()->notCancelled()->count();
+
+        $totalApproved = Sale::approved()->notCancelled()->count();
+
+        $totalCancelled = Sale::cancelled()->count();
+
+        return $datatable->render('sales.index', compact('totalSales', 'totalNotApproved', 'totalApproved', 'totalCancelled'));
     }
 
     public function create()
