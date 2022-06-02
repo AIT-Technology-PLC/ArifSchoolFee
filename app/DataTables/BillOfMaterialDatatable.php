@@ -51,7 +51,6 @@ class BillOfMaterialDatatable extends DataTable
             ->when(request('status') == 'inactive', fn($query) => $query->inactive())
             ->select('bill_of_materials.*')
             ->with([
-                'billOfMaterialDetails',
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'product:id,name',

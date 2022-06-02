@@ -8,7 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBillOfMaterialRequest;
 use App\Http\Requests\UpdateBillOfMaterialRequest;
 use App\Models\BillOfMaterial;
+use App\Notifications\BillOfMaterialCreated;
+use App\Notifications\BillOfMaterialUpdated;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class BillOfMaterialController extends Controller
 {
@@ -27,7 +31,7 @@ class BillOfMaterialController extends Controller
 
         $totalActiveBillOfMaterials = BillOfMaterial::active()->count();
 
-        $totalInActiveBillOfMaterials = $totalBillOfMaterials - $totalActiveBillOfMaterials;
+        $totalInActiveBillOfMaterials = BillOfMaterial::inActive()->count();
 
         return $datatable->render('bill-of-materials.index', compact('totalBillOfMaterials', 'totalActiveBillOfMaterials', 'totalInActiveBillOfMaterials'));
     }
@@ -44,6 +48,8 @@ class BillOfMaterialController extends Controller
 
             $billOfMaterial->billOfMaterialDetails()->createMany($request->safe()['billOfMaterial']);
 
+            Notification::send(Notifiables::byNextActionPermission('Create BOM'), new BillOfMaterialCreated($billOfMaterial));
+
             return $billOfMaterial;
         });
 
@@ -54,7 +60,7 @@ class BillOfMaterialController extends Controller
     {
         $datatable->builder()->setTableId('bill-of-material-details-datatable');
 
-        $billOfMaterial->load(['billOfMaterialDetails.product', 'billOfMaterialDetails']);
+        $billOfMaterial->load(['billOfMaterialDetails.product']);
 
         return $datatable->render('bill-of-materials.show', compact('billOfMaterial'));
     }
@@ -75,6 +81,8 @@ class BillOfMaterialController extends Controller
 
             $billOfMaterial->billOfMaterialDetails()->createMany($request->safe()['billOfMaterial']);
         });
+
+        Notification::send(Notifiables::byNextActionPermission('Update BOM'), new BillOfMaterialUpdated($billOfMaterial));
 
         return redirect()->route('bill-of-materials.show', $billOfMaterial->id);
     }

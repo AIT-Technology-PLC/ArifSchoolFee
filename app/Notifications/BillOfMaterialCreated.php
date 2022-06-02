@@ -23,7 +23,7 @@ class BillOfMaterialCreated extends Notification
     public function toArray($notifiable)
     {
         return [
-            'icon' => 'file-invoice',
+            'icon' => 'fas fa-clipboard-list',
             'message' => 'Bill Of Material has been created by ' . ucfirst($this->billOfMaterial->createdBy->name),
             'endpoint' => '/bill-of-materials/' . $this->billOfMaterial->id,
         ];

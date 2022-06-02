@@ -919,7 +919,7 @@ return new class extends Migration
         Schema::drop('credit_settlements');
         Schema::drop('credits');
         Schema::drop('prices');
-        Schema::drop('bill_of_materials');
         Schema::drop('bill_of_material_details');
+        Schema::drop('bill_of_materials');
     }
 };

@@ -48,7 +48,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::drop('bill_of_materials');
         Schema::drop('bill_of_material_details');
+        Schema::drop('bill_of_materials');
     }
 };
