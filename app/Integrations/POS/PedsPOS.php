@@ -1,11 +1,11 @@
 <?php
-namespace App\Integrations\CashRegister;
+namespace App\Integrations\POS;
 
-use App\Interfaces\CashRegisterInterface;
+use App\Interfaces\POSInterface;
 use App\Models\Sale;
 use Illuminate\Support\Facades\Http;
 
-class PedsCashRegister implements CashRegisterInterface
+class PedsPOS implements POSInterface
 {
     private $sale;
 
@@ -38,19 +38,19 @@ class PedsCashRegister implements CashRegisterInterface
                     'UomName' => $saleDetail->product->unit_of_measurement,
                     'Quantity' => $saleDetail->quantity,
                     'SalesUnitPrice' => $saleDetail->unit_price,
-                    // 'TaxType' => '1',
+                    'TaxType' => '1',
                 ];
             })
             ->toArray();
 
         $holdSales = [
-            'HoldSalesIdentifierId' => $this->sale->id,
+            'HoldSalesIdentifierId' => $this->sale->code,
             'TransactionType' => '0',
             'InvoiceNo' => $this->sale->code,
             'PaymentType' => $this->sale->payment_type == 'Cash Payment' ? '0' : '2',
-            // 'TableNumber' => '',
+            'TableNumber' => '',
             'SalesPerson' => $this->sale->createdBy->name,
-            // 'HoldMemo' => '',
+            'HoldMemo' => '',
             'Date' => $this->sale->created_at,
             'CustomerName' => $this->sale->customer->company_name,
             'CustomerTIN' => $this->sale->customer?->tin,

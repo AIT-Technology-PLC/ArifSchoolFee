@@ -2,7 +2,7 @@
 
 namespace App\Interfaces;
 
-interface CashRegisterInterface
+interface POSInterface
 {
     public function create();
 
