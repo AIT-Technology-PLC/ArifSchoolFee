@@ -10,14 +10,14 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-clipboard-list"
-                        :data="$billOfMaterial->name ?? 'N/A'"
+                        :data="$billOfMaterial->name"
                         label="Bill Of Material Name"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$billOfMaterial->created_at->toFormattedDateString() ?? 'N/A'"
+                        :data="$billOfMaterial->created_at->toFormattedDateString()"
                         label="Issued On"
                     />
                 </div>
@@ -30,23 +30,24 @@
             title="Details"
             is-mobile
         >
-            <x-common.dropdown name="Action">
-                <x-common.dropdown-item>
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('bill-of-materials.edit', $billOfMaterial->id) }}"
-                        mode="button"
-                        icon="fas fa-pen"
-                        label="Edit"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                    />
-                </x-common.dropdown-item>
+            <x-common.dropdown name="Actions">
+                @can('Update BOM')
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('bill-of-materials.edit', $billOfMaterial->id) }}"
+                            mode="button"
+                            icon="fas fa-pen"
+                            label="Edit"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                @endcan
             </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
-            <x-common.success-message :message="session('successMessage')" />
-            <x-common.success-message :message="session('deleted')" />
+            <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>

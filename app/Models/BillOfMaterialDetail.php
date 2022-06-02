@@ -22,9 +22,4 @@ class BillOfMaterialDetail extends Model
     {
         return $this->belongsTo(Product::class);
     }
-
-    public function parentModel()
-    {
-        return $this->billOfMaterial;
-    }
 }
