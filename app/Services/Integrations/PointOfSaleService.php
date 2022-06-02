@@ -31,6 +31,6 @@ class PointOfSaleService
 
         $posClass = (string) str($sale->warehouse->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\');
 
-        return (new $posClass($sale))->cancel();
+        return (new $posClass($sale))->void();
     }
 }
