@@ -1,11 +1,12 @@
 <?php
-namespace App\Integrations\POS;
 
-use App\Interfaces\POSInterface;
+namespace App\Integrations\PointOfSale;
+
+use App\Interfaces\PointOfSaleInterface;
 use App\Models\Sale;
 use Illuminate\Support\Facades\Http;
 
-class PedsPOS implements POSInterface
+class Peds implements PointOfSaleInterface
 {
     private $sale;
 

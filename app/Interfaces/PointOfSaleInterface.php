@@ -2,7 +2,7 @@
 
 namespace App\Interfaces;
 
-interface POSInterface
+interface PointOfSaleInterface
 {
     public function create();
 
