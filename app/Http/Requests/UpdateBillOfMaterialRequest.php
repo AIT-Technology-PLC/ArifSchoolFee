@@ -19,7 +19,7 @@ class UpdateBillOfMaterialRequest extends FormRequest
             'name' => ['required', 'string'],
             'product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'billOfMaterial' => ['required', 'array'],
-            'billOfMaterial.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'billOfMaterial.*.product_id' => ['required', 'integer', 'different:product_id', 'distinct', new MustBelongToCompany('products')],
             'billOfMaterial.*.quantity' => ['required', 'numeric', 'gt:0'],
         ];
     }

@@ -146,8 +146,10 @@ class Features extends Seeder
             $professional = Plan::firstWhere('name', 'professional');
             $premium = Plan::firstWhere('name', 'premium');
 
+            $features = Feature::all();
+
             $standard->features()->sync(
-                Feature::query()
+                $features
                     ->whereIn('name', [
                         'Merchandise Inventory',
                         'Inventory History',
@@ -171,11 +173,14 @@ class Features extends Seeder
             );
 
             $professional->features()->sync(
-                Feature::all()->pluck('id')->toArray()
+                $features
+                    ->whereNotIn('name', ['Bill Of Material Management'])
+                    ->pluck('id')
+                    ->toArray()
             );
 
             $premium->features()->sync(
-                Feature::all()->pluck('id')->toArray()
+                $features->pluck('id')->toArray()
             );
         });
     }

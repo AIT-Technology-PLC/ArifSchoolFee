@@ -68,7 +68,7 @@
                                         name="is_active"
                                         value="1"
                                         class="mt-3"
-                                        {{ old('is_active') ? '' : 'checked' }}
+                                        @checked($billOfMaterial->isActive())
                                     >
                                     Active
                                 </label>
@@ -77,7 +77,7 @@
                                         type="radio"
                                         name="is_active"
                                         value="0"
-                                        {{ old('is_active') ? 'checked' : '' }}
+                                        @checked(!$billOfMaterial->isActive())
                                     >
                                     Not Active
                                 </label>

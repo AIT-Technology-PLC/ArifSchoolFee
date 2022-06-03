@@ -9,9 +9,23 @@
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
+                        icon="fas fa-th"
+                        :data="$billOfMaterial->product->name"
+                        label="Product"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
                         icon="fas fa-clipboard-list"
                         :data="$billOfMaterial->name"
-                        label="Bill Of Material Name"
+                        label="Name"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-info"
+                        :data="$billOfMaterial->isActive() ? 'Active' : 'Not Active'"
+                        label="Status"
                     />
                 </div>
                 <div class="column is-6">

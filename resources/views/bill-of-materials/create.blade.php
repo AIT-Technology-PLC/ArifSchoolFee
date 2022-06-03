@@ -43,9 +43,9 @@
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    class="input"
                                     type="text"
                                     name="name"
+                                    value="{{ old('name') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -67,7 +67,7 @@
                                         name="is_active"
                                         value="1"
                                         class="mt-3"
-                                        {{ old('is_active') ? '' : 'checked' }}
+                                        @checked(old('is_active'))
                                     >
                                     Active
                                 </label>
@@ -76,7 +76,7 @@
                                         type="radio"
                                         name="is_active"
                                         value="0"
-                                        {{ old('is_active') ? 'checked' : '' }}
+                                        @checked(!old('is_active'))
                                     >
                                     Not Active
                                 </label>
