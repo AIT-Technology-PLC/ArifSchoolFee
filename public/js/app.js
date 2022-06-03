@@ -485,6 +485,54 @@ document.addEventListener("alpine:init", () => {
         },
     }));
 
+    Alpine.data("gdnMasterDetailForm", ({ gdn }) => ({
+        gdns: [],
+        errors: {},
+
+        init() {
+            if (gdn) {
+                this.gdns = gdn;
+                return;
+            }
+
+            this.add();
+        },
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        getErrors(property) {
+            return this.errors[property];
+        },
+        add() {
+            this.gdns.push({
+                product_id: "",
+                warehouse_id: "",
+                unit_price: "",
+                quantity: "",
+                description: "",
+                discount: "",
+            });
+        },
+        remove(index) {
+            if (this.gdn.length === 1) {
+                return;
+            }
+
+            this.gdns.splice(index, 1);
+        },
+        select2(index) {
+            let select2 = initializeSelect2(this.$el);
+
+            this.$nextTick(() => $(select2).trigger("change"));
+
+            select2.on("change", (event) => {
+                this.gdns[index].product_id = event.target.value;
+            });
+
+            this.$watch(`gdns`, () => select2.trigger("change"));
+        },
+    }));
+
     Alpine.data("priceMasterDetailForm", ({ price }) => ({
         prices: [],
         errors: {},
