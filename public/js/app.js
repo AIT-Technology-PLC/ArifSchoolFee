@@ -485,13 +485,14 @@ document.addEventListener("alpine:init", () => {
         },
     }));
 
-    Alpine.data("gdnMasterDetailForm", ({ gdn }) => ({
-        gdns: [],
+
+Alpine.data("reservationMasterDetailForm", ({ reservation }) => ({
+        reservations: [],
         errors: {},
 
         init() {
-            if (gdn) {
-                this.gdns = gdn;
+            if (reservation) {
+                this.reservations = reservation;
                 return;
             }
 
@@ -504,7 +505,7 @@ document.addEventListener("alpine:init", () => {
             return this.errors[property];
         },
         add() {
-            this.gdns.push({
+            this.reservations.push({
                 product_id: "",
                 warehouse_id: "",
                 unit_price: "",
@@ -514,11 +515,11 @@ document.addEventListener("alpine:init", () => {
             });
         },
         remove(index) {
-            if (this.gdn.length === 1) {
+            if (this.reservation.length === 1) {
                 return;
             }
 
-            this.gdns.splice(index, 1);
+            this.reservations.splice(index, 1);
         },
         select2(index) {
             let select2 = initializeSelect2(this.$el);
@@ -526,10 +527,10 @@ document.addEventListener("alpine:init", () => {
             this.$nextTick(() => $(select2).trigger("change"));
 
             select2.on("change", (event) => {
-                this.gdns[index].product_id = event.target.value;
+                this.reservations[index].product_id = event.target.value;
             });
 
-            this.$watch(`gdns`, () => select2.trigger("change"));
+            this.$watch(`reservations`, () => select2.trigger("change"));
         },
     }));
 

@@ -202,7 +202,7 @@
                             <x-forms.label for="cash_received">
                                 Cash Received <sup class="has-text-danger">*</sup>
                             </x-forms.label>
-                            <x-forms.field class="field has-addons">
+                            <x-forms.field class="has-addons">
                                 <x-forms.control>
                                     <x-forms.select
                                         name="cash_received_type"
@@ -239,7 +239,7 @@
                             x-cloak
                             x-bind:class="{ 'is-hidden': isPaymentInCash() }"
                         >
-                            <x.forms.field>
+                            <x-forms.field>
                                 <x-forms.label for="due_date">
                                     Credit Due Date <sup class="has-text-danger">*</sup>
                                 </x-forms.label>
@@ -257,7 +257,7 @@
                                     />
                                     <x-common.validation-error property="due_date" />
                                 </x-forms.control>
-                            </x.forms.field>
+                            </x-forms.field>
                         </div>
                     </div>
                 </div>
