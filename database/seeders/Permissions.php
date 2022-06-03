@@ -209,6 +209,12 @@ class Permissions extends Seeder
             // Company
             Permission::firstOrCreate(['name' => 'Update Company']);
 
+            // Bill Of Material
+            Permission::firstOrCreate(['name' => 'Create BOM']);
+            Permission::firstOrCreate(['name' => 'Read BOM']);
+            Permission::firstOrCreate(['name' => 'Update BOM']);
+            Permission::firstOrCreate(['name' => 'Delete BOM']);
+
             // Assign permissions to role
             $analyst->syncPermissions([
                 'Read GDN',
@@ -225,6 +231,7 @@ class Permissions extends Seeder
                 'Read Supplier',
                 'Read Customer',
                 'Read Reservation',
+                'Read BOM',
             ]);
 
             $purchaseManager->syncPermissions([
@@ -244,6 +251,7 @@ class Permissions extends Seeder
                 'Create Customer',
                 'Create Return',
                 'Create Reservation',
+                'Create BOM',
                 'Read GDN',
                 'Read Sale',
                 'Read Proforma Invoice',
@@ -251,12 +259,14 @@ class Permissions extends Seeder
                 'Read Return',
                 'Read Product',
                 'Read Reservation',
+                'Read BOM',
                 'Update GDN',
                 'Update Sale',
                 'Update Proforma Invoice',
                 'Update Customer',
                 'Update Return',
                 'Update Reservation',
+                'Update BOM',
                 'Convert Proforma Invoice',
                 'Convert Reservation',
             ]);
@@ -279,6 +289,7 @@ class Permissions extends Seeder
                 'Read Warehouse',
                 'Read GDN',
                 'Read Reservation',
+                'Read BOM',
                 'Update GRN',
                 'Update Merchandise',
                 'Update Transfer',
