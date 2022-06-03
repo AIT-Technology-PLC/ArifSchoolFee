@@ -295,6 +295,7 @@ return new class extends Migration
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('available', 22);
             $table->decimal('reserved', 22)->default(0.00);
+            $table->decimal('wip', 22)->default(0.00);
             $table->timestamps();
             $table->softDeletes();
 

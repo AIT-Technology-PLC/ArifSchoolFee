@@ -2,6 +2,12 @@
 
 <option disabled>Select Product Type</option>
 <option
-    value="Merchandise Inventory"
-    {{ $type == 'Merchandise Inventory' ? 'selected' : '' }}
->Merchandise Inventory</option>
+    value="Finished Goods"
+    {{ $type == 'Finished Goods' ? 'selected' : '' }}
+>Finished Goods</option>
+@if (userCompany()->plan->isPremium())
+    <option
+        value="Raw Material"
+        {{ $type == 'Raw Material' ? 'selected' : '' }}
+    >Raw Material</option>
+@endif

@@ -264,6 +264,18 @@ td {
     color: #fafafa;
     z-index: 1;
 }
+.wip a {
+    background-color: #fafafa;
+    border-color: #fafafa;
+    color: #863d3e;
+    z-index: 1;
+}
+.tabs.is-toggle li.wip.is-active a {
+    background-color: #863d3e;
+    border-color: #863d3e;
+    color: #fafafa;
+    z-index: 1;
+}
 .reserved a {
     background-color: #fafafa;
     border-color: #fafafa;
