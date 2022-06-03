@@ -38,7 +38,7 @@
                     x-init="getProduct(gdn.product_id) && $watch(`gdn.product_id`, (value) => getProduct(value))"
                 >
                     <div class="column is-6">
-                        <x-forms.label x-bind:for="`gdnDetail[${index}][product_id]`">
+                        <x-forms.label x-bind:for="`gdn[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
@@ -53,7 +53,6 @@
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-common.product-list
-                                    tags="false"
                                     x-bind:id="`gdn[${index}][product_id]`"
                                     x-bind:name="`gdn[${index}][product_id]`"
                                     x-model="gdn.product_id"
@@ -71,25 +70,24 @@
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
+                        <x-forms.field>
                             <x-forms.label x-bind:for="`gdn[${index}][warehouse_id]`">
                                 From <sup class="has-text-danger">*</sup>
                             </x-forms.label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select
-                                        x-bind:id="`gdn[${index}][warehouse_id]`"
-                                        x-bind:name="`gdn[${index}][warehouse_id]`"
-                                        x-model="gdn.warehouse_id"
-                                    >
-                                        @foreach ($warehouses as $warehouse)
-                                            <option
-                                                value="{{ $warehouse->id }}"
-                                                {{ ($gdnDetail['warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}
-                                            >{{ $warehouse->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    x-bind:id="`gdn[${index}][warehouse_id]`"
+                                    x-bind:name="`gdn[${index}][warehouse_id]`"
+                                    x-model="gdn.warehouse_id"
+                                >
+                                    @foreach ($warehouses as $warehouse)
+                                        <option
+                                            value="{{ $warehouse->id }}"
+                                            {{ ($gdnDetail['warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}
+                                        >{{ $warehouse->name }}</option>
+                                    @endforeach
+                                </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-warehouse"
                                     class="is-small is-left"
@@ -98,8 +96,8 @@
                                     class="help has-text-danger"
                                     x-text="getErrors(`gdn.${index}.warehouse_id`)"
                                 ></span>
-                            </div>
-                        </div>
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
                         <x-forms.label x-bind:for="`gdn[${index}][quantity]`">
@@ -138,17 +136,15 @@
                         <x-forms.label x-bind:for="`gdn[${index}][unit_price]`">
                             Unit Price <sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup>
                         </x-forms.label>
-                        <div class="field has-addons">
-                            <div class="control has-icons-left is-expanded">
-                                <input
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
                                     x-bind:id="`gdn[${index}][unit_price]`"
                                     x-bind:name="`gdn[${index}][unit_price]`"
                                     x-model="gdn.unit_price"
                                     type="number"
-                                    class="input"
                                     placeholder="Unit Price"
-                                    :readonly="isDisabled"
-                                >
+                                />
                                 <x-common.icon
                                     name="fas fa-money-bill"
                                     class="is-small is-left"
@@ -157,8 +153,8 @@
                                     class="help has-text-danger"
                                     x-text="getErrors(`gdn.${index}.unit_price`)"
                                 ></span>
-                            </div>
-                            <div class="control">
+                            </x-forms.control>
+                            <x-forms.control>
                                 <x-common.button
                                     tag="button"
                                     type="button"
@@ -166,23 +162,22 @@
                                     class="bg-green has-text-white"
                                     x-text="product.unit_of_measurement"
                                 />
-                            </div>
-                        </div>
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? '' : 'is-hidden' }}">
                         <x-forms.label x-bind:for="`gdn[${index}][discount]`">
                             Discount <sup class="has-text-danger"></sup>
                         </x-forms.label>
-                        <div class="field">
-                            <div class="control has-icons-left is-expanded">
-                                <input
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
                                     x-bind:id="`gdn[${index}][discount]`"
                                     x-bind:name="`gdn[${index}][discount]`"
                                     x-model="gdn.discount"
                                     type="number"
-                                    class="input"
                                     placeholder="Discount in Percentage"
-                                >
+                                />
                                 <x-common.icon
                                     name="fas fa-percent"
                                     class="is-small is-left"
@@ -191,34 +186,33 @@
                                     class="help has-text-danger"
                                     x-text="getErrors(`gdn.${index}.discount`)"
                                 ></span>
-                            </div>
-                        </div>
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
+                        <x-forms.field>
                             <x-forms.label x-bind:for="`gdn[${index}][description]`">
                                 Additional Notes <sup class="has-text-danger"></sup>
                             </x-forms.label>
-                            <div class="control has-icons-left">
-                                <textarea
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.textarea
                                     x-bind:id="`gdn[${index}][description]`"
                                     x-bind:name="`gdn[${index}][description]`"
                                     x-model="gdn.description"
-                                    cols="30"
-                                    rows="3"
                                     class="textarea pl-6"
                                     placeholder="Description or note to be taken"
->{{ $gdnDetail['description'] ?? '' }}</textarea>
-                                <x-common.icon
-                                    name="fas fa-edit"
-                                    class="is-large is-left"
-                                />
-                                <span
-                                    class="help has-text-danger"
-                                    x-text="getErrors(`gdn.${index}.description`)"
-                                ></span>
-                            </div>
-                        </div>
+                                >
+                                    </x-formtextarea>
+                                    <x-common.icon
+                                        name="fas fa-edit"
+                                        class="is-large is-left"
+                                    />
+                                    <span
+                                        class="help has-text-danger"
+                                        x-text="getErrors(`gdn.${index}.description`)"
+                                    ></span>
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                 </div>
             </div>

@@ -81,7 +81,6 @@
                                     >
                                     Not Active
                                 </label>
-                                <x-common.validation-error property="is_active" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
