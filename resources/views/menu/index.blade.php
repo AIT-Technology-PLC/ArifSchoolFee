@@ -4,6 +4,43 @@
 
 @section('content')
     <x-common.content-wrapper>
+        @canany(['Read BOM'])
+            <section class="mb-5">
+                <x-content.header>
+                    <x-slot name="header">
+                        <span class="icon">
+                            <i class="fas fa-industry"></i>
+                        </span>
+                        <span class="ml-2">
+                            Production
+                        </span>
+                    </x-slot>
+                </x-content.header>
+                <x-content.footer>
+                    <div class="columns is-marginless is-multiline is-mobile">
+                        @can('Read BOM')
+                            @if (isFeatureEnabled('Bill Of Material Management'))
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('bill-of-materials.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-clipboard-list"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Bill Of Material
+                                    </span>
+                                </div>
+                            @endif
+                        @endcan
+                    </div>
+                </x-content.footer>
+            </section>
+        @endcanany
+
         @canany(['Read Merchandise', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
             <section class="mb-5">
                 <x-content.header>
@@ -153,20 +190,20 @@
 
                         @foreach (pads('Warehouse & Inventory') as $pad)
                             @canpad('Read', $pad)
-                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                    <a
-                                        href="{{ route('pads.transactions.index', $pad->id) }}"
-                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                    >
-                                        <span class="icon is-size-5">
-                                            <i class="{{ $pad->icon }}"></i>
-                                        </span>
-                                    </a>
-                                    <br>
-                                    <span class="is-size-6 is-size-7-mobile text-green">
-                                        {{ $pad->abbreviation }}
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                <a
+                                    href="{{ route('pads.transactions.index', $pad->id) }}"
+                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                >
+                                    <span class="icon is-size-5">
+                                        <i class="{{ $pad->icon }}"></i>
                                     </span>
-                                </div>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile text-green">
+                                    {{ $pad->abbreviation }}
+                                </span>
+                            </div>
                             @endcanpad
                         @endforeach
                     </div>
@@ -342,20 +379,20 @@
 
                         @foreach (pads('Sales & Customers') as $pad)
                             @canpad('Read', $pad)
-                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                    <a
-                                        href="{{ route('pads.transactions.index', $pad->id) }}"
-                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                    >
-                                        <span class="icon is-size-5">
-                                            <i class="{{ $pad->icon }}"></i>
-                                        </span>
-                                    </a>
-                                    <br>
-                                    <span class="is-size-6 is-size-7-mobile text-green">
-                                        {{ $pad->abbreviation }}
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                <a
+                                    href="{{ route('pads.transactions.index', $pad->id) }}"
+                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                >
+                                    <span class="icon is-size-5">
+                                        <i class="{{ $pad->icon }}"></i>
                                     </span>
-                                </div>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile text-green">
+                                    {{ $pad->abbreviation }}
+                                </span>
+                            </div>
                             @endcanpad
                         @endforeach
                     </div>
@@ -510,20 +547,20 @@
 
                         @foreach (pads('Purchases & Suppliers') as $pad)
                             @canpad('Read', $pad)
-                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                    <a
-                                        href="{{ route('pads.transactions.index', $pad->id) }}"
-                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                    >
-                                        <span class="icon is-size-5">
-                                            <i class="{{ $pad->icon }}"></i>
-                                        </span>
-                                    </a>
-                                    <br>
-                                    <span class="is-size-6 is-size-7-mobile text-green">
-                                        {{ $pad->abbreviation }}
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                <a
+                                    href="{{ route('pads.transactions.index', $pad->id) }}"
+                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                >
+                                    <span class="icon is-size-5">
+                                        <i class="{{ $pad->icon }}"></i>
                                     </span>
-                                </div>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile text-green">
+                                    {{ $pad->abbreviation }}
+                                </span>
+                            </div>
                             @endcanpad
                         @endforeach
                     </div>
@@ -655,20 +692,20 @@
 
                         @foreach (pads('General Settings') as $pad)
                             @canpad('Read', $pad)
-                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                    <a
-                                        href="{{ route('pads.transactions.index', $pad->id) }}"
-                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                    >
-                                        <span class="icon is-size-5">
-                                            <i class="{{ $pad->icon }}"></i>
-                                        </span>
-                                    </a>
-                                    <br>
-                                    <span class="is-size-6 is-size-7-mobile text-green">
-                                        {{ $pad->abbreviation }}
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                <a
+                                    href="{{ route('pads.transactions.index', $pad->id) }}"
+                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                >
+                                    <span class="icon is-size-5">
+                                        <i class="{{ $pad->icon }}"></i>
                                     </span>
-                                </div>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile text-green">
+                                    {{ $pad->abbreviation }}
+                                </span>
+                            </div>
                             @endcanpad
                         @endforeach
                     </div>
