@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Rules\ValidatePrice;
@@ -27,10 +28,18 @@ class StoreGdnRequest extends FormRequest
             'gdn.*.quantity' => ['required', 'numeric', 'gt:0'],
             'gdn.*.description' => ['nullable', 'string'],
             'gdn.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
-            'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
+            'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'), new CheckCustomerCreditLimit($this->get('discount'),
+                $this->get('gdn'),
+                $this->get('payment_type'),
+                $this->get('cash_received_type'),
+                $this->get('cash_received'))],
             'sale_id' => ['nullable', 'integer', new MustBelongToCompany('sales')],
             'issued_on' => ['required', 'date'],
-            'payment_type' => ['required', 'string'],
+            'payment_type' => ['required', 'string', function ($attribute, $value, $fail) {
+                if ($value == 'Credit Payment' && is_null($this->get('customer_id'))) {
+                    $fail('Creating a credit for delivery order that has no customer is not allowed.');
+                }
+            }],
 
             'cash_received_type' => ['required', 'string', function ($attribute, $value, $fail) {
                 if ($this->get('payment_type') == 'Cash Payment' && $value != 'percent') {
