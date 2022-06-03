@@ -17,7 +17,7 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'string', 'max:255', Rule::when(userCompany()->pad->isPremium(), Rule::in(['Finished Goods', 'Raw Material']), Rule::in(['Finished Goods']))],
+            'type' => ['required', 'string', 'max:255', Rule::when(userCompany()->plan->isPremium(), Rule::in(['Finished Goods', 'Raw Material']), Rule::in(['Finished Goods']))],
             'code' => ['nullable', 'string', 'max:255'],
             'unit_of_measurement' => ['required', 'string', 'max:255'],
             'min_on_hand' => ['required', 'numeric'],
