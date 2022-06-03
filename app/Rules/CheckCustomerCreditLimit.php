@@ -1,0 +1,93 @@
+<?php
+
+namespace App\Rules;
+
+use App\Models\Customer;
+use App\Utilities\Price;
+use Illuminate\Contracts\Validation\Rule;
+
+class CheckCustomerCreditLimit implements Rule
+{
+    private $discount;
+
+    private $details;
+
+    private $paymentType;
+
+    private $cashReceivedType;
+
+    private $cashReceived;
+
+    /**
+     * Create a new rule instance.
+     *
+     * @return void
+     */
+    public function __construct($discount, $details, $paymentType, $cashReceivedType, $cashReceived)
+    {
+        $this->discount = $discount;
+
+        $this->details = $details;
+
+        $this->paymentType = $paymentType;
+
+        $this->cashReceivedType = $cashReceivedType;
+
+        $this->cashReceived = $cashReceived;
+    }
+
+    /**
+     * Determine if the validation rule passes.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function passes($attribute, $value)
+    {
+        if ($this->paymentType == 'Cash Payment' || is_null($value)) {
+            return true;
+        }
+
+        $customer = Customer::find($value);
+
+        if ($customer->credit_amount_limit == 0.00) {
+            return true;
+        }
+
+        $totalCreditAmountProvided = $customer->credits()->sum('credit_amount');
+
+        $currentCreditBalance = $totalCreditAmountProvided - $customer->credits()->sum('credit_amount_settled');
+
+        $currentCreditLimit = $customer->credit_amount_limit - $currentCreditBalance;
+
+        if (userCompany()->isDiscountBeforeVAT()) {
+            $price = Price::getGrandTotalPrice($this->details);
+        }
+
+        if (!userCompany()->isDiscountBeforeVAT()) {
+            $price = Price::getGrandTotalPriceAfterDiscount($this->discount, $this->details);
+        }
+
+        if ($this->cashReceivedType == 'amount') {
+            $creditAmount = $price - $this->cashReceived;
+        }
+
+        if ($this->cashReceivedType == 'percent') {
+            $cashReceived = $this->cashReceived / 100;
+            $creditAmount = $price - ($price * $cashReceived);
+        }
+
+        return $currentCreditLimit >= $creditAmount;
+    }
+
+    /**
+     * Get the validation error message.
+     *
+     * @return string
+     */
+    public function message()
+    {
+        return 'The customer has exceeded the credit amount limit.';
+    }
+}

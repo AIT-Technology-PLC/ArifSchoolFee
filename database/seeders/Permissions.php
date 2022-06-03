@@ -40,6 +40,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Subtract GDN']);
             Permission::firstOrCreate(['name' => 'Close GDN']);
             Permission::firstOrCreate(['name' => 'Delete Approved GDN']);
+            Permission::firstOrCreate(['name' => 'Convert To Credit']);
 
             // GRN
             Permission::firstOrCreate(['name' => 'Create GRN']);
@@ -108,6 +109,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Update Sale']);
             Permission::firstOrCreate(['name' => 'Delete Sale']);
             Permission::firstOrCreate(['name' => 'Approve Sale']);
+            Permission::firstOrCreate(['name' => 'Cancel Sale']);
             Permission::firstOrCreate(['name' => 'Delete Approved Sale']);
 
             // Reservation

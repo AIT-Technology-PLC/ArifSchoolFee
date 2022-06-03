@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreWarehouseRequest extends FormRequest
 {
@@ -16,6 +17,7 @@ class StoreWarehouseRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'location' => ['required', 'string', 'max:255'],
+            'pos_provider' => ['nullable', 'string', 'max:255', Rule::in(['Peds'])],
             'is_active' => ['required', 'boolean'],
             'is_sales_store' => ['required', 'boolean'],
             'can_be_sold_from' => ['required', 'boolean'],

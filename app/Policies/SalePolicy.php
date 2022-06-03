@@ -35,4 +35,14 @@ class SalePolicy
     {
         return $this->isIssuedByMyBranch($user, $sale) && $user->can('Delete Sale');
     }
+
+    public function approve(User $user, Sale $sale)
+    {
+        return $user->can('Approve Sale');
+    }
+
+    public function cancel(User $user, Sale $sale)
+    {
+        return $user->can('Cancel Sale');
+    }
 }

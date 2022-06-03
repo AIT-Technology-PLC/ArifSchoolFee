@@ -62,6 +62,14 @@
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-user"></i>
                                 </div>
+                                @error('customer_id')
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>

@@ -62,6 +62,14 @@
                                 <div class="icon is-small is-left">
                                     <i class="fas fa-user"></i>
                                 </div>
+                                @error('customer_id')
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -138,7 +146,7 @@
                                     rows="3"
                                     class="textarea pl-6"
                                     placeholder="Description or note to be taken"
-                                >
+>
                                     {{ old('description') ?? '' }}
                                 </textarea>
                                 <span class="icon is-large is-left">
@@ -555,7 +563,7 @@
                                                     rows="3"
                                                     class="textarea pl-6"
                                                     placeholder="Description or note to be taken"
-                                                >
+>
                                                     {{ $reservationDetail['description'] ?? '' }}
                                                 </textarea>
                                                 <span class="icon is-large is-left">
