@@ -51,11 +51,15 @@ class CheckCustomerCreditLimit implements Rule
 
         $customer = Customer::find($value);
 
+        if ($customer->credit_amount_limit == 0.00) {
+            return true;
+        }
+
         $totalCreditAmountProvided = $customer->credits()->sum('credit_amount');
 
         $currentCreditBalance = $totalCreditAmountProvided - $customer->credits()->sum('credit_amount_settled');
 
-        $currentCreditLimit = $customer->credit_amount_limit > 0 ? ($customer->credit_amount_limit - $currentCreditBalance) : $customer->credit_amount_limit;
+        $currentCreditLimit = $customer->credit_amount_limit - $currentCreditBalance;
 
         if (userCompany()->isDiscountBeforeVAT()) {
             $price = Price::getGrandTotalPrice($this->details);
@@ -73,6 +77,7 @@ class CheckCustomerCreditLimit implements Rule
             $cashReceived = $this->cashReceived / 100;
             $creditAmount = $price - ($price * $cashReceived);
         }
+
         return $currentCreditLimit >= $creditAmount;
     }
 
