@@ -48,7 +48,7 @@ class BillOfMaterialController extends Controller
 
             $billOfMaterial->billOfMaterialDetails()->createMany($request->safe()['billOfMaterial']);
 
-            Notification::send(Notifiables::byNextActionPermission('Create BOM'), new BillOfMaterialCreated($billOfMaterial));
+            Notification::send(Notifiables::byNextActionPermission('Read BOM'), new BillOfMaterialCreated($billOfMaterial));
 
             return $billOfMaterial;
         });
@@ -80,9 +80,9 @@ class BillOfMaterialController extends Controller
             $billOfMaterial->billOfMaterialDetails()->forceDelete();
 
             $billOfMaterial->billOfMaterialDetails()->createMany($request->safe()['billOfMaterial']);
-        });
 
-        Notification::send(Notifiables::byNextActionPermission('Update BOM'), new BillOfMaterialUpdated($billOfMaterial));
+            Notification::send(Notifiables::byNextActionPermission('Read BOM'), new BillOfMaterialUpdated($billOfMaterial));
+        });
 
         return redirect()->route('bill-of-materials.show', $billOfMaterial->id);
     }
