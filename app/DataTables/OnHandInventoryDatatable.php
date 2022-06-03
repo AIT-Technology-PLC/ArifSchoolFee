@@ -62,6 +62,8 @@ class OnHandInventoryDatatable extends DataTable
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
             ->where('merchandises.company_id', '=', userCompany()->id)
+            ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
+            ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
             ->where(function ($query) {
                 $query->where('merchandises.available', '>', 0)
                     ->orWhere('merchandises.reserved', '>', 0);
@@ -71,6 +73,7 @@ class OnHandInventoryDatatable extends DataTable
                 'products.id as id',
                 'products.name as product',
                 'products.code as code',
+                'products.type as type',
                 'products.unit_of_measurement as unit',
                 'product_categories.name as category',
                 'warehouses.name as warehouse',
@@ -87,6 +90,7 @@ class OnHandInventoryDatatable extends DataTable
                 'product' => $merchandiseValue->first()->product,
                 'code' => $merchandiseValue->first()->code ?? '',
                 'unit' => $merchandiseValue->first()->unit,
+                'type' => $merchandiseValue->first()->type,
                 'category' => $merchandiseValue->first()->category,
                 'total balance' => $merchandiseValue->sum('on_hand'),
             ];
@@ -105,15 +109,16 @@ class OnHandInventoryDatatable extends DataTable
     {
         $warehouses = $this->warehouses->pluck('name');
 
-        return [
+        return collect([
             '#' => [
                 'sortable' => false,
             ],
             'product',
+            userCompany()->plan->isPremium() ? 'type' : null,
             'category',
             ...$warehouses,
             'total balance',
-        ];
+        ])->filter()->toArray();
 
     }
 
