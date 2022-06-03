@@ -171,6 +171,11 @@ class Company extends Model
         return $this->belongsToMany(Integration::class);
     }
 
+    public function billOfMaterials()
+    {
+        return $this->hasMany(BillOfMaterial::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
