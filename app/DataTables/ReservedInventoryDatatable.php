@@ -64,6 +64,8 @@ class ReservedInventoryDatatable extends DataTable
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
             ->where('merchandises.company_id', '=', userCompany()->id)
+            ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
+            ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
             ->where('merchandises.reserved', '>', 0)
             ->whereIn('warehouses.id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
             ->select([
@@ -71,6 +73,7 @@ class ReservedInventoryDatatable extends DataTable
                 'products.id as product_id',
                 'products.name as product',
                 'products.code as code',
+                'products.type as type',
                 'products.unit_of_measurement as unit',
                 'product_categories.name as category',
                 'warehouses.name as warehouse',
@@ -87,6 +90,7 @@ class ReservedInventoryDatatable extends DataTable
                 'code' => $merchandiseValue->first()->code ?? '',
                 'product_id' => $merchandiseValue->first()->product_id,
                 'unit' => $merchandiseValue->first()->unit,
+                'type' => $merchandiseValue->first()->type,
                 'category' => $merchandiseValue->first()->category,
                 'total balance' => $merchandiseValue->sum('reserved'),
             ];
@@ -106,15 +110,16 @@ class ReservedInventoryDatatable extends DataTable
     {
         $warehouses = $this->warehouses->pluck('name');
 
-        return [
+        return collect([
             '#' => [
                 'sortable' => false,
             ],
             'product',
+            userCompany()->plan->isPremium() ? 'type' : null,
             'category',
             ...$warehouses,
             'total balance',
-        ];
+        ])->filter()->toArray();
 
     }
 

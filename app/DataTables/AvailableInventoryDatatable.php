@@ -118,16 +118,16 @@ class AvailableInventoryDatatable extends DataTable
     {
         $warehouses = $this->warehouses->pluck('name');
 
-        return [
+        return collect([
             '#' => [
                 'sortable' => false,
             ],
             'product',
-            'type',
+            userCompany()->plan->isPremium() ? 'type' : null,
             'category',
             ...$warehouses,
             'total balance',
-        ];
+        ])->filter()->toArray();
 
     }
 

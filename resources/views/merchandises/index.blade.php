@@ -147,7 +147,7 @@
                 </div>
             </div>
         </div>
-        @if (request()->is('merchandises/available'))
+        @if (request()->is('merchandises/available') || userCompany()->plan->isPremium())
             <div>
                 <x-content.footer>
                     <x-datatables.filter filters="'level', 'type'">

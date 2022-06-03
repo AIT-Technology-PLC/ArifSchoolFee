@@ -56,7 +56,11 @@ class OutOfStockInventoryDatatable extends DataTable
             return collect();
         }
 
-        $outOfStockProducts = $this->service->getOutOfStockMerchandiseProductsQuery(user:auth()->user())->with('productCategory')->get();
+        $outOfStockProducts = $this->service
+            ->getOutOfStockMerchandiseProductsQuery(user:auth()->user())->with('productCategory')
+            ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
+            ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
+            ->get();
 
         $organizedoutOfStockProducts = collect();
 
@@ -64,6 +68,7 @@ class OutOfStockInventoryDatatable extends DataTable
             $organizedoutOfStockProducts->push([
                 'product' => $outOfStockProduct->name,
                 'code' => $outOfStockProduct->code ?? '',
+                'type' => $outOfStockProduct->type,
                 'product_id' => $outOfStockProduct->id,
                 'category' => $outOfStockProduct->productCategory->name,
             ]);
@@ -76,14 +81,15 @@ class OutOfStockInventoryDatatable extends DataTable
     {
         $warehouses = $this->warehouses->pluck('name');
 
-        return [
+        return collect([
             '#' => [
                 'sortable' => false,
             ],
             'product',
+            userCompany()->plan->isPremium() ? 'type' : null,
             'category',
             ...$warehouses,
-        ];
+        ])->filter()->toArray();
 
     }
 
