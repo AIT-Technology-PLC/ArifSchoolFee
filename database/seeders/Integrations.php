@@ -17,7 +17,7 @@ class Integrations extends Seeder
     {
         DB::transaction(function () {
             Integration::updateOrCreate(
-                ['name' => 'POS'],
+                ['name' => 'Point of Sale'],
                 ['is_enabled' => 1]
             );
         });
