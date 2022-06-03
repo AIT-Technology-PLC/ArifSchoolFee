@@ -11,7 +11,7 @@
                     <x-common.show-data-section
                         icon="fas fa-hashtag"
                         :data="$sale->code ?? 'N/A'"
-                        label="Receipt No"
+                        label="Invoice No"
                     />
                 </div>
                 <div class="column is-6">
@@ -82,6 +82,34 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
+                @if (!$sale->isApproved() && !$sale->isCancelled())
+                    @can('Approve Sale')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('sales.approve', $sale->id)"
+                                action="approve"
+                                intention="approve this sale"
+                                icon="fas fa-signature"
+                                label="Approve"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                @if (!$sale->isCancelled())
+                    @can('Cancel Sale')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('sales.cancel', $sale->id)"
+                                action="cancel"
+                                intention="cancel this sale"
+                                icon="fas fa-times"
+                                label="Cancel"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
                 <x-common.dropdown-item>
                     <x-common.button
                         tag="a"
@@ -95,21 +123,24 @@
             </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
-            <div class="notification bg-gold has-text-white has-text-weight-medium {{ session('message') ? '' : 'is-hidden' }}">
-                <span class="icon">
-                    <i class="fas fa-times-circle"></i>
-                </span>
-                <span>
-                    {{ session('message') }}
-                </span>
-            </div>
             <x-common.success-message :message="session('deleted')" />
+            <x-common.fail-message :message="session('failedMessage')" />
+
+            @if ($sale->isCancelled())
+                <x-common.fail-message message="This invoice is cancelled." />
+            @elseif ($sale->isApproved())
+                <x-common.success-message message="This invoice is approved." />
+            @else
+                <x-common.fail-message message="This invoice is not approved yet." />
+            @endif
+
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
-    @if (isFeatureEnabled('Gdn Management'))
+
+    @if (isFeatureEnabled('Gdn Management') && $sale->gdns()->count())
         <x-common.content-wrapper class="mt-5">
-            <x-content.header title="DO for this sale" />
+            <x-content.header title="Delivery Orders" />
             <x-content.footer>
                 <x-common.bulma-table>
                     <x-slot name="headings">

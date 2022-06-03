@@ -139,6 +139,7 @@ class Features extends Seeder
 
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');
+            $premium = Plan::firstWhere('name', 'premium');
 
             $standard->features()->sync(
                 Feature::query()
@@ -165,6 +166,10 @@ class Features extends Seeder
             );
 
             $professional->features()->sync(
+                Feature::all()->pluck('id')->toArray()
+            );
+
+            $premium->features()->sync(
                 Feature::all()->pluck('id')->toArray()
             );
         });

@@ -166,6 +166,11 @@ class Company extends Model
         return $this->hasMany(Transaction::class);
     }
 
+    public function integrations()
+    {
+        return $this->belongsToMany(Integration::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
@@ -211,5 +216,14 @@ class Company extends Model
     public function canShowBranchDetailOnPrint()
     {
         return $this->can_show_branch_detail_on_print;
+    }
+
+    public function hasIntegration($integrationName)
+    {
+        return $this->integrations()
+            ->where('name', $integrationName)
+            ->where('integrations.is_enabled', 1)
+            ->wherePivot('is_enabled', 1)
+            ->exists();
     }
 }

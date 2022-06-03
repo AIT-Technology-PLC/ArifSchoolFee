@@ -17,6 +17,7 @@ class WarehouseDatatable extends DataTable
             ->eloquent($query)
             ->editColumn('is_sales_store', fn($warehouse) => $warehouse->is_sales_store ? 'Sales Store' : 'Main Store')
             ->editColumn('can_be_sold_from', fn($warehouse) => $warehouse->can_be_sold_from ? 'Yes' : 'No')
+            ->editColumn('pos_provider', fn($warehouse) => $warehouse->pos_provider ?? 'N/A')
             ->editColumn('status', fn($warehouse) => view('components.datatables.warehouse-status', compact('warehouse')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
@@ -52,12 +53,13 @@ class WarehouseDatatable extends DataTable
 
     protected function getColumns()
     {
-        return [
+        return collect([
             Column::computed('#'),
             Column::make('name')->addClass('text-green has-text-weight-bold'),
             Column::make('location'),
             Column::make('is_sales_store')->title('Type')->searchable(false),
             Column::make('can_be_sold_from')->searchable(false)->addClass('has-text-centered')->visible(false),
+            userCompany()->hasIntegration('Point of Sale') ? Column::make('pos_provider')->visible(false)->title('Point of Sale Provider') : null,
             Column::make('status')->orderable(false),
             Column::make('email')->content('N/A')->visible(false),
             Column::make('phone')->content('N/A')->visible(false),
@@ -66,7 +68,9 @@ class WarehouseDatatable extends DataTable
             Column::make('created by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
-        ];
+        ])
+            ->filter()
+            ->toArray();
     }
 
     protected function filename()

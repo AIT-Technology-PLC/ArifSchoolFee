@@ -25,7 +25,13 @@ class SaleController extends Controller
 
         $totalSales = Sale::count();
 
-        return $datatable->render('sales.index', compact('totalSales'));
+        $totalNotApproved = Sale::notApproved()->notCancelled()->count();
+
+        $totalApproved = Sale::approved()->notCancelled()->count();
+
+        $totalCancelled = Sale::cancelled()->count();
+
+        return $datatable->render('sales.index', compact('totalSales', 'totalNotApproved', 'totalApproved', 'totalCancelled'));
     }
 
     public function create()
@@ -38,9 +44,9 @@ class SaleController extends Controller
     public function store(StoreSaleRequest $request)
     {
         $sale = DB::transaction(function () use ($request) {
-            $sale = Sale::create($request->except('sale'));
+            $sale = Sale::create($request->safe()->except('sale'));
 
-            $sale->saleDetails()->createMany($request->sale);
+            $sale->saleDetails()->createMany($request->safe()['sale']);
 
             return $sale;
         });
@@ -59,6 +65,10 @@ class SaleController extends Controller
 
     public function edit(Sale $sale)
     {
+        if ($sale->isApproved() || $sale->isCancelled()) {
+            return back()->with('failedMessage', 'Invoices that are approved/cancelled can not be edited.');
+        }
+
         $sale->load('saleDetails.product');
 
         return view('sales.edit', compact('sale'));
@@ -66,11 +76,15 @@ class SaleController extends Controller
 
     public function update(UpdateSaleRequest $request, Sale $sale)
     {
+        if ($sale->isApproved() || $sale->isCancelled()) {
+            return back()->with('failedMessage', 'Invoices that are approved/cancelled can not be edited.');
+        }
+
         DB::transaction(function () use ($request, $sale) {
-            $sale->update($request->except('sale'));
+            $sale->update($request->safe()->except('sale'));
 
             for ($i = 0; $i < count($request->sale); $i++) {
-                $sale->saleDetails[$i]->update($request->sale[$i]);
+                $sale->saleDetails[$i]->update($request->safe()['sale'][$i]);
             }
         });
 
@@ -79,6 +93,10 @@ class SaleController extends Controller
 
     public function destroy(Sale $sale)
     {
+        if ($sale->isApproved() || $sale->isCancelled()) {
+            return back()->with('failedMessage', 'Invoices that are approved/cancelled can not be deleted.');
+        }
+
         $sale->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');

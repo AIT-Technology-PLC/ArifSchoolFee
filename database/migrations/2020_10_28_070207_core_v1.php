@@ -125,6 +125,7 @@ return new class extends Migration
             $table->boolean('is_active');
             $table->boolean('is_sales_store')->default(1);
             $table->boolean('can_be_sold_from')->default(1);
+            $table->string('pos_provider')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->longText('description')->nullable();
@@ -255,6 +256,8 @@ return new class extends Migration
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('cancelled_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
@@ -832,6 +835,22 @@ return new class extends Migration
             $table->index('company_id');
         });
 
+        Schema::create('integrations', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->boolean('is_enabled');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('company_integration', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('integration_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->boolean('is_enabled');
+            $table->timestamps();
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -892,5 +911,7 @@ return new class extends Migration
         Schema::drop('credit_settlements');
         Schema::drop('credits');
         Schema::drop('prices');
+        Schema::drop('company_integration');
+        Schema::drop('integrations');
     }
 };

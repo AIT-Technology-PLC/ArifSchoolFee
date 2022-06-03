@@ -81,6 +81,43 @@
                             </div>
                         </div>
                     </div>
+                    @if (userCompany()->hasIntegration('Point of Sale'))
+                        <div class="column is-6">
+                            <div class="field">
+                                <label
+                                    for="pos_provider"
+                                    class="label text-green has-text-weight-normal"
+                                > Point of Sale Provider <sup class="has-text-danger"></sup> </label>
+                                <div class="control has-icons-left">
+                                    <div class="select is-fullwidth">
+                                        <select
+                                            id="pos_provider"
+                                            name="pos_provider"
+                                        >
+                                            <option disabled>
+                                                Select Provider
+                                            </option>
+                                            <option
+                                                value="Peds"
+                                                @selected($warehouse->pos_provider == 'Peds')
+                                            >
+                                                Peds
+                                            </option>
+                                            <option
+                                                value=""
+                                                @selected($warehouse->pos_provider == '')
+                                            >
+                                                None
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="icon is-small is-left">
+                                        <i class="fas fa-cash-register"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     <div class="column is-6">
                         <div class="field">
                             <label
@@ -264,7 +301,7 @@
                                     rows="10"
                                     class="textarea pl-6"
                                     placeholder="Description or note about the new warehouse"
-                                >{{ $warehouse->description ?? '' }}</textarea>
+>{{ $warehouse->description ?? '' }}</textarea>
                                 <span class="icon is-large is-left">
                                     <i class="fas fa-edit"></i>
                                 </span>
