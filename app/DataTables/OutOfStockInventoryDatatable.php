@@ -90,7 +90,6 @@ class OutOfStockInventoryDatatable extends DataTable
             'category',
             ...$warehouses,
         ])->filter()->toArray();
-
     }
 
     protected function filename()

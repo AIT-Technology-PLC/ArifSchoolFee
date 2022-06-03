@@ -128,7 +128,6 @@ class AvailableInventoryDatatable extends DataTable
             ...$warehouses,
             'total balance',
         ])->filter()->toArray();
-
     }
 
     protected function filename()

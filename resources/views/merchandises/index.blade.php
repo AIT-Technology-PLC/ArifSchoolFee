@@ -147,11 +147,15 @@
                 </div>
             </div>
         </div>
-        @if (request()->is('merchandises/available') || userCompany()->plan->isPremium())
-            <div>
-                <x-content.footer>
-                    <x-datatables.filter filters="'level', 'type'">
-                        <div class="columns is-marginless is-vcentered">
+        <div @class([
+            'is-hidden' =>
+                !request()->is('merchandises/available') &&
+                !userCompany()->plan->isPremium(),
+        ])>
+            <x-content.footer>
+                <x-datatables.filter filters="'level', 'type'">
+                    <div class="columns is-marginless is-vcentered">
+                        @if (request()->is('merchandises/available'))
                             <div class="column is-3 p-lr-0 pt-0">
                                 <x-forms.field class="has-text-centered">
                                     <x-forms.control>
@@ -177,38 +181,38 @@
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
-                            @if (userCompany()->plan->isPremium())
-                                <div class="column is-3 p-lr-0 pt-0">
-                                    <x-forms.field class="has-text-centered">
-                                        <x-forms.control>
-                                            <x-forms.select
-                                                id=""
-                                                name=""
-                                                class="is-size-7-mobile is-fullwidth"
-                                                x-model="filters.type"
-                                                x-on:change="add('type')"
+                        @endif
+                        @if (userCompany()->plan->isPremium())
+                            <div class="column is-3 p-lr-0 pt-0">
+                                <x-forms.field class="has-text-centered">
+                                    <x-forms.control>
+                                        <x-forms.select
+                                            id=""
+                                            name=""
+                                            class="is-size-7-mobile is-fullwidth"
+                                            x-model="filters.type"
+                                            x-on:change="add('type')"
+                                        >
+                                            <option
+                                                disabled
+                                                selected
+                                                value=""
                                             >
-                                                <option
-                                                    disabled
-                                                    selected
-                                                    value=""
-                                                >
-                                                    Type
-                                                </option>
-                                                <option value="all"> All </option>
-                                                @foreach (['Finished Goods', 'Raw Material'] as $type)
-                                                    <option value="{{ str()->lower($type) }}"> {{ $type }} </option>
-                                                @endforeach
-                                            </x-forms.select>
-                                        </x-forms.control>
-                                    </x-forms.field>
-                                </div>
-                            @endif
-                        </div>
-                    </x-datatables.filter>
-                </x-content.footer>
-            </div>
-        @endif
+                                                Type
+                                            </option>
+                                            <option value="all"> All </option>
+                                            @foreach (['Finished Goods', 'Raw Material'] as $type)
+                                                <option value="{{ str()->lower($type) }}"> {{ $type }} </option>
+                                            @endforeach
+                                        </x-forms.select>
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                        @endif
+                    </div>
+                </x-datatables.filter>
+            </x-content.footer>
+        </div>
         <div class="tabs is-toggle is-fullwidth has-background-white-bis">
             <ul>
                 <li class="available {{ request()->is('merchandises/available') ? 'is-active' : '' }}">
