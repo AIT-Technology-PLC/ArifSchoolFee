@@ -21,13 +21,13 @@ if (!function_exists('limitReached')) {
 }
 
 if (!function_exists('isFeatureEnabled')) {
-    function isFeatureEnabled($featureName)
+    function isFeatureEnabled(...$featureNames)
     {
         $enabledFeatures = Cache::store('array')->rememberForever(auth()->id() . '_' . 'enabledFeatures', function () {
             return Feature::getAllEnabledFeaturesOfCompany();
         });
 
-        return $enabledFeatures->contains($featureName);
+        return $enabledFeatures->intersect($featureNames)->isNotEmpty();
     }
 }
 
