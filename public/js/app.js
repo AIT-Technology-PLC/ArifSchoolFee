@@ -438,7 +438,8 @@ document.addEventListener("alpine:init", () => {
                     this.paymentType === "Cash Payment"
                 );
             },
-        }));
+        })
+    );
 
     Alpine.data("priceMasterDetailForm", ({ price }) => ({
         prices: [],
@@ -729,8 +730,8 @@ document.addEventListener("alpine:init", () => {
             this.fileName = "";
         },
         getFileName() {
-            this.fileName = this.file.slice(this.file.lastIndexOf("\\") + 1)
-        }
+            this.fileName = this.file.slice(this.file.lastIndexOf("\\") + 1);
+        },
     }));
 
     Alpine.data("billOfMaterialMasterDetailForm", ({ billOfMaterial }) => ({

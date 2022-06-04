@@ -2,7 +2,6 @@
     x-data="gdnMasterDetailForm({{ Js::from($data) }})"
     x-init="setErrors({{ json_encode($errors->get('gdn.*')) }})"
 >
-    <x-common.fail-message :message="session('failedMessage')" />
     <template
         x-for="(gdn, index) in gdns"
         x-bind:key="index"
