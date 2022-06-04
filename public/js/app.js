@@ -854,7 +854,7 @@ document.addEventListener("alpine:init", () => {
             });
         },
         remove(index) {
-            if (this.reservation.length === 1) {
+            if (this.reservations.length === 1) {
                 return;
             }
 
