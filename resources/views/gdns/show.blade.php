@@ -142,7 +142,7 @@
                     @endcan
                 @endif
                 @if (isFeatureEnabled('Credit Management') && $gdn->isApproved() && !$gdn->credit()->exists() && $gdn->payment_type == 'Credit Payment' && $gdn->customer()->exists())
-                    @can('Create Credit')
+                    @can('Convert To Credit')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
                                 :route="route('gdns.convert_to_credit', $gdn->id)"

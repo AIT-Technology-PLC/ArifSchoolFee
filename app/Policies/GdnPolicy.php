@@ -50,4 +50,9 @@ class GdnPolicy
     {
         return $user->can('Close GDN');
     }
+
+    public function convertToCredit(User $user, Gdn $gdn)
+    {
+        return $user->can('Convert To Credit');
+    }
 }

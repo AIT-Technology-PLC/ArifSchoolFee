@@ -101,7 +101,7 @@ class GdnController extends Controller
 
     public function convertToCredit(Gdn $gdn)
     {
-        $this->authorize('create', Credit::class);
+        $this->authorize('convertToCredit', Credit::class);
 
         [$isExecuted, $message] = $this->gdnService->convertToCredit($gdn);
 

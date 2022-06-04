@@ -40,7 +40,6 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Subtract GDN']);
             Permission::firstOrCreate(['name' => 'Close GDN']);
             Permission::firstOrCreate(['name' => 'Delete Approved GDN']);
-            Permission::firstOrCreate(['name' => 'Convert To Credit']);
 
             // GRN
             Permission::firstOrCreate(['name' => 'Create GRN']);
@@ -214,6 +213,9 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Read BOM']);
             Permission::firstOrCreate(['name' => 'Update BOM']);
             Permission::firstOrCreate(['name' => 'Delete BOM']);
+
+            // Other
+            Permission::firstOrCreate(['name' => 'Convert To Credit']);
 
             // Assign permissions to role
             $analyst->syncPermissions([
