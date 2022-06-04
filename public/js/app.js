@@ -485,8 +485,7 @@ document.addEventListener("alpine:init", () => {
         },
     }));
 
-
-Alpine.data("reservationMasterDetailForm", ({ reservation }) => ({
+    Alpine.data("reservationMasterDetailForm", ({ reservation }) => ({
         reservations: [],
         errors: {},
 
@@ -531,6 +530,52 @@ Alpine.data("reservationMasterDetailForm", ({ reservation }) => ({
             });
 
             this.$watch(`reservations`, () => select2.trigger("change"));
+        },
+    }));
+
+    Alpine.data("sivMasterDetailForm", ({ siv }) => ({
+        sivs: [],
+        errors: {},
+
+        init() {
+            if (siv) {
+                this.sivs = siv;
+                return;
+            }
+
+            this.add();
+        },
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        getErrors(property) {
+            return this.errors[property];
+        },
+        add() {
+            this.sivs.push({
+                product_id: "",
+                warehouse_id: "",
+                quantity: "",
+                description: "",
+            });
+        },
+        remove(index) {
+            if (this.siv.length === 1) {
+                return;
+            }
+
+            this.sivs.splice(index, 1);
+        },
+        select2(index) {
+            let select2 = initializeSelect2(this.$el);
+
+            this.$nextTick(() => $(select2).trigger("change"));
+
+            select2.on("change", (event) => {
+                this.sivs[index].product_id = event.target.value;
+            });
+
+            this.$watch(`sivs`, () => select2.trigger("change"));
         },
     }));
 
