@@ -103,9 +103,9 @@ class GdnController extends Controller
         DB::transaction(function () use ($request, $gdn) {
             $gdn->update($request->safe()->except('gdn'));
 
-            for ($i = 0; $i < count($request->gdn); $i++) {
-                $gdn->gdnDetails[$i]->update($request->gdn[$i]);
-            }
+            $gdn->gdnDetails()->forceDelete();
+
+            $gdn->gdnDetails()->createMany($request->safe()['gdn']);
         });
 
         return redirect()->route('gdns.show', $gdn->id);
