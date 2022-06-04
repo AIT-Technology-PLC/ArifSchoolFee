@@ -43,18 +43,22 @@ class DeployRoutine extends Command
         if (env('APP_ENV') == 'production') {
             $githubData = env('GITHUB_USERNAME') . ':' . env('GITHUB_PASSWORD');
 
-            exec('composer install --no-dev');
+            $this->info(exec('composer install --no-dev'));
 
-            exec('git pull https://' . $githubData . '@github.com/onrica/smartwork.git');
+            $this->newLine();
+
+            $this->info(exec('git pull https://' . $githubData . '@github.com/onrica/smartwork.git'));
+
+            $this->newLine();
         }
 
         Artisan::call('migrate --force');
 
-        Artisan::call('db:seed Plans');
-        Artisan::call('db:seed Limits');
-        Artisan::call('db:seed Features');
-        Artisan::call('db:seed Integrations');
-        Artisan::call('db:seed Permissions');
+        Artisan::call('db:seed Plans --force');
+        Artisan::call('db:seed Limits --force');
+        Artisan::call('db:seed Features --force');
+        Artisan::call('db:seed Integrations --force');
+        Artisan::call('db:seed Permissions --force');
 
         Artisan::call('optimize:cache');
 
