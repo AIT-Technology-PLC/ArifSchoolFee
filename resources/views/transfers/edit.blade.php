@@ -137,7 +137,9 @@
                     </div>
                 </div>
             </div>
-            @include('transfers.details-form', ['data' => ['transfer' => $transfer->transferDetails]])
+            
+            @include('transfers.details-form', ['data' => ['transfer' => old('transfer') ?? $transfer->transferDetails]])
+            
             <x-content.footer>
                 <x-common.save-button />
             </x-content.footer>

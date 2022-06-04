@@ -48,12 +48,12 @@
                                 Customer <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="select is-fullwidth has-icons-left">
-                                    <x-common.customer-list
-                                        id="issued_to"
-                                        name="issued_to"
-                                        value="company_name"
-                                        :selected-id="$siv->issued_to ?? ''"
-                                    />
+                                <x-common.customer-list
+                                    id="issued_to"
+                                    name="issued_to"
+                                    value="company_name"
+                                    :selected-id="$siv->issued_to ?? ''"
+                                />
                                 <x-common.icon
                                     name="fas fa-user"
                                     class="is-small is-left"
@@ -199,7 +199,9 @@
                     </div>
                 </div>
             </div>
-            @include('sivs.details-form', ['data' => ['siv' => $siv->sivDetails]])
+            
+            @include('sivs.details-form', ['data' => ['siv' => old('siv') ?? $siv->sivDetails]])
+            
             <x-content.footer>
                 <x-common.save-button />
             </x-content.footer>

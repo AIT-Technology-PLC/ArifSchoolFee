@@ -242,7 +242,9 @@
                     </div>
                 </div>
             </div>
-            @include('reservations.details-form', ['data' => ['reservation' => $reservation->reservationDetails]])
+            
+            @include('reservations.details-form', ['data' => ['reservation' => old('reservation') ?? $reservation->reservationDetails]])
+            
             <x-content.footer>
                 <x-common.save-button />
             </x-content.footer>

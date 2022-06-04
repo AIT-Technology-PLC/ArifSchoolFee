@@ -245,11 +245,11 @@
                 </x-common.content-wrapper>
             </x-content.main>
 
-            @include('gdns.details-form', ['data' => ['gdn' => $gdn->gdnDetails]])
+            @include('gdns.details-form', ['data' => ['gdn' => old('gdn') ?? $gdn->gdnDetails]])
 
             <x-content.footer>
                 <x-common.save-button />
             </x-content.footer>
         </form>
-        </section>
-    @endsection
+    </x-common.content-wrapper>
+@endsection
