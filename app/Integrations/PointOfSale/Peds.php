@@ -29,12 +29,12 @@ class Peds implements PointOfSaleInterface
             ->saleDetails
             ->map(function ($saleDetail) {
                 return [
-                    'HoldSalesItemIdentifierId' => $saleDetail->id,
-                    'CategoryIdentifierId' => $saleDetail->product->product_category_id,
+                    'HoldSalesItemIdentifierId' => (string) $saleDetail->id,
+                    'CategoryIdentifierId' => (string) $saleDetail->product->product_category_id,
                     'CategoryName' => $saleDetail->product->productCategory->name,
-                    'ItemIdentifierId' => $saleDetail->product_id,
+                    'ItemIdentifierId' => (string) $saleDetail->product_id,
                     'ItemDescription' => $saleDetail->product->name,
-                    'ItemCode' => $saleDetail->product->code,
+                    'ItemCode' => (string) $saleDetail->product->code,
                     'UomIdentifierId' => $saleDetail->product->unit_of_measurement,
                     'UomName' => $saleDetail->product->unit_of_measurement,
                     'Quantity' => $saleDetail->quantity,
@@ -45,19 +45,19 @@ class Peds implements PointOfSaleInterface
             ->toArray();
 
         $holdSales = [
-            'HoldSalesIdentifierId' => $this->sale->code,
+            'HoldSalesIdentifierId' => (string) $this->sale->code,
             'TransactionType' => '0',
-            'InvoiceNo' => $this->sale->code,
+            'InvoiceNo' => (string) $this->sale->code,
             'PaymentType' => $this->sale->payment_type == 'Cash Payment' ? '0' : '2',
             'TableNumber' => '',
             'SalesPerson' => $this->sale->createdBy->name,
             'HoldMemo' => '',
             'Date' => $this->sale->created_at,
             'CustomerName' => $this->sale->customer->company_name,
-            'CustomerTIN' => $this->sale->customer?->tin,
+            'CustomerTIN' => $this->sale->customer->tin ?? null,
             'CustomerVAT' => '',
             'CashierUpdated' => $this->sale->updatedBy->name,
-            'POSId' => $this->sale->warehouse_id,
+            'POSId' => (string) $this->sale->warehouse_id,
             'HoldSalesItems' => $holdSalesItems,
         ];
 
