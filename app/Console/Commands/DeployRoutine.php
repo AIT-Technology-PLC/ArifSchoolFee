@@ -43,9 +43,9 @@ class DeployRoutine extends Command
         if (env('APP_ENV') == 'production') {
             $githubData = env('GITHUB_USERNAME') . ':' . env('GITHUB_PASSWORD');
 
-            shell_exec('composer install --no-dev');
+            exec('composer install --no-dev');
 
-            shell_exec('git pull https://' . $githubData . '@github.com/onrica/smartwork.git');
+            exec('git pull https://' . $githubData . '@github.com/onrica/smartwork.git');
         }
 
         Artisan::call('migrate --force');
