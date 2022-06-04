@@ -579,6 +579,51 @@ document.addEventListener("alpine:init", () => {
         },
     }));
 
+    Alpine.data("transferMasterDetailForm", ({ transfer }) => ({
+        transfers: [],
+        errors: {},
+
+        init() {
+            if (transfer) {
+                this.transfers = transfer;
+                return;
+            }
+
+            this.add();
+        },
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        getErrors(property) {
+            return this.errors[property];
+        },
+        add() {
+            this.transfers.push({
+                product_id: "",
+                quantity: "",
+                description: "",
+            });
+        },
+        remove(index) {
+            if (this.transfer.length === 1) {
+                return;
+            }
+
+            this.transfers.splice(index, 1);
+        },
+        select2(index) {
+            let select2 = initializeSelect2(this.$el);
+
+            this.$nextTick(() => $(select2).trigger("change"));
+
+            select2.on("change", (event) => {
+                this.transfers[index].product_id = event.target.value;
+            });
+
+            this.$watch(`transfers`, () => select2.trigger("change"));
+        },
+    }));
+
     Alpine.data("priceMasterDetailForm", ({ price }) => ({
         prices: [],
         errors: {},
