@@ -53,6 +53,10 @@ if (!function_exists('nextReferenceNumber')) {
 if (!function_exists('quantity')) {
     function quantity($amount = 0.00, $unitOfMeasurement = 'Piece')
     {
+        if (!$unitOfMeasurement) {
+            $unitOfMeasurement = 'Piece';
+        }
+
         return number_format($amount, 2) . ' ' . $unitOfMeasurement;
     }
 }

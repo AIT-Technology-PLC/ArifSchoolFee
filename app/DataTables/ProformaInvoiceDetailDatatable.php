@@ -17,12 +17,12 @@ class ProformaInvoiceDetailDatatable extends DataTable
             ->eloquent($query)
             ->editColumn('product', function ($proformaInvoiceDetail) {
                 return view('components.datatables.product-code', [
-                    'product' => $proformaInvoiceDetail->product->name,
+                    'product' => $proformaInvoiceDetail->product->name ?? $proformaInvoiceDetail->custom_product,
                     'code' => $proformaInvoiceDetail->product->code ?? '',
                 ]);
             })
             ->editColumn('quantity', function ($proformaInvoiceDetail) {
-                return quantity($proformaInvoiceDetail->quantity, $proformaInvoiceDetail->product->unit_of_measurement);
+                return quantity($proformaInvoiceDetail->quantity, $proformaInvoiceDetail->product->unit_of_measurement ?? null);
             })
             ->editColumn('unit_price', fn($proformaInvoiceDetail) => money($proformaInvoiceDetail->unit_price))
             ->editColumn('discount', fn($proformaInvoiceDetail) => number_format($proformaInvoiceDetail->discount * 100, 2) . '%')
