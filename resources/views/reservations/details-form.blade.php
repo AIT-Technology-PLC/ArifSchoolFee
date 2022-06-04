@@ -131,7 +131,11 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div
+                        class="column is-6"
+                        x-data="productDataProvider(reservation.product_id)"
+                        x-init="getProduct(reservation.product_id) && $watch(`reservation.product_id`, (value) => getProduct(value))"
+                    >
                         <x-forms.label x-bind:for="`reservation[${index}][unit_price]`">
                             Unit Price <sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup>
                         </x-forms.label>
