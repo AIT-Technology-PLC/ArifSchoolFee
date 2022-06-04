@@ -31,12 +31,7 @@
                 </x-forms.control>
             </x-forms.field>
             <div class="box has-background-white-bis radius-top-0">
-                <div
-                    name="transferFormGroup"
-                    class="columns is-marginless is-multiline"
-                    x-data="productDataProvider(transfer.product_id)"
-                    x-init="getProduct(transfer.product_id) && $watch(`transfer.product_id`, (value) => getProduct(value))"
-                >
+                <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <x-forms.label x-bind:for="`transfer[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
@@ -69,7 +64,11 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div
+                        class="column is-6"
+                        x-data="productDataProvider(transfer.product_id)"
+                        x-init="getProduct(transfer.product_id) && $watch(`transfer.product_id`, (value) => getProduct(value))"
+                    >
                         <x-forms.label x-bind:for="`transfer[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
                         </x-forms.label>

@@ -33,11 +33,20 @@
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label x-bind:for="`billOfMaterial[${index}][product_id]`">
-                                Product <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
+                        <x-forms.label x-bind:for="`billOfMaterial[${index}][product_id]`">
+                            Product <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control
+                                class="has-icons-left"
+                                style="width: 30%"
+                            >
+                                <x-common.category-list
+                                    x-model="selectedCategory"
+                                    x-on:change="getProductsByCategory"
+                                />
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left is-expanded">
                                 <x-common.product-list
                                     x-bind:id="`billOfMaterial[${index}][product_id]`"
                                     x-bind:name="`billOfMaterial[${index}][product_id]`"
@@ -46,7 +55,7 @@
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
-                                    class="is-large is-left"
+                                    class="is-small is-left"
                                 />
                                 <span
                                     class="help has-text-danger"
