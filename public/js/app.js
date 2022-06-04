@@ -438,52 +438,7 @@ document.addEventListener("alpine:init", () => {
                     this.paymentType === "Cash Payment"
                 );
             },
-        })
-    );
-
-    Alpine.data("billOfMaterialMasterDetailForm", ({ billOfMaterial }) => ({
-        billOfMaterials: [],
-        errors: {},
-
-        init() {
-            if (billOfMaterial) {
-                this.billOfMaterials = billOfMaterial;
-                return;
-            }
-
-            this.add();
-        },
-        setErrors(errors) {
-            this.errors = errors;
-        },
-        getErrors(property) {
-            return this.errors[property];
-        },
-        add() {
-            this.billOfMaterials.push({
-                product_id: "",
-                quantity: "",
-            });
-        },
-        remove(index) {
-            if (this.billOfMaterial.length === 1) {
-                return;
-            }
-
-            this.billOfMaterials.splice(index, 1);
-        },
-        select2(index) {
-            let select2 = initializeSelect2(this.$el);
-
-            this.$nextTick(() => $(select2).trigger("change"));
-
-            select2.on("change", (event) => {
-                this.billOfMaterials[index].product_id = event.target.value;
-            });
-
-            this.$watch(`billOfMaterials`, () => select2.trigger("change"));
-        },
-    }));
+        }));
 
     Alpine.data("priceMasterDetailForm", ({ price }) => ({
         prices: [],
@@ -776,5 +731,236 @@ document.addEventListener("alpine:init", () => {
         getFileName() {
             this.fileName = this.file.slice(this.file.lastIndexOf("\\") + 1)
         }
+    }));
+
+    Alpine.data("billOfMaterialMasterDetailForm", ({ billOfMaterial }) => ({
+        billOfMaterials: [],
+        errors: {},
+
+        init() {
+            if (billOfMaterial) {
+                this.billOfMaterials = billOfMaterial;
+                return;
+            }
+
+            this.add();
+        },
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        getErrors(property) {
+            return this.errors[property];
+        },
+        add() {
+            this.billOfMaterials.push({
+                product_id: "",
+                quantity: "",
+            });
+        },
+        remove(index) {
+            if (this.billOfMaterials.length === 1) {
+                return;
+            }
+
+            this.billOfMaterials.splice(index, 1);
+        },
+        select2(index) {
+            let select2 = initializeSelect2(this.$el);
+
+            this.$nextTick(() => $(select2).trigger("change"));
+
+            select2.on("change", (event) => {
+                this.billOfMaterials[index].product_id = event.target.value;
+            });
+
+            this.$watch(`billOfMaterials`, () => select2.trigger("change"));
+        },
+    }));
+
+    Alpine.data("gdnMasterDetailForm", ({ gdn }) => ({
+        gdns: [],
+        errors: {},
+
+        init() {
+            if (gdn) {
+                this.gdns = gdn;
+                return;
+            }
+
+            this.add();
+        },
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        getErrors(property) {
+            return this.errors[property];
+        },
+        add() {
+            this.gdns.push({
+                product_id: "",
+                warehouse_id: "",
+                unit_price: "",
+                quantity: "",
+                description: "",
+                discount: "",
+            });
+        },
+        remove(index) {
+            if (this.gdns.length === 1) {
+                return;
+            }
+
+            this.gdns.splice(index, 1);
+        },
+        select2(index) {
+            let select2 = initializeSelect2(this.$el);
+
+            this.$nextTick(() => $(select2).trigger("change"));
+
+            select2.on("change", (event) => {
+                this.gdns[index].product_id = event.target.value;
+            });
+
+            this.$watch(`gdns`, () => select2.trigger("change"));
+        },
+    }));
+
+    Alpine.data("reservationMasterDetailForm", ({ reservation }) => ({
+        reservations: [],
+        errors: {},
+
+        init() {
+            if (reservation) {
+                this.reservations = reservation;
+                return;
+            }
+
+            this.add();
+        },
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        getErrors(property) {
+            return this.errors[property];
+        },
+        add() {
+            this.reservations.push({
+                product_id: "",
+                warehouse_id: "",
+                unit_price: "",
+                quantity: "",
+                description: "",
+                discount: "",
+            });
+        },
+        remove(index) {
+            if (this.reservation.length === 1) {
+                return;
+            }
+
+            this.reservations.splice(index, 1);
+        },
+        select2(index) {
+            let select2 = initializeSelect2(this.$el);
+
+            this.$nextTick(() => $(select2).trigger("change"));
+
+            select2.on("change", (event) => {
+                this.reservations[index].product_id = event.target.value;
+            });
+
+            this.$watch(`reservations`, () => select2.trigger("change"));
+        },
+    }));
+
+    Alpine.data("sivMasterDetailForm", ({ siv }) => ({
+        sivs: [],
+        errors: {},
+
+        init() {
+            if (siv) {
+                this.sivs = siv;
+                return;
+            }
+
+            this.add();
+        },
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        getErrors(property) {
+            return this.errors[property];
+        },
+        add() {
+            this.sivs.push({
+                product_id: "",
+                warehouse_id: "",
+                quantity: "",
+                description: "",
+            });
+        },
+        remove(index) {
+            if (this.sivs.length === 1) {
+                return;
+            }
+
+            this.sivs.splice(index, 1);
+        },
+        select2(index) {
+            let select2 = initializeSelect2(this.$el);
+
+            this.$nextTick(() => $(select2).trigger("change"));
+
+            select2.on("change", (event) => {
+                this.sivs[index].product_id = event.target.value;
+            });
+
+            this.$watch(`sivs`, () => select2.trigger("change"));
+        },
+    }));
+
+    Alpine.data("transferMasterDetailForm", ({ transfer }) => ({
+        transfers: [],
+        errors: {},
+
+        init() {
+            if (transfer) {
+                this.transfers = transfer;
+                return;
+            }
+
+            this.add();
+        },
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        getErrors(property) {
+            return this.errors[property];
+        },
+        add() {
+            this.transfers.push({
+                product_id: "",
+                quantity: "",
+                description: "",
+            });
+        },
+        remove(index) {
+            if (this.transfers.length === 1) {
+                return;
+            }
+
+            this.transfers.splice(index, 1);
+        },
+        select2(index) {
+            let select2 = initializeSelect2(this.$el);
+
+            this.$nextTick(() => $(select2).trigger("change"));
+
+            select2.on("change", (event) => {
+                this.transfers[index].product_id = event.target.value;
+            });
+
+            this.$watch(`transfers`, () => select2.trigger("change"));
+        },
     }));
 });

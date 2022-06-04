@@ -88,9 +88,9 @@ class SivController extends Controller
         DB::transaction(function () use ($request, $siv) {
             $siv->update($request->except('siv'));
 
-            for ($i = 0; $i < count($request->siv); $i++) {
-                $siv->sivDetails[$i]->update($request->siv[$i]);
-            }
+            $siv->sivDetails()->forceDelete();
+
+            $siv->sivDetails()->createMany($request->safe()['siv']);
         });
 
         return redirect()->route('sivs.show', $siv->id);

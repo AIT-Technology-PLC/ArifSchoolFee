@@ -23,285 +23,124 @@
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="code"
-                                class="label text-green has-text-weight-normal"
-                            >Transfer Number <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input
-                                    class="input"
+                        <x-forms.field>
+                            <x-forms.label for="code">
+                                Transfer Number <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     type="number"
                                     name="code"
                                     id="code"
                                     value="{{ $transfer->code }}"
-                                >
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-hashtag"></i>
-                                </span>
-                                @error('code')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-hashtag"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="code" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="issued_on"
-                                class="label text-green has-text-weight-normal"
-                            > Issued On <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input
-                                    class="input"
+                        <x-forms.field>
+                            <x-forms.label for="issued_on">
+                                Issued On <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     type="datetime-local"
                                     name="issued_on"
                                     id="issued_on"
                                     placeholder="mm/dd/yyyy"
                                     value="{{ $transfer->issued_on->toDateTimeLocalString() }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-calendar-alt"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="issued_on" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="transferred_from">
+                                From <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="transferred_from"
+                                    name="transferred_from"
                                 >
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                @error('issued_on')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                    @foreach ($fromWarehouses as $warehouse)
+                                        <option
+                                            value="{{ $warehouse->id }}"
+                                            {{ ($transfer->transferred_from ?? '') == $warehouse->id ? 'selected' : '' }}
+                                        >{{ $warehouse->name }}</option>
+                                    @endforeach
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-warehouse"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="transferred_from" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="transferred_from"
-                                class="label text-green has-text-weight-normal"
-                            > From <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select
-                                        id="transferred_from"
-                                        name="transferred_from"
-                                    >
-                                        @foreach ($fromWarehouses as $warehouse)
-                                            <option
-                                                value="{{ $warehouse->id }}"
-                                                {{ ($transfer->transferred_from ?? '') == $warehouse->id ? 'selected' : '' }}
-                                            >{{ $warehouse->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-warehouse"></i>
-                                </div>
-                                @error('transferred_from')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label for="transferred_to">
+                                To <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="transferred_to"
+                                    name="transferred_to"
+                                >
+                                    @foreach ($toWarehouses as $warehouse)
+                                        <option
+                                            value="{{ $warehouse->id }}"
+                                            {{ ($transfer->transferred_to ?? '') == $warehouse->id ? 'selected' : '' }}
+                                        >{{ $warehouse->name }}</option>
+                                    @endforeach
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-warehouse"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="transferred_to" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="transferred_to"
-                                class="label text-green has-text-weight-normal"
-                            > To <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select
-                                        id="transferred_to"
-                                        name="transferred_to"
-                                    >
-                                        @foreach ($toWarehouses as $warehouse)
-                                            <option
-                                                value="{{ $warehouse->id }}"
-                                                {{ ($transfer->transferred_to ?? '') == $warehouse->id ? 'selected' : '' }}
-                                            >{{ $warehouse->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-warehouse"></i>
-                                </div>
-                                @error('transferred_to')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="description"
-                                class="label text-green has-text-weight-normal"
-                            >Description <sup class="has-text-danger"></sup></label>
-                            <div class="control has-icons-left">
-                                <textarea
+                        <x-forms.field>
+                            <x-forms.label for="description">
+                                Description <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.textarea
                                     name="description"
                                     id="description"
-                                    cols="30"
-                                    rows="3"
                                     class="textarea pl-6"
                                     placeholder="Description or note to be taken"
-                                >{{ $transfer->description ?? '' }}</textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                @error('description')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                >{{ $transfer->description ?? '' }}</x-forms.textarea>
+                                <x-common.icon
+                                    name="fas fa-edit"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="description" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                 </div>
-                @foreach ($transfer->transferDetails as $transferDetail)
-                    <div class="has-text-weight-medium has-text-left mt-5">
-                        <span class="tag bg-green has-text-white is-medium radius-bottom-0">
-                            Item {{ $loop->index + 1 }}
-                        </span>
-                    </div>
-                    <div
-                        x-data="productDataProvider({{ $transferDetail->product_id }})"
-                        class="box has-background-white-bis radius-top-0"
-                    >
-                        <div
-                            name="transferFormGroup"
-                            class="columns is-marginless is-multiline"
-                        >
-                            <div class="column is-6">
-                                <label
-                                    for="transfer[{{ $loop->index }}][product_id]"
-                                    class="label text-green has-text-weight-normal"
-                                >
-                                    Product <sup class="has-text-danger">*</sup>
-                                </label>
-                                <div class="field has-addons">
-                                    <div
-                                        class="control has-icons-left"
-                                        style="width: 30%"
-                                    >
-                                        <x-common.category-list
-                                            x-model="selectedCategory"
-                                            x-on:change="getProductsByCategory"
-                                        />
-                                    </div>
-                                    <div class="control has-icons-left is-expanded">
-                                        <x-common.product-list
-                                            tags="false"
-                                            name="transfer[{{ $loop->index }}]"
-                                            selected-product-id="{{ $transferDetail->product_id }}"
-                                            x-init="select2"
-                                        />
-                                        <div class="icon is-small is-left">
-                                            <i class="fas fa-th"></i>
-                                        </div>
-                                        @error('transfer.' . $loop->index . '.product_id')
-                                            <span
-                                                class="help has-text-danger"
-                                                role="alert"
-                                            >
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-6">
-                                <label
-                                    for="transfer[{{ $loop->index }}][quantity]"
-                                    class="label text-green has-text-weight-normal"
-                                >Quantity <sup class="has-text-danger">*</sup> </label>
-                                <div class="field has-addons">
-                                    <div class="control has-icons-left is-expanded">
-                                        <input
-                                            id="transfer[{{ $loop->index }}][quantity]"
-                                            name="transfer[{{ $loop->index }}][quantity]"
-                                            type="number"
-                                            class="input"
-                                            placeholder="Quantity"
-                                            value="{{ $transferDetail->quantity ?? '' }}"
-                                        >
-                                        <span class="icon is-small is-left">
-                                            <i class="fas fa-balance-scale"></i>
-                                        </span>
-                                        @error('transfer.' . $loop->index . '.quantity')
-                                            <span
-                                                class="help has-text-danger"
-                                                role="alert"
-                                            >
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    <div class="control">
-                                        <button
-                                            id="transfer[{{ $loop->index }}][product_id]Quantity"
-                                            class="button bg-green has-text-white"
-                                            type="button"
-                                            x-text="product.unit_of_measurement"
-                                        ></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-6">
-                                <div class="field">
-                                    <label
-                                        for="transfer[{{ $loop->index }}][description]"
-                                        class="label text-green has-text-weight-normal"
-                                    >Additional Notes <sup class="has-text-danger"></sup></label>
-                                    <div class="control has-icons-left">
-                                        <textarea
-                                            name="transfer[{{ $loop->index }}][description]"
-                                            id="transfer[{{ $loop->index }}][description]"
-                                            cols="30"
-                                            rows="3"
-                                            class="textarea pl-6"
-                                            placeholder="Description or note to be taken"
-                                        >{{ $transferDetail->description ?? '' }}</textarea>
-                                        <span class="icon is-large is-left">
-                                            <i class="fas fa-edit"></i>
-                                        </span>
-                                        @error('transfer.' . $loop->index . '.description')
-                                            <span
-                                                class="help has-text-danger"
-                                                role="alert"
-                                            >
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
             </div>
-            <div class="box radius-top-0">
+            @include('transfers.details-form', ['data' => ['transfer' => $transfer->transferDetails]])
+            <x-content.footer>
                 <x-common.save-button />
-            </div>
+            </x-content.footer>
         </form>
     </section>
 @endsection
