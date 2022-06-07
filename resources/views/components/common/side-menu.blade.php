@@ -120,7 +120,7 @@
                                 <li>
                                     <x-common.button
                                         tag="a"
-                                        href="{{ route('job-planners.index') }}"
+                                        href="{{ route('job-planners.create') }}"
                                         label="Job Planner"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('bill-of-materials.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('job-planners.*') ? 'activateAccordion' : '' }}"

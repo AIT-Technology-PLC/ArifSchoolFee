@@ -97,7 +97,7 @@ class PermissionCategorization
             'label' => 'Bill Of Material Management',
             'feature' => 'BOM',
         ],
-        'Job Planner' => [
+        'job planner' => [
             'label' => 'Job Planner',
             'feature' => 'Job Planner',
         ],

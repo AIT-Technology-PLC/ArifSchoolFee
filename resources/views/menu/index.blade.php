@@ -41,7 +41,7 @@
                                 @if (isFeatureEnabled('Job Planner'))
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('job-planners.index') }}"
+                                            href="{{ route('job-planners.create') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
