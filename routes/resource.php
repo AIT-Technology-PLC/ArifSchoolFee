@@ -1,9 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Resource as Resource;
-use App\Http\Controllers\BillOfMaterialController;
-use App\Http\Controllers\BillOfMaterialDetailController;
+use Illuminate\Support\Facades\Route;
 
 Route::resource('products', Resource\ProductController::class)->except('show');
 
@@ -101,3 +99,5 @@ Route::resource('transaction-fields', Resource\TransactionFieldController::class
 
 Route::resource('bill-of-materials', Resource\BillOfMaterialController::class);
 Route::resource('bill-of-material-details', Resource\BillOfMaterialDetailController::class)->only(['destroy']);
+
+Route::resource('job-planners', Resource\JobPlannerController::class);
