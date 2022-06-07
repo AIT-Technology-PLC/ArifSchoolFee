@@ -45,6 +45,21 @@
                                     </div>
                                 @endif
                             @endcan
+                            @can('Create Job Planner')
+                                @if (isFeatureEnabled('Bill Of Material Management'))
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('job-planners.create') }}"
+                                            icon="fas fa-chart-bar"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Job Planner </span>
+                                    </div>
+                                @endif
+                            @endcan
                         </div>
                     </x-content.footer>
                 @endcanany

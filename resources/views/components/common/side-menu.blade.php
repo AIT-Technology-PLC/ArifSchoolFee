@@ -115,6 +115,19 @@
                                 </li>
                             @endif
                         @endcan
+                        @if (isFeatureEnabled('Bill Of Material Management'))
+                            @can('Create Job Planner')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('job-planners.index') }}"
+                                        label="Job Planner"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('bill-of-materials.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('job-planners.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endif
+                        @endcan
                     </ul>
                 </li>
             </ul>
