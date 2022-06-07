@@ -115,7 +115,7 @@
                                 </li>
                             @endif
                         @endcan
-                        @if (isFeatureEnabled('Bill Of Material Management'))
+                        @if (isFeatureEnabled('Job Planner'))
                             @can('Create Job Planner')
                                 <li>
                                     <x-common.button

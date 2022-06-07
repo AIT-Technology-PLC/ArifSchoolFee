@@ -38,7 +38,7 @@
                                 @endif
                             @endcan
                             @can('Create Job Planner')
-                                @if (isFeatureEnabled('Bill Of Material Management'))
+                                @if (isFeatureEnabled('Job Planner'))
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
                                             href="{{ route('job-planners.index') }}"

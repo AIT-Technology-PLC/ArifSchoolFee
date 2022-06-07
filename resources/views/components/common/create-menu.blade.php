@@ -46,7 +46,7 @@
                                 @endif
                             @endcan
                             @can('Create Job Planner')
-                                @if (isFeatureEnabled('Bill Of Material Management'))
+                                @if (isFeatureEnabled('Job Planner'))
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
