@@ -963,4 +963,49 @@ document.addEventListener("alpine:init", () => {
             this.$watch(`transfers`, () => select2.trigger("change"));
         },
     }));
+
+    Alpine.data("jobPlannerMasterDetailForm", ({ jobPlanner }) => ({
+        jobPlanners: [],
+        errors: {},
+
+        init() {
+            if (jobPlanner) {
+                this.jobPlanners = jobPlanner;
+                return;
+            }
+
+            this.add();
+        },
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        getErrors(property) {
+            return this.errors[property];
+        },
+        add() {
+            this.jobPlanners.push({
+                product_id: "",
+                bill_of_material_id: "",
+                quantity: "",
+            });
+        },
+        remove(index) {
+            if (this.jobPlanners.length === 1) {
+                return;
+            }
+
+            this.jobPlanners.splice(index, 1);
+        },
+        select2(index) {
+            let select2 = initializeSelect2(this.$el);
+
+            this.$nextTick(() => $(select2).trigger("change"));
+
+            select2.on("change", (event) => {
+                this.jobPlanners[index].product_id = event.target.value;
+            });
+
+            this.$watch(`jobPlanners`, () => select2.trigger("change"));
+        },
+    }));
 });

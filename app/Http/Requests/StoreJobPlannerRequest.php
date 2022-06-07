@@ -15,10 +15,10 @@ class StoreJobPlannerRequest extends FormRequest
     public function rules()
     {
         return [
-            'Job Planner' => ['required', 'array'],
-            'Job Planner.*.product_id' => ['required', 'integer', 'different:product_id', 'distinct', new MustBelongToCompany('products')],
-            'Job Planner.*.bill_of_material_id' => ['required', 'integer', 'different:bill_of_material_id', 'distinct', new MustBelongToCompany('bill_of_materials')],
-            'Job Planner.*.quantity' => ['required', 'numeric', 'gt:0'],
+            'jobPlanner' => ['required', 'array'],
+            'jobPlanner.*.product_id' => ['required', 'integer', 'different:product_id', 'distinct', new MustBelongToCompany('products')],
+            'jobPlanner.*.bill_of_material_id' => ['required', 'integer', 'different:bill_of_material_id', 'distinct', new MustBelongToCompany('bill_of_materials')],
+            'jobPlanner.*.quantity' => ['required', 'numeric', 'gt:0'],
         ];
     }
 }

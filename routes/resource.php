@@ -100,4 +100,4 @@ Route::resource('transaction-fields', Resource\TransactionFieldController::class
 Route::resource('bill-of-materials', Resource\BillOfMaterialController::class);
 Route::resource('bill-of-material-details', Resource\BillOfMaterialDetailController::class)->only(['destroy']);
 
-Route::resource('job-planners', Resource\JobPlannerController::class);
+Route::resource('job-planners', Resource\JobPlannerController::class)->only(['create', 'store']);
