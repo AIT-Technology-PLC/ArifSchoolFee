@@ -27,7 +27,7 @@ if (!function_exists('isFeatureEnabled')) {
             return Feature::getAllEnabledFeaturesOfCompany();
         });
 
-        return $enabledFeatures->intersect($featureNames)->isNotEmpty();
+        return $enabledFeatures->merge(pads()->pluck('name'))->intersect($featureNames)->isNotEmpty();
     }
 }
 
@@ -62,13 +62,13 @@ if (!function_exists('quantity')) {
 }
 
 if (!function_exists('pads')) {
-    function pads($module)
+    function pads($module = null)
     {
         $pads = Cache::store('array')->rememberForever(auth()->id() . '_' . 'pads', function () {
             return Pad::enabled()->get();
         });
 
-        return $pads->where('module', $module);
+        return $pads->when($module, fn($q) => $q->where('module', $module));
     }
 }
 
