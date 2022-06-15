@@ -985,6 +985,7 @@ document.addEventListener("alpine:init", () => {
         add() {
             this.jobPlanners.push({
                 product_id: "",
+                warehouse_id: "",
                 bill_of_material_id: "",
                 quantity: "",
             });
