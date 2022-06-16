@@ -310,6 +310,7 @@ document.addEventListener("alpine:init", () => {
         },
         filterPermissions() {
             let searchQuery = this.searchQuery.replace(/\s/g, "");
+            searchQuery = searchQuery.toLowerCase(searchQuery);
             sessionStorage.setItem("searchQuery", searchQuery);
 
             if (searchQuery === "") {
@@ -778,54 +779,6 @@ document.addEventListener("alpine:init", () => {
         },
     }));
 
-    Alpine.data("gdnMasterDetailForm", ({ gdn }) => ({
-        gdns: [],
-        errors: {},
-
-        init() {
-            if (gdn) {
-                this.gdns = gdn;
-                return;
-            }
-
-            this.add();
-        },
-        setErrors(errors) {
-            this.errors = errors;
-        },
-        getErrors(property) {
-            return this.errors[property];
-        },
-        add() {
-            this.gdns.push({
-                product_id: "",
-                warehouse_id: "",
-                unit_price: "",
-                quantity: "",
-                description: "",
-                discount: "",
-            });
-        },
-        remove(index) {
-            if (this.gdns.length === 1) {
-                return;
-            }
-
-            this.gdns.splice(index, 1);
-        },
-        select2(index) {
-            let select2 = initializeSelect2(this.$el);
-
-            this.$nextTick(() => $(select2).trigger("change"));
-
-            select2.on("change", (event) => {
-                this.gdns[index].product_id = event.target.value;
-            });
-
-            this.$watch(`gdns`, () => select2.trigger("change"));
-        },
-    }));
-
     Alpine.data("reservationMasterDetailForm", ({ reservation }) => ({
         reservations: [],
         errors: {},
@@ -964,4 +917,102 @@ document.addEventListener("alpine:init", () => {
             this.$watch(`transfers`, () => select2.trigger("change"));
         },
     }));
+
+    Alpine.store("products", {
+        products: [],
+
+        async init() {
+            const response = await axios.get(`/api/products`);
+            this.products = response.data;
+        },
+        whereProductId(productId) {
+            return this.products.find((product) => productId == product.id);
+        },
+        whereProductCategoryId(productCategoryId) {
+            return this.products.filter(
+                (product) => productCategoryId == product.product_category_id
+            );
+        },
+        price(productId) {
+            let product = this.whereProductId(productId);
+
+            if (this.isPriceFixed(productId)) {
+                return product.price.fixed_price;
+            }
+
+            if (this.isPriceRange(productId)) {
+                return product.price.max_price;
+            }
+
+            return "";
+        },
+        isPriceFixed(productId) {
+            let product = this.whereProductId(productId);
+
+            return product?.price?.type == "fixed";
+        },
+        isPriceRange(productId) {
+            let product = this.whereProductId(productId);
+
+            return product?.price?.type == "range";
+        },
+        productCategoryId(productId) {
+            let product = this.whereProductId(productId);
+
+            return product?.product_category_id;
+        },
+        productCategoryName(productId) {
+            let product = this.whereProductId(productId);
+
+            return product?.product_category_name;
+        },
+        unitOfMeasurement(productId) {
+            let product = this.whereProductId(productId);
+
+            return product?.unit_of_measurement;
+        },
+        appendProductsToSelect2(select2, productId = null, products = null) {
+            products = products ?? this.products;
+
+            let emptyOption = new Option("", "", true, true);
+            emptyOption.dataset.code = "";
+            emptyOption.dataset.product_category_name = "";
+
+            select2.empty();
+
+            select2.append(emptyOption);
+
+            products.forEach((product) => {
+                let productName = product.name;
+
+                if (product.code) {
+                    productName = `${productName} (${product.code})`;
+                }
+
+                let newOption = new Option(
+                    productName,
+                    product.id,
+                    false,
+                    (productId || null) == product.id
+                );
+
+                newOption.dataset.code = product.code;
+                newOption.dataset.product_category_name =
+                    product.product_category_name;
+
+                select2.append(newOption).trigger("change.select2");
+            });
+        },
+    });
+
+    Alpine.store("errors", {
+        errors: {},
+
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        getErrors(property) {
+            return this.errors[property];
+        },
+    });
 });
