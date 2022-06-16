@@ -10,7 +10,7 @@ const { registerRoute, setCatchHandler } = workbox.routing;
 skipWaiting();
 clientsClaim();
 
-const VERSION = 65;
+const VERSION = 66;
 const PRECACHE = "precache-v4";
 const RUNTIME = "runtime-v4";
 
