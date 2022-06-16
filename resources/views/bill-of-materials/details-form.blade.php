@@ -1,6 +1,6 @@
 <x-content.main
     x-data="billOfMaterialMasterDetailForm({{ Js::from($data) }})"
-    x-init="setErrors({{ json_encode($errors->get('billOfMaterial.*')) }})"
+    x-init="$store.errors.setErrors({{ Js::from($errors->get('billOfMaterial.*')) }})"
 >
     <x-common.fail-message :message="session('failedMessage')" />
     <template
@@ -42,12 +42,13 @@
                                 style="width: 30%"
                             >
                                 <x-common.category-list
-                                    x-model="selectedCategory"
-                                    x-on:change="getProductsByCategory"
+                                    x-model="billOfMaterial.product_category_id"
+                                    x-on:change="changeProductCategory(index)"
                                 />
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
-                                <x-common.product-list
+                                <x-common.new-product-list
+                                    class="product-list"
                                     x-bind:id="`billOfMaterial[${index}][product_id]`"
                                     x-bind:name="`billOfMaterial[${index}][product_id]`"
                                     x-model="billOfMaterial.product_id"
@@ -59,16 +60,12 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`billOfMaterial.${index}.product_id`)"
+                                    x-text="$store.errors.getErrors(`billOfMaterial.${index}.product_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div
-                        class="column is-6"
-                        x-data="productDataProvider(billOfMaterial.product_id)"
-                        x-init="getProduct(billOfMaterial.product_id) && $watch(`billOfMaterial.product_id`, (value) => getProduct(value))"
-                    >
+                    <div class="column is-6">
                         <x-forms.label x-bind:for="`billOfMaterial[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
                         </x-forms.label>
@@ -85,7 +82,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`billOfMaterial.${index}.quantity`)"
+                                    x-text="$store.errors.getErrors(`billOfMaterial.${index}.quantity`)"
                                 ></span>
                             </x-forms.control>
                             <x-forms.control>
@@ -94,7 +91,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="product.unit_of_measurement"
+                                    x-text="$store.products.unitOfMeasurement(billOfMaterial.product_id)"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -112,3 +109,84 @@
         x-on:click="add"
     />
 </x-content.main>
+
+@push('scripts')
+    <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("billOfMaterialMasterDetailForm", ({
+                billOfMaterial
+            }) => ({
+                billOfMaterials: [],
+                productStore: Alpine.reactive(Alpine.store("products")),
+
+                init() {
+                    if (billOfMaterial) {
+                        this.billOfMaterials = billOfMaterial;
+
+                        Alpine.effect(() => {
+                            if (this.productStore.products.length) {
+                                Promise.resolve(
+                                    this.billOfMaterials.forEach((billOfMaterial) => {
+                                        billOfMaterial.product_category_id =
+                                            this.productStore.productCategoryId(
+                                                billOfMaterial.product_id
+                                            );
+                                    })
+                                ).then(() =>
+                                    $(".product-list").trigger("change", [true])
+                                );
+                            }
+                        });
+
+                        return;
+                    }
+
+                    this.add();
+                },
+                add() {
+                    this.billOfMaterials.push({
+                        product_id: "",
+                        product_category_id: "",
+                        quantity: "",
+                    });
+                },
+                remove(index) {
+                    if (this.billOfMaterials.length === 1) {
+                        return;
+                    }
+
+                    Promise.resolve(this.billOfMaterials.splice(index, 1)).then(() =>
+                        $(".product-list").trigger("change", [true])
+                    );
+                },
+                select2(index) {
+                    let select2 = initializeSelect2(this.$el);
+
+                    select2.on("change", (event, haveData = false) => {
+                        this.billOfMaterials[index].product_id = event.target.value;
+
+                        this.billOfMaterials[index].product_category_id =
+                            this.productStore.productCategoryId(
+                                this.billOfMaterials[index].product_id
+                            );
+
+                        if (!haveData) {
+                            this.changeProductCategory(index);
+                        }
+                    });
+                },
+                changeProductCategory(index) {
+                    let products = this.productStore.whereProductCategoryId(
+                        this.billOfMaterials[index].product_category_id
+                    );
+
+                    this.productStore.appendProductsToSelect2(
+                        $(".product-list").eq(index),
+                        this.billOfMaterials[index].product_id,
+                        products
+                    );
+                },
+            }));
+        });
+    </script>
+@endpush
