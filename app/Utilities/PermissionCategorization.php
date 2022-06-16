@@ -94,8 +94,8 @@ class PermissionCategorization
             'feature' => 'General Settings',
         ],
         'bill of material' => [
-            'label' => 'Bill Of Material Management',
-            'feature' => 'BOM',
+            'label' => 'Bill Of Material',
+            'feature' => 'Bill Of Material Management',
         ],
     ];
 

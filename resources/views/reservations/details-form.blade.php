@@ -1,6 +1,6 @@
 <x-content.main
     x-data="reservationMasterDetailForm({{ Js::from($data) }})"
-    x-init="setErrors({{ json_encode($errors->get('reservation.*')) }})"
+    x-init="$store.errors.setErrors({{ Js::from($errors->get('reservation.*')) }})"
 >
     <x-common.fail-message :message="session('failedMessage')" />
     <template
@@ -42,12 +42,13 @@
                                 style="width: 30%"
                             >
                                 <x-common.category-list
-                                    x-model="selectedCategory"
-                                    x-on:change="getProductsByCategory"
+                                    x-model="reservation.product_category_id"
+                                    x-on:change="changeProductCategory(index)"
                                 />
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
-                                <x-common.product-list
+                                <x-common.new-product-list
+                                    class="product-list"
                                     x-bind:id="`reservation[${index}][product_id]`"
                                     x-bind:name="`reservation[${index}][product_id]`"
                                     x-model="reservation.product_id"
@@ -59,7 +60,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`reservation.${index}.product_id`)"
+                                    x-text="$store.errors.getErrors(`reservation.${index}.product_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -89,16 +90,12 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`reservation.${index}.warehouse_id`)"
+                                    x-text="$store.errors.getErrors(`reservation.${index}.warehouse_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div
-                        class="column is-6"
-                        x-data="productDataProvider(reservation.product_id)"
-                        x-init="getProduct(reservation.product_id) && $watch(`reservation.product_id`, (value) => getProduct(value))"
-                    >
+                    <div class="column is-6">
                         <x-forms.label x-bind:for="`reservation[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
                         </x-forms.label>
@@ -117,7 +114,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`reservation.${index}.quantity`)"
+                                    x-text="$store.errors.getErrors(`reservation.${index}.quantity`)"
                                 ></span>
                             </x-forms.control>
                             <x-forms.control>
@@ -126,16 +123,12 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="product.unit_of_measurement"
+                                    x-text="$store.products.unitOfMeasurement(reservation.product_id)"
                                 />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div
-                        class="column is-6"
-                        x-data="productDataProvider(reservation.product_id)"
-                        x-init="getProduct(reservation.product_id) && $watch(`reservation.product_id`, (value) => getProduct(value))"
-                    >
+                    <div class="column is-6">
                         <x-forms.label x-bind:for="`reservation[${index}][unit_price]`">
                             Unit Price <sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup>
                         </x-forms.label>
@@ -154,7 +147,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`reservation.${index}.unit_price`)"
+                                    x-text="$store.errors.getErrors(`reservation.${index}.unit_price`)"
                                 ></span>
                             </x-forms.control>
                             <x-forms.control>
@@ -163,7 +156,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="product.unit_of_measurement"
+                                    x-text="$store.products.unitOfMeasurement(reservation.product_id)"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -187,7 +180,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`reservation.${index}.discount`)"
+                                    x-text="$store.errors.getErrors(`reservation.${index}.discount`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -212,7 +205,7 @@
                                     />
                                     <span
                                         class="help has-text-danger"
-                                        x-text="getErrors(`reservation.${index}.description`)"
+                                        x-text="$store.errors.getErrors(`reservation.${index}.description`)"
                                     ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -230,3 +223,92 @@
         x-on:click="add"
     />
 </x-content.main>
+
+@push('scripts')
+    <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("reservationMasterDetailForm", ({
+                reservation
+            }) => ({
+                reservations: [],
+                productStore: Alpine.reactive(Alpine.store("products")),
+
+                init() {
+                    if (reservation) {
+                        this.reservations = reservation;
+
+                        Alpine.effect(() => {
+                            if (this.productStore.products.length) {
+                                Promise.resolve(
+                                    this.reservations.forEach((reservation) => {
+                                        reservation.product_category_id =
+                                            this.productStore.productCategoryId(
+                                                reservation.product_id
+                                            );
+                                    })
+                                ).then(() =>
+                                    $(".product-list").trigger("change", [true])
+                                );
+                            }
+                        });
+
+                        return;
+                    }
+
+                    this.add();
+                },
+                add() {
+                    this.reservations.push({
+                        product_id: "",
+                        product_category_id: "",
+                        warehouse_id: "",
+                        unit_price: "",
+                        quantity: "",
+                        description: "",
+                        discount: "",
+                    });
+                },
+                remove(index) {
+                    if (this.reservations.length === 1) {
+                        return;
+                    }
+
+                    Promise.resolve(this.reservations.splice(index, 1)).then(() =>
+                        $(".product-list").trigger("change", [true])
+                    );
+                },
+                select2(index) {
+                    let select2 = initializeSelect2(this.$el);
+
+                    select2.on("change", (event, haveData = false) => {
+                        this.reservations[index].product_id = event.target.value;
+
+                        this.reservations[index].product_category_id =
+                            this.productStore.productCategoryId(
+                                this.reservations[index].product_id
+                            );
+
+                        if (!haveData) {
+                            this.changeProductCategory(index);
+
+                            this.reservations[index].unit_price = this.productStore.price(
+                                this.reservations[index].product_id
+                            );
+                        }
+                    });
+                },
+                changeProductCategory(index) {
+                    let products = this.productStore.whereProductCategoryId(
+                        this.reservations[index].product_category_id
+                    );
+
+                    this.productStore.appendProductsToSelect2(
+                        $(".product-list").eq(index),
+                        this.reservations[index].product_id,
+                        products
+                    );
+                },
+            }));
+        });
+    </script>
+@endpush
