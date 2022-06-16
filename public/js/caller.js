@@ -24,13 +24,6 @@ if (d.getElementById("formOne")) {
     d.getElementById("formOne").addEventListener("submit", disableSaveButton);
 }
 
-if (d.getElementById("addNewTransferForm")) {
-    d.getElementById("addNewTransferForm").addEventListener(
-        "click",
-        addTransferDetail
-    );
-}
-
 if (d.getElementById("addNewGrnForm")) {
     d.getElementById("addNewGrnForm").addEventListener("click", addGrnDetail);
 }
