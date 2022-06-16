@@ -228,7 +228,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-6">
+                    <div
+                        class="column is-6"
+                        x-data="UploadedFileNameHandler"
+                    >
                         <div class="field">
                             <label
                                 for="logo"
@@ -240,6 +243,8 @@
                                         class="file-input"
                                         type="file"
                                         name="logo"
+                                        x-model="file"
+                                        x-on:change="getFileName"
                                     >
                                     <span class="file-cta bg-green has-text-white">
                                         <span class="file-icon">
@@ -249,8 +254,10 @@
                                             Upload Logo
                                         </span>
                                     </span>
-                                    <span class="file-name">
-                                        {{ $company->logo ?? '' }}
+                                    <span
+                                        class="file-name"
+                                        x-text="fileName || '{{ $company->logo }}' || 'Select File...'"
+                                    >
                                     </span>
                                 </label>
                             </div>
