@@ -169,12 +169,6 @@
 
                     this.add();
                 },
-                setErrors(errors) {
-                    this.errors = errors;
-                },
-                getErrors(property) {
-                    return this.errors[property];
-                },
                 add() {
                     this.transfers.push({
                         product_id: "",
