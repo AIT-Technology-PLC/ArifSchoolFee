@@ -15,7 +15,7 @@
                 @csrf
                 <x-content.main
                     x-data="jobPlannerMasterDetailForm({{ Js::from(session()->getOldInput()) }})"
-                    x-init="setErrors({{ json_encode($errors->get('jobPlanner.*')) }})"
+                    x-init="$store.errors.setErrors({{ Js::from($errors->get('jobPlanner.*')) }})"
                 >
                     <template
                         x-for="(jobPlanner, index) in jobPlanners"
@@ -56,12 +56,13 @@
                                                 style="width: 30%"
                                             >
                                                 <x-common.category-list
-                                                    x-model="selectedCategory"
-                                                    x-on:change="getProductsByCategory"
+                                                    x-model="jobPlanner.product_category_id"
+                                                    x-on:change="changeProductCategory(index)"
                                                 />
                                             </x-forms.control>
                                             <x-forms.control class="has-icons-left is-expanded">
-                                                <x-common.product-list
+                                                <x-common.new-product-list
+                                                    class="product-list"
                                                     x-bind:id="`jobPlanner[${index}][product_id]`"
                                                     x-bind:name="`jobPlanner[${index}][product_id]`"
                                                     x-model="jobPlanner.product_id"
@@ -73,7 +74,7 @@
                                                 />
                                                 <span
                                                     class="help has-text-danger"
-                                                    x-text="getErrors(`jobPlanner.${index}.product_id`)"
+                                                    x-text="$store.errors.getErrors(`jobPlanner.${index}.product_id`)"
                                                 ></span>
                                             </x-forms.control>
                                         </x-forms.field>
@@ -100,7 +101,7 @@
                                                 />
                                                 <span
                                                     class="help has-text-danger"
-                                                    x-text="getErrors(`jobPlanner.${index}.warehouse_id`)"
+                                                    x-text="$store.errors.getErrors(`jobPlanner.${index}.warehouse_id`)"
                                                 ></span>
                                             </x-forms.control>
                                         </x-forms.field>
@@ -129,7 +130,7 @@
                                                 />
                                                 <span
                                                     class="help has-text-danger"
-                                                    x-text="getErrors(`jobPlanner.${index}.bill_of_material_id`)"
+                                                    x-text="$store.errors.getErrors(`jobPlanner.${index}.bill_of_material_id`)"
                                                 ></span>
                                             </x-forms.control>
                                         </x-forms.field>
@@ -155,7 +156,7 @@
                                                 />
                                                 <span
                                                     class="help has-text-danger"
-                                                    x-text="getErrors(`jobPlanner.${index}.quantity`)"
+                                                    x-text="$store.errors.getErrors(`jobPlanner.${index}.quantity`)"
                                                 ></span>
                                             </x-forms.control>
                                             <x-forms.control>
@@ -256,4 +257,90 @@
         </div>
 
     @endif
+
+    @push('scripts')
+        <script>
+            document.addEventListener("alpine:init", () => {
+                Alpine.data("jobPlannerMasterDetailForm", ({
+                    jobPlanner
+                }) => ({
+                    jobPlanners: [],
+                    productStore: Alpine.reactive(Alpine.store("products")),
+
+                    init() {
+                        if (jobPlanner) {
+                            this.jobPlanners = jobPlanner;
+
+                            Alpine.effect(() => {
+                                if (this.productStore.products.length) {
+                                    Promise.resolve(
+                                        this.jobPlanners.forEach((jobPlanner) => {
+                                            jobPlanner.product_category_id =
+                                                this.productStore.productCategoryId(
+                                                    jobPlanner.product_id
+                                                );
+                                        })
+                                    ).then(() =>
+                                        $(".product-list").trigger("change", [true])
+                                    );
+                                }
+                            });
+
+                            return;
+                        }
+
+                        this.add();
+                    },
+                    add() {
+                        this.jobPlanners.push({
+                            product_id: "",
+                            warehouse_id: "",
+                            bill_of_material_id: "",
+                            quantity: "",
+                        });
+                    },
+                    remove(index) {
+                        if (this.jobPlanners.length === 1) {
+                            return;
+                        }
+
+                        Promise.resolve(this.jobPlanners.splice(index, 1)).then(() =>
+                            $(".product-list").trigger("change", [true])
+                        );
+                    },
+                    select2(index) {
+                        let select2 = initializeSelect2(this.$el);
+
+                        select2.on("change", (event, haveData = false) => {
+                            this.jobPlanners[index].product_id = event.target.value;
+
+                            this.jobPlanners[index].product_category_id =
+                                this.productStore.productCategoryId(
+                                    this.jobPlanners[index].product_id
+                                );
+
+                            if (!haveData) {
+                                this.changeProductCategory(index);
+
+                                this.jobPlanners[index].unit_price = this.productStore.price(
+                                    this.jobPlanners[index].product_id
+                                );
+                            }
+                        });
+                    },
+                    changeProductCategory(index) {
+                        let products = this.productStore.whereProductCategoryId(
+                            this.jobPlanners[index].product_category_id
+                        );
+
+                        this.productStore.appendProductsToSelect2(
+                            $(".product-list").eq(index),
+                            this.jobPlanners[index].product_id,
+                            products
+                        );
+                    },
+                }));
+            });
+        </script>
+    @endpush
 @endsection
