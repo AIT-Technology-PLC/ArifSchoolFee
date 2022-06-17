@@ -444,25 +444,36 @@ document.addEventListener("alpine:init", () => {
 
     Alpine.data("priceMasterDetailForm", ({ price }) => ({
         prices: [],
-        errors: {},
+        productStore: Alpine.reactive(Alpine.store("products")),
 
         init() {
             if (price) {
                 this.prices = price;
+
+                Alpine.effect(() => {
+                    if (this.productStore.products.length) {
+                        Promise.resolve(
+                            this.prices.forEach((price) => {
+                                price.product_category_id =
+                                    this.productStore.productCategoryId(
+                                        price.product_id
+                                    );
+                            })
+                        ).then(() =>
+                            $(".product-list").trigger("change", [true])
+                        );
+                    }
+                });
+
                 return;
             }
 
             this.add();
         },
-        setErrors(errors) {
-            this.errors = errors;
-        },
-        getErrors(property) {
-            return this.errors[property];
-        },
         add() {
             this.prices.push({
                 product_id: "",
+                product_category_id: "",
                 type: "",
                 fixed_price: "",
                 min_price: "",
@@ -474,7 +485,9 @@ document.addEventListener("alpine:init", () => {
                 return;
             }
 
-            this.prices.splice(index, 1);
+            Promise.resolve(this.prices.splice(index, 1)).then(() =>
+                $(".product-list").trigger("change", [true])
+            );
         },
         isPriceFixed(priceType) {
             if (!priceType) {
@@ -496,13 +509,29 @@ document.addEventListener("alpine:init", () => {
         select2(index) {
             let select2 = initializeSelect2(this.$el);
 
-            this.$nextTick(() => $(select2).trigger("change"));
-
-            select2.on("change", (event) => {
+            select2.on("change", (event, haveData = false) => {
                 this.prices[index].product_id = event.target.value;
-            });
 
-            this.$watch(`prices`, () => select2.trigger("change"));
+                this.prices[index].product_category_id =
+                    this.productStore.productCategoryId(
+                        this.prices[index].product_id
+                    );
+
+                if (!haveData) {
+                    this.changeProductCategory(index);
+                }
+            });
+        },
+        changeProductCategory(index) {
+            let products = this.productStore.whereProductCategoryId(
+                this.prices[index].product_category_id
+            );
+
+            this.productStore.appendProductsToSelect2(
+                $(".product-list").eq(index),
+                this.prices[index].product_id,
+                products
+            );
         },
     }));
 
@@ -783,8 +812,12 @@ document.addEventListener("alpine:init", () => {
 
             return product?.product_category_name;
         },
-        unitOfMeasurement(productId) {
+        unitOfMeasurement(productId, prefix = "") {
             let product = this.whereProductId(productId);
+
+            if (prefix) {
+                return `${prefix} ${product?.unit_of_measurement || ""}`;
+            }
 
             return product?.unit_of_measurement;
         },

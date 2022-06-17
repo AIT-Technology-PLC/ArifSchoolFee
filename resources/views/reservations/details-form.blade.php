@@ -156,7 +156,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="$store.products.unitOfMeasurement(reservation.product_id)"
+                                    x-text="$store.products.unitOfMeasurement(reservation.product_id, 'Per')"
                                 />
                             </x-forms.control>
                         </x-forms.field>
