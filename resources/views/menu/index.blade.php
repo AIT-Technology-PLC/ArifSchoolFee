@@ -37,6 +37,24 @@
                                     </div>
                                 @endif
                             @endcan
+                            @can('Create Job Planner')
+                                @if (isFeatureEnabled('Job Planner'))
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('job-planners.create') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-chart-bar"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Job Planner
+                                        </span>
+                                    </div>
+                                @endif
+                            @endcan
                         </div>
                     </x-content.footer>
                 </section>

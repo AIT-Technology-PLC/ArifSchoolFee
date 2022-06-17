@@ -97,6 +97,10 @@ class PermissionCategorization
             'label' => 'Bill Of Material',
             'feature' => 'Bill Of Material Management',
         ],
+        'job planner' => [
+            'label' => 'Job Planner',
+            'feature' => 'Job Planner',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)
