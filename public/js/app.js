@@ -827,7 +827,6 @@ document.addEventListener("alpine:init", () => {
 
     Alpine.data("reservationMasterDetailForm", ({ reservation }) => ({
         reservations: [],
-        errors: {},
 
         init() {
             if (reservation) {
@@ -836,12 +835,6 @@ document.addEventListener("alpine:init", () => {
             }
 
             this.add();
-        },
-        setErrors(errors) {
-            this.errors = errors;
-        },
-        getErrors(property) {
-            return this.errors[property];
         },
         add() {
             this.reservations.push({
