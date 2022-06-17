@@ -1,16 +1,10 @@
 @extends('layouts.app')
 
-@section('title')
-    Edit SIV
-@endsection
-
+@section('title', 'Edit SIV')
+    
 @section('content')
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                Edit SIV
-            </h1>
-        </div>
+    <x-common.content-wrapper>
+        <x-content.header title="Edit SIV" />
         <form
             id="formOne"
             action="{{ route('sivs.update', $siv->id) }}"
@@ -20,7 +14,7 @@
         >
             @csrf
             @method('PATCH')
-            <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-content.main>
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <x-forms.field>
@@ -48,12 +42,12 @@
                                 Customer <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="select is-fullwidth has-icons-left">
-                                    <x-common.customer-list
-                                        id="issued_to"
-                                        name="issued_to"
-                                        value="company_name"
-                                        :selected-id="$siv->issued_to ?? ''"
-                                    />
+                                <x-common.customer-list
+                                    id="issued_to"
+                                    name="issued_to"
+                                    value="company_name"
+                                    :selected-id="$siv->issued_to ?? ''"
+                                />
                                 <x-common.icon
                                     name="fas fa-user"
                                     class="is-small is-left"
@@ -198,11 +192,13 @@
                         </x-forms.field>
                     </div>
                 </div>
-            </div>
-            @include('sivs.details-form', ['data' => ['siv' => $siv->sivDetails]])
+            </x-content.main>
+            
+            @include('sivs.details-form', ['data' => ['siv' => old('siv') ?? $siv->sivDetails]])
+            
             <x-content.footer>
                 <x-common.save-button />
             </x-content.footer>
         </form>
-    </section>
+    </x-common.content-wrapper>
 @endsection

@@ -1,8 +1,7 @@
 <x-content.main
     x-data="sivMasterDetailForm({{ Js::from($data) }})"
-    x-init="setErrors({{ json_encode($errors->get('siv.*')) }})"
+    x-init="$store.errors.setErrors({{ Js::from($errors->get('siv.*')) }})"
 >
-    <x-common.fail-message :message="session('failedMessage')" />
     <template
         x-for="(siv, index) in sivs"
         x-bind:key="index"
@@ -42,12 +41,13 @@
                                 style="width: 30%"
                             >
                                 <x-common.category-list
-                                    x-model="selectedCategory"
-                                    x-on:change="getProductsByCategory"
+                                    x-model="siv.product_category_id"
+                                    x-on:change="changeProductCategory(index)"
                                 />
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
-                                <x-common.product-list
+                                <x-common.new-product-list
+                                    class="product-list"
                                     x-bind:id="`siv[${index}][product_id]`"
                                     x-bind:name="`siv[${index}][product_id]`"
                                     x-model="siv.product_id"
@@ -59,7 +59,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`siv.${index}.product_id`)"
+                                    x-text="$store.errors.getErrors(`siv.${index}.product_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -89,16 +89,12 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`siv.${index}.warehouse_id`)"
+                                    x-text="$store.errors.getErrors(`siv.${index}.warehouse_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div
-                        class="column is-6"
-                        x-data="productDataProvider(siv.product_id)"
-                        x-init="getProduct(siv.product_id) && $watch(`siv.product_id`, (value) => getProduct(value))"
-                    >
+                    <div class="column is-6">
                         <x-forms.label x-bind:for="`siv[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
                         </x-forms.label>
@@ -117,7 +113,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`siv.${index}.quantity`)"
+                                    x-text="$store.errors.getErrors(`siv.${index}.quantity`)"
                                 ></span>
                             </x-forms.control>
                             <x-forms.control>
@@ -126,7 +122,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="product.unit_of_measurement"
+                                    x-text="$store.products.unitOfMeasurement(siv.product_id)"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -151,7 +147,7 @@
                                     />
                                     <span
                                         class="help has-text-danger"
-                                        x-text="getErrors(`siv.${index}.description`)"
+                                        x-text="$store.errors.getErrors(`siv.${index}.description`)"
                                     ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -169,3 +165,86 @@
         x-on:click="add"
     />
 </x-content.main>
+
+@push('scripts')
+    <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("sivMasterDetailForm", ({
+                siv
+            }) => ({
+                sivs: [],
+                productStore: Alpine.reactive(Alpine.store("products")),
+
+                init() {
+                    if (siv) {
+                        this.sivs = siv;
+
+                        Alpine.effect(() => {
+                            if (this.productStore.products.length) {
+                                Promise.resolve(
+                                    this.sivs.forEach((siv) => {
+                                        siv.product_category_id =
+                                            this.productStore.productCategoryId(
+                                                siv.product_id
+                                            );
+                                    })
+                                ).then(() =>
+                                    $(".product-list").trigger("change", [true])
+                                );
+                            }
+                        });
+
+                        return;
+                    }
+
+                    this.add();
+                },
+                add() {
+                    this.sivs.push({
+                        product_id: "",
+                        product_category_id: "",
+                        warehouse_id: "",
+                        quantity: "",
+                        description: "",
+                    });
+                },
+                remove(index) {
+                    if (this.sivs.length === 1) {
+                        return;
+                    }
+
+                    Promise.resolve(this.sivs.splice(index, 1)).then(() =>
+                        $(".product-list").trigger("change", [true])
+                    );
+                },
+                select2(index) {
+                    let select2 = initializeSelect2(this.$el);
+
+                    select2.on("change", (event, haveData = false) => {
+                        this.sivs[index].product_id = event.target.value;
+
+                        this.sivs[index].product_category_id =
+                            this.productStore.productCategoryId(
+                                this.sivs[index].product_id
+                            );
+
+                        if (!haveData) {
+                            this.changeProductCategory(index);
+                        }
+                    });
+                },
+                changeProductCategory(index) {
+                    let products = this.productStore.whereProductCategoryId(
+                        this.sivs[index].product_category_id
+                    );
+
+                    this.productStore.appendProductsToSelect2(
+                        $(".product-list").eq(index),
+                        this.sivs[index].product_id,
+                        products
+                    );
+                },
+            }));
+        });
+    </script>
+@endpush

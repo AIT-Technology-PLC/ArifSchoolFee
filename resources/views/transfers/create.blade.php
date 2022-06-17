@@ -1,16 +1,10 @@
 @extends('layouts.app')
 
-@section('title')
-    Create New Transfer
-@endsection
+@section('title', 'Create New Transfer')
 
 @section('content')
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                New Transfer
-            </h1>
-        </div>
+    <x-common.content-wrapper>
+        <x-content.header title="New Transfer" />
         <form
             id="formOne"
             action="{{ route('transfers.store') }}"
@@ -19,7 +13,7 @@
             novalidate
         >
             @csrf
-            <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-content.main>
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <x-forms.field>
@@ -135,11 +129,13 @@
                         </x-forms.field>
                     </div>
                 </div>
-            </div>
+            </x-content.main>
+
             @include('transfers.details-form', ['data' => session()->getOldInput()])
+            
             <x-content.footer>
                 <x-common.save-button />
             </x-content.footer>
         </form>
-    </section>
+    </x-common.content-wrapper>
 @endsection

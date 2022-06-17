@@ -1,8 +1,7 @@
 <x-content.main
     x-data="transferMasterDetailForm({{ Js::from($data) }})"
-    x-init="setErrors({{ json_encode($errors->get('transfer.*')) }})"
+    x-init="$store.errors.setErrors({{ Js::from($errors->get('transfer.*')) }})"
 >
-    <x-common.fail-message :message="session('failedMessage')" />
     <template
         x-for="(transfer, index) in transfers"
         x-bind:key="index"
@@ -42,12 +41,13 @@
                                 style="width: 30%"
                             >
                                 <x-common.category-list
-                                    x-model="selectedCategory"
-                                    x-on:change="getProductsByCategory"
+                                    x-model="transfer.product_category_id"
+                                    x-on:change="changeProductCategory(index)"
                                 />
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
-                                <x-common.product-list
+                                <x-common.new-product-list
+                                    class="product-list"
                                     x-bind:id="`transfer[${index}][product_id]`"
                                     x-bind:name="`transfer[${index}][product_id]`"
                                     x-model="transfer.product_id"
@@ -59,16 +59,12 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`transfer.${index}.product_id`)"
+                                    x-text="$store.errors.getErrors(`transfer.${index}.product_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div
-                        class="column is-6"
-                        x-data="productDataProvider(transfer.product_id)"
-                        x-init="getProduct(transfer.product_id) && $watch(`transfer.product_id`, (value) => getProduct(value))"
-                    >
+                    <div class="column is-6">
                         <x-forms.label x-bind:for="`transfer[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
                         </x-forms.label>
@@ -87,7 +83,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`transfer.${index}.quantity`)"
+                                    x-text="$store.errors.getErrors(`transfer.${index}.quantity`)"
                                 ></span>
                             </x-forms.control>
                             <x-forms.control>
@@ -96,7 +92,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="product.unit_of_measurement"
+                                    x-text="$store.products.unitOfMeasurement(transfer.product_id)"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -121,7 +117,7 @@
                                     />
                                     <span
                                         class="help has-text-danger"
-                                        x-text="getErrors(`transfer.${index}.description`)"
+                                        x-text="$store.errors.getErrors(`transfer.${index}.description`)"
                                     ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -139,3 +135,85 @@
         x-on:click="add"
     />
 </x-content.main>
+
+@push('scripts')
+    <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("transferMasterDetailForm", ({
+                transfer
+            }) => ({
+                transfers: [],
+                productStore: Alpine.reactive(Alpine.store("products")),
+
+                init() {
+                    if (transfer) {
+                        this.transfers = transfer;
+
+                        Alpine.effect(() => {
+                            if (this.productStore.products.length) {
+                                Promise.resolve(
+                                    this.transfers.forEach((transfer) => {
+                                        transfer.product_category_id =
+                                            this.productStore.productCategoryId(
+                                                transfer.product_id
+                                            );
+                                    })
+                                ).then(() =>
+                                    $(".product-list").trigger("change", [true])
+                                );
+                            }
+                        });
+
+                        return;
+                    }
+
+                    this.add();
+                },
+                add() {
+                    this.transfers.push({
+                        product_id: "",
+                        product_category_id: "",
+                        quantity: "",
+                        description: "",
+                    });
+                },
+                remove(index) {
+                    if (this.transfers.length === 1) {
+                        return;
+                    }
+
+                    Promise.resolve(this.transfers.splice(index, 1)).then(() =>
+                        $(".product-list").trigger("change", [true])
+                    );
+                },
+                select2(index) {
+                    let select2 = initializeSelect2(this.$el);
+
+                    select2.on("change", (event, haveData = false) => {
+                        this.transfers[index].product_id = event.target.value;
+
+                        this.transfers[index].product_category_id =
+                            this.productStore.productCategoryId(
+                                this.transfers[index].product_id
+                            );
+
+                        if (!haveData) {
+                            this.changeProductCategory(index);
+                        }
+                    });
+                },
+                changeProductCategory(index) {
+                    let products = this.productStore.whereProductCategoryId(
+                        this.transfers[index].product_category_id
+                    );
+
+                    this.productStore.appendProductsToSelect2(
+                        $(".product-list").eq(index),
+                        this.transfers[index].product_id,
+                        products
+                    );
+                },
+            }));
+        });
+    </script>
+@endpush

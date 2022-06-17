@@ -1,8 +1,7 @@
 <x-content.main
     x-data="gdnMasterDetailForm({{ Js::from($data) }})"
-    x-init="setErrors({{ json_encode($errors->get('gdn.*')) }})"
+    x-init="$store.errors.setErrors({{ Js::from($errors->get('gdn.*')) }})"
 >
-    <x-common.fail-message :message="session('failedMessage')" />
     <template
         x-for="(gdn, index) in gdns"
         x-bind:key="index"
@@ -42,12 +41,13 @@
                                 style="width: 30%"
                             >
                                 <x-common.category-list
-                                    x-model="selectedCategory"
-                                    x-on:change="getProductsByCategory"
+                                    x-model="gdn.product_category_id"
+                                    x-on:change="changeProductCategory(index)"
                                 />
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
-                                <x-common.product-list
+                                <x-common.new-product-list
+                                    class="product-list"
                                     x-bind:id="`gdn[${index}][product_id]`"
                                     x-bind:name="`gdn[${index}][product_id]`"
                                     x-model="gdn.product_id"
@@ -59,7 +59,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`gdn.${index}.product_id`)"
+                                    x-text="$store.errors.getErrors(`gdn.${index}.product_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -89,16 +89,12 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`gdn.${index}.warehouse_id`)"
+                                    x-text="$store.errors.getErrors(`gdn.${index}.warehouse_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div
-                        class="column is-6"
-                        x-data="productDataProvider(gdn.product_id)"
-                        x-init="getProduct(gdn.product_id) && $watch(`gdn.product_id`, (value) => getProduct(value))"
-                    >
+                    <div class="column is-6">
                         <x-forms.label x-bind:for="`gdn[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
                         </x-forms.label>
@@ -117,7 +113,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`gdn.${index}.quantity`)"
+                                    x-text="$store.errors.getErrors(`gdn.${index}.quantity`)"
                                 ></span>
                             </x-forms.control>
                             <x-forms.control>
@@ -126,16 +122,12 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="product.unit_of_measurement"
+                                    x-text="$store.products.unitOfMeasurement(gdn.product_id)"
                                 />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div
-                        class="column is-6"
-                        x-data="productDataProvider(gdn.product_id)"
-                        x-init="getProduct(gdn.product_id) && $watch(`gdn.product_id`, (value) => getProduct(value))"
-                    >
+                    <div class="column is-6">
                         <x-forms.label x-bind:for="`gdn[${index}][unit_price]`">
                             Unit Price <sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup>
                         </x-forms.label>
@@ -145,6 +137,7 @@
                                     x-bind:id="`gdn[${index}][unit_price]`"
                                     x-bind:name="`gdn[${index}][unit_price]`"
                                     x-model="gdn.unit_price"
+                                    x-bind:readonly="$store.products.isPriceFixed(gdn.product_id)"
                                     type="number"
                                     placeholder="Unit Price"
                                 />
@@ -154,7 +147,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`gdn.${index}.unit_price`)"
+                                    x-text="$store.errors.getErrors(`gdn.${index}.unit_price`)"
                                 ></span>
                             </x-forms.control>
                             <x-forms.control>
@@ -163,7 +156,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="product.unit_of_measurement"
+                                    x-text="$store.products.unitOfMeasurement(gdn.product_id)"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -187,7 +180,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`gdn.${index}.discount`)"
+                                    x-text="$store.errors.getErrors(`gdn.${index}.discount`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -212,7 +205,7 @@
                                     />
                                     <span
                                         class="help has-text-danger"
-                                        x-text="getErrors(`gdn.${index}.description`)"
+                                        x-text="$store.errors.getErrors(`gdn.${index}.description`)"
                                     ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -230,3 +223,92 @@
         x-on:click="add"
     />
 </x-content.main>
+
+@push('scripts')
+    <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("gdnMasterDetailForm", ({
+                gdn
+            }) => ({
+                gdns: [],
+                productStore: Alpine.reactive(Alpine.store("products")),
+
+                init() {
+                    if (gdn) {
+                        this.gdns = gdn;
+
+                        Alpine.effect(() => {
+                            if (this.productStore.products.length) {
+                                Promise.resolve(
+                                    this.gdns.forEach((gdn) => {
+                                        gdn.product_category_id =
+                                            this.productStore.productCategoryId(
+                                                gdn.product_id
+                                            );
+                                    })
+                                ).then(() =>
+                                    $(".product-list").trigger("change", [true])
+                                );
+                            }
+                        });
+
+                        return;
+                    }
+
+                    this.add();
+                },
+                add() {
+                    this.gdns.push({
+                        product_id: "",
+                        product_category_id: "",
+                        warehouse_id: "",
+                        unit_price: "",
+                        quantity: "",
+                        description: "",
+                        discount: "",
+                    });
+                },
+                remove(index) {
+                    if (this.gdns.length === 1) {
+                        return;
+                    }
+
+                    Promise.resolve(this.gdns.splice(index, 1)).then(() =>
+                        $(".product-list").trigger("change", [true])
+                    );
+                },
+                select2(index) {
+                    let select2 = initializeSelect2(this.$el);
+
+                    select2.on("change", (event, haveData = false) => {
+                        this.gdns[index].product_id = event.target.value;
+
+                        this.gdns[index].product_category_id =
+                            this.productStore.productCategoryId(
+                                this.gdns[index].product_id
+                            );
+
+                        if (!haveData) {
+                            this.changeProductCategory(index);
+
+                            this.gdns[index].unit_price = this.productStore.price(
+                                this.gdns[index].product_id
+                            );
+                        }
+                    });
+                },
+                changeProductCategory(index) {
+                    let products = this.productStore.whereProductCategoryId(
+                        this.gdns[index].product_category_id
+                    );
+
+                    this.productStore.appendProductsToSelect2(
+                        $(".product-list").eq(index),
+                        this.gdns[index].product_id,
+                        products
+                    );
+                },
+            }));
+        });
+    </script>
+@endpush

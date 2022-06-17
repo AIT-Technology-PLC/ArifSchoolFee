@@ -13,6 +13,26 @@ class ProductController extends Controller
         $this->middleware('isFeatureAccessible:Product Management');
     }
 
+    public function index()
+    {
+        $products = Product::with(['productCategory', 'price'])->orderBy('name')->get();
+
+        return $products->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'type' => $product->type,
+                'code' => $product->code ?? '',
+                'unit_of_measurement' => $product->unit_of_measurement,
+                'min_on_hand' => $product->min_on_hand,
+
+                'product_category_id' => $product->product_category_id,
+                'product_category_name' => $product->productCategory->name,
+                'price' => $product->price,
+            ];
+        });
+    }
+
     public function show(Product $product)
     {
         $product->with('price:id,type,fixed_price,min_price,max_price');

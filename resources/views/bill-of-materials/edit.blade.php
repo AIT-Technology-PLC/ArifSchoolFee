@@ -86,7 +86,9 @@
                     </div>
                 </div>
             </div>
-            @include('bill-of-materials.details-form', ['data' => ['billOfMaterial' => $billOfMaterial->billOfMaterialDetails]])
+
+            @include('bill-of-materials.details-form', ['data' => ['billOfMaterial' => old('billOfMaterial') ?? $billOfMaterial->billOfMaterialDetails]])
+            
             <x-content.footer>
                 <x-common.save-button />
             </x-content.footer>
