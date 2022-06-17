@@ -2,33 +2,8 @@
 
 @section('title', 'Create Job Planner')
 @section('content')
-    <x-common.content-wrapper>
-        @if (session('message'))
-            @foreach (session('message') as $row)
-                <h3>
-                    <p class="pr-4">Product: {{ $row->first()['product_name'] }}</p> Factory: {{ $row->first()['factory_name'] }}
-                </h3>
-                <h3>Quantity: {{ $row->first()['quantity'] }}, Production Capability: {{ $row->min('production_capability') }}</h3>
-                <table class="table">
-                    <th>Raw Material</th>
-                    <th>Required Amount</th>
-                    <th>Available Amount </th>
-                    <th>Production Capability </th>
-                    <th>Status </th>
-                    <tbody>
-                        @foreach ($row as $value)
-                            <tr>
-                                <td> {{ $value['raw_material'] }}</td>
-                                <td> {{ $value['required_amount'] }}</td>
-                                <td> {{ $value['available_amount'] }}</td>
-                                <td> {{ $value['production_capability'] }}</td>
-                                <td> {{ $value['status'] }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @endforeach
-        @else
+    @if (!session('message'))
+        <x-common.content-wrapper>
             <x-content.header title="New Job Planner" />
             <form
                 id="formOne"
@@ -42,7 +17,6 @@
                     x-data="jobPlannerMasterDetailForm({{ Js::from(session()->getOldInput()) }})"
                     x-init="setErrors({{ json_encode($errors->get('jobPlanner.*')) }})"
                 >
-                    <x-common.fail-message :message="session('failedMessage')" />
                     <template
                         x-for="(jobPlanner, index) in jobPlanners"
                         x-bind:key="index"
@@ -213,6 +187,73 @@
                     <x-common.save-button />
                 </x-content.footer>
             </form>
-        @endif
-    </x-common.content-wrapper>
+        </x-common.content-wrapper>
+    @else
+        <div class="modal is-active">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <x-content.header title="Production Plan">
+                    <form
+                        action="{{ route('job-planners.print') }}"
+                        method="POST"
+                        enctype="multipart/form-data"
+                    >
+                        @csrf
+                        <input
+                            name="planner"
+                            type="hidden"
+                            value="{{ session('message') }}"
+                        >
+                        <x-common.button
+                            tag="button"
+                            mode="button"
+                            icon="fas fa-print"
+                            label="Print"
+                            class="bg-green has-text-white is-small"
+                        />
+                    </form>
+                </x-content.header>
+                <x-content.footer>
+                    @foreach (session('message') as $row)
+                        <x-common.content-wrapper>
+                            <x-content.header title="Product: {{ $row->first()['product_name'] }}">
+                                <h4 class="subtitle has-text-grey is-size-7">
+                                    Factory: <strong>{{ $row->first()['factory_name'] }}</strong>, Quantity: <strong>{{ number_format($row->first()['quantity'], 2) }}</strong>,</br> Production Capacity: <strong>{{ number_format($row->min('production_capacity'), 2) }}</strong>
+                                </h4>
+                            </x-content.header>
+                            <x-content.footer>
+                                <x-common.bulma-table>
+                                    <x-slot name="headings">
+                                        <th>#</th>
+                                        <th>Raw Material</th>
+                                        <th class="has-text-right">Available Amount </th>
+                                        <th class="has-text-right">Required Amount</th>
+                                        <th class="has-text-right">Difference</th>
+                                        <th class="has-text-right">Production Capacity </th>
+                                    </x-slot>
+                                    <x-slot name="body">
+                                        @foreach ($row as $value)
+                                            <tr>
+                                                <td class="has-text-centered"> {{ $loop->index + 1 }} </td>
+                                                <td> {{ $value['raw_material'] }}</td>
+                                                <td class="has-text-right"> {{ number_format($value['available_amount'], 2) }}</td>
+                                                <td class="has-text-right"> {{ number_format($value['required_amount'], 2) }}</td>
+                                                <td class="{{ $value['difference'] >= 0 ? 'text-green' : 'text-purple' }} has-text-right"> {{ number_format($value['difference'], 2) }}</td>
+                                                <td class="has-text-right"> {{ number_format($value['production_capacity'], 2) }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </x-slot>
+                                </x-common.bulma-table>
+                            </x-content.footer>
+                        </x-common.content-wrapper>
+                    @endforeach
+                </x-content.footer>
+            </div>
+            <button
+                class="modal-close is-large"
+                aria-label="close"
+            ></button>
+        </div>
+
+    @endif
 @endsection

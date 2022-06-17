@@ -24,7 +24,7 @@ class JobPlannerController extends Controller
 
     public function store(StoreJobPlannerRequest $request)
     {
-        $report = JobPlannerService::finalReport($request->jobPlanner)->groupBy('index');
+        $report = JobPlannerService::finalReport($request->jobPlanner)->groupBy('index')->values();
 
         return back()->with('message', $report);
     }
