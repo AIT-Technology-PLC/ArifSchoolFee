@@ -1,6 +1,6 @@
 @livewireScripts
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js" integrity="sha256-OPn1YfcEh9W2pwF1iSS+yDk099tYj+plSrCS6Esa9NA=" crossorigin="anonymous" defer></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js" integrity="sha256-OPn1YfcEh9W2pwF1iSS+yDk099tYj+plSrCS6Esa9NA=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://unpkg.com/@alpinejs/collapse@3.4.2/dist/cdn.min.js" defer></script>
 <script type="text/javascript" src="https://unpkg.com/alpinejs@3.4.2/dist/cdn.min.js" defer></script>
 {{-- Datatable Library --}}
@@ -15,6 +15,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 {{-- Local Assets --}}
+<script type="text/javascript" src="{{ asset('js/store.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/template.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/caller.js') }}"></script>

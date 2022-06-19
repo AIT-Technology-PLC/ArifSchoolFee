@@ -122,7 +122,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="$store.products.unitOfMeasurement(gdn.product_id)"
+                                    x-text="Product.unitOfMeasurement(gdn.product_id)"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -137,7 +137,7 @@
                                     x-bind:id="`gdn[${index}][unit_price]`"
                                     x-bind:name="`gdn[${index}][unit_price]`"
                                     x-model="gdn.unit_price"
-                                    x-bind:readonly="$store.products.isPriceFixed(gdn.product_id)"
+                                    x-bind:readonly="Product.isPriceFixed(gdn.product_id)"
                                     type="number"
                                     placeholder="Unit Price"
                                 />
@@ -156,7 +156,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="$store.products.unitOfMeasurement(gdn.product_id, 'Per')"
+                                    x-text="Product.unitOfMeasurement(gdn.product_id, 'Per')"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -231,26 +231,16 @@
                 gdn
             }) => ({
                 gdns: [],
-                productStore: Alpine.reactive(Alpine.store("products")),
 
-                init() {
+                async init() {
+                    await Product.init();
+
                     if (gdn) {
                         this.gdns = gdn;
 
-                        Alpine.effect(() => {
-                            if (this.productStore.products.length) {
-                                Promise.resolve(
-                                    this.gdns.forEach((gdn) => {
-                                        gdn.product_category_id =
-                                            this.productStore.productCategoryId(
-                                                gdn.product_id
-                                            );
-                                    })
-                                ).then(() =>
-                                    $(".product-list").trigger("change", [true])
-                                );
-                            }
-                        });
+                        await Promise.resolve(this.gdns.forEach((gdn) => gdn.product_category_id = Product.productCategoryId(gdn.product_id)))
+
+                        await Promise.resolve($(".product-list").trigger("change", [true]));
 
                         return;
                     }
@@ -258,24 +248,26 @@
                     this.add();
                 },
                 add() {
-                    this.gdns.push({
-                        product_id: "",
-                        product_category_id: "",
-                        warehouse_id: "",
-                        unit_price: "",
-                        quantity: "",
-                        description: "",
-                        discount: "",
-                    });
+                    this.gdns.push({});
                 },
-                remove(index) {
-                    if (this.gdns.length === 1) {
+                async remove(index) {
+                    if (this.gdns.length <= 0) {
                         return;
                     }
 
-                    Promise.resolve(this.gdns.splice(index, 1)).then(() =>
-                        $(".product-list").trigger("change", [true])
+                    let deletedItemIndex = index;
+
+                    await Promise.resolve(this.gdns.splice(index, 1));
+
+                    await Promise.resolve(
+                        this.gdns.forEach((gdn, index) => {
+                            if (index >= deletedItemIndex) {
+                                this.changeProductCategory(index);
+                            }
+                        })
                     );
+
+                    Pace.restart();
                 },
                 select2(index) {
                     let select2 = initializeSelect2(this.$el);
@@ -284,25 +276,25 @@
                         this.gdns[index].product_id = event.target.value;
 
                         this.gdns[index].product_category_id =
-                            this.productStore.productCategoryId(
+                            Product.productCategoryId(
                                 this.gdns[index].product_id
                             );
 
                         if (!haveData) {
                             this.changeProductCategory(index);
 
-                            this.gdns[index].unit_price = this.productStore.price(
+                            this.gdns[index].unit_price = Product.price(
                                 this.gdns[index].product_id
                             );
                         }
                     });
                 },
                 changeProductCategory(index) {
-                    let products = this.productStore.whereProductCategoryId(
+                    let products = Product.whereProductCategoryId(
                         this.gdns[index].product_category_id
                     );
 
-                    this.productStore.appendProductsToSelect2(
+                    Product.appendProductsToSelect2(
                         $(".product-list").eq(index),
                         this.gdns[index].product_id,
                         products
