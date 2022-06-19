@@ -92,7 +92,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="$store.products.unitOfMeasurement(transfer.product_id)"
+                                    x-text="Product.unitOfMeasurement(transfer.product_id)"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -143,26 +143,16 @@
                 transfer
             }) => ({
                 transfers: [],
-                productStore: Alpine.reactive(Alpine.store("products")),
 
-                init() {
+                async init() {
+                    await Product.init();
+
                     if (transfer) {
                         this.transfers = transfer;
 
-                        Alpine.effect(() => {
-                            if (this.productStore.products.length) {
-                                Promise.resolve(
-                                    this.transfers.forEach((transfer) => {
-                                        transfer.product_category_id =
-                                            this.productStore.productCategoryId(
-                                                transfer.product_id
-                                            );
-                                    })
-                                ).then(() =>
-                                    $(".product-list").trigger("change", [true])
-                                );
-                            }
-                        });
+                        await Promise.resolve(this.transfers.forEach((transfer) => transfer.product_category_id = Product.productCategoryId(transfer.product_id)))
+
+                        await Promise.resolve($(".product-list").trigger("change", [true]));
 
                         return;
                     }
@@ -170,21 +160,26 @@
                     this.add();
                 },
                 add() {
-                    this.transfers.push({
-                        product_id: "",
-                        product_category_id: "",
-                        quantity: "",
-                        description: "",
-                    });
+                    this.transfers.push({});
                 },
-                remove(index) {
-                    if (this.transfers.length === 1) {
+                async remove(index) {
+                    if (this.transfers.length <= 0) {
                         return;
                     }
 
-                    Promise.resolve(this.transfers.splice(index, 1)).then(() =>
-                        $(".product-list").trigger("change", [true])
+                    let deletedItemIndex = index;
+
+                    await Promise.resolve(this.transfers.splice(index, 1));
+
+                    await Promise.resolve(
+                        this.transfers.forEach((transfer, index) => {
+                            if (index >= deletedItemIndex) {
+                                this.changeProductCategory(index);
+                            }
+                        })
                     );
+
+                    Pace.restart();
                 },
                 select2(index) {
                     let select2 = initializeSelect2(this.$el);
@@ -193,7 +188,7 @@
                         this.transfers[index].product_id = event.target.value;
 
                         this.transfers[index].product_category_id =
-                            this.productStore.productCategoryId(
+                            Product.productCategoryId(
                                 this.transfers[index].product_id
                             );
 
@@ -203,11 +198,11 @@
                     });
                 },
                 changeProductCategory(index) {
-                    let products = this.productStore.whereProductCategoryId(
+                    let products = Product.whereProductCategoryId(
                         this.transfers[index].product_category_id
                     );
 
-                    this.productStore.appendProductsToSelect2(
+                    Product.appendProductsToSelect2(
                         $(".product-list").eq(index),
                         this.transfers[index].product_id,
                         products

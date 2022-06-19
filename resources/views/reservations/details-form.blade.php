@@ -123,7 +123,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="$store.products.unitOfMeasurement(reservation.product_id)"
+                                    x-text="Product.unitOfMeasurement(reservation.product_id)"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -156,7 +156,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="$store.products.unitOfMeasurement(reservation.product_id, 'Per')"
+                                    x-text="Product.unitOfMeasurement(reservation.product_id, 'Per')"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -231,26 +231,16 @@
                 reservation
             }) => ({
                 reservations: [],
-                productStore: Alpine.reactive(Alpine.store("products")),
 
-                init() {
+                async init() {
+                    await Product.init();
+
                     if (reservation) {
                         this.reservations = reservation;
 
-                        Alpine.effect(() => {
-                            if (this.productStore.products.length) {
-                                Promise.resolve(
-                                    this.reservations.forEach((reservation) => {
-                                        reservation.product_category_id =
-                                            this.productStore.productCategoryId(
-                                                reservation.product_id
-                                            );
-                                    })
-                                ).then(() =>
-                                    $(".product-list").trigger("change", [true])
-                                );
-                            }
-                        });
+                        await Promise.resolve(this.reservations.forEach((reservation) => reservation.product_category_id = Product.productCategoryId(reservation.product_id)))
+
+                        await Promise.resolve($(".product-list").trigger("change", [true]));
 
                         return;
                     }
@@ -258,24 +248,26 @@
                     this.add();
                 },
                 add() {
-                    this.reservations.push({
-                        product_id: "",
-                        product_category_id: "",
-                        warehouse_id: "",
-                        unit_price: "",
-                        quantity: "",
-                        description: "",
-                        discount: "",
-                    });
+                    this.reservations.push({});
                 },
-                remove(index) {
-                    if (this.reservations.length === 1) {
+                async remove(index) {
+                    if (this.reservations.length <= 0) {
                         return;
                     }
 
-                    Promise.resolve(this.reservations.splice(index, 1)).then(() =>
-                        $(".product-list").trigger("change", [true])
+                    let deletedItemIndex = index;
+
+                    await Promise.resolve(this.reservations.splice(index, 1));
+
+                    await Promise.resolve(
+                        this.reservations.forEach((reservation, index) => {
+                            if (index >= deletedItemIndex) {
+                                this.changeProductCategory(index);
+                            }
+                        })
                     );
+
+                    Pace.restart();
                 },
                 select2(index) {
                     let select2 = initializeSelect2(this.$el);
@@ -284,25 +276,25 @@
                         this.reservations[index].product_id = event.target.value;
 
                         this.reservations[index].product_category_id =
-                            this.productStore.productCategoryId(
+                            Product.productCategoryId(
                                 this.reservations[index].product_id
                             );
 
                         if (!haveData) {
                             this.changeProductCategory(index);
 
-                            this.reservations[index].unit_price = this.productStore.price(
+                            this.reservations[index].unit_price = Product.price(
                                 this.reservations[index].product_id
                             );
                         }
                     });
                 },
                 changeProductCategory(index) {
-                    let products = this.productStore.whereProductCategoryId(
+                    let products = Product.whereProductCategoryId(
                         this.reservations[index].product_category_id
                     );
 
-                    this.productStore.appendProductsToSelect2(
+                    Product.appendProductsToSelect2(
                         $(".product-list").eq(index),
                         this.reservations[index].product_id,
                         products

@@ -122,7 +122,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="$store.products.unitOfMeasurement(siv.product_id)"
+                                    x-text="Product.unitOfMeasurement(siv.product_id)"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -173,26 +173,16 @@
                 siv
             }) => ({
                 sivs: [],
-                productStore: Alpine.reactive(Alpine.store("products")),
 
-                init() {
+                async init() {
+                    await Product.init();
+
                     if (siv) {
                         this.sivs = siv;
 
-                        Alpine.effect(() => {
-                            if (this.productStore.products.length) {
-                                Promise.resolve(
-                                    this.sivs.forEach((siv) => {
-                                        siv.product_category_id =
-                                            this.productStore.productCategoryId(
-                                                siv.product_id
-                                            );
-                                    })
-                                ).then(() =>
-                                    $(".product-list").trigger("change", [true])
-                                );
-                            }
-                        });
+                        await Promise.resolve(this.sivs.forEach((siv) => siv.product_category_id = Product.productCategoryId(siv.product_id)))
+
+                        await Promise.resolve($(".product-list").trigger("change", [true]));
 
                         return;
                     }
@@ -200,22 +190,26 @@
                     this.add();
                 },
                 add() {
-                    this.sivs.push({
-                        product_id: "",
-                        product_category_id: "",
-                        warehouse_id: "",
-                        quantity: "",
-                        description: "",
-                    });
+                    this.sivs.push({});
                 },
-                remove(index) {
-                    if (this.sivs.length === 1) {
+                async remove(index) {
+                    if (this.sivs.length <= 0) {
                         return;
                     }
 
-                    Promise.resolve(this.sivs.splice(index, 1)).then(() =>
-                        $(".product-list").trigger("change", [true])
+                    let deletedItemIndex = index;
+
+                    await Promise.resolve(this.sivs.splice(index, 1));
+
+                    await Promise.resolve(
+                        this.sivs.forEach((siv, index) => {
+                            if (index >= deletedItemIndex) {
+                                this.changeProductCategory(index);
+                            }
+                        })
                     );
+
+                    Pace.restart();
                 },
                 select2(index) {
                     let select2 = initializeSelect2(this.$el);
@@ -224,7 +218,7 @@
                         this.sivs[index].product_id = event.target.value;
 
                         this.sivs[index].product_category_id =
-                            this.productStore.productCategoryId(
+                            Product.productCategoryId(
                                 this.sivs[index].product_id
                             );
 
@@ -234,11 +228,11 @@
                     });
                 },
                 changeProductCategory(index) {
-                    let products = this.productStore.whereProductCategoryId(
+                    let products = Product.whereProductCategoryId(
                         this.sivs[index].product_category_id
                     );
 
-                    this.productStore.appendProductsToSelect2(
+                    Product.appendProductsToSelect2(
                         $(".product-list").eq(index),
                         this.sivs[index].product_id,
                         products

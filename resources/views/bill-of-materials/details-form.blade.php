@@ -91,7 +91,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="$store.products.unitOfMeasurement(billOfMaterial.product_id)"
+                                    x-text="Product.unitOfMeasurement(billOfMaterial.product_id)"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -117,26 +117,16 @@
                 billOfMaterial
             }) => ({
                 billOfMaterials: [],
-                productStore: Alpine.reactive(Alpine.store("products")),
 
-                init() {
+                async init() {
+                    await Product.init();
+
                     if (billOfMaterial) {
                         this.billOfMaterials = billOfMaterial;
 
-                        Alpine.effect(() => {
-                            if (this.productStore.products.length) {
-                                Promise.resolve(
-                                    this.billOfMaterials.forEach((billOfMaterial) => {
-                                        billOfMaterial.product_category_id =
-                                            this.productStore.productCategoryId(
-                                                billOfMaterial.product_id
-                                            );
-                                    })
-                                ).then(() =>
-                                    $(".product-list").trigger("change", [true])
-                                );
-                            }
-                        });
+                        await Promise.resolve(this.billOfMaterials.forEach((billOfMaterial) => billOfMaterial.product_category_id = Product.productCategoryId(billOfMaterial.product_id)))
+
+                        await Promise.resolve($(".product-list").trigger("change", [true]));
 
                         return;
                     }
@@ -144,20 +134,26 @@
                     this.add();
                 },
                 add() {
-                    this.billOfMaterials.push({
-                        product_id: "",
-                        product_category_id: "",
-                        quantity: "",
-                    });
+                    this.billOfMaterials.push({});
                 },
-                remove(index) {
-                    if (this.billOfMaterials.length === 1) {
+                async remove(index) {
+                    if (this.billOfMaterials.length <= 0) {
                         return;
                     }
 
-                    Promise.resolve(this.billOfMaterials.splice(index, 1)).then(() =>
-                        $(".product-list").trigger("change", [true])
+                    let deletedItemIndex = index;
+
+                    await Promise.resolve(this.billOfMaterials.splice(index, 1));
+
+                    await Promise.resolve(
+                        this.billOfMaterials.forEach((billOfMaterial, index) => {
+                            if (index >= deletedItemIndex) {
+                                this.changeProductCategory(index);
+                            }
+                        })
                     );
+
+                    Pace.restart();
                 },
                 select2(index) {
                     let select2 = initializeSelect2(this.$el);
@@ -166,7 +162,7 @@
                         this.billOfMaterials[index].product_id = event.target.value;
 
                         this.billOfMaterials[index].product_category_id =
-                            this.productStore.productCategoryId(
+                            Product.productCategoryId(
                                 this.billOfMaterials[index].product_id
                             );
 
@@ -176,11 +172,11 @@
                     });
                 },
                 changeProductCategory(index) {
-                    let products = this.productStore.whereProductCategoryId(
+                    let products = Product.whereProductCategoryId(
                         this.billOfMaterials[index].product_category_id
                     );
 
-                    this.productStore.appendProductsToSelect2(
+                    Product.appendProductsToSelect2(
                         $(".product-list").eq(index),
                         this.billOfMaterials[index].product_id,
                         products
