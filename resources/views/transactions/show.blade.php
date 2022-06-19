@@ -85,7 +85,7 @@
                                 :route="route('transactions.subtract', $transaction->id)"
                                 action="subtract"
                                 intention="subtract this transaction"
-                                icon="fas fa-signature"
+                                icon="fas fa-minus-circle"
                                 label="Subtract"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
@@ -98,7 +98,7 @@
                                 :route="route('transactions.add', $transaction->id)"
                                 action="add"
                                 intention="add this transaction"
-                                icon="fas fa-signature"
+                                icon="fas fa-plus-circle"
                                 label="Add"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />

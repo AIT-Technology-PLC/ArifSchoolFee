@@ -86,7 +86,7 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="issued_on">
-                                Issued On<sup class="has-text-danger">*</sup>
+                                Issued On <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
@@ -107,7 +107,7 @@
                     <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="description">
-                                Description<sup class="has-text-danger"></sup>
+                                Description <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.textarea
@@ -151,7 +151,7 @@
                             <div class="column">
                                 <x-forms.field>
                                     <x-forms.label for="payment_type">
-                                        Payment Method<sup class="has-text-danger">*</sup>
+                                        Payment Method <sup class="has-text-danger">*</sup>
                                     </x-forms.label>
                                     <x-forms.control class="has-icons-left">
                                         <x-forms.select
