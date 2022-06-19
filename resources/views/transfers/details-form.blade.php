@@ -186,10 +186,12 @@
                         this.transfers[index].product_id = event.target.value;
 
                         this.transfers[index].product_category_id =
-                            Product.changeProductCategory(select2, this.transfers[index].product_id, this.transfers[index].product_category_id);
+                            Product.productCategoryId(
+                                this.transfers[index].product_id
+                            );
 
                         if (!haveData) {
-                            this.changeProductCategory(index);
+                            Product.changeProductCategory(select2, this.transfers[index].product_id, this.transfers[index].product_category_id);
                         }
                     });
                 },

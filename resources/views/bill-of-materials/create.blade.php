@@ -16,17 +16,21 @@
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="product_id">
-                                Product <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-common.product-list
+                        <x-forms.label for="">
+                            Product <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control
+                                class="has-icons-left"
+                                style="width: 30%"
+                            >
+                                <x-common.category-list />
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-common.new-product-list
                                     id="product_id"
                                     name="product_id"
-                                    key=""
-                                    :selected-product-id="old('product_id')"
-                                    x-init="initializeSelect2($el)"
+                                    x-bind:value="`{{ old('product_id') }}`"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"

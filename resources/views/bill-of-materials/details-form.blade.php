@@ -71,6 +71,7 @@
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
+                                    type="number"
                                     x-bind:id="`billOfMaterial[${index}][quantity]`"
                                     x-bind:name="`billOfMaterial[${index}][quantity]`"
                                     x-model="billOfMaterial.quantity"
