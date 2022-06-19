@@ -70,10 +70,12 @@ class InventoryOperationService
         $unavailableProducts = collect();
 
         $merchandises = Merchandise::all();
+        $products = Product::all();
+        $warehouses = Warehouse::all();
 
         foreach ($details as $detail) {
-            $product = Product::find($detail['product_id']);
-            $warehouse = Warehouse::find($detail['warehouse_id']);
+            $product = $products->find($detail['product_id']);
+            $warehouse = $warehouses->find($detail['warehouse_id']);
 
             $availableMerchandises = $merchandises
                 ->where('product_id', $detail['product_id'])
@@ -103,10 +105,12 @@ class InventoryOperationService
         $unavailableProducts = collect();
 
         $merchandises = Merchandise::all();
+        $products = Product::all();
+        $warehouses = Warehouse::all();
 
         foreach ($details as $detail) {
-            $product = Product::find($detail['product_id']);
-            $warehouse = Warehouse::find($detail['warehouse_id']);
+            $product = $products->find($detail['product_id']);
+            $warehouse = $warehouses->find($detail['warehouse_id']);
 
             $availableMerchandises = $merchandises
                 ->where('product_id', $detail['product_id'])
