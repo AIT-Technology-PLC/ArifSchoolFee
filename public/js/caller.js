@@ -49,10 +49,6 @@ if (d.getElementsByClassName("summernote").length) {
     initializeSummernote();
 }
 
-if (d.getElementById("addNewSivForm")) {
-    d.getElementById("addNewSivForm").addEventListener("click", addSivDetail);
-}
-
 if (d.getElementById("addNewProformaInvoiceForm")) {
     d.getElementById("addNewProformaInvoiceForm").addEventListener(
         "click",
