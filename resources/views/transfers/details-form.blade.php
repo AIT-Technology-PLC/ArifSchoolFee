@@ -42,7 +42,7 @@
                             >
                                 <x-common.category-list
                                     x-model="transfer.product_category_id"
-                                    x-on:change="changeProductCategory(index)"
+                                    x-on:change="Product.changeProductCategory(getSelect2(index), transfer.product_id, transfer.product_category_id)"
                                 />
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
@@ -167,14 +167,12 @@
                         return;
                     }
 
-                    let deletedItemIndex = index;
-
                     await Promise.resolve(this.transfers.splice(index, 1));
 
                     await Promise.resolve(
-                        this.transfers.forEach((transfer, index) => {
-                            if (index >= deletedItemIndex) {
-                                this.changeProductCategory(index);
+                        this.transfers.forEach((transfer, i) => {
+                            if (i >= index) {
+                                Product.changeProductCategory(this.getSelect2(i), transfer.product_id, transfer.product_category_id);
                             }
                         })
                     );
@@ -188,26 +186,16 @@
                         this.transfers[index].product_id = event.target.value;
 
                         this.transfers[index].product_category_id =
-                            Product.productCategoryId(
-                                this.transfers[index].product_id
-                            );
+                            Product.changeProductCategory(select2, this.transfers[index].product_id, this.transfers[index].product_category_id);
 
                         if (!haveData) {
                             this.changeProductCategory(index);
                         }
                     });
                 },
-                changeProductCategory(index) {
-                    let products = Product.whereProductCategoryId(
-                        this.transfers[index].product_category_id
-                    );
-
-                    Product.appendProductsToSelect2(
-                        $(".product-list").eq(index),
-                        this.transfers[index].product_id,
-                        products
-                    );
-                },
+                getSelect2(index) {
+                    return $(".product-list").eq(index);
+                }
             }));
         });
     </script>

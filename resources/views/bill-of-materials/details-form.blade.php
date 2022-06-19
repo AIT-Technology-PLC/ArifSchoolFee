@@ -2,7 +2,6 @@
     x-data="billOfMaterialMasterDetailForm({{ Js::from($data) }})"
     x-init="$store.errors.setErrors({{ Js::from($errors->get('billOfMaterial.*')) }})"
 >
-    <x-common.fail-message :message="session('failedMessage')" />
     <template
         x-for="(billOfMaterial, index) in billOfMaterials"
         x-bind:key="index"
@@ -43,7 +42,7 @@
                             >
                                 <x-common.category-list
                                     x-model="billOfMaterial.product_category_id"
-                                    x-on:change="changeProductCategory(index)"
+                                    x-on:change="Product.changeProductCategory(getSelect2(index), billOfMaterial.product_id, billOfMaterial.product_category_id)"
                                 />
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
@@ -141,14 +140,12 @@
                         return;
                     }
 
-                    let deletedItemIndex = index;
-
                     await Promise.resolve(this.billOfMaterials.splice(index, 1));
 
                     await Promise.resolve(
-                        this.billOfMaterials.forEach((billOfMaterial, index) => {
-                            if (index >= deletedItemIndex) {
-                                this.changeProductCategory(index);
+                        this.billOfMaterials.forEach((billOfMaterial, i) => {
+                            if (i >= index) {
+                                Product.changeProductCategory(this.getSelect2(i), billOfMaterial.product_id, billOfMaterial.product_category_id);
                             }
                         })
                     );
@@ -167,21 +164,13 @@
                             );
 
                         if (!haveData) {
-                            this.changeProductCategory(index);
+                            Product.changeProductCategory(select2, this.billOfMaterials[index].product_id, this.billOfMaterials[index].product_category_id);
                         }
                     });
                 },
-                changeProductCategory(index) {
-                    let products = Product.whereProductCategoryId(
-                        this.billOfMaterials[index].product_category_id
-                    );
-
-                    Product.appendProductsToSelect2(
-                        $(".product-list").eq(index),
-                        this.billOfMaterials[index].product_id,
-                        products
-                    );
-                },
+                getSelect2(index) {
+                    return $(".product-list").eq(index);
+                }
             }));
         });
     </script>

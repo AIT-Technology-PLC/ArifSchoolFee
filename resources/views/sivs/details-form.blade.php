@@ -42,7 +42,7 @@
                             >
                                 <x-common.category-list
                                     x-model="siv.product_category_id"
-                                    x-on:change="changeProductCategory(index)"
+                                    x-on:change="Product.changeProductCategory(getSelect2(index), siv.product_id, siv.product_category_id)"
                                 />
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
@@ -197,14 +197,12 @@
                         return;
                     }
 
-                    let deletedItemIndex = index;
-
                     await Promise.resolve(this.sivs.splice(index, 1));
 
                     await Promise.resolve(
-                        this.sivs.forEach((siv, index) => {
-                            if (index >= deletedItemIndex) {
-                                this.changeProductCategory(index);
+                        this.sivs.forEach((siv, i) => {
+                            if (i >= index) {
+                                Product.changeProductCategory(this.getSelect2(i), siv.product_id, siv.product_category_id);
                             }
                         })
                     );
@@ -223,21 +221,13 @@
                             );
 
                         if (!haveData) {
-                            this.changeProductCategory(index);
+                            Product.changeProductCategory(select2, this.sivs[index].product_id, this.sivs[index].product_category_id);
                         }
                     });
                 },
-                changeProductCategory(index) {
-                    let products = Product.whereProductCategoryId(
-                        this.sivs[index].product_category_id
-                    );
-
-                    Product.appendProductsToSelect2(
-                        $(".product-list").eq(index),
-                        this.sivs[index].product_id,
-                        products
-                    );
-                },
+                getSelect2(index) {
+                    return $(".product-list").eq(index);
+                }
             }));
         });
     </script>

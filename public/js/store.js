@@ -59,6 +59,13 @@ const Product = {
 
         return product?.unit_of_measurement;
     },
+    changeProductCategory(select2, productId, productCategoryId) {
+        this.appendProductsToSelect2(
+            select2,
+            productId,
+            this.whereProductCategoryId(productCategoryId)
+        );
+    },
     appendProductsToSelect2(select2, productId = null, products = null) {
         products = products ?? this.products;
 
