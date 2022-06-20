@@ -45,8 +45,8 @@
                                     </div>
                                 @endif
                             @endcan
-                            @can('Create Job Planner')
-                                @if (isFeatureEnabled('Job Planner'))
+                            @can('Plan Job')
+                                @if (isFeatureEnabled('Job Management'))
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"

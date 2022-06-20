@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Create Job Planner')
+
 @section('content')
-    @if (!session('message'))
+    @if (!session('report'))
         <x-common.content-wrapper>
             <x-content.header title="New Job Planner" />
             <form
@@ -203,7 +204,7 @@
                         <input
                             name="planner"
                             type="hidden"
-                            value="{{ session('message') }}"
+                            value="{{ session('report') }}"
                         >
                         <x-common.button
                             tag="button"
@@ -215,7 +216,7 @@
                     </form>
                 </x-content.header>
                 <x-content.footer>
-                    @foreach (session('message') as $row)
+                    @foreach (session('report') as $row)
                         <x-common.content-wrapper>
                             <x-content.header title="Product: {{ $row->first()['product_name'] }}">
                                 <h4 class="subtitle has-text-grey is-size-7">

@@ -217,9 +217,6 @@ class Permissions extends Seeder
             // Other
             Permission::firstOrCreate(['name' => 'Convert To Credit']);
 
-            //job planner
-            Permission::firstOrCreate(['name' => 'Create Job Planner']);
-
             // Assign permissions to role
             $analyst->syncPermissions([
                 'Read GDN',
@@ -237,7 +234,6 @@ class Permissions extends Seeder
                 'Read Customer',
                 'Read Reservation',
                 'Read BOM',
-                'Create Job Planner',
             ]);
 
             $purchaseManager->syncPermissions([
@@ -248,7 +244,6 @@ class Permissions extends Seeder
                 'Read Product',
                 'Update Purchase',
                 'Update Supplier',
-                'Create Job Planner',
             ]);
 
             $salesOfficer->syncPermissions([
@@ -276,7 +271,6 @@ class Permissions extends Seeder
                 'Update BOM',
                 'Convert Proforma Invoice',
                 'Convert Reservation',
-                'Create Job Planner',
             ]);
 
             $storeKeeper->syncPermissions([
@@ -304,7 +298,6 @@ class Permissions extends Seeder
                 'Update Damage',
                 'Update Adjustment',
                 'Update SIV',
-                'Create Job Planner',
             ]);
 
             $systemManager->syncPermissions(Permission::all());

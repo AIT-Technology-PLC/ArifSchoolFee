@@ -10,11 +10,13 @@ class JobPlannerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('isFeatureAccessible:Job Planner');
+        $this->middleware('isFeatureAccessible:Job Management');
     }
 
     public function printed(Request $request)
     {
+        $this->authorize('plan', Job::class);
+
         $reportData = collect(json_decode($request->planner, true));
 
         $reportData->transform(function ($data) {
