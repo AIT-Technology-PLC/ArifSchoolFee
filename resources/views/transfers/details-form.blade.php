@@ -1,9 +1,9 @@
 <x-content.main
-    x-data="billOfMaterialMasterDetailForm({{ Js::from($data) }})"
-    x-init="$store.errors.setErrors({{ Js::from($errors->get('billOfMaterial.*')) }})"
+    x-data="transferMasterDetailForm({{ Js::from($data) }})"
+    x-init="$store.errors.setErrors({{ Js::from($errors->get('transfer.*')) }})"
 >
     <template
-        x-for="(billOfMaterial, index) in billOfMaterials"
+        x-for="(transfer, index) in transfers"
         x-bind:key="index"
     >
         <div class="mx-3">
@@ -32,7 +32,7 @@
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <x-forms.label x-bind:for="`billOfMaterial[${index}][product_id]`">
+                        <x-forms.label x-bind:for="`transfer[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
@@ -41,16 +41,16 @@
                                 style="width: 30%"
                             >
                                 <x-common.category-list
-                                    x-model="billOfMaterial.product_category_id"
-                                    x-on:change="Product.changeProductCategory(getSelect2(index), billOfMaterial.product_id, billOfMaterial.product_category_id)"
+                                    x-model="transfer.product_category_id"
+                                    x-on:change="Product.changeProductCategory(getSelect2(index), transfer.product_id, transfer.product_category_id)"
                                 />
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-common.new-product-list
                                     class="product-list"
-                                    x-bind:id="`billOfMaterial[${index}][product_id]`"
-                                    x-bind:name="`billOfMaterial[${index}][product_id]`"
-                                    x-model="billOfMaterial.product_id"
+                                    x-bind:id="`transfer[${index}][product_id]`"
+                                    x-bind:name="`transfer[${index}][product_id]`"
+                                    x-model="transfer.product_id"
                                     x-init="select2(index)"
                                 />
                                 <x-common.icon
@@ -59,30 +59,31 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`billOfMaterial.${index}.product_id`)"
+                                    x-text="$store.errors.getErrors(`transfer.${index}.product_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <x-forms.label x-bind:for="`billOfMaterial[${index}][quantity]`">
+                        <x-forms.label x-bind:for="`transfer[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
+                                    x-bind:id="`transfer[${index}][quantity]`"
+                                    x-bind:name="`transfer[${index}][quantity]`"
+                                    x-model="transfer.quantity"
                                     type="number"
-                                    x-bind:id="`billOfMaterial[${index}][quantity]`"
-                                    x-bind:name="`billOfMaterial[${index}][quantity]`"
-                                    x-model="billOfMaterial.quantity"
+                                    placeholder="Quantity"
                                 />
                                 <x-common.icon
                                     name="fas fa-balance-scale"
-                                    class="is-large is-left"
+                                    class="is-small is-left"
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`billOfMaterial.${index}.quantity`)"
+                                    x-text="$store.errors.getErrors(`transfer.${index}.quantity`)"
                                 ></span>
                             </x-forms.control>
                             <x-forms.control>
@@ -91,8 +92,33 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="Product.unitOfMeasurement(billOfMaterial.product_id)"
+                                    x-text="Product.unitOfMeasurement(transfer.product_id)"
                                 />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label x-bind:for="`transfer[${index}][description]`">
+                                Additional Notes <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.textarea
+                                    x-bind:id="`transfer[${index}][description]`"
+                                    x-bind:name="`transfer[${index}][description]`"
+                                    x-model="transfer.description"
+                                    class="textarea pl-6"
+                                    placeholder="Description or note to be taken"
+                                >
+                                    </x-formtextarea>
+                                    <x-common.icon
+                                        name="fas fa-edit"
+                                        class="is-large is-left"
+                                    />
+                                    <span
+                                        class="help has-text-danger"
+                                        x-text="$store.errors.getErrors(`transfer.${index}.description`)"
+                                    ></span>
                             </x-forms.control>
                         </x-forms.field>
                     </div>
@@ -113,18 +139,18 @@
 @push('scripts')
     <script>
         document.addEventListener("alpine:init", () => {
-            Alpine.data("billOfMaterialMasterDetailForm", ({
-                billOfMaterial
+            Alpine.data("transferMasterDetailForm", ({
+                transfer
             }) => ({
-                billOfMaterials: [],
+                transfers: [],
 
                 async init() {
                     await Product.init();
 
-                    if (billOfMaterial) {
-                        this.billOfMaterials = billOfMaterial;
+                    if (transfer) {
+                        this.transfers = transfer;
 
-                        await Promise.resolve(this.billOfMaterials.forEach((billOfMaterial) => billOfMaterial.product_category_id = Product.productCategoryId(billOfMaterial.product_id)))
+                        await Promise.resolve(this.transfers.forEach((transfer) => transfer.product_category_id = Product.productCategoryId(transfer.product_id)))
 
                         await Promise.resolve($(".product-list").trigger("change", [true]));
 
@@ -134,19 +160,19 @@
                     this.add();
                 },
                 add() {
-                    this.billOfMaterials.push({});
+                    this.transfers.push({});
                 },
                 async remove(index) {
-                    if (this.billOfMaterials.length <= 0) {
+                    if (this.transfers.length <= 0) {
                         return;
                     }
 
-                    await Promise.resolve(this.billOfMaterials.splice(index, 1));
+                    await Promise.resolve(this.transfers.splice(index, 1));
 
                     await Promise.resolve(
-                        this.billOfMaterials.forEach((billOfMaterial, i) => {
+                        this.transfers.forEach((transfer, i) => {
                             if (i >= index) {
-                                Product.changeProductCategory(this.getSelect2(i), billOfMaterial.product_id, billOfMaterial.product_category_id);
+                                Product.changeProductCategory(this.getSelect2(i), transfer.product_id, transfer.product_category_id);
                             }
                         })
                     );
@@ -157,15 +183,15 @@
                     let select2 = initializeSelect2(this.$el);
 
                     select2.on("change", (event, haveData = false) => {
-                        this.billOfMaterials[index].product_id = event.target.value;
+                        this.transfers[index].product_id = event.target.value;
 
-                        this.billOfMaterials[index].product_category_id =
+                        this.transfers[index].product_category_id =
                             Product.productCategoryId(
-                                this.billOfMaterials[index].product_id
+                                this.transfers[index].product_id
                             );
 
                         if (!haveData) {
-                            Product.changeProductCategory(select2, this.billOfMaterials[index].product_id, this.billOfMaterials[index].product_category_id);
+                            Product.changeProductCategory(select2, this.transfers[index].product_id, this.transfers[index].product_category_id);
                         }
                     });
                 },

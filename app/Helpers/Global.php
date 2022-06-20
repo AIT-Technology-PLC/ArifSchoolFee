@@ -21,13 +21,13 @@ if (!function_exists('limitReached')) {
 }
 
 if (!function_exists('isFeatureEnabled')) {
-    function isFeatureEnabled($featureName)
+    function isFeatureEnabled(...$featureNames)
     {
         $enabledFeatures = Cache::store('array')->rememberForever(auth()->id() . '_' . 'enabledFeatures', function () {
             return Feature::getAllEnabledFeaturesOfCompany();
         });
 
-        return $enabledFeatures->contains($featureName);
+        return $enabledFeatures->merge(pads()->pluck('name'))->intersect($featureNames)->isNotEmpty();
     }
 }
 
@@ -53,18 +53,22 @@ if (!function_exists('nextReferenceNumber')) {
 if (!function_exists('quantity')) {
     function quantity($amount = 0.00, $unitOfMeasurement = 'Piece')
     {
+        if (!$unitOfMeasurement) {
+            $unitOfMeasurement = 'Piece';
+        }
+
         return number_format($amount, 2) . ' ' . $unitOfMeasurement;
     }
 }
 
 if (!function_exists('pads')) {
-    function pads($module)
+    function pads($module = null)
     {
         $pads = Cache::store('array')->rememberForever(auth()->id() . '_' . 'pads', function () {
             return Pad::enabled()->get();
         });
 
-        return $pads->where('module', $module);
+        return $pads->when($module, fn($q) => $q->where('module', $module));
     }
 }
 

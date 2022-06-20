@@ -311,6 +311,7 @@ document.addEventListener("alpine:init", () => {
         },
         filterPermissions() {
             let searchQuery = this.searchQuery.replace(/\s/g, "");
+            searchQuery = searchQuery.toLowerCase(searchQuery);
             sessionStorage.setItem("searchQuery", searchQuery);
 
             if (searchQuery === "") {
@@ -442,50 +443,6 @@ document.addEventListener("alpine:init", () => {
         })
     );
 
-    Alpine.data("billOfMaterialMasterDetailForm", ({ billOfMaterial }) => ({
-        billOfMaterials: [],
-        errors: {},
-
-        init() {
-            if (billOfMaterial) {
-                this.billOfMaterials = billOfMaterial;
-                return;
-            }
-
-            this.add();
-        },
-        setErrors(errors) {
-            this.errors = errors;
-        },
-        getErrors(property) {
-            return this.errors[property];
-        },
-        add() {
-            this.billOfMaterials.push({
-                product_id: "",
-                quantity: "",
-            });
-        },
-        remove(index) {
-            if (this.billOfMaterial.length === 1) {
-                return;
-            }
-
-            this.billOfMaterials.splice(index, 1);
-        },
-        select2(index) {
-            let select2 = initializeSelect2(this.$el);
-
-            this.$nextTick(() => $(select2).trigger("change"));
-
-            select2.on("change", (event) => {
-                this.billOfMaterials[index].product_id = event.target.value;
-            });
-
-            this.$watch(`billOfMaterials`, () => select2.trigger("change"));
-        },
-    }));
-
     Alpine.data("jobMasterDetailForm", ({ job }) => ({
         jobs: [],
         errors: {},
@@ -529,70 +486,6 @@ document.addEventListener("alpine:init", () => {
             });
 
             this.$watch(`jobs`, () => select2.trigger("change"));
-        },
-    }));
-
-    Alpine.data("priceMasterDetailForm", ({ price }) => ({
-        prices: [],
-        errors: {},
-
-        init() {
-            if (price) {
-                this.prices = price;
-                return;
-            }
-
-            this.add();
-        },
-        setErrors(errors) {
-            this.errors = errors;
-        },
-        getErrors(property) {
-            return this.errors[property];
-        },
-        add() {
-            this.prices.push({
-                product_id: "",
-                type: "",
-                fixed_price: "",
-                min_price: "",
-                max_price: "",
-            });
-        },
-        remove(index) {
-            if (this.prices.length === 1) {
-                return;
-            }
-
-            this.prices.splice(index, 1);
-        },
-        isPriceFixed(priceType) {
-            if (!priceType) {
-                return true;
-            }
-
-            return priceType === "fixed";
-        },
-        changePriceType(price) {
-            if (price.type === "fixed") {
-                price.min_price = "";
-                price.max_price = "";
-            }
-
-            if (price.type === "range") {
-                price.fixed_price = "";
-            }
-        },
-        select2(index) {
-            let select2 = initializeSelect2(this.$el);
-
-            this.$nextTick(() => $(select2).trigger("change"));
-
-            select2.on("change", (event) => {
-                this.prices[index].product_id = event.target.value;
-            });
-
-            this.$watch(`prices`, () => select2.trigger("change"));
         },
     }));
 
@@ -821,7 +714,18 @@ document.addEventListener("alpine:init", () => {
             this.fileName = "";
         },
         getFileName() {
-            this.fileName = this.file.slice(this.file.lastIndexOf("\\") + 1)
-        }
+            this.fileName = this.file.slice(this.file.lastIndexOf("\\") + 1);
+        },
     }));
+
+    Alpine.store("errors", {
+        errors: {},
+
+        setErrors(errors) {
+            this.errors = errors;
+        },
+        getErrors(property) {
+            return this.errors[property];
+        },
+    });
 });

@@ -15,7 +15,7 @@ class StorePriceRequest extends FormRequest
     public function rules()
     {
         return [
-            'price.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'price.*.product_id' => ['required', 'integer', 'distinct', 'unique:prices,product_id', new MustBelongToCompany('products')],
             'price.*.type' => ['required', 'string'],
             'price.*.min_price' => [
                 'nullable',

@@ -99,9 +99,9 @@ class TransferController extends Controller
         DB::transaction(function () use ($request, $transfer) {
             $transfer->update($request->except('transfer'));
 
-            for ($i = 0; $i < count($request->transfer); $i++) {
-                $transfer->transferDetails[$i]->update($request->transfer[$i]);
-            }
+            $transfer->transferDetails()->forceDelete();
+
+            $transfer->transferDetails()->createMany($request->safe()['transfer']);
         });
 
         return redirect()->route('transfers.show', $transfer->id);

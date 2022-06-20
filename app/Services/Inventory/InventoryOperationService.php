@@ -3,17 +3,22 @@
 namespace App\Services\Inventory;
 
 use App\Models\Merchandise;
+use App\Models\Product;
+use App\Models\Warehouse;
+use Illuminate\Support\Arr;
 
 class InventoryOperationService
 {
-    private $merchandise;
-
-    public function __construct()
-    {
-        $this->merchandise = new Merchandise();
-    }
     public static function add($details, $to = 'available')
     {
+        if (!is_countable($details)) {
+            return [false, 'The information submitted is not valid.'];
+        }
+
+        if (Arr::has($details, ['product_id', 'warehouse_id', 'quantity'])) {
+            $details = [$details];
+        }
+
         foreach ($details as $detail) {
             $merchandise = Merchandise::firstOrCreate(
                 [
@@ -33,6 +38,14 @@ class InventoryOperationService
 
     public static function subtract($details, $from = 'available')
     {
+        if (!is_countable($details)) {
+            return [false, 'The information submitted is not valid.'];
+        }
+
+        if (Arr::has($details, ['product_id', 'warehouse_id', 'quantity'])) {
+            $details = [$details];
+        }
+
         $merchandises = Merchandise::all();
 
         foreach ($details as $detail) {
@@ -46,20 +59,78 @@ class InventoryOperationService
 
     public static function unavailableProducts($details, $in = 'available')
     {
+        if (!is_countable($details)) {
+            return [false, 'The information submitted is not valid.'];
+        }
+
+        if (Arr::has($details, ['product_id', 'warehouse_id', 'quantity'])) {
+            $details = [$details];
+        }
+
         $unavailableProducts = collect();
 
         $merchandises = Merchandise::all();
+        $products = Product::all();
+        $warehouses = Warehouse::all();
 
         foreach ($details as $detail) {
-            $availableMerchandises = $merchandises->where('product_id', $detail['product_id'])->where('warehouse_id', $detail['warehouse_id'])->where($in, '>=', $detail['quantity']);
+            $product = $products->find($detail['product_id']);
+            $warehouse = $warehouses->find($detail['warehouse_id']);
+
+            $availableMerchandises = $merchandises
+                ->where('product_id', $detail['product_id'])
+                ->where('warehouse_id', $detail['warehouse_id'])
+                ->where($in, '>=', $detail['quantity']);
 
             if ($availableMerchandises->isEmpty()) {
                 $unavailableProducts->push(
-                    "'{$detail->product->name}' is not available or not enough in '{$detail->warehouse->name}'"
+                    "'{$product->name}' is not available or not enough in '{$warehouse->name}'"
                 );
             }
         }
 
         return $unavailableProducts;
+    }
+
+    public static function areAvailable($details, $in = 'available')
+    {
+        if (!is_countable($details)) {
+            return [false, 'The information submitted is not valid.'];
+        }
+
+        if (Arr::has($details, ['product_id', 'warehouse_id', 'quantity'])) {
+            $details = [$details];
+        }
+
+        $unavailableProducts = collect();
+
+        $merchandises = Merchandise::all();
+        $products = Product::all();
+        $warehouses = Warehouse::all();
+
+        foreach ($details as $detail) {
+            $product = $products->find($detail['product_id']);
+            $warehouse = $warehouses->find($detail['warehouse_id']);
+
+            $availableMerchandises = $merchandises
+                ->where('product_id', $detail['product_id'])
+                ->where('warehouse_id', $detail['warehouse_id'])
+                ->where($in, '>=', $detail['quantity']);
+
+            if ($availableMerchandises->isEmpty()) {
+                $unavailableProducts->push([
+                    'product' => $product,
+                    'warehouse' => $warehouse,
+                    'quantity' => $detail['quantity'],
+                    $in => $merchandises
+                        ->where('product_id', $detail['product_id'])
+                        ->where('warehouse_id', $detail['warehouse_id'])
+                        ->first()
+                        ->$in,
+                ]);
+            }
+        }
+
+        return $unavailableProducts->isEmpty();
     }
 }

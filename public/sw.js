@@ -10,7 +10,7 @@ const { registerRoute, setCatchHandler } = workbox.routing;
 skipWaiting();
 clientsClaim();
 
-const VERSION = 65;
+const VERSION = 67;
 const PRECACHE = "precache-v4";
 const RUNTIME = "runtime-v4";
 
@@ -32,6 +32,7 @@ precacheAndRoute(
         { url: "/js/caller.js", revision: VERSION },
         { url: "/js/template.js", revision: VERSION },
         { url: "/js/app.js", revision: VERSION },
+        { url: "/js/store.js", revision: VERSION },
         { url: "/js/datatables-plugins.js", revision: VERSION },
         { url: "/livewire/livewire.js", revision: VERSION },
         { url: "/css/bulma-select2.css", revision: VERSION },

@@ -1,16 +1,10 @@
 @extends('layouts.app')
 
-@section('title')
-    Create New Reservation
-@endsection
+@section('title', 'Create New Reservation')
 
 @section('content')
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                New Reservation
-            </h1>
-        </div>
+    <x-common.content-wrapper>
+        <x-content.header title="New Reservations" />
         <form
             id="formOne"
             action="{{ route('reservations.store') }}"
@@ -19,199 +13,139 @@
             novalidate
         >
             @csrf
-            <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-content.main>
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="code"
-                                class="label text-green has-text-weight-normal"
-                            >Reservation Number <sup class="has-text-danger">*</sup> </label>
+                        <x-forms.field>
+                            <x-forms.label for="code">
+                                Reservation Number <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
                             <div class="control has-icons-left">
-                                <input
-                                    class="input"
+                                <x-forms.input
                                     type="number"
                                     name="code"
                                     id="code"
                                     value="{{ $currentReservationCode }}"
-                                >
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-hashtag"></i>
-                                </span>
-                                @error('code')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
+                                />
+                                <x-common.icon
+                                    name="fas fa-hashtag"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="code" />
                             </div>
-                        </div>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="customer_id"
-                                class="label text-green has-text-weight-normal"
-                            > Customer <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <x-common.customer-list :selected-id="old('customer_id') ?? ''" />
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                @error('customer_id')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label for="customer_id">
+                                Customer <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="select is-fullwidth has-icons-left">
+                                <x-common.customer-list :selected-id="old('customer_id') ?? ''" />
+                                <x-common.icon
+                                    name="fas fa-user"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="customer_id" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="issued_on"
-                                class="label text-green has-text-weight-normal"
-                            > Issued On <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input
-                                    class="input"
+                        <x-forms.field>
+                            <x-forms.label for="issued_on">
+                                Issued On <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     type="datetime-local"
                                     name="issued_on"
                                     id="issued_on"
                                     placeholder="mm/dd/yyyy"
                                     value="{{ old('issued_on') ?? now()->toDateTimeLocalString() }}"
-                                >
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                @error('issued_on')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-calendar-alt"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="issued_on" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="expires_on"
-                                class="label text-green has-text-weight-normal"
-                            > Expires On <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input
-                                    class="input"
+                        <x-forms.field>
+                            <x-forms.label for="expires_on">
+                                Expires On <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     type="date"
                                     name="expires_on"
                                     id="expires_on"
                                     placeholder="mm/dd/yyyy"
                                     value="{{ old('expires_on') ??
                                         now()->addDays(10)->toDateString() }}"
-                                >
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                @error('expires_on')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-calendar-alt"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="expires_on" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="description"
-                                class="label text-green has-text-weight-normal"
-                            > Description <sup class="has-text-danger"></sup></label>
-                            <div class="control has-icons-left">
-                                <textarea
+                    <div class="column is-12">
+                        <x-forms.field>
+                            <x-forms.label for="description">
+                                Description <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <x-forms.textarea
                                     name="description"
                                     id="description"
-                                    cols="30"
-                                    rows="3"
-                                    class="textarea pl-6"
+                                    class="textarea summernote"
                                     placeholder="Description or note to be taken"
->
+                                >
                                     {{ old('description') ?? '' }}
-                                </textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                @error('description')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                </x-forms.textarea>
+                                <x-common.validation-error property="description" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                 </div>
-                <div class="box radius-bottom-0 has-background-white-bis p-3 mx-3 mt-5 mb-0">
-                    <h1 class="text-green is-size-5">
-                        Payment Details
-                    </h1>
-                </div>
-                <div
-                    class="box is-radiusless mx-3 mb-6"
-                    x-data="cashReceivedType('{{ old('payment_type') }}', '{{ old('cash_received_type') }}', '{{ old('cash_received') }}', '{{ old('due_date') }}')"
-                >
-                    <div class="columns is-marginless is-multiline">
-                        <div class="column is-12 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
-                            <label
-                                for="discount"
-                                class="label text-green has-text-weight-normal"
-                            >Discount<sup class="has-text-danger"></sup> </label>
-                            <div class="field">
-                                <div class="control has-icons-left is-expanded">
-                                    <input
-                                        id="discount"
-                                        name="discount"
-                                        type="number"
-                                        class="input"
-                                        placeholder="Discount in Percentage"
-                                        value="{{ old('discount') ?? '' }}"
-                                    >
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-percent"></i>
-                                    </span>
-                                    @error('discount')
-                                        <span
-                                            class="help has-text-danger"
-                                            role="alert"
-                                        >
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
+
+                <x-common.content-wrapper x-data="cashReceivedType('{{ old('payment_type') }}', '{{ old('cash_received_type') }}', '{{ old('cash_received') }}', '{{ old('due_date') }}')">
+                    <x-content.header title="Payment Details" />
+                    <x-content.footer>
+                        <div class="columns is-marginless is-multiline">
+                            <div class="column is-12 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
+                                <x-forms.label for="discount">
+                                    Discount <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.field>
+                                    <x-forms.control class="has-icons-left is-expanded">
+                                        <x-forms.input
+                                            id="discount"
+                                            name="discount"
+                                            type="number"
+                                            placeholder="Discount in Percentage"
+                                            value="{{ old('discount') ?? '' }}"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-percent"
+                                            class="is-large is-left"
+                                        />
+                                        <x-common.validation-error property="discount" />
+                                    </x-forms.control>
+                                </x-forms.field>
                             </div>
-                        </div>
-                        <div class="column">
-                            <div class="field">
-                                <label
-                                    for="payment_type"
-                                    class="label text-green has-text-weight-normal"
-                                >Payment Method <sup class="has-text-danger">*</sup> </label>
-                                <div class="control has-icons-left">
-                                    <div class="select is-fullwidth">
-                                        <select
+                            <div class="column">
+                                <x-forms.field>
+                                    <x-forms.label for="payment_type">
+                                        Payment Method <sup class="has-text-danger">*</sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.select
+                                            class="is-fullwidth"
                                             id="payment_type"
                                             name="payment_type"
                                             x-model="paymentType"
@@ -230,35 +164,26 @@
                                                 value="Credit Payment"
                                                 {{ old('payment_type') == 'Credit Payment' ? 'selected' : '' }}
                                             >Credit Payment</option>
-                                        </select>
-                                    </div>
-                                    <div class="icon is-small is-left">
-                                        <i class="fas fa-credit-card"></i>
-                                    </div>
-                                </div>
-                                @error('payment_type')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
+                                        </x-forms.select>
+                                        <x-common.icon
+                                            name="fas fa-credit-card"
+                                            class="is-large is-left"
+                                        />
+                                    </x-forms.control>
+                                    <x-common.validation-error property="payment_type" />
+                                </x-forms.field>
                             </div>
-                        </div>
-                        <div
-                            class="column"
-                            x-cloak
-                            x-bind:class="{ 'is-hidden': isPaymentInCash() }"
-                        >
-                            <label
-                                for="cash_received"
-                                class="label text-green has-text-weight-normal"
-                            >Cash Received <sup class="has-text-danger">*</sup></label>
-                            <div class="field has-addons">
-                                <div class="control">
-                                    <span class="select">
-                                        <select
+                            <div
+                                class="column"
+                                x-cloak
+                                x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                            >
+                                <x-forms.label for="cash_received">
+                                    Cash Received <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.field class="has-addons">
+                                    <x-forms.control>
+                                        <x-forms.select
                                             name="cash_received_type"
                                             x-model="cashReceivedType"
                                         >
@@ -269,333 +194,60 @@
                                             >Type</option>
                                             <option value="amount">Amount</option>
                                             <option value="percent">Percent</option>
-                                        </select>
-                                    </span>
-                                </div>
-                                <div class="control has-icons-left is-expanded">
-                                    <input
-                                        class="input"
-                                        type="number"
-                                        name="cash_received"
-                                        id="cash_received"
-                                        placeholder="eg. 50"
-                                        x-model="cashReceived"
-                                    >
-                                    <span class="icon is-large is-left">
-                                        <i class="fas fa-money-bill"></i>
-                                    </span>
-                                    @error('cash_received')
-                                        <span
-                                            class="help has-text-danger"
-                                            role="alert"
-                                        >
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                    @error('cash_received_type')
-                                        <span
-                                            class="help has-text-danger"
-                                            role="alert"
-                                        >
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
+                                        </x-forms.select>
+                                    </x-forms.control>
+                                    <x-forms.control class="has-icons-left is-expanded">
+                                        <x-forms.input
+                                            type="number"
+                                            name="cash_received"
+                                            id="cash_received"
+                                            placeholder="eg. 50"
+                                            x-model="cashReceived"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-money-bill"
+                                            class="is-large is-left"
+                                        />
+                                        <x-common.validation-error property="cash_received" />
+                                        <x-common.validation-error property="cash_received_type" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div
+                                class="column"
+                                x-cloak
+                                x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                            >
+                                <x-forms.field>
+                                    <x-forms.label for="due_date">
+                                        Credit Due Date <sup class="has-text-danger">*</sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            type="date"
+                                            name="due_date"
+                                            id="due_date"
+                                            placeholder="mm/dd/yyyy"
+                                            x-model="dueDate"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-calendar-alt"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="due_date" />
+                                    </x-forms.control>
+                                </x-forms.field>
                             </div>
                         </div>
-                        <div
-                            class="column"
-                            x-cloak
-                            x-bind:class="{ 'is-hidden': isPaymentInCash() }"
-                        >
-                            <div class="field">
-                                <label
-                                    for="due_date"
-                                    class="label text-green has-text-weight-normal"
-                                > Credit Due Date <sup class="has-text-danger">*</sup> </label>
-                                <div class="control has-icons-left">
-                                    <input
-                                        class="input"
-                                        type="date"
-                                        name="due_date"
-                                        id="due_date"
-                                        placeholder="mm/dd/yyyy"
-                                        x-model="dueDate"
-                                    >
-                                    <div class="icon is-small is-left">
-                                        <i class="fas fa-calendar-alt"></i>
-                                    </div>
-                                    @error('due_date')
-                                        <span
-                                            class="help has-text-danger"
-                                            role="alert"
-                                        >
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="reservation-details">
-                    @foreach (old('reservation', [[]]) as $reservationDetail)
-                        <div
-                            x-data="productDataProvider(
-                                {{ $reservationDetail['product_id'] ?? '""' }},
-                                {{ $reservationDetail['unit_price'] ?? '""' }}
-                            )"
-                            class="reservation-detail mx-3"
-                        >
-                            <div class="field has-addons mb-0 mt-5">
-                                <div class="control">
-                                    <span
-                                        name="item-number"
-                                        class="tag bg-green has-text-white is-medium is-radiusless"
-                                    >
-                                        Item {{ $loop->iteration }}
-                                    </span>
-                                </div>
-                                <div class="control">
-                                    <button
-                                        name="remove-detail-button"
-                                        type="button"
-                                        class="tag bg-lightgreen has-text-white is-medium is-radiusless is-pointer"
-                                    >
-                                        <span class="icon text-green">
-                                            <i class="fas fa-times-circle"></i>
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="box has-background-white-bis radius-top-0">
-                                <div
-                                    name="reservationFormGroup"
-                                    class="columns is-marginless is-multiline"
-                                >
-                                    <div class="column is-6">
-                                        <label
-                                            for="reservation[{{ $loop->index }}][product_id]"
-                                            class="label text-green has-text-weight-normal"
-                                        >
-                                            Product <sup class="has-text-danger">*</sup>
-                                        </label>
-                                        <div class="field has-addons">
-                                            <div
-                                                class="control has-icons-left"
-                                                style="width: 30%"
-                                            >
-                                                <x-common.category-list
-                                                    x-model="selectedCategory"
-                                                    x-on:change="getProductsByCategory"
-                                                />
-                                            </div>
-                                            <div class="control has-icons-left is-expanded">
-                                                <x-common.product-list
-                                                    tags="false"
-                                                    name="reservation[{{ $loop->index }}]"
-                                                    selected-product-id="{{ $reservationDetail['product_id'] ?? '' }}"
-                                                    x-init="select2"
-                                                />
-                                                <div class="icon is-small is-left">
-                                                    <i class="fas fa-th"></i>
-                                                </div>
-                                                @error('reservation.' . $loop->index . '.product_id')
-                                                    <span
-                                                        class="help has-text-danger"
-                                                        role="alert"
-                                                    >
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column is-6">
-                                        <div class="field">
-                                            <label
-                                                for="reservation[{{ $loop->index }}][warehouse_id]"
-                                                class="label text-green has-text-weight-normal"
-                                            > From <sup class="has-text-danger">*</sup> </label>
-                                            <div class="control has-icons-left">
-                                                <div class="select is-fullwidth">
-                                                    <select
-                                                        id="reservation[{{ $loop->index }}][warehouse_id]"
-                                                        name="reservation[{{ $loop->index }}][warehouse_id]"
-                                                    >
-                                                        @foreach ($warehouses as $warehouse)
-                                                            <option
-                                                                value="{{ $warehouse->id }}"
-                                                                {{ ($reservationDetail['warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}
-                                                            >{{ $warehouse->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="icon is-small is-left">
-                                                    <i class="fas fa-warehouse"></i>
-                                                </div>
-                                                @error('reservation.' . $loop->index . '.warehouse_id')
-                                                    <span
-                                                        class="help has-text-danger"
-                                                        role="alert"
-                                                    >
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column is-6">
-                                        <label
-                                            for="reservation[{{ $loop->index }}][quantity]"
-                                            class="label text-green has-text-weight-normal"
-                                        >Quantity <sup class="has-text-danger">*</sup> </label>
-                                        <div class="field has-addons">
-                                            <div class="control has-icons-left is-expanded">
-                                                <input
-                                                    id="reservation[{{ $loop->index }}][quantity]"
-                                                    name="reservation[{{ $loop->index }}][quantity]"
-                                                    type="number"
-                                                    class="input"
-                                                    placeholder="Quantity"
-                                                    value="{{ $reservationDetail['quantity'] ?? '' }}"
-                                                >
-                                                <span class="icon is-small is-left">
-                                                    <i class="fas fa-balance-scale"></i>
-                                                </span>
-                                                @error('reservation.' . $loop->index . '.quantity')
-                                                    <span
-                                                        class="help has-text-danger"
-                                                        role="alert"
-                                                    >
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                            <div class="control">
-                                                <button
-                                                    id="reservation[{{ $loop->index }}][product_id]Quantity"
-                                                    class="button bg-green has-text-white"
-                                                    type="button"
-                                                    x-text="product.unit_of_measurement"
-                                                ></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column is-6">
-                                        <label
-                                            for="reservation[{{ $loop->index }}][unit_price]"
-                                            class="label text-green has-text-weight-normal"
-                                        >Unit Price <sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }}) </sup> </label>
-                                        <div class="field has-addons">
-                                            <div class="control has-icons-left is-expanded">
-                                                <input
-                                                    id="reservation[{{ $loop->index }}][unit_price]"
-                                                    name="reservation[{{ $loop->index }}][unit_price]"
-                                                    type="number"
-                                                    class="input"
-                                                    placeholder="Unit Price"
-                                                    :readonly="isDisabled"
-                                                    x-model="product.price"
-                                                >
-                                                <span class="icon is-small is-left">
-                                                    <i class="fas fa-money-bill"></i>
-                                                </span>
-                                                @error('reservation.' . $loop->index . '.unit_price')
-                                                    <span
-                                                        class="help has-text-danger"
-                                                        role="alert"
-                                                    >
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                            <div class="control">
-                                                <button
-                                                    id="reservation[{{ $loop->index }}][product_id]Price"
-                                                    class="button bg-green has-text-white"
-                                                    type="button"
-                                                    x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
-                                                ></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? '' : 'is-hidden' }}">
-                                        <label
-                                            for="reservation[{{ $loop->index }}][discount]"
-                                            class="label text-green has-text-weight-normal"
-                                        >Discount <sup class="has-text-danger"></sup> </label>
-                                        <div class="field">
-                                            <div class="control has-icons-left is-expanded">
-                                                <input
-                                                    id="reservation[{{ $loop->index }}][discount]"
-                                                    name="reservation[{{ $loop->index }}][discount]"
-                                                    type="number"
-                                                    class="input"
-                                                    placeholder="Discount in Percentage"
-                                                    value="{{ $reservationDetail['discount'] ?? '' }}"
-                                                >
-                                                <span class="icon is-small is-left">
-                                                    <i class="fas fa-percent"></i>
-                                                </span>
-                                                @error('reservation.' . $loop->index . '.discount')
-                                                    <span
-                                                        class="help has-text-danger"
-                                                        role="alert"
-                                                    >
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column is-6">
-                                        <div class="field">
-                                            <label
-                                                for="reservation[{{ $loop->index }}][description]"
-                                                class="label text-green has-text-weight-normal"
-                                            >Additional Notes <sup class="has-text-danger"></sup></label>
-                                            <div class="control has-icons-left">
-                                                <textarea
-                                                    name="reservation[{{ $loop->index }}][description]"
-                                                    id="reservation[{{ $loop->index }}][description]"
-                                                    cols="30"
-                                                    rows="3"
-                                                    class="textarea pl-6"
-                                                    placeholder="Description or note to be taken"
->
-                                                    {{ $reservationDetail['description'] ?? '' }}
-                                                </textarea>
-                                                <span class="icon is-large is-left">
-                                                    <i class="fas fa-edit"></i>
-                                                </span>
-                                                @error('reservation.' . $loop->index . '.description')
-                                                    <span
-                                                        class="help has-text-danger"
-                                                        role="alert"
-                                                    >
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <button
-                    id="addNewReservationForm"
-                    type="button"
-                    class="button bg-purple has-text-white is-small ml-3 mt-6"
-                >
-                    Add More Item
-                </button>
-            </div>
-            <div class="box radius-top-0">
+                    </x-content.footer>
+                </x-common.content-wrapper>
+            </x-content.main>
+
+            @include('reservations.details-form', ['data' => session()->getOldInput()])
+
+            <x-content.footer>
                 <x-common.save-button />
-            </div>
+            </x-content.footer>
         </form>
-    </section>
+    </x-common.content-wrapper>
 @endsection

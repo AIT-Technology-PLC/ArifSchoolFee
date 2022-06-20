@@ -6,13 +6,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'menu.index')->name('home');
 
-Route::prefix('api')->group(function () {
-    Route::get('/products/{category}/by-category',
-        [Api\ProductController::class, 'getproductsByCategory']);
+Route::prefix('api')
+    ->name('api.')
+    ->group(function () {
+        Route::get('/products/{category}/by-category',
+            [Api\ProductController::class, 'getproductsByCategory']);
 
-    Route::get('/products/{product}',
-        [Api\ProductController::class, 'show']);
-});
+        Route::apiResource('products', Api\ProductController::class)->only('index', 'show');
+    });
 
 Route::get('/history/products/{product}/warehouses/{warehouse}',
     Invokable\ProductPerWarehouseHistoryController::class)

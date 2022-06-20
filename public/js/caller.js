@@ -24,17 +24,6 @@ if (d.getElementById("formOne")) {
     d.getElementById("formOne").addEventListener("submit", disableSaveButton);
 }
 
-if (d.getElementById("addNewGdnForm")) {
-    d.getElementById("addNewGdnForm").addEventListener("click", addGdnDetail);
-}
-
-if (d.getElementById("addNewTransferForm")) {
-    d.getElementById("addNewTransferForm").addEventListener(
-        "click",
-        addTransferDetail
-    );
-}
-
 if (d.getElementById("addNewGrnForm")) {
     d.getElementById("addNewGrnForm").addEventListener("click", addGrnDetail);
 }
@@ -58,10 +47,6 @@ if (d.getElementsByClassName("showRowDetails").length) {
 
 if (d.getElementsByClassName("summernote").length) {
     initializeSummernote();
-}
-
-if (d.getElementById("addNewSivForm")) {
-    d.getElementById("addNewSivForm").addEventListener("click", addSivDetail);
 }
 
 if (d.getElementById("addNewProformaInvoiceForm")) {
@@ -89,13 +74,6 @@ if (d.getElementById("addNewReturnForm")) {
     d.getElementById("addNewReturnForm").addEventListener(
         "click",
         addReturnDetail
-    );
-}
-
-if (d.getElementById("addNewReservationForm")) {
-    d.getElementById("addNewReservationForm").addEventListener(
-        "click",
-        addReservationDetail
     );
 }
 
