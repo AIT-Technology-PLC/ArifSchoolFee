@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Policies;
+
+use App\Models\Job;
+use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+class JobPolicy
+{
+    use HandlesAuthorization;
+
+    public function viewAny(User $user)
+    {
+        return $user->can('Read Job');
+    }
+
+    public function view(User $user, Job $job)
+    {
+        return $user->can('Read Job');
+    }
+
+    public function create(User $user)
+    {
+        return $user->can('Create Job');
+    }
+
+    public function update(User $user)
+    {
+        return $user->can('Update Job');
+    }
+
+    public function approve(User $user, Job $job)
+    {
+        return $user->can('Approve Job');
+    }
+
+    public function delete(User $user, Job $job)
+    {
+        return $user->can('Delete Job');
+    }
+
+    public function addExtra(User $user, Job $job)
+    {
+        return $user->can('Add Extra Job');
+    }
+
+    public function subtractExtra(User $user, Job $job)
+    {
+        return $user->can('Subtract Extra Job');
+    }
+
+    public function plan(User $user)
+    {
+        return $user->can('Plan Job');
+    }
+}

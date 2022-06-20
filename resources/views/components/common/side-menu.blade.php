@@ -114,6 +114,19 @@
                             </li>
                         @endif
                     @endcan
+                    @if (isFeatureEnabled('Job Management'))
+                        @can('Read Job')
+                            <li>
+                                <x-common.button
+                                    tag="a"
+                                    href="{{ route('jobs.index') }}"
+                                    label="Jobs"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('jobs.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('jobs.*') ? 'activateAccordion' : '' }}"
+                                />
+                            </li>
+                        @endif
+                    @endcan
                 </ul>
             </li>
         </ul>

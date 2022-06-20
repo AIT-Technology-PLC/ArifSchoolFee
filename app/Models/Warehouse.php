@@ -31,6 +31,7 @@ class Warehouse extends Model
         'returnDetails',
         'reservationDetails',
         'originalUsers',
+        'jobs',
         'fromTransfers',
         'toTransfers',
     ];
@@ -95,9 +96,9 @@ class Warehouse extends Model
         return $this->hasMany(Transfer::class, 'transferred_from');
     }
 
-    public function toTransfers()
+    public function jobs()
     {
-        return $this->hasMany(Transfer::class, 'transferred_to');
+        return $this->hasMany(Job::class);
     }
 
     public function scopeActive($query)

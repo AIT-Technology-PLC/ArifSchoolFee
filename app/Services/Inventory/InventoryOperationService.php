@@ -17,15 +17,15 @@ class InventoryOperationService
         foreach ($details as $detail) {
             $merchandise = Merchandise::firstOrCreate(
                 [
-                    'product_id' => $detail->product_id,
-                    'warehouse_id' => $detail->warehouse_id,
+                    'product_id' => $detail['product_id'],
+                    'warehouse_id' => $detail['warehouse_id'],
                 ],
                 [
                     $to => 0.00,
                 ]
             );
 
-            $merchandise->$to = $merchandise->$to + $detail->quantity;
+            $merchandise->$to = $merchandise->$to + $detail['quantity'];
 
             $merchandise->save();
         }
@@ -36,9 +36,9 @@ class InventoryOperationService
         $merchandises = Merchandise::all();
 
         foreach ($details as $detail) {
-            $merchandise = $merchandises->where('product_id', $detail->product_id)->where('warehouse_id', $detail->warehouse_id)->where($from, '>=', $detail->quantity)->first();
+            $merchandise = $merchandises->where('product_id', $detail['product_id'])->where('warehouse_id', $detail['warehouse_id'])->where($from, '>=', $detail['quantity'])->first();
 
-            $merchandise->$from = $merchandise->$from - $detail->quantity;
+            $merchandise->$from = $merchandise->$from - $detail['quantity'];
 
             $merchandise->save();
         }
@@ -51,7 +51,7 @@ class InventoryOperationService
         $merchandises = Merchandise::all();
 
         foreach ($details as $detail) {
-            $availableMerchandises = $merchandises->where('product_id', $detail->product_id)->where('warehouse_id', $detail->warehouse_id)->where($in, '>=', $detail->quantity);
+            $availableMerchandises = $merchandises->where('product_id', $detail['product_id'])->where('warehouse_id', $detail['warehouse_id'])->where($in, '>=', $detail['quantity']);
 
             if ($availableMerchandises->isEmpty()) {
                 $unavailableProducts->push(

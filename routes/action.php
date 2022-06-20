@@ -223,6 +223,28 @@ Route::post('/categories/import',
     [Action\ProductCategoryController::class, 'import'])
     ->name('categories.import');
 
+// Job
+Route::post('/jobs/{job}/approve',
+    [Action\JobController::class, 'approve'])
+    ->name('jobs.approve');
+
+Route::post('/jobs/{job}/addToWip',
+    [Action\JobController::class, 'addToWorkInProcess'])
+    ->name('jobs.addToWip');
+
+Route::post('/jobs/{job}/addToAvailable',
+    [Action\JobController::class, 'addToAvailable'])
+    ->name('jobs.addToAvailable');
+
+// JobExtra
+Route::post('/jobs/{jobExtra}/add',
+    [Action\JobExtraController::class, 'addExtra'])
+    ->name('job-extras.add');
+
+Route::post('/jobs/{jobExtra}/subtract',
+    [Action\JobExtraController::class, 'subtractExtra'])
+    ->name('job-extras.subtract');
+
 Route::controller(Action\TransactionController::class)->group(function () {
     Route::post('/transactions/{transaction}/approve', 'approve')->name('transactions.approve');
     Route::post('/transactions/{transaction}/subtract', 'subtract')->name('transactions.subtract');

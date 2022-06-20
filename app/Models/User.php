@@ -38,6 +38,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Warehouse::class)->withPivot('type');
     }
 
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
+
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class)->withoutGlobalScopes([ActiveWarehouseScope::class]);
