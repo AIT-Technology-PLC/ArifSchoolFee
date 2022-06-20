@@ -109,7 +109,7 @@
                             tag="button"
                             mode="button"
                             @click="$dispatch('open-create-job-extra-modal')"
-                            icon="fas fa-repeat"
+                            icon="fas fa-plus"
                             label="Update Extra Material"
                             class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />

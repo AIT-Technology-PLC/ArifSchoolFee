@@ -21,8 +21,7 @@
                 novalidate
             >
                 @csrf
-
-                @include('jobs.extra-details-form', ['data' => session()->getOldInput()])
+                @include('job-extras.extra-details-form', ['data' => session()->getOldInput()])
                 <x-content.footer>
                     <x-common.save-button />
                 </x-content.footer>
