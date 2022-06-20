@@ -14,8 +14,8 @@
         >
             @csrf
             <x-content.main
-                x-data="priceMasterDetailForm({{ json_encode(session()->getOldInput()) }})"
-                x-init="setErrors({{ json_encode($errors->get('price.*')) }})"
+                x-data="priceMasterDetailForm({{ Js::from(session()->getOldInput()) }})"
+                x-init="$store.errors.setErrors({{ json_encode($errors->get('price.*')) }})"
             >
                 <x-common.fail-message :message="session('failedMessage')" />
                 <template
@@ -48,17 +48,26 @@
                         <div class="box has-background-white-bis radius-top-0">
                             <div class="columns is-marginless is-multiline">
                                 <div class="column is-6">
-                                    <x-forms.field>
-                                        <x-forms.label x-bind:for="`price[${index}][product_id]`">
-                                            Product <sup class="has-text-danger">*</sup>
-                                        </x-forms.label>
-                                        <x-forms.control class="has-icons-left">
-                                            <x-common.product-list
-                                                :excluded-products="$excludedProducts"
+                                    <x-forms.label x-bind:for="`price[${index}][product_id]`">
+                                        Product <sup class="has-text-danger">*</sup>
+                                    </x-forms.label>
+                                    <x-forms.field class="has-addons">
+                                        <x-forms.control
+                                            class="has-icons-left"
+                                            style="width: 30%"
+                                        >
+                                            <x-common.category-list
+                                                x-model="price.product_category_id"
+                                                x-on:change="Product.changeProductCategory(getSelect2(index), price.product_id, price.product_category_id)"
+                                            />
+                                        </x-forms.control>
+                                        <x-forms.control class="has-icons-left is-expanded">
+                                            <x-common.new-product-list
+                                                class="product-list"
                                                 x-bind:id="`price[${index}][product_id]`"
                                                 x-bind:name="`price[${index}][product_id]`"
-                                                x-init="select2(index)"
                                                 x-model="price.product_id"
+                                                x-init="select2(index)"
                                             />
                                             <x-common.icon
                                                 name="fas fa-th"
@@ -66,7 +75,7 @@
                                             />
                                             <span
                                                 class="help has-text-danger"
-                                                x-text="getErrors(`price.${index}.product_id`)"
+                                                x-text="$store.errors.getErrors(`price.${index}.product_id`)"
                                             ></span>
                                         </x-forms.control>
                                     </x-forms.field>
@@ -97,7 +106,7 @@
                                             />
                                             <span
                                                 class="help has-text-danger"
-                                                x-text="getErrors(`price.${index}.type`)"
+                                                x-text="$store.errors.getErrors(`price.${index}.type`)"
                                             ></span>
                                         </x-forms.control>
                                     </x-forms.field>
@@ -126,19 +135,16 @@
                                             />
                                             <span
                                                 class="help has-text-danger"
-                                                x-text="getErrors(`price.${index}.fixed_price`)"
+                                                x-text="$store.errors.getErrors(`price.${index}.fixed_price`)"
                                             ></span>
                                         </x-forms.control>
-                                        <x-forms.control
-                                            x-data="productDataProvider(price.product_id)"
-                                            x-init="getProduct(price.product_id) && $watch(`price.product_id`, (value) => getProduct(value))"
-                                        >
+                                        <x-forms.control>
                                             <x-common.button
                                                 tag="button"
                                                 mode="button"
                                                 class="button bg-green has-text-white"
                                                 type="button"
-                                                x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
+                                                x-text="Product.unitOfMeasurement(price.product_id, 'Per')"
                                             />
                                         </x-forms.control>
                                     </x-forms.field>
@@ -167,19 +173,16 @@
                                             />
                                             <span
                                                 class="help has-text-danger"
-                                                x-text="getErrors(`price.${index}.min_price`)"
+                                                x-text="$store.errors.getErrors(`price.${index}.min_price`)"
                                             ></span>
                                         </x-forms.control>
-                                        <x-forms.control
-                                            x-data="productDataProvider(price.product_id)"
-                                            x-init="getProduct(price.product_id) && $watch(`price.product_id`, (value) => getProduct(value))"
-                                        >
+                                        <x-forms.control>
                                             <x-common.button
                                                 tag="button"
                                                 mode="button"
                                                 class="button bg-green has-text-white"
                                                 type="button"
-                                                x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
+                                                x-text="Product.unitOfMeasurement(price.product_id, 'Per')"
                                             />
                                         </x-forms.control>
                                     </x-forms.field>
@@ -208,19 +211,16 @@
                                             />
                                             <span
                                                 class="help has-text-danger"
-                                                x-text="getErrors(`price.${index}.max_price`)"
+                                                x-text="$store.errors.getErrors(`price.${index}.max_price`)"
                                             ></span>
                                         </x-forms.control>
-                                        <x-forms.control
-                                            x-data="productDataProvider(price.product_id)"
-                                            x-init="getProduct(price.product_id) && $watch(`price.product_id`, (value) => getProduct(value))"
-                                        >
+                                        <x-forms.control>
                                             <x-common.button
                                                 tag="button"
                                                 mode="button"
                                                 class="button bg-green has-text-white"
                                                 type="button"
-                                                x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
+                                                x-text="Product.unitOfMeasurement(price.product_id, 'Per')"
                                             />
                                         </x-forms.control>
                                     </x-forms.field>
@@ -245,3 +245,85 @@
         </form>
     </x-common.content-wrapper>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("priceMasterDetailForm", ({
+                price
+            }) => ({
+                prices: [],
+
+                async init() {
+                    await Product.init();
+
+                    if (price) {
+                        this.prices = price;
+
+                        await Promise.resolve(this.prices.forEach((price) => price.product_category_id = Product.productCategoryId(price.product_id)))
+
+                        await Promise.resolve($(".product-list").trigger("change", [true]));
+
+                        return;
+                    }
+
+                    this.add();
+                },
+                add() {
+                    this.prices.push({});
+                },
+                async remove(index) {
+                    if (this.prices.length <= 0) {
+                        return;
+                    }
+
+                    await Promise.resolve(this.prices.splice(index, 1));
+
+                    await Promise.resolve(
+                        this.prices.forEach((price, i) => {
+                            if (i >= index) {
+                                Product.changeProductCategory(this.getSelect2(i), price.product_id, price.product_category_id);
+                            }
+                        })
+                    );
+
+                    Pace.restart();
+                },
+                isPriceFixed(priceType) {
+                    if (!priceType) {
+                        return true;
+                    }
+
+                    return priceType === "fixed";
+                },
+                changePriceType(price) {
+                    if (price.type === "fixed") {
+                        price.min_price = "";
+                        price.max_price = "";
+                    }
+
+                    if (price.type === "range") {
+                        price.fixed_price = "";
+                    }
+                },
+                select2(index) {
+                    let select2 = initializeSelect2(this.$el);
+
+                    select2.on("change", (event, haveData = false) => {
+                        this.prices[index].product_id = event.target.value;
+
+                        this.prices[index].product_category_id =
+                            Product.productCategoryId(this.prices[index].product_id);
+
+                        if (!haveData) {
+                            Product.changeProductCategory(select2, this.prices[index].product_id, this.prices[index].product_category_id);
+                        }
+                    });
+                },
+                getSelect2(index) {
+                    return $(".product-list").eq(index);
+                }
+            }));
+        });
+    </script>
+@endpush
