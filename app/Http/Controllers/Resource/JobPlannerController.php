@@ -11,12 +11,15 @@ class JobPlannerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('isFeatureAccessible:Job Planner');
+        $this->middleware('isFeatureAccessible:Job Management');
     }
 
     public function create()
     {
+        $this->authorize('plan', Job::class);
+
         $warehouses = auth()->user()->getAllowedWarehouses('read');
+
         $billOfMaterials = BillOfMaterial::all();
 
         return view('job-planner.create', compact('billOfMaterials', 'warehouses'));
@@ -26,6 +29,6 @@ class JobPlannerController extends Controller
     {
         $report = JobPlannerService::finalReport($request->jobPlanner)->groupBy('index')->values();
 
-        return back()->with('message', $report);
+        return back()->with('report', $report);
     }
 }

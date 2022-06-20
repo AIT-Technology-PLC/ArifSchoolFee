@@ -37,8 +37,8 @@
                                     </div>
                                 @endif
                             @endcan
-                            @can('Create Job Planner')
-                                @if (isFeatureEnabled('Job Planner'))
+                            @can('Plan Job')
+                                @if (isFeatureEnabled('Job Management'))
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
                                             href="{{ route('job-planners.create') }}"
