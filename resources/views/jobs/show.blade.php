@@ -144,6 +144,7 @@
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Extra Materials" />
         <x-content.footer>
+            <x-common.fail-message :message="session('jobExtrafailedMessage')" />
             <x-common.success-message :message="session('jobExtraModified') ?? session('jobExtraDeleted')" />
             <x-common.bulma-table>
                 <x-slot name="headings">
@@ -184,7 +185,7 @@
                                     @can('Subtract Extra Job')
                                         <x-common.transaction-button
                                             :route="route('job-extras.subtract', $jobExtra->id)"
-                                            action="ubtract"
+                                            action="subtract"
                                             intention="subtract this Job Materials"
                                             icon="fas fa-minus-circle"
                                             label="Subtract"

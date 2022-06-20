@@ -38,6 +38,7 @@ class JobExtra extends Model
 
         $this->executed_by = auth()->id();
 
+        $this->save();
     }
 
     public function add()
@@ -45,15 +46,17 @@ class JobExtra extends Model
         $this->status = 'added';
 
         $this->executed_by = auth()->id();
+
+        $this->save();
     }
 
     public function isSubtracted()
     {
-        return $this->status == 'added';
+        return $this->status == 'subtracted';
     }
 
     public function isAdded()
     {
-        return $this->status == 'subtracted';
+        return $this->status == 'added';
     }
 }

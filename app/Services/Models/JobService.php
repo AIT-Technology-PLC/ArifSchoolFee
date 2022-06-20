@@ -80,12 +80,12 @@ class JobService
             return [false, 'This Product is already added to inventory.'];
         }
 
-        $jobExtra->warehouse_id = $jobExtra->job->factory_id;
+        $detail = $jobExtra->only(['product_id', 'quantity']);
 
-        $jobExtra = $jobExtra->only(['product_id', 'quantity', 'warehouse_id']);
+        $detail['warehouse_id'] = $jobExtra->job->factory_id;
 
-        DB::transaction(function () use ($jobExtra) {
-            InventoryOperationService::add($jobExtra);
+        DB::transaction(function () use ($jobExtra, $detail) {
+            InventoryOperationService::add($detail);
 
             $jobExtra->add();
         });
@@ -93,20 +93,28 @@ class JobService
         return [true, ''];
     }
 
-    public function subtractExtra($jobExtra)
+    public function subtractExtra($jobExtra, $user)
     {
-        $jobExtra->warehouse_id = $jobExtra->job->factory_id;
+        if (!$user->hasWarehousePermission('subtract', $jobExtra->job->factory_id)) {
+            return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
+        }
 
-        $jobExtra = $jobExtra->only(['product_id', 'quantity', 'warehouse_id']);
+        if ($jobExtra->isSubtracted()) {
+            return [false, 'This Product is already subtracted from inventory.'];
+        }
 
-        $unavailableProducts = InventoryOperationService::unavailableProducts($jobExtra);
+        $detail = $jobExtra->only(['product_id', 'quantity']);
+
+        $detail['warehouse_id'] = $jobExtra->job->factory_id;
+
+        $unavailableProducts = InventoryOperationService::unavailableProducts($detail);
 
         if ($unavailableProducts->isNotEmpty()) {
             return [false, $unavailableProducts];
         }
 
-        DB::transaction(function () use ($jobExtra) {
-            InventoryOperationService::subtract($jobExtra);
+        DB::transaction(function () use ($jobExtra, $detail) {
+            InventoryOperationService::subtract($detail);
 
             $jobExtra->subtract();
         });

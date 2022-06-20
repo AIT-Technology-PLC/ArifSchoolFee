@@ -237,11 +237,11 @@ Route::post('/jobs/{job}/addToAvailable',
     ->name('jobs.addToAvailable');
 
 // JobExtra
-Route::post('/jobs/{jobExtra}/add',
+Route::post('/job-extras/{jobExtra}/add',
     [Action\JobExtraController::class, 'addExtra'])
     ->name('job-extras.add');
 
-Route::post('/jobs/{jobExtra}/subtract',
+Route::post('/job-extras/{jobExtra}/subtract',
     [Action\JobExtraController::class, 'subtractExtra'])
     ->name('job-extras.subtract');
 

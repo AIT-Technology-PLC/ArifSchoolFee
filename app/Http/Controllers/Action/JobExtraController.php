@@ -24,7 +24,7 @@ class JobExtraController extends Controller
         [$isExecuted, $message] = $this->jobService->addExtra($jobExtra, auth()->user());
 
         if (!$isExecuted) {
-            return back()->with('failedMessage', $message);
+            return back()->with('jobExtrafailedMessage', $message);
         }
 
         return back();
@@ -34,10 +34,10 @@ class JobExtraController extends Controller
     {
         $this->authorize('subtractExtra', $jobExtra->job);
 
-        [$isExecuted, $message] = $this->jobService->subtractExtra($jobExtra);
+        [$isExecuted, $message] = $this->jobService->subtractExtra($jobExtra, auth()->user());
 
         if (!$isExecuted) {
-            return back()->with('failedMessage', $message);
+            return back()->with('jobExtrafailedMessage', $message);
         }
 
         return back();
