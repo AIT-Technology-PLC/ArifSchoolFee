@@ -9,14 +9,14 @@ use Illuminate\Support\Arr;
 
 class InventoryOperationService
 {
+    private static $properties = ['product_id', 'warehouse_id', 'quantity'];
+
     public static function add($details, $to = 'available')
     {
-        if (!is_countable($details)) {
-            return [false, 'The information submitted is not valid.'];
-        }
+        $details = static::formatData($details);
 
-        if (Arr::has($details, ['product_id', 'warehouse_id', 'quantity'])) {
-            $details = [$details];
+        if (is_null($details)) {
+            return;
         }
 
         foreach ($details as $detail) {
@@ -38,12 +38,10 @@ class InventoryOperationService
 
     public static function subtract($details, $from = 'available')
     {
-        if (!is_countable($details)) {
-            return [false, 'The information submitted is not valid.'];
-        }
+        $details = static::formatData($details);
 
-        if (Arr::has($details, ['product_id', 'warehouse_id', 'quantity'])) {
-            $details = [$details];
+        if (is_null($details)) {
+            return;
         }
 
         $merchandises = Merchandise::all();
@@ -59,12 +57,10 @@ class InventoryOperationService
 
     public static function unavailableProducts($details, $in = 'available')
     {
-        if (!is_countable($details)) {
-            return [false, 'The information submitted is not valid.'];
-        }
+        $details = static::formatData($details);
 
-        if (Arr::has($details, ['product_id', 'warehouse_id', 'quantity'])) {
-            $details = [$details];
+        if (is_null($details)) {
+            return;
         }
 
         $unavailableProducts = collect();
@@ -94,12 +90,10 @@ class InventoryOperationService
 
     public static function areAvailable($details, $in = 'available')
     {
-        if (!is_countable($details)) {
-            return [false, 'The information submitted is not valid.'];
-        }
+        $details = static::formatData($details);
 
-        if (Arr::has($details, ['product_id', 'warehouse_id', 'quantity'])) {
-            $details = [$details];
+        if (is_null($details)) {
+            return;
         }
 
         $unavailableProducts = collect();
@@ -132,5 +126,22 @@ class InventoryOperationService
         }
 
         return $unavailableProducts->isEmpty();
+    }
+
+    private static function formatData($details)
+    {
+        if (!is_countable($details) && !Arr::has($details, static::$properties)) {
+            return null;
+        }
+
+        if (Arr::has($details, static::$properties)) {
+            $details = [$details];
+        }
+
+        if (collect($details)->filter(fn($detail) => !Arr::has($detail, static::$properties))->count()) {
+            return null;
+        }
+
+        return $details;
     }
 }
