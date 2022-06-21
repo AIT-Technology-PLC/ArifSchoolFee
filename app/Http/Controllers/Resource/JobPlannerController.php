@@ -27,6 +27,8 @@ class JobPlannerController extends Controller
 
     public function store(StoreJobPlannerRequest $request)
     {
+        $this->authorize('plan', Job::class);
+
         $report = JobPlannerService::finalReport($request->jobPlanner)->groupBy('index')->values();
 
         return back()->with('report', $report);
