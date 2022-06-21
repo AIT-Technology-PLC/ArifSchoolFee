@@ -37,6 +37,20 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
+                        icon="fas fa-hand-holding-usd"
+                        data="{{ number_format($sale->paymentInCash, 2) }} ({{ number_format($sale->cashReceivedInPercentage, 2) }}%)"
+                        label="In Cash ({{ userCompany()->currency }})"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-money-check"
+                        data="{{ number_format($sale->paymentInCredit, 2) }} ({{ number_format($sale->credit_payable_in_percentage, 2) }}%)"
+                        label="On Credit ({{ userCompany()->currency }})"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
                         icon="fas fa-dollar-sign"
                         :data="number_format($sale->subtotalPrice, 2)"
                         label="SubTotal Price ({{ userCompany()->currency }})"
@@ -49,22 +63,6 @@
                         label=" Grand Total Price ({{ userCompany()->currency }})"
                     />
                 </div>
-                @if (!userCompany()->isDiscountBeforeVAT())
-                    <div class="column is-6">
-                        <x-common.show-data-section
-                            icon="fas fa-percentage"
-                            data="{{ number_format($sale->discount * 100, 2) }}%"
-                            label="Discount"
-                        />
-                    </div>
-                    <div class="column is-6">
-                        <x-common.show-data-section
-                            icon="fas fa-dollar-sign"
-                            :data="number_format($sale->grandTotalPriceAfterDiscount, 2)"
-                            label="Grand Total Price (After Discount)"
-                        />
-                    </div>
-                @endif
                 <div class="column is-12">
                     <x-common.show-data-section
                         type="long"

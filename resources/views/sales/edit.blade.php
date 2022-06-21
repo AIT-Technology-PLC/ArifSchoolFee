@@ -1,16 +1,10 @@
 @extends('layouts.app')
 
-@section('title')
-    Edit Sale
-@endsection
+@section('title', 'Edit Invoice')
 
 @section('content')
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                Edit Sale
-            </h1>
-        </div>
+    <x-common.content-wrapper>
+        <x-content.header title="Edit Invoice" />
         <form
             id="formOne"
             action="{{ route('sales.update', $sale->id) }}"
@@ -20,342 +14,209 @@
         >
             @csrf
             @method('PATCH')
-            <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-content.main>
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="code"
-                                class="label text-green has-text-weight-normal"
-                            >Receipt No <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input
-                                    class="input"
+                        <x-forms.field>
+                            <x-forms.label for="code">
+                                Invoice N<u>o</u> <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     type="number"
                                     name="code"
                                     id="code"
-                                    value="{{ $sale->code ?? '' }}"
-                                >
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-hashtag"></i>
-                                </span>
-                                @error('code')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                    value="{{ $sale->code }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-hashtag"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="code" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="sold_on"
-                                class="label text-green has-text-weight-normal"
-                            > Sale Date <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input
-                                    class="input"
-                                    type="date"
+                        <x-forms.field>
+                            <x-forms.label for="customer_id">
+                                Customer <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="select is-fullwidth has-icons-left">
+                                <x-common.customer-list :selected-id="$sale->customer_id ?? ''" />
+                                <x-common.icon
+                                    name="fas fa-user"
+                                    class="is-small is-left"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="sold_on">
+                                Issued On <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="datetime-local"
                                     name="sold_on"
                                     id="sold_on"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ $sale->sold_on ? $sale->sold_on->toDateString() : '' }}"
-                                >
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-day"></i>
-                                </div>
-                                @error('sold_on')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                    value="{{ $sale->sold_on->toDateTimeLocalString() }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-calendar-alt"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="sold_on" />
+                                </x-forms.cont>
+                        </x-forms.field>
                     </div>
-                    <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
-                        <label
-                            for="discount"
-                            class="label text-green has-text-weight-normal"
-                        >Discount<sup class="has-text-danger"></sup> </label>
-                        <div class="field">
-                            <div class="control has-icons-left is-expanded">
-                                <input
-                                    id="discount"
-                                    name="discount"
-                                    type="number"
-                                    class="input"
-                                    placeholder="Discount in Percentage"
-                                    value="{{ $sale->discount * 100 ?? '' }}"
-                                >
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-percent"></i>
-                                </span>
-                                @error('discount')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="payment_type"
-                                class="label text-green has-text-weight-normal"
-                            >Payment Method <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select
-                                        id="payment_type"
-                                        name="payment_type"
-                                    >
-                                        <option
-                                            selected
-                                            disabled
-                                        >Select Payment</option>
-                                        <option
-                                            value="Cash Payment"
-                                            {{ $sale->payment_type == 'Cash Payment' ? 'selected' : '' }}
-                                        >Cash Payment</option>
-                                        <option
-                                            value="Credit Payment"
-                                            {{ $sale->payment_type == 'Credit Payment' ? 'selected' : '' }}
-                                        >Credit Payment</option>
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-credit-card"></i>
-                                </div>
-                            </div>
-                            @error('payment_type')
-                                <span
-                                    class="help has-text-danger"
-                                    role="alert"
-                                >
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="customer_id"
-                                class="label text-green has-text-weight-normal"
-                            > Customer <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <x-common.customer-list :selected-id="$sale->customer_id ?? ''" />
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-address-card"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="description"
-                                class="label text-green has-text-weight-normal"
-                            >Description</label>
-                            <div class="control has-icons-left">
-                                <textarea
+                    <div class="column is-12">
+                        <x-forms.field>
+                            <x-forms.label for="description">
+                                Description <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.textarea
                                     name="description"
                                     id="description"
-                                    cols="30"
-                                    rows="3"
-                                    class="textarea pl-6"
+                                    class="summernote textarea"
                                     placeholder="Description or note to be taken"
->{{ $sale->description ?? '' }}</textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                @error('description')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                ></x-forms.textarea>
+                                <x-common.icon
+                                    name="fas fa-edit"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="description" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                 </div>
-                @foreach ($sale->saleDetails as $saleDetail)
-                    <div class="has-text-weight-medium has-text-left mt-5">
-                        <span class="tag bg-green has-text-white is-medium radius-bottom-0">
-                            Item {{ $loop->index + 1 }} - {{ $saleDetail->product->name }}
-                        </span>
-                    </div>
-                    <div
-                        x-data="productDataProvider({{ $saleDetail->product_id }}, {{ $saleDetail->originalUnitPrice ?? 0.0 }})"
-                        class="box has-background-white-bis radius-top-0"
-                    >
+
+                <x-common.content-wrapper x-data="cashReceivedType('{{ $sale->payment_type }}', '{{ $sale->cash_received_type }}', {{ $sale->cash_received }}, '{{ $sale->due_date?->toDateString() }}')">
+                    <x-content.header title="Payment Details" />
+                    <x-content.footer>
                         <div class="columns is-marginless is-multiline">
-                            <div class="column is-6">
-                                <label
-                                    for="sale[{{ $loop->index }}][product_id]"
-                                    class="label text-green has-text-weight-normal"
-                                >
-                                    Product <sup class="has-text-danger">*</sup>
-                                </label>
-                                <div class="field has-addons">
-                                    <div
-                                        class="control has-icons-left"
-                                        style="width: 30%"
-                                    >
-                                        <x-common.category-list
-                                            x-model="selectedCategory"
-                                            x-on:change="getProductsByCategory"
-                                        />
-                                    </div>
-                                    <div class="control has-icons-left is-expanded">
-                                        <x-common.product-list
-                                            tags="false"
-                                            name="sale[{{ $loop->index }}]"
-                                            selected-product-id="{{ $saleDetail->product_id }}"
-                                            x-init="select2"
-                                        />
-                                        <div class="icon is-small is-left">
-                                            <i class="fas fa-th"></i>
-                                        </div>
-                                        @error('sale.{{ $loop->index }}.product_id')
-                                            <span
-                                                class="help has-text-danger"
-                                                role="alert"
-                                            >
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-6">
-                                <label
-                                    for="sale[{{ $loop->index }}][quantity]"
-                                    class="label text-green has-text-weight-normal"
-                                >Quantity <sup class="has-text-danger">*</sup> </label>
-                                <div class="field has-addons">
-                                    <div class="control has-icons-left is-expanded">
-                                        <input
-                                            id="sale[{{ $loop->index }}][quantity]"
-                                            name="sale[{{ $loop->index }}][quantity]"
+                            <div class="column is-12 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
+                                <x-forms.label for="discount">
+                                    Discount <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.field>
+                                    <x-forms.control class="has-icons-left is-expanded">
+                                        <x-forms.input
+                                            id="discount"
+                                            name="discount"
                                             type="number"
-                                            class="input"
-                                            placeholder="Sale Quantity"
-                                            value="{{ $saleDetail->quantity ?? '' }}"
-                                        >
-                                        <span class="icon is-small is-left">
-                                            <i class="fas fa-balance-scale"></i>
-                                        </span>
-                                        @error('sale.{{ $loop->index }}.quantity')
-                                            <span
-                                                class="help has-text-danger"
-                                                role="alert"
-                                            >
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    <div class="control">
-                                        <button
-                                            id="sale[{{ $loop->index }}][product_id]Quantity"
-                                            class="button bg-green has-text-white"
-                                            type="button"
-                                            x-text="product.unit_of_measurement"
-                                        >
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-6">
-                                <label
-                                    for="sale[{{ $loop->index }}][unit_price]"
-                                    class="label text-green has-text-weight-normal"
-                                >Unit Price<sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup> <sup class="has-text-danger">*</sup> </label>
-                                <div class="field has-addons">
-                                    <div class="control has-icons-left is-expanded">
-                                        <input
-                                            id="sale[{{ $loop->index }}][unit_price]"
-                                            name="sale[{{ $loop->index }}][unit_price]"
-                                            type="number"
-                                            class="input"
-                                            placeholder="Sale Price"
-                                            :readonly="isDisabled"
-                                            x-model="product.price"
-                                        >
-                                        <span class="icon is-small is-left">
-                                            <i class="fas fa-money-bill"></i>
-                                        </span>
-                                        @error('sale.{{ $loop->index }}.unit_price')
-                                            <span
-                                                class="help has-text-danger"
-                                                role="alert"
-                                            >
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    <div class="control">
-                                        <button
-                                            id="sale[{{ $loop->index }}][product_id]Price"
-                                            class="button bg-green has-text-white"
-                                            type="button"
-                                            x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
-                                        >
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? '' : 'is-hidden' }}">
-                                <label
-                                    for="sale[{{ $loop->index }}][discount]"
-                                    class="label text-green has-text-weight-normal"
-                                >Discount <sup class="has-text-danger"></sup> </label>
-                                <div class="field">
-                                    <div class="control has-icons-left is-expanded">
-                                        <input
-                                            id="sale[{{ $loop->index }}][discount]"
-                                            name="sale[{{ $loop->index }}][discount]"
-                                            type="number"
-                                            class="input"
                                             placeholder="Discount in Percentage"
-                                            value="{{ $saleDetail->discount * 100 ?? '' }}"
+                                            value="{{ $sale->discount * 100 ?? '' }}"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-percent"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="discount" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div class="column">
+                                <x-forms.field>
+                                    <x-forms.label for="payment_type">
+                                        Payment Method<sup class="has-text-danger">*</sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.select
+                                            class="is-fullwidth"
+                                            id="payment_type"
+                                            name="payment_type"
+                                            x-model="paymentType"
+                                            x-on:change="changePaymentMethod"
                                         >
-                                        <span class="icon is-small is-left">
-                                            <i class="fas fa-percent"></i>
-                                        </span>
-                                        @error('sale.' . $loop->index . '.discount')
-                                            <span
-                                                class="help has-text-danger"
-                                                role="alert"
-                                            >
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
+                                            <option disabled>Select Payment</option>
+                                            <option value="Cash Payment">Cash Payment</option>
+                                            <option value="Credit Payment">Credit Payment</option>
+                                        </x-forms.select>
+                                        <x-common.icon
+                                            name="fas fa-credit-card"
+                                            class="is-small is-left"
+                                        />
+                                    </x-forms.control>
+                                    <x-common.validation-error property="payment_type" />
+                                </x-forms.field>
+                            </div>
+                            <div
+                                class="column"
+                                x-cloak
+                                x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                            >
+                                <x-forms.label for="cash_received">
+                                    Cash Received <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.field class="has-addons">
+                                    <x-forms.control>
+                                        <x-forms.select
+                                            name="cash_received_type"
+                                            x-model="cashReceivedType"
+                                        >
+                                            <option
+                                                disabled
+                                                value=""
+                                            >Type</option>
+                                            <option value="amount">Amount</option>
+                                            <option value="percent">Percent</option>
+                                        </x-forms.select>
+                                    </x-forms.control>
+                                    <x-forms.control class="has-icons-left is-expanded">
+                                        <x-forms.input
+                                            type="number"
+                                            name="cash_received"
+                                            id="cash_received"
+                                            placeholder="eg. 50"
+                                            x-model="cashReceived"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-money-bill"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="cash_received" />
+                                        <x-common.validation-error property="cash_received_type" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div
+                                class="column"
+                                x-cloak
+                                x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                            >
+                                <x-forms.field>
+                                    <x-forms.label for="due_date">
+                                        Credit Due Date <sup class="has-text-danger"></sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            type="date"
+                                            name="due_date"
+                                            id="due_date"
+                                            placeholder="mm/dd/yyyy"
+                                            x-model="dueDate"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-calendar-alt"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="due_date" />
+                                    </x-forms.control>
+                                </x-forms.field>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
-            <div class="box radius-top-0">
+                    </x-content.footer>
+                </x-common.content-wrapper>
+            </x-content.main>
+
+            @include('sales.partials.details-form', ['data' => ['sale' => old('sale') ?? $sale->saleDetails]])
+
+            <x-content.footer>
                 <x-common.save-button />
-            </div>
+            </x-content.footer>
         </form>
-    </section>
+    </x-common.content-wrapper>
 @endsection

@@ -19,7 +19,7 @@
                         <x-common.show-data-section
                             icon="fas fa-hashtag"
                             :data="$gdn->sale->code ?? 'N/A'"
-                            label="Receipt No"
+                            label="Invoice No"
                         />
                     </div>
                 @endif

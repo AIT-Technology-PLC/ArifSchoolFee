@@ -36,9 +36,9 @@ class SaleController extends Controller
 
     public function create()
     {
-        $currentReceiptNo = nextReferenceNumber('sales');
+        $currentInvoiceNo = nextReferenceNumber('sales');
 
-        return view('sales.create', compact('currentReceiptNo'));
+        return view('sales.create', compact('currentInvoiceNo'));
     }
 
     public function store(StoreSaleRequest $request)

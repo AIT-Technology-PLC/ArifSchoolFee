@@ -23,7 +23,7 @@ class GdnDatatable extends DataTable
                 '@click' => 'showDetails',
             ])
             ->editColumn('branch', fn($gdn) => $gdn->warehouse->name)
-            ->editColumn('receipt no', fn($gdn) => $gdn->sale->code ?? 'N/A')
+            ->editColumn('invoice no', fn($gdn) => $gdn->sale->code ?? 'N/A')
             ->editColumn('status', fn($gdn) => view('components.datatables.gdn-status', compact('gdn')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
@@ -78,7 +78,7 @@ class GdnDatatable extends DataTable
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Delivery Order No'),
-            isFeatureEnabled('Sale Management') ? Column::make('receipt no', 'sale.code')->visible(false) : null,
+            isFeatureEnabled('Sale Management') ? Column::make('invoice no', 'sale.code')->visible(false) : null,
             Column::make('status')->orderable(false),
             Column::make('payment_type')->visible(false),
             Column::computed('total price')->visible(false),
