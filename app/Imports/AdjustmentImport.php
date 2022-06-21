@@ -38,7 +38,7 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
             'adjustment_id' => $this->adjustment->id,
             'product_id' => $this->products->firstWhere('name', $row['product_name'])->id,
             'warehouse_id' => $this->warehouses->firstWhere('name', $row['warehouse_name'])->id,
-            'is_subtract' => $row['is_subtract'],
+            'is_subtract' => $row['is_subtract'] == 'Yes' ? '1' : '0',
             'quantity' => $row['quantity'],
             'reason' => $row['reason'],
             'description' => $row['description'] ?? '',
@@ -50,7 +50,7 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
         return [
             'product_name' => ['required', 'string', 'max:255', Rule::in($this->products->pluck('name'))],
             'warehouse_name' => ['required', 'string', Rule::in($this->warehouses->pluck('name'))],
-            'is_subtract' => ['required', 'integer'],
+            'is_subtract' => ['required', 'string'],
             'quantity' => ['required', 'numeric', 'gt:0'],
             'reason' => ['required', 'string'],
             'description' => ['nullable', 'string'],
