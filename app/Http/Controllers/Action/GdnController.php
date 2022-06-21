@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Action;
 
 use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadImportFileRequest;
 use App\Models\Credit;
 use App\Models\Gdn;
 use App\Models\Siv;
@@ -12,6 +13,7 @@ use App\Notifications\GdnSubtracted;
 use App\Services\Models\GdnService;
 use App\Utilities\Notifiables;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class GdnController extends Controller
@@ -110,5 +112,17 @@ class GdnController extends Controller
         }
 
         return redirect()->route('credits.show', $gdn->credit->id);
+    }
+
+    public function import(UploadImportFileRequest $request)
+    {
+        $this->authorize('import', Gdn::class);
+
+        ini_set('max_execution_time', '-1');
+
+        DB::transaction(function () use ($request) {
+        });
+
+        return back()->with('imported', __('messages.file_imported'));
     }
 }

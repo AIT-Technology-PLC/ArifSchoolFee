@@ -1,7 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Action as Action;
-
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
     [Action\PermissionController::class, 'edit'])
@@ -243,3 +242,7 @@ Route::post('/job-planners/print',
 Route::post('/adjustments/import',
     [Action\AdjustmentController::class, 'import'])
     ->name('adjustments.import');
+
+Route::post('/gdns/import',
+    [Action\GdnController::class, 'import'])
+    ->name('gdns.import');
