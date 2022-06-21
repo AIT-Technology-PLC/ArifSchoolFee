@@ -45,7 +45,6 @@ class TransferDetail extends Model
             ->load([
                 'transfer' => function ($query) {
                     return $query
-                        ->withTrashed()
                         ->withoutGlobalScopes([TransferScope::class])
                         ->with(['transferredTo', 'transferredFrom']);
                 }]
