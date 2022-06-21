@@ -78,6 +78,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Approve Adjustment']);
             Permission::firstOrCreate(['name' => 'Make Adjustment']);
             Permission::firstOrCreate(['name' => 'Delete Approved Adjustment']);
+            Permission::firstOrCreate(['name' => 'Import Adjustment']);
 
             // Return
             Permission::firstOrCreate(['name' => 'Create Return']);

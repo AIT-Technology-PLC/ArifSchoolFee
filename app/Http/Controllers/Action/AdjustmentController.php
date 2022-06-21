@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Action;
 
 use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadImportFileRequest;
+use App\Imports\AdjustmentImport;
 use App\Models\Adjustment;
 use App\Notifications\AdjustmentApproved;
 use App\Notifications\AdjustmentMade;
 use App\Services\Models\AdjustmentService;
 use App\Utilities\Notifiables;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class AdjustmentController extends Controller
@@ -51,5 +54,23 @@ class AdjustmentController extends Controller
         );
 
         return back();
+    }
+
+    public function import(UploadImportFileRequest $request)
+    {
+        $this->authorize('import', Adjustment::class);
+
+        ini_set('max_execution_time', '-1');
+
+        DB::transaction(function () use ($request) {
+            $adjustment = Adjustment::create([
+                'code' => nextReferenceNumber('adjustments'),
+                'issued_on' => now(),
+            ]);
+
+            (new AdjustmentImport($adjustment))->import($request->safe()['file']);
+        });
+
+        return back()->with('imported', __('messages.file_imported'));
     }
 }
