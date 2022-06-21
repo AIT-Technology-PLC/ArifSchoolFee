@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Approvable;
 use App\Traits\Branchable;
+use App\Traits\CalculateCreditPayment;
 use App\Traits\Discountable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
@@ -13,12 +14,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sale extends Model
 {
-    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Discountable, Approvable;
+    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Discountable, Approvable, CalculateCreditPayment;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
-        'sold_on' => 'datetime',
+        'issued_on' => 'datetime',
     ];
 
     public function cancelledBy()

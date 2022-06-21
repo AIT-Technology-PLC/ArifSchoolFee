@@ -31,8 +31,8 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$sale->sold_on->toFormattedDateString() ?? 'N/A'"
-                        label="Sold On"
+                        :data="$sale->issued_on->toFormattedDateString() ?? 'N/A'"
+                        label="Issued On"
                     />
                 </div>
                 <div class="column is-6">

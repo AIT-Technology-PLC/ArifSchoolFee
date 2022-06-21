@@ -52,22 +52,22 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label for="sold_on">
+                            <x-forms.label for="issued_on">
                                 Issued On <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
                                     type="datetime-local"
-                                    name="sold_on"
-                                    id="sold_on"
+                                    name="issued_on"
+                                    id="issued_on"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ $sale->sold_on->toDateTimeLocalString() }}"
+                                    value="{{ $sale->issued_on->toDateTimeLocalString() }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="sold_on" />
+                                <x-common.validation-error property="issued_on" />
                                 </x-forms.cont>
                         </x-forms.field>
                     </div>
@@ -83,10 +83,6 @@
                                     class="summernote textarea"
                                     placeholder="Description or note to be taken"
                                 ></x-forms.textarea>
-                                <x-common.icon
-                                    name="fas fa-edit"
-                                    class="is-large is-left"
-                                />
                                 <x-common.validation-error property="description" />
                             </x-forms.control>
                         </x-forms.field>

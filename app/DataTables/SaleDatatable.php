@@ -30,7 +30,7 @@ class SaleDatatable extends DataTable
             })
             ->editColumn('customer', fn($sale) => $sale->customer->company_name ?? 'N/A')
             ->editColumn('description', fn($sale) => view('components.datatables.searchable-description', ['description' => $sale->description]))
-            ->editColumn('sold_on', fn($sale) => $sale->sold_on->toFormattedDateString())
+            ->editColumn('issued_on', fn($sale) => $sale->issued_on->toFormattedDateString())
             ->editColumn('prepared by', fn($sale) => $sale->createdBy->name)
             ->editColumn('edited by', fn($sale) => $sale->updatedBy->name)
             ->editColumn('actions', function ($sale) {
@@ -69,7 +69,7 @@ class SaleDatatable extends DataTable
             Column::computed('total price'),
             Column::make('customer', 'customer.company_name'),
             Column::make('description')->visible(false),
-            Column::make('sold_on')->title('Issued On'),
+            Column::make('issued_on')->title('Issued On'),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),

@@ -83,9 +83,9 @@ class SaleController extends Controller
         DB::transaction(function () use ($request, $sale) {
             $sale->update($request->safe()->except('sale'));
 
-            for ($i = 0; $i < count($request->sale); $i++) {
-                $sale->saleDetails[$i]->update($request->safe()['sale'][$i]);
-            }
+            $sale->saleDetails()->forceDelete();
+
+            $sale->saleDetails()->createMany($request->safe()['sale']);
         });
 
         return redirect()->route('sales.show', $sale->id);

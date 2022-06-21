@@ -25,7 +25,6 @@ class SaleDetailDatatable extends DataTable
                 return quantity($saleDetail->quantity, $saleDetail->product->unit_of_measurement);
             })
             ->editColumn('unit_price', fn($saleDetail) => money($saleDetail->unit_price))
-            ->editColumn('discount', fn($saleDetail) => number_format($saleDetail->discount * 100, 2) . '%')
             ->editColumn('total', fn($saleDetail) => money($saleDetail->totalPrice))
             ->editColumn('actions', function ($saleDetail) {
                 return view('components.common.action-buttons', [
@@ -53,7 +52,6 @@ class SaleDetailDatatable extends DataTable
             Column::make('product', 'product.name'),
             Column::make('quantity')->addClass('has-text-right'),
             Column::make('unit_price')->addClass('has-text-right'),
-            userCompany()->isDiscountBeforeVAT() ? Column::computed('discount') : null,
             Column::computed('total')->addClass('has-text-right'),
             Column::computed('actions'),
         ];

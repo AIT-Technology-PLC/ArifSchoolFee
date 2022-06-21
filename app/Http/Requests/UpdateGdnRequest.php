@@ -49,7 +49,6 @@ class UpdateGdnRequest extends FormRequest
                 }
             }],
 
-            'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
         ];
     }
