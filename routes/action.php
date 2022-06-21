@@ -239,3 +239,7 @@ Route::controller(Action\SaleController::class)->group(function () {
 Route::post('/job-planners/print',
     [Action\JobPlannerController::class, 'printed'])
     ->name('job-planners.print');
+
+Route::post('/adjustments/import',
+    [Action\AdjustmentController::class, 'import'])
+    ->name('adjustments.import');

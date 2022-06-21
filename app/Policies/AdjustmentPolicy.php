@@ -45,4 +45,9 @@ class AdjustmentPolicy
     {
         return $user->can('Make Adjustment');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import Adjustment');
+    }
 }
