@@ -235,3 +235,7 @@ Route::controller(Action\SaleController::class)->group(function () {
     Route::post('/sales/{sale}/approve', 'approve')->name('sales.approve');
     Route::post('/sales/{sale}/cancel', 'cancel')->name('sales.cancel');
 });
+
+Route::post('/job-planners/print',
+    [Action\JobPlannerController::class, 'printed'])
+    ->name('job-planners.print');

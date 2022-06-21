@@ -115,6 +115,19 @@
                                 </li>
                             @endif
                         @endcan
+                        @if (isFeatureEnabled('Job Management'))
+                            @can('Plan Job')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('job-planners.create') }}"
+                                        label="Job Planner"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('job-planners.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('job-planners.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endif
+                        @endcan
                     </ul>
                 </li>
             </ul>
