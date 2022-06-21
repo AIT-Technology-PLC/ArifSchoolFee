@@ -49,7 +49,7 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
         return [
             'product_name' => ['required', 'string', 'max:255', Rule::in($this->products->pluck('name'))],
             'warehouse_name' => ['required', 'string', Rule::in($this->warehouses->pluck('name'))],
-            'operation' => ['required', 'string',Rule::in(['subtract', 'add'])],
+            'operation' => ['required', 'string', Rule::in(['subtract', 'add'])],
             'quantity' => ['required', 'numeric', 'gt:0'],
             'reason' => ['required', 'string'],
         ];
