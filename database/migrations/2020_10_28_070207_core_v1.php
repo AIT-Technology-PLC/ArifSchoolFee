@@ -261,9 +261,10 @@ return new class extends Migration
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
-            $table->decimal('discount', 22)->nullable();
             $table->string('payment_type');
-            $table->dateTime('sold_on')->nullable();
+            $table->string('cash_received_type');
+            $table->decimal('cash_received', 22);
+            $table->dateTime('issued_on')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -277,10 +278,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('sale_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22);
-            $table->decimal('discount', 22)->nullable();
+            $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
