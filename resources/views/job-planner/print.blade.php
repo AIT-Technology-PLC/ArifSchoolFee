@@ -61,7 +61,7 @@
                 Production Plan
             </h1>
         </section>
-        <section class="is-clearfix has-background-white pl-6 py-3">
+        <section class="is-clearfix has-background-white px-6 py-3">
             @foreach ($reportData as $row)
                 <section class="py-3">
                     <h2 class="is-size-6 is-pl-12"> Product: <strong>{{ $row->first()['product_name'] }}</strong></h2>

@@ -58,7 +58,7 @@
                                             >
                                                 <x-common.category-list
                                                     x-model="jobPlanner.product_category_id"
-                                                    x-on:change="changeProductCategory(index)"
+                                                    x-on:change="Product.changeProductCategory(getSelect2(index), jobPlanner.product_id, jobPlanner.product_category_id)"
                                                 />
                                             </x-forms.control>
                                             <x-forms.control class="has-icons-left is-expanded">
@@ -166,7 +166,7 @@
                                                     type="button"
                                                     mode="button"
                                                     class="bg-green has-text-white"
-                                                    x-text="product.unit_of_measurement"
+                                                    x-text="Product.unitOfMeasurement(jobPlanner.product_id)"
                                                 />
                                             </x-forms.control>
                                         </x-forms.field>
@@ -266,26 +266,16 @@
                     jobPlanner
                 }) => ({
                     jobPlanners: [],
-                    productStore: Alpine.reactive(Alpine.store("products")),
 
-                    init() {
+                    async init() {
+                        await Product.init();
+
                         if (jobPlanner) {
                             this.jobPlanners = jobPlanner;
 
-                            Alpine.effect(() => {
-                                if (this.productStore.products.length) {
-                                    Promise.resolve(
-                                        this.jobPlanners.forEach((jobPlanner) => {
-                                            jobPlanner.product_category_id =
-                                                this.productStore.productCategoryId(
-                                                    jobPlanner.product_id
-                                                );
-                                        })
-                                    ).then(() =>
-                                        $(".product-list").trigger("change", [true])
-                                    );
-                                }
-                            });
+                            await Promise.resolve(this.jobPlanners.forEach((jobPlanner) => jobPlanner.product_category_id = Product.productCategoryId(jobPlanner.product_id)))
+
+                            await Promise.resolve($(".product-list").trigger("change", [true]));
 
                             return;
                         }
@@ -293,21 +283,24 @@
                         this.add();
                     },
                     add() {
-                        this.jobPlanners.push({
-                            product_id: "",
-                            warehouse_id: "",
-                            bill_of_material_id: "",
-                            quantity: "",
-                        });
+                        this.jobPlanners.push({});
                     },
-                    remove(index) {
-                        if (this.jobPlanners.length === 1) {
+                    async remove(index) {
+                        if (this.jobPlanners.length <= 0) {
                             return;
                         }
 
-                        Promise.resolve(this.jobPlanners.splice(index, 1)).then(() =>
-                            $(".product-list").trigger("change", [true])
+                        await Promise.resolve(this.jobPlanners.splice(index, 1));
+
+                        await Promise.resolve(
+                            this.jobPlanners.forEach((jobPlanner, i) => {
+                                if (i >= index) {
+                                    Product.changeProductCategory(this.getSelect2(i), jobPlanner.product_id, jobPlanner.product_category_id);
+                                }
+                            })
                         );
+
+                        Pace.restart();
                     },
                     select2(index) {
                         let select2 = initializeSelect2(this.$el);
@@ -316,30 +309,18 @@
                             this.jobPlanners[index].product_id = event.target.value;
 
                             this.jobPlanners[index].product_category_id =
-                                this.productStore.productCategoryId(
+                                Product.productCategoryId(
                                     this.jobPlanners[index].product_id
                                 );
 
                             if (!haveData) {
-                                this.changeProductCategory(index);
-
-                                this.jobPlanners[index].unit_price = this.productStore.price(
-                                    this.jobPlanners[index].product_id
-                                );
+                                Product.changeProductCategory(select2, this.jobPlanners[index].product_id, this.jobPlanners[index].product_category_id);
                             }
                         });
                     },
-                    changeProductCategory(index) {
-                        let products = this.productStore.whereProductCategoryId(
-                            this.jobPlanners[index].product_category_id
-                        );
-
-                        this.productStore.appendProductsToSelect2(
-                            $(".product-list").eq(index),
-                            this.jobPlanners[index].product_id,
-                            products
-                        );
-                    },
+                    getSelect2(index) {
+                        return $(".product-list").eq(index);
+                    }
                 }));
             });
         </script>
