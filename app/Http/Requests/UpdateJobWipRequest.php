@@ -16,10 +16,8 @@ class UpdateJobWipRequest extends FormRequest
     {
         return [
             'job' => ['required', 'array'],
-            'job.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            'job.*.quantity' => ['required', 'numeric', 'gt:0'],
-            'job.*.wip' => ['required', 'numeric', 'gt:0'],
-            // 'job.*.wip' => ['required', 'numeric', 'gt:0', 'lte:job*.quantity'],
+            'job.*.product_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('products')],
+            'job.*.wip' => ['required', 'numeric', 'gte:0'],
         ];
     }
 }

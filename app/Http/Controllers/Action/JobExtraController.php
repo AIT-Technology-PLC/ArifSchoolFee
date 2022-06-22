@@ -21,6 +21,10 @@ class JobExtraController extends Controller
     {
         $this->authorize('addExtra', $jobExtra->job);
 
+        if ($jobExtra->job->jobCompletionRate == 100) {
+            return false;
+        }
+
         [$isExecuted, $message] = $this->jobService->addExtra($jobExtra, auth()->user());
 
         if (!$isExecuted) {

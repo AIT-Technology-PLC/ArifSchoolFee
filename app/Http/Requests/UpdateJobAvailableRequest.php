@@ -16,11 +16,8 @@ class UpdateJobAvailableRequest extends FormRequest
     {
         return [
             'job' => ['required', 'array'],
-            'job.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            'job.*.quantity' => ['required', 'numeric', 'gt:0'],
-            'job.*.wip' => ['required', 'numeric'],
-            'job.*.available' => ['required', 'numeric', 'gt:0'],
-            // 'job.*.available' => ['required', 'numeric', 'gt:0', 'lte:job*.wip'],
+            'job.*.product_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('products')],
+            'job.*.available' => ['required', 'numeric', 'gte:0'],
         ];
     }
 }

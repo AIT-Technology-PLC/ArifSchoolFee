@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Resource as Resource;
-use App\Http\Controllers\BillOfMaterialController;
-use App\Http\Controllers\BillOfMaterialDetailController;
 
 Route::resource('products', Resource\ProductController::class)->except('show');
 

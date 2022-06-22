@@ -45,7 +45,6 @@ class JobDatatable extends DataTable
             ->newQuery()
             ->when(request('status') == 'done', fn($query) => $query->active())
             ->when(request('status') == 'work in process', fn($query) => $query->active())
-            ->when(request('status') == 'available', fn($query) => $query->inactive())
             ->select('jobs.*')
             ->with([
                 'createdBy:id,name',

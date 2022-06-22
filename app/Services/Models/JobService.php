@@ -4,6 +4,7 @@ namespace App\Services\Models;
 
 use App\Models\Job;
 use App\Services\Inventory\InventoryOperationService;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class JobService
@@ -15,7 +16,59 @@ class JobService
         }
 
         DB::transaction(function () use ($request, $job) {
-            $this->subtract($request, $job, 'wip');
+            for ($i = 0; $i < count($job->jobDetails); $i++) {
+                if (!isset($request->job[$i])) {
+                    continue;
+                }
+
+                if ($request->job[$i]['product_id'] != $job->jobDetails[$i]->product_id) {
+                    continue;
+                }
+
+                if ($job->jobDetails[$i]->isWipCompleted() || $job->jobDetails[$i]->isAvailableCompleted() || $job->jobDetails[$i]->isJobDetailCompleted()) {
+                    continue;
+                }
+
+                if (!$this->isQuantityValid($job->jobDetails[$i]->quantity, $job->jobDetails[$i]->available, $job->jobDetails[$i]->wip + $request->job[$i]['wip'])) {
+                    return false;
+                }
+
+                $job->jobDetails[$i]->update([
+                    'product_id' => $request->job[$i]['product_id'],
+                    'wip' => $request->job[$i]['wip'] + $job->jobDetails[$i]->wip,
+                ]);
+
+                $billOfMaterialdetails = $job->jobDetails[$i]->billOfMaterial->billOfMaterialDetails()->get(['product_id', 'quantity'])->toArray();
+                $billOfMaterialdetails = data_set($billOfMaterialdetails, '*.warehouse_id', $job->factory_id);
+                $quantity = $request->job[$i]['wip'];
+
+                $details[] = collect($billOfMaterialdetails)->transform(function ($detail) use ($quantity) {
+                    $detail['quantity'] = $detail['quantity'] * $quantity;
+                    return $detail;
+                });
+
+                $addDetails[] = [
+                    'product_id' => $request->job[$i]['product_id'],
+                    'quantity' => $request->job[$i]['wip'],
+                    'warehouse_id' => $job->factory_id,
+                ];
+            }
+
+            if (isset($details) && count($details)) {
+                $billOfMaterialdetails = Arr::flatten($details, 1);
+
+                if (!InventoryOperationService::areAvailable($billOfMaterialdetails)) {
+                    return false;
+                }
+            }
+
+            if (isset($billOfMaterialdetails) && count($billOfMaterialdetails)) {
+                InventoryOperationService::subtract($billOfMaterialdetails);
+            }
+
+            if (isset($addDetails) && count($addDetails)) {
+                InventoryOperationService::add($addDetails, 'wip');
+            }
         });
 
         return [true, ''];
@@ -28,46 +81,87 @@ class JobService
         }
 
         DB::transaction(function () use ($request, $job) {
-            $this->subtract($request, $job, 'available');
+            for ($i = 0; $i < count($job->jobDetails); $i++) {
+                if (!isset($request->job[$i])) {
+                    continue;
+                }
+
+                if ($request->job[$i]['product_id'] != $job->jobDetails[$i]->product_id) {
+                    continue;
+                }
+
+                if ($job->jobDetails[$i]->isAvailableCompleted()) {
+                    continue;
+                }
+
+                if (!$this->isQuantityValid($job->jobDetails[$i]->quantity, $request->job[$i]['available'], 0)) {
+                    return false;
+                }
+
+                if ($request->job[$i]['available'] > $job->jobDetails[$i]->wip) {
+                    $quantity = $request->job[$i]['available'] - $job->jobDetails[$i]->wip;
+
+                    $availableDetails[$i] = [
+                        'product_id' => $request->job[$i]['product_id'],
+                        'wip' => 0,
+                        'available' => $request->job[$i]['available'] + $job->jobDetails[$i]->available,
+                        'quantity' => $quantity,
+                        'warehouse_id' => $job->factory_id,
+                    ];
+
+                    $wipDetails[$i] = [
+                        'product_id' => $request->job[$i]['product_id'],
+                        'quantity' => $job->jobDetails[$i]->wip,
+                        'warehouse_id' => $job->factory_id,
+                    ];
+
+                    $job->jobDetails[$i]->update(Arr::only($availableDetails[$i], ['product_id', 'wip', 'available']));
+
+                    $billOfMaterialdetails = $job->jobDetails[$i]->billOfMaterial->billOfMaterialDetails()->get(['product_id', 'quantity'])->toArray();
+                    $billOfMaterialdetails = data_set($billOfMaterialdetails, '*.warehouse_id', $job->factory_id);
+
+                    $details[$i] = collect($billOfMaterialdetails)->transform(function ($detail) use ($quantity) {
+                        $detail['quantity'] = $detail['quantity'] * $quantity;
+                        return $detail;
+                    });
+                }
+
+                if ($request->job[$i]['available'] <= $job->jobDetails[$i]->wip) {
+                    $quantity = $request->job[$i]['available'];
+
+                    $wipDetails[$i] = [
+                        'product_id' => $request->job[$i]['product_id'],
+                        'wip' => $job->jobDetails[$i]->wip - $request->job[$i]['available'],
+                        'available' => $request->job[$i]['available'] + $job->jobDetails[$i]->available,
+                        'quantity' => $quantity,
+                        'warehouse_id' => $job->factory_id,
+                    ];
+
+                    $job->jobDetails[$i]->update(Arr::only($wipDetails[$i], ['product_id', 'wip', 'available']));
+                }
+            }
+
+            if (isset($details) && count($details)) {
+                $billOfMaterialdetails = Arr::flatten($details, 1);
+
+                if (!InventoryOperationService::areAvailable($billOfMaterialdetails)) {
+                    return false;
+                }
+
+                InventoryOperationService::subtract($billOfMaterialdetails);
+            }
+
+            if (isset($wipDetails) && count($wipDetails)) {
+                InventoryOperationService::subtract($wipDetails, 'wip');
+                InventoryOperationService::add($wipDetails);
+            }
+
+            if (isset($availableDetails) && count($availableDetails)) {
+                InventoryOperationService::add($availableDetails);
+            }
         });
 
         return [true, ''];
-    }
-
-    private function subtract($request, $job, $type)
-    {
-        for ($i = 0; $i < count($request->job); $i++) {
-            $job->jobDetails[$i]->update($request->job[$i]);
-            $details = $job->jobDetails[$i]->billOfMaterial->billOfMaterialDetails()->get(['product_id', 'quantity'])->toArray();
-            $details = data_set($details, '*.warehouse_id', $job->factory_id);
-            $quantity = $request->job[$i][$type];
-
-            $details = collect($details)->transform(function ($detail) use ($quantity) {
-                $detail['quantity'] = $detail['quantity'] * $quantity;
-                return $detail;
-            });
-        }
-
-        $unavailableProducts = InventoryOperationService::unavailableProducts($details);
-
-        if ($unavailableProducts->isNotEmpty()) {
-            return [false, $unavailableProducts];
-        }
-
-        $addDetails = [];
-
-        for ($i = 0; $i < count($request->job); $i++) {
-
-            $addDetails[] = [
-                'product_id' => $request->job[$i]['product_id'],
-                'quantity' => $request->job[$i][$type],
-                'warehouse_id' => $job->factory_id,
-            ];
-        }
-
-        InventoryOperationService::subtract($details);
-
-        InventoryOperationService::add($addDetails, $type);
     }
 
     public function addExtra($jobExtra, $user)
@@ -120,5 +214,10 @@ class JobService
         });
 
         return [true, ''];
+    }
+
+    private function isQuantityValid($quantity, $available, $wip)
+    {
+        return $quantity >= ($available + $wip);
     }
 }

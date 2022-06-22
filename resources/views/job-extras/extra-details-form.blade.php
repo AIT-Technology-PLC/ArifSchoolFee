@@ -102,7 +102,9 @@
                                     x-bind:name="`job[${index}][type]`"
                                     x-model="job.type"
                                 >
-                                    <option value="Input"> Input </option>
+                                    @if (!$job->jobCompletionRate == 100)
+                                        <option value="Input">Input</option>
+                                    @endif
                                     <option value="Remaining"> Remaining </option>
                                 </x-forms.select>
                                 <x-common.icon

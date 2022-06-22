@@ -1,5 +1,3 @@
-@props(['title', 'action'])
-
 <div
     x-data="toggler"
     @open-create-job-extra-modal.window="toggle"
@@ -12,10 +10,10 @@
     ></div>
     <div class="modal-content p-lr-20">
         <x-common.content-wrapper>
-            <x-content.header title="{{ $title }}" />
+            <x-content.header title="Update Extra Materials" />
             <form
                 id="create-job-extra"
-                action="{{ $action }}"
+                action="{{ route('jobs.job-extras.store', $job->id) }}"
                 method="POST"
                 enctype="multipart/form-data"
                 novalidate

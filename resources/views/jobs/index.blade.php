@@ -65,7 +65,7 @@
                                         Statuses
                                     </option>
                                     <option value="all"> All </option>
-                                    @foreach (['Done', 'In Process'] as $status)
+                                    @foreach (['Done', 'Work In Process'] as $status)
                                         <option value="{{ str()->lower($status) }}"> {{ $status }} </option>
                                     @endforeach
                                 </x-forms.select>

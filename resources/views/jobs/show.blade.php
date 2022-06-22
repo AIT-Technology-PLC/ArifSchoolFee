@@ -85,7 +85,7 @@
                             <x-common.button
                                 tag="button"
                                 mode="button"
-                                @click="$dispatch('open-update-job-modal')"
+                                @click="$dispatch('open-update-wip-modal')"
                                 icon="fa fa-plus"
                                 label="Update Work in Process"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
@@ -95,9 +95,9 @@
                             <x-common.button
                                 tag="button"
                                 mode="button"
-                                @click="$dispatch('open-update-wip-modal')"
+                                @click="$dispatch('open-update-available-modal')"
                                 icon="fas fa-plus"
-                                label="Update Available"
+                                label="Update Finished Goods"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
@@ -110,7 +110,7 @@
                             mode="button"
                             @click="$dispatch('open-create-job-extra-modal')"
                             icon="fas fa-plus"
-                            label="Update Extra Material"
+                            label="Update Extra Materials"
                             class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
@@ -133,7 +133,7 @@
             @if (!$job->isApproved())
                 <x-common.fail-message message="This Job has not been approved yet." />
             @elseif ($job->jobCompletionRate < 100)
-                <x-common.fail-message message="Convert Job to Work in Process or Available." />
+                <x-common.fail-message message="Update Work in Process or Finished Goods." />
             @else
                 <x-common.success-message message="Job Done." />
             @endif
@@ -214,21 +214,12 @@
     </x-common.content-wrapper>
 
     @can('Update Job')
-        <x-common.update-job
-            title="Convert Job to work in process"
-            action="{{ route('jobs.addToWip', $job->id) }}"
-            :job-details="$job->jobDetails"
-        />
-        <x-common.update-wip
-            title="Convert Job to Available"
-            action="{{ route('jobs.addToAvailable', $job->id) }}"
-            :job-details="$job->jobDetails"
-        />
+        @include('jobs.partials.update-wip', ['jobDetails' => $job->jobDetails])
+
+        @include('jobs.partials.update-available', ['jobDetails' => $job->jobDetails])
+
+        @include('job-extras.create-job-extra')
     @endcan
-    <x-common.create-job-extra
-        title="Create Job Extra Materials"
-        action="{{ route('jobs.job-extras.store', $job->id) }}"
-    />
 @endsection
 
 @push('scripts')
