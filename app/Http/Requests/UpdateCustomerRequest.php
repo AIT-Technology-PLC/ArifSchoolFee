@@ -15,7 +15,7 @@ class UpdateCustomerRequest extends FormRequest
     {
         return [
             'company_name' => ['required', 'string', 'max:255'],
-            'tin' => ['nullable', 'numeric'],
+            'tin' => ['nullable', 'numeric', 'digits:10'],
             'address' => ['nullable', 'string', 'max:255'],
             'contact_name' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255'],

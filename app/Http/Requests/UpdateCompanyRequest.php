@@ -19,6 +19,7 @@ class UpdateCompanyRequest extends FormRequest
             'email' => ['nullable', 'string', 'email'],
             'phone' => ['nullable', 'string', 'max:255'],
             'address' => ['nullable', 'string', 'max:255'],
+            'tin' => ['nullable', 'numeric', 'digits:10'],
             'proforma_invoice_prefix' => ['nullable', 'string', 'max:255'],
             'is_price_before_vat' => ['required', 'boolean'],
             'is_convert_to_siv_as_approved' => ['required', 'boolean'],
