@@ -18,14 +18,17 @@
         </h1>
         @if ($warehouse && userCompany()->canShowBranchDetailOnPrint())
             <p class="has-text-grey has-text-weight-medium">
-                {!! collect([$warehouse->location ?? userCompany()->address, $warehouse->email ?? userCompany()->email, $warehouse->phone ?? userCompany()->phone])->filter()->join(' ' . htmlspecialchars_decode('&middot;') . ' ') !!}
+                {!! collect([$warehouse->email ?? userCompany()->email, $warehouse->phone ?? userCompany()->phone])->filter()->join(' ' . htmlspecialchars_decode('&middot;') . ' ') !!}
             </p>
             <p class="has-text-grey has-text-weight-medium">
-                {{ $warehouse->name }}
+                {!! collect([$warehouse->location ?? userCompany()->address, userCompany()->tin])->filter()->join(' ' . htmlspecialchars_decode('&middot;') . ' ') !!}
             </p>
         @else
             <p class="has-text-grey has-text-weight-medium">
-                {!! collect([userCompany()->address, userCompany()->email, userCompany()->phone])->filter()->join(' ' . htmlspecialchars_decode('&middot;') . ' ') !!}
+                {!! collect([userCompany()->email, userCompany()->phone])->filter()->join(' ' . htmlspecialchars_decode('&middot;') . ' ') !!}
+            </p>
+            <p class="has-text-grey has-text-weight-medium">
+                {!! collect([userCompany()->address, userCompany()->tin])->filter()->join(' ' . htmlspecialchars_decode('&middot;') . ' ') !!}
             </p>
         @endif
     </aside>

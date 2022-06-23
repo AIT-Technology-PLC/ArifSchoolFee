@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Models\Sale;
 use App\Services\Models\SaleService;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SaleController extends Controller
 {
@@ -41,5 +42,14 @@ class SaleController extends Controller
         }
 
         return back()->with('successMessage', $message);
+    }
+
+    public function printed(Sale $sale)
+    {
+        $this->authorize('view', $sale);
+
+        $sale->load(['saleDetails.product', 'customer', 'warehouse', 'company', 'createdBy', 'approvedBy']);
+
+        return Pdf::loadView('sales.print', compact('sale'))->stream();
     }
 }

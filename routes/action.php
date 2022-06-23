@@ -234,6 +234,7 @@ Route::controller(Action\TransactionController::class)->group(function () {
 Route::controller(Action\SaleController::class)->group(function () {
     Route::post('/sales/{sale}/approve', 'approve')->name('sales.approve');
     Route::post('/sales/{sale}/cancel', 'cancel')->name('sales.cancel');
+    Route::get('/sales/{sale}/print', 'printed')->name('sales.print');
 });
 
 Route::post('/job-planners/print',
