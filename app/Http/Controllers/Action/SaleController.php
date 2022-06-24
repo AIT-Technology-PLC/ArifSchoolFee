@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
 use App\Models\Sale;
+use App\Services\Integrations\PointOfSaleService;
 use App\Services\Models\SaleService;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -47,6 +48,12 @@ class SaleController extends Controller
     public function printed(Sale $sale)
     {
         $this->authorize('view', $sale);
+
+        [$isExecuted, $fsNumber] = (new PointOfSaleService)->getFsNumber($sale);
+
+        if ($isExecuted && is_null($sale->fs_number)) {
+            $sale->update(['fs_number' => $fsNumber]);
+        }
 
         $sale->load(['saleDetails.product', 'customer', 'warehouse', 'company', 'createdBy', 'approvedBy']);
 

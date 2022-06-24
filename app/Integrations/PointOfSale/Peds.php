@@ -102,6 +102,19 @@ class Peds implements PointOfSaleInterface
         return $response;
     }
 
+    public function getFsNumber()
+    {
+        $response = Http::withHeaders($this->getHeaders())
+            ->post('http://localhost:2010/PEDS/api/HoldSalesService/GetPaidStatus', [
+                'value' => $this->sale->code,
+            ]);
+
+        return [
+            $response['Success'],
+            $response['content'][0]['FsInvoiceNo'] ?? '',
+        ];
+    }
+
     public function isVoid()
     {
         return $this->getStatus()['Content']['IsVoid'];

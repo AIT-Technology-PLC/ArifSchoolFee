@@ -10,6 +10,8 @@ interface PointOfSaleInterface
 
     public function exists();
 
+    public function getFsNumber();
+
     public function getStatus();
 
     public function isVoid();
