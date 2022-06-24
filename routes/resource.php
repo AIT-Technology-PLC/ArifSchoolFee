@@ -1,10 +1,7 @@
 <?php
 
 use App\Http\Controllers\Resource as Resource;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Route;
-=======
->>>>>>> job_order_feature
 
 Route::resource('products', Resource\ProductController::class)->except('show');
 
