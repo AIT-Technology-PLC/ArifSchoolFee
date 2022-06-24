@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\BillOfMaterial;
 use App\Models\BillOfMaterialDetail;
+use App\Models\jobDetail;
+use App\Models\jobExtra;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -35,6 +37,8 @@ class Product extends Model
         'returnDetails',
         'reservationDetails',
         'price',
+        'jobDetails',
+        'jobExtras',
         'billOfMaterials',
         'billOfMaterialDetails',
     ];
@@ -127,6 +131,16 @@ class Product extends Model
     public function price()
     {
         return $this->hasOne(Price::class);
+    }
+
+    public function jobDetails()
+    {
+        return $this->hasMany(JobDetail::class);
+    }
+
+    public function jobExtras()
+    {
+        return $this->hasMany(JobExtra::class);
     }
 
     public function setPropertiesAttribute($array)

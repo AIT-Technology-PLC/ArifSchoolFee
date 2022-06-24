@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\BillOfMaterialDetail;
+use App\Models\JobDetail;
 use App\Models\Product;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
@@ -27,6 +28,11 @@ class BillOfMaterial extends Model
     public function billOfMaterialDetails()
     {
         return $this->hasMany(BillOfMaterialDetail::class);
+    }
+
+    public function jobDetails()
+    {
+        return $this->hasMany(JobDetail::class);
     }
 
     public function details()

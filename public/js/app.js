@@ -188,6 +188,7 @@ function disableInputTypeNumberMouseWheel() {
 
 const initializeSelect2 = (element) => {
     return $(element).select2({
+        dropdownParent: $(element).parent(),
         placeholder: "Select a product",
         allowClear: true,
         tags: $(element).attr("data-tags"),

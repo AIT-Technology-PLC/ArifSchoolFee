@@ -215,6 +215,16 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Update BOM']);
             Permission::firstOrCreate(['name' => 'Delete BOM']);
 
+            //Job
+            Permission::firstOrCreate(['name' => 'Create Job']);
+            Permission::firstOrCreate(['name' => 'Read Job']);
+            Permission::firstOrCreate(['name' => 'Update Job']);
+            Permission::firstOrCreate(['name' => 'Delete Job']);
+            Permission::firstOrCreate(['name' => 'Approve Job']);
+            Permission::firstOrCreate(['name' => 'Add Extra Job']);
+            Permission::firstOrCreate(['name' => 'Subtract Extra Job']);
+            Permission::firstOrCreate(['name' => 'Plan Job']);
+
             // Other
             Permission::firstOrCreate(['name' => 'Convert To Credit']);
 
@@ -222,6 +232,7 @@ class Permissions extends Seeder
             $analyst->syncPermissions([
                 'Read GDN',
                 'Read GRN',
+                'Read Job',
                 'Read Purchase',
                 'Read Sale',
                 'Read Proforma Invoice',
@@ -282,6 +293,7 @@ class Permissions extends Seeder
                 'Create Adjustment',
                 'Create SIV',
                 'Read GRN',
+                'Read Job',
                 'Read Merchandise',
                 'Read Transfer',
                 'Read Damage',

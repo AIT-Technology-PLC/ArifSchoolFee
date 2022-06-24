@@ -68,8 +68,8 @@
             </x-common.button>
         </li>
     </ul>
-    @if (isFeatureEnabled('Bill Of Material Management'))
-        @canany(['Read BOM'])
+    @if (isFeatureEnabled('Bill Of Material Management', 'Job Management'))
+        @canany(['Read BOM', 'Read Job'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -126,8 +126,21 @@
                                         x-init="{{ request()->routeIs('job-planners.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
-                            @endif
-                        @endcan
+                            @endcan
+                        @endif
+                        @if (isFeatureEnabled('Job Management'))
+                            @can('Read Job')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('jobs.index') }}"
+                                        label="Jobs"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('jobs.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('jobs.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
                     </ul>
                 </li>
             </ul>

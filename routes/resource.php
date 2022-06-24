@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\Resource as Resource;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Route;
+=======
+>>>>>>> job_order_feature
 
 Route::resource('products', Resource\ProductController::class)->except('show');
 
@@ -98,6 +101,13 @@ Route::resource('pads.transactions', Resource\TransactionController::class)->sha
 Route::resource('transaction-fields', Resource\TransactionFieldController::class)->only(['destroy']);
 
 Route::resource('bill-of-materials', Resource\BillOfMaterialController::class);
+
 Route::resource('bill-of-material-details', Resource\BillOfMaterialDetailController::class)->only(['destroy']);
 
 Route::resource('job-planners', Resource\JobPlannerController::class)->only(['create', 'store']);
+
+Route::resource('jobs', Resource\JobController::class);
+
+Route::resource('job-details', Resource\JobDetailController::class)->only(['destroy']);
+
+Route::resource('jobs.job-extras', Resource\JobExtraController::class)->shallow()->except(['index', 'create', 'show']);
