@@ -18,6 +18,7 @@ class DailyRunCommands extends Command
         'tender:bid-bond-validity-notification',
         'inventory:low-level-notification',
         'proforma-invoice:expiry-date-notification',
+        'reservation:expiry-date-notification',
         'tender:daily-deadline-notification',
         'credit:due-date-notification',
         'backup:run --only-db --disable-notifications',

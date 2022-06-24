@@ -28,6 +28,15 @@
                         label="Payment Type"
                     />
                 </div>
+                @if (!$sale->isPaymentInCash())
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-calendar-day"
+                            :data="$sale->due_date->toFormattedDateString()"
+                            label="Credit Due Date"
+                        />
+                    </div>
+                @endif
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-user"

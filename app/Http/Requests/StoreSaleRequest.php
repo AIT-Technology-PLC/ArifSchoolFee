@@ -53,6 +53,8 @@ class StoreSaleRequest extends FormRequest
                     $fail('When payment type is "Cash Payment", the percentage amount must be 100.');
                 }
             }],
+
+            'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
         ];
     }
 }
