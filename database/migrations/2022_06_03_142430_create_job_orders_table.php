@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('jobs', function (Blueprint $table) {
+        Schema::create('job_orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
@@ -17,10 +17,11 @@ return new class extends Migration
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreignId('assigned_to')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->boolean('is_internal_job');
             $table->longText('description')->nullable();
+            $table->dateTime('issued_on')->nullable();
+            $table->dateTime('due_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -31,6 +32,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::drop('jobs');
+        Schema::drop('job_orders');
     }
 };

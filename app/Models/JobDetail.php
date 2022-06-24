@@ -15,7 +15,7 @@ class JobDetail extends Model
 
     public function job()
     {
-        return $this->belongsTo(Job::class);
+        return $this->belongsTo(Job::class, 'job_order_id');
     }
 
     public function product()
@@ -43,19 +43,14 @@ class JobDetail extends Model
         return $this->job;
     }
 
-    public function isAvailableCompleted()
+    public function isCompleted()
     {
         return $this->quantity == $this->available;
     }
 
-    public function isWipCompleted()
+    public function canAddToWip()
     {
-        return $this->quantity == $this->wip;
-    }
-
-    public function isJobDetailCompleted()
-    {
-        return $this->quantity == $this->wip + $this->available;
+        return $this->quantity > $this->wip + $this->available;
     }
 
     public function getCompletionRateAttribute()
@@ -77,5 +72,57 @@ class JobDetail extends Model
         }
 
         return number_format($completionRate * 100, 2);
+    }
+
+    private function historyQuery($warehouse)
+    {
+        return $this
+            ->with('billOfMaterial.billOfMaterialDetails')
+            ->whereIn('job_order_id', function ($query) use ($warehouse) {
+                $query->select('id')
+                    ->from('job_orders')
+                    ->where('company_id', userCompany()->id)
+                    ->where('factory_id', $warehouse->id);
+            });
+    }
+
+    public function getByWarehouseAndProduct($warehouse, $product)
+    {
+        $jobDetailsBillOfMaterials = $this
+            ->historyQuery($warehouse)
+            ->where(function ($query) {
+                $query->where('available', '>', 0)
+                    ->orWhere('wip', '>', 0);
+            })
+            ->get()
+            ->map(function ($jobDetail) use ($product) {
+                return $jobDetail
+                    ->billOfMaterial
+                    ->billOfMaterialDetails
+                    ->where('product_id', $product->id)
+                    ->map(function ($billOfMaterialDetail) use ($jobDetail) {
+                        return (new JobDetail([
+                            'job_order_id' => $jobDetail->job_order_id,
+                            'available' => number_format($billOfMaterialDetail->quantity * $jobDetail->available, 2),
+                            'wip' => number_format($billOfMaterialDetail->quantity * $jobDetail->wip, 2),
+                        ]))->setAttribute('is_bill_of_material', 1)->load('job');
+                    });
+            })
+            ->flatten(1);
+
+        $jobDetails = $this
+            ->historyQuery($warehouse)
+            ->where('product_id', $product->id)
+            ->where('available', '>', 0)
+            ->get()
+            ->load([
+                'job' => function ($query) {
+                    return $query->withoutGlobalScopes([BranchScope::class]);
+                }]
+            );
+
+        $jobDetailsBillOfMaterials->push(...$jobDetails);
+
+        return $jobDetailsBillOfMaterials;
     }
 }

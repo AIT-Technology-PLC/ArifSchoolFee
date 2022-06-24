@@ -17,13 +17,9 @@ class JobExtraController extends Controller
         $this->jobService = $jobService;
     }
 
-    public function addExtra(JobExtra $jobExtra)
+    public function add(JobExtra $jobExtra)
     {
         $this->authorize('addExtra', $jobExtra->job);
-
-        if ($jobExtra->job->jobCompletionRate == 100) {
-            return false;
-        }
 
         [$isExecuted, $message] = $this->jobService->addExtra($jobExtra, auth()->user());
 
@@ -34,9 +30,13 @@ class JobExtraController extends Controller
         return back();
     }
 
-    public function subtractExtra(JobExtra $jobExtra)
+    public function subtract(JobExtra $jobExtra)
     {
         $this->authorize('subtractExtra', $jobExtra->job);
+
+        if ($jobExtra->job->jobCompletionRate == 100) {
+            return back()->with('jobExtrafailedMessage', 'Requesting input Extra-Materials for complited job is not allowed.');
+        }
 
         [$isExecuted, $message] = $this->jobService->subtractExtra($jobExtra, auth()->user());
 

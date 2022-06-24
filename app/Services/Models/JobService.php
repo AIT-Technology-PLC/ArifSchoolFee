@@ -9,38 +9,38 @@ use Illuminate\Support\Facades\DB;
 
 class JobService
 {
-    public function addToWorkInProcess($request, $job)
+    public function addToWorkInProcess($data, $job)
     {
         if (!$job->isApproved()) {
             return [false, 'This job is not approved yet.', ''];
         }
 
-        DB::transaction(function () use ($request, $job) {
+        DB::transaction(function () use ($data, $job) {
             for ($i = 0; $i < count($job->jobDetails); $i++) {
-                if (!isset($request->job[$i])) {
+                if (!isset($data[$i])) {
                     continue;
                 }
 
-                if ($request->job[$i]['product_id'] != $job->jobDetails[$i]->product_id) {
+                if ($data[$i]['product_id'] != $job->jobDetails[$i]->product_id) {
                     continue;
                 }
 
-                if ($job->jobDetails[$i]->isWipCompleted() || $job->jobDetails[$i]->isAvailableCompleted() || $job->jobDetails[$i]->isJobDetailCompleted()) {
+                if (!$job->jobDetails[$i]->canAddToWip()) {
                     continue;
                 }
 
-                if (!$this->isQuantityValid($job->jobDetails[$i]->quantity, $job->jobDetails[$i]->available, $job->jobDetails[$i]->wip + $request->job[$i]['wip'])) {
+                if (!$this->isQuantityValid($job->jobDetails[$i]->quantity, $job->jobDetails[$i]->available, $job->jobDetails[$i]->wip + $data[$i]['wip'])) {
                     return false;
                 }
 
                 $job->jobDetails[$i]->update([
-                    'product_id' => $request->job[$i]['product_id'],
-                    'wip' => $request->job[$i]['wip'] + $job->jobDetails[$i]->wip,
+                    'product_id' => $data[$i]['product_id'],
+                    'wip' => $data[$i]['wip'] + $job->jobDetails[$i]->wip,
                 ]);
 
                 $billOfMaterialdetails = $job->jobDetails[$i]->billOfMaterial->billOfMaterialDetails()->get(['product_id', 'quantity'])->toArray();
                 $billOfMaterialdetails = data_set($billOfMaterialdetails, '*.warehouse_id', $job->factory_id);
-                $quantity = $request->job[$i]['wip'];
+                $quantity = $data[$i]['wip'];
 
                 $details[] = collect($billOfMaterialdetails)->transform(function ($detail) use ($quantity) {
                     $detail['quantity'] = $detail['quantity'] * $quantity;
@@ -48,8 +48,8 @@ class JobService
                 });
 
                 $addDetails[] = [
-                    'product_id' => $request->job[$i]['product_id'],
-                    'quantity' => $request->job[$i]['wip'],
+                    'product_id' => $data[$i]['product_id'],
+                    'quantity' => $data[$i]['wip'],
                     'warehouse_id' => $job->factory_id,
                 ];
             }
@@ -74,43 +74,43 @@ class JobService
         return [true, ''];
     }
 
-    public function addToAvailable($request, $job)
+    public function addToAvailable($data, $job)
     {
         if (!$job->isApproved()) {
             return [false, 'This job is not approved yet.', ''];
         }
 
-        DB::transaction(function () use ($request, $job) {
+        DB::transaction(function () use ($data, $job) {
             for ($i = 0; $i < count($job->jobDetails); $i++) {
-                if (!isset($request->job[$i])) {
+                if (!isset($data[$i])) {
                     continue;
                 }
 
-                if ($request->job[$i]['product_id'] != $job->jobDetails[$i]->product_id) {
+                if ($data[$i]['product_id'] != $job->jobDetails[$i]->product_id) {
                     continue;
                 }
 
-                if ($job->jobDetails[$i]->isAvailableCompleted()) {
+                if ($job->jobDetails[$i]->isCompleted()) {
                     continue;
                 }
 
-                if (!$this->isQuantityValid($job->jobDetails[$i]->quantity, $request->job[$i]['available'], 0)) {
+                if (!$this->isQuantityValid($job->jobDetails[$i]->quantity, $job->jobDetails[$i]->available + $data[$i]['available'], 0)) {
                     return false;
                 }
 
-                if ($request->job[$i]['available'] > $job->jobDetails[$i]->wip) {
-                    $quantity = $request->job[$i]['available'] - $job->jobDetails[$i]->wip;
+                if ($data[$i]['available'] > $job->jobDetails[$i]->wip) {
+                    $quantity = $data[$i]['available'] - $job->jobDetails[$i]->wip;
 
                     $availableDetails[$i] = [
-                        'product_id' => $request->job[$i]['product_id'],
+                        'product_id' => $data[$i]['product_id'],
                         'wip' => 0,
-                        'available' => $request->job[$i]['available'] + $job->jobDetails[$i]->available,
+                        'available' => $data[$i]['available'] + $job->jobDetails[$i]->available,
                         'quantity' => $quantity,
                         'warehouse_id' => $job->factory_id,
                     ];
 
                     $wipDetails[$i] = [
-                        'product_id' => $request->job[$i]['product_id'],
+                        'product_id' => $data[$i]['product_id'],
                         'quantity' => $job->jobDetails[$i]->wip,
                         'warehouse_id' => $job->factory_id,
                     ];
@@ -126,13 +126,13 @@ class JobService
                     });
                 }
 
-                if ($request->job[$i]['available'] <= $job->jobDetails[$i]->wip) {
-                    $quantity = $request->job[$i]['available'];
+                if ($data[$i]['available'] <= $job->jobDetails[$i]->wip) {
+                    $quantity = $data[$i]['available'];
 
                     $wipDetails[$i] = [
-                        'product_id' => $request->job[$i]['product_id'],
-                        'wip' => $job->jobDetails[$i]->wip - $request->job[$i]['available'],
-                        'available' => $request->job[$i]['available'] + $job->jobDetails[$i]->available,
+                        'product_id' => $data[$i]['product_id'],
+                        'wip' => $job->jobDetails[$i]->wip - $data[$i]['available'],
+                        'available' => $data[$i]['available'] + $job->jobDetails[$i]->available,
                         'quantity' => $quantity,
                         'warehouse_id' => $job->factory_id,
                     ];

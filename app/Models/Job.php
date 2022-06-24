@@ -15,6 +15,13 @@ class Job extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $casts = [
+        'issued_on' => 'datetime',
+        'due_date' => 'datetime',
+    ];
+
+    protected $table = 'job_orders';
+
     public function assignedTo()
     {
         return $this->belongsTo(User::class, 'assigned_to')->withDefault(['name' => 'N/A']);
@@ -32,12 +39,12 @@ class Job extends Model
 
     public function jobDetails()
     {
-        return $this->hasMany(JobDetail::class);
+        return $this->hasMany(JobDetail::class, 'job_order_id');
     }
 
     public function jobExtras()
     {
-        return $this->hasMany(JobExtra::class);
+        return $this->hasMany(JobExtra::class, 'job_order_id');
     }
 
     public function getJobCompletionRateAttribute()
@@ -59,5 +66,10 @@ class Job extends Model
         }
 
         return number_format($jobCompletionRate * 100, 2);
+    }
+
+    public function isStarted()
+    {
+        return $this->jobCompletionRate > 0;
     }
 }

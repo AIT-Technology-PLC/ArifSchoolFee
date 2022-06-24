@@ -1,6 +1,6 @@
 <x-content.main
     x-data="jobMasterDetailForm({{ Js::from($data) }})"
-    x-init="setErrors({{ json_encode($errors->get('job.*')) }})"
+    x-init="$store.errors.setErrors({{ Js::from($errors->get('job.*')) }})"
 >
     <x-common.fail-message :message="session('failedMessage')" />
     <template
@@ -32,13 +32,23 @@
             </x-forms.field>
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label x-bind:for="`job[${index}][product_id]`">
-                                Product <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
+                    <div class="column is-12">
+                        <x-forms.label x-bind:for="`job[${index}][product_id]`">
+                            Product <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control
+                                class="has-icons-left"
+                                style="width: 30%"
+                            >
+                                <x-common.category-list
+                                    x-model="job.product_category_id"
+                                    x-on:change="Product.changeProductCategory(getSelect2(index), job.product_id, job.product_category_id)"
+                                />
+                            </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
-                                <x-common.product-list
+                                <x-common.new-product-list
+                                    class="product-list"
                                     x-bind:id="`job[${index}][product_id]`"
                                     x-bind:name="`job[${index}][product_id]`"
                                     x-model="job.product_id"
@@ -46,11 +56,11 @@
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
-                                    class="is-large is-left"
+                                    class="is-small is-left"
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`job.${index}.product_id`)"
+                                    x-text="$store.errors.getErrors(`job.${index}.product_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -76,7 +86,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`job.${index}.quantity`)"
+                                    x-text="$store.errors.getErrors(`job.${index}.quantity`)"
                                 ></span>
                             </x-forms.control>
                             <x-forms.control>
@@ -102,7 +112,7 @@
                                     x-bind:name="`job[${index}][type]`"
                                     x-model="job.type"
                                 >
-                                    @if (!$job->jobCompletionRate == 100)
+                                    @if ($job->jobCompletionRate != 100)
                                         <option value="Input">Input</option>
                                     @endif
                                     <option value="Remaining"> Remaining </option>
@@ -113,7 +123,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="getErrors(`job.${index}.type`)"
+                                    x-text="$store.errors.getErrors(`job.${index}.type`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -131,3 +141,70 @@
         x-on:click="add"
     />
 </x-content.main>
+
+@push('scripts')
+    <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("jobMasterDetailForm", ({
+                job
+            }) => ({
+                jobs: [],
+
+                async init() {
+                    await Product.init();
+
+                    if (job) {
+                        this.jobs = job;
+
+                        await Promise.resolve(this.jobs.forEach((job) => job.product_category_id = Product.productCategoryId(job.product_id)))
+
+                        await Promise.resolve($(".product-list").trigger("change", [true]));
+
+                        return;
+                    }
+
+                    this.add();
+                },
+                add() {
+                    this.jobs.push({});
+                },
+                async remove(index) {
+                    if (this.jobs.length <= 0) {
+                        return;
+                    }
+
+                    await Promise.resolve(this.jobs.splice(index, 1));
+
+                    await Promise.resolve(
+                        this.jobs.forEach((job, i) => {
+                            if (i >= index) {
+                                Product.changeProductCategory(this.getSelect2(i), job.product_id, job.product_category_id);
+                            }
+                        })
+                    );
+
+                    Pace.restart();
+                },
+                select2(index) {
+                    let select2 = initializeSelect2(this.$el);
+
+                    select2.on("change", (event, haveData = false) => {
+                        this.jobs[index].product_id = event.target.value;
+
+                        this.jobs[index].product_category_id =
+                            Product.productCategoryId(
+                                this.jobs[index].product_id
+                            );
+
+                        if (!haveData) {
+                            Product.changeProductCategory(select2, this.jobs[index].product_id, this.jobs[index].product_category_id);
+                        }
+                    });
+                },
+                getSelect2(index) {
+                    return $(".product-list").eq(index);
+                }
+            }));
+        });
+    </script>
+@endpush

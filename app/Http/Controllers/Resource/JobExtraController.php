@@ -18,6 +18,10 @@ class JobExtraController extends Controller
 
     public function store(StoreJobExtraRequest $request, Job $job)
     {
+        if (!$job->isApproved()) {
+            return [false, 'This job is not approved yet.', ''];
+        }
+
         $job = DB::transaction(function () use ($request, $job) {
             $job->jobExtras()->createMany($request->safe()['job']);
         });
@@ -38,7 +42,7 @@ class JobExtraController extends Controller
 
         $jobExtra->update($request->safe()->except(''));
 
-        return redirect()->route('jobs.show', $jobExtra->job_id);
+        return redirect()->route('jobs.show', $jobExtra->job_order_id);
     }
 
     public function destroy(JobExtra $jobExtra)

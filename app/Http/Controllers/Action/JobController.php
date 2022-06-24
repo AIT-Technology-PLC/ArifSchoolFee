@@ -7,7 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateJobAvailableRequest;
 use App\Http\Requests\UpdateJobWipRequest;
 use App\Models\Job;
+use App\Notifications\JobProgress;
 use App\Services\Models\JobService;
+use App\Utilities\Notifiables;
+use Illuminate\Support\Facades\Notification;
 
 class JobController extends Controller
 {
@@ -37,13 +40,13 @@ class JobController extends Controller
     {
         $this->authorize('update', Job::class);
 
-        [$isExecuted, $message] = $this->jobService->addToWorkInProcess($request, $job);
-
-        // [$isExecuted, $message] = $action->execute($job, JobProgress::class); call JobProgress notifcation.
+        [$isExecuted, $message] = $this->jobService->addToWorkInProcess($request->validated('job'), $job);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(Notifiables::byPermissionAndWarehouse('Read Job', $job->factory_id, $job->createdBy), new JobProgress($job));
 
         return back()->with('successMessage', $message);
     }
@@ -52,7 +55,7 @@ class JobController extends Controller
     {
         $this->authorize('update', Job::class);
 
-        [$isExecuted, $message] = $this->jobService->addToAvailable($request, $job);
+        [$isExecuted, $message] = $this->jobService->addToAvailable($request->validated('job'), $job);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

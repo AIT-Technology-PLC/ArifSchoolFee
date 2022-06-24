@@ -238,11 +238,11 @@ Route::post('/jobs/{job}/addToAvailable',
 
 // JobExtra
 Route::post('/job-extras/{jobExtra}/add',
-    [Action\JobExtraController::class, 'addExtra'])
+    [Action\JobExtraController::class, 'add'])
     ->name('job-extras.add');
 
 Route::post('/job-extras/{jobExtra}/subtract',
-    [Action\JobExtraController::class, 'subtractExtra'])
+    [Action\JobExtraController::class, 'subtract'])
     ->name('job-extras.subtract');
 
 Route::controller(Action\TransactionController::class)->group(function () {

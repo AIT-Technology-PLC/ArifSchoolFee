@@ -38,7 +38,7 @@ class JobController extends Controller
 
     public function create()
     {
-        $currentJobCode = nextReferenceNumber('jobs');
+        $currentJobCode = nextReferenceNumber('job_orders');
 
         $billOfMaterials = BillOfMaterial::all();
 
@@ -71,6 +71,10 @@ class JobController extends Controller
 
     public function edit(Job $job)
     {
+        if ($job->isStarted() || $job->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify a job that is started.');
+        }
+
         $job->load(['jobDetails']);
 
         $billOfMaterials = BillOfMaterial::all();
@@ -80,6 +84,10 @@ class JobController extends Controller
 
     public function update(UpdateJobRequest $request, Job $job)
     {
+        if ($job->isStarted() || $job->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify a job that is started.');
+        }
+
         DB::transaction(function () use ($request, $job) {
             $job->update($request->safe()->except('job'));
 
@@ -94,6 +102,10 @@ class JobController extends Controller
 
     public function destroy(Job $job)
     {
+        if ($job->isStarted() || $job->isApproved()) {
+            return back()->with('failedMessage', 'You can not delete a job that is started.');
+        }
+
         $job->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');

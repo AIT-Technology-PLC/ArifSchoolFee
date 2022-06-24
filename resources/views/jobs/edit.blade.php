@@ -78,21 +78,43 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label for="assigned_to">
-                                Assigned To <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="code">
+                                Issued On <sup class="has-text-danger">*</sup>
                             </x-forms.label>
-                            <x-forms.control class="select is-fullwidth has-icons-left">
-                                <x-common.user-list
-                                    id="assigned_to"
-                                    name="assigned_to"
-                                    key=""
-                                    selected-id="{{ $job->assigned_to }}"
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="datetime-local"
+                                    name="issued_on"
+                                    id="issued_on"
+                                    placeholder="mm/dd/yyyy"
+                                    value="{{ $job->issued_on->toDateTimeLocalString() }}"
                                 />
                                 <x-common.icon
-                                    name="fas fa-user"
+                                    name="fas fa-calendar-alt"
                                     class="is-large is-left"
                                 />
-                                <x-common.validation-error property="assigned_to" />
+                                <x-common.validation-error property="issued_on" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="due_date">
+                                Job Due Date <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="date"
+                                    name="due_date"
+                                    id="due_date"
+                                    placeholder="mm/dd/yyyy"
+                                    value="{{ $job->due_date->toDateTimeLocalString() }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-calendar-alt"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="due_date" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

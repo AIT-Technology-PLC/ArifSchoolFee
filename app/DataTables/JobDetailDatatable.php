@@ -36,7 +36,7 @@ class JobDetailDatatable extends DataTable
         return $jobDetail
             ->newQuery()
             ->select('job_details.*')
-            ->where('job_id', request()->route('job')->id)
+            ->where('job_order_id', request()->route('job')->id)
             ->with([
                 'product',
                 'billOfMaterial:id,name',

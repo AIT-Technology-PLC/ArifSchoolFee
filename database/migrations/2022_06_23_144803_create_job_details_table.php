@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('job_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('job_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('job_order_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('bill_of_material_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('job_id');
+            $table->index('job_order_id');
             $table->index('product_id');
             $table->index('bill_of_material_id');
         });

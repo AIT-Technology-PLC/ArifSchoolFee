@@ -24,13 +24,6 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-user"
-                        :data="$job->assignedTo->name"
-                        label="Assigned To"
-                    />
-                </div>
-                <div class="column is-6">
-                    <x-common.show-data-section
-                        icon="fas fa-user"
                         :data="$job->customer->company_name ?? 'N/A'"
                         label="CUSTOMER"
                     />
@@ -45,8 +38,15 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$job->created_at->toFormattedDateString()"
+                        :data="$job->issued_on->toFormattedDateString()"
                         label="Issued On"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-calendar-day"
+                        :data="$job->due_date->toFormattedDateString()"
+                        label="Job Due Date"
                     />
                 </div>
                 <div class="column is-12">
@@ -103,18 +103,20 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @can('Update Job')
-                    <x-common.dropdown-item>
-                        <x-common.button
-                            tag="button"
-                            mode="button"
-                            @click="$dispatch('open-create-job-extra-modal')"
-                            icon="fas fa-plus"
-                            label="Update Extra Materials"
-                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                        />
-                    </x-common.dropdown-item>
-                @endcan
+                @if ($job->isApproved())
+                    @can('Update Job')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="button"
+                                mode="button"
+                                @click="$dispatch('open-create-job-extra-modal')"
+                                icon="fas fa-plus"
+                                label="Update Extra Materials"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
                 <x-common.dropdown-item>
                     <x-common.button
                         tag="a"

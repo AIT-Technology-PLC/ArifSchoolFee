@@ -14,7 +14,7 @@ class JobExtra extends Model
 
     public function job()
     {
-        return $this->belongsTo(Job::class);
+        return $this->belongsTo(Job::class,'job_order_id');
     }
 
     public function product()
@@ -58,5 +58,27 @@ class JobExtra extends Model
     public function isAdded()
     {
         return $this->status == 'added';
+    }
+
+    public function getByWarehouseAndProduct($warehouse, $product)
+    {
+        return $this
+            ->where('product_id', $product->id)
+            ->where(function ($query) {
+                $query->where('status', 'subtracted')
+                    ->orWhere('status', 'added');
+            })
+            ->whereIn('job_order_id', function ($query) use ($warehouse) {
+                $query->select('id')
+                    ->from('job_orders')
+                    ->where('company_id', userCompany()->id)
+                    ->where('factory_id', $warehouse->id);
+            })
+            ->get()
+            ->load([
+                'job' => function ($query) {
+                    return $query->withoutGlobalScopes([BranchScope::class]);
+                }]
+            );
     }
 }

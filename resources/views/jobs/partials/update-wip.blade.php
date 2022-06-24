@@ -23,7 +23,7 @@
                 @csrf
                 <x-content.main>
                     @foreach ($jobDetails as $jobDetail)
-                        @if (!$jobDetail->isWipCompleted() && !$jobDetail->isAvailableCompleted() && !$jobDetail->isJobDetailCompleted())
+                        @if ($jobDetail->canAddToWip())
                             <div class="columns is-marginless is-multiline">
                                 <div class="column is-4">
                                     <x-forms.field>

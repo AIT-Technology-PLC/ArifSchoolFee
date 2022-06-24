@@ -443,52 +443,6 @@ document.addEventListener("alpine:init", () => {
         })
     );
 
-    Alpine.data("jobMasterDetailForm", ({ job }) => ({
-        jobs: [],
-        errors: {},
-
-        init() {
-            if (job) {
-                this.jobs = job;
-                return;
-            }
-
-            this.add();
-        },
-        setErrors(errors) {
-            this.errors = errors;
-        },
-        getErrors(property) {
-            return this.errors[property];
-        },
-        add() {
-            this.jobs.push({
-                product_id: "",
-                quantity: "",
-                bill_of_material_id: "",
-                type: "",
-            });
-        },
-        remove(index) {
-            if (this.jobs.length === 1) {
-                return;
-            }
-
-            this.jobs.splice(index, 1);
-        },
-        select2(index) {
-            let select2 = initializeSelect2(this.$el);
-
-            this.$nextTick(() => $(select2).trigger("change"));
-
-            select2.on("change", (event) => {
-                this.jobs[index].product_id = event.target.value;
-            });
-
-            this.$watch(`jobs`, () => select2.trigger("change"));
-        },
-    }));
-
     Alpine.data("productDataProvider", (productId, unitPrice = "") => ({
         product: {
             name: "",

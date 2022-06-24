@@ -23,7 +23,7 @@
                 @csrf
                 <x-content.main>
                     @foreach ($jobDetails as $jobDetail)
-                        @if (!$jobDetail->isAvailableCompleted())
+                        @if (!$jobDetail->isCompleted())
                             <div class="columns is-marginless is-multiline">
                                 <div class="column is-3">
                                     <x-forms.field>

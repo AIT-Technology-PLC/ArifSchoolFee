@@ -43,10 +43,35 @@
             @endcan
         </x-content.header>
         <x-content.footer>
-            <x-common.success-message :message="session('deleted') ?? session('imported')" />
-            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
-            <x-datatables.filter filters="'status'">
+            <x-common.success-message :message="session('deleted')" />
+            <x-common.fail-message :message="session('failedMessage')" />
+            <x-datatables.filter filters="'progress', 'status', 'type'">
                 <div class="columns is-marginless is-vcentered">
+                    <div class="column is-3 p-lr-0 pt-0">
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id=""
+                                    name=""
+                                    class="is-size-7-mobile is-fullwidth"
+                                    x-model="filters.progress"
+                                    x-on:change="add('progress')"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                        value=""
+                                    >
+                                        Progress
+                                    </option>
+                                    <option value="all"> All </option>
+                                    @foreach (['Done', 'In Process'] as $progress)
+                                        <option value="{{ str()->lower($progress) }}"> {{ $progress }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-3 p-lr-0 pt-0">
                         <x-forms.field class="has-text-centered">
                             <x-forms.control>
@@ -65,8 +90,33 @@
                                         Statuses
                                     </option>
                                     <option value="all"> All </option>
-                                    @foreach (['Done', 'Work In Process'] as $status)
+                                    @foreach (['Approved', 'Waiting Approval'] as $status)
                                         <option value="{{ str()->lower($status) }}"> {{ $status }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-3 p-lr-0 pt-0">
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id=""
+                                    name=""
+                                    class="is-size-7-mobile is-fullwidth"
+                                    x-model="filters.type"
+                                    x-on:change="add('type')"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                        value=""
+                                    >
+                                        Type
+                                    </option>
+                                    <option value="all"> All </option>
+                                    @foreach (['Internal Job', 'External Job'] as $type)
+                                        <option value="{{ str()->lower($type) }}"> {{ $type }} </option>
                                     @endforeach
                                 </x-forms.select>
                             </x-forms.control>

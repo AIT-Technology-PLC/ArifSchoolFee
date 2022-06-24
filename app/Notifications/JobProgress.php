@@ -23,7 +23,7 @@ class JobProgress extends Notification
     {
         return [
             'icon' => 'fas fa-cogs',
-            'message' => 'Job has been progressed by ' . ucfirst($this->job->updatedBy->name),
+            'message' => 'Job #' . $this->job->code . ' has new progress added by' . ucfirst($this->job->updatedBy->name),
             'endpoint' => '/jobs/' . $this->job->id,
         ];
     }
