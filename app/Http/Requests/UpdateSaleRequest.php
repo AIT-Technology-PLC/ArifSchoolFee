@@ -7,6 +7,7 @@ use App\Rules\UniqueReferenceNum;
 use App\Rules\ValidatePrice;
 use App\Rules\VerifyCashReceivedAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateSaleRequest extends FormRequest
 {
@@ -19,6 +20,7 @@ class UpdateSaleRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('sales', $this->route('sale')->id)],
+            'fs_number' => ['sometimes', Rule::when(!is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'numeric', Rule::unique('sales')],
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'sale.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],

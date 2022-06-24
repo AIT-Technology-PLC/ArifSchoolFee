@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Sale Details')
+@section('title', 'Invoice Details')
 
 @section('content')
     <x-common.content-wrapper>
@@ -12,6 +12,13 @@
                         icon="fas fa-hashtag"
                         :data="$sale->code ?? 'N/A'"
                         label="Invoice No"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-hashtag"
+                        :data="$sale->fs_number ?? 'N/A'"
+                        label="FS No"
                     />
                 </div>
                 <div class="column is-6">

@@ -36,6 +36,28 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    @if (is_null($sale->fs_number))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="fs_number">
+                                    FS N<u>o</u> <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.input
+                                        type="number"
+                                        name="fs_number"
+                                        id="fs_number"
+                                        value="{{ $sale->fs_number }}"
+                                    />
+                                    <x-common.icon
+                                        name="fas fa-hashtag"
+                                        class="is-large is-left"
+                                    />
+                                    <x-common.validation-error property="fs_number" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="customer_id">
