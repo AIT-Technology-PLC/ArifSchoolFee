@@ -65,7 +65,7 @@
                                         Progress
                                     </option>
                                     <option value="all"> All </option>
-                                    @foreach (['Done', 'In Process'] as $progress)
+                                    @foreach (['Done', 'In Process', 'Not Started'] as $progress)
                                         <option value="{{ str()->lower($progress) }}"> {{ $progress }} </option>
                                     @endforeach
                                 </x-forms.select>

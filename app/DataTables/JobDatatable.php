@@ -44,14 +44,16 @@ class JobDatatable extends DataTable
     {
         return $job
             ->newQuery()
-            ->when(request('progress') == 'done', fn($query) => $query->Approved())
-            ->when(request('progress') == 'in process', fn($query) => $query->Approved())
+            ->when(request('progress') == 'done', fn($q) => $q->whereHas('jobDetails', fn($query) => $query->whereColumn('available', 'quantity')))
+            ->when(request('progress') == 'in process', fn($q) => $q->whereHas('jobDetails', fn($query) => $query->whereRaw('job_details.AVAILABLE + job_details.WIP > 0 AND job_details.AVAILABLE <> job_details.QUANTITY')))
+            ->when(request('progress') == 'not started', fn($q) => $q->whereHas('jobDetails', fn($query) => $query->whereRaw('job_details.AVAILABLE + job_details.WIP = 0')))
             ->when(request('status') == 'approved', fn($query) => $query->Approved())
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
             ->when(request('type') == 'internal job', fn($query) => $query->where('is_internal_job', '=', 1))
             ->when(request('type') == 'external job', fn($query) => $query->where('is_internal_job', '=', 0))
             ->select('job_orders.*')
             ->with([
+                'jobDetails',
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'approvedBy:id,name',
