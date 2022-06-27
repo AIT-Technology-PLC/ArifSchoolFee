@@ -118,4 +118,28 @@ const BillOfMaterial = {
             (billOfMaterial) => productId == billOfMaterial.product_id
         );
     },
+    appendBillOfMaterials(
+        select,
+        billOfMaterialId = null,
+        billOfMaterials = null
+    ) {
+        billOfMaterials = billOfMaterials ?? this.billOfMaterials;
+
+        let options = [];
+
+        select.innerHTML = null;
+
+        billOfMaterials.forEach((billOfMaterial) => {
+            options.push(
+                new Option(
+                    billOfMaterial.name,
+                    billOfMaterial.id,
+                    false,
+                    (billOfMaterialId || null) == billOfMaterial.id
+                )
+            );
+        });
+
+        select.add(...options);
+    },
 };

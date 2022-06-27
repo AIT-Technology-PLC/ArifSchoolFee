@@ -13,6 +13,7 @@ Route::prefix('api')
             [Api\ProductController::class, 'getproductsByCategory']);
 
         Route::apiResource('products', Api\ProductController::class)->only('index', 'show');
+        Route::apiResource('bill-of-materials', Api\BillOfMaterialController::class)->only('index');
     });
 
 Route::get('/history/products/{product}/warehouses/{warehouse}',
