@@ -89,6 +89,7 @@ return new class extends Migration
             $table->string('sector')->nullable();
             $table->boolean('enabled');
             $table->string('currency');
+            $table->string('tin')->nullable();
             $table->string('proforma_invoice_prefix')->nullable();
             $table->boolean('is_price_before_vat')->default(1);
             $table->boolean('is_discount_before_vat')->default(1);
@@ -261,10 +262,12 @@ return new class extends Migration
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
+            $table->bigInteger('fs_number')->nullable();
             $table->string('payment_type');
             $table->string('cash_received_type');
             $table->decimal('cash_received', 22);
             $table->dateTime('issued_on')->nullable();
+            $table->dateTime('due_date')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -272,6 +275,7 @@ return new class extends Migration
             $table->index('company_id');
             $table->index('customer_id');
             $table->unique(['company_id', 'warehouse_id', 'code']);
+            $table->unique(['company_id', 'warehouse_id', 'fs_number']);
         });
 
         Schema::create('sale_details', function (Blueprint $table) {

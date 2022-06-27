@@ -36,7 +36,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    @if (is_null($sale->fs_number))
+                    @if (is_null($sale->fs_number ?: null))
                         <div class="column is-6">
                             <x-forms.field>
                                 <x-forms.label for="fs_number">

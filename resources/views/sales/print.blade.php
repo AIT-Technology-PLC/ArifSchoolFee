@@ -79,7 +79,7 @@
                     FS N<u>o</u>
                 </h1>
                 <h1 class="has-text-black is-size-6 pr-2">
-                    {{ $sale->fs_number ?? '-' }}
+                    {{ $sale->fs_number ?: '-' }}
                 </h1>
             </aside>
             <aside

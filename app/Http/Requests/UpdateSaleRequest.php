@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Sale;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Rules\ValidatePrice;
@@ -20,7 +21,7 @@ class UpdateSaleRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('sales', $this->route('sale')->id)],
-            'fs_number' => ['sometimes', Rule::when(!is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'numeric', Rule::unique('sales')],
+            'fs_number' => ['sometimes', Rule::when(!is_null($this->route('sale')->fs_number ?: null), 'prohibited', 'nullable'), 'numeric', Rule::unique(Sale::class)],
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'sale.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],

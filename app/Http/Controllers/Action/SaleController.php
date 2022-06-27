@@ -51,7 +51,7 @@ class SaleController extends Controller
 
         [$isExecuted, $fsNumber] = (new PointOfSaleService)->getFsNumber($sale);
 
-        if ($isExecuted && is_null($sale->fs_number)) {
+        if ($isExecuted && is_null($sale->fs_number ?: null)) {
             $sale->update(['fs_number' => $fsNumber]);
         }
 

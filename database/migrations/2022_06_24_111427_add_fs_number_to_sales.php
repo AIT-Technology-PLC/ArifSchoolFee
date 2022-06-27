@@ -14,7 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('sales', function (Blueprint $table) {
-            $table->string('fs_number')->unique()->nullable()->after('code');
+            $table->bigInteger('fs_number')->nullable()->after('code');
+
+            $table->unique(['company_id', 'warehouse_id', 'fs_number']);
         });
     }
 
