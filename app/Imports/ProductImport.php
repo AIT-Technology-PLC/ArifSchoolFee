@@ -39,8 +39,8 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
 
         $product = new Product([
             'company_id' => userCompany()->id,
-            'created_by' => auth()->id(),
-            'updated_by' => auth()->id(),
+            'created_by' => authUser()->id,
+            'updated_by' => authUser()->id,
             'product_category_id' => $productCategory->id,
             'name' => $row['product_name'],
             'code' => $row['product_code'] ?? '',

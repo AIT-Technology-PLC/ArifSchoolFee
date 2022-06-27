@@ -43,7 +43,7 @@ class GdnController extends Controller
     {
         $sales = Sale::latest('id')->get();
 
-        $warehouses = auth()->user()->getAllowedWarehouses('sales');
+        $warehouses = authUser()->getAllowedWarehouses('sales');
 
         $currentGdnCode = nextReferenceNumber('gdns');
 
@@ -80,7 +80,7 @@ class GdnController extends Controller
     {
         $sales = Sale::latest('code')->get();
 
-        $warehouses = auth()->user()->getAllowedWarehouses('sales');
+        $warehouses = authUser()->getAllowedWarehouses('sales');
 
         $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse']);
 
@@ -119,7 +119,7 @@ class GdnController extends Controller
 
         abort_if($gdn->isSubtracted(), 403);
 
-        abort_if($gdn->isApproved() && !auth()->user()->can('Delete Approved GDN'), 403);
+        abort_if($gdn->isApproved() && !authUser()->can('Delete Approved GDN'), 403);
 
         $gdn->forceDelete();
 

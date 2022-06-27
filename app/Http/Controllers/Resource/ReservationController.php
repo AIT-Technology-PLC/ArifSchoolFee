@@ -49,7 +49,7 @@ class ReservationController extends Controller
 
     public function create()
     {
-        $warehouses = auth()->user()->getAllowedWarehouses('sales');
+        $warehouses = authUser()->getAllowedWarehouses('sales');
 
         $currentReservationCode = nextReferenceNumber('reservations');
 
@@ -82,7 +82,7 @@ class ReservationController extends Controller
 
     public function edit(Reservation $reservation)
     {
-        $warehouses = auth()->user()->getAllowedWarehouses('sales');
+        $warehouses = authUser()->getAllowedWarehouses('sales');
 
         $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse']);
 
@@ -111,7 +111,7 @@ class ReservationController extends Controller
     {
         abort_if(($reservation->isConverted() || $reservation->isReserved()) && !$reservation->isCancelled(), 403);
 
-        abort_if(($reservation->isApproved() || $reservation->isCancelled()) && !auth()->user()->can('Delete Approved Reservation'), 403);
+        abort_if(($reservation->isApproved() || $reservation->isCancelled()) && !authUser()->can('Delete Approved Reservation'), 403);
 
         $reservation->forceDelete();
 

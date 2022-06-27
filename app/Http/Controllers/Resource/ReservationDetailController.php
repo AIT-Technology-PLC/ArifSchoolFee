@@ -20,7 +20,7 @@ class ReservationDetailController extends Controller
             !$reservationDetail->reservation->isCancelled(), 403);
 
         abort_if(($reservationDetail->reservation->isApproved() || $reservationDetail->reservation->isCancelled()) &&
-            !auth()->user()->can('Delete Approved Reservation'), 403);
+            !authUser()->can('Delete Approved Reservation'), 403);
 
         $reservationDetail->forceDelete();
 

@@ -13,7 +13,7 @@ class CategoryList extends Component
     public function __construct()
     {
         $this->categories = Cache::store('array')
-            ->rememberForever(auth()->id() . '_' . 'categoryLists', function () {
+            ->rememberForever(authUser()->id . '_' . 'categoryLists', function () {
                 return ProductCategory::orderBy('name')->get();
             });
     }

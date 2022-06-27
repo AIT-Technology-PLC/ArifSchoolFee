@@ -15,7 +15,7 @@ class ReservedInventoryDatatable extends DataTable
     {
         abort_if(!isFeatureEnabled('Reservation Management'), 403);
 
-        $this->warehouses = auth()->user()->getAllowedWarehouses('read');
+        $this->warehouses = authUser()->getAllowedWarehouses('read');
     }
 
     public function dataTable($query)
@@ -67,7 +67,7 @@ class ReservedInventoryDatatable extends DataTable
             ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
             ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
             ->where('merchandises.reserved', '>', 0)
-            ->whereIn('warehouses.id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
+            ->whereIn('warehouses.id', authUser()->getAllowedWarehouses('read')->pluck('id'))
             ->select([
                 'merchandises.reserved as reserved',
                 'products.id as product_id',

@@ -123,7 +123,7 @@
                             >
                         </figure>
                         <span class="ml-3 has-text-white is-size-7 has-text-weight-medium">
-                            {{ auth()->user()->name }}
+                            {{ authUser()->name }}
                         </span>
                         <span class="icon has-text-white is-size-7">
                             <i class="fas fa-angle-down"></i>
@@ -134,7 +134,7 @@
                         style="left: -68px !important"
                     >
                         <a
-                            href="{{ route('employees.show', auth()->user()->employee->id) }}"
+                            href="{{ route('employees.show', authUser()->employee->id) }}"
                             class="navbar-item text-green"
                         >
                             <span class="icon is-medium">

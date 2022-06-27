@@ -39,7 +39,7 @@ class DamageController extends Controller
     {
         $this->authorize('subtract', $damage);
 
-        [$isExecuted, $message] = $this->damageService->subtract($damage, auth()->user());
+        [$isExecuted, $message] = $this->damageService->subtract($damage, authUser());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

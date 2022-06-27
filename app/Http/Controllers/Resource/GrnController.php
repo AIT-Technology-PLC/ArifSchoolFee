@@ -41,7 +41,7 @@ class GrnController extends Controller
 
     public function create()
     {
-        $warehouses = auth()->user()->getAllowedWarehouses('add');
+        $warehouses = authUser()->getAllowedWarehouses('add');
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
@@ -80,7 +80,7 @@ class GrnController extends Controller
     {
         $grn->load(['grnDetails.product', 'grnDetails.warehouse', 'supplier', 'purchase']);
 
-        $warehouses = auth()->user()->getAllowedWarehouses('add');
+        $warehouses = authUser()->getAllowedWarehouses('add');
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
@@ -112,7 +112,7 @@ class GrnController extends Controller
     {
         abort_if($grn->isAdded(), 403);
 
-        abort_if($grn->isApproved() && !auth()->user()->can('Delete Approved GRN'), 403);
+        abort_if($grn->isApproved() && !authUser()->can('Delete Approved GRN'), 403);
 
         $grn->forceDelete();
 

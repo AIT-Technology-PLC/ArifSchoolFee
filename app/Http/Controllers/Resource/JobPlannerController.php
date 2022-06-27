@@ -18,7 +18,7 @@ class JobPlannerController extends Controller
     {
         $this->authorize('plan', Job::class);
 
-        $warehouses = auth()->user()->getAllowedWarehouses('read');
+        $warehouses = authUser()->getAllowedWarehouses('read');
 
         $billOfMaterials = BillOfMaterial::all();
 

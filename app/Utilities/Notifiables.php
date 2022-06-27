@@ -8,7 +8,7 @@ class Notifiables
 {
     private static function isCreatorValid($creator)
     {
-        if ($creator instanceof User && $creator->isNot(auth()->user())) {
+        if ($creator instanceof User && $creator->isNot(authUser())) {
             return true;
         }
 
@@ -17,7 +17,7 @@ class Notifiables
 
     public static function byNextActionPermission($nextActionPermission, $creator = null)
     {
-        if (auth()->user()->can($nextActionPermission)) {
+        if (authUser()->can($nextActionPermission)) {
             return static::isCreatorValid($creator) ? $creator : [];
         }
 
@@ -26,12 +26,12 @@ class Notifiables
             ->whereHas('employee', function ($query) {
                 return $query
                     ->where('company_id', userCompany()->id)
-                    ->where('id', '<>', auth()->user()->employee->id);
+                    ->where('id', '<>', authUser()->employee->id);
             })
             ->get();
 
-        if ($users->contains('warehouse_id', auth()->user()->warehouse_id)) {
-            $users = $users->where('warehouse_id', auth()->user()->warehouse_id);
+        if ($users->contains('warehouse_id', authUser()->warehouse_id)) {
+            $users = $users->where('warehouse_id', authUser()->warehouse_id);
         }
 
         if (static::isCreatorValid($creator)) {
@@ -43,12 +43,12 @@ class Notifiables
 
     public static function byPermissionAndWarehouse($permission, $warehouseId, $creator = null)
     {
-        if (is_numeric($warehouseId) && $warehouseId == auth()->user()->warehouse_id) {
+        if (is_numeric($warehouseId) && $warehouseId == authUser()->warehouse_id) {
             return static::isCreatorValid($creator) ? $creator : [];
         }
 
         if (is_countable($warehouseId)) {
-            $warehouseId = $warehouseId->filter(fn($id) => $id != auth()->user()->warehouse_id);
+            $warehouseId = $warehouseId->filter(fn($id) => $id != authUser()->warehouse_id);
         }
 
         $users = User::query()
@@ -62,7 +62,7 @@ class Notifiables
                     return $query->where('warehouse_id', $warehouseId);
                 }
             )
-            ->where('id', '<>', auth()->id())
+            ->where('id', '<>', authUser()->id)
             ->get();
 
         if (static::isCreatorValid($creator)) {
@@ -79,7 +79,7 @@ class Notifiables
             ->whereHas('employee', function ($query) {
                 return $query
                     ->where('company_id', userCompany()->id)
-                    ->where('id', '<>', auth()->user()->employee->id);
+                    ->where('id', '<>', authUser()->employee->id);
             })
             ->get();
 

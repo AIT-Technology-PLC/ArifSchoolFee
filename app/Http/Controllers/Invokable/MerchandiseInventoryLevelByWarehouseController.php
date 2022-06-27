@@ -24,7 +24,7 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
         $this->authorize('viewAny', $merchandise);
 
         $onHandMerchandises = Merchandise::with('product.productCategory')
-            ->whereIn('warehouse_id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
+            ->whereIn('warehouse_id', authUser()->getAllowedWarehouses('read')->pluck('id'))
             ->where('warehouse_id', $warehouse->id)
             ->where(function ($query) {
                 $query->where('available', '>', 0)
@@ -33,11 +33,11 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
             ->get();
 
         $outOfStockMerchandises = $this->service
-            ->getOutOfStockMerchandiseProductsQuery($warehouse->id, auth()->user())
+            ->getOutOfStockMerchandiseProductsQuery($warehouse->id, authUser())
             ->with('productCategory')
             ->get();
 
-        $warehouses = auth()->user()->getAllowedWarehouses('read');
+        $warehouses = authUser()->getAllowedWarehouses('read');
 
         $insights = $this->insights($warehouse);
 
@@ -50,9 +50,9 @@ class MerchandiseInventoryLevelByWarehouseController extends Controller
     private function insights($warehouse)
     {
         return [
-            'totalOnHandProducts' => $this->service->getOnHandMerchandiseProductsQuery($warehouse->id, auth()->user())->count(),
-            'totalOutOfStockProducts' => $this->service->getOutOfStockMerchandiseProductsQuery($warehouse->id, auth()->user())->count(),
-            'totalLimitedProducts' => $this->service->getLimitedMerchandiseProductsQuery($warehouse->id, auth()->user())->count(),
+            'totalOnHandProducts' => $this->service->getOnHandMerchandiseProductsQuery($warehouse->id, authUser())->count(),
+            'totalOutOfStockProducts' => $this->service->getOutOfStockMerchandiseProductsQuery($warehouse->id, authUser())->count(),
+            'totalLimitedProducts' => $this->service->getLimitedMerchandiseProductsQuery($warehouse->id, authUser())->count(),
         ];
     }
 }

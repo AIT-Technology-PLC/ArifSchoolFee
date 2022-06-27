@@ -20,7 +20,7 @@ class GdnDetailController extends Controller
 
         abort_if($gdnDetail->gdn->isSubtracted(), 403);
 
-        abort_if($gdnDetail->gdn->isApproved() && !auth()->user()->can('Delete Approved GDN'), 403);
+        abort_if($gdnDetail->gdn->isApproved() && !authUser()->can('Delete Approved GDN'), 403);
 
         $gdnDetail->forceDelete();
 

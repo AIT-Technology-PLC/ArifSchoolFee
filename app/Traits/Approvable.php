@@ -13,7 +13,7 @@ trait Approvable
 
     public function approve()
     {
-        $this->approved_by = auth()->id();
+        $this->approved_by = authUser()->id;
 
         $this->save();
     }

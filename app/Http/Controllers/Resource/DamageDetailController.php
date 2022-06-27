@@ -18,7 +18,7 @@ class DamageDetailController extends Controller
 
         abort_if($damageDetail->damage->isSubtracted(), 403);
 
-        abort_if($damageDetail->damage->isApproved() && !auth()->user()->can('Delete Approved Damage'), 403);
+        abort_if($damageDetail->damage->isApproved() && !authUser()->can('Delete Approved Damage'), 403);
 
         $damageDetail->forceDelete();
 

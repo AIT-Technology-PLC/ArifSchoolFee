@@ -3,13 +3,21 @@
 use App\Models\Feature;
 use App\Models\Limit;
 use App\Models\Pad;
+use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+
+if (!function_exists('authUser')) {
+    function authUser(): User
+    {
+        return auth()->user();
+    }
+}
 
 if (!function_exists('userCompany')) {
     function userCompany()
     {
-        return auth()->user()->employee->company;
+        return authUser()->employee->company;
     }
 }
 
@@ -23,7 +31,7 @@ if (!function_exists('limitReached')) {
 if (!function_exists('isFeatureEnabled')) {
     function isFeatureEnabled(...$featureNames)
     {
-        $enabledFeatures = Cache::store('array')->rememberForever(auth()->id() . '_' . 'enabledFeatures', function () {
+        $enabledFeatures = Cache::store('array')->rememberForever(authUser()->id . '_' . 'enabledFeatures', function () {
             return Feature::getAllEnabledFeaturesOfCompany();
         });
 
@@ -45,7 +53,7 @@ if (!function_exists('nextReferenceNumber')) {
     {
         return DB::table($table)
             ->where('company_id', userCompany()->id)
-            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->where('warehouse_id', authUser()->warehouse_id)
             ->max($column) + 1;
     }
 }
@@ -64,7 +72,7 @@ if (!function_exists('quantity')) {
 if (!function_exists('pads')) {
     function pads($module = null)
     {
-        $pads = Cache::store('array')->rememberForever(auth()->id() . '_' . 'pads', function () {
+        $pads = Cache::store('array')->rememberForever(authUser()->id . '_' . 'pads', function () {
             return Pad::enabled()->get();
         });
 
@@ -75,8 +83,8 @@ if (!function_exists('pads')) {
 if (!function_exists('getPadPermissions')) {
     function getPadPermissions()
     {
-        return Cache::store('array')->rememberForever(auth()->id() . '_' . 'padPermissions', function () {
-            return auth()->user()->padPermissions()->get();
+        return Cache::store('array')->rememberForever(authUser()->id . '_' . 'padPermissions', function () {
+            return authUser()->padPermissions()->get();
         });
     }
 }

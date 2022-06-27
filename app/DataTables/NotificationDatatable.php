@@ -41,7 +41,7 @@ class NotificationDatatable extends DataTable
     {
         return $notification
             ->newQuery()
-            ->whereMorphRelation('notifiable', User::class, 'notifiable_id', auth()->id())
+            ->whereMorphRelation('notifiable', User::class, 'notifiable_id', authUser()->id)
             ->select('notifications.*')
             ->when(request('status') == 'seen', fn($query) => $query->read())
             ->when(request('status') == 'unseen', fn($query) => $query->unread());

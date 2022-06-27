@@ -11,7 +11,7 @@ trait Branchable
     {
         static::creating(function ($model) {
             if (auth()->check()) {
-                $model->warehouse_id = auth()->user()->warehouse_id;
+                $model->warehouse_id = authUser()->warehouse_id;
             }
         });
 
@@ -27,7 +27,7 @@ trait Branchable
 
     public function scopeByBranch($query)
     {
-        return $query->where("{$this->getTable()}.warehouse_id", auth()->user()->warehouse_id);
+        return $query->where("{$this->getTable()}.warehouse_id", authUser()->warehouse_id);
     }
 
     public static function withBranchScope()

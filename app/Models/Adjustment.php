@@ -42,7 +42,7 @@ class Adjustment extends Model
 
     public function adjust()
     {
-        $this->adjusted_by = auth()->id();
+        $this->adjusted_by = authUser()->id;
 
         $this->save();
     }

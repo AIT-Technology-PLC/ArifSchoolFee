@@ -39,7 +39,7 @@ class AdjustmentController extends Controller
 
     public function create()
     {
-        $warehouses = auth()->user()->getAllowedWarehouses('adjustment');
+        $warehouses = authUser()->getAllowedWarehouses('adjustment');
 
         $currentAdjustmentCode = nextReferenceNumber('adjustments');
 
@@ -74,7 +74,7 @@ class AdjustmentController extends Controller
     {
         $adjustment->load(['adjustmentDetails.warehouse', 'adjustmentDetails.product']);
 
-        $warehouses = auth()->user()->getAllowedWarehouses('adjustment');
+        $warehouses = authUser()->getAllowedWarehouses('adjustment');
 
         return view('adjustments.edit', compact('adjustment', 'warehouses'));
     }
@@ -101,7 +101,7 @@ class AdjustmentController extends Controller
     {
         abort_if($adjustment->isAdjusted(), 403);
 
-        abort_if($adjustment->isApproved() && !auth()->user()->can('Delete Approved Adjustment'), 403);
+        abort_if($adjustment->isApproved() && !authUser()->can('Delete Approved Adjustment'), 403);
 
         $adjustment->forceDelete();
 

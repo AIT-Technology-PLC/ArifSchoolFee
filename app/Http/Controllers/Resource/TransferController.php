@@ -45,7 +45,7 @@ class TransferController extends Controller
     {
         $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        $toWarehouses = auth()->user()->getAllowedWarehouses('add');
+        $toWarehouses = authUser()->getAllowedWarehouses('add');
 
         $currentTransferCode = nextReferenceNumber('transfers');
 
@@ -84,7 +84,7 @@ class TransferController extends Controller
 
         $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        $toWarehouses = auth()->user()->getAllowedWarehouses('add');
+        $toWarehouses = authUser()->getAllowedWarehouses('add');
 
         return view('transfers.edit', compact('transfer', 'fromWarehouses', 'toWarehouses'));
     }
@@ -111,7 +111,7 @@ class TransferController extends Controller
     {
         abort_if($transfer->isSubtracted(), 403);
 
-        abort_if($transfer->isApproved() && !auth()->user()->can('Delete Approved Transfer'), 403);
+        abort_if($transfer->isApproved() && !authUser()->can('Delete Approved Transfer'), 403);
 
         $transfer->forceDelete();
 

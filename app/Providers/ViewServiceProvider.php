@@ -25,7 +25,7 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::if('canpad', function ($action, $pad) {
-            return auth()->user()->hasRole('System Manager') ||
+            return authUser()->hasRole('System Manager') ||
             getPadPermissions()->where('pad_id', $pad->id)->where('name', $action)->count();
         });
     }

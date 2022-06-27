@@ -60,7 +60,7 @@ class Sale extends Model
 
     public function cancel()
     {
-        $this->cancelled_by = auth()->id();
+        $this->cancelled_by = authUser()->id;
 
         $this->save();
     }

@@ -97,7 +97,7 @@ class Reservation extends Model
 
     public function convert()
     {
-        $this->converted_by = auth()->id();
+        $this->converted_by = authUser()->id;
 
         $this->save();
     }
@@ -113,7 +113,7 @@ class Reservation extends Model
 
     public function reserve()
     {
-        $this->reserved_by = auth()->id();
+        $this->reserved_by = authUser()->id;
 
         $this->save();
     }
@@ -130,7 +130,7 @@ class Reservation extends Model
     public function cancel()
     {
         if (auth()->check()) {
-            $this->cancelled_by = auth()->id();
+            $this->cancelled_by = authUser()->id;
         }
 
         if (!auth()->check()) {

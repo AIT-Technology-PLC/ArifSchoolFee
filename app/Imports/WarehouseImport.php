@@ -38,18 +38,20 @@ class WarehouseImport implements ToModel, WithHeadingRow, WithValidation, WithCh
 
         $warehouse = new Warehouse([
             'company_id' => userCompany()->id,
-            'created_by' => auth()->id(),
-            'updated_by' => auth()->id(),
+            'created_by' => authUser()->id,
+            'updated_by' => authUser()->id,
             'name' => $row['warehouse_name'],
             'location' => $row['warehouse_location'],
             'is_active' => '1',
-            'is_sales_store' => $row['warehouse_is_sales_store'] == 'Yes' ? '1' : '0',
+            'is_sales_store' => str()->lower($row['warehouse_is_sales_store']) == 'yes' ? '1' : '0',
             'can_be_sold_from' => '1',
             'email' => $row['warehouse_email'] ?? '',
             'phone' => $row['warehouse_phone'] ?? '',
         ]);
 
         $this->activeWarehouses->push($warehouse);
+
+        $this->warehouses->push($warehouse);
 
         return $warehouse;
     }

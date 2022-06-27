@@ -34,7 +34,7 @@ class TransactionController extends Controller
     {
         $this->authorize('subtract', $transaction);
 
-        [$isExecuted, $message] = $this->transactionService->subtract($transaction, auth()->user());
+        [$isExecuted, $message] = $this->transactionService->subtract($transaction, authUser());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
@@ -47,7 +47,7 @@ class TransactionController extends Controller
     {
         $this->authorize('add', $transaction);
 
-        [$isExecuted, $message] = $this->transactionService->add($transaction, auth()->user());
+        [$isExecuted, $message] = $this->transactionService->add($transaction, authUser());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

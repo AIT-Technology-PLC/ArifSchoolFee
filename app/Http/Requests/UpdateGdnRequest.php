@@ -22,7 +22,7 @@ class UpdateGdnRequest extends FormRequest
             'code' => ['required', 'integer', new UniqueReferenceNum('gdns', $this->route('gdn')->id)],
             'gdn' => ['required', 'array'],
             'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('sales')->pluck('id'))],
+            'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'gdn.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
             'gdn.*.quantity' => ['required', 'numeric', 'gt:0'],
             'gdn.*.description' => ['nullable', 'string'],
