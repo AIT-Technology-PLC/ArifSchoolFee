@@ -115,27 +115,6 @@
                     <x-content.header title="Payment Details" />
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline">
-                            <div class="column is-12 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
-                                <x-forms.label for="discount">
-                                    Discount <sup class="has-text-danger"></sup>
-                                </x-forms.label>
-                                <x-forms.field>
-                                    <x-forms.control class="has-icons-left is-expanded">
-                                        <x-forms.input
-                                            id="discount"
-                                            name="discount"
-                                            type="number"
-                                            placeholder="Discount in Percentage"
-                                            value="{{ $sale->discount * 100 ?? '' }}"
-                                        />
-                                        <x-common.icon
-                                            name="fas fa-percent"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="discount" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
                             <div class="column">
                                 <x-forms.field>
                                     <x-forms.label for="payment_type">
