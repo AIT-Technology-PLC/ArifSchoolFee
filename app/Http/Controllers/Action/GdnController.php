@@ -149,7 +149,6 @@ class GdnController extends Controller
         $data = $sheets['master'][0];
         $data['gdn'] = $sheets['detail'];
         $data['code'] = nextReferenceNumber('gdns');
-
         $data['customer_name'] = $this->customers->firstWhere('company_name', $data['customer_name'])->id;
         $data['customer_id'] = $data['customer_name'];
 
