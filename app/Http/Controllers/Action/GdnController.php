@@ -8,7 +8,9 @@ use App\Http\Requests\UploadImportFileRequest;
 use App\Imports\GdnImport;
 use App\Models\Credit;
 use App\Models\Gdn;
+use App\Models\Product;
 use App\Models\Siv;
+use App\Models\Warehouse;
 use App\Notifications\GdnApproved;
 use App\Notifications\GdnPrepared;
 use App\Notifications\GdnSubtracted;
@@ -30,6 +32,10 @@ class GdnController extends Controller
 {
     private $gdnService;
 
+    private $products;
+
+    private $warehouses;
+
     public function __construct(GdnService $gdnService)
     {
         $this->middleware('isFeatureAccessible:Gdn Management');
@@ -39,6 +45,10 @@ class GdnController extends Controller
         $this->middleware('isFeatureAccessible:Siv Management')->only('convertToSiv');
 
         $this->gdnService = $gdnService;
+
+        $this->products = Product::all(['id', 'name']);
+
+        $this->warehouses = Warehouse::all(['id', 'name']);
     }
 
     public function approve(Gdn $gdn, ApproveTransactionAction $action)
@@ -134,6 +144,15 @@ class GdnController extends Controller
         $data = $sheets['master'][0];
         $data['gdn'] = $sheets['detail'];
         $data['code'] = nextReferenceNumber('gdns');
+
+        for ($i = 0; $i < count($data['gdn']); $i++) {
+            $data['gdn'][$i]['warehouse_name'] = $this->warehouses->firstWhere('name', $data['gdn'][$i]['warehouse_name'])->id;
+            $data['gdn'][$i]['product_name'] = $this->products->firstWhere('name', $data['gdn'][$i]['product_name'])->id;
+            $data['gdn'][$i]['warehouse_id'] = $data['gdn'][$i]['warehouse_name'];
+            $data['gdn'][$i]['product_id'] = $data['gdn'][$i]['product_name'];
+            unset($data['gdn'][$i]['warehouse_name']);
+            unset($data['gdn'][$i]['product_name']);
+        }
 
         $validatedData = $this->validatedData($data);
 
