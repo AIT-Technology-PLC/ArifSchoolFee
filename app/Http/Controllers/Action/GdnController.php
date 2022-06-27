@@ -5,39 +5,19 @@ namespace App\Http\Controllers\Action;
 use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImportFileRequest;
-use App\Imports\GdnImport;
 use App\Models\Credit;
-use App\Models\Customer;
 use App\Models\Gdn;
-use App\Models\Product;
 use App\Models\Siv;
-use App\Models\Warehouse;
 use App\Notifications\GdnApproved;
-use App\Notifications\GdnPrepared;
 use App\Notifications\GdnSubtracted;
-use App\Rules\CheckCustomerCreditLimit;
-use App\Rules\MustBelongToCompany;
-use App\Rules\UniqueReferenceNum;
-use App\Rules\ValidatePrice;
-use App\Rules\VerifyCashReceivedAmountIsValid;
 use App\Services\Models\GdnService;
 use App\Utilities\Notifiables;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class GdnController extends Controller
 {
     private $gdnService;
-
-    private $products;
-
-    private $warehouses;
-
-    private $customers;
 
     public function __construct(GdnService $gdnService)
     {
@@ -48,12 +28,6 @@ class GdnController extends Controller
         $this->middleware('isFeatureAccessible:Siv Management')->only('convertToSiv');
 
         $this->gdnService = $gdnService;
-
-        $this->products = Product::all(['id', 'name']);
-
-        $this->warehouses = Warehouse::all(['id', 'name']);
-
-        $this->customers = Customer::all(['id', 'company_name']);
     }
 
     public function approve(Gdn $gdn, ApproveTransactionAction $action)
@@ -143,81 +117,14 @@ class GdnController extends Controller
     {
         $this->authorize('import', Gdn::class);
 
-        ini_set('max_execution_time', '-1');
+        $validatedData = $this->gdnService->importValidatedData($importFileRequest->safe()['file']);
 
-        $sheets = (new GdnImport)->toArray($importFileRequest->safe()['file']);
-        $data = $sheets['master'][0];
-        $data['gdn'] = $sheets['detail'];
-        $data['code'] = nextReferenceNumber('gdns');
-        $data['customer_name'] = $this->customers->firstWhere('company_name', $data['customer_name'])->id;
-        $data['customer_id'] = $data['customer_name'];
+        [$isExecuted, $message, $gdn] = $this->gdnService->import($validatedData);
 
-        for ($i = 0; $i < count($data['gdn']); $i++) {
-            $data['gdn'][$i]['warehouse_name'] = $this->warehouses->firstWhere('name', $data['gdn'][$i]['warehouse_name'])->id;
-            $data['gdn'][$i]['product_name'] = $this->products->firstWhere('name', $data['gdn'][$i]['product_name'])->id;
-            $data['gdn'][$i]['warehouse_id'] = $data['gdn'][$i]['warehouse_name'];
-            $data['gdn'][$i]['product_id'] = $data['gdn'][$i]['product_name'];
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
 
-        $validatedData = $this->validatedData($data);
-
-        $gdn = DB::transaction(function () use ($validatedData) {
-            $gdn = Gdn::create(Arr::except($validatedData, 'gdn'));
-
-            $gdn->gdnDetails()->createMany($validatedData['gdn']);
-
-            Notification::send(Notifiables::byNextActionPermission('Approve GDN'), new GdnPrepared($gdn));
-
-            return $gdn;
-        });
-
         return redirect()->route('gdns.show', $gdn->id);
-    }
-
-    public function validatedData($data)
-    {
-        return Validator::make($data, [
-            'code' => ['required', 'integer', new UniqueReferenceNum('gdns')],
-            'gdn' => ['required', 'array'],
-            'gdn.*.product_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('products')],
-            'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('sales')->pluck('id'))],
-            'gdn.*.unit_price' => ['nullable', 'numeric', new ValidatePrice(['gdn' => $data['gdn']])],
-            'gdn.*.quantity' => ['required', 'numeric', 'gt:0'],
-            'gdn.*.description' => ['nullable', 'string'],
-            'gdn.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
-            'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'), new CheckCustomerCreditLimit($data['discount'],
-                $data['gdn'],
-                $data['payment_type'],
-                $data['cash_received_type'],
-                $data['cash_received']),
-            ],
-            'sale_id' => ['nullable', 'integer', new MustBelongToCompany('sales')],
-            'issued_on' => ['required', 'date'],
-            'payment_type' => ['required', 'string', function ($attribute, $value, $fail) use ($data) {
-                if ($value == 'Credit Payment' && is_null($data['customer_id'])) {
-                    $fail('Creating a credit for delivery order that has no customer is not allowed.');
-                }
-            }],
-
-            'cash_received_type' => ['required', 'string', function ($attribute, $value, $fail) use ($data) {
-                if ($data['payment_type'] == 'Cash Payment' && $value != 'percent') {
-                    $fail('When payment type is "Cash Payment", the type should be "Percent".');
-                }
-            }],
-
-            'description' => ['nullable', 'string'],
-
-            'cash_received' => ['required', 'numeric', 'gte:0', new VerifyCashReceivedAmountIsValid($data['discount'], $data['gdn'], $data['cash_received_type']), function ($attribute, $value, $fail) use ($data) {
-                if ($data['cash_received_type'] == 'percent' && $value > 100) {
-                    $fail('When type is "Percent", the percentage amount must be between 0 and 100.');
-                }
-                if ($data['payment_type'] == 'Cash Payment' && $value != 100) {
-                    $fail('When payment type is "Cash Payment", the percentage amount must be 100.');
-                }
-            }],
-
-            'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
-            'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
-        ])->validated();
     }
 }

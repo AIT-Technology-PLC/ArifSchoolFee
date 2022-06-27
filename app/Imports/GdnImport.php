@@ -2,20 +2,16 @@
 
 namespace App\Imports;
 
-use App\Imports\GdnDetailImport;
-use App\Imports\GdnMasterImport;
 use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class GdnImport implements WithMultipleSheets
+class GdnImport implements ToModel, WithHeadingRow
 {
     use Importable;
 
-    public function sheets(): array
+    public function model(array $row)
     {
-        return [
-            'master' => new GdnMasterImport(),
-            'detail' => new GdnDetailImport(),
-        ];
+        //
     }
 }
