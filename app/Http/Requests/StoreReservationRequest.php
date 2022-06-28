@@ -37,7 +37,7 @@ class StoreReservationRequest extends FormRequest
             'expires_on' => ['required', 'date', 'after_or_equal:issued_on'],
             'payment_type' => ['required', 'string', function ($attribute, $value, $fail) {
                 if ($value == 'Credit Payment' && is_null($this->get('customer_id'))) {
-                    $fail('Creating a credit for delivery order that has no customer is not allowed.');
+                    $fail('Creating a credit for reservation that has no customer is not allowed.');
                 }
             }],
 

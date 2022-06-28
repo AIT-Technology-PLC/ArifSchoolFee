@@ -67,7 +67,7 @@ class BillOfMaterialController extends Controller
 
     public function edit(BillOfMaterial $billOfMaterial)
     {
-        if ($billOfMaterial->jobDetails()->where('available', '>', 0)->exists()) {
+        if ($billOfMaterial->isUsedForProduction()) {
             return back()->with('failedMessage', 'This bill of material was used for production, therefore it is not allowed to be modified.');
         }
 
@@ -78,7 +78,7 @@ class BillOfMaterialController extends Controller
 
     public function update(UpdateBillOfMaterialRequest $request, BillOfMaterial $billOfMaterial)
     {
-        if ($billOfMaterial->jobDetails()->where('available', '>', 0)->exists()) {
+        if ($billOfMaterial->isUsedForProduction()) {
             return redirect()->route('bill-of-materials.show')
                 ->with('failedMessage', 'This bill of material was used for production, therefore it is not allowed to be modified.');
         }
@@ -98,7 +98,7 @@ class BillOfMaterialController extends Controller
 
     public function destroy(BillOfMaterial $billOfMaterial)
     {
-        if ($billOfMaterial->jobDetails()->where('available', '>', 0)->exists()) {
+        if ($billOfMaterial->isUsedForProduction()) {
             return back()->with('failedMessage', 'This bill of material was used for production, therefore it is not allowed to be deleted.');
         }
 

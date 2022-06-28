@@ -48,4 +48,15 @@ class BillOfMaterial extends Model
     {
         return $this->is_active;
     }
+
+    public function isUsedForProduction()
+    {
+        return $this
+            ->jobDetails()
+            ->where(function ($query) {
+                $query->where('wip', '>', 0)
+                    ->orWhere('available', '>', 0);
+            })
+            ->exists();
+    }
 }
