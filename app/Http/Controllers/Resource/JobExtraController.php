@@ -18,12 +18,14 @@ class JobExtraController extends Controller
 
     public function store(StoreJobExtraRequest $request, Job $job)
     {
+        $this->authorize('create', $job);
+
         if (!$job->isApproved()) {
-            return [false, 'This job is not approved yet.', ''];
+            return back()->with('jobExtraFailedMessage', 'This job is not approved yet.');
         }
 
         $job = DB::transaction(function () use ($request, $job) {
-            $job->jobExtras()->createMany($request->safe()['job']);
+            $job->jobExtras()->createMany($request->safe()['jobExtra']);
         });
 
         return back();
@@ -31,24 +33,38 @@ class JobExtraController extends Controller
 
     public function edit(JobExtra $jobExtra)
     {
+        $this->authorize('update', $jobExtra->job);
+
+        if ($jobExtra->isAdded() || $jobExtra->isSubtracted()) {
+            return back()->with('jobExtraFailedMessage', 'Job extra that is subtracted/added can not be modified.');
+        }
+
         return view('job-extras.edit', compact('jobExtra'));
     }
 
     public function update(UpdateJobExtraRequest $request, JobExtra $jobExtra)
     {
+        $this->authorize('update', $jobExtra->job);
+
         if ($jobExtra->isAdded() || $jobExtra->isSubtracted()) {
-            return redirect()->route('jobs.show')->with('jobExtraModified', 'Job extra that is subtracted/added can not be modified.');
+            return redirect()->route('jobs.show')->with('jobExtraFailedMessage', 'Job extra that is subtracted/added can not be modified.');
         }
 
-        $jobExtra->update($request->safe()->except(''));
+        $jobExtra->update($request->validated());
 
         return redirect()->route('jobs.show', $jobExtra->job_order_id);
     }
 
     public function destroy(JobExtra $jobExtra)
     {
+        $this->authorize('delete', $jobExtra->job);
+
+        if ($jobExtra->isAdded() || $jobExtra->isSubtracted()) {
+            return back()->with('jobExtraFailedMessage', 'Job extra that is subtracted/added can not be deleted.');
+        }
+
         $jobExtra->forceDelete();
 
-        return back()->with('jobExtraDeleted', 'Deleted successfully.');
+        return back()->with('jobExtraSuccessMessage', 'Deleted successfully.');
     }
 }

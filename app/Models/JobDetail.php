@@ -28,16 +28,6 @@ class JobDetail extends Model
         return $this->belongsTo(BillOfMaterial::class);
     }
 
-    public function scopeWip($query)
-    {
-        return $query->where('wip', '>', 0);
-    }
-
-    public function scopeAvailable($query)
-    {
-        return $query->where('available', '>', 0);
-    }
-
     public function parentModel()
     {
         return $this->job;
@@ -46,6 +36,11 @@ class JobDetail extends Model
     public function isCompleted()
     {
         return $this->quantity == $this->available;
+    }
+
+    public function isStarted()
+    {
+        return ($this->wip + $this->available) > 0;
     }
 
     public function canAddToWip()

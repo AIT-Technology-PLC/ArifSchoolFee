@@ -24,7 +24,7 @@
                 :amount="$totalNotApproved"
                 border-color="#86843d"
                 text-color="text-gold"
-                label="WAITING APPROVAL"
+                label="Waiting Approval"
             />
         </div>
     </div>
@@ -65,7 +65,7 @@
                                         Progress
                                     </option>
                                     <option value="all"> All </option>
-                                    @foreach (['Done', 'In Process', 'Not Started'] as $progress)
+                                    @foreach (['Completed', 'In Process', 'Not Started'] as $progress)
                                         <option value="{{ str()->lower($progress) }}"> {{ $progress }} </option>
                                     @endforeach
                                 </x-forms.select>
@@ -115,7 +115,7 @@
                                         Type
                                     </option>
                                     <option value="all"> All </option>
-                                    @foreach (['Internal Job', 'External Job'] as $type)
+                                    @foreach (['Inventory Replenishment', 'Customer Order'] as $type)
                                         <option value="{{ str()->lower($type) }}"> {{ $type }} </option>
                                     @endforeach
                                 </x-forms.select>

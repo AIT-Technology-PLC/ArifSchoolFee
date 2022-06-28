@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Edit JobExtra')
+@section('title', 'Edit Job Extra')
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="Edit JobExtra" />
+        <x-content.header title="Edit Job Extra" />
         <form
             id="formOne"
             action="{{ route('job-extras.update', $jobExtra->id) }}"
@@ -70,11 +70,11 @@
                                     >
                                         <option
                                             value="Input"
-                                            {{ $jobExtra->type == 'Input' ? 'selected' : '' }}
+                                            @selected($jobExtra->type == 'Input')
                                         > Input </option>
                                         <option
                                             value="Remaining"
-                                            {{ $jobExtra->type == 'Remaining' ? 'selected' : '' }}
+                                            @selected($jobExtra->type == 'Remaining')
                                         > Remaining </option>
                                     </x-forms.select>
                                     <x-common.icon

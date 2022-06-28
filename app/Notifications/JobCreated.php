@@ -23,7 +23,7 @@ class JobCreated extends Notification
     {
         return [
             'icon' => 'fas fa-cogs',
-            'message' => 'Job has been created by ' . ucfirst($this->job->createdBy->name),
+            'message' => 'New job has been created by ' . ucfirst($this->job->createdBy->name),
             'endpoint' => '/jobs/' . $this->job->id,
         ];
     }

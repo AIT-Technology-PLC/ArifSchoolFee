@@ -12,10 +12,10 @@
     ></div>
     <div class="modal-content p-lr-20">
         <x-common.content-wrapper>
-            <x-content.header title="Update Finished Goods" />
+            <x-content.header title="Finished Goods - New Update" />
             <form
                 id="job-to-available"
-                action="{{ route('jobs.addToAvailable', $job->id) }}"
+                action="{{ route('jobs.add_to_available', $job->id) }}"
                 method="POST"
                 enctype="multipart/form-data"
                 novalidate

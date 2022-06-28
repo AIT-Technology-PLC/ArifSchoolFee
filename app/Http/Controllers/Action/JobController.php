@@ -38,9 +38,9 @@ class JobController extends Controller
 
     public function addToWorkInProcess(UpdateJobWipRequest $request, Job $job)
     {
-        $this->authorize('update', Job::class);
+        $this->authorize('addToWip', Job::class);
 
-        [$isExecuted, $message] = $this->jobService->addToWorkInProcess($request->validated('job'), $job);
+        [$isExecuted, $message] = $this->jobService->addToWorkInProcess($request->validated('job'), $job, auth()->user());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
@@ -53,9 +53,9 @@ class JobController extends Controller
 
     public function addToAvailable(UpdateJobAvailableRequest $request, Job $job)
     {
-        $this->authorize('update', Job::class);
+        $this->authorize('addToAvailable', Job::class);
 
-        [$isExecuted, $message] = $this->jobService->addToAvailable($request->validated('job'), $job);
+        [$isExecuted, $message] = $this->jobService->addToAvailable($request->validated('job'), $job, auth()->user());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

@@ -16,10 +16,10 @@ class StoreJobExtraRequest extends FormRequest
     public function rules()
     {
         return [
-            'job' => ['required', 'array'],
-            'job.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            'job.*.quantity' => ['required', 'numeric', 'gt:0'],
-            'job.*.type' => ['required', 'string', 'max:255', Rule::in(['Input', 'Remaining'])],
+            'jobExtra' => ['required', 'array'],
+            'jobExtra.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'jobExtra.*.quantity' => ['required', 'numeric', 'gt:0'],
+            'jobExtra.*.type' => ['required', 'string', 'max:255', Rule::in(['Input', 'Remaining'])],
         ];
     }
 }

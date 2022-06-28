@@ -44,13 +44,13 @@ class JobDatatable extends DataTable
     {
         return $job
             ->newQuery()
-            ->when(request('progress') == 'done', fn($q) => $q->whereHas('jobDetails', fn($query) => $query->whereColumn('available', 'quantity')))
+            ->when(request('progress') == 'completed', fn($q) => $q->whereHas('jobDetails', fn($query) => $query->whereColumn('available', 'quantity')))
             ->when(request('progress') == 'in process', fn($q) => $q->whereHas('jobDetails', fn($query) => $query->whereRaw('job_details.AVAILABLE + job_details.WIP > 0 AND job_details.AVAILABLE <> job_details.QUANTITY')))
             ->when(request('progress') == 'not started', fn($q) => $q->whereHas('jobDetails', fn($query) => $query->whereRaw('job_details.AVAILABLE + job_details.WIP = 0')))
             ->when(request('status') == 'approved', fn($query) => $query->Approved())
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
-            ->when(request('type') == 'internal job', fn($query) => $query->where('is_internal_job', '=', 1))
-            ->when(request('type') == 'external job', fn($query) => $query->where('is_internal_job', '=', 0))
+            ->when(request('type') == 'inventory replenishment', fn($query) => $query->internal())
+            ->when(request('type') == 'customer order', fn($query) => $query->notInternal())
             ->select('job_orders.*')
             ->with([
                 'jobDetails',
@@ -66,13 +66,13 @@ class JobDatatable extends DataTable
         $columns = [
             Column::computed('#'),
             Column::make('code')->className('has-text-centered')->title('Jobs No'),
-            Column::make('prepared by', 'createdBy.name')->visible(false),
-            Column::make('issued_on'),
-            Column::make('due_date')->visible(false),
             Column::make('status')->orderable(false),
             Column::make('factory', 'factory.name'),
+            Column::make('issued_on'),
+            Column::make('due_date'),
+            Column::make('description')->visible(false),
+            Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
-            Column::make('description'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
         ];

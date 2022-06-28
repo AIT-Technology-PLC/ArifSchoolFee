@@ -14,7 +14,7 @@ class JobExtra extends Model
 
     public function job()
     {
-        return $this->belongsTo(Job::class,'job_order_id');
+        return $this->belongsTo(Job::class, 'job_order_id');
     }
 
     public function product()
@@ -80,5 +80,10 @@ class JobExtra extends Model
                     return $query->withoutGlobalScopes([BranchScope::class]);
                 }]
             );
+    }
+
+    public function isTypeInput()
+    {
+        return $this->type == 'Input';
     }
 }

@@ -22,11 +22,6 @@ class Job extends Model
 
     protected $table = 'job_orders';
 
-    public function assignedTo()
-    {
-        return $this->belongsTo(User::class, 'assigned_to')->withDefault(['name' => 'N/A']);
-    }
-
     public function customer()
     {
         return $this->belongsTo(Customer::class);
@@ -71,5 +66,25 @@ class Job extends Model
     public function isStarted()
     {
         return $this->jobCompletionRate > 0;
+    }
+
+    public function isCompleted()
+    {
+        return $this->jobCompletionRate == 100;
+    }
+
+    public function scopeInternal($query)
+    {
+        return $query->where('is_internal_job', 1);
+    }
+
+    public function scopeNotInternal($query)
+    {
+        return $query->where('is_internal_job', 0);
+    }
+
+    public function isInternal()
+    {
+        return $this->is_internal_job;
     }
 }

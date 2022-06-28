@@ -24,7 +24,7 @@ class JobExtraController extends Controller
         [$isExecuted, $message] = $this->jobService->addExtra($jobExtra, auth()->user());
 
         if (!$isExecuted) {
-            return back()->with('jobExtrafailedMessage', $message);
+            return back()->with('jobExtraFailedMessage', $message);
         }
 
         return back();
@@ -34,14 +34,10 @@ class JobExtraController extends Controller
     {
         $this->authorize('subtractExtra', $jobExtra->job);
 
-        if ($jobExtra->job->jobCompletionRate == 100) {
-            return back()->with('jobExtrafailedMessage', 'Requesting input Extra-Materials for complited job is not allowed.');
-        }
-
         [$isExecuted, $message] = $this->jobService->subtractExtra($jobExtra, auth()->user());
 
         if (!$isExecuted) {
-            return back()->with('jobExtrafailedMessage', $message);
+            return back()->with('jobExtraFailedMessage', $message);
         }
 
         return back();
