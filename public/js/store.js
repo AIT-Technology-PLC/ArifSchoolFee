@@ -125,12 +125,12 @@ const BillOfMaterial = {
     ) {
         billOfMaterials = billOfMaterials ?? this.billOfMaterials;
 
-        let options = [];
-
         select.innerHTML = null;
 
+        select.add(new Option("Select Bill of Material", "", false, ""));
+
         billOfMaterials.forEach((billOfMaterial) => {
-            options.push(
+            select.add(
                 new Option(
                     billOfMaterial.name,
                     billOfMaterial.id,
@@ -139,7 +139,5 @@ const BillOfMaterial = {
                 )
             );
         });
-
-        select.add(...options);
     },
 };

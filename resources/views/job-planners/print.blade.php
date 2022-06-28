@@ -63,14 +63,17 @@
         </section>
         <section class="is-clearfix has-background-white px-6 py-3">
             @foreach ($reportData as $row)
-                <section class="py-3">
-                    <h2 class="is-size-6 is-pl-12"> Product: <strong>{{ $row->first()['product_name'] }}</strong></h2>
-                    <h2 class="is-size-6 is-pl-12"> Quantity: <strong>{{ number_format($row->first()['quantity'], 2) }}</strong></h2>
-                    <h2 class="is-size-6 is-pl-12"> Factory: <strong>{{ $row->first()['factory_name'] }}</strong></h2>
-                    <h2 class="is-size-6 is-pl-12"> Production Capacity: <strong>{{ number_format($row->min('production_capacity'), 2) }}</strong></h2>
+                <section>
+                    <h2 class="is-size-6"> Product: <strong>{{ $row->first()['product_name'] }}</strong></h2>
+                    <h2 class="is-size-6"> Bill Of Material: <strong>{{ $row->first()['bill_of_material'] }}</strong></h2>
+                    <h2 class="is-size-6"> Quantity: <strong>{{ number_format($row->first()['quantity'], 2) }} {{ $row->first()['product_unit_of_measurement'] }}</strong></h2>
+                    <h2 class="is-size-6"> Factory: <strong>{{ $row->first()['factory_name'] }}</strong></h2>
+                    <h2 class="is-size-6"> Production Capacity: <strong>{{ number_format($row->min('production_capacity'), 2) }} {{ $row->first()['product_unit_of_measurement'] }}</strong></h2>
                 </section>
                 <section class="table-breaked">
-                    <h3 class="py-2">Production Capacity Report</h3>
+                    <h3 class="pt-4 has-text-centered has-text-weight-bold is-uppercase is-size-7">
+                        Production Capacity Report
+                    </h3>
                     <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
                         <thead>
                             <tr>
@@ -79,6 +82,7 @@
                                 <th>Available Amount </th>
                                 <th>Required Amount</th>
                                 <th>Difference</th>
+                                <th>Box</th>
                                 <th>Production Capacity </th>
                             </tr>
                         </thead>
@@ -90,12 +94,16 @@
                                     <td class="has-text-right"> {{ number_format($value['available_amount'], 2) }}</td>
                                     <td class="has-text-right"> {{ number_format($value['required_amount'], 2) }}</td>
                                     <td class="{{ $value['difference'] >= 0 ? 'text-green' : 'text-purple' }} has-text-right"> {{ number_format($value['difference'], 2) }}</td>
-                                    <td class="has-text-right"> {{ number_format($value['production_capacity'], 2) }}</td>
+                                    <td> {{ $value['raw_material_unit_of_measurement'] }}</td>
+                                    <td class="has-text-right"> {{ number_format($value['production_capacity'], 2) }} {{ $value['product_unit_of_measurement'] }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </section>
+                @if (!$loop->last)
+                    <hr class="mt-6 mb-3">
+                @endif
             @endforeach
         </section>
     </main>

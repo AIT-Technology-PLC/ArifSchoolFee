@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Resource;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreJobPlannerRequest;
-use App\Models\BillOfMaterial;
 use App\Services\Models\JobPlannerService;
 
 class JobPlannerController extends Controller
@@ -20,9 +19,7 @@ class JobPlannerController extends Controller
 
         $warehouses = authUser()->getAllowedWarehouses('read');
 
-        $billOfMaterials = BillOfMaterial::all();
-
-        return view('job-planner.create', compact('billOfMaterials', 'warehouses'));
+        return view('job-planners.create', compact('warehouses'));
     }
 
     public function store(StoreJobPlannerRequest $request)
@@ -31,6 +28,6 @@ class JobPlannerController extends Controller
 
         $report = JobPlannerService::finalReport($request->jobPlanner)->groupBy('index')->values();
 
-        return back()->with('report', $report);
+        return back()->with('report', $report)->withInput();
     }
 }

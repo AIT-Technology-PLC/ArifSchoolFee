@@ -23,6 +23,6 @@ class JobPlannerController extends Controller
             return collect($data);
         });
 
-        return Pdf::loadView('job-planner.print', compact('reportData'))->stream();
+        return Pdf::loadView('job-planners.print', compact('reportData'))->stream();
     }
 }
