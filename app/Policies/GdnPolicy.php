@@ -55,4 +55,9 @@ class GdnPolicy
     {
         return $user->can('Convert To Credit');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import GDN');
+    }
 }

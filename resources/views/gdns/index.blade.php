@@ -39,6 +39,16 @@
 
     <x-common.content-wrapper>
         <x-content.header title="Delivery Orders">
+            @can('Import GDN')
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-import-modal') "
+                    icon="fas fa-upload"
+                    label="Import Delivery Order"
+                    class="btn-green is-outlined is-small"
+                />
+            @endcan
             @can('Create GDN')
                 <x-common.button
                     tag="a"
@@ -51,7 +61,8 @@
             @endcan
         </x-content.header>
         <x-content.footer>
-            <x-common.success-message :message="session('deleted')" />
+            <x-common.success-message :message="session('deleted') ?? session('imported')" />
+            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
             <x-datatables.filter filters="'branch', 'status'">
                 <div class="columns is-marginless is-vcentered">
                     @if (authUser()->getAllowedWarehouses('transactions')->count() > 1)
@@ -114,6 +125,12 @@
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
+    @can('Import GDN')
+        <x-common.import
+            title="Import Delivery Order"
+            action="{{ route('gdns.import') }}"
+        />
+    @endcan
 @endsection
 
 @push('scripts')

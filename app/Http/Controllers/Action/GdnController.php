@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Action;
 
 use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadImportFileRequest;
 use App\Models\Credit;
 use App\Models\Gdn;
 use App\Models\Siv;
@@ -110,5 +111,20 @@ class GdnController extends Controller
         }
 
         return redirect()->route('credits.show', $gdn->credit->id);
+    }
+
+    public function import(UploadImportFileRequest $importFileRequest)
+    {
+        $this->authorize('import', Gdn::class);
+
+        $validatedData = $this->gdnService->importValidatedData($importFileRequest->safe()['file']);
+
+        [$isExecuted, $message, $gdn] = $this->gdnService->import($validatedData);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        return redirect()->route('gdns.show', $gdn->id);
     }
 }
