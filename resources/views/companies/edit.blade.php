@@ -5,12 +5,8 @@
 @endsection
 
 @section('content')
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                Edit General Settings
-            </h1>
-        </div>
+    <x-common.content-wrapper>
+        <x-content.header title="Edit General Settings" />
         <form
             id="formOne"
             action="{{ route('companies.update', userCompany()->id) }}"
@@ -20,236 +16,209 @@
         >
             @csrf
             @method('PATCH')
-            <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-content.main>
                 <x-common.success-message :message="session('successMessage')" />
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="name"
-                                class="label text-green has-text-weight-normal"
-                            >Name <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input
+                        <x-forms.field>
+                            <x-forms.label for="name">
+                                Name <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     id="name"
                                     type="text"
-                                    class="input"
                                     placeholder="Company Name"
                                     value="{{ $company->name }}"
                                     disabled
+                                />
+                                <x-common.icon
+                                    name="fas fa-building"
+                                    class="is-small is-left"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="currency">
+                                Currency <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="currency"
+                                    name="currency"
                                 >
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-building"></i>
-                                </span>
-                            </div>
-                        </div>
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Currency</option>
+                                    <option
+                                        value="AED"
+                                        {{ $company->currency == 'AED' ? 'selected' : '' }}
+                                    >AED - UAE Dirham</option>
+                                    <option
+                                        value="CHF"
+                                        {{ $company->currency == 'CHF' ? 'selected' : '' }}
+                                    >CHF - Swiss Frank</option>
+                                    <option
+                                        value="CNY"
+                                        {{ $company->currency == 'CNY' ? 'selected' : '' }}
+                                    >CNY - China Yuan</option>
+                                    <option
+                                        value="ETB"
+                                        {{ $company->currency == 'ETB' ? 'selected' : '' }}
+                                    >ETB - Ethiopian Birr</option>
+                                    <option
+                                        value="EUR"
+                                        {{ $company->currency == 'EUR' ? 'selected' : '' }}
+                                    >EUR - Euro Union Countries</option>
+                                    <option
+                                        value="GBP"
+                                        {{ $company->currency == 'GBP' ? 'selected' : '' }}
+                                    >GBP - GB Pound Sterling</option>
+                                    <option
+                                        value="SAR"
+                                        {{ $company->currency == 'SAR' ? 'selected' : '' }}
+                                    >SAR - Saudi Riyal</option>
+                                    <option
+                                        value="USD"
+                                        {{ $company->currency == 'USD' ? 'selected' : '' }}
+                                    >USD - US Dollar</option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-dollar-sign"
+                                    class="is-small is-left"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="currency"
-                                class="label text-green has-text-weight-normal"
-                            > Currency <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select
-                                        id="currency"
-                                        name="currency"
-                                    >
-                                        <option
-                                            selected
-                                            disabled
-                                        >Select Currency</option>
-                                        <option
-                                            value="AED"
-                                            {{ $company->currency == 'AED' ? 'selected' : '' }}
-                                        >AED - UAE Dirham</option>
-                                        <option
-                                            value="CHF"
-                                            {{ $company->currency == 'CHF' ? 'selected' : '' }}
-                                        >CHF - Swiss Frank</option>
-                                        <option
-                                            value="CNY"
-                                            {{ $company->currency == 'CNY' ? 'selected' : '' }}
-                                        >CNY - China Yuan</option>
-                                        <option
-                                            value="ETB"
-                                            {{ $company->currency == 'ETB' ? 'selected' : '' }}
-                                        >ETB - Ethiopian Birr</option>
-                                        <option
-                                            value="EUR"
-                                            {{ $company->currency == 'EUR' ? 'selected' : '' }}
-                                        >EUR - Euro Union Countries</option>
-                                        <option
-                                            value="GBP"
-                                            {{ $company->currency == 'GBP' ? 'selected' : '' }}
-                                        >GBP - GB Pound Sterling</option>
-                                        <option
-                                            value="SAR"
-                                            {{ $company->currency == 'SAR' ? 'selected' : '' }}
-                                        >SAR - Saudi Riyal</option>
-                                        <option
-                                            value="USD"
-                                            {{ $company->currency == 'USD' ? 'selected' : '' }}
-                                        >USD - US Dollar</option>
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-dollar-sign"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="email"
-                                class="label text-green has-text-weight-normal"
-                            >Email <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input
+                        <x-forms.field>
+                            <x-forms.label for="email">
+                                Email <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     id="email"
                                     name="email"
                                     type="text"
-                                    class="input"
                                     placeholder="Email Address"
                                     value="{{ $company->email ?? '' }}"
-                                >
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-at"></i>
-                                </span>
-                                @error('email')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-at"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="email" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="phone"
-                                class="label text-green has-text-weight-normal"
-                            >Phone <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input
+                        <x-forms.field>
+                            <x-forms.label for="phone">
+                                Phone <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     id="phone"
                                     name="phone"
                                     type="text"
-                                    class="input"
                                     placeholder="Phone/Telephone"
                                     value="{{ $company->phone ?? '' }}"
-                                >
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-phone"></i>
-                                </span>
-                                @error('phone')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-phone"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="phone" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="address"
-                                class="label text-green has-text-weight-normal"
-                            >Address <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input
+                        <x-forms.field>
+                            <x-forms.label for="address">
+                                Address <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     id="address"
                                     name="address"
                                     type="text"
-                                    class="input"
                                     placeholder="Address"
                                     value="{{ $company->address ?? '' }}"
-                                >
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </span>
-                                @error('address')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-map-marker-alt"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="address" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="sector"
-                                class="label text-green has-text-weight-normal"
-                            > Business Sector <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select
-                                        id="sector"
-                                        name="sector"
-                                    >
-                                        <option
-                                            selected
-                                            disabled
-                                        >Select Sector</option>
-                                        <option
-                                            value="Manufacturer"
-                                            {{ $company->sector == 'Manufacturer' ? 'selected' : '' }}
-                                        >Manufacturer</option>
-                                        <option
-                                            value="Wholesaler"
-                                            {{ $company->sector == 'Wholesaler' ? 'selected' : '' }}
-                                        >Wholesaler</option>
-                                        <option
-                                            value="Processor"
-                                            {{ $company->sector == 'Processor' ? 'selected' : '' }}
-                                        >Processor</option>
-                                        <option
-                                            value="Retailer"
-                                            {{ $company->sector == 'Retailer' ? 'selected' : '' }}
-                                        >Retailer</option>
-                                        <option value="">None</option>
-                                    </select>
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-city"></i>
-                                </div>
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label for="sector">
+                                Business Sector <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="sector"
+                                    name="sector"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Sector</option>
+                                    <option
+                                        value="Manufacturer"
+                                        {{ $company->sector == 'Manufacturer' ? 'selected' : '' }}
+                                    >Manufacturer</option>
+                                    <option
+                                        value="Wholesaler"
+                                        {{ $company->sector == 'Wholesaler' ? 'selected' : '' }}
+                                    >Wholesaler</option>
+                                    <option
+                                        value="Processor"
+                                        {{ $company->sector == 'Processor' ? 'selected' : '' }}
+                                    >Processor</option>
+                                    <option
+                                        value="Retailer"
+                                        {{ $company->sector == 'Retailer' ? 'selected' : '' }}
+                                    >Retailer</option>
+                                    <option value="">None</option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-city"
+                                    class="is-small is-left"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div
                         class="column is-6"
                         x-data="UploadedFileNameHandler"
                     >
-                        <div class="field">
-                            <label
-                                for="logo"
-                                class="label text-green has-text-weight-normal"
-                            > Logo <sup class="has-text-danger"></sup> </label>
+                        <x-forms.field>
+                            <x-forms.label for="logo">
+                                Logo <sup class="has-text-danger"></sup>
+                            </x-forms.label>
                             <div class="file has-name">
                                 <label class="file-label">
-                                    <input
+                                    <x-forms.input
                                         class="file-input"
                                         type="file"
                                         name="logo"
                                         x-model="file"
                                         x-on:change="getFileName"
-                                    >
+                                    />
                                     <span class="file-cta bg-green has-text-white">
-                                        <span class="file-icon">
-                                            <i class="fas fa-upload"></i>
-                                        </span>
+                                        <x-common.icon
+                                            name="fas fa-upload"
+                                            class="file-icon"
+                                        />
                                         <span class="file-label">
                                             Upload Logo
                                         </span>
@@ -261,45 +230,36 @@
                                     </span>
                                 </label>
                             </div>
-                        </div>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="proforma_invoice_prefix"
-                                class="label text-green has-text-weight-normal"
-                            >Proforma Invoice Prefix <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input
+                        <x-forms.field>
+                            <x-forms.label for="proforma_invoice_prefix">
+                                Proforma Invoice Prefix <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     id="proforma_invoice_prefix"
                                     name="proforma_invoice_prefix"
                                     type="text"
-                                    class="input"
                                     placeholder="eg. AB/21"
                                     value="{{ $company->proforma_invoice_prefix ?? '' }}"
-                                >
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-font"></i>
-                                </span>
-                                @error('proforma_invoice_prefix')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-font"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="proforma_invoice_prefix" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="is_price_before_vat"
-                                class="label text-green has-text-weight-normal"
-                            > Unit Price Method <sup class="has-text-danger">*</sup> </label>
-                            <div class="control">
-                                <label class="radio has-text-grey has-text-weight-normal">
+                        <x-forms.field>
+                            <x-forms.label for="is_price_before_vat">
+                                Unit Price Method <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <x-forms.label class="radio">
                                     <input
                                         type="radio"
                                         name="is_price_before_vat"
@@ -308,8 +268,8 @@
                                         {{ $company->is_price_before_vat ? 'checked' : '' }}
                                     >
                                     Before VAT
-                                </label>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                </x-forms.label>
+                                <x-forms.label class="radio ml-0">
                                     <input
                                         type="radio"
                                         name="is_price_before_vat"
@@ -317,26 +277,18 @@
                                         {{ $company->is_price_before_vat ? '' : 'checked' }}
                                     >
                                     After VAT
-                                </label>
-                                @error('is_price_before_vat')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                </x-forms.label>
+                                <x-common.validation-error property="is_price_before_vat" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="is_discount_before_vat"
-                                class="label text-green has-text-weight-normal"
-                            > Discount Method <sup class="has-text-danger">*</sup> </label>
-                            <div class="control">
-                                <label class="radio has-text-grey has-text-weight-normal">
+                        <x-forms.field>
+                            <x-forms.label for="is_discount_before_vat">
+                                Discount Method <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <x-forms.label class="radio">
                                     <input
                                         type="radio"
                                         name="is_discount_before_vat"
@@ -345,9 +297,8 @@
                                         {{ $company->is_discount_before_vat ? 'checked' : '' }}
                                     >
                                     Before VAT & Per Product
-                                </label>
-                                <br>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                </x-forms.label>
+                                <x-forms.label class="radio ml-0">
                                     <input
                                         type="radio"
                                         name="is_discount_before_vat"
@@ -355,26 +306,18 @@
                                         {{ $company->is_discount_before_vat ? '' : 'checked' }}
                                     >
                                     After Grand Total Price
-                                </label>
-                                @error('is_discount_before_vat')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                </x-forms.label>
+                                <x-common.validation-error property="is_discount_before_vat" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="is_convert_to_siv_as_approved"
-                                class="label text-green has-text-weight-normal"
-                            > Convert to SIV as <sup class="has-text-danger">*</sup> </label>
-                            <div class="control">
-                                <label class="radio has-text-grey has-text-weight-normal">
+                        <x-forms.field>
+                            <x-forms.label for="is_convert_to_siv_as_approved">
+                                Convert to SIV as <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <x-forms.label class="radio">
                                     <input
                                         type="radio"
                                         name="is_convert_to_siv_as_approved"
@@ -383,9 +326,8 @@
                                         {{ $company->is_convert_to_siv_as_approved ? 'checked' : '' }}
                                     >
                                     Approved
-                                </label>
-                                <br>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                </x-forms.label>
+                                <x-forms.label class="radio ml-0">
                                     <input
                                         type="radio"
                                         name="is_convert_to_siv_as_approved"
@@ -393,26 +335,18 @@
                                         {{ $company->is_convert_to_siv_as_approved ? '' : 'checked' }}
                                     >
                                     Not approved
-                                </label>
-                                @error('is_convert_to_siv_as_approved')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                </x-forms.label>
+                                <x-common.validation-error property="is_convert_to_siv_as_approved" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="can_show_branch_detail_on_print"
-                                class="label text-green has-text-weight-normal"
-                            > Can Show Branch Detail On Print <sup class="has-text-danger">*</sup> </label>
-                            <div class="control">
-                                <label class="radio has-text-grey has-text-weight-normal">
+                        <x-forms.field>
+                            <x-forms.label for="can_show_branch_detail_on_print">
+                                Can Show Branch Detail On Print <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <x-forms.label class="radio">
                                     <input
                                         type="radio"
                                         name="can_show_branch_detail_on_print"
@@ -421,9 +355,8 @@
                                         {{ $company->can_show_branch_detail_on_print ? 'checked' : '' }}
                                     >
                                     Yes
-                                </label>
-                                <br>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                </x-forms.label>
+                                <x-forms.label class="radio ml-0">
                                     <input
                                         type="radio"
                                         name="can_show_branch_detail_on_print"
@@ -431,23 +364,16 @@
                                         {{ $company->can_show_branch_detail_on_print ? '' : 'checked' }}
                                     >
                                     No
-                                </label>
-                                @error('can_show_branch_detail_on_print')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                </x-forms.label>
+                                <x-common.validation-error property="can_show_branch_detail_on_print" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                 </div>
-            </div>
-            <div class="box radius-top-0">
+            </x-content.main>
+            <x-content.footer>
                 <x-common.save-button />
-            </div>
+            </x-content.footer>
         </form>
-    </section>
+    </x-common.content-wrapper>
 @endsection

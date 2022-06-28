@@ -96,9 +96,9 @@
                     @endif
                 </div>
             </x-content.main>
-            <div class="box radius-top-0">
+            <x-content.footer>
                 <x-common.save-button />
-            </div>
+            </x-content.footer>
         </form>
     </x-common.content-wrapper>
 @endsection
