@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->string('tin')->nullable()->after('currency');
+            $table->string('tin')->unique()->nullable()->after('currency');
         });
     }
 

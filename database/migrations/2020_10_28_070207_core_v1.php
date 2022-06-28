@@ -89,7 +89,7 @@ return new class extends Migration
             $table->string('sector')->nullable();
             $table->boolean('enabled');
             $table->string('currency');
-            $table->string('tin')->nullable();
+            $table->string('tin')->unique()->nullable();
             $table->string('proforma_invoice_prefix')->nullable();
             $table->boolean('is_price_before_vat')->default(1);
             $table->boolean('is_discount_before_vat')->default(1);

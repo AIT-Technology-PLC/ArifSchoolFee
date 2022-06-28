@@ -17,7 +17,7 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-hashtag"
-                        :data="$sale->fs_number ?: 'N/A'"
+                        :data="$sale->fs_number ?? 'N/A'"
                         label="FS No"
                     />
                 </div>
