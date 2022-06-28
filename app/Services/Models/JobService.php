@@ -9,10 +9,14 @@ use Illuminate\Support\Facades\DB;
 
 class JobService
 {
-    public function addToWorkInProcess($data, $job)
+    public function addToWorkInProcess($data, $job, $user)
     {
         if (!$job->isApproved()) {
             return [false, 'This job is not approved yet.', ''];
+        }
+
+        if (!$user->hasWarehousePermission('subtract', $job->factory_id)) {
+            return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
         }
 
         DB::transaction(function () use ($data, $job) {
@@ -74,10 +78,14 @@ class JobService
         return [true, ''];
     }
 
-    public function addToAvailable($data, $job)
+    public function addToAvailable($data, $job, $user)
     {
         if (!$job->isApproved()) {
             return [false, 'This job is not approved yet.', ''];
+        }
+
+        if (!$user->hasWarehousePermission('add', $job->factory_id)) {
+            return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
 
         DB::transaction(function () use ($data, $job) {
@@ -191,6 +199,10 @@ class JobService
     {
         if (!$user->hasWarehousePermission('subtract', $jobExtra->job->factory_id)) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
+        }
+
+        if ($jobExtra->job->isCompleted()) {
+            return [false, 'Requesting extra materials for completed jobs is not allowed.'];
         }
 
         if ($jobExtra->isSubtracted()) {

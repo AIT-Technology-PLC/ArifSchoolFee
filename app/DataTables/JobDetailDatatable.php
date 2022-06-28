@@ -18,7 +18,7 @@ class JobDetailDatatable extends DataTable
             ->editColumn('product', fn($jobDetail) => $jobDetail->product->name)
             ->editColumn('bill Of Material', fn($jobDetail) => $jobDetail->billOfMaterial->name)
             ->editColumn('status', fn($jobDetail) => view('components.datatables.job-detail-status', compact('jobDetail')))
-            ->editColumn('work In Process', fn($jobDetail) => $jobDetail->wip)
+            ->editColumn('Work In Process', fn($jobDetail) => $jobDetail->wip)
             ->editColumn('available', fn($jobDetail) => $jobDetail->available)
             ->editColumn('quantity', fn($jobDetail) => $jobDetail->quantity)
             ->editColumn('actions', function ($jobDetail) {
@@ -51,7 +51,7 @@ class JobDetailDatatable extends DataTable
             Column::make('bill Of Material', 'billOfMaterial.name'),
             Column::make('status')->orderable(false),
             Column::make('quantity'),
-            Column::make('work In Process'),
+            Column::make('Work In Process'),
             Column::make('available')->title('Finished Goods'),
             Column::computed('actions'),
         ];

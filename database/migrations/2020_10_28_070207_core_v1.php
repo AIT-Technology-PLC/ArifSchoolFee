@@ -992,9 +992,9 @@ return new class extends Migration
         Schema::drop('prices');
         Schema::drop('bill_of_material_details');
         Schema::drop('bill_of_materials');
-        Schema::drop('job_orders');
         Schema::drop('job_details');
         Schema::drop('job_extras');
+        Schema::drop('job_orders');
         Schema::drop('company_integration');
         Schema::drop('integrations');
     }

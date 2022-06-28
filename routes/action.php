@@ -228,20 +228,20 @@ Route::post('/jobs/{job}/approve',
     [Action\JobController::class, 'approve'])
     ->name('jobs.approve');
 
-Route::post('/jobs/{job}/addToWip',
+Route::post('/jobs/{job}/add-to-wip',
     [Action\JobController::class, 'addToWorkInProcess'])
-    ->name('jobs.addToWip');
+    ->name('jobs.add_to_wip');
 
-Route::post('/jobs/{job}/addToAvailable',
+Route::post('/jobs/{job}/add-to-available',
     [Action\JobController::class, 'addToAvailable'])
-    ->name('jobs.addToAvailable');
+    ->name('jobs.add_to_available');
 
 // JobExtra
-Route::post('/job-extras/{jobExtra}/add',
+Route::post('/job-extras/{job_extra}/add',
     [Action\JobExtraController::class, 'add'])
     ->name('job-extras.add');
 
-Route::post('/job-extras/{jobExtra}/subtract',
+Route::post('/job-extras/{job_extra}/subtract',
     [Action\JobExtraController::class, 'subtract'])
     ->name('job-extras.subtract');
 

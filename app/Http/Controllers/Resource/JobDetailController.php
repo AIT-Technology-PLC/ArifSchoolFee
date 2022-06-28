@@ -16,6 +16,10 @@ class JobDetailController extends Controller
     {
         $this->authorize('delete', $jobDetail->job);
 
+        if ($jobDetail->isStarted() || $jobDetail->job->isApproved()) {
+            return back()->with('failedMessage', 'You can not delete a job that is started or approved.');
+        }
+
         $jobDetail->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');

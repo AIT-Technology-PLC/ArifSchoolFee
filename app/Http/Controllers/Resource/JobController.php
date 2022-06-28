@@ -7,7 +7,6 @@ use App\DataTables\JobDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
-use App\Models\BillOfMaterial;
 use App\Models\Job;
 use App\Notifications\JobCreated;
 use App\Utilities\Notifiables;
@@ -38,11 +37,11 @@ class JobController extends Controller
 
     public function create()
     {
+        $warehouses = auth()->user()->getAllowedWarehouses('sales');
+
         $currentJobCode = nextReferenceNumber('job_orders');
 
-        $billOfMaterials = BillOfMaterial::all();
-
-        return view('jobs.create', compact('currentJobCode', 'billOfMaterials'));
+        return view('jobs.create', compact('warehouses', 'currentJobCode'));
     }
 
     public function store(StoreJobRequest $request)
@@ -52,7 +51,7 @@ class JobController extends Controller
 
             $job->jobDetails()->createMany($request->safe()['job']);
 
-            Notification::send(Notifiables::byNextActionPermission('Read Job'), new JobCreated($job));
+            Notification::send(Notifiables::byNextActionPermission('Approve Job'), new JobCreated($job));
 
             return $job;
         });
@@ -71,21 +70,21 @@ class JobController extends Controller
 
     public function edit(Job $job)
     {
+        $warehouses = auth()->user()->getAllowedWarehouses('sales');
+
         if ($job->isStarted() || $job->isApproved()) {
-            return back()->with('failedMessage', 'You can not modify a job that is started.');
+            return back()->with('failedMessage', 'You can not modify a job that is started or approved.');
         }
 
         $job->load(['jobDetails']);
 
-        $billOfMaterials = BillOfMaterial::all();
-
-        return view('jobs.edit', compact('job', 'billOfMaterials'));
+        return view('jobs.edit', compact('job', 'warehouses'));
     }
 
     public function update(UpdateJobRequest $request, Job $job)
     {
         if ($job->isStarted() || $job->isApproved()) {
-            return back()->with('failedMessage', 'You can not modify a job that is started.');
+            return back()->with('failedMessage', 'You can not modify a job that is started or approved.');
         }
 
         DB::transaction(function () use ($request, $job) {
@@ -103,7 +102,7 @@ class JobController extends Controller
     public function destroy(Job $job)
     {
         if ($job->isStarted() || $job->isApproved()) {
-            return back()->with('failedMessage', 'You can not delete a job that is started.');
+            return back()->with('failedMessage', 'You can not delete a job that is started or approved.');
         }
 
         $job->forceDelete();

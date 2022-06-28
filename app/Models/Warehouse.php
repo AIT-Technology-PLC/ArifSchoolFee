@@ -96,6 +96,11 @@ class Warehouse extends Model
         return $this->hasMany(Transfer::class, 'transferred_from');
     }
 
+    public function toTransfers()
+    {
+        return $this->hasMany(Transfer::class, 'transferred_to');
+    }
+
     public function jobs()
     {
         return $this->hasMany(Job::class);

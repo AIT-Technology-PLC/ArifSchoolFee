@@ -2,7 +2,6 @@
     x-data="jobMasterDetailForm({{ Js::from($data) }})"
     x-init="$store.errors.setErrors({{ Js::from($errors->get('job.*')) }})"
 >
-    <x-common.fail-message :message="session('failedMessage')" />
     <template
         x-for="(job, index) in jobs"
         x-bind:key="index"
@@ -32,7 +31,7 @@
             </x-forms.field>
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-12">
+                    <div class="column is-6">
                         <x-forms.label x-bind:for="`job[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
                         </x-forms.label>
@@ -95,35 +94,32 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="product.unit_of_measurement"
+                                    x-text="Product.unitOfMeasurement(job.product_id)"
                                 />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label x-bind:for="`job[${index}][type]`">
-                                Type <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left ">
+                        <x-forms.label x-bind:for="`job[${index}][bill_of_material_id]`">
+                            Bill Of Material <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.select
                                     class="is-fullwidth"
-                                    x-bind:id="`job[${index}][type]`"
-                                    x-bind:name="`job[${index}][type]`"
-                                    x-model="job.type"
+                                    x-bind:id="`job[${index}][bill_of_material_id]`"
+                                    x-bind:name="`job[${index}][bill_of_material_id]`"
+                                    x-model="job.bill_of_material_id"
                                 >
-                                    @if ($job->jobCompletionRate != 100)
-                                        <option value="Input">Input</option>
-                                    @endif
-                                    <option value="Remaining"> Remaining </option>
+                                    <option> </option>
                                 </x-forms.select>
                                 <x-common.icon
-                                    name="fas fa-sort"
+                                    name="fas fa-th"
                                     class="is-small is-left"
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`job.${index}.type`)"
+                                    x-text="$store.errors.getErrors(`job.${index}.bill_of_material_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>

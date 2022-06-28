@@ -14,7 +14,7 @@
         >
             @csrf
             @method('PATCH')
-            <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-content.main>
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <x-forms.field>
@@ -33,6 +33,34 @@
                                     class="is-large is-left"
                                 />
                                 <x-common.validation-error property="code" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="is_internal_job">
+                                Type <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="is_internal_job"
+                                    name="is_internal_job"
+                                >
+                                    <option
+                                        value="0"
+                                        @selected($job->is_internal_job == 0)
+                                    >Customer Order</option>
+                                    <option
+                                        value="1"
+                                        @selected($job->is_internal_job == 1)
+                                    >Inventory Replenishment</option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="is_internal_job" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
@@ -62,12 +90,22 @@
                                 Factory <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="select is-fullwidth has-icons-left">
-                                <x-common.warehouse-list
+                                <x-forms.select
+                                    class="is-fullwidth"
                                     id="factory_id"
                                     name="factory_id"
-                                    key=""
-                                    selected-id="{{ $job->factory_id }}"
-                                />
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Factory</option>
+                                    @foreach ($warehouses as $warehouse)
+                                        <option
+                                            value="{{ $warehouse->id }}"
+                                            {{ $job->factory_id == $warehouse->id ? 'selected' : '' }}
+                                        >{{ $warehouse->name }}</option>
+                                    @endforeach
+                                </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-warehouse"
                                     class="is-large is-left"
@@ -100,11 +138,11 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="due_date">
-                                Job Due Date <sup class="has-text-danger">*</sup>
+                                Due Date <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    type="date"
+                                    type="datetime-local"
                                     name="due_date"
                                     id="due_date"
                                     placeholder="mm/dd/yyyy"
@@ -118,67 +156,28 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="description"
-                                class="label text-green has-text-weight-normal"
-                            >Description <sup class="has-text-danger"></sup></label>
-                            <div class="control has-icons-left">
-                                <textarea
+                    <div class="column is-12">
+                        <x-forms.field>
+                            <x-forms.label for="description">
+                                Description <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.textarea
                                     name="description"
                                     id="description"
-                                    cols="30"
-                                    rows="3"
-                                    class="textarea pl-6"
+                                    class="summernote textarea"
                                     placeholder="Description or note to be taken"
-                                >{{ $job->description }}</textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                @error('description')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="is_internal_job">
-                                Internal Job <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control>
-                                <label class="radio has-text-grey has-text-weight-normal">
-                                    <input
-                                        type="radio"
-                                        name="is_internal_job"
-                                        value="1"
-                                        class="mt-3"
-                                        @checked($job->is_internal_job)
-                                    >
-                                    Yes
-                                </label>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
-                                    <input
-                                        type="radio"
-                                        name="is_internal_job"
-                                        value="0"
-                                        @checked(!$job->is_internal_job)
-                                    >
-                                    No
-                                </label>
-                                <x-common.validation-error property="is_active" />
+                                >{{ $job->description }}
+                                </x-forms.textarea>
+                                <x-common.validation-error property="description" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                 </div>
-            </div>
-            @include('jobs.details-form', ['data' => ['job' => $job->jobDetails]])
+            </x-content.main>
+
+            @include('jobs.partials.details-form', ['data' => ['job' => $job->jobDetails]])
+
             <x-content.footer>
                 <x-common.save-button />
             </x-content.footer>

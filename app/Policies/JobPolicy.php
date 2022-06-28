@@ -54,4 +54,14 @@ class JobPolicy
     {
         return $user->can('Plan Job');
     }
+
+    public function addToWip(User $user)
+    {
+        return $user->can('Update Wip Job');
+    }
+
+    public function addToAvailable(User $user)
+    {
+        return $user->can('Update Available Job');
+    }
 }
