@@ -64,11 +64,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div
-                        class="column is-6"
-                        x-data="productDataProvider(jobExtra.product_id)"
-                        x-init="getProduct(jobExtra.product_id) && $watch(`jobExtra.product_id`, (value) => getProduct(value))"
-                    >
+                    <div class="column is-6">
                         <x-forms.label x-bind:for="`jobExtra[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
                         </x-forms.label>

@@ -11,12 +11,12 @@ class JobService
 {
     public function addToWorkInProcess($data, $job, $user)
     {
-        if (!$job->isApproved()) {
-            return [false, 'This job is not approved yet.', ''];
-        }
-
         if (!$user->hasWarehousePermission('subtract', $job->factory_id)) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
+        }
+
+        if (!$job->isApproved()) {
+            return [false, 'This job is not approved yet.', ''];
         }
 
         DB::transaction(function () use ($data, $job) {
@@ -80,12 +80,12 @@ class JobService
 
     public function addToAvailable($data, $job, $user)
     {
-        if (!$job->isApproved()) {
-            return [false, 'This job is not approved yet.', ''];
-        }
-
         if (!$user->hasWarehousePermission('add', $job->factory_id)) {
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
+        }
+
+        if (!$job->isApproved()) {
+            return [false, 'This job is not approved yet.', ''];
         }
 
         DB::transaction(function () use ($data, $job) {
