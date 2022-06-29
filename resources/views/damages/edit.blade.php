@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-    Edit Damage
-@endsection
+@section('title', 'Edit Damage')
 
 @section('content')
     <x-common.content-wrapper>
@@ -80,157 +78,10 @@
                         </x-forms.field>
                     </div>
                 </div>
-                @foreach ($damage->damageDetails as $damageDetail)
-                    <div class="has-text-weight-medium has-text-left mt-5">
-                        <span class="tag bg-green has-text-white is-medium radius-bottom-0">
-                            Item {{ $loop->index + 1 }}
-                        </span>
-                    </div>
-                    <div
-                        x-data="productDataProvider({{ $damageDetail->product_id }})"
-                        class="box has-background-white-bis radius-top-0"
-                    >
-                        <div
-                            name="damageFormGroup"
-                            class="columns is-marginless is-multiline"
-                        >
-                            <div class="column is-6">
-                                <x-forms.label for="damage[{{ $loop->index }}][product_id]">
-                                    Product <sup class="has-text-danger">*</sup>
-                                </x-forms.label>
-                                <x-forms.field class="has-addons">
-                                    <x-forms.control
-                                        class="has-icons-left"
-                                        style="width: 30%"
-                                    >
-                                        <x-common.category-list
-                                            x-model="selectedCategory"
-                                            x-on:change="getProductsByCategory"
-                                        />
-                                    </x-forms.control>
-                                    <x-forms.control class="has-icons-left is-expanded">
-                                        <x-common.product-list
-                                            tags="false"
-                                            name="damage[{{ $loop->index }}]"
-                                            selected-product-id="{{ $damageDetail->product_id }}"
-                                            x-init="select2"
-                                        />
-                                        <x-common.icon
-                                            name="fas fa-th"
-                                            class="is-small is-left"
-                                        />
-                                        @error('damage.0.product_id')
-                                            <span
-                                                class="help has-text-danger"
-                                                role="alert"
-                                            >
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="damage[{{ $loop->index }}][warehouse_id]">
-                                        From <sup class="has-text-danger">*</sup>
-                                    </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.select
-                                            class="is-fullwidth"
-                                            id="damage[{{ $loop->index }}][warehouse_id]"
-                                            name="damage[{{ $loop->index }}][warehouse_id]"
-                                        >
-                                            @foreach ($warehouses as $warehouse)
-                                                <option
-                                                    value="{{ $warehouse->id }}"
-                                                    {{ $damageDetail->warehouse_id == $warehouse->id ? 'selected' : '' }}
-                                                >{{ $warehouse->name }}</option>
-                                            @endforeach
-                                        </x-forms.select>
-                                        <x-common.icon
-                                            name="fas fa-warehouse"
-                                            class="is-small is-left"
-                                        />
-                                        @error('damage.0.warehouse_id')
-                                            <span
-                                                class="help has-text-danger"
-                                                role="alert"
-                                            >
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.label for="damage[{{ $loop->index }}][quantity]">
-                                    Quantity <sup class="has-text-danger">*</sup>
-                                </x-forms.label>
-                                <x-forms.field class="has-addons">
-                                    <x-forms.control class="has-icons-left is-expanded">
-                                        <x-forms.input
-                                            id="damage[{{ $loop->index }}][quantity]"
-                                            name="damage[{{ $loop->index }}][quantity]"
-                                            type="number"
-                                            placeholder="Quantity"
-                                            value="{{ $damageDetail->quantity }}"
-                                        />
-                                        <x-common.icon
-                                            name="fas fa-balance-scale"
-                                            class="is-small is-left"
-                                        />
-                                        @error('damage.0.quantity')
-                                            <span
-                                                class="help has-text-danger"
-                                                role="alert"
-                                            >
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </x-forms.control>
-                                    <x-forms.control>
-                                        <x-common.button
-                                            tag="button"
-                                            id="damage[{{ $loop->index }}][product_id]Quantity"
-                                            class="button bg-green has-text-white"
-                                            type="button"
-                                            x-text="product.unit_of_measurement"
-                                        ></x-common.button>
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="damage[{{ $loop->index }}][description]">
-                                        Additional Notes <sup class="has-text-danger"></sup>
-                                    </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.textarea
-                                            name="damage[{{ $loop->index }}][description]"
-                                            id="damage[{{ $loop->index }}][description]"
-                                            class="textarea pl-6"
-                                            placeholder="Description or note to be taken"
-                                        >{{ $damageDetail->description ?? '' }}</x-forms.textarea>
-                                        <x-common.icon
-                                            name="fas fa-edit"
-                                            class="is-large is-left"
-                                        />
-                                        @error('damage.0.description')
-                                            <span
-                                                class="help has-text-danger"
-                                                role="alert"
-                                            >
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
             </x-content.main>
+
+            @include('damages.partials.details-form', ['data' => ['damage' => old('damage') ?? $damage->damageDetails]])
+
             <x-content.footer>
                 <x-common.save-button />
             </x-content.footer>

@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-    Create New Product Category
-@endsection
+@section('title', 'Create New Product Category')
 
 @section('content')
     <x-common.content-wrapper>

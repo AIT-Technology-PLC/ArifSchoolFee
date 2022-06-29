@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-    Edit Product Category
-@endsection
+@section('title', 'Edit Product Category')
 
 @section('content')
     <x-common.content-wrapper>

@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-    Create New Customer
-@endsection
+@section('title', 'Create New Customer')
 
 @section('content')
     <x-common.content-wrapper>
