@@ -47,8 +47,7 @@ class DeployRoutine extends Command
 
             $this->newLine();
 
-            $this->info(exec('git fetch https://' . $githubData . '@github.com/onrica/smartwork.git'));
-            $this->info(exec('git merge origin/main'));
+            $this->info(exec('git pull https://' . $githubData . '@github.com/onrica/smartwork.git main'));
 
             $this->newLine();
         }

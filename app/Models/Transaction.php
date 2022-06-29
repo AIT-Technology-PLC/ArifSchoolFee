@@ -58,7 +58,7 @@ class Transaction extends Model
     {
         $this->transactionFields()->create([
             'key' => 'approved_by',
-            'value' => auth()->id(),
+            'value' => authUser()->id,
         ]);
     }
 
@@ -66,7 +66,7 @@ class Transaction extends Model
     {
         $this->transactionFields()->create([
             'key' => 'subtracted_by',
-            'value' => auth()->id(),
+            'value' => authUser()->id,
         ]);
     }
 
@@ -74,7 +74,7 @@ class Transaction extends Model
     {
         $this->transactionFields()->create([
             'key' => 'added_by',
-            'value' => auth()->id(),
+            'value' => authUser()->id,
         ]);
     }
 
@@ -82,7 +82,7 @@ class Transaction extends Model
     {
         $this->transactionFields()->create([
             'key' => 'closed_by',
-            'value' => auth()->id(),
+            'value' => authUser()->id,
         ]);
     }
 
@@ -90,7 +90,7 @@ class Transaction extends Model
     {
         $this->transactionFields()->create([
             'key' => 'cancelled_by',
-            'value' => auth()->id(),
+            'value' => authUser()->id,
         ]);
     }
 

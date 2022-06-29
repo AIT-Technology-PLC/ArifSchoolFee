@@ -52,7 +52,7 @@
 </head>
 
 <body>
-    <x-print.header :warehouse="auth()->user()->warehouse" />
+    <x-print.header :warehouse="authUser()->warehouse" />
 
     <main>
         <hr class="my-0">

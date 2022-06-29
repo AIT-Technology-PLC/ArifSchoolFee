@@ -14,7 +14,7 @@ class OutOfStockInventoryDatatable extends DataTable
 
     public function __construct()
     {
-        $this->warehouses = auth()->user()->getAllowedWarehouses('read');
+        $this->warehouses = authUser()->getAllowedWarehouses('read');
 
         $this->service = new MerchandiseProductService;
     }
@@ -52,12 +52,12 @@ class OutOfStockInventoryDatatable extends DataTable
 
     public function query()
     {
-        if (auth()->user()->getAllowedWarehouses('read')->isEmpty()) {
+        if (authUser()->getAllowedWarehouses('read')->isEmpty()) {
             return collect();
         }
 
         $outOfStockProducts = $this->service
-            ->getOutOfStockMerchandiseProductsQuery(user:auth()->user())->with('productCategory')
+            ->getOutOfStockMerchandiseProductsQuery(user:authUser())->with('productCategory')
             ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
             ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
             ->get();

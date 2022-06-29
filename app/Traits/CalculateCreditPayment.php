@@ -4,6 +4,11 @@ namespace App\Traits;
 
 trait CalculateCreditPayment
 {
+    public function isPaymentInCash()
+    {
+        return $this->payment_type == 'Cash Payment';
+    }
+
     public function getCreditPayableInPercentageAttribute()
     {
         return 100.00 - $this->cash_received_in_percentage;

@@ -49,7 +49,7 @@ class ReturnController extends Controller
     {
         $this->authorize('add', $return);
 
-        [$isExecuted, $message] = $returnService->add($return, auth()->user());
+        [$isExecuted, $message] = $returnService->add($return, authUser());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

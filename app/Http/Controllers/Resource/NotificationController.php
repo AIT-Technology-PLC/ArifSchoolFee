@@ -17,9 +17,9 @@ class NotificationController extends Controller
     {
         $datatable->builder()->setTableId('notifications-datatable');
 
-        $totalNotifications = auth()->user()->notifications()->count();
+        $totalNotifications = authUser()->notifications()->count();
 
-        $totalUnreadNotifications = auth()->user()->unreadNotifications()->count();
+        $totalUnreadNotifications = authUser()->unreadNotifications()->count();
 
         $totalReadNotifications = $totalNotifications - $totalUnreadNotifications;
 
@@ -28,7 +28,7 @@ class NotificationController extends Controller
 
     public function show(Notification $notification)
     {
-        abort_if($notification->notifiable_id != auth()->id(), 403);
+        abort_if($notification->notifiable_id != authUser()->id, 403);
 
         if ($notification->unread()) {
             $notification->markAsRead();
@@ -39,7 +39,7 @@ class NotificationController extends Controller
 
     public function update(Notification $notification)
     {
-        abort_if($notification->notifiable_id != auth()->id(), 403);
+        abort_if($notification->notifiable_id != authUser()->id, 403);
 
         $notification->unread() ? $notification->markAsRead() : '';
 
@@ -48,7 +48,7 @@ class NotificationController extends Controller
 
     public function destroy(Notification $notification)
     {
-        abort_if($notification->notifiable_id != auth()->id(), 403);
+        abort_if($notification->notifiable_id != authUser()->id, 403);
 
         $notification->forceDelete();
 

@@ -12,7 +12,7 @@ class NewProductList extends Component
 
     public function __construct()
     {
-        $this->products = Cache::store('array')->rememberForever(auth()->id() . '_' . 'newProductLists', function () {
+        $this->products = Cache::store('array')->rememberForever(authUser()->id . '_' . 'newProductLists', function () {
             return Product::select(['id', 'product_category_id', 'name', 'code'])
                 ->with('productCategory:id,name')
                 ->orderBy('name')

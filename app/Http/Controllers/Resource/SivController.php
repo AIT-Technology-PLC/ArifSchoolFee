@@ -37,7 +37,7 @@ class SivController extends Controller
 
     public function create()
     {
-        $warehouses = auth()->user()->getAllowedWarehouses('siv');
+        $warehouses = authUser()->getAllowedWarehouses('siv');
 
         $currentSivCode = nextReferenceNumber('sivs');
 
@@ -72,7 +72,7 @@ class SivController extends Controller
     {
         $siv->load(['sivDetails.product', 'sivDetails.warehouse']);
 
-        $warehouses = auth()->user()->getAllowedWarehouses('siv');
+        $warehouses = authUser()->getAllowedWarehouses('siv');
 
         return view('sivs.edit', compact('siv', 'warehouses'));
     }
@@ -99,7 +99,7 @@ class SivController extends Controller
     public function destroy(Siv $siv)
     {
         abort_if(
-            $siv->isApproved() && auth()->user()->cannot('Delete Approved SIV'),
+            $siv->isApproved() && authUser()->cannot('Delete Approved SIV'),
             403
         );
 

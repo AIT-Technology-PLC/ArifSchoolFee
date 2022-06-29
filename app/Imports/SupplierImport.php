@@ -29,8 +29,8 @@ class SupplierImport implements ToModel, WithHeadingRow, WithValidation, WithChu
 
         return new Supplier([
             'company_id' => userCompany()->id,
-            'created_by' => auth()->id(),
-            'updated_by' => auth()->id(),
+            'created_by' => authUser()->id,
+            'updated_by' => authUser()->id,
             'company_name' => $row['company_name'],
             'tin' => $row['tin'] ?? '',
             'address' => $row['address'] ?? '',

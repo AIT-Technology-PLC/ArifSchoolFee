@@ -64,7 +64,7 @@ class Purchase extends Model
 
     public function purchase()
     {
-        $this->purchased_by = auth()->id();
+        $this->purchased_by = authUser()->id;
 
         $this->save();
     }

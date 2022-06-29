@@ -12,7 +12,7 @@ class SupplierList extends Component
 
     public function __construct($selectedId, $id = 'supplier_id', $name = 'supplier_id', $value = 'id')
     {
-        $this->suppliers = Cache::store('array')->rememberForever(auth()->id() . '_' . 'supplierLists', function () {
+        $this->suppliers = Cache::store('array')->rememberForever(authUser()->id . '_' . 'supplierLists', function () {
             return Supplier::orderBy('company_name')->get(['id', 'company_name']);
         });
 

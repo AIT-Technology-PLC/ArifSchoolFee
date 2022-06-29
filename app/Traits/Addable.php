@@ -11,7 +11,7 @@ trait Addable
 
     public function add()
     {
-        $this->added_by = auth()->id();
+        $this->added_by = authUser()->id;
 
         $this->save();
     }

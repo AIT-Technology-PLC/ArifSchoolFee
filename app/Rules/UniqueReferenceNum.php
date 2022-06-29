@@ -21,7 +21,7 @@ class UniqueReferenceNum implements Rule
         $this->value = round($value);
 
         return DB::table($this->tableName)
-            ->where('warehouse_id', auth()->user()->warehouse_id)
+            ->where('warehouse_id', authUser()->warehouse_id)
             ->where('company_id', userCompany()->id)
             ->where('code', $value)
             ->when(is_numeric($this->excludedId), fn($q) => $q->where('id', '<>', $this->excludedId))

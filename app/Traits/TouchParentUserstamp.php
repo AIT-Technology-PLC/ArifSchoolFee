@@ -10,7 +10,7 @@ trait TouchParentUserstamp
             if (auth()->check()) {
                 $parentModel = $model->parentModel();
 
-                $parentModel->updated_by = auth()->id();
+                $parentModel->updated_by = authUser()->id;
 
                 $parentModel->save();
             }

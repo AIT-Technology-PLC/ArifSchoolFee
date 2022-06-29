@@ -39,7 +39,7 @@ class ReturnController extends Controller
 
     public function create()
     {
-        $warehouses = auth()->user()->getAllowedWarehouses('add');
+        $warehouses = authUser()->getAllowedWarehouses('add');
 
         $currentReturnCode = nextReferenceNumber('returns');
 
@@ -72,7 +72,7 @@ class ReturnController extends Controller
 
     public function edit(Returnn $return)
     {
-        $warehouses = auth()->user()->getAllowedWarehouses('add');
+        $warehouses = authUser()->getAllowedWarehouses('add');
 
         $return->load(['returnDetails.product', 'returnDetails.warehouse']);
 
@@ -101,7 +101,7 @@ class ReturnController extends Controller
     {
         abort_if($return->isAdded(), 403);
 
-        abort_if($return->isApproved() && !auth()->user()->can('Delete Approved Return'), 403);
+        abort_if($return->isApproved() && !authUser()->can('Delete Approved Return'), 403);
 
         $return->forceDelete();
 

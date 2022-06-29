@@ -19,7 +19,7 @@ class ProductPerWarehouseHistoryController extends Controller
     {
         $this->authorize('viewAny', Merchandise::class);
 
-        abort_if(!auth()->user()->hasWarehousePermission('read', $warehouse), 403);
+        abort_if(!authUser()->hasWarehousePermission('read', $warehouse), 403);
 
         $datatable->builder()->setTableId('product-per-warehouse-datatable');
 

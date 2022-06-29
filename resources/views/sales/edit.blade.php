@@ -36,6 +36,28 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    @if (is_null($sale->fs_number))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="fs_number">
+                                    FS N<u>o</u> <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.input
+                                        type="number"
+                                        name="fs_number"
+                                        id="fs_number"
+                                        value="{{ $sale->fs_number }}"
+                                    />
+                                    <x-common.icon
+                                        name="fas fa-hashtag"
+                                        class="is-large is-left"
+                                    />
+                                    <x-common.validation-error property="fs_number" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="customer_id">
@@ -93,27 +115,6 @@
                     <x-content.header title="Payment Details" />
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline">
-                            <div class="column is-12 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
-                                <x-forms.label for="discount">
-                                    Discount <sup class="has-text-danger"></sup>
-                                </x-forms.label>
-                                <x-forms.field>
-                                    <x-forms.control class="has-icons-left is-expanded">
-                                        <x-forms.input
-                                            id="discount"
-                                            name="discount"
-                                            type="number"
-                                            placeholder="Discount in Percentage"
-                                            value="{{ $sale->discount * 100 ?? '' }}"
-                                        />
-                                        <x-common.icon
-                                            name="fas fa-percent"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="discount" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
                             <div class="column">
                                 <x-forms.field>
                                     <x-forms.label for="payment_type">

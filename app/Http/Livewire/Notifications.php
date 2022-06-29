@@ -10,14 +10,14 @@ class Notifications extends Component
 
     public function mount()
     {
-        $this->readNotifications = auth()->user()->readNotifications()->take(5)->get();
+        $this->readNotifications = authUser()->readNotifications()->take(5)->get();
 
-        $this->unreadNotifications = auth()->user()->unreadNotifications;
+        $this->unreadNotifications = authUser()->unreadNotifications;
     }
 
     public function getLatestUnreadNotifications()
     {
-        $this->unreadNotifications = auth()->user()->unreadNotifications;
+        $this->unreadNotifications = authUser()->unreadNotifications;
 
         $this->emit("notificationComponentRefreshed", $this->unreadNotifications->count());
     }

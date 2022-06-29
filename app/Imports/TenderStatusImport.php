@@ -29,8 +29,8 @@ class TenderStatusImport implements ToModel, WithHeadingRow, WithValidation, Wit
 
         return new TenderStatus([
             'company_id' => userCompany()->id,
-            'created_by' => auth()->id(),
-            'updated_by' => auth()->id(),
+            'created_by' => authUser()->id,
+            'updated_by' => authUser()->id,
             'status' => $row['status'],
         ]);
     }

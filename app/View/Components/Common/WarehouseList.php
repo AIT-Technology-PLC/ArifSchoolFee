@@ -12,7 +12,7 @@ class WarehouseList extends Component
 
     public function __construct($selectedId, $id = 'warehouse_id', $name = 'warehouse_id', $value = 'id')
     {
-        $this->warehouses = Cache::store('array')->rememberForever(auth()->id() . '_' . 'warehouseLists', function () {
+        $this->warehouses = Cache::store('array')->rememberForever(authUser()->id . '_' . 'warehouseLists', function () {
             return Warehouse::orderBy('name')->get(['id', 'name']);
         });
 

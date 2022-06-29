@@ -47,6 +47,35 @@
                     <div class="column is-6">
                         <div class="field">
                             <label
+                                for="tin"
+                                class="label text-green has-text-weight-normal"
+                            >TIN <sup class="has-text-danger"></sup> </label>
+                            <div class="control has-icons-left">
+                                <input
+                                    id="tin"
+                                    name="tin"
+                                    type="number"
+                                    class="input"
+                                    placeholder="Tin No"
+                                    value="{{ $company->tin ?? '' }}"
+                                >
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-hashtag"></i>
+                                </span>
+                                @error('tin')
+                                    <span
+                                        class="help has-text-danger"
+                                        role="alert"
+                                    >
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="field">
+                            <label
                                 for="currency"
                                 class="label text-green has-text-weight-normal"
                             > Currency <sup class="has-text-danger">*</sup> </label>

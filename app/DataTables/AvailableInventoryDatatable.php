@@ -14,7 +14,7 @@ class AvailableInventoryDatatable extends DataTable
 
     public function __construct()
     {
-        $this->warehouses = auth()->user()->getAllowedWarehouses('read');
+        $this->warehouses = authUser()->getAllowedWarehouses('read');
     }
 
     public function dataTable($query)
@@ -61,7 +61,7 @@ class AvailableInventoryDatatable extends DataTable
 
     public function query()
     {
-        $limitedProducts = (new MerchandiseProductService)->getLimitedMerchandiseProductsQuery(user:auth()->user())->pluck('id');
+        $limitedProducts = (new MerchandiseProductService)->getLimitedMerchandiseProductsQuery(user:authUser())->pluck('id');
 
         $availableMerchandises = DB::table('merchandises')
             ->join('products', 'merchandises.product_id', '=', 'products.id')
@@ -73,7 +73,7 @@ class AvailableInventoryDatatable extends DataTable
             ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
             ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
             ->where('merchandises.available', '>', 0)
-            ->whereIn('warehouses.id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
+            ->whereIn('warehouses.id', authUser()->getAllowedWarehouses('read')->pluck('id'))
             ->select([
                 'merchandises.available as available',
                 'products.id as product_id',

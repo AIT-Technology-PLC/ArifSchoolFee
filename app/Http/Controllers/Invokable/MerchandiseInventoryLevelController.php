@@ -25,7 +25,7 @@ class MerchandiseInventoryLevelController extends Controller
 
         $insights = $this->insights();
 
-        $warehouses = auth()->user()->getAllowedWarehouses('read');
+        $warehouses = authUser()->getAllowedWarehouses('read');
 
         $datatable = InventoryDatatableFactory::make($type);
 
@@ -37,9 +37,9 @@ class MerchandiseInventoryLevelController extends Controller
     private function insights()
     {
         return [
-            'totalOnHandProducts' => $this->service->getOnHandMerchandiseProductsQuery(user:auth()->user())->count(),
-            'totalOutOfStockProducts' => $this->service->getOutOfStockMerchandiseProductsQuery(user:auth()->user())->count(),
-            'totalLimitedProducts' => $this->service->getLimitedMerchandiseProductsQuery(user:auth()->user())->count(),
+            'totalOnHandProducts' => $this->service->getOnHandMerchandiseProductsQuery(user:authUser())->count(),
+            'totalOutOfStockProducts' => $this->service->getOutOfStockMerchandiseProductsQuery(user:authUser())->count(),
+            'totalLimitedProducts' => $this->service->getLimitedMerchandiseProductsQuery(user:authUser())->count(),
             'totalWarehousesInUse' => (new Warehouse)->getWarehousesInUseQuery()->count(),
         ];
     }

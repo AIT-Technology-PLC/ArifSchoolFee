@@ -12,7 +12,7 @@ class UserList extends Component
 
     public function __construct($selectedId, $id = 'user_id', $name = 'user_id', $value = 'id')
     {
-        $this->users = Cache::store('array')->rememberForever(auth()->id() . '_' . 'userLists', function () {
+        $this->users = Cache::store('array')->rememberForever(authUser()->id . '_' . 'userLists', function () {
             return User::query()
                 ->whereRelation('employee', 'company_id', '=', userCompany()->id)
                 ->orderBy('name')

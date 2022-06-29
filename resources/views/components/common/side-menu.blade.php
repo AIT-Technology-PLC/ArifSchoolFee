@@ -12,10 +12,10 @@
                 </div>
                 <div class="column is-paddingless">
                     <div class="has-text-weight-bold has-text-black is-capitalized is-size-7">
-                        {{ auth()->user()->name }}
+                        {{ authUser()->name }}
                     </div>
                     <div class="has-text-grey is-size-7 is-capitalized">
-                        {{ auth()->user()->employee->position ?? 'Job: Not Assigned' }}
+                        {{ authUser()->employee->position ?? 'Job: Not Assigned' }}
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                 <x-common.button
                     tag="a"
                     mode="button"
-                    href="{{ route('employees.show', auth()->user()->employee->id) }}"
+                    href="{{ route('employees.show', authUser()->employee->id) }}"
                     icon="fas fa-address-card"
                     label="My Profile"
                     class="bg-green has-text-white is-small"

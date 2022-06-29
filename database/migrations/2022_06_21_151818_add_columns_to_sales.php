@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::table('sales', function (Blueprint $table) {
             $table->string('cash_received_type')->after('payment_type');
             $table->decimal('cash_received', 22)->after('cash_received_type');
+            $table->dateTime('due_date')->nullable()->after('sold_on');
 
             $table->renameColumn('sold_on', 'issued_on');
             $table->dropColumn('discount');
@@ -40,7 +41,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('sales', function (Blueprint $table) {
-            $table->dropColumn(['cash_received_type', 'cash_received']);
+            $table->dropColumn(['cash_received_type', 'cash_received', 'due_date']);
 
             $table->renameColumn('issued_on', 'sold_on');
             $table->decimal('discount', 22)->nullable();

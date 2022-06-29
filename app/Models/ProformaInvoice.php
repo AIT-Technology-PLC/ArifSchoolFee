@@ -91,7 +91,7 @@ class ProformaInvoice extends Model
 
     public function convert()
     {
-        $this->converted_by = auth()->id();
+        $this->converted_by = authUser()->id;
 
         $this->is_pending = 0;
 

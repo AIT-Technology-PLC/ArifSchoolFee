@@ -23,7 +23,7 @@ class StoreTransferRequest extends FormRequest
             'transfer.*.quantity' => ['required', 'numeric', 'gt:0'],
             'transfer.*.description' => ['nullable', 'string'],
             'transferred_from' => ['required', 'integer', new MustBelongToCompany('warehouses')],
-            'transferred_to' => ['required', 'integer', 'different:transferred_from', Rule::in(auth()->user()->getAllowedWarehouses('add')->pluck('id'))],
+            'transferred_to' => ['required', 'integer', 'different:transferred_from', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];

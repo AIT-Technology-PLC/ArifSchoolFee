@@ -154,7 +154,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @if (auth()->id() != $employee->user->id && !$employee->user->hasRole('System Manager'))
+                            @if (authUser()->id != $employee->user->id && !$employee->user->hasRole('System Manager'))
                                 <div class="column is-6">
                                     <div class="field">
                                         <label
@@ -194,7 +194,7 @@
                                     </div>
                                 </div>
                             @endif
-                            @if (auth()->id() != $employee->user->id && !$employee->user->hasRole('System Manager'))
+                            @if (authUser()->id != $employee->user->id && !$employee->user->hasRole('System Manager'))
                                 <div class="column is-6">
                                     <div class="field">
                                         <label

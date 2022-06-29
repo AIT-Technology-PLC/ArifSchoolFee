@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Sale;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Rules\ValidatePrice;
 use App\Rules\VerifyCashReceivedAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateSaleRequest extends FormRequest
 {
@@ -19,6 +21,7 @@ class UpdateSaleRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('sales', $this->route('sale')->id)],
+            'fs_number' => ['sometimes', Rule::when(!is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'numeric', Rule::notIn(Sale::pluck('fs_number'))],
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'sale.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
@@ -36,7 +39,7 @@ class UpdateSaleRequest extends FormRequest
 
             'description' => ['nullable', 'string'],
 
-            'cash_received' => ['required', 'numeric', 'gte:0', new VerifyCashReceivedAmountIsValid($this->get('discount'), $this->get('sale'), $this->get('cash_received_type')), function ($attribute, $value, $fail) {
+            'cash_received' => ['required', 'numeric', 'gte:0', new VerifyCashReceivedAmountIsValid(0, $this->get('sale'), $this->get('cash_received_type')), function ($attribute, $value, $fail) {
                 if ($this->get('cash_received_type') == 'percent' && $value > 100) {
                     $fail('When type is "Percent", the percentage amount must be between 0 and 100.');
                 }
@@ -44,6 +47,8 @@ class UpdateSaleRequest extends FormRequest
                     $fail('When payment type is "Cash Payment", the percentage amount must be 100.');
                 }
             }],
+
+            'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
         ];
     }
 }

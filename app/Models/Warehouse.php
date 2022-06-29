@@ -119,7 +119,7 @@ class Warehouse extends Model
     public function getWarehousesInUseQuery()
     {
         return $this
-            ->whereIn('id', auth()->user()->getAllowedWarehouses('read')->pluck('id'))
+            ->whereIn('id', authUser()->getAllowedWarehouses('read')->pluck('id'))
             ->whereHas('merchandises', function ($query) {
                 $query->where(function ($query) {
                     $query->where('available', '>', 0)

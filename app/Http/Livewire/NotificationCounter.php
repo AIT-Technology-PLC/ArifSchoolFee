@@ -16,8 +16,8 @@ class NotificationCounter extends Component
     public function mount()
     {
         $this->totalUnreadNotifications = Cache::store('array')
-            ->rememberForever(auth()->id() . '_' . 'totalUnreadNotifications', function () {
-                return auth()->user()->unreadNotifications()->count();
+            ->rememberForever(authUser()->id . '_' . 'totalUnreadNotifications', function () {
+                return authUser()->unreadNotifications()->count();
             });
     }
 

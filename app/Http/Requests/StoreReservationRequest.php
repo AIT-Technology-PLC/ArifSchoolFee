@@ -23,7 +23,7 @@ class StoreReservationRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('reservations')],
             'reservation' => ['required', 'array'],
             'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
-            'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('sales')->pluck('id'))],
+            'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'reservation.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
             'reservation.*.quantity' => ['required', 'numeric', 'gt:0'],
             'reservation.*.description' => ['nullable', 'string'],
@@ -37,7 +37,7 @@ class StoreReservationRequest extends FormRequest
             'expires_on' => ['required', 'date', 'after_or_equal:issued_on'],
             'payment_type' => ['required', 'string', function ($attribute, $value, $fail) {
                 if ($value == 'Credit Payment' && is_null($this->get('customer_id'))) {
-                    $fail('Creating a credit for delivery order that has no customer is not allowed.');
+                    $fail('Creating a credit for reservation that has no customer is not allowed.');
                 }
             }],
 

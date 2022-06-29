@@ -39,7 +39,7 @@ class DamageController extends Controller
 
     public function create()
     {
-        $warehouses = auth()->user()->getAllowedWarehouses('subtract');
+        $warehouses = authUser()->getAllowedWarehouses('subtract');
 
         $currentDamageCode = nextReferenceNumber('damages');
 
@@ -70,7 +70,7 @@ class DamageController extends Controller
 
     public function edit(Damage $damage)
     {
-        $warehouses = auth()->user()->getAllowedWarehouses('subtract');
+        $warehouses = authUser()->getAllowedWarehouses('subtract');
 
         $damage->load(['damageDetails.product', 'damageDetails.warehouse']);
 
@@ -99,7 +99,7 @@ class DamageController extends Controller
     {
         abort_if($damage->isSubtracted(), 403);
 
-        abort_if($damage->isApproved() && !auth()->user()->can('Delete Approved Damage'), 403);
+        abort_if($damage->isApproved() && !authUser()->can('Delete Approved Damage'), 403);
 
         $damage->forceDelete();
 

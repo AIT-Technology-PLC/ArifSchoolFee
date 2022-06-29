@@ -23,7 +23,7 @@ class PasswordResetController extends Controller
 
     public function update(Request $request)
     {
-        $user = auth()->user();
+        $user = authUser();
 
         $request->validate([
             'password' => ['required', 'string', 'min:8', 'confirmed'],

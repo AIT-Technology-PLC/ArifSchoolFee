@@ -42,7 +42,7 @@ class GrnController extends Controller
     {
         $this->authorize('add', $grn);
 
-        [$isExecuted, $message] = $this->grnService->add($grn, auth()->user());
+        [$isExecuted, $message] = $this->grnService->add($grn, authUser());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

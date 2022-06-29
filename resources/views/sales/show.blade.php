@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Sale Details')
+@section('title', 'Invoice Details')
 
 @section('content')
     <x-common.content-wrapper>
@@ -16,11 +16,27 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
+                        icon="fas fa-hashtag"
+                        :data="$sale->fs_number ?? 'N/A'"
+                        label="FS No"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
                         icon="fas fa-credit-card"
                         :data="$sale->payment_type ?? 'N/A'"
                         label="Payment Type"
                     />
                 </div>
+                @if (!$sale->isPaymentInCash())
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-calendar-day"
+                            :data="$sale->due_date->toFormattedDateString()"
+                            label="Credit Due Date"
+                        />
+                    </div>
+                @endif
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-user"
@@ -108,6 +124,17 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('sales.print', $sale->id) }}"
+                        target="_blank"
+                        mode="button"
+                        icon="fas fa-print"
+                        label="Print"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                    />
+                </x-common.dropdown-item>
                 <x-common.dropdown-item>
                     <x-common.button
                         tag="a"

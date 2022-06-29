@@ -27,8 +27,8 @@ class ProductCategoryImport implements ToModel, WithHeadingRow, WithValidation, 
 
         $productCategory = new ProductCategory([
             'company_id' => userCompany()->id,
-            'created_by' => auth()->id(),
-            'updated_by' => auth()->id(),
+            'created_by' => authUser()->id,
+            'updated_by' => authUser()->id,
             'name' => $row['product_category_name'],
         ]);
 

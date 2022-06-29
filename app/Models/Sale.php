@@ -20,6 +20,7 @@ class Sale extends Model
 
     protected $casts = [
         'issued_on' => 'datetime',
+        'due_date' => 'datetime',
     ];
 
     public function cancelledBy()
@@ -59,7 +60,7 @@ class Sale extends Model
 
     public function cancel()
     {
-        $this->cancelled_by = auth()->id();
+        $this->cancelled_by = authUser()->id;
 
         $this->save();
     }
