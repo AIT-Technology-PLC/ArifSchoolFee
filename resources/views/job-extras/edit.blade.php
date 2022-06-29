@@ -70,11 +70,11 @@
                                     >
                                         <option
                                             value="Input"
-                                            @selected($jobExtra->type == 'Input')
+                                            @selected($jobExtra->isTypeInput())
                                         > Input </option>
                                         <option
                                             value="Remaining"
-                                            @selected($jobExtra->type == 'Remaining')
+                                            @selected(!$jobExtra->isTypeInput())
                                         > Remaining </option>
                                     </x-forms.select>
                                     <x-common.icon

@@ -146,7 +146,7 @@
             @if (!$job->isApproved())
                 <x-common.fail-message message="This Job has not been approved yet." />
             @elseif (!$job->isStarted())
-                <x-common.success-message message="Job has not been Started yet." />
+                <x-common.fail-message message="Job has not been Started yet." />
             @elseif (!$job->isCompleted())
                 <x-common.success-message message="Job Progress: {{ $job->jobCompletionRate }}%" />
             @else

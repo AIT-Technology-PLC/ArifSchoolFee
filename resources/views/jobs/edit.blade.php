@@ -49,11 +49,11 @@
                                 >
                                     <option
                                         value="0"
-                                        @selected($job->is_internal_job == 0)
+                                        @selected(!$job->isInternal())
                                     >Customer Order</option>
                                     <option
                                         value="1"
-                                        @selected($job->is_internal_job == 1)
+                                        @selected($job->isInternal())
                                     >Inventory Replenishment</option>
                                 </x-forms.select>
                                 <x-common.icon
@@ -102,7 +102,7 @@
                                     @foreach ($warehouses as $warehouse)
                                         <option
                                             value="{{ $warehouse->id }}"
-                                            {{ $job->factory_id == $warehouse->id ? 'selected' : '' }}
+                                            @selected($job->factory_id == $warehouse->id)
                                         >{{ $warehouse->name }}</option>
                                     @endforeach
                                 </x-forms.select>

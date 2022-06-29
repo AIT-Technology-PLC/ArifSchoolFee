@@ -46,8 +46,14 @@
                                     id="is_internal_job"
                                     name="is_internal_job"
                                 >
-                                    <option value="0">Customer Order</option>
-                                    <option value="1">Inventory Replenishment</option>
+                                    <option
+                                        value="0"
+                                        @selected(old('is_internal_job') == 0)
+                                    >Customer Order</option>
+                                    <option
+                                        value="1"
+                                        @selected(old('is_internal_job') == 1)
+                                    >Inventory Replenishment</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-sort"
