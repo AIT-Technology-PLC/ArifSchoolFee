@@ -257,7 +257,7 @@
                                 Unit Price Method <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control>
-                                <x-forms.label class="radio">
+                                <label class="radio has-text-grey has-text-weight-normal">
                                     <input
                                         type="radio"
                                         name="is_price_before_vat"
@@ -266,8 +266,8 @@
                                         {{ $company->is_price_before_vat ? 'checked' : '' }}
                                     >
                                     Before VAT
-                                </x-forms.label>
-                                <x-forms.label class="radio ml-0">
+                                </label>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
                                     <input
                                         type="radio"
                                         name="is_price_before_vat"
@@ -275,7 +275,7 @@
                                         {{ $company->is_price_before_vat ? '' : 'checked' }}
                                     >
                                     After VAT
-                                </x-forms.label>
+                                </label>
                                 <x-common.validation-error property="is_price_before_vat" />
                             </x-forms.control>
                         </x-forms.field>
@@ -286,7 +286,7 @@
                                 Discount Method <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control>
-                                <x-forms.label class="radio">
+                                <label class="radio has-text-grey has-text-weight-normal">
                                     <input
                                         type="radio"
                                         name="is_discount_before_vat"
@@ -295,8 +295,9 @@
                                         {{ $company->is_discount_before_vat ? 'checked' : '' }}
                                     >
                                     Before VAT & Per Product
-                                </x-forms.label>
-                                <x-forms.label class="radio ml-0">
+                                </label>
+                                <br>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
                                     <input
                                         type="radio"
                                         name="is_discount_before_vat"
@@ -304,7 +305,7 @@
                                         {{ $company->is_discount_before_vat ? '' : 'checked' }}
                                     >
                                     After Grand Total Price
-                                </x-forms.label>
+                                </label>
                                 <x-common.validation-error property="is_discount_before_vat" />
                             </x-forms.control>
                         </x-forms.field>
@@ -315,7 +316,7 @@
                                 Convert to SIV as <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control>
-                                <x-forms.label class="radio">
+                                <label class="radio has-text-grey has-text-weight-normal">
                                     <input
                                         type="radio"
                                         name="is_convert_to_siv_as_approved"
@@ -324,8 +325,9 @@
                                         {{ $company->is_convert_to_siv_as_approved ? 'checked' : '' }}
                                     >
                                     Approved
-                                </x-forms.label>
-                                <x-forms.label class="radio ml-0">
+                                </label>
+                                <br>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
                                     <input
                                         type="radio"
                                         name="is_convert_to_siv_as_approved"
@@ -333,7 +335,7 @@
                                         {{ $company->is_convert_to_siv_as_approved ? '' : 'checked' }}
                                     >
                                     Not approved
-                                </x-forms.label>
+                                </label>
                                 <x-common.validation-error property="is_convert_to_siv_as_approved" />
                             </x-forms.control>
                         </x-forms.field>
@@ -344,7 +346,7 @@
                                 Can Show Branch Detail On Print <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control>
-                                <x-forms.label class="radio">
+                                <label class="radio has-text-grey has-text-weight-normal">
                                     <input
                                         type="radio"
                                         name="can_show_branch_detail_on_print"
@@ -353,8 +355,9 @@
                                         {{ $company->can_show_branch_detail_on_print ? 'checked' : '' }}
                                     >
                                     Yes
-                                </x-forms.label>
-                                <x-forms.label class="radio ml-0">
+                                </label>
+                                <br>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
                                     <input
                                         type="radio"
                                         name="can_show_branch_detail_on_print"
@@ -362,7 +365,7 @@
                                         {{ $company->can_show_branch_detail_on_print ? '' : 'checked' }}
                                     >
                                     No
-                                </x-forms.label>
+                                </label>
                                 <x-common.validation-error property="can_show_branch_detail_on_print" />
                             </x-forms.control>
                         </x-forms.field>
