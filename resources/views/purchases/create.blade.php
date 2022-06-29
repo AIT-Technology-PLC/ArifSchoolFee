@@ -94,11 +94,11 @@
                                     >Select Type</option>
                                     <option
                                         value="Local Purchase"
-                                        {{ old('type') == 'Local Purchase' ? 'selected' : '' }}
+                                        @selected(old('type') == 'Local Purchase')
                                     >Local Purchase</option>
                                     <option
                                         value="Import"
-                                        {{ old('type') == 'Import' ? 'selected' : '' }}
+                                        @selected(old('type') == 'Import')
                                     >Import</option>
                                 </x-forms.select>
                                 <x-common.icon
@@ -126,11 +126,11 @@
                                     >Select Payment</option>
                                     <option
                                         value="Cash Payment"
-                                        {{ old('payment_type') == 'Cash Payment' ? 'selected' : '' }}
+                                        @selected(old('payment_type') == 'Cash Payment')
                                     >Cash Payment</option>
                                     <option
                                         value="Credit Payment"
-                                        {{ old('payment_type') == 'Credit Payment' ? 'selected' : '' }}
+                                        @selected(old('payment_type') == 'Credit Payment')
                                     >Credit Payment</option>
                                 </x-forms.select>
                                 <x-common.icon
@@ -159,7 +159,7 @@
                                     @foreach ($suppliers as $supplier)
                                         <option
                                             value="{{ $supplier->id }}"
-                                            {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}
+                                            @selected(old('supplier_id') == $supplier->id)
                                         >{{ $supplier->company_name }}</option>
                                     @endforeach
                                 </x-forms.select>

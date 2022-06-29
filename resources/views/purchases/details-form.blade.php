@@ -104,11 +104,11 @@
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
+                                    type="number"
                                     x-bind:id="`purchase[${index}][unit_price]`"
                                     x-bind:name="`purchase[${index}][unit_price]`"
                                     x-model="purchase.unit_price"
                                     x-bind:readonly="Product.isPriceFixed(purchase.product_id)"
-                                    type="number"
                                     placeholder="Purchase Price"
                                 />
                                 <x-common.icon

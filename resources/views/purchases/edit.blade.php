@@ -160,7 +160,7 @@
                                     @foreach ($suppliers as $supplier)
                                         <option
                                             value="{{ $supplier->id }}"
-                                            {{ $purchase->supplier_id == $supplier->id ? 'selected' : '' }}
+                                            @selected($purchase->supplier_id == $supplier->id)
                                         >{{ $supplier->company_name }}</option>
                                     @endforeach
                                 </x-forms.select>
