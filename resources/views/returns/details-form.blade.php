@@ -1,0 +1,267 @@
+<x-content.main
+    x-data="returnMasterDetailForm({{ Js::from($data) }})"
+    x-init="$store.errors.setErrors({{ Js::from($errors->get('returnDetail.*')) }})"
+>
+    <template
+        x-for="(returnDetail, index) in returnDetails"
+        x-bind:key="index"
+    >
+        <div class="mx-3">
+            <x-forms.field class="has-addons mb-0 mt-5">
+                <x-forms.control>
+                    <span
+                        class="tag bg-green has-text-white is-medium is-radiusless"
+                        x-text="`Item ${index + 1}`"
+                    ></span>
+                </x-forms.control>
+                <x-forms.control>
+                    <x-common.button
+                        tag="button"
+                        mode="tag"
+                        type="button"
+                        class="bg-lightgreen has-text-white is-medium is-radiusless"
+                        x-on:click="remove(index)"
+                    >
+                        <x-common.icon
+                            name="fas fa-times-circle"
+                            class="text-green"
+                        />
+                    </x-common.button>
+                </x-forms.control>
+            </x-forms.field>
+            <div class="box has-background-white-bis radius-top-0">
+                <div class="columns is-marginless is-multiline">
+                    <div class="column is-6">
+                        <x-forms.label x-bind:for="`returnDetail[${index}][product_id]`">
+                            Product <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control
+                                class="has-icons-left"
+                                style="width: 30%"
+                            >
+                                <x-common.category-list
+                                    x-model="returnDetail.product_category_id"
+                                    x-on:change="Product.changeProductCategory(getSelect2(index), returnDetail.product_id, returnDetail.product_category_id)"
+                                />
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-common.new-product-list
+                                    class="product-list"
+                                    x-bind:id="`returnDetail[${index}][product_id]`"
+                                    x-bind:name="`returnDetail[${index}][product_id]`"
+                                    x-model="returnDetail.product_id"
+                                    x-init="select2(index)"
+                                />
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`returnDetail.${index}.product_id`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label x-bind:for="`returnDetail[${index}][warehouse_id]`">
+                                To <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    x-bind:id="`returnDetail[${index}][warehouse_id]`"
+                                    x-bind:name="`returnDetail[${index}][warehouse_id]`"
+                                    x-model="returnDetail.warehouse_id"
+                                >
+                                    @foreach ($warehouses as $warehouse)
+                                        <option
+                                            value="{{ $warehouse->id }}"
+                                            {{ ($returnDetail['warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}
+                                        >{{ $warehouse->name }}</option>
+                                    @endforeach
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-warehouse"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`returnDetail.${index}.warehouse_id`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.label x-bind:for="`returnDetail[${index}][quantity]`">
+                            Quantity <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    type="number"
+                                    x-bind:id="`returnDetail[${index}][quantity]`"
+                                    x-bind:name="`returnDetail[${index}][quantity]`"
+                                    x-model="returnDetail.quantity"
+                                    placeholder="Quantity"
+                                />
+                                <x-common.icon
+                                    name="fas fa-balance-scale"
+                                    class="is-large is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`returnDetail.${index}.quantity`)"
+                                ></span>
+                            </x-forms.control>
+                            <x-forms.control>
+                                <x-common.button
+                                    tag="button"
+                                    type="button"
+                                    mode="button"
+                                    class="bg-green has-text-white"
+                                    x-text="Product.unitOfMeasurement(returnDetail.product_id)"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.label x-bind:for="`returnDetail[${index}][unit_price]`">
+                            Unit Price<sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    x-bind:id="`returnDetail[${index}][unit_price]`"
+                                    x-bind:name="`returnDetail[${index}][unit_price]`"
+                                    x-model="returnDetail.unit_price"
+                                    x-bind:readonly="Product.isPriceFixed(returnDetail.product_id)"
+                                    type="number"
+                                />
+                                <x-common.icon
+                                    name="fas fa-money-bill"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`returnDetail.${index}.unit_price`)"
+                                ></span>
+                            </x-forms.control>
+                            <x-forms.control>
+                                <x-common.button
+                                    tag="button"
+                                    type="button"
+                                    mode="button"
+                                    class="bg-green has-text-white"
+                                    x-text="Product.unitOfMeasurement(returnDetail.product_id, 'Per')"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label x-bind:for="`returnDetail[${index}][description]`">
+                                Additional Notes <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.textarea
+                                    x-bind:id="`returnDetail[${index}][description]`"
+                                    x-bind:name="`returnDetail[${index}][description]`"
+                                    x-model="returnDetail.description"
+                                    class="textarea pl-6"
+                                    placeholder="Description or note to be taken"
+                                >
+                                    </x-formtextarea>
+                                    <x-common.icon
+                                        name="fas fa-edit"
+                                        class="is-large is-left"
+                                    />
+                                    <span
+                                        class="help has-text-danger"
+                                        x-text="$store.errors.getErrors(`returnDetail.${index}.description`)"
+                                    ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <x-common.button
+        tag="button"
+        type="button"
+        mode="button"
+        label="Add More Item"
+        class="bg-purple has-text-white is-small ml-3 mt-6"
+        x-on:click="add"
+    />
+</x-content.main>
+
+@push('scripts')
+    <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("returnMasterDetailForm", ({
+                returnDetail
+            }) => ({
+                returnDetails: [],
+
+                async init() {
+                    await Product.init();
+
+                    if (returnDetail) {
+                        this.returnDetails = returnDetail;
+
+                        await Promise.resolve(this.returnDetails.forEach((returnDetail) => returnDetail.product_category_id = Product.productCategoryId(returnDetail.product_id)))
+
+                        await Promise.resolve($(".product-list").trigger("change", [true]));
+
+                        return;
+                    }
+
+                    this.add();
+                },
+                add() {
+                    this.returnDetails.push({});
+                },
+                async remove(index) {
+                    if (this.returnDetails.length <= 0) {
+                        return;
+                    }
+
+                    await Promise.resolve(this.returnDetails.splice(index, 1));
+
+                    await Promise.resolve(
+                        this.returnDetails.forEach((
+                            returnDetail, i) => {
+                            if (i >= index) {
+                                Product.changeProductCategory(this.getSelect2(i), returnDetail.product_id, returnDetail.product_category_id);
+                            }
+                        })
+                    );
+
+                    Pace.restart();
+                },
+                select2(index) {
+                    let select2 = initializeSelect2(this.$el);
+
+                    select2.on("change", (event, haveData = false) => {
+                        this.returnDetails[index].product_id = event.target.value;
+
+                        this.returnDetails[index].product_category_id = Product.productCategoryId(this.returnDetails[index].product_id);
+
+                        if (!haveData) {
+                            Product.changeProductCategory(select2, this.returnDetails[index].product_id, this.returnDetails[index].product_category_id);
+
+                            this.Products[index].unit_price = Product.price(this.Products[index].product_id);
+                        }
+                    });
+                },
+                getSelect2(index) {
+                    return $(".product-list").eq(index);
+                }
+            }));
+        });
+    </script>
+@endpush

@@ -191,7 +191,6 @@
                                 />
                                 <x-common.validation-error property="description" />
                             </x-forms.control>
-
                         </x-forms.field>
                     </div>
                 </div>

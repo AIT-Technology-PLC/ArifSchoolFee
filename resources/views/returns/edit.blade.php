@@ -1,16 +1,10 @@
 @extends('layouts.app')
 
-@section('title')
-    Edit Return
-@endsection
+@section('title', 'Edit Return')
 
 @section('content')
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                Edit Return
-            </h1>
-        </div>
+    <x-common.content-wrapper>
+        <x-content.header title="Edit Return" />
         <form
             id="formOne"
             action="{{ route('returns.update', $return->id) }}"
@@ -20,109 +14,90 @@
         >
             @csrf
             @method('PATCH')
-            <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-content.main>
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="code"
-                                class="label text-green has-text-weight-normal"
-                            >Return Number <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input
-                                    class="input"
+                        <x-forms.field>
+                            <x-forms.label for="code">
+                                Return Number <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     type="number"
                                     name="code"
                                     id="code"
                                     value="{{ $return->code }}"
-                                >
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-hashtag"></i>
-                                </span>
-                                @error('code')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-hashtag"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="code" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="customer_id"
-                                class="label text-green has-text-weight-normal"
-                            > Customer <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <x-common.customer-list :selected-id="$return->customer_id ?? ''" />
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label for="customer_id">
+                                Customer <sup class="has-text-danger"> </sup>
+                            </x-forms.label>
+                            <x-forms.control class="select is-fullwidth has-icons-left">
+                                <x-common.customer-list
+                                    id="customer_id"
+                                    name="customer_id"
+                                    key=""
+                                    selected-id="{{ $return->customer_id }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-user"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="customer_id" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="issued_on"
-                                class="label text-green has-text-weight-normal"
-                            > Issued On <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input
-                                    class="input"
+                        <x-forms.field>
+                            <x-forms.label for="code">
+                                Issued On <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     type="datetime-local"
                                     name="issued_on"
                                     id="issued_on"
                                     placeholder="mm/dd/yyyy"
                                     value="{{ $return->issued_on->toDateTimeLocalString() }}"
-                                >
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                @error('issued_on')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-calendar-alt"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="issued_on" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="description"
-                                class="label text-green has-text-weight-normal"
-                            >Description <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <textarea
+                        <x-forms.field>
+                            <x-forms.label for="customer_id">
+                                Description <sup class="has-text-danger"> </sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.textarea
                                     name="description"
                                     id="description"
-                                    cols="30"
-                                    rows="3"
-                                    class="textarea pl-6"
+                                    class="pl-6"
                                     placeholder="Description or note to be taken"
->{{ $return->description ?? '' }}</textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                @error('description')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                >
+                                    {{ $return->description }}
+                                </x-forms.textarea>
+                                <x-common.icon
+                                    name="fas fa-edit"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="description" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                 </div>
                 @foreach ($return->returnDetails as $returnDetail)
@@ -301,7 +276,7 @@
                                             rows="3"
                                             class="textarea pl-6"
                                             placeholder="Description or note to be taken"
->{{ $returnDetail->description ?? '' }}</textarea>
+                                        >{{ $returnDetail->description ?? '' }}</textarea>
                                         <span class="icon is-large is-left">
                                             <i class="fas fa-edit"></i>
                                         </span>
@@ -319,10 +294,13 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
-            <div class="box radius-top-0">
+            </x-content.main>
+
+            @include('returns.details-form', ['data' => ['return' => $return->returnDetails]])
+
+            <x-content.footer>
                 <x-common.save-button />
-            </div>
+            </x-content.footer>
         </form>
-    </section>
+    </x-common.content-wrapper>
 @endsection
