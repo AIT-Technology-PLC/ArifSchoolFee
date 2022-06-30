@@ -173,7 +173,7 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label for="customer_id">
+                            <x-forms.label for="description">
                                 Description <sup class="has-text-danger"> </sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
