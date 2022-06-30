@@ -1,9 +1,9 @@
 <x-content.main
     x-data="returnMasterDetailForm({{ Js::from($data) }})"
-    x-init="$store.errors.setErrors({{ Js::from($errors->get('returnDetail.*')) }})"
+    x-init="$store.errors.setErrors({{ Js::from($errors->get('returnn.*')) }})"
 >
     <template
-        x-for="(returnDetail, index) in returnDetails"
+        x-for="(returnn, index) in returnns"
         x-bind:key="index"
     >
         <div class="mx-3">
@@ -32,7 +32,7 @@
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <x-forms.label x-bind:for="`returnDetail[${index}][product_id]`">
+                        <x-forms.label x-bind:for="`return[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
@@ -41,16 +41,16 @@
                                 style="width: 30%"
                             >
                                 <x-common.category-list
-                                    x-model="returnDetail.product_category_id"
-                                    x-on:change="Product.changeProductCategory(getSelect2(index), returnDetail.product_id, returnDetail.product_category_id)"
+                                    x-model="returnn.product_category_id"
+                                    x-on:change="Product.changeProductCategory(getSelect2(index), returnn.product_id, returnn.product_category_id)"
                                 />
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-common.new-product-list
                                     class="product-list"
-                                    x-bind:id="`returnDetail[${index}][product_id]`"
-                                    x-bind:name="`returnDetail[${index}][product_id]`"
-                                    x-model="returnDetail.product_id"
+                                    x-bind:id="`return[${index}][product_id]`"
+                                    x-bind:name="`return[${index}][product_id]`"
+                                    x-model="returnn.product_id"
                                     x-init="select2(index)"
                                 />
                                 <x-common.icon
@@ -59,27 +59,27 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`returnDetail.${index}.product_id`)"
+                                    x-text="$store.errors.getErrors(`returnn.${index}.product_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label x-bind:for="`returnDetail[${index}][warehouse_id]`">
+                            <x-forms.label x-bind:for="`return[${index}][warehouse_id]`">
                                 To <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.select
                                     class="is-fullwidth"
-                                    x-bind:id="`returnDetail[${index}][warehouse_id]`"
-                                    x-bind:name="`returnDetail[${index}][warehouse_id]`"
-                                    x-model="returnDetail.warehouse_id"
+                                    x-bind:id="`return[${index}][warehouse_id]`"
+                                    x-bind:name="`return[${index}][warehouse_id]`"
+                                    x-model="returnn.warehouse_id"
                                 >
                                     @foreach ($warehouses as $warehouse)
                                         <option
                                             value="{{ $warehouse->id }}"
-                                            {{ ($returnDetail['warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}
+                                            {{ ($returnDetails['warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}
                                         >{{ $warehouse->name }}</option>
                                     @endforeach
                                 </x-forms.select>
@@ -89,22 +89,22 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`returnDetail.${index}.warehouse_id`)"
+                                    x-text="$store.errors.getErrors(`returnn.${index}.warehouse_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <x-forms.label x-bind:for="`returnDetail[${index}][quantity]`">
+                        <x-forms.label x-bind:for="`return[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
                                     type="number"
-                                    x-bind:id="`returnDetail[${index}][quantity]`"
-                                    x-bind:name="`returnDetail[${index}][quantity]`"
-                                    x-model="returnDetail.quantity"
+                                    x-bind:id="`return[${index}][quantity]`"
+                                    x-bind:name="`return[${index}][quantity]`"
+                                    x-model="returnn.quantity"
                                     placeholder="Quantity"
                                 />
                                 <x-common.icon
@@ -113,7 +113,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`returnDetail.${index}.quantity`)"
+                                    x-text="$store.errors.getErrors(`returnn.${index}.quantity`)"
                                 ></span>
                             </x-forms.control>
                             <x-forms.control>
@@ -122,22 +122,22 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="Product.unitOfMeasurement(returnDetail.product_id)"
+                                    x-text="Product.unitOfMeasurement(returnn.product_id)"
                                 />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <x-forms.label x-bind:for="`returnDetail[${index}][unit_price]`">
+                        <x-forms.label x-bind:for="`return[${index}][unit_price]`">
                             Unit Price<sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:id="`returnDetail[${index}][unit_price]`"
-                                    x-bind:name="`returnDetail[${index}][unit_price]`"
-                                    x-model="returnDetail.unit_price"
-                                    x-bind:readonly="Product.isPriceFixed(returnDetail.product_id)"
+                                    x-bind:id="`return[${index}][unit_price]`"
+                                    x-bind:name="`return[${index}][unit_price]`"
+                                    x-model="returnn.unit_price"
+                                    x-bind:readonly="Product.isPriceFixed(returnn.product_id)"
                                     type="number"
                                 />
                                 <x-common.icon
@@ -146,7 +146,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`returnDetail.${index}.unit_price`)"
+                                    x-text="$store.errors.getErrors(`returnn.${index}.unit_price`)"
                                 ></span>
                             </x-forms.control>
                             <x-forms.control>
@@ -155,21 +155,21 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="Product.unitOfMeasurement(returnDetail.product_id, 'Per')"
+                                    x-text="Product.unitOfMeasurement(returnn.product_id, 'Per')"
                                 />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label x-bind:for="`returnDetail[${index}][description]`">
+                            <x-forms.label x-bind:for="`return[${index}][description]`">
                                 Additional Notes <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.textarea
-                                    x-bind:id="`returnDetail[${index}][description]`"
-                                    x-bind:name="`returnDetail[${index}][description]`"
-                                    x-model="returnDetail.description"
+                                    x-bind:id="`return[${index}][description]`"
+                                    x-bind:name="`return[${index}][description]`"
+                                    x-model="returnn.description"
                                     class="textarea pl-6"
                                     placeholder="Description or note to be taken"
                                 >
@@ -180,7 +180,7 @@
                                     />
                                     <span
                                         class="help has-text-danger"
-                                        x-text="$store.errors.getErrors(`returnDetail.${index}.description`)"
+                                        x-text="$store.errors.getErrors(`returnn.${index}.description`)"
                                     ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -203,17 +203,17 @@
     <script>
         document.addEventListener("alpine:init", () => {
             Alpine.data("returnMasterDetailForm", ({
-                returnDetail
+                returnn
             }) => ({
-                returnDetails: [],
+                returnns: [],
 
                 async init() {
                     await Product.init();
 
-                    if (returnDetail) {
-                        this.returnDetails = returnDetail;
+                    if (returnn) {
+                        this.returnns = returnn;
 
-                        await Promise.resolve(this.returnDetails.forEach((returnDetail) => returnDetail.product_category_id = Product.productCategoryId(returnDetail.product_id)))
+                        await Promise.resolve(this.returnns.forEach((returnn) => returnn.product_category_id = Product.productCategoryId(returnn.product_id)))
 
                         await Promise.resolve($(".product-list").trigger("change", [true]));
 
@@ -223,20 +223,20 @@
                     this.add();
                 },
                 add() {
-                    this.returnDetails.push({});
+                    this.returnns.push({});
                 },
                 async remove(index) {
-                    if (this.returnDetails.length <= 0) {
+                    if (this.returnns.length <= 0) {
                         return;
                     }
 
-                    await Promise.resolve(this.returnDetails.splice(index, 1));
+                    await Promise.resolve(this.returnns.splice(index, 1));
 
                     await Promise.resolve(
-                        this.returnDetails.forEach((
-                            returnDetail, i) => {
+                        this.returnns.forEach((
+                            returnn, i) => {
                             if (i >= index) {
-                                Product.changeProductCategory(this.getSelect2(i), returnDetail.product_id, returnDetail.product_category_id);
+                                Product.changeProductCategory(this.getSelect2(i), returnn.product_id, returnn.product_category_id);
                             }
                         })
                     );
@@ -247,12 +247,12 @@
                     let select2 = initializeSelect2(this.$el);
 
                     select2.on("change", (event, haveData = false) => {
-                        this.returnDetails[index].product_id = event.target.value;
+                        this.returnns[index].product_id = event.target.value;
 
-                        this.returnDetails[index].product_category_id = Product.productCategoryId(this.returnDetails[index].product_id);
+                        this.returnns[index].product_category_id = Product.productCategoryId(this.returnns[index].product_id);
 
                         if (!haveData) {
-                            Product.changeProductCategory(select2, this.returnDetails[index].product_id, this.returnDetails[index].product_category_id);
+                            Product.changeProductCategory(select2, this.returnns[index].product_id, this.returnns[index].product_category_id);
 
                             this.Products[index].unit_price = Product.price(this.Products[index].product_id);
                         }
