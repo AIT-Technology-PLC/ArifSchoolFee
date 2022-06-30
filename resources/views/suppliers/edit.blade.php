@@ -26,6 +26,7 @@
                                     type="text"
                                     id="company_name"
                                     name="company_name"
+                                    placeholder="Company Name"
                                     value="{{ $supplier->company_name ?? '' }}"
                                 />
                                 <x-common.icon
@@ -46,6 +47,7 @@
                                     type="number"
                                     id="tin"
                                     name="tin"
+                                    placeholder="Tin No"
                                     value="{{ $supplier->tin ?? '' }}"
                                 />
                                 <x-common.icon
@@ -66,6 +68,7 @@
                                     type="text"
                                     id="address"
                                     name="address"
+                                    placeholder="Address"
                                     value="{{ $supplier->address ?? '' }}"
                                 />
                                 <x-common.icon
@@ -86,6 +89,7 @@
                                     type="text"
                                     id="contact_name"
                                     name="contact_name"
+                                    placeholder="Contact name"
                                     value="{{ $supplier->contact_name ?? '' }}"
                                 />
                                 <x-common.icon
@@ -106,6 +110,7 @@
                                     type="text"
                                     id="email"
                                     name="email"
+                                    placeholder="Email Address"
                                     value="{{ $supplier->email ?? '' }}"
                                 />
                                 <x-common.icon
@@ -126,6 +131,7 @@
                                     type="text"
                                     id="phone"
                                     name="phone"
+                                    placeholder="Phone/Telephone"
                                     value="{{ $supplier->phone ?? '' }}"
                                 />
                                 <x-common.icon
