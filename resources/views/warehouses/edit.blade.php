@@ -27,6 +27,7 @@
                                     type="text"
                                     name="name"
                                     id="name"
+                                    placeholder="Warehouse Name"
                                     value="{{ $warehouse->name ?? '' }}"
                                 />
                                 <x-common.icon
@@ -47,6 +48,7 @@
                                     type="text"
                                     name="location"
                                     id="location"
+                                    placeholder="Location: Building, Street"
                                     value="{{ $warehouse->location ?? '' }}"
                                 />
                                 <x-common.icon
@@ -188,6 +190,7 @@
                                     type="text"
                                     id="email"
                                     name="email"
+                                    placeholder="Email Address"
                                     value="{{ $warehouse->email ?? '' }}"
                                 />
                                 <x-common.icon
