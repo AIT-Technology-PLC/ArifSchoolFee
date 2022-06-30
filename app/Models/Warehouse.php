@@ -132,4 +132,14 @@ class Warehouse extends Model
     {
         return $this->is_active;
     }
+
+    public function isSalesStore()
+    {
+        return $this->is_sales_store;
+    }
+
+    public function isCanBeSoldFrom()
+    {
+        return $this->can_be_sold_from;
+    }
 }

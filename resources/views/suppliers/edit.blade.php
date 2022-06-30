@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Supplier - {{ $supplier->company_name }}')
+@section('title', 'Edit Supplier')
 
 @section('content')
     <x-common.content-wrapper>
