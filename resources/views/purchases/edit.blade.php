@@ -127,11 +127,11 @@
                                     >Select Payment</option>
                                     <option
                                         value="Cash Payment"
-                                        @selected($purchase->payment_type == 'Cash Payment')
+                                        @selected($purchase->isCashPayment())
                                     >Cash Payment</option>
                                     <option
                                         value="Credit Payment"
-                                        @selected($purchase->payment_type == 'Credit Payment')
+                                        @selected(!$purchase->isCashPayment())
                                     >Credit Payment</option>
                                 </x-forms.select>
                                 <x-common.icon
