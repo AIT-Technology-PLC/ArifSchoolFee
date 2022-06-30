@@ -1,80 +1,96 @@
 @extends('layouts.app')
 
-@section('title')
-    Create New General Tender Checklist
-@endsection
+@section('title', 'Create New General Tender Checklist')
 
 @section('content')
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                New General Tender Checklist
-            </h1>
-        </div>
-        <form id="formOne" action="{{ route('general-tender-checklists.store') }}" method="post" enctype="multipart/form-data" novalidate>
+    <x-common.content-wrapper>
+        <x-content.header title="New General Tender Checklist" />
+        <form
+            id="formOne"
+            action="{{ route('general-tender-checklists.store') }}"
+            method="post"
+            enctype="multipart/form-data"
+            novalidate
+        >
             @csrf
-            <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-content.main>
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <div class="field">
-                            <label for="item" class="label text-green has-text-weight-normal">Item <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input id="item" name="item" type="text" class="input" placeholder="Checklist Name" value="{{ old('item') ?? '' }}">
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-check"></i>
-                                </span>
-                                @error('item')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label for="item">
+                                Item <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="item"
+                                    name="item"
+                                    type="text"
+                                    placeholder="Checklist Name"
+                                    value="{{ old('item') ?? '' }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-check"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="item" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label for="tender_checklist_type_id" class="label text-green has-text-weight-normal"> Checklist Type <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <select id="tender_checklist_type_id" name="tender_checklist_type_id">
-                                        <option selected disabled>Select Checklist Type</option>
-                                        @foreach ($tenderChecklistTypes as $tenderChecklistType)
-                                            <option value="{{ $tenderChecklistType->id }}" {{ old('tender_checklist_type_id') == $tenderChecklistType->id ? 'selected' : '' }}>{{ $tenderChecklistType->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-layer-group"></i>
-                                </span>
-                                @error('tender_checklist_type_id')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label for="tender_checklist_type_id">
+                                Checklist Type <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="tender_checklist_type_id"
+                                    name="tender_checklist_type_id"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Checklist Type</option>
+                                    @foreach ($tenderChecklistTypes as $tenderChecklistType)
+                                        <option
+                                            value="{{ $tenderChecklistType->id }}"
+                                            {{ old('tender_checklist_type_id') == $tenderChecklistType->id ? 'selected' : '' }}
+                                        >{{ $tenderChecklistType->name }}</option>
+                                    @endforeach
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-layer-group"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="tender_checklist_type_id" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label for="description" class="label text-green has-text-weight-normal">Description</label>
-                            <div class="control has-icons-left">
-                                <textarea name="description" id="description" cols="30" rows="3" class="textarea pl-6" placeholder="Description or note about the new checklist">{{ old('description') ?? '' }}</textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                @error('description')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label for="description">
+                                Description
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.textarea
+                                    name="description"
+                                    id="description"
+                                    class="textarea pl-6"
+                                    placeholder="Description or note about the new checklist"
+                                >{{ old('description') ?? '' }}</x-forms.textarea>
+                                <x-common.icon
+                                    name="fas fa-edit"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="description" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                 </div>
-            </div>
-            <div class="box radius-top-0">
+            </x-content.main>
+            <x-content.footer>
                 <x-common.save-button />
-            </div>
+            </x-content.footer>
         </form>
-    </section>
+    </x-common.content-wrapper>
 @endsection

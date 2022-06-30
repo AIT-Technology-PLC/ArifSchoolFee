@@ -1,72 +1,85 @@
 @extends('layouts.app')
 
-@section('title')
-    Create New Product Category
-@endsection
+@section('title', 'Create New Product Category')
 
 @section('content')
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                New Product Category
-            </h1>
-        </div>
-        <form id="formOne" action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data" novalidate>
+    <x-common.content-wrapper>
+        <x-content.header title="New Product Category" />
+        <form
+            id="formOne"
+            action="{{ route('categories.store') }}"
+            method="post"
+            enctype="multipart/form-data"
+            novalidate
+        >
             @csrf
-            <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-content.main>
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <div class="field">
-                            <label for="name" class="label text-green has-text-weight-normal">Name <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input id="name" name="name" type="text" class="input" placeholder="Category Name" value="{{ old('name') ?? '' }}">
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-layer-group"></i>
-                                </span>
-                                @error('name')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label for="name">
+                                Name <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="name"
+                                    name="name"
+                                    type="text"
+                                    placeholder="Category Name"
+                                    value="{{ old('name') ?? '' }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-layer-group"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="name" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-12">
-                        <div class="field">
-                            <label for="description" class="label text-green has-text-weight-normal">Description</label>
-                            <div class="control has-icons-left">
-                                <textarea name="description" id="description" cols="30" rows="10" class="textarea pl-6" placeholder="Description or note about the new category">{{ old('description') ?? '' }}</textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                @error('description')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label for="description">
+                                Description <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.textarea
+                                    name="description"
+                                    id="description"
+                                    rows="10"
+                                    class="textarea pl-6"
+                                    placeholder="Description or note about the new category"
+                                >{{ old('description') ?? '' }}</x-forms.textarea>
+                                <x-common.icon
+                                    name="fas fa-edit"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="description" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                 </div>
-                <div id="newForm" class="columns is-marginless is-multiline is-hidden"></div>
+                <div
+                    id="newForm"
+                    class="columns is-marginless is-multiline is-hidden"
+                ></div>
                 <div class="columns is-marginless">
                     <div class="column">
-                        <div class="field mt-5">
-                            <button id="addNewForm" class="button has-text-white bg-purple is-small" type="button">
-                                <span class="icon">
-                                    <i class="fas fa-plus-circle"></i>
-                                </span>
-                                <span>
-                                    Add More Form
-                                </span>
-                            </button>
-                        </div>
+                        <x-forms.field>
+                            <x-common.button
+                                id="addNewForm"
+                                tag="button"
+                                type="button"
+                                mode="button"
+                                label="Add More Form"
+                                class="bg-purple has-text-white is-small ml-3 mt-6"
+                            />
+                        </x-forms.field>
                     </div>
                 </div>
-            </div>
-            <div class="box radius-top-0">
+            </x-content.main>
+            <x-content.footer>
                 <x-common.save-button />
-            </div>
+            </x-content.footer>
         </form>
-    </section>
+    </x-common.content-wrapper>
 @endsection
