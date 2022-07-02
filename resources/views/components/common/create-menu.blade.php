@@ -17,8 +17,8 @@
                 <span> Create New </span>
             </h1>
 
-            @if (isFeatureEnabled('Bill Of Material Management'))
-                @canany(['Create BOM'])
+            @if (isFeatureEnabled('Bill Of Material Management', 'Job Management'))
+                @canany(['Create BOM', 'Create Job'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -57,6 +57,22 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Job Planner </span>
+                                        <br>
+                                    </div>
+                                @endif
+                            @endcan
+                            @can('Create Job')
+                                @if (isFeatureEnabled('Job Management'))
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('jobs.create') }}"
+                                            icon="fas fa-cogs"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Job </span>
                                     </div>
                                 @endif
                             @endcan

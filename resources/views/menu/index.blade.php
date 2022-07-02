@@ -4,8 +4,8 @@
 
 @section('content')
     <x-common.content-wrapper>
-        @if (isFeatureEnabled('Bill Of Material Management'))
-            @canany(['Read BOM'])
+        @if (isFeatureEnabled('Bill Of Material Management', 'Job Management'))
+            @canany(['Read BOM', 'Read Job'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -51,6 +51,24 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Job Planner
+                                        </span>
+                                    </div>
+                                @endif
+                            @endcan
+                            @can('Read Job')
+                                @if (isFeatureEnabled('Job Management'))
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('jobs.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-cogs"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Job
                                         </span>
                                     </div>
                                 @endif

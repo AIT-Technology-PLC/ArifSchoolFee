@@ -1,16 +1,10 @@
 @extends('layouts.app')
 
-@section('title')
-    Edit Warehouse - {{ $warehouse->name }}
-@endsection
+@section('title', 'Edit Warehouse')
 
 @section('content')
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                Edit Warehouse - {{ $warehouse->name }}
-            </h1>
-        </div>
+    <x-common.content-wrapper>
+        <x-content.header title="Edit Warehouse - {{ $warehouse->name }}" />
         <form
             id="formOne"
             action="{{ route('warehouses.update', $warehouse->id) }}"
@@ -24,114 +18,94 @@
                 <x-common.fail-message :message="session('limitReachedMessage')" />
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="name"
-                                class="label text-green has-text-weight-normal"
-                            >Warehouse Name <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input
-                                    id="name"
-                                    name="name"
+                        <x-forms.field>
+                            <x-forms.label for="name">
+                                Warehouse Name <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     type="text"
-                                    class="input"
+                                    name="name"
+                                    id="name"
                                     placeholder="Warehouse Name"
                                     value="{{ $warehouse->name ?? '' }}"
-                                >
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-warehouse"></i>
-                                </span>
-                                @error('name')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-warehouse"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="name" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="location"
-                                class="label text-green has-text-weight-normal"
-                            >Location <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input
-                                    id="location"
-                                    name="location"
+                        <x-forms.field>
+                            <x-forms.label for="location">
+                                Location <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     type="text"
-                                    class="input"
+                                    name="location"
+                                    id="location"
                                     placeholder="Location: Building, Street"
                                     value="{{ $warehouse->location ?? '' }}"
-                                >
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-location-arrow"></i>
-                                </span>
-                                @error('location')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-location-arrow"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="location" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     @if (userCompany()->hasIntegration('Point of Sale'))
                         <div class="column is-6">
-                            <div class="field">
-                                <label
-                                    for="pos_provider"
-                                    class="label text-green has-text-weight-normal"
-                                > Point of Sale Provider <sup class="has-text-danger"></sup> </label>
-                                <div class="control has-icons-left">
-                                    <div class="select is-fullwidth">
-                                        <select
-                                            id="pos_provider"
-                                            name="pos_provider"
-                                        >
-                                            <option disabled>
-                                                Select Provider
-                                            </option>
-                                            <option
-                                                value="Peds"
-                                                @selected($warehouse->pos_provider == 'Peds')
-                                            >
-                                                Peds
-                                            </option>
-                                            <option
-                                                value=""
-                                                @selected($warehouse->pos_provider == '')
-                                            >
-                                                None
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="icon is-small is-left">
-                                        <i class="fas fa-cash-register"></i>
-                                    </div>
-                                </div>
-                            </div>
+                            <x-forms.field>
+                                <x-forms.label for="pos_provider">
+                                    Point of Sale Provider <sup class="has-text-danger"> </sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left ">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="pos_provider"
+                                        name="pos_provider"
+                                    >
+                                        <option
+                                            selected
+                                            disabled
+                                        > Select Provider</option>
+                                        <option
+                                            value="Peds"
+                                            @selected($warehouse->pos_provider == 'Peds')
+                                        >Peds</option>
+                                        <option
+                                            value=""
+                                            @selected($warehouse->pos_provider == '')
+                                        >None</option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-cash-register"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="pos_provider" />
+                                </x-forms.control>
+                            </x-forms.field>
                         </div>
                     @endif
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="is_active"
-                                class="label text-green has-text-weight-normal"
-                            > Active or not <sup class="has-text-danger">*</sup> </label>
-                            <div class="control">
+                        <x-forms.field>
+                            <x-forms.label for="is_active">
+                                Active or not <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
                                 <label class="radio has-text-grey has-text-weight-normal">
                                     <input
                                         type="radio"
                                         name="is_active"
                                         value="1"
                                         class="mt-3"
-                                        {{ $warehouse->isActive() ? 'checked' : '' }}
+                                        @checked($warehouse->isActive())
                                     >
                                     Active
                                 </label>
@@ -140,35 +114,27 @@
                                         type="radio"
                                         name="is_active"
                                         value="0"
-                                        {{ $warehouse->isActive() ? '' : 'checked' }}
+                                        @checked(!$warehouse->isActive())
                                     >
                                     Not Active
                                 </label>
-                                @error('is_active')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                <x-common.validation-error property="is_active" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="is_sales_store"
-                                class="label text-green has-text-weight-normal"
-                            > Store Type <sup class="has-text-danger">*</sup> </label>
-                            <div class="control">
+                        <x-forms.field>
+                            <x-forms.label for="is_sales_store">
+                                Store Type <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
                                 <label class="radio has-text-grey has-text-weight-normal">
                                     <input
                                         type="radio"
                                         name="is_sales_store"
                                         value="1"
                                         class="mt-3"
-                                        {{ $warehouse->is_sales_store ? 'checked' : '' }}
+                                        @checked($warehouse->isSalesStore())
                                     >
                                     Sales Store
                                 </label>
@@ -177,35 +143,27 @@
                                         type="radio"
                                         name="is_sales_store"
                                         value="0"
-                                        {{ $warehouse->is_sales_store ? '' : 'checked' }}
+                                        @checked(!$warehouse->isSalesStore())
                                     >
                                     Main Store
                                 </label>
-                                @error('is_sales_store')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                <x-common.validation-error property="is_sales_store" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="can_be_sold_from"
-                                class="label text-green has-text-weight-normal"
-                            > Can be sold from? <sup class="has-text-danger">*</sup> </label>
-                            <div class="control">
+                        <x-forms.field>
+                            <x-forms.label for="can_be_sold_from">
+                                Can be sold from? <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
                                 <label class="radio has-text-grey has-text-weight-normal">
                                     <input
                                         type="radio"
                                         name="can_be_sold_from"
                                         value="1"
                                         class="mt-3"
-                                        {{ $warehouse->can_be_sold_from ? 'checked' : '' }}
+                                        @checked($warehouse->isCanBeSoldFrom())
                                     >
                                     Yes
                                 </label>
@@ -214,113 +172,83 @@
                                         type="radio"
                                         name="can_be_sold_from"
                                         value="0"
-                                        {{ $warehouse->can_be_sold_from ? '' : 'checked' }}
+                                        @checked(!$warehouse->isCanBeSoldFrom())
                                     >
                                     No
                                 </label>
-                                @error('can_be_sold_from')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                <x-common.validation-error property="can_be_sold_from" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="email"
-                                class="label text-green has-text-weight-normal"
-                            >Email <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input
+                        <x-forms.field>
+                            <x-forms.label for="email">
+                                Email <sup class="has-text-danger"> </sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="text"
                                     id="email"
                                     name="email"
-                                    type="text"
-                                    class="input"
                                     placeholder="Email Address"
                                     value="{{ $warehouse->email ?? '' }}"
-                                >
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-at"></i>
-                                </span>
-                                @error('email')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-at"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="email" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="phone"
-                                class="label text-green has-text-weight-normal"
-                            >Phone <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input
+                        <x-forms.field>
+                            <x-forms.label for="phone">
+                                Phone <sup class="has-text-danger"> </sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="text"
                                     id="phone"
                                     name="phone"
-                                    type="text"
-                                    class="input"
                                     placeholder="Phone/Telephone"
                                     value="{{ $warehouse->phone ?? '' }}"
-                                >
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-phone"></i>
-                                </span>
-                                @error('phone')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-phone"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="phone" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-12">
-                        <div class="field">
-                            <label
-                                for="description"
-                                class="label text-green has-text-weight-normal"
-                            >Description</label>
-                            <div class="control has-icons-left">
-                                <textarea
+                        <x-forms.field>
+                            <x-forms.label for="customer_id">
+                                Description <sup class="has-text-danger"> </sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.textarea
                                     name="description"
                                     id="description"
-                                    cols="30"
-                                    rows="10"
-                                    class="textarea pl-6"
-                                    placeholder="Description or note about the new warehouse"
->{{ $warehouse->description ?? '' }}</textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                @error('description')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                    class="pl-6"
+                                    placeholder="Description or note to be taken"
+                                >
+                                    {{ $warehouse->description ?? '' }}
+                                </x-forms.textarea>
+                                <x-common.icon
+                                    name="fas fa-edit"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="description" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                 </div>
             </div>
-            <div class="box radius-top-0">
+            <x-content.footer>
                 <x-common.save-button />
-            </div>
+            </x-content.footer>
         </form>
-    </section>
+    </x-common.content-wrapper>
 @endsection

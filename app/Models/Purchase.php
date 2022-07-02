@@ -62,6 +62,11 @@ class Purchase extends Model
         return $this->type == 'Import';
     }
 
+    public function isCashPayment()
+    {
+        return $this->payment_type == 'Cash Payment';
+    }
+
     public function purchase()
     {
         $this->purchased_by = authUser()->id;

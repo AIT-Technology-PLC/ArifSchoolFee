@@ -1,82 +1,107 @@
 @extends('layouts.app')
 
-@section('title')
-    Update Tender Checklist
-@endsection
+@section('title', 'Update Tender Checklist')
 
 @section('content')
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                Update Tender Checklist
-            </h1>
-        </div>
-        <form id="formOne" action="{{ route('tender-checklists.update', $tenderChecklist->id) }}" method="post" enctype="multipart/form-data" novalidate>
+    <x-common.content-wrapper>
+        <x-content.header title="Update Tender Checklist" />
+        <form
+            id="formOne"
+            action="{{ route('tender-checklists.update', $tenderChecklist->id) }}"
+            method="post"
+            enctype="multipart/form-data"
+            novalidate
+        >
             @csrf
             @method('PATCH')
-            <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-content.main>
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <div class="field">
-                            <label class="label text-green has-text-weight-normal">Item <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input name="item" type="text" class="input" value="{{ $tenderChecklist->generalTenderChecklist->item }}" disabled>
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-tasks"></i>
-                                </span>
-                                @error('item')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label>
+                                Item <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="text"
+                                    name="item"
+                                    id="item"
+                                    disabled
+                                    value="{{ $tenderChecklist->generalTenderChecklist->item }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-tasks"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="item" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label class="label text-green has-text-weight-normal">Status <sup class="has-text-danger">*</sup> </label>
-                            <div class="control">
-                                <label class="radio">
-                                    <input type="radio" name="status" value="Completed" {{ $tenderChecklist->status == 'Completed' ? 'checked' : '' }}>
+                        <x-forms.field>
+                            <x-forms.label for="status">
+                                Status <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input
+                                        type="radio"
+                                        name="status"
+                                        value=" Completed"
+                                        class="mt-3"
+                                        @checked($tenderChecklist->status == 'Completed')
+                                    >
                                     Completed
                                 </label>
-                                <label class="radio">
-                                    <input type="radio" name="status" value="In Process" {{ $tenderChecklist->status == 'In Process' ? 'checked' : '' }}>
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input
+                                        type="radio"
+                                        name="status"
+                                        value="In Process"
+                                        @checked($tenderChecklist->status == 'In Process')
+                                    >
                                     In Process
                                 </label>
-                                <label class="radio">
-                                    <input type="radio" name="status" value="Not Started" {{ $tenderChecklist->status == 'Not Started' ? 'checked' : '' }}>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                    <input
+                                        type="radio"
+                                        name="status"
+                                        value="Not Started"
+                                        @checked($tenderChecklist->status == 'Not Started')
+                                    >
                                     Not Started
                                 </label>
-                                @error('status')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                <x-common.validation-error property="status" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label for="comment" class="label text-green has-text-weight-normal">Comment</label>
-                            <div class="control has-icons-left">
-                                <textarea name="comment" id="comment" cols="30" rows="3" class="textarea pl-6" placeholder="Comment or note about this checklist">{{ $tenderChecklist->comment }}</textarea>
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                @error('comment')
-                                    <span class="help has-text-danger" role="alert">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label for="comment">
+                                Comment <sup class="has-text-danger"> </sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.textarea
+                                    name="comment"
+                                    id="comment"
+                                    class="pl-6"
+                                    placeholder="Comment or note about this checklist"
+                                >
+                                    {{ $tenderChecklist->comment }}
+                                </x-forms.textarea>
+                                <x-common.icon
+                                    name="fas fa-edit"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="comment" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                 </div>
-            </div>
-            <div class="box radius-top-0">
+            </x-content.main>
+            <x-content.footer>
                 <x-common.save-button />
-            </div>
+            </x-content.footer>
         </form>
-    </section>
+    </x-common.content-wrapper>
 @endsection

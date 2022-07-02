@@ -16,6 +16,8 @@ class ProductPerWarehouseHistoryService
         AdjustmentDetailHistoryService::class,
         ReservationDetailHistoryService::class,
         TransactionDetailHistoryService::class,
+        JobDetailHistoryService::class,
+        JobExtraHistoryService::class,
     ];
 
     private $warehouse, $product, $history;

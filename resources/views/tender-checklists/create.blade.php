@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
-@section('title')
-    Select & Add Checklists
-@endsection
+@section('title', 'Select & Add Checklists')
 
 @section('content')
     <x-common.content-wrapper>

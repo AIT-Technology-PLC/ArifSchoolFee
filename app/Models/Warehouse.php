@@ -31,6 +31,7 @@ class Warehouse extends Model
         'returnDetails',
         'reservationDetails',
         'originalUsers',
+        'jobs',
         'fromTransfers',
         'toTransfers',
     ];
@@ -100,6 +101,11 @@ class Warehouse extends Model
         return $this->hasMany(Transfer::class, 'transferred_to');
     }
 
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'factory_id');
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);
@@ -125,5 +131,15 @@ class Warehouse extends Model
     public function isActive()
     {
         return $this->is_active;
+    }
+
+    public function isSalesStore()
+    {
+        return $this->is_sales_store;
+    }
+
+    public function isCanBeSoldFrom()
+    {
+        return $this->can_be_sold_from;
     }
 }
