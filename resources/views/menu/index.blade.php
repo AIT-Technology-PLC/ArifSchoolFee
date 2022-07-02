@@ -19,20 +19,20 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @can('Read BOM')
-                                @if (isFeatureEnabled('Bill Of Material Management'))
+                            @can('Read Job')
+                                @if (isFeatureEnabled('Job Management'))
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('bill-of-materials.index') }}"
+                                            href="{{ route('jobs.index') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class="fas fa-clipboard-list"></i>
+                                                <i class="fas fa-cogs"></i>
                                             </span>
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Bill Of Material
+                                            Jobs
                                         </span>
                                     </div>
                                 @endif
@@ -50,25 +50,25 @@
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Job Planner
+                                            Planner
                                         </span>
                                     </div>
                                 @endif
                             @endcan
-                            @can('Read Job')
-                                @if (isFeatureEnabled('Job Management'))
+                            @can('Read BOM')
+                                @if (isFeatureEnabled('Bill Of Material Management'))
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('jobs.index') }}"
+                                            href="{{ route('bill-of-materials.index') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class="fas fa-cogs"></i>
+                                                <i class="fas fa-clipboard-list"></i>
                                             </span>
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Job
+                                            Bill Of Materials
                                         </span>
                                     </div>
                                 @endif

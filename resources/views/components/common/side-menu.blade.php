@@ -102,32 +102,6 @@
                         x-show="isAccordionOpen"
                         x-collapse
                     >
-                        @if (isFeatureEnabled('Bill Of Material Management'))
-                            @can('Read BOM')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('bill-of-materials.index') }}"
-                                        label="Bill Of Materials"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('bill-of-materials.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('bill-of-materials.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                            @endif
-                        @endcan
-                        @if (isFeatureEnabled('Job Management'))
-                            @can('Plan Job')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('job-planners.create') }}"
-                                        label="Job Planner"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('job-planners.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('job-planners.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                            @endcan
-                        @endif
                         @if (isFeatureEnabled('Job Management'))
                             @can('Read Job')
                                 <li>
@@ -141,6 +115,32 @@
                                 </li>
                             @endcan
                         @endif
+                        @if (isFeatureEnabled('Job Management'))
+                            @can('Plan Job')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('job-planners.create') }}"
+                                        label="Planner"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('job-planners.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('job-planners.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+                        @if (isFeatureEnabled('Bill Of Material Management'))
+                            @can('Read BOM')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('bill-of-materials.index') }}"
+                                        label="Bill Of Materials"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('bill-of-materials.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('bill-of-materials.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endif
+                        @endcan
                     </ul>
                 </li>
             </ul>

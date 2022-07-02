@@ -39,7 +39,7 @@ class JobPlannerService
                 $billOfMaterialDetail = $billOfMaterialDetails->where('bill_of_material_id', $detail['bill_of_material_id'])->where('product_id', $totalbom[$i]->product_id)->first();
                 $requiredAmount = $billOfMaterialDetail->quantity * $detail['quantity'];
                 $status = $availableAmount ? ($availableAmount->available >= $requiredAmount ? 'Sufficient' : 'Insufficient') : 'Insufficient';
-                $productionCapacity = ($availableAmount && $billOfMaterialDetail) ? number_format($availableAmount->available / $billOfMaterialDetail->quantity) : 0;
+                $productionCapacity = ($availableAmount && $billOfMaterialDetail) ? number_format($availableAmount->available / $billOfMaterialDetail->quantity, 2) : 0;
                 $difference = ($availableAmount ? $availableAmount->available : 0) - $requiredAmount;
                 $result[] = collect([
                     'index' => $index,

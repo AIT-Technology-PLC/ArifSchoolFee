@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Job Managnment')
+@section('title', 'Jobs')
 
 @section('content')
     <div class="columns is-marginless is-multiline">
         <div class="column is-4 p-lr-0">
             <x-common.total-model
-                model="JOBS"
+                model="Jobs"
                 :amount="$totalJobs"
                 icon="fas fa-cogs"
             />

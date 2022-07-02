@@ -1,9 +1,9 @@
 <x-content.main
     x-data="returnMasterDetailForm({{ Js::from($data) }})"
-    x-init="$store.errors.setErrors({{ Js::from($errors->get('returnn.*')) }})"
+    x-init="$store.errors.setErrors({{ Js::from($errors->get('return.*')) }})"
 >
     <template
-        x-for="(returnn, index) in returnns"
+        x-for="(returnn, index) in returns"
         x-bind:key="index"
     >
         <div class="mx-3">
@@ -59,7 +59,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`returnn.${index}.product_id`)"
+                                    x-text="$store.errors.getErrors(`return.${index}.product_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -89,7 +89,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`returnn.${index}.warehouse_id`)"
+                                    x-text="$store.errors.getErrors(`return.${index}.warehouse_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -113,7 +113,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`returnn.${index}.quantity`)"
+                                    x-text="$store.errors.getErrors(`return.${index}.quantity`)"
                                 ></span>
                             </x-forms.control>
                             <x-forms.control>
@@ -146,7 +146,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`returnn.${index}.unit_price`)"
+                                    x-text="$store.errors.getErrors(`return.${index}.unit_price`)"
                                 ></span>
                             </x-forms.control>
                             <x-forms.control>
@@ -180,7 +180,7 @@
                                     />
                                     <span
                                         class="help has-text-danger"
-                                        x-text="$store.errors.getErrors(`returnn.${index}.description`)"
+                                        x-text="$store.errors.getErrors(`return.${index}.description`)"
                                     ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -202,18 +202,16 @@
 @push('scripts')
     <script>
         document.addEventListener("alpine:init", () => {
-            Alpine.data("returnMasterDetailForm", ({
-                returnn
-            }) => ({
-                returnns: [],
+            Alpine.data("returnMasterDetailForm", (returnn) => ({
+                returns: [],
 
                 async init() {
                     await Product.init();
 
-                    if (returnn) {
-                        this.returnns = returnn;
+                    if (returnn.hasOwnProperty('return')) {
+                        this.returns = returnn.return;
 
-                        await Promise.resolve(this.returnns.forEach((returnn) => returnn.product_category_id = Product.productCategoryId(returnn.product_id)))
+                        await Promise.resolve(this.returns.forEach((returnn) => returnn.product_category_id = Product.productCategoryId(returnn.product_id)))
 
                         await Promise.resolve($(".product-list").trigger("change", [true]));
 
@@ -223,18 +221,17 @@
                     this.add();
                 },
                 add() {
-                    this.returnns.push({});
+                    this.returns.push({});
                 },
                 async remove(index) {
-                    if (this.returnns.length <= 0) {
+                    if (this.returns.length <= 0) {
                         return;
                     }
 
-                    await Promise.resolve(this.returnns.splice(index, 1));
+                    await Promise.resolve(this.returns.splice(index, 1));
 
                     await Promise.resolve(
-                        this.returnns.forEach((
-                            returnn, i) => {
+                        this.returns.forEach((returnn, i) => {
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), returnn.product_id, returnn.product_category_id);
                             }
@@ -247,14 +244,14 @@
                     let select2 = initializeSelect2(this.$el);
 
                     select2.on("change", (event, haveData = false) => {
-                        this.returnns[index].product_id = event.target.value;
+                        this.returns[index].product_id = event.target.value;
 
-                        this.returnns[index].product_category_id = Product.productCategoryId(this.returnns[index].product_id);
+                        this.returns[index].product_category_id = Product.productCategoryId(this.returns[index].product_id);
 
                         if (!haveData) {
-                            Product.changeProductCategory(select2, this.returnns[index].product_id, this.returnns[index].product_category_id);
+                            Product.changeProductCategory(select2, this.returns[index].product_id, this.returns[index].product_category_id);
 
-                            this.Products[index].unit_price = Product.price(this.Products[index].product_id);
+                            this.returns[index].unit_price = Product.price(this.returns[index].product_id);
                         }
                     });
                 },

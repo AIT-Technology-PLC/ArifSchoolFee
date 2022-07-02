@@ -30,18 +30,18 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @can('Create BOM')
-                                @if (isFeatureEnabled('Bill Of Material Management'))
+                            @can('Create Job')
+                                @if (isFeatureEnabled('Job Management'))
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
                                             mode="button"
-                                            href="{{ route('bill-of-materials.create') }}"
-                                            icon="fas fa-clipboard-list"
+                                            href="{{ route('jobs.create') }}"
+                                            icon="fas fa-cogs"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>
-                                        <span class="is-size-7"> New Bill Of Material </span>
+                                        <span class="is-size-7"> New Job </span>
                                     </div>
                                 @endif
                             @endcan
@@ -56,23 +56,23 @@
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>
-                                        <span class="is-size-7"> New Job Planner </span>
+                                        <span class="is-size-7"> New Planner </span>
                                         <br>
                                     </div>
                                 @endif
                             @endcan
-                            @can('Create Job')
-                                @if (isFeatureEnabled('Job Management'))
+                            @can('Create BOM')
+                                @if (isFeatureEnabled('Bill Of Material Management'))
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
                                             mode="button"
-                                            href="{{ route('jobs.create') }}"
-                                            icon="fas fa-cogs"
+                                            href="{{ route('bill-of-materials.create') }}"
+                                            icon="fas fa-clipboard-list"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>
-                                        <span class="is-size-7"> New Job </span>
+                                        <span class="is-size-7"> New Bill Of Material </span>
                                     </div>
                                 @endif
                             @endcan

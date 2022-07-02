@@ -102,12 +102,12 @@
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.select
-                                    class="is-fullwidth"
+                                    class="bill-of-materials is-fullwidth"
                                     x-bind:id="`job[${index}][bill_of_material_id]`"
                                     x-bind:name="`job[${index}][bill_of_material_id]`"
                                     x-model="job.bill_of_material_id"
                                 >
-                                    <option> </option>
+                                    <option value="">Select Bill of Material</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-th"
@@ -143,7 +143,7 @@
                 jobs: [],
 
                 async init() {
-                    await Product.init();
+                    await Promise.all([Product.init(), BillOfMaterial.init()]);
 
                     if (job) {
                         this.jobs = job;
@@ -171,6 +171,12 @@
                         this.jobs.forEach((job, i) => {
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), job.product_id, job.product_category_id);
+
+                                BillOfMaterial.appendBillOfMaterials(
+                                    this.getBillOfMaterialsSelect(i),
+                                    this.jobs[i].bill_of_material_id,
+                                    BillOfMaterial.whereProductId(this.jobs[i].product_id)
+                                );
                             }
                         })
                     );
@@ -188,6 +194,12 @@
                                 this.jobs[index].product_id
                             );
 
+                        BillOfMaterial.appendBillOfMaterials(
+                            this.getBillOfMaterialsSelect(index),
+                            this.jobs[index].bill_of_material_id,
+                            BillOfMaterial.whereProductId(this.jobs[index].product_id)
+                        );
+
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.jobs[index].product_id, this.jobs[index].product_category_id);
                         }
@@ -195,6 +207,9 @@
                 },
                 getSelect2(index) {
                     return $(".product-list").eq(index);
+                },
+                getBillOfMaterialsSelect(index) {
+                    return document.getElementsByClassName("bill-of-materials")[index].firstElementChild;
                 }
             }));
         });
