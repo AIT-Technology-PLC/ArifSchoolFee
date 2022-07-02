@@ -176,7 +176,7 @@
                 </div>
             </x-content.main>
 
-            @include('jobs.partials.details-form', ['data' => ['job' => $job->jobDetails]])
+            @include('jobs.partials.details-form', ['data' => ['job' => old('job') ?? $job->jobDetails]])
 
             <x-content.footer>
                 <x-common.save-button />

@@ -198,7 +198,7 @@
                 </div>
             </x-content.main>
 
-            @include('purchases.details-form', ['data' => ['purchase' => $purchase->purchaseDetails]])
+            @include('purchases.details-form', ['data' => ['purchase' => old('purchase') ?? $purchase->purchaseDetails]])
 
             <x-content.footer>
                 <x-common.save-button />
