@@ -26,6 +26,11 @@ class Customer extends Model
         return $this->hasMany(Gdn::class);
     }
 
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
+
     public function tenders()
     {
         return $this->hasMany(Tender::class);
