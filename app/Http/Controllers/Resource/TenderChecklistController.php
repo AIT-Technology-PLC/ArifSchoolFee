@@ -45,7 +45,7 @@ class TenderChecklistController extends Controller
         $this->authorize('create', $tender);
 
         DB::transaction(function () use ($request, $tender) {
-            $tender->tenderChecklists()->createMany($request->checklists);
+            $tender->tenderChecklists()->createMany($request->validated('checklists'));
         });
 
         return redirect()->route('tenders.show', $tender->id);

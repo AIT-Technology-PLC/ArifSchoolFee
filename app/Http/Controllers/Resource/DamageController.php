@@ -49,9 +49,9 @@ class DamageController extends Controller
     public function store(StoreDamageRequest $request)
     {
         $damage = DB::transaction(function () use ($request) {
-            $damage = Damage::create($request->except('damage'));
+            $damage = Damage::create($request->safe()->except('damage'));
 
-            $damage->damageDetails()->createMany($request->damage);
+            $damage->damageDetails()->createMany($request->validated('damage'));
 
             Notification::send(Notifiables::byNextActionPermission('Approve Damage'), new DamagePrepared($damage));
 
@@ -85,7 +85,7 @@ class DamageController extends Controller
         }
 
         DB::transaction(function () use ($request, $damage) {
-            $damage->update($request->except('damage'));
+            $damage->update($request->safe()->except('damage'));
 
             $damage->damageDetails()->forceDelete();
 

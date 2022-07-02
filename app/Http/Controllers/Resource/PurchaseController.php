@@ -50,9 +50,9 @@ class PurchaseController extends Controller
     public function store(StorePurchaseRequest $request)
     {
         $purchase = DB::transaction(function () use ($request) {
-            $purchase = Purchase::create($request->except('purchase'));
+            $purchase = Purchase::create($request->safe()->except('purchase'));
 
-            $purchase->purchaseDetails()->createMany($request->purchase);
+            $purchase->purchaseDetails()->createMany($request->validated('purchase'));
 
             Notification::send(Notifiables::byNextActionPermission('Approve Purchase'), new PurchasePrepared($purchase));
 
@@ -91,7 +91,7 @@ class PurchaseController extends Controller
         }
 
         DB::transaction(function () use ($request, $purchase) {
-            $purchase->update($request->except('purchase'));
+            $purchase->update($request->safe()->except('purchase'));
 
             $purchase->purchaseDetails()->forceDelete();
 

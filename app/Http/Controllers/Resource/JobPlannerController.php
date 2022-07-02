@@ -26,7 +26,7 @@ class JobPlannerController extends Controller
     {
         $this->authorize('plan', Job::class);
 
-        $report = JobPlannerService::finalReport($request->jobPlanner)->groupBy('index')->values();
+        $report = JobPlannerService::finalReport($request->validated('jobPlanner'))->groupBy('index')->values();
 
         return back()->with('report', $report)->withInput();
     }

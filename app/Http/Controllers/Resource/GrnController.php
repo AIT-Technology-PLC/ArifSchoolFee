@@ -55,9 +55,9 @@ class GrnController extends Controller
     public function store(StoreGrnRequest $request)
     {
         $grn = DB::transaction(function () use ($request) {
-            $grn = Grn::create($request->except('grn'));
+            $grn = Grn::create($request->safe()->except('grn'));
 
-            $grn->grnDetails()->createMany($request->grn);
+            $grn->grnDetails()->createMany($request->validated('grn'));
 
             Notification::send(Notifiables::byNextActionPermission('Approve GRN'), new GrnPrepared($grn));
 
@@ -92,13 +92,13 @@ class GrnController extends Controller
     public function update(UpdateGrnRequest $request, Grn $grn)
     {
         if ($grn->isApproved()) {
-            $grn->update($request->only(['purchase_id', 'description']));
+            $grn->update($request->safe()->only(['purchase_id', 'description']));
 
             return redirect()->route('grns.show', $grn->id);
         }
 
         DB::transaction(function () use ($request, $grn) {
-            $grn->update($request->except('grn'));
+            $grn->update($request->safe()->except('grn'));
 
             $grn->grnDetails()->forceDelete();
 

@@ -41,9 +41,9 @@ class TenderController extends Controller
     public function store(StoreTenderRequest $request)
     {
         $tender = DB::transaction(function () use ($request) {
-            $tender = Tender::create($request->except('tender'));
+            $tender = Tender::create($request->safe()->except('tender'));
 
-            foreach ($request->lot as $lot) {
+            foreach ($request->validated('lot') as $lot) {
                 $tenderLot = $tender->tenderLots()->create();
                 $tenderLot->tenderLotDetails()->createMany($lot['lotDetails']);
             }
@@ -80,11 +80,11 @@ class TenderController extends Controller
         DB::transaction(function () use ($request, $tender) {
             $originalStatus = $tender->status;
 
-            $tender->update($request->except('tender'));
+            $tender->update($request->safe()->except('tender'));
 
-            for ($i = 0; $i < count($request->lot); $i++) {
-                for ($j = 0; $j < count($request->lot[$i]['lotDetails']); $j++) {
-                    $tender->tenderLots[$i]->tenderLotDetails[$j]->update($request->lot[$i]['lotDetails'][$j]);
+            for ($i = 0; $i < count($request->validated('lot')); $i++) {
+                for ($j = 0; $j < count($request->validated('lot')[$i]['lotDetails']); $j++) {
+                    $tender->tenderLots[$i]->tenderLotDetails[$j]->update($request->validated('lot')[$i]['lotDetails'][$j]);
                 }
             }
 

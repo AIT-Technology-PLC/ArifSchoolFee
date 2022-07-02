@@ -49,9 +49,9 @@ class ReturnController extends Controller
     public function store(StoreReturnRequest $request)
     {
         $return = DB::transaction(function () use ($request) {
-            $return = Returnn::create($request->except('return'));
+            $return = Returnn::create($request->safe()->except('return'));
 
-            $return->returnDetails()->createMany($request->return);
+            $return->returnDetails()->createMany($request->validated('return'));
 
             Notification::send(Notifiables::byNextActionPermission('Approve Return'), new ReturnPrepared($return));
 
@@ -87,7 +87,7 @@ class ReturnController extends Controller
         }
 
         DB::transaction(function () use ($request, $return) {
-            $return->update($request->except('return'));
+            $return->update($request->safe()->except('return'));
 
             $return->returnDetails()->forceDelete();
 

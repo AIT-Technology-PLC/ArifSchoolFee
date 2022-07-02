@@ -47,9 +47,9 @@ class SivController extends Controller
     public function store(StoreSivRequest $request)
     {
         $siv = DB::transaction(function () use ($request) {
-            $siv = Siv::create($request->except('siv'));
+            $siv = Siv::create($request->safe()->except('siv'));
 
-            $siv->sivDetails()->createMany($request->siv);
+            $siv->sivDetails()->createMany($request->validated('siv'));
 
             Notification::send(Notifiables::byNextActionPermission('Approve SIV'), new SivPrepared($siv));
 
@@ -86,7 +86,7 @@ class SivController extends Controller
         }
 
         DB::transaction(function () use ($request, $siv) {
-            $siv->update($request->except('siv'));
+            $siv->update($request->safe()->except('siv'));
 
             $siv->sivDetails()->forceDelete();
 

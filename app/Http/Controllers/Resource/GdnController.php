@@ -55,7 +55,7 @@ class GdnController extends Controller
         $gdn = DB::transaction(function () use ($request) {
             $gdn = Gdn::create($request->safe()->except('gdn'));
 
-            $gdn->gdnDetails()->createMany($request->gdn);
+            $gdn->gdnDetails()->createMany($request->validated('gdn'));
 
             Notification::send(Notifiables::byNextActionPermission('Approve GDN'), new GdnPrepared($gdn));
 
@@ -95,7 +95,7 @@ class GdnController extends Controller
         }
 
         if ($gdn->isApproved()) {
-            $gdn->update($request->only('sale_id', 'description'));
+            $gdn->update($request->safe()->only('sale_id', 'description'));
 
             return redirect()->route('gdns.show', $gdn->id);
         }

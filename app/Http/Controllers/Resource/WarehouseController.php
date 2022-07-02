@@ -42,8 +42,8 @@ class WarehouseController extends Controller
         }
 
         Warehouse::firstOrCreate(
-            $request->only(['name'] + ['company_id' => userCompany()->id]),
-            $request->except(['name'] + ['company_id' => userCompany()->id]),
+            $request->safe()->only(['name'] + ['company_id' => userCompany()->id]),
+            $request->safe()->except(['name'] + ['company_id' => userCompany()->id]),
         );
 
         return redirect()->route('warehouses.index');
@@ -56,7 +56,7 @@ class WarehouseController extends Controller
 
     public function update(UpdateWarehouseRequest $request, Warehouse $warehouse)
     {
-        if (!$warehouse->isActive() && $request->input('is_active') && limitReached('warehouse', Warehouse::active()->count())) {
+        if (!$warehouse->isActive() && $request->validated('is_active') && limitReached('warehouse', Warehouse::active()->count())) {
             $warehouse->update($request->safe()->except('is_active'));
 
             return back()->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'branches']));

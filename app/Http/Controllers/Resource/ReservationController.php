@@ -61,7 +61,7 @@ class ReservationController extends Controller
         $reservation = DB::transaction(function () use ($request) {
             $reservation = Reservation::create($request->safe()->except('reservation'));
 
-            $reservation->reservationDetails()->createMany($request->reservation);
+            $reservation->reservationDetails()->createMany($request->validated('reservation'));
 
             Notification::send(Notifiables::byNextActionPermission('Approve Reservation'), new ReservationPrepared($reservation));
 

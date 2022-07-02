@@ -55,9 +55,9 @@ class TransferController extends Controller
     public function store(StoreTransferRequest $request)
     {
         $transfer = DB::transaction(function () use ($request) {
-            $transfer = Transfer::create($request->except('transfer'));
+            $transfer = Transfer::create($request->safe()->except('transfer'));
 
-            $transfer->transferDetails()->createMany($request->transfer);
+            $transfer->transferDetails()->createMany($request->validated('transfer'));
 
             Notification::send(Notifiables::byNextActionPermission('Approve Transfer'), new TransferPrepared($transfer));
 
@@ -97,7 +97,7 @@ class TransferController extends Controller
         }
 
         DB::transaction(function () use ($request, $transfer) {
-            $transfer->update($request->except('transfer'));
+            $transfer->update($request->safe()->except('transfer'));
 
             $transfer->transferDetails()->forceDelete();
 

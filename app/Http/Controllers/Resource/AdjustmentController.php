@@ -49,9 +49,9 @@ class AdjustmentController extends Controller
     public function store(StoreAdjustmentRequest $request)
     {
         $adjustment = DB::transaction(function () use ($request) {
-            $adjustment = Adjustment::create($request->except('adjustment'));
+            $adjustment = Adjustment::create($request->safe()->except('adjustment'));
 
-            $adjustment->adjustmentDetails()->createMany($request->adjustment);
+            $adjustment->adjustmentDetails()->createMany($request->validated('adjustment'));
 
             Notification::send(Notifiables::byNextActionPermission('Approve Adjustment'), new AdjustmentPrepared($adjustment));
 
@@ -87,10 +87,10 @@ class AdjustmentController extends Controller
         }
 
         DB::transaction(function () use ($request, $adjustment) {
-            $adjustment->update($request->except('adjustment'));
+            $adjustment->update($request->safe()->except('adjustment'));
 
             for ($i = 0; $i < count($request->adjustment); $i++) {
-                $adjustment->adjustmentDetails[$i]->update($request->adjustment[$i]);
+                $adjustment->adjustmentDetails[$i]->update($request->validated('adjustment')[$i]);
             }
         });
 

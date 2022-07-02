@@ -34,7 +34,7 @@ class CreditSettlementController extends Controller
             return redirect()->route('credits.show', $credit->id)->with('failedMessage', 'This credit is fully settled.');
         }
 
-        if (($credit->creditSettlements()->sum('amount') + $request->amount) > $credit->credit_amount) {
+        if (($credit->creditSettlements()->sum('amount') + $request->validated('amount')) > $credit->credit_amount) {
             return redirect()->route('credits.show', $credit->id)
                 ->with('failedMessage', 'The total amount settled has exceeded the credit amount.');
         }
@@ -65,7 +65,7 @@ class CreditSettlementController extends Controller
 
         $totalSettlementsAmount = $creditSettlement->credit->creditSettlements()->where('id', '<>', $creditSettlement->id)->sum('amount');
 
-        if (($totalSettlementsAmount + $request->amount) > $creditSettlement->credit->credit_amount) {
+        if (($totalSettlementsAmount + $request->validated('amount')) > $creditSettlement->credit->credit_amount) {
             return redirect()->route('credits.show', $creditSettlement->credit->id)
                 ->with('failedMessage', 'The total amount settled has exceeded the credit amount.');
         }

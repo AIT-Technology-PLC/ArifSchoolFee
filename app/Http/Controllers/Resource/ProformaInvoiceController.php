@@ -47,9 +47,9 @@ class ProformaInvoiceController extends Controller
     public function store(StoreProformaInvoiceRequest $request)
     {
         $proformaInvoice = DB::transaction(function () use ($request) {
-            $proformaInvoice = ProformaInvoice::create($request->except('proformaInvoice'));
+            $proformaInvoice = ProformaInvoice::create($request->safe()->except('proformaInvoice'));
 
-            $proformaInvoice->proformaInvoiceDetails()->createMany($request->proformaInvoice);
+            $proformaInvoice->proformaInvoiceDetails()->createMany($request->validated('proformaInvoice'));
 
             Notification::send(Notifiables::byNextActionPermission('Convert Proforma Invoice'), new ProformaInvoicePrepared($proformaInvoice));
 
@@ -83,12 +83,12 @@ class ProformaInvoiceController extends Controller
         }
 
         DB::transaction(function () use ($request, $proformaInvoice) {
-            $proformaInvoice->update($request->except('proformaInvoice'));
+            $proformaInvoice->update($request->safe()->except('proformaInvoice'));
 
             $proformaInvoice
                 ->proformaInvoiceDetails
                 ->each(function ($proformaInvoiceDetail, $key) use ($request) {
-                    $proformaInvoiceDetail->update($request->proformaInvoice[$key]);
+                    $proformaInvoiceDetail->update($request->validated('proformaInvoice')[$key]);
                 });
         });
 

@@ -47,9 +47,9 @@ class CreditController extends Controller
 
     public function store(StoreCreditRequest $request)
     {
-        $customer = Customer::findOrFail($request->customer_id);
+        $customer = Customer::findOrFail($request->validated('customer_id'));
 
-        if ($customer->hasReachedCreditLimit($request->credit_amount)) {
+        if ($customer->hasReachedCreditLimit($request->validated('credit_amount'))) {
             return back()->withInput()->with('failedMessage', 'The customer has exceeded the credit amount limit');
         }
 
@@ -83,11 +83,11 @@ class CreditController extends Controller
                 ->with('failedMessage', 'Editing a credit that belongs to a delivery order is not allowed.');
         }
 
-        if ($credit->customer->hasReachedCreditLimit($request->credit_amount, $credit->id)) {
+        if ($credit->customer->hasReachedCreditLimit($request->validated('credit_amount'), $credit->id)) {
             return back()->with('failedMessage', 'The customer has exceeded the credit amount limit');
         }
 
-        if ($request->credit_amount < $credit->credit_amount_settled) {
+        if ($request->validated('credit_amount') < $credit->credit_amount_settled) {
             return redirect()->route('credits.show', $credit->id)
                 ->with('failedMessage', 'Credit amount cannot be less than credit settlements.');
         }
