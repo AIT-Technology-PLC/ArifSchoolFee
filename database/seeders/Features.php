@@ -179,7 +179,7 @@ class Features extends Seeder
 
             $professional->features()->sync(
                 $features
-                    ->whereNotIn('name', ['Bill Of Material Management'])
+                    ->whereNotIn('name', ['Bill Of Material Management', 'Job Management'])
                     ->pluck('id')
                     ->toArray()
             );
