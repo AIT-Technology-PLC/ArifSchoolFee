@@ -297,7 +297,7 @@ return new class extends Migration
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->decimal('available', 22);
+            $table->decimal('available', 22)->default(0.00);
             $table->decimal('reserved', 22)->default(0.00);
             $table->decimal('wip', 22)->default(0.00);
             $table->timestamps();

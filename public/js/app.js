@@ -136,20 +136,6 @@ function initiateDataTables() {
     showTablesAfterCompleteLoad("table.regular-datatable");
 }
 
-function showRowDetailsPage(event) {
-    let targetElement = event.target;
-
-    while (targetElement.tagName !== "TR") {
-        if (targetElement.classList.contains("actions")) {
-            return;
-        }
-
-        targetElement = targetElement.parentElement;
-    }
-
-    location.href = this.dataset.id;
-}
-
 function initializeSummernote() {
     $(".summernote").summernote({
         placeholder: "Write description or other notes here",

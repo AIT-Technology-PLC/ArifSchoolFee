@@ -9,23 +9,8 @@ if (d.getElementById("addNewForm")) {
     );
 }
 
-if (d.getElementById("addNewPurchaseForm")) {
-    d.getElementById("addNewPurchaseForm").addEventListener(
-        "click",
-        addPurchaseDetail
-    );
-}
-
-if (d.getElementById("addNewSaleForm")) {
-    d.getElementById("addNewSaleForm").addEventListener("click", addSaleDetail);
-}
-
 if (d.getElementById("formOne")) {
     d.getElementById("formOne").addEventListener("submit", disableSaveButton);
-}
-
-if (d.getElementById("addNewGrnForm")) {
-    d.getElementById("addNewGrnForm").addEventListener("click", addGrnDetail);
 }
 
 if (d.querySelectorAll("table.regular-datatable").length) {
@@ -39,12 +24,6 @@ if (d.getElementById("addNewTenderForm")) {
     );
 }
 
-if (d.getElementsByClassName("showRowDetails").length) {
-    for (let element of d.getElementsByClassName("showRowDetails")) {
-        element.addEventListener("click", showRowDetailsPage);
-    }
-}
-
 if (d.getElementsByClassName("summernote").length) {
     initializeSummernote();
 }
@@ -56,24 +35,10 @@ if (d.getElementById("addNewProformaInvoiceForm")) {
     );
 }
 
-if (d.getElementById("addNewDamageForm")) {
-    d.getElementById("addNewDamageForm").addEventListener(
-        "click",
-        addDamageDetail
-    );
-}
-
 if (d.getElementById("addNewAdjustmentForm")) {
     d.getElementById("addNewAdjustmentForm").addEventListener(
         "click",
         addAdjustmentDetail
-    );
-}
-
-if (d.getElementById("addNewReturnForm")) {
-    d.getElementById("addNewReturnForm").addEventListener(
-        "click",
-        addReturnDetail
     );
 }
 
