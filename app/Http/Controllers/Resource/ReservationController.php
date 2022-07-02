@@ -92,7 +92,7 @@ class ReservationController extends Controller
     public function update(UpdateReservationRequest $request, Reservation $reservation)
     {
         [$isExecuted, $message] = $this->reservationService->update(
-            $reservation, $request->safe()->except('reservation'), $request->reservation
+            $reservation, $request->safe()->except('reservation'), $request->validated('reservation')
         );
 
         if (!$isExecuted) {

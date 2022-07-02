@@ -31,11 +31,9 @@ class ReservationService
 
             $reservation->update($updatedReservation);
 
-            $reservation
-                ->reservationDetails
-                ->each(function ($reservationDetail, $key) use ($updatedReservationDetails) {
-                    $reservationDetail->update($updatedReservationDetails[$key]);
-                });
+            $reservation->reservationDetails()->forceDelete();
+
+            $reservation->reservationDetails()->createMany($updatedReservationDetails);
 
             $reservation->approved_by = null;
 

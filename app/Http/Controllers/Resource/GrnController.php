@@ -100,9 +100,9 @@ class GrnController extends Controller
         DB::transaction(function () use ($request, $grn) {
             $grn->update($request->except('grn'));
 
-            for ($i = 0; $i < count($request->grn); $i++) {
-                $grn->grnDetails[$i]->update($request->grn[$i]);
-            }
+            $grn->grnDetails()->forceDelete();
+
+            $grn->grnDetails()->createMany($request->safe()['grn']);
         });
 
         return redirect()->route('grns.show', $grn->id);

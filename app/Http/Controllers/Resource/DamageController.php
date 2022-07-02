@@ -87,9 +87,9 @@ class DamageController extends Controller
         DB::transaction(function () use ($request, $damage) {
             $damage->update($request->except('damage'));
 
-            for ($i = 0; $i < count($request->damage); $i++) {
-                $damage->damageDetails[$i]->update($request->damage[$i]);
-            }
+            $damage->damageDetails()->forceDelete();
+
+            $damage->damageDetails()->createMany($request->safe()['damage']);
         });
 
         return redirect()->route('damages.show', $damage->id);

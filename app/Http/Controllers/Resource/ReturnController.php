@@ -89,9 +89,9 @@ class ReturnController extends Controller
         DB::transaction(function () use ($request, $return) {
             $return->update($request->except('return'));
 
-            for ($i = 0; $i < count($request->return); $i++) {
-                $return->returnDetails[$i]->update($request->return[$i]);
-            }
+            $return->returnDetails()->forceDelete();
+
+            $return->returnDetails()->createMany($request->safe()['return']);
         });
 
         return redirect()->route('returns.show', $return->id);

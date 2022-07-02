@@ -73,6 +73,10 @@ class PurchaseController extends Controller
 
     public function edit(Purchase $purchase)
     {
+        if ($purchase->isApproved()) {
+            return back()->with('failedMessage', 'You can not edit an approved purchase.');
+        }
+
         $purchase->load('purchaseDetails.product');
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
@@ -82,12 +86,16 @@ class PurchaseController extends Controller
 
     public function update(UpdatePurchaseRequest $request, Purchase $purchase)
     {
+        if ($purchase->isApproved()) {
+            return redirect()->route('purchases.show', $purchase->id)->with('failedMessage', 'You can not edit an approved purchase.');
+        }
+
         DB::transaction(function () use ($request, $purchase) {
             $purchase->update($request->except('purchase'));
 
-            for ($i = 0; $i < count($request->purchase); $i++) {
-                $purchase->purchaseDetails[$i]->update($request->purchase[$i]);
-            }
+            $purchase->purchaseDetails()->forceDelete();
+
+            $purchase->purchaseDetails()->createMany($request->safe()['purchase']);
         });
 
         return redirect()->route('purchases.show', $purchase->id);
@@ -95,6 +103,10 @@ class PurchaseController extends Controller
 
     public function destroy(Purchase $purchase)
     {
+        if ($purchase->isApproved()) {
+            return back()->with('failedMessage', 'You can not delete an approved purchase.');
+        }
+
         $purchase->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');
