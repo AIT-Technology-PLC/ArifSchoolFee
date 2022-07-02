@@ -165,7 +165,7 @@
                                     <optgroup label="Ethiopian Cities">
                                         @include('lists.cities')
                                     </optgroup>
-                                    <optgroup label="Others">
+                                    <optgroup label="Countries">
                                         @include('lists.countries')
                                     </optgroup>
                                     <option value="">None</option>

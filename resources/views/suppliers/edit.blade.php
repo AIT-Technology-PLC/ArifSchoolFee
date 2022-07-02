@@ -4,7 +4,7 @@
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="Edit Supplier - {{ $supplier->company_name }}" />
+        <x-content.header title="Edit Supplier" />
         <form
             id="formOne"
             action="{{ route('suppliers.update', $supplier->id) }}"
@@ -166,7 +166,7 @@
                                     <optgroup label="Ethiopian Cities">
                                         @include('lists.cities')
                                     </optgroup>
-                                    <optgroup label="Others">
+                                    <optgroup label="Countries">
                                         @include('lists.countries')
                                     </optgroup>
                                     <option value="">None</option>

@@ -225,10 +225,6 @@
 
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.purchases[index].product_id, this.purchases[index].product_category_id);
-
-                            this.Products[index].unit_price = Product.price(
-                                this.Products[index].product_id
-                            );
                         }
                     });
                 },
