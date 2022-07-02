@@ -67,7 +67,9 @@
                                     id="description"
                                     class="textarea pl-6"
                                     placeholder="Description or note to be taken"
-                                >{{ old('description') ?? '' }}</x-forms.textarea>
+                                >
+                                    {{ old('description') ?? '' }}
+                                </x-forms.textarea>
                                 <x-common.icon
                                     name="fas fa-edit"
                                     class="is-large is-left"

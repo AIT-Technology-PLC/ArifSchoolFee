@@ -130,7 +130,9 @@
                                     id="description"
                                     class="summernote textarea"
                                     placeholder="Description or note to be taken"
-                                >{{ $grn->description ?? '' }}</x-forms.textarea>
+                                >
+                                    {{ $grn->description ?? '' }}
+                                </x-forms.textarea>
                                 <x-common.validation-error property="description" />
                             </x-forms.control>
                         </x-forms.field>

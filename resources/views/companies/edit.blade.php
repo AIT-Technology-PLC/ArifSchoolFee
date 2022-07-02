@@ -4,7 +4,7 @@
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="Edit General Settings" />
+        <x-content.header title="Edit Settings" />
         <form
             id="formOne"
             action="{{ route('companies.update', userCompany()->id) }}"

@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Modify Employee Data')
+@section('title', 'Edit Employee')
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="Modify {{ $employee->user->name }}'s Information" />
+        <x-content.header title="Edit Employee" />
         <form
             id="formOne"
             action="{{ route('employees.update', $employee->id) }}"

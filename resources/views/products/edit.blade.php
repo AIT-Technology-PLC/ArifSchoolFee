@@ -4,7 +4,7 @@
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="Edit Product - {{ $product->name }}" />
+        <x-content.header title="Edit Product" />
         <form
             id="formOne"
             action="{{ route('products.update', $product->id) }}"

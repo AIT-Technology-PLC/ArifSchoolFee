@@ -173,15 +173,15 @@
                                     class="textarea pl-6"
                                     placeholder="Description or note to be taken"
                                 >
-                                    </x-formtextarea>
-                                    <x-common.icon
-                                        name="fas fa-edit"
-                                        class="is-large is-left"
-                                    />
-                                    <span
-                                        class="help has-text-danger"
-                                        x-text="$store.errors.getErrors(`return.${index}.description`)"
-                                    ></span>
+                                </x-forms.textarea>
+                                <x-common.icon
+                                    name="fas fa-edit"
+                                    class="is-large is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`return.${index}.description`)"
+                                ></span>
                             </x-forms.control>
                         </x-forms.field>
                     </div>

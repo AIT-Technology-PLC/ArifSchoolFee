@@ -4,7 +4,7 @@
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="Edit Product Category - {{ $category->name }}" />
+        <x-content.header title="Edit Product Category" />
         <form
             id="formOne"
             action="{{ route('categories.update', $category->id) }}"
@@ -49,7 +49,9 @@
                                     rows="10"
                                     class="textarea pl-6"
                                     placeholder="Description or note about the new category"
-                                > {{ $category->description }} </x-forms.textarea>
+                                >
+                                    {{ $category->description }}
+                                </x-forms.textarea>
                                 <x-common.icon
                                     name="fas fa-edit"
                                     class="is-large is-left"
@@ -60,37 +62,35 @@
                     </div>
                 </div>
                 <div class="columns is-marginless is-multiline">
-                    @if (is_null($category->properties))
-                        {{ '' }}
-                    @else
-                        @foreach ($category->properties as $property)
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="properties[{{ $loop->index }}][{{ $property['key'] }}]">Property</x-forms.label>
-                                    <x-forms.control>
-                                        <x-forms.input
-                                            id="properties[{{ $loop->index }}][{{ $property['key'] }}]"
-                                            name="properties[{{ $loop->index }}][key]"
-                                            type="text"
-                                            value="{{ $property['key'] }}"
-                                        />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="properties[{{ $loop->index }}][{{ $property['value'] }}]">Data</x-forms.label>
-                                    <x-forms.control>
-                                        <x-forms.input
-                                            id="properties[{{ $loop->index }}][{{ $property['value'] }}]"
-                                            name="properties[{{ $loop->index }}][value]"
-                                            type="text"
-                                            value="{{ $property['value'] }}"
-                                        />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                        @endforeach
+                    @continue (is_null($category->properties))
+                    @foreach ($category->properties as $property)
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="properties[{{ $loop->index }}][{{ $property['key'] }}]">Property</x-forms.label>
+                                <x-forms.control>
+                                    <x-forms.input
+                                        id="properties[{{ $loop->index }}][{{ $property['key'] }}]"
+                                        name="properties[{{ $loop->index }}][key]"
+                                        type="text"
+                                        value="{{ $property['key'] }}"
+                                    />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="properties[{{ $loop->index }}][{{ $property['value'] }}]">Data</x-forms.label>
+                                <x-forms.control>
+                                    <x-forms.input
+                                        id="properties[{{ $loop->index }}][{{ $property['value'] }}]"
+                                        name="properties[{{ $loop->index }}][value]"
+                                        type="text"
+                                        value="{{ $property['value'] }}"
+                                    />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endforeach
                     @endif
                 </div>
             </x-content.main>

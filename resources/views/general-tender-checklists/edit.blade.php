@@ -78,7 +78,9 @@
                                     id="description"
                                     class="textarea pl-6"
                                     placeholder="Description or note about this checklist"
-                                >{{ $generalTenderChecklist->description }}</x-forms.textarea>
+                                >
+                                    {{ $generalTenderChecklist->description ?? '' }}
+                                </x-forms.textarea>
                                 <x-common.icon
                                     name="fas fa-edit"
                                     class="is-large is-left"
