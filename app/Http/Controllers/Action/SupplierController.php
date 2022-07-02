@@ -20,7 +20,7 @@ class SupplierController extends Controller
 
         ini_set('max_execution_time', '-1');
 
-        (new SupplierImport)->import($request->safe()['file']);
+        (new SupplierImport)->import($request->validated('file'));
 
         return back()->with('imported', __('messages.file_imported'));
     }

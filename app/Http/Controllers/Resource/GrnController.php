@@ -102,7 +102,7 @@ class GrnController extends Controller
 
             $grn->grnDetails()->forceDelete();
 
-            $grn->grnDetails()->createMany($request->safe()['grn']);
+            $grn->grnDetails()->createMany($request->validated('grn'));
         });
 
         return redirect()->route('grns.show', $grn->id);

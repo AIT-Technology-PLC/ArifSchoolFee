@@ -20,7 +20,7 @@ class EmployeeController extends Controller
 
         ini_set('max_execution_time', '-1');
 
-        (new EmployeeImport)->import($request->safe()['file']);
+        (new EmployeeImport)->import($request->validated('file'));
 
         return back()->with('imported', __('messages.file_imported'));
     }

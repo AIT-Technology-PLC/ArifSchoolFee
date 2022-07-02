@@ -117,7 +117,7 @@ class GdnController extends Controller
     {
         $this->authorize('import', Gdn::class);
 
-        $validatedData = $this->gdnService->importValidatedData($importFileRequest->safe()['file']);
+        $validatedData = $this->gdnService->importValidatedData($importFileRequest->validated('file'));
 
         [$isExecuted, $message, $gdn] = $this->gdnService->import($validatedData);
 

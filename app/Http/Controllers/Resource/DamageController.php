@@ -89,7 +89,7 @@ class DamageController extends Controller
 
             $damage->damageDetails()->forceDelete();
 
-            $damage->damageDetails()->createMany($request->safe()['damage']);
+            $damage->damageDetails()->createMany($request->validated('damage'));
         });
 
         return redirect()->route('damages.show', $damage->id);

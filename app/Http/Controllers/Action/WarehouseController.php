@@ -19,7 +19,7 @@ class WarehouseController extends Controller
 
         ini_set('max_execution_time', '-1');
 
-        (new WarehouseImport)->import($request->safe()['file']);
+        (new WarehouseImport)->import($request->validated('file'));
 
         return back()->with('imported', __('messages.file_imported'));
     }

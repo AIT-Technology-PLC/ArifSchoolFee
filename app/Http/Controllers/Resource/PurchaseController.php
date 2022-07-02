@@ -95,7 +95,7 @@ class PurchaseController extends Controller
 
             $purchase->purchaseDetails()->forceDelete();
 
-            $purchase->purchaseDetails()->createMany($request->safe()['purchase']);
+            $purchase->purchaseDetails()->createMany($request->validated('purchase'));
         });
 
         return redirect()->route('purchases.show', $purchase->id);

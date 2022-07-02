@@ -68,7 +68,7 @@ class AdjustmentController extends Controller
                 'issued_on' => now(),
             ]);
 
-            (new AdjustmentImport($adjustment))->import($request->safe()['file']);
+            (new AdjustmentImport($adjustment))->import($request->validated('file'));
         });
 
         return back()->with('imported', __('messages.file_imported'));

@@ -68,7 +68,7 @@ class GrnController extends Controller
                 'issued_on' => now(),
             ]);
 
-            (new GrnImport($grn))->import($request->safe()['file']);
+            (new GrnImport($grn))->import($request->validated('file'));
         });
 
         return back()->with('imported', __('messages.file_imported'));

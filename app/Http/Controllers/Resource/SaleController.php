@@ -46,7 +46,7 @@ class SaleController extends Controller
         $sale = DB::transaction(function () use ($request) {
             $sale = Sale::create($request->safe()->except('sale'));
 
-            $sale->saleDetails()->createMany($request->safe()['sale']);
+            $sale->saleDetails()->createMany($request->validated('sale'));
 
             return $sale;
         });
@@ -85,7 +85,7 @@ class SaleController extends Controller
 
             $sale->saleDetails()->forceDelete();
 
-            $sale->saleDetails()->createMany($request->safe()['sale']);
+            $sale->saleDetails()->createMany($request->validated('sale'));
         });
 
         return redirect()->route('sales.show', $sale->id);

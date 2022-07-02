@@ -20,7 +20,7 @@ class TenderStatusController extends Controller
 
         ini_set('max_execution_time', '-1');
 
-        (new TenderStatusImport)->import($request->safe()['file']);
+        (new TenderStatusImport)->import($request->validated('file'));
 
         return back()->with('imported', __('messages.file_imported'));
     }

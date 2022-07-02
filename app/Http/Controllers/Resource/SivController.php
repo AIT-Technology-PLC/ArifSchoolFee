@@ -90,7 +90,7 @@ class SivController extends Controller
 
             $siv->sivDetails()->forceDelete();
 
-            $siv->sivDetails()->createMany($request->safe()['siv']);
+            $siv->sivDetails()->createMany($request->validated('siv'));
         });
 
         return redirect()->route('sivs.show', $siv->id);

@@ -46,7 +46,7 @@ class PriceController extends Controller
 
     public function store(StorePriceRequest $request)
     {
-        $prices = collect($request->validated()['price']);
+        $prices = collect($request->validated('price'));
 
         if ($prices->duplicates('product_id')->count()) {
             return back()->withInput()->with('failedMessage', 'One product can have only one price.');

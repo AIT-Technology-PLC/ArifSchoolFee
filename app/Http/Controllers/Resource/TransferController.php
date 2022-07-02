@@ -101,7 +101,7 @@ class TransferController extends Controller
 
             $transfer->transferDetails()->forceDelete();
 
-            $transfer->transferDetails()->createMany($request->safe()['transfer']);
+            $transfer->transferDetails()->createMany($request->validated('transfer'));
         });
 
         return redirect()->route('transfers.show', $transfer->id);

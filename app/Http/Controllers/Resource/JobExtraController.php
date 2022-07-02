@@ -25,7 +25,7 @@ class JobExtraController extends Controller
         }
 
         $job = DB::transaction(function () use ($request, $job) {
-            $job->jobExtras()->createMany($request->safe()['jobExtra']);
+            $job->jobExtras()->createMany($request->validated('jobExtra'));
         });
 
         return back();

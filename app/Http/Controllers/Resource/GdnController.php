@@ -105,7 +105,7 @@ class GdnController extends Controller
 
             $gdn->gdnDetails()->forceDelete();
 
-            $gdn->gdnDetails()->createMany($request->safe()['gdn']);
+            $gdn->gdnDetails()->createMany($request->validated('gdn'));
         });
 
         return redirect()->route('gdns.show', $gdn->id);

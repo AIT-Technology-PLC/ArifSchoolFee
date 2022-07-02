@@ -49,7 +49,7 @@ class JobController extends Controller
         $job = DB::transaction(function () use ($request) {
             $job = Job::create($request->safe()->except('job'));
 
-            $job->jobDetails()->createMany($request->safe()['job']);
+            $job->jobDetails()->createMany($request->validated('job'));
 
             Notification::send(Notifiables::byNextActionPermission('Approve Job'), new JobCreated($job));
 
@@ -92,7 +92,7 @@ class JobController extends Controller
 
             $job->jobDetails()->forceDelete();
 
-            $job->jobDetails()->createMany($request->safe()['job']);
+            $job->jobDetails()->createMany($request->validated('job'));
 
         });
 

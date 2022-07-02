@@ -91,7 +91,7 @@ class ReturnController extends Controller
 
             $return->returnDetails()->forceDelete();
 
-            $return->returnDetails()->createMany($request->safe()['return']);
+            $return->returnDetails()->createMany($request->validated('return'));
         });
 
         return redirect()->route('returns.show', $return->id);

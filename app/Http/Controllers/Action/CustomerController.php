@@ -20,7 +20,7 @@ class CustomerController extends Controller
 
         ini_set('max_execution_time', '-1');
 
-        (new CustomerImport)->import($request->safe()['file']);
+        (new CustomerImport)->import($request->validated('file'));
 
         return back()->with('imported', __('messages.file_imported'));
     }
