@@ -195,18 +195,20 @@
                     @endcan
                 @endif
                 @if ($gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isConvertedToSale())
-                    @can('Create Sale')
-                        <x-common.dropdown-item>
-                            <x-common.transaction-button
-                                :route="route('gdns.convert_to_sale', $gdn->id)"
-                                action="convert"
-                                intention="convert this delivery order to sale"
-                                icon="fas fa-cash-register"
-                                label="Convert To Sale"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
-                    @endcan
+                    @if (isFeatureEnabled('Sale Management'))
+                        @can('Create Sale')
+                            <x-common.dropdown-item>
+                                <x-common.transaction-button
+                                    :route="route('gdns.convert_to_sale', $gdn->id)"
+                                    action=" issue"
+                                    intention="issue an invoice for this delivery order"
+                                    icon="fas fa-cash-register"
+                                    label="Issue Invoice"
+                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                                />
+                            </x-common.dropdown-item>
+                        @endcan
+                    @endif
                 @endif
                 <x-common.dropdown-item>
                     <x-common.button

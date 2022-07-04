@@ -208,15 +208,10 @@ class GdnService
         ])->validated();
     }
 
-    public function convertToSale($gdn, $user)
+    public function convertToSale($gdn)
     {
-        if (!$user->hasWarehousePermission('sale',
-            $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
-            return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
-        }
-
         if ($gdn->isConvertedToSale()) {
-            return [false, 'This Delivery Order is already converted to sale.', ''];
+            return [false, 'This Delivery Order is already converted to invoice.', ''];
         }
 
         if (!$gdn->isSubtracted()) {
@@ -231,7 +226,6 @@ class GdnService
             $sale = Sale::create([
                 'customer_id' => $gdn->customer_id ?? null,
                 'code' => nextReferenceNumber('sales'),
-                'discount' => $gdn->discount * 100,
                 'payment_type' => $gdn->payment_type,
                 'cash_received_type' => $gdn->cash_received_type,
                 'cash_received' => $gdn->cash_received,
