@@ -22,8 +22,9 @@
                     />
                 </div>
                 @foreach ($masterTransactionFields as $masterTransactionField)
-                    <div class="column is-6">
+                    <div class="column {{ $masterTransactionField->padField->isTagTextarea() ? 'is-12' : 'is-6' }}">
                         <x-common.show-data-section
+                            :type="$masterTransactionField->padField->isTagTextarea() ? 'long' : 'short'"
                             :icon="$masterTransactionField->padField->icon"
                             :data="$masterTransactionField->padField->hasRelation() ? $masterTransactionField->relationValue : $masterTransactionField->value"
                             :label="$masterTransactionField->padField->label"
