@@ -28,6 +28,8 @@ class GdnController extends Controller
 
         $this->middleware('isFeatureAccessible:Siv Management')->only('convertToSiv');
 
+        $this->middleware('isFeatureAccessible:Sale Management');
+
         $this->gdnService = $gdnService;
     }
 
