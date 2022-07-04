@@ -114,7 +114,9 @@ class TransactionController extends Controller
 
         $masterTransactionFields = $transaction->transactionFields()->with('padField.padRelation')->masterFields()->get();
 
-        return $datatable->render('transactions.show', compact('transaction', 'masterTransactionFields'));
+        $hasDetails = $transaction->transactionFields()->detailFields()->exists();
+
+        return $datatable->render('transactions.show', compact('transaction', 'masterTransactionFields', 'hasDetails'));
     }
 
     public function edit(Transaction $transaction)
