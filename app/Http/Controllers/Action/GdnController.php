@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImportFileRequest;
 use App\Models\Credit;
 use App\Models\Gdn;
+use App\Models\Sale;
 use App\Models\Siv;
 use App\Notifications\GdnApproved;
 use App\Notifications\GdnSubtracted;
@@ -126,5 +127,18 @@ class GdnController extends Controller
         }
 
         return redirect()->route('gdns.show', $gdn->id);
+    }
+
+    public function convertToSale(Gdn $gdn)
+    {
+        $this->authorize('create', Sale::class);
+
+        [$isExecuted, $message, $sale] = $this->gdnService->convertToSale($gdn, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        return redirect()->route('sales.show', $sale->id);
     }
 }

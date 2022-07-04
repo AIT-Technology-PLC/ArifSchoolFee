@@ -7,6 +7,7 @@ use App\Imports\GdnImport;
 use App\Models\Customer;
 use App\Models\Gdn;
 use App\Models\Product;
+use App\Models\Sale;
 use App\Models\Warehouse;
 use App\Notifications\GdnPrepared;
 use App\Rules\CheckCustomerCreditLimit;
@@ -205,5 +206,47 @@ class GdnService
             'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
         ])->validated();
+    }
+
+    public function convertToSale($gdn, $user)
+    {
+        if (!$user->hasWarehousePermission('sale',
+            $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
+        }
+
+        if ($gdn->isConvertedToSale()) {
+            return [false, 'This Delivery Order is already converted to sale.', ''];
+        }
+
+        if (!$gdn->isSubtracted()) {
+            return [false, 'This Delivery Order is not subtracted yet.', ''];
+        }
+
+        if ($gdn->isClosed()) {
+            return [false, 'This Delivery Order is closed.', ''];
+        }
+
+        $sale = DB::transaction(function () use ($gdn) {
+            $sale = Sale::create([
+                'customer_id' => $gdn->customer_id ?? null,
+                'code' => nextReferenceNumber('sales'),
+                'discount' => $gdn->discount * 100,
+                'payment_type' => $gdn->payment_type,
+                'cash_received_type' => $gdn->cash_received_type,
+                'cash_received' => $gdn->cash_received,
+                'description' => $gdn->description ?? '',
+                'issued_on' => now(),
+                'due_date' => $gdn->due_date,
+            ]);
+
+            $sale->saleDetails()->createMany($gdn->gdnDetails->toArray());
+
+            $gdn->convertToSale();
+
+            return $sale;
+        });
+
+        return [true, '', $sale];
     }
 }
