@@ -139,8 +139,8 @@
                                         x-init="{{ request()->routeIs('bill-of-materials.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
-                            @endif
-                        @endcan
+                            @endcan
+                        @endif
                     </ul>
                 </li>
             </ul>
@@ -181,8 +181,8 @@
                         x-show="isAccordionOpen"
                         x-collapse
                     >
-                        @can('Read Available Inventory')
-                            @if (isFeatureEnabled('Merchandise Inventory'))
+                        @if (isFeatureEnabled('Merchandise Inventory'))
+                            @can('Read Available Inventory')
                                 <li>
                                     <x-common.button
                                         tag="a"
@@ -192,10 +192,10 @@
                                         x-init="{{ request()->routeIs('merchandises.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
-                            @endif
-                        @endcan
-                        @can('Read Warehouse')
-                            @if (isFeatureEnabled('Warehouse Management'))
+                            @endcan
+                        @endif
+                        @if (isFeatureEnabled('Warehouse Management'))
+                            @can('Read Warehouse')
                                 <li>
                                     <x-common.button
                                         tag="a"
@@ -205,8 +205,8 @@
                                         x-init="{{ request()->routeIs('warehouses.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
-                            @endif
-                        @endcan
+                            @endcan
+                        @endif
                         @if (isFeatureEnabled('Grn Management'))
                             @can('Read GRN')
                                 <li>
@@ -218,8 +218,8 @@
                                         x-init="{{ request()->routeIs('grns.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
-                            @endif
-                        @endcan
+                            @endcan
+                        @endif
                         @if (isFeatureEnabled('Transfer Management'))
                             @can('Read Transfer')
                                 <li>
@@ -231,8 +231,8 @@
                                         x-init="{{ request()->routeIs('transfers.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
-                            @endif
-                        @endcan
+                            @endcan
+                        @endif
                         @if (isFeatureEnabled('Damage Management'))
                             @can('Read Damage')
                                 <li>
@@ -390,8 +390,8 @@
                                 </li>
                             @endcan
                         @endif
-                        @can('Read Credit')
-                            @if (isFeatureEnabled('Credit Management'))
+                        @if (isFeatureEnabled('Credit Management'))
+                            @can('Read Credit')
                                 <li>
                                     <x-common.button
                                         tag="a"
@@ -403,8 +403,8 @@
                                 </li>
                             @endcan
                         @endif
-                        @can('Read Price')
-                            @if (isFeatureEnabled('Price Management'))
+                        @if (isFeatureEnabled('Price Management'))
+                            @can('Read Price')
                                 <li>
                                     <x-common.button
                                         tag="a"
