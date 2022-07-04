@@ -74,6 +74,6 @@ class JobController extends Controller
             return back()->with('failedMessage', $message);
         }
 
-        return back()->with('successMessage', 'Job closed and archived successfully.');
+        return back();
     }
 }

@@ -252,7 +252,7 @@ class JobService
     public function close($job)
     {
         if (!$job->isCompleted()) {
-            return [false, 'This Job is not Complited yet.'];
+            return [false, 'This Job is not Completed yet.'];
         }
 
         if ($job->isClosed()) {

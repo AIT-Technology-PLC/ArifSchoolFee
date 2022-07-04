@@ -43,6 +43,11 @@ class User extends Authenticatable
         return $this->belongsTo(Warehouse::class)->withoutGlobalScopes([ActiveWarehouseScope::class]);
     }
 
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'closed_by');
+    }
+
     public function padPermissions()
     {
         return $this->belongsToMany(PadPermission::class);

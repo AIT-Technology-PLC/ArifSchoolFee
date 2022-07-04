@@ -28,6 +28,7 @@ class JobDatatable extends DataTable
             ->editColumn('status', fn($job) => view('components.datatables.job-status', compact('job')))
             ->editColumn('factory', fn($job) => $job->factory->name)
             ->editColumn('approved by', fn($job) => $job->approvedBy->name ?? 'N/A')
+            ->editColumn('closed by', fn($job) => $job->closedBy->name ?? 'N/A')
             ->editColumn('description', fn($job) => $job->description)
             ->editColumn('edited by', fn($job) => $job->updatedBy->name)
             ->editColumn('actions', function ($job) {
@@ -57,6 +58,7 @@ class JobDatatable extends DataTable
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'approvedBy:id,name',
+                'closedBy:id,name',
                 'factory:id,name',
             ]);
     }
@@ -73,6 +75,7 @@ class JobDatatable extends DataTable
             Column::make('description')->visible(false),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
+            Column::make('closed by', 'closedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
         ];

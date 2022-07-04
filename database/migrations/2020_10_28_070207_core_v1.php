@@ -878,7 +878,6 @@ return new class extends Migration
             $table->foreignId('closed_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->boolean('is_internal_job');
-            $table->boolean('is_closed')->default(0);
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('due_date')->nullable();
