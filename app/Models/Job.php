@@ -102,6 +102,10 @@ class Job extends Model
 
     public function isClosed()
     {
-        return $this->closed_by != '';
+        if (is_null($this->closed_by)) {
+            return false;
+        }
+
+        return true;
     }
 }
