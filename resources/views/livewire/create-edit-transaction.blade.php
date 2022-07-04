@@ -102,23 +102,20 @@
                                 </x-forms.field>
                             </div>
                         @elseif($masterPadField->isTagTextarea())
-                            <div class="column is-6">
+                            <div class="column is-12">
                                 <x-forms.field>
                                     <x-forms.label for="{{ $masterPadField->id }}">
                                         {{ $masterPadField->label }} <sup class="has-text-danger">{{ $masterPadField->isRequired() ? '*' : '' }}</sup>
                                     </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
+                                    <x-forms.control
+                                        class="has-icons-left"
+                                        wire:ignore
+                                    >
                                         <x-forms.textarea
                                             id="{{ $masterPadField->id }}"
-                                            class="summernote pl-6"
-                                            wire:model="master.{{ $masterPadField->id }}"
+                                            x-init="summerNote($el, 'master.{{ $masterPadField->id }}')"
                                         >
-                                            {{ old($masterPadField->id) ?? '' }}
                                         </x-forms.textarea>
-                                        <x-common.icon
-                                            name="{{ $masterPadField->icon }}"
-                                            class="is-large is-left"
-                                        />
                                         <x-common.validation-error property="master.{{ $masterPadField->id }}" />
                                     </x-forms.control>
                                 </x-forms.field>
@@ -341,6 +338,28 @@
 
                 $(this).val(value).trigger('change');
             })
+        }
+
+        function summerNote(element, property) {
+            $(element).summernote({
+                placeholder: "Write description or other notes here",
+                tabsize: 2,
+                minHeight: 90,
+                tabDisable: true,
+                toolbar: [
+                    ["font", ["bold"]],
+                    ["table", ["table"]],
+                    ["forecolor", ["forecolor"]],
+                ],
+                callbacks: {
+                    onInit: function() {
+                        $(element).summernote("code", @this.get(property))
+                    },
+                    onChange: function(contents, $editable) {
+                        @this.set(property, contents);
+                    }
+                }
+            });
         }
     </script>
 @endpush
