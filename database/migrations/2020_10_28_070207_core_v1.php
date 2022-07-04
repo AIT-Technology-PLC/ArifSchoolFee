@@ -322,6 +322,7 @@ return new class extends Migration
             $table->foreignId('subtracted_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->boolean('is_closed')->default(0);
+            $table->boolean('is_converted_to_sale')->default(0);
             $table->string('discount')->nullable();
             $table->string('payment_type');
             $table->string('cash_received_type');

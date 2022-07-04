@@ -133,12 +133,12 @@ class GdnController extends Controller
     {
         $this->authorize('create', Sale::class);
 
-        [$isExecuted, $message] = $this->gdnService->convertToSale($gdn, authUser());
+        [$isExecuted, $message, $sale] = $this->gdnService->convertToSale($gdn, authUser());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
-        return redirect()->route('sales.show', $gdn->sale->id);
+        return redirect()->route('sales.show', $sale->id);
     }
 }

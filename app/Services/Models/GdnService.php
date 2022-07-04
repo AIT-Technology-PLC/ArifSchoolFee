@@ -210,9 +210,13 @@ class GdnService
 
     public function convertToSale($gdn, $user)
     {
-        if (!$user->hasWarehousePermission('siv',
+        if (!$user->hasWarehousePermission('sale',
             $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
+        }
+
+        if ($gdn->isConvertedToSale()) {
+            return [false, 'This Delivery Order is already converted to sale.', ''];
         }
 
         if (!$gdn->isSubtracted()) {
@@ -223,8 +227,7 @@ class GdnService
             return [false, 'This Delivery Order is closed.', ''];
         }
 
-        DB::transaction(function () use ($gdn) {
-
+        $sale = DB::transaction(function () use ($gdn) {
             $sale = Sale::create([
                 'customer_id' => $gdn->customer_id ?? null,
                 'code' => nextReferenceNumber('sales'),
@@ -237,19 +240,13 @@ class GdnService
                 'due_date' => $gdn->due_date,
             ]);
 
-            $gdnDetails = $gdn->gdnDetails
-                ->map(function ($detail) {
-                    $detail = $detail->only('product_id', 'unit_price', 'quantity', 'description');
+            $sale->saleDetails()->createMany($gdn->gdnDetails->toArray());
 
-                    return $detail;
-                })
-                ->toArray();
+            $gdn->convertToSale();
 
-            $sale->saleDetails()->createMany($gdnDetails);
-
-            $sale->gdn()->save($gdn);
+            return $sale;
         });
 
-        return [true, ''];
+        return [true, '', $sale];
     }
 }
