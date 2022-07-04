@@ -220,16 +220,17 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete BOM']);
 
             //Job
-            $permissions[] = Permission::firstOrCreate(['name' => 'Create Job']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Read Job']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Update Job']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Job']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Job']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Add Extra Job']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Subtract Extra Job']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Plan Job']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Update Wip Job']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Update Available Job']);
+            Permission::firstOrCreate(['name' => 'Create Job']);
+            Permission::firstOrCreate(['name' => 'Read Job']);
+            Permission::firstOrCreate(['name' => 'Update Job']);
+            Permission::firstOrCreate(['name' => 'Delete Job']);
+            Permission::firstOrCreate(['name' => 'Approve Job']);
+            Permission::firstOrCreate(['name' => 'Add Extra Job']);
+            Permission::firstOrCreate(['name' => 'Subtract Extra Job']);
+            Permission::firstOrCreate(['name' => 'Plan Job']);
+            Permission::firstOrCreate(['name' => 'Close Job']);
+            Permission::firstOrCreate(['name' => 'Update Wip Job']);
+            Permission::firstOrCreate(['name' => 'Update Available Job']);
 
             // Other
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Credit']);

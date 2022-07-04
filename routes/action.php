@@ -235,6 +235,10 @@ Route::post('/jobs/{job}/add-to-available',
     [Action\JobController::class, 'addToAvailable'])
     ->name('jobs.add_to_available');
 
+Route::post('/jobs/{job}/close',
+    [Action\JobController::class, 'close'])
+    ->name('jobs.close');
+
 // JobExtra
 Route::post('/job-extras/{job_extra}/add',
     [Action\JobExtraController::class, 'add'])
