@@ -19,6 +19,10 @@ class JobService
             return [false, 'This job is not approved yet.', ''];
         }
 
+        if ($job->isClosed()) {
+            return [false, 'This Job is already closed.'];
+        }
+
         DB::transaction(function () use ($data, $job) {
             for ($i = 0; $i < count($job->jobDetails); $i++) {
                 if (!isset($data[$i])) {
@@ -86,6 +90,10 @@ class JobService
 
         if (!$job->isApproved()) {
             return [false, 'This job is not approved yet.', ''];
+        }
+
+        if ($job->isClosed()) {
+            return [false, 'This Job is already closed.'];
         }
 
         DB::transaction(function () use ($data, $job) {
@@ -178,6 +186,10 @@ class JobService
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
 
+        if ($jobExtra->job->isClosed()) {
+            return [false, 'This Job is already closed.'];
+        }
+
         if ($jobExtra->isAdded()) {
             return [false, 'This Product is already added to inventory.'];
         }
@@ -199,6 +211,10 @@ class JobService
     {
         if (!$user->hasWarehousePermission('subtract', $jobExtra->job->factory_id)) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
+        }
+
+        if ($jobExtra->job->isClosed()) {
+            return [false, 'This Job is already closed.'];
         }
 
         if ($jobExtra->job->isCompleted()) {
@@ -231,5 +247,20 @@ class JobService
     private function isQuantityValid($quantity, $available, $wip)
     {
         return $quantity >= ($available + $wip);
+    }
+
+    public function close($job)
+    {
+        if (!$job->isCompleted()) {
+            return [false, 'This Job is not Complited yet.'];
+        }
+
+        if ($job->isClosed()) {
+            return [false, 'This Job is already closed.'];
+        }
+
+        $job->close();
+
+        return [true, ''];
     }
 }

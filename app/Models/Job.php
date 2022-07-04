@@ -87,4 +87,18 @@ class Job extends Model
     {
         return $this->is_internal_job;
     }
+
+    public function close()
+    {
+        $this->is_closed = 1;
+
+        $this->closed_by = auth()->id();
+
+        $this->save();
+    }
+
+    public function isClosed()
+    {
+        return $this->is_closed;
+    }
 }

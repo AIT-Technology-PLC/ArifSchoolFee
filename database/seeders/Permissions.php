@@ -225,6 +225,7 @@ class Permissions extends Seeder
             Permission::firstOrCreate(['name' => 'Add Extra Job']);
             Permission::firstOrCreate(['name' => 'Subtract Extra Job']);
             Permission::firstOrCreate(['name' => 'Plan Job']);
+            Permission::firstOrCreate(['name' => 'Close Job']);
             Permission::firstOrCreate(['name' => 'Update Wip Job']);
             Permission::firstOrCreate(['name' => 'Update Available Job']);
 

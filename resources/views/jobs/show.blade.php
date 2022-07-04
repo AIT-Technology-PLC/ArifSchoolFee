@@ -88,7 +88,7 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @elseif($job->jobCompletionRate < 100)
+                @elseif(!$job->isCompleted() && !$job->isClosed())
                     @can('Update Wip Job')
                         <x-common.dropdown-item>
                             <x-common.button
@@ -114,7 +114,19 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @if ($job->isApproved())
+                @if ($job->isCompleted() && !$job->isClosed())
+                    <x-common.dropdown-item>
+                        <x-common.transaction-button
+                            :route="route('jobs.close', $job->id)"
+                            action="close"
+                            intention="close this job"
+                            icon="fas fa-ban"
+                            label="Close"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                @endif
+                @if ($job->isApproved() && !$job->isClosed())
                     @canany(['Add Extra Job', 'Subtract Extra Job'])
                         <x-common.dropdown-item>
                             <x-common.button
