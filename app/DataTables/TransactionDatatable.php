@@ -7,6 +7,7 @@ use App\Models\Transaction;
 use App\Models\TransactionField;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
@@ -115,6 +116,10 @@ class TransactionDatatable extends DataTable
                         $value = DB::table(
                             str($padField->padRelation->model_name)->plural()->lower()
                         )->find($value)->{$padField->padRelation->representative_column};
+                    }
+
+                    if ($value && str_contains($padField->tag_type, 'date')) {
+                        $value = (new Carbon($value))->toDayDateTimeString();
                     }
 
                     return $value ?? 'N/A';
