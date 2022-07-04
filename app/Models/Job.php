@@ -22,6 +22,11 @@ class Job extends Model
 
     protected $table = 'job_orders';
 
+    public function closedBy()
+    {
+        return $this->belongsTo(User::class, 'closed_by');
+    }
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);
@@ -90,8 +95,6 @@ class Job extends Model
 
     public function close()
     {
-        $this->is_closed = 1;
-
         $this->closed_by = auth()->id();
 
         $this->save();
@@ -99,6 +102,6 @@ class Job extends Model
 
     public function isClosed()
     {
-        return $this->is_closed;
+        return $this->closed_by != '';
     }
 }

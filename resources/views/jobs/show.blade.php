@@ -88,7 +88,7 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @elseif(!$job->isCompleted() && !$job->isClosed())
+                @elseif(!$job->isCompleted())
                     @can('Update Wip Job')
                         <x-common.dropdown-item>
                             <x-common.button
@@ -155,7 +155,9 @@
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
-            @if (!$job->isApproved())
+            @if ($job->isClosed())
+                <x-common.success-message message="The Job is completed and closed." />
+            @elseif (!$job->isApproved())
                 <x-common.fail-message message="This Job has not been approved yet." />
             @elseif (!$job->isStarted())
                 <x-common.fail-message message="Job has not been Started yet." />
@@ -240,17 +242,22 @@
         </x-content.footer>
     </x-common.content-wrapper>
 
-    @can('Update Wip Job')
-        @include('jobs.partials.update-wip', ['jobDetails' => $job->jobDetails])
-    @endcan
+    @if ($job->isApproved() && !$job->isCompleted())
+        @can('Update Wip Job')
+            @include('jobs.partials.update-wip', ['jobDetails' => $job->jobDetails])
+        @endcan
 
-    @can('Update Available Job')
-        @include('jobs.partials.update-available', ['jobDetails' => $job->jobDetails])
-    @endcan
+        @can('Update Available Job')
+            @include('jobs.partials.update-available', ['jobDetails' => $job->jobDetails])
+        @endcan
+    @endif
 
-    @canany(['Add Extra Job', 'Subtract Extra Job'])
-        @include('job-extras.create')
-    @endcanany
+    @if ($job->isApproved() && !$job->isClosed())
+        @canany(['Add Extra Job', 'Subtract Extra Job'])
+            @include('job-extras.create')
+        @endcanany
+    @endif
+
 
 @endsection
 
