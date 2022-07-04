@@ -148,7 +148,7 @@
     @endif
 
     @if (isFeatureEnabled('Merchandise Inventory', 'Warehouse Management', 'Grn Management', 'Transfer Management', 'Damage Management', 'Inventory Adjustment', 'Siv Management'))
-        @canany(['Read Merchandise', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
+        @canany(['Read Available Inventory', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -181,7 +181,7 @@
                         x-show="isAccordionOpen"
                         x-collapse
                     >
-                        @can('Read Merchandise')
+                        @can('Read Available Inventory')
                             @if (isFeatureEnabled('Merchandise Inventory'))
                                 <li>
                                     <x-common.button

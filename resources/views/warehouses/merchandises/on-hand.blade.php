@@ -17,14 +17,22 @@
                         <th><abbr> # </abbr></th>
                         <th><abbr> Product </abbr></th>
                         <th><abbr> Category </abbr></th>
-                        <th class="has-text-right text-green"><abbr> Available </abbr></th>
+                        @can('Read Available Inventory')
+                            <th class="has-text-right text-green"><abbr> Available </abbr></th>
+                        @endcan
                         @if (isFeatureEnabled('Reservation Management'))
-                            <th class="has-text-right text-green"><abbr> Reserved </abbr></th>
+                            @can('Read Reserved Inventory')
+                                <th class="has-text-right text-green"><abbr> Reserved </abbr></th>
+                            @endcan
                         @endif
                         @if (userCompany()->plan->isPremium())
-                            <th class="has-text-right text-green"><abbr> Work In Process </abbr></th>
+                            @can('Read Work In Process Inventory')
+                                <th class="has-text-right text-green"><abbr> Work In Process </abbr></th>
+                            @endcan
                         @endif
-                        <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
+                        @can('Read On Hand Inventory')
+                            <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
+                        @endcan
                         <th><abbr> Level </abbr></th>
                         <th><abbr> Actions </abbr></th>
                     </tr>
@@ -43,34 +51,42 @@
                                 @endif
                             </td>
                             <td class="is-capitalized"> {{ $merchandise->product->productCategory->name ?? 'N/A' }} </td>
-                            <td class="has-text-right">
-                                <span class="tag is-small btn-green is-outlined has-text-white">
-                                    {{ $merchandise->available }}
-                                    {{ $merchandise->product->unit_of_measurement }}
-                                </span>
-                            </td>
-                            @if (isFeatureEnabled('Reservation Management'))
+                            @can('Read Available Inventory')
                                 <td class="has-text-right">
                                     <span class="tag is-small btn-green is-outlined has-text-white">
-                                        {{ $merchandise->reserved }}
+                                        {{ $merchandise->available }}
                                         {{ $merchandise->product->unit_of_measurement }}
                                     </span>
                                 </td>
+                            @endcan
+                            @if (isFeatureEnabled('Reservation Management'))
+                                @can('Read Reserved Inventory')
+                                    <td class="has-text-right">
+                                        <span class="tag is-small btn-green is-outlined has-text-white">
+                                            {{ $merchandise->reserved }}
+                                            {{ $merchandise->product->unit_of_measurement }}
+                                        </span>
+                                    </td>
+                                @endcan
                             @endif
                             @if (userCompany()->plan->isPremium())
+                                @can('Read Work In Process Inventory')
+                                    <td class="has-text-right">
+                                        <span class="tag is-small btn-green is-outlined has-text-white">
+                                            {{ $merchandise->wip }}
+                                            {{ $merchandise->product->unit_of_measurement }}
+                                        </span>
+                                    </td>
+                                @endcan
+                            @endif
+                            @can('Read On Hand Inventory')
                                 <td class="has-text-right">
                                     <span class="tag is-small btn-green is-outlined has-text-white">
-                                        {{ $merchandise->wip }}
+                                        {{ $merchandise->on_hand }}
                                         {{ $merchandise->product->unit_of_measurement }}
                                     </span>
                                 </td>
-                            @endif
-                            <td class="has-text-right">
-                                <span class="tag is-small btn-green is-outlined has-text-white">
-                                    {{ $merchandise->on_hand }}
-                                    {{ $merchandise->product->unit_of_measurement }}
-                                </span>
-                            </td>
+                            @endcan
                             <td class="is-capitalized">
                                 @if ($merchandise->product->isProductLimited($merchandise->on_hand))
                                     <span class="tag is-small bg-gold has-text-white">

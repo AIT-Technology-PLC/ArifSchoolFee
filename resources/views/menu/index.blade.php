@@ -80,7 +80,7 @@
         @endif
 
         @if (isFeatureEnabled('Merchandise Inventory', 'Warehouse Management', 'Grn Management', 'Transfer Management', 'Damage Management', 'Inventory Adjustment', 'Siv Management'))
-            @canany(['Read Merchandise', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
+            @canany(['Read Available Inventory', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -94,7 +94,7 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @can('Read Merchandise')
+                            @can('Read Available Inventory')
                                 @if (isFeatureEnabled('Merchandise Inventory'))
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
