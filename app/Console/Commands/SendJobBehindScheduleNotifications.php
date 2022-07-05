@@ -35,7 +35,7 @@ class SendReservationExpiryDateNotifications extends Command
                 ->where('company_id', $company->id)
                 ->get()
                 ->filter(function ($job) {
-                    return $job->forecastedCompletionRate < $job->jobCompletionRate;
+                    return $job->forecastedCompletionRate > $job->jobCompletionRate;
                 });
 
             if ($jobs->isEmpty()) {

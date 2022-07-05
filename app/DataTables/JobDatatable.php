@@ -70,7 +70,7 @@ class JobDatatable extends DataTable
             Column::computed('#'),
             Column::make('code')->className('has-text-centered')->title('Jobs No'),
             Column::make('status')->orderable(false),
-            Column::make('schedule')->orderable(false),
+            Column::make('schedule')->orderable(false)->searchable(false),
             Column::make('factory', 'factory.name'),
             Column::make('issued_on'),
             Column::make('due_date'),
