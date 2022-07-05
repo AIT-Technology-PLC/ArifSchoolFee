@@ -17,7 +17,6 @@ use App\Rules\ValidatePrice;
 use App\Rules\VerifyCashReceivedAmountIsValid;
 use App\Services\Inventory\InventoryOperationService;
 use App\Utilities\Notifiables;
-use App\Utilities\Price;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -245,18 +244,12 @@ class GdnService
             $sale->saleDetails()->createMany(
                 $gdn
                     ->gdnDetails
-                    ->map(function ($gdnDetail) use ($gdn) {
+                    ->map(function ($gdnDetail) {
                         return [
                             'product_id' => $gdnDetail->product_id,
                             'quantity' => $gdnDetail->quantity,
                             'description' => $gdnDetail->description,
-                            'unit_price' => Price::getTotalPrice(
-                                $gdnDetail->unit_price,
-                                1,
-                                userCompany()->isDiscountBeforeVAT()
-                                ? $gdnDetail->discount * 100 ?? 0.00
-                                : $gdn->discount * 100 ?? 0.00
-                            ),
+                            'unit_price' => $gdnDetail->unit_price,
                         ];
                     })
                     ->toArray()
