@@ -28,13 +28,16 @@
                         label="Progress"
                     />
                 </div>
-                <div class="column is-6">
-                    <x-common.show-data-section
-                        icon="fas fa-info"
-                        :data="$job->forecastedCompletionRate == $job->jobCompletionRate ? ' On Schedule' : ($job->forecastedCompletionRate < $job->jobCompletionRate ? 'Ahead of Schedule' : 'Behind Schedule')"
-                        label="Schedule"
-                    />
-                </div>
+                @if (!$job->isCompleted())
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-info"
+                            :data="$job->forecastedCompletionRate == $job->jobCompletionRate ? ' On Schedule' : ($job->forecastedCompletionRate < $job->jobCompletionRate ? 'Ahead of Schedule' : 'Behind Schedule')"
+                            label="Schedule"
+                        />
+                    </div>
+                @endif
+
                 @if (!$job->isInternal())
                     <div class="column is-6">
                         <x-common.show-data-section
