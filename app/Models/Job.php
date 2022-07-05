@@ -108,4 +108,14 @@ class Job extends Model
 
         return true;
     }
+
+    public function getForecastedCompletionRateAttribute()
+    {
+        $assignedDays = $this->due_date->diffInDays($this->issued_on) + 1;
+        $completedDays = now()->diffInDays($this->issued_on) + 1;
+
+        $dailyProductionGoal = number_format(100 / $assignedDays, 2);
+
+        return number_format($dailyProductionGoal * $completedDays, 2);
+    }
 }
