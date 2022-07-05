@@ -40,6 +40,11 @@ class JobPolicy
         return $user->can('Delete Job');
     }
 
+    public function close(User $user, Job $job)
+    {
+        return $user->can('Close Job');
+    }
+
     public function addExtra(User $user, Job $job)
     {
         return $user->can('Add Extra Job');

@@ -88,7 +88,7 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @elseif($job->jobCompletionRate < 100)
+                @elseif(!$job->isCompleted())
                     @can('Update Wip Job')
                         <x-common.dropdown-item>
                             <x-common.button
@@ -114,7 +114,19 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @if ($job->isApproved())
+                @if ($job->isCompleted() && !$job->isClosed())
+                    <x-common.dropdown-item>
+                        <x-common.transaction-button
+                            :route="route('jobs.close', $job->id)"
+                            action="close"
+                            intention="close this job"
+                            icon="fas fa-ban"
+                            label="Close"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                @endif
+                @if ($job->isApproved() && !$job->isClosed())
                     @canany(['Add Extra Job', 'Subtract Extra Job'])
                         <x-common.dropdown-item>
                             <x-common.button
@@ -143,7 +155,9 @@
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
-            @if (!$job->isApproved())
+            @if ($job->isClosed())
+                <x-common.success-message message="The Job is completed and closed." />
+            @elseif (!$job->isApproved())
                 <x-common.fail-message message="This Job has not been approved yet." />
             @elseif (!$job->isStarted())
                 <x-common.fail-message message="Job has not been Started yet." />
@@ -228,17 +242,22 @@
         </x-content.footer>
     </x-common.content-wrapper>
 
-    @can('Update Wip Job')
-        @include('jobs.partials.update-wip', ['jobDetails' => $job->jobDetails])
-    @endcan
+    @if ($job->isApproved() && !$job->isCompleted())
+        @can('Update Wip Job')
+            @include('jobs.partials.update-wip', ['jobDetails' => $job->jobDetails])
+        @endcan
 
-    @can('Update Available Job')
-        @include('jobs.partials.update-available', ['jobDetails' => $job->jobDetails])
-    @endcan
+        @can('Update Available Job')
+            @include('jobs.partials.update-available', ['jobDetails' => $job->jobDetails])
+        @endcan
+    @endif
 
-    @canany(['Add Extra Job', 'Subtract Extra Job'])
-        @include('job-extras.create')
-    @endcanany
+    @if ($job->isApproved() && !$job->isClosed())
+        @canany(['Add Extra Job', 'Subtract Extra Job'])
+            @include('job-extras.create')
+        @endcanany
+    @endif
+
 
 @endsection
 

@@ -30,8 +30,8 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @can('Create Job')
-                                @if (isFeatureEnabled('Job Management'))
+                            @if (isFeatureEnabled('Job Management'))
+                                @can('Create Job')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -43,10 +43,11 @@
                                         <br>
                                         <span class="is-size-7"> New Job </span>
                                     </div>
-                                @endif
-                            @endcan
-                            @can('Plan Job')
-                                @if (isFeatureEnabled('Job Management'))
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Job Management'))
+                                @can('Plan Job')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -59,10 +60,11 @@
                                         <span class="is-size-7"> New Planner </span>
                                         <br>
                                     </div>
-                                @endif
-                            @endcan
-                            @can('Create BOM')
-                                @if (isFeatureEnabled('Bill Of Material Management'))
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Bill Of Material Management'))
+                                @can('Create BOM')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -74,8 +76,8 @@
                                         <br>
                                         <span class="is-size-7"> New Bill Of Material </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
                         </div>
                     </x-content.footer>
                 @endcanany
@@ -94,8 +96,8 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @can('Create Warehouse')
-                                @if (isFeatureEnabled('Warehouse Management'))
+                            @if (isFeatureEnabled('Warehouse Management'))
+                                @can('Create Warehouse')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -107,11 +109,11 @@
                                         <br>
                                         <span class="is-size-7"> New Warehouse </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
-                            @can('Create GRN')
-                                @if (isFeatureEnabled('Grn Management'))
+                            @if (isFeatureEnabled('Grn Management'))
+                                @can('Create GRN')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -123,11 +125,11 @@
                                         <br>
                                         <span class="is-size-7"> New GRN </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
-                            @can('Create Transfer')
-                                @if (isFeatureEnabled('Transfer Management'))
+                            @if (isFeatureEnabled('Transfer Management'))
+                                @can('Create Transfer')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -139,11 +141,11 @@
                                         <br>
                                         <span class="is-size-7"> New Transfer </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
-                            @can('Create Damage')
-                                @if (isFeatureEnabled('Damage Management'))
+                            @if (isFeatureEnabled('Damage Management'))
+                                @can('Create Damage')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -155,11 +157,11 @@
                                         <br>
                                         <span class="is-size-7"> New Damage </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
-                            @can('Create Adjustment')
-                                @if (isFeatureEnabled('Inventory Adjustment'))
+                            @if (isFeatureEnabled('Inventory Adjustment'))
+                                @can('Create Adjustment')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -171,11 +173,11 @@
                                         <br>
                                         <span class="is-size-7"> New Adjustment </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
-                            @can('Create SIV')
-                                @if (isFeatureEnabled('Siv Management'))
+                            @if (isFeatureEnabled('Siv Management'))
+                                @can('Create SIV')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -187,8 +189,8 @@
                                         <br>
                                         <span class="is-size-7"> New SIV </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
                             @foreach (pads('Warehouse & Inventory') as $pad)
                                 @canpad('Create', $pad)
@@ -223,8 +225,8 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @can('Create Sale')
-                                @if (isFeatureEnabled('Sale Management'))
+                            @if (isFeatureEnabled('Sale Management'))
+                                @can('Create Sale')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -236,11 +238,11 @@
                                         <br>
                                         <span class="is-size-7"> New Invoice </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
-                            @can('Create GDN')
-                                @if (isFeatureEnabled('Gdn Management'))
+                            @if (isFeatureEnabled('Gdn Management'))
+                                @can('Create GDN')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -252,11 +254,11 @@
                                         <br>
                                         <span class="is-size-7"> New DO </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
-                            @can('Create Proforma Invoice')
-                                @if (isFeatureEnabled('Proforma Invoice'))
+                            @if (isFeatureEnabled('Proforma Invoice'))
+                                @can('Create Proforma Invoice')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -268,11 +270,11 @@
                                         <br>
                                         <span class="is-size-7"> New Proforma Invoices </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
-                            @can('Create Reservation')
-                                @if (isFeatureEnabled('Reservation Management'))
+                            @if (isFeatureEnabled('Reservation Management'))
+                                @can('Create Reservation')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -284,11 +286,11 @@
                                         <br>
                                         <span class="is-size-7"> New Reservation </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
-                            @can('Create Return')
-                                @if (isFeatureEnabled('Return Management'))
+                            @if (isFeatureEnabled('Return Management'))
+                                @can('Create Return')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -300,11 +302,11 @@
                                         <br>
                                         <span class="is-size-7"> New Return </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
-                            @can('Create Credit')
-                                @if (isFeatureEnabled('Credit Management'))
+                            @if (isFeatureEnabled('Credit Management'))
+                                @can('Create Credit')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -317,11 +319,11 @@
                                         <span class="is-size-7"> New Credit </span>
                                         </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
-                            @can('Create Price')
-                                @if (isFeatureEnabled('Price Management'))
+                            @if (isFeatureEnabled('Price Management'))
+                                @can('Create Price')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -334,11 +336,11 @@
                                         <span class="is-size-7"> New Price </span>
                                         </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
-                            @can('Create Customer')
-                                @if (isFeatureEnabled('Customer Management'))
+                            @if (isFeatureEnabled('Customer Management'))
+                                @can('Create Customer')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -350,8 +352,8 @@
                                         <br>
                                         <span class="is-size-7"> New Customer </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
                             @foreach (pads('Sales & Customers') as $pad)
                                 @canpad('Create', $pad)
@@ -386,63 +388,61 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @can('Create Tender')
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                    <x-common.button
-                                        tag="a"
-                                        mode="button"
-                                        href="{{ route('tenders.create') }}"
-                                        icon="fas fa-project-diagram"
-                                        class="text-green bg-lightgreen is-borderless"
-                                    />
-                                    <br>
-                                    <span class="is-size-7"> New Tender </span>
-                                </div>
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                    <x-common.button
-                                        tag="a"
-                                        mode="button"
-                                        href="{{ route('tender-opportunities.create') }}"
-                                        icon="fas fa-comment-dollar"
-                                        class="text-green bg-lightgreen is-borderless"
-                                    />
-                                    <br>
-                                    <span class="is-size-7"> New Tender Opportunity </span>
-                                </div>
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                    <x-common.button
-                                        tag="a"
-                                        mode="button"
-                                        href="{{ route('tender-checklist-types.create') }}"
-                                        icon="fas fa-tasks"
-                                        class="text-green bg-lightgreen is-borderless"
-                                    />
-                                    <br>
-                                    <span class="is-size-7"> New Checklist Category </span>
-                                </div>
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                    <x-common.button
-                                        tag="a"
-                                        mode="button"
-                                        href="{{ route('general-tender-checklists.create') }}"
-                                        icon="fas fa-check-double"
-                                        class="text-green bg-lightgreen is-borderless"
-                                    />
-                                    <br>
-                                    <span class="is-size-7"> New Checklist </span>
-                                </div>
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                    <x-common.button
-                                        tag="a"
-                                        mode="button"
-                                        href="{{ route('tender-statuses.create') }}"
-                                        icon="fas fa-info"
-                                        class="text-green bg-lightgreen is-borderless"
-                                    />
-                                    <br>
-                                    <span class="is-size-7"> New Status </span>
-                                </div>
-                            @endcan
+                            <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                <x-common.button
+                                    tag="a"
+                                    mode="button"
+                                    href="{{ route('tenders.create') }}"
+                                    icon="fas fa-project-diagram"
+                                    class="text-green bg-lightgreen is-borderless"
+                                />
+                                <br>
+                                <span class="is-size-7"> New Tender </span>
+                            </div>
+                            <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                <x-common.button
+                                    tag="a"
+                                    mode="button"
+                                    href="{{ route('tender-opportunities.create') }}"
+                                    icon="fas fa-comment-dollar"
+                                    class="text-green bg-lightgreen is-borderless"
+                                />
+                                <br>
+                                <span class="is-size-7"> New Tender Opportunity </span>
+                            </div>
+                            <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                <x-common.button
+                                    tag="a"
+                                    mode="button"
+                                    href="{{ route('tender-checklist-types.create') }}"
+                                    icon="fas fa-tasks"
+                                    class="text-green bg-lightgreen is-borderless"
+                                />
+                                <br>
+                                <span class="is-size-7"> New Checklist Category </span>
+                            </div>
+                            <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                <x-common.button
+                                    tag="a"
+                                    mode="button"
+                                    href="{{ route('general-tender-checklists.create') }}"
+                                    icon="fas fa-check-double"
+                                    class="text-green bg-lightgreen is-borderless"
+                                />
+                                <br>
+                                <span class="is-size-7"> New Checklist </span>
+                            </div>
+                            <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                <x-common.button
+                                    tag="a"
+                                    mode="button"
+                                    href="{{ route('tender-statuses.create') }}"
+                                    icon="fas fa-info"
+                                    class="text-green bg-lightgreen is-borderless"
+                                />
+                                <br>
+                                <span class="is-size-7"> New Status </span>
+                            </div>
                         </div>
                     </x-content.footer>
                 @endcan
@@ -461,8 +461,8 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @can('Create Purchase')
-                                @if (isFeatureEnabled('Purchase Management'))
+                            @if (isFeatureEnabled('Purchase Management'))
+                                @can('Create Purchase')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -474,11 +474,11 @@
                                         <br>
                                         <span class="is-size-7"> New Purchase </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
-                            @can('Create Supplier')
-                                @if (isFeatureEnabled('Supplier Management'))
+                            @if (isFeatureEnabled('Supplier Management'))
+                                @can('Create Supplier')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -490,8 +490,8 @@
                                         <br>
                                         <span class="is-size-7"> New Supplier </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
                             @foreach (pads('Purchases & Suppliers') as $pad)
                                 @canpad('Create', $pad)
@@ -526,30 +526,28 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @can('Create Product')
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                    <x-common.button
-                                        tag="a"
-                                        mode="button"
-                                        href="{{ route('categories.create') }}"
-                                        icon="fas fa-layer-group"
-                                        class="text-green bg-lightgreen is-borderless"
-                                    />
-                                    <br>
-                                    <span class="is-size-7"> New Category </span>
-                                </div>
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                    <x-common.button
-                                        tag="a"
-                                        mode="button"
-                                        href="{{ route('products.create') }}"
-                                        icon="fas fa-th"
-                                        class="text-green bg-lightgreen is-borderless"
-                                    />
-                                    <br>
-                                    <span class="is-size-7"> New Product </span>
-                                </div>
-                            @endcan
+                            <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                <x-common.button
+                                    tag="a"
+                                    mode="button"
+                                    href="{{ route('categories.create') }}"
+                                    icon="fas fa-layer-group"
+                                    class="text-green bg-lightgreen is-borderless"
+                                />
+                                <br>
+                                <span class="is-size-7"> New Category </span>
+                            </div>
+                            <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                <x-common.button
+                                    tag="a"
+                                    mode="button"
+                                    href="{{ route('products.create') }}"
+                                    icon="fas fa-th"
+                                    class="text-green bg-lightgreen is-borderless"
+                                />
+                                <br>
+                                <span class="is-size-7"> New Product </span>
+                            </div>
                         </div>
                     </x-content.footer>
                 @endcan
@@ -568,8 +566,8 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @can('Create Pad')
-                                @if (isFeatureEnabled('Pad Management'))
+                            @if (isFeatureEnabled('Pad Management'))
+                                @can('Create Pad')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -581,11 +579,11 @@
                                         <br>
                                         <span class="is-size-7"> New Pad </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
-                            @can('Create Employee')
-                                @if (isFeatureEnabled('User Management'))
+                            @if (isFeatureEnabled('User Management'))
+                                @can('Create Employee')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
@@ -597,8 +595,8 @@
                                         <br>
                                         <span class="is-size-7"> New Employee </span>
                                     </div>
-                                @endif
-                            @endcan
+                                @endcan
+                            @endif
 
                             @foreach (pads('General Settings') as $pad)
                                 @canpad('Create', $pad)

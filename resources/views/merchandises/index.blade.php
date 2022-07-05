@@ -215,35 +215,45 @@
         </div>
         <div class="tabs is-toggle is-fullwidth has-background-white-bis">
             <ul>
-                <li class="available {{ request()->is('merchandises/available') ? 'is-active' : '' }}">
-                    <a href="{{ route('merchandises.index', 'available') }}">
-                        <span>Available</span>
-                    </a>
-                </li>
-                @if (isFeatureEnabled('Reservation Management'))
-                    <li class="reserved {{ request()->is('merchandises/reserved') ? 'is-active' : '' }}">
-                        <a href="{{ route('merchandises.index', 'reserved') }}">
-                            <span>Reserved</span>
+                @can('Read Available Inventory')
+                    <li class="available {{ request()->is('merchandises/available') ? 'is-active' : '' }}">
+                        <a href="{{ route('merchandises.index', 'available') }}">
+                            <span>Available</span>
                         </a>
                     </li>
+                @endcan
+                @if (isFeatureEnabled('Reservation Management'))
+                    @can('Read Reserved Inventory')
+                        <li class="reserved {{ request()->is('merchandises/reserved') ? 'is-active' : '' }}">
+                            <a href="{{ route('merchandises.index', 'reserved') }}">
+                                <span>Reserved</span>
+                            </a>
+                        </li>
+                    @endcan
                 @endif
                 @if (userCompany()->plan->isPremium())
-                    <li class="wip {{ request()->is('merchandises/wip') ? 'is-active' : '' }}">
-                        <a href="{{ route('merchandises.index', 'wip') }}">
-                            <span>Work in Process</span>
+                    @can('Read Work In Process Inventory')
+                        <li class="wip {{ request()->is('merchandises/wip') ? 'is-active' : '' }}">
+                            <a href="{{ route('merchandises.index', 'wip') }}">
+                                <span>Work in Process</span>
+                            </a>
+                        </li>
+                    @endcan
+                @endif
+                @can('Read On Hand Inventory')
+                    <li class="on-hand {{ request()->is('merchandises/on-hand') ? 'is-active' : '' }}">
+                        <a href="{{ route('merchandises.index', 'on-hand') }}">
+                            <span>On Hand</span>
                         </a>
                     </li>
-                @endif
-                <li class="on-hand {{ request()->is('merchandises/on-hand') ? 'is-active' : '' }}">
-                    <a href="{{ route('merchandises.index', 'on-hand') }}">
-                        <span>On Hand</span>
-                    </a>
-                </li>
-                <li class="out-of-stock {{ request()->is('merchandises/out-of-stock') ? 'is-active' : '' }}">
-                    <a href="{{ route('merchandises.index', 'out-of-stock') }}">
-                        <span>Out of Stock</span>
-                    </a>
-                </li>
+                @endcan
+                @can('Read Out Of Stock Inventory')
+                    <li class="out-of-stock {{ request()->is('merchandises/out-of-stock') ? 'is-active' : '' }}">
+                        <a href="{{ route('merchandises.index', 'out-of-stock') }}">
+                            <span>Out of Stock</span>
+                        </a>
+                    </li>
+                @endcan
             </ul>
         </div>
     </section>

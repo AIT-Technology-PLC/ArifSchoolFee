@@ -29,8 +29,8 @@ class PermissionCategorization
             'label' => 'Store Issue Voucher',
             'feature' => 'Siv Management',
         ],
-        'merchandise' => [
-            'label' => 'Merchandise Inventory',
+        'inventory' => [
+            'label' => 'Inventory',
             'feature' => 'Merchandise Inventory',
         ],
         'return' => [

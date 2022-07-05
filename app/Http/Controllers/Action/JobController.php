@@ -63,4 +63,17 @@ class JobController extends Controller
 
         return back();
     }
+
+    public function close(Job $job)
+    {
+        $this->authorize('close', $job);
+
+        [$isExecuted, $message] = $this->jobService->close($job);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        return back();
+    }
 }

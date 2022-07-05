@@ -21,7 +21,7 @@ class MerchandiseInventoryLevelController extends Controller
 
     public function __invoke($type)
     {
-        $this->authorize('viewAny', Merchandise::class);
+        $this->authorize(str()->camel($type), Merchandise::class);
 
         $insights = $this->insights();
 

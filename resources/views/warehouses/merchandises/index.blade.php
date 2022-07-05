@@ -176,6 +176,8 @@
 
         @include('warehouses.merchandises.on-hand')
 
-        @include('warehouses.merchandises.out-of')
+        @can('Read Out Of Stock Inventory')
+            @include('warehouses.merchandises.out-of')
+        @endcan
     </section>
 @endsection
