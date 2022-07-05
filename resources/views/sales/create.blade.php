@@ -112,14 +112,8 @@
                                                 disabled
                                                 value=""
                                             >Select Payment</option>
-                                            <option
-                                                value="Cash Payment"
-                                                {{ old('payment_type') == 'Cash Payment' ? 'selected' : '' }}
-                                            >Cash Payment</option>
-                                            <option
-                                                value="Credit Payment"
-                                                {{ old('payment_type') == 'Credit Payment' ? 'selected' : '' }}
-                                            >Credit Payment</option>
+                                            <option value="Cash Payment">Cash Payment</option>
+                                            <option value="Credit Payment">Credit Payment</option>
                                         </x-forms.select>
                                         <x-common.icon
                                             name="fas fa-credit-card"
