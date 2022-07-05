@@ -24,7 +24,7 @@ class JobBehindSchedule extends Notification
     {
         return [
             'icon' => 'fas fa-cogs',
-            'message' => $this->jobs->count() . ' ' . Str::plural('job', $this->jobs->count()) . ' ' . ($this->jobs->count() == 1 ? 'is' : 'are') . ' behind expected schedule date.',
+            'message' => $this->jobs->count() . ' ' . Str::plural('job', $this->jobs->count()) . ' ' . ($this->jobs->count() == 1 ? 'is' : 'are') . ' behind schedule.',
             'endpoint' => '/jobs',
         ];
     }
