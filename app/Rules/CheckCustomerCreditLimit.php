@@ -45,7 +45,7 @@ class CheckCustomerCreditLimit implements Rule
      */
     public function passes($attribute, $value)
     {
-        if ($this->paymentType == 'Cash Payment' || is_null($value)) {
+        if ($this->paymentType != 'Credit Payment' || is_null($value)) {
             return true;
         }
 

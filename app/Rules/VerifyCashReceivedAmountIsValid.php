@@ -7,19 +7,24 @@ use Illuminate\Contracts\Validation\Rule;
 
 class VerifyCashReceivedAmountIsValid implements Rule
 {
+    private $paymentType;
+
     private $discount;
 
     private $details;
 
     private $cashReceivedType;
 
+    private $message;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($discount, $details, $cashReceivedType)
+    public function __construct($paymentType, $discount, $details, $cashReceivedType)
     {
+        $this->paymentType = $paymentType;
+
         $this->discount = $discount;
 
         $this->details = $details;
@@ -45,8 +50,34 @@ class VerifyCashReceivedAmountIsValid implements Rule
             $price = Price::getGrandTotalPriceAfterDiscount($this->discount, $this->details);
         }
 
-        if ($this->cashReceivedType == 'amount') {
-            return $price >= $value;
+        if ($this->cashReceivedType == 'percent' && $value > 100) {
+            $this->message = 'When type is "Percent", the percentage amount must be between 0 and 100.';
+
+            return false;
+        }
+
+        if ($this->paymentType == 'Cash Payment' && $this->cashReceivedType == 'amount' && $price != $value) {
+            $this->message = '"Cash Received" must be equal to the "Grand Total Price"';
+
+            return false;
+        }
+
+        if ($this->paymentType == 'Cash Payment' && $this->cashReceivedType == 'percent' && $value != 100) {
+            $this->message = 'When payment type is "Cash Payment" and type is "Percent", the percentage must be 100';
+
+            return false;
+        }
+
+        if ($this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'amount' && $value >= $price) {
+            $this->message = '"Cash Received" can not be greater than or equal to "Grand Total Price"';
+
+            return false;
+        }
+
+        if ($this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'percent' && $value == 100) {
+            $this->message = 'When payment type is "Credit Payment" and type is "Percent", the percentage can not be 100';
+
+            return false;
         }
 
         return true;
@@ -58,6 +89,6 @@ class VerifyCashReceivedAmountIsValid implements Rule
      */
     public function message()
     {
-        return '"Cash Received" can not be greater than "Grand Total Price"';
+        return $this->message;
     }
 }
