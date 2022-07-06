@@ -54,4 +54,16 @@ class Gdn extends Model
     {
         return $this->gdnDetails;
     }
+
+    public function isConvertedToSale()
+    {
+        return $this->is_converted_to_sale;
+    }
+
+    public function convertToSale()
+    {
+        $this->is_converted_to_sale = 1;
+
+        $this->save();
+    }
 }

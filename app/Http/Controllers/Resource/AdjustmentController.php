@@ -89,9 +89,9 @@ class AdjustmentController extends Controller
         DB::transaction(function () use ($request, $adjustment) {
             $adjustment->update($request->safe()->except('adjustment'));
 
-            for ($i = 0; $i < count($request->adjustment); $i++) {
-                $adjustment->adjustmentDetails[$i]->update($request->validated('adjustment')[$i]);
-            }
+            $adjustment->adjustmentDetails()->forceDelete();
+
+            $adjustment->adjustmentDetails()->createMany($request->validated('adjustment'));
         });
 
         return redirect()->route('adjustments.show', $adjustment->id);

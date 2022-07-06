@@ -1,16 +1,10 @@
 @extends('layouts.app')
 
-@section('title')
-    Create New Proforma Invoice
-@endsection
+@section('title', 'Create Proforma Invoice')
 
 @section('content')
-    <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <h1 class="title text-green has-text-weight-medium is-size-5">
-                New Proforma Invoice
-            </h1>
-        </div>
+    <x-common.content-wrapper>
+        <x-content.header title="New Proforma Invoice" />
         <form
             id="formOne"
             action="{{ route('proforma-invoices.store') }}"
@@ -19,392 +13,139 @@
             novalidate
         >
             @csrf
-            <div class="box radius-bottom-0 mb-0 radius-top-0">
+            <x-content.main>
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
-                        <label
-                            for="code"
-                            class="label text-green has-text-weight-normal"
-                        >PI No <sup class="has-text-danger">*</sup> </label>
-                        <div class="field has-addons">
-                            <div class="control">
-                                <input
+                        <x-forms.label for="code">
+                            PI No <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control>
+                                <x-forms.input
                                     name="prefix"
-                                    class="input"
                                     type="text"
                                     placeholder="Prefix"
                                     value="{{ userCompany()->proforma_invoice_prefix ?? '' }}"
-                                >
-                            </div>
-                            <div class="control has-icons-left">
-                                <input
-                                    class="input"
+                                />
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     type="text"
                                     name="code"
                                     id="code"
                                     value="{{ $currentProformaInvoiceCode }}"
-                                >
-                                <span class="icon is-large is-left">
-                                    <i class="fas fa-hashtag"></i>
-                                </span>
-                                @error('code')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-hashtag"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="code" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="customer_id"
-                                class="label text-green has-text-weight-normal"
-                            > Customer <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <x-common.customer-list :selected-id="old('customer_id') ?? ''" />
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-address-card"></i>
-                                </div>
-                            </div>
-                        </div>
+                        <x-forms.field>
+                            <x-forms.label for="customer_id">
+                                Customer <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="select is-fullwidth has-icons-left">
+                                <x-common.customer-list :selected-id="old('customer_id') ?? ''" />
+                                <x-common.icon
+                                    name="fas fa-address-card"
+                                    class="is-small is-left"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="issued_on"
-                                class="label text-green has-text-weight-normal"
-                            > Issued On <sup class="has-text-danger">*</sup> </label>
-                            <div class="control has-icons-left">
-                                <input
-                                    class="input"
+                        <x-forms.field>
+                            <x-forms.label for="issued_on">
+                                Issued On <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     type="datetime-local"
                                     name="issued_on"
                                     id="issued_on"
                                     placeholder="mm/dd/yyyy"
                                     value="{{ old('issued_on') ?? now()->toDateTimeLocalString() }}"
-                                >
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                @error('issued_on')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-calendar-alt"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="issued_on" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="expires_on"
-                                class="label text-green has-text-weight-normal"
-                            > Expiry Date <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <input
-                                    class="input"
+                        <x-forms.field>
+                            <x-forms.label for="expires_on">
+                                Expiry Date <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
                                     type="date"
                                     name="expires_on"
                                     id="expires_on"
                                     placeholder="mm/dd/yyyy"
                                     value="{{ old('expires_on') ??
                                         now()->addDays(10)->toDateString() }}"
-                                >
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                @error('expires_on')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-calendar-alt"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="expires_on" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
-                        <label
-                            for="discount"
-                            class="label text-green has-text-weight-normal"
-                        >Discount<sup class="has-text-danger"></sup> </label>
-                        <div class="field">
-                            <div class="control has-icons-left is-expanded">
-                                <input
+                        <x-forms.label for="discount">
+                            Discount<sup class="has-text-danger"></sup>
+                        </x-forms.label>
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
                                     id="discount"
                                     name="discount"
                                     type="number"
-                                    class="input"
                                     placeholder="Discount in Percentage"
                                     value="{{ old('discount') ?? '' }}"
-                                >
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-percent"></i>
-                                </span>
-                                @error('discount')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                />
+                                <x-common.icon
+                                    name="fas fa-percent"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="discount" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                     <div class="column is-12">
-                        <div class="field">
-                            <label
-                                for="terms"
-                                class="label text-green has-text-weight-normal"
-                            >Terms & Conditions <sup class="has-text-danger"></sup> </label>
-                            <div class="control">
-                                <textarea
+                        <x-forms.field>
+                            <x-forms.label for="terms">
+                                Terms & Conditions <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <x-forms.textarea
                                     name="terms"
                                     id="terms"
-                                    cols="30"
                                     rows="5"
                                     class="summernote textarea"
                                     placeholder="Description or note to be taken"
->{{ old('terms') ?? '' }}</textarea>
-                                @error('terms')
-                                    <span
-                                        class="help has-text-danger"
-                                        role="alert"
-                                    >
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                                >{{ old('terms') ?? '' }}</x-forms.textarea>
+                                <x-common.validation-error property="terms" />
+                            </x-forms.control>
+                        </x-forms.field>
                     </div>
                 </div>
-                <div id="proforma-invoice-details">
-                    @foreach (old('proformaInvoice', [[]]) as $proformaInvoiceDetail)
-                        <div
-                            x-data="productDataProvider(
-                                {{ is_numeric($proformaInvoiceDetail['product_id'] ?? '') ? $proformaInvoiceDetail['product_id'] : '""' }},
-                                {{ $proformaInvoiceDetail['unit_price'] ?? '""' }}
-                            )"
-                            class="proforma-invoice-detail mx-3"
-                        >
-                            <div class="field has-addons mb-0 mt-5">
-                                <div class="control">
-                                    <span
-                                        name="item-number"
-                                        class="tag bg-green has-text-white is-medium is-radiusless"
-                                    >
-                                        Item {{ $loop->iteration }}
-                                    </span>
-                                </div>
-                                <div class="control">
-                                    <button
-                                        name="remove-detail-button"
-                                        type="button"
-                                        class="tag bg-lightgreen has-text-white is-medium is-radiusless is-pointer"
-                                    >
-                                        <span class="icon text-green">
-                                            <i class="fas fa-times-circle"></i>
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="box has-background-white-bis radius-top-0">
-                                <div class="columns is-marginless is-multiline">
-                                    <div class="column is-6">
-                                        <label
-                                            for="proformaInvoice[{{ $loop->index }}][product_id]"
-                                            class="label text-green has-text-weight-normal"
-                                        >
-                                            Product <sup class="has-text-danger">*</sup>
-                                        </label>
-                                        <div class="field has-addons">
-                                            <div
-                                                class="control has-icons-left"
-                                                style="width: 30%"
-                                            >
-                                                <x-common.category-list
-                                                    x-model="selectedCategory"
-                                                    x-on:change="getProductsByCategory"
-                                                />
-                                            </div>
-                                            <div class="control has-icons-left is-expanded">
-                                                <x-common.product-list
-                                                    tags="true"
-                                                    name="proformaInvoice[{{ $loop->index }}]"
-                                                    selected-product-id="{{ $proformaInvoiceDetail['product_id'] ?? '' }}"
-                                                    x-init="select2"
-                                                />
-                                                <div class="icon is-small is-left">
-                                                    <i class="fas fa-th"></i>
-                                                </div>
-                                                @error('proformaInvoice.' . $loop->index . '.product_id')
-                                                    <span
-                                                        class="help has-text-danger"
-                                                        role="alert"
-                                                    >
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column is-6">
-                                        <label
-                                            for="proformaInvoice[{{ $loop->index }}][quantity]"
-                                            class="label text-green has-text-weight-normal"
-                                        >Quantity <sup class="has-text-danger">*</sup> </label>
-                                        <div class="field has-addons">
-                                            <div class="control has-icons-left is-expanded">
-                                                <input
-                                                    id="proformaInvoice[{{ $loop->index }}][quantity]"
-                                                    name="proformaInvoice[{{ $loop->index }}][quantity]"
-                                                    type="number"
-                                                    class="input"
-                                                    placeholder="Product Quantity"
-                                                    value="{{ $proformaInvoiceDetail['quantity'] ?? '' }}"
-                                                >
-                                                <span class="icon is-small is-left">
-                                                    <i class="fas fa-balance-scale"></i>
-                                                </span>
-                                                @error('proformaInvoice.' . $loop->index . '.quantity')
-                                                    <span
-                                                        class="help has-text-danger"
-                                                        role="alert"
-                                                    >
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                            <div class="control">
-                                                <button
-                                                    id="proformaInvoice[{{ $loop->index }}][product_id]Quantity"
-                                                    class="button bg-green has-text-white"
-                                                    type="button"
-                                                    x-text="product.unit_of_measurement"
-                                                ></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column is-6">
-                                        <label
-                                            for="proformaInvoice[{{ $loop->index }}][unit_price]"
-                                            class="label text-green has-text-weight-normal"
-                                        >Unit Price<sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup> <sup class="has-text-danger">*</sup> </label>
-                                        <div class="field has-addons">
-                                            <div class="control has-icons-left is-expanded">
-                                                <input
-                                                    id="proformaInvoice[{{ $loop->index }}][unit_price]"
-                                                    name="proformaInvoice[{{ $loop->index }}][unit_price]"
-                                                    type="number"
-                                                    class="input"
-                                                    placeholder="Unit Price"
-                                                    :readonly="isDisabled"
-                                                    x-model="product.price"
-                                                >
-                                                <span class="icon is-small is-left">
-                                                    <i class="fas fa-money-bill"></i>
-                                                </span>
-                                                @error('proformaInvoice.' . $loop->index . '.unit_price')
-                                                    <span
-                                                        class="help has-text-danger"
-                                                        role="alert"
-                                                    >
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                            <div class="control">
-                                                <button
-                                                    id="proformaInvoice[{{ $loop->index }}][product_id]Price"
-                                                    class="button bg-green has-text-white"
-                                                    type="button"
-                                                    x-text="product.unit_of_measurement && `Per ${product.unit_of_measurement}`"
-                                                ></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? '' : 'is-hidden' }}">
-                                        <label
-                                            for="proformaInvoice[{{ $loop->index }}][discount]"
-                                            class="label text-green has-text-weight-normal"
-                                        >Discount<sup class="has-text-danger"></sup> </label>
-                                        <div class="field">
-                                            <div class="control has-icons-left is-expanded">
-                                                <input
-                                                    id="proformaInvoice[{{ $loop->index }}][discount]"
-                                                    name="proformaInvoice[{{ $loop->index }}][discount]"
-                                                    type="number"
-                                                    class="input"
-                                                    placeholder="Discount in Percentage"
-                                                    value="{{ $proformaInvoiceDetail['discount'] ?? '' }}"
-                                                >
-                                                <span class="icon is-small is-left">
-                                                    <i class="fas fa-percent"></i>
-                                                </span>
-                                                @error('proformaInvoice.' . $loop->index . '.discount')
-                                                    <span
-                                                        class="help has-text-danger"
-                                                        role="alert"
-                                                    >
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="column is-12">
-                                        <div class="field">
-                                            <label
-                                                for="proformaInvoice[{{ $loop->index }}][specification]"
-                                                class="label text-green has-text-weight-normal"
-                                            >Specifications <sup class="has-text-danger"></sup> </label>
-                                            <div class="control">
-                                                <textarea
-                                                    name="proformaInvoice[{{ $loop->index }}][specification]"
-                                                    id="proformaInvoice[{{ $loop->index }}][specification]"
-                                                    cols="30"
-                                                    rows="5"
-                                                    class="summernote textarea"
-                                                    placeholder="Specification about the product"
->{{ $proformaInvoiceDetail['specification'] ?? '' }}</textarea>
-                                                @error('proformaInvoice.' . $loop->index . '.specification')
-                                                    <span
-                                                        class="help has-text-danger"
-                                                        role="alert"
-                                                    >
-                                                        {{ $message }}
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <button
-                    id="addNewProformaInvoiceForm"
-                    type="button"
-                    class="button bg-purple has-text-white is-small ml-3 mt-6"
-                >
-                    Add More Item
-                </button>
-            </div>
-            <div class="box radius-top-0">
+            </x-content.main>
+
+            @include('proforma-invoices.partials.details-form', ['data' => session()->getOldInput()])
+
+            <x-content.footer>
                 <x-common.save-button />
-            </div>
+            </x-content.footer>
         </form>
-    </section>
+    </x-common.content-wrapper>
 @endsection

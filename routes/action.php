@@ -273,3 +273,7 @@ Route::post('/adjustments/import',
 Route::post('/gdns/import',
     [Action\GdnController::class, 'import'])
     ->name('gdns.import');
+
+Route::post('/gdns/{gdn}/convert-to-sale',
+    [Action\GdnController::class, 'convertToSale'])
+    ->name('gdns.convert_to_sale');
