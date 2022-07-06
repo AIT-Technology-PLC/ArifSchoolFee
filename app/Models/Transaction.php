@@ -119,18 +119,15 @@ class Transaction extends Model
                         }
 
                         if ($this->pad->hasPrices()) {
+                            $data['quantity'] = number_format($data['quantity'], 2, thousands_separator:'');
+                            $data['unit_price'] = number_format($data['unit_price'], 2, thousands_separator:'');
                             $data['discount'] = $data['discount'] ?? 0.00;
 
-                            $unitPrice = userCompany()->isPriceBeforeVAT() ? $data['unit_price'] : $data['unit_price'] / 1.15;
-
+                            $unitPrice = userCompany()->isPriceBeforeVAT() ? $data['unit_price'] : number_format($data['unit_price'] / 1.15, 2, thousands_separator:'');
                             $data['total'] = number_format($unitPrice * $data['quantity'], 2, thousands_separator:'');
-
                             $discount = userCompany()->isDiscountBeforeVAT() ? $data['discount'] / 100 : 0.00;
-
                             $discountAmount = number_format($data['total'] * $discount, 2, thousands_separator:'');
-
                             $data['discount'] = number_format($discount * 100, 2) . '%';
-
                             $data['total'] = number_format($data['total'] - $discountAmount, 2, thousands_separator:'');
                         }
 
