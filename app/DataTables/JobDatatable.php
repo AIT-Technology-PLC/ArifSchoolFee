@@ -26,6 +26,7 @@ class JobDatatable extends DataTable
             ->editColumn('issued_on', fn($job) => $job->issued_on->toFormattedDateString())
             ->editColumn('due_date', fn($job) => $job->due_date->toFormattedDateString())
             ->editColumn('status', fn($job) => view('components.datatables.job-status', compact('job')))
+            ->editColumn('schedule', fn($job) => view('components.datatables.job-schedule', compact('job')))
             ->editColumn('factory', fn($job) => $job->factory->name)
             ->editColumn('approved by', fn($job) => $job->approvedBy->name ?? 'N/A')
             ->editColumn('closed by', fn($job) => $job->closedBy->name ?? 'N/A')
@@ -69,6 +70,7 @@ class JobDatatable extends DataTable
             Column::computed('#'),
             Column::make('code')->className('has-text-centered')->title('Jobs No'),
             Column::make('status')->orderable(false),
+            Column::make('schedule')->orderable(false)->searchable(false),
             Column::make('factory', 'factory.name'),
             Column::make('issued_on'),
             Column::make('due_date'),
