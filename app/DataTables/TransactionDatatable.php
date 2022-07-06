@@ -31,81 +31,57 @@ class TransactionDatatable extends DataTable
 
     public function dataTable($query)
     {
-        $this->addDynamicColumns($query);
-
-        return $this
-            ->datatable
+        $datatable = datatables()
+            ->collection($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn($transaction) => route('transactions.show', $transaction->id),
+                'data-url' => fn($transaction) => route('transactions.show', $transaction['id']),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
-            ])
-            ->editColumn('branch', fn($transaction) => $transaction->warehouse->name)
-            ->editColumn('issued_on', fn($transaction) => $transaction->issued_on->toFormattedDateString())
-            ->editColumn('prepared by', fn($transaction) => $transaction->createdBy->name)
-            ->editColumn('edited by', fn($transaction) => $transaction->updatedBy->name)
+            ]);
+
+        if (request()->route('pad')->hasStatus() || request()->route('pad')->isClosableOnly()) {
+            $datatable
+                ->editColumn('status', function ($transaction) {
+                    return view('components.datatables.transaction-status', [
+                        'transaction' => Transaction::find($transaction['id']),
+                    ]);
+                });
+        }
+
+        return $datatable
             ->editColumn('actions', function ($transaction) {
                 return view('components.common.action-buttons', [
                     'model' => 'transactions',
-                    'id' => $transaction->id,
+                    'id' => $transaction['id'],
                     'buttons' => 'all',
                 ]);
             })
             ->addIndexColumn();
     }
 
-    public function query(Transaction $transaction)
+    public function query()
     {
-        return $transaction
-            ->newQuery()
-            ->select('transactions.*')
+        return Transaction::query()
             ->where('pad_id', request()->route('pad')->id)
             ->when(is_numeric(request('branch')), fn($query) => $query->where('transactions.warehouse_id', request('branch')))
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'warehouse:id,name',
-            ]);
-    }
+            ])
+            ->get()
+            ->map(function ($transaction) {
+                $data = [];
 
-    protected function getColumns()
-    {
-        $columns = [
-            Column::computed('#'),
-            Column::make('branch', 'warehouse.name')->visible(false),
-            Column::make('code')->className('has-text-centered')->title(request()->route('pad')->abbreviation . ' No'),
-            (request()->route('pad')->hasStatus() || request()->route('pad')->isClosableOnly()) ? Column::computed('status') : '',
-        ];
+                $data['id'] = $transaction->id;
+                $data['branch'] = $transaction->warehouse->name;
+                $data['code'] = $transaction->code;
+                $data['issued_on'] = $transaction->issued_on->toDateTimeString();
+                $data['prepared by'] = $transaction->createdBy->name;
+                $data['edited by'] = $transaction->updatedBy->name;
 
-        foreach ($this->padFields as $padField) {
-            $columns[] = Column::computed($padField->label);
-        }
-
-        $moreColumns = [
-            Column::make('issued_on')->className('has-text-right'),
-            Column::make('prepared by', 'createdBy.name'),
-            Column::make('edited by', 'updatedBy.name')->visible(false),
-            Column::computed('actions')->className('actions'),
-        ];
-
-        array_push($columns, ...$moreColumns);
-
-        return Arr::where($columns, fn($column) => $column != null);
-    }
-
-    protected function filename()
-    {
-        return 'Transactions_' . date('YmdHis');
-    }
-
-    public function addDynamicColumns($query)
-    {
-        $datatable = datatables()->eloquent($query);
-
-        foreach ($this->padFields as $padField) {
-            $datatable
-                ->editColumn($padField->label, function ($transaction) use ($padField) {
+                foreach ($this->padFields as $padField) {
                     $value = TransactionField::query()
                         ->where('pad_field_id', $padField->id)
                         ->where('transaction_id', $transaction->id)
@@ -122,17 +98,40 @@ class TransactionDatatable extends DataTable
                         $value = (new Carbon($value))->toDayDateTimeString();
                     }
 
-                    return $value ?? 'N/A';
-                });
+                    $data[$padField->label] = $value ?? 'N/A';
+                }
+
+                return $data;
+            });
+    }
+
+    protected function getColumns()
+    {
+        $columns = [
+            Column::computed('#'),
+            Column::make('branch')->visible(false),
+            Column::make('code')->className('has-text-centered')->title(request()->route('pad')->abbreviation . ' No'),
+            (request()->route('pad')->hasStatus() || request()->route('pad')->isClosableOnly()) ? Column::computed('status') : '',
+        ];
+
+        foreach ($this->padFields as $padField) {
+            $columns[] = Column::make($padField->label);
         }
 
-        if (request()->route('pad')->hasStatus() || request()->route('pad')->isClosableOnly()) {
-            $datatable
-                ->editColumn('status', function ($transaction) {
-                    return view('components.datatables.transaction-status', compact('transaction'));
-                });
-        }
+        $moreColumns = [
+            Column::make('issued_on')->className('has-text-right'),
+            Column::make('prepared by'),
+            Column::make('edited by')->visible(false),
+            Column::computed('actions')->className('actions'),
+        ];
 
-        $this->datatable = $datatable;
+        array_push($columns, ...$moreColumns);
+
+        return Arr::where($columns, fn($column) => $column != null);
+    }
+
+    protected function filename()
+    {
+        return 'Transactions_' . date('YmdHis');
     }
 }
