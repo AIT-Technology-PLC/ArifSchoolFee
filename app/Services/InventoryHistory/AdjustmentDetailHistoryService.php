@@ -23,6 +23,7 @@ class AdjustmentDetailHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($adjustmentDetail) {
             return [
                 'type' => 'ADJUSTMENT',
+                'url' => '/adjustments/' . $adjustmentDetail->adjustment_id,
                 'code' => $adjustmentDetail->adjustment->code,
                 'date' => $adjustmentDetail->adjustment->issued_on,
                 'quantity' => $adjustmentDetail->quantity,

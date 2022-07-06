@@ -23,6 +23,7 @@ class ReturnDetailHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($returnDetail) {
             return [
                 'type' => 'RETURN',
+                'url' => '/returns/' . $returnDetail->return_id,
                 'code' => $returnDetail->returnn->code,
                 'date' => $returnDetail->returnn->issued_on,
                 'quantity' => $returnDetail->quantity,

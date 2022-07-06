@@ -17,6 +17,10 @@ class ProductPerWarehouseDatatable extends DataTable
             ->collection($query)
             ->editColumn('date', fn($item) => $item['date']->toDateString())
             ->editColumn('type', fn($item) => view('components.datatables.purple-solid-tag', ['content' => $item['type']]))
+            ->editColumn('code', fn($item) => view('components.datatables.link', [
+                'url' => $item['url'],
+                'label' => $item['code'],
+            ]))
             ->editColumn('quantity', fn($item) => view('components.datatables.item-quantity', compact('item')))
             ->editColumn('details', fn($item) => $item['details'])
             ->editColumn('balance', function ($item) {
