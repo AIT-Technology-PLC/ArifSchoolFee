@@ -22,12 +22,14 @@ class JobDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
+            ->editColumn('branch', fn($job) => $job->warehouse->name)
             ->editColumn('prepared by', fn($job) => $job->createdBy->name)
             ->editColumn('issued_on', fn($job) => $job->issued_on->toFormattedDateString())
             ->editColumn('due_date', fn($job) => $job->due_date->toFormattedDateString())
             ->editColumn('status', fn($job) => view('components.datatables.job-status', compact('job')))
             ->editColumn('schedule', fn($job) => view('components.datatables.job-schedule', compact('job')))
             ->editColumn('factory', fn($job) => $job->factory->name)
+            ->editColumn('customer', fn($job) => $job->customer->company_name ?? 'N/A')
             ->editColumn('approved by', fn($job) => $job->approvedBy->name ?? 'N/A')
             ->editColumn('closed by', fn($job) => $job->closedBy->name ?? 'N/A')
             ->editColumn('description', fn($job) => $job->description)
@@ -56,11 +58,13 @@ class JobDatatable extends DataTable
             ->select('job_orders.*')
             ->with([
                 'jobDetails',
+                'warehouse:id,name',
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'approvedBy:id,name',
                 'closedBy:id,name',
                 'factory:id,name',
+                'customer:id,company_name',
             ]);
     }
 
@@ -68,12 +72,14 @@ class JobDatatable extends DataTable
     {
         $columns = [
             Column::computed('#'),
+            Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Jobs No'),
-            Column::make('status')->orderable(false),
-            Column::make('schedule')->orderable(false)->searchable(false),
+            Column::computed('status')->orderable(false),
+            Column::computed('schedule')->orderable(false)->searchable(false),
             Column::make('factory', 'factory.name'),
+            Column::make('customer', 'customer.company_name')->visible(false),
             Column::make('issued_on'),
-            Column::make('due_date'),
+            Column::make('due_date')->visible(false),
             Column::make('description')->visible(false),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),

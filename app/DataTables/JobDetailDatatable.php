@@ -16,11 +16,8 @@ class JobDetailDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('product', fn($jobDetail) => $jobDetail->product->name)
-            ->editColumn('bill Of Material', fn($jobDetail) => $jobDetail->billOfMaterial->name)
+            ->editColumn('bill of material', fn($jobDetail) => $jobDetail->billOfMaterial->name)
             ->editColumn('status', fn($jobDetail) => view('components.datatables.job-detail-status', compact('jobDetail')))
-            ->editColumn('Work In Process', fn($jobDetail) => $jobDetail->wip)
-            ->editColumn('available', fn($jobDetail) => $jobDetail->available)
-            ->editColumn('quantity', fn($jobDetail) => $jobDetail->quantity)
             ->editColumn('actions', function ($jobDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'job-details',
@@ -48,10 +45,10 @@ class JobDetailDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('product', 'product.name'),
-            Column::make('bill Of Material', 'billOfMaterial.name'),
-            Column::make('status')->orderable(false),
+            Column::make('bill of material', 'billOfMaterial.name'),
+            Column::computed('status')->orderable(false),
             Column::make('quantity'),
-            Column::make('Work In Process'),
+            Column::make('wip')->title('Work In Process'),
             Column::make('available')->title('Finished Goods'),
             Column::computed('actions'),
         ];
