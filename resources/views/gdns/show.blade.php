@@ -194,21 +194,19 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @if ($gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isConvertedToSale())
-                    @if (isFeatureEnabled('Sale Management'))
-                        @can('Create Sale')
-                            <x-common.dropdown-item>
-                                <x-common.transaction-button
-                                    :route="route('gdns.convert_to_sale', $gdn->id)"
-                                    action=" issue"
-                                    intention="issue an invoice for this delivery order"
-                                    icon="fas fa-cash-register"
-                                    label="Issue Invoice"
-                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                                />
-                            </x-common.dropdown-item>
-                        @endcan
-                    @endif
+                @if ($gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isConvertedToSale() && isFeatureEnabled('Sale Management'))
+                    @can('Create Sale')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('gdns.convert_to_sale', $gdn->id)"
+                                action=" issue"
+                                intention="issue an invoice for this delivery order"
+                                icon="fas fa-cash-register"
+                                label="Issue Invoice"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
                 @endif
                 <x-common.dropdown-item>
                     <x-common.button

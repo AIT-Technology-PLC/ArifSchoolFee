@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Create New Proforma Invoice')
+@section('title', 'Create Proforma Invoice')
 
 @section('content')
     <x-common.content-wrapper>
