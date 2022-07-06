@@ -24,6 +24,7 @@ class ReservationDetailHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($reservationDetail) {
             return [
                 'type' => 'RESERVED',
+                'url' => '/reservations/' . $reservationDetail->reservation_id,
                 'code' => $reservationDetail->reservation->code,
                 'date' => $reservationDetail->reservation->issued_on,
                 'quantity' => $reservationDetail->quantity,

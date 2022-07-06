@@ -32,6 +32,7 @@ class TransferDetailHistoryService implements DetailHistoryServiceInterface
             ->map(function ($transferDetail) {
                 return [
                     'type' => 'TRANSFER',
+                    'url' => '/transfers/' . $transferDetail->transfer_id,
                     'code' => $transferDetail->transfer->code,
                     'date' => $transferDetail->transfer->issued_on,
                     'quantity' => $transferDetail->quantity,

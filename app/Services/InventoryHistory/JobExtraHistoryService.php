@@ -23,6 +23,7 @@ class JobExtraHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($jobExtra) {
             return [
                 'type' => 'JOB',
+                'url' => '/jobs/' . $jobExtra->job_order_id,
                 'code' => $jobExtra->job->code,
                 'date' => $jobExtra->job->issued_on,
                 'quantity' => $jobExtra->quantity,

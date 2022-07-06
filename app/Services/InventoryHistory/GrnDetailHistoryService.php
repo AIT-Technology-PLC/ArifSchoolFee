@@ -24,6 +24,7 @@ class GrnDetailHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($grnDetail) {
             return [
                 'type' => 'GRN',
+                'url' => '/grns/' . $grnDetail->grn_id,
                 'code' => $grnDetail->grn->code,
                 'date' => $grnDetail->grn->issued_on,
                 'quantity' => $grnDetail->quantity,
