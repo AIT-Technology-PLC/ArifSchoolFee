@@ -199,7 +199,7 @@
                         <x-common.dropdown-item>
                             <x-common.transaction-button
                                 :route="route('gdns.convert_to_sale', $gdn->id)"
-                                action=" issue"
+                                action="issue"
                                 intention="issue an invoice for this delivery order"
                                 icon="fas fa-cash-register"
                                 label="Issue Invoice"
