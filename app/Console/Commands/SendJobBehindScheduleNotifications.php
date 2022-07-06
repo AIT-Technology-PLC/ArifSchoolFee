@@ -10,7 +10,7 @@ use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Notification;
 
-class SendReservationExpiryDateNotifications extends Command
+class SendJobBehindScheduleNotifications extends Command
 {
     protected $signature = 'job:behind-schedule-notification';
 
