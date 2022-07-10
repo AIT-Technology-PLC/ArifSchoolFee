@@ -133,6 +133,7 @@
                                 {{ $loop->iteration }}
                             </th>
                             @foreach ($columns as $column)
+                                @continue (!userCompany()->isDiscountBeforeVAT() && $column == 'discount')
                                 <td>
                                     {{ $detail[$column] }}
                                 </td>
