@@ -143,7 +143,7 @@
                     @if ($transaction->pad->hasPrices())
                         <tr>
                             <td
-                                colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) }}"
+                                colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) - 2 }}"
                                 class="is-borderless"
                             ></td>
                             <td class="has-text-weight-bold">Sub-Total</td>
@@ -151,7 +151,7 @@
                         </tr>
                         <tr>
                             <td
-                                colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) }}"
+                                colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) - 2 }}"
                                 class="is-borderless"
                             ></td>
                             <td class="has-text-weight-bold">VAT 15%</td>
@@ -159,7 +159,7 @@
                         </tr>
                         <tr>
                             <td
-                                colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) }}"
+                                colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) - 2 }}"
                                 class="is-borderless"
                             ></td>
                             <td class="has-text-weight-bold">Grand Total</td>
@@ -168,7 +168,7 @@
                         @if (!userCompany()->isDiscountBeforeVAT())
                             <tr>
                                 <td
-                                    colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) }}"
+                                    colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) - 2 }}"
                                     class="is-borderless"
                                 ></td>
                                 <td class="has-text-weight-bold">Discount</td>
@@ -176,7 +176,7 @@
                             </tr>
                             <tr>
                                 <td
-                                    colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) }}"
+                                    colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) - 2 }}"
                                     class="is-borderless"
                                 ></td>
                                 <td class="has-text-weight-bold">
