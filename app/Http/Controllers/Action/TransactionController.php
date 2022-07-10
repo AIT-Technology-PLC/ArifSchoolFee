@@ -87,6 +87,10 @@ class TransactionController extends Controller
     {
         $this->authorize('view', $transaction);
 
+        if (!$transaction->pad->isPrintable()) {
+            return back()->with('failedMessage', 'This transaction is not printable.');
+        }
+
         if ($transaction->pad->isApprovable() && !$transaction->isApproved()) {
             return back()->with('failedMessage', 'This transaction is not approved yet.');
         }

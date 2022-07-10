@@ -235,7 +235,7 @@
                             </x-common.dropdown-item>
                         @endcan
                     @endif
-                    @if ($transaction->pad->isApprovable() && $transaction->isApproved())
+                    @if ($transaction->pad->isPrintable() && (!$transaction->pad->isApprovable() || ($transaction->pad->isApprovable() && $transaction->isApproved())))
                         @can('view', $transaction)
                             <x-common.dropdown-item>
                                 <x-common.button
