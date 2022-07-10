@@ -30,7 +30,6 @@ class SendBidBondValidityNotification extends Command
         }
 
         foreach ($companies as $company) {
-
             $tenders = Tender::query()
                 ->where('company_id', $company->id)
                 ->whereNotNull('bid_bond_validity')

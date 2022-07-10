@@ -8,7 +8,17 @@ use Illuminate\View\Component;
 
 class ProductList extends Component
 {
-    public $products, $name, $selectedProductId, $tags, $excludedProducts, $key;
+    public $products;
+
+    public $name;
+
+    public $selectedProductId;
+
+    public $tags;
+
+    public $excludedProducts;
+
+    public $key;
 
     public function __construct(
         $name = null,
@@ -27,9 +37,9 @@ class ProductList extends Component
 
         $this->key = $key;
 
-        $this->products = Cache::store('array')->rememberForever(authUser()->id . '_' . 'productLists', function () {
+        $this->products = Cache::store('array')->rememberForever(authUser()->id.'_'.'productLists', function () {
             return Product::select(['id', 'product_category_id', 'name', 'code'])
-                ->when($this->excludedProducts, fn($query) => $query->whereNotIn('id', $this->excludedProducts->toArray()))
+                ->when($this->excludedProducts, fn ($query) => $query->whereNotIn('id', $this->excludedProducts->toArray()))
                 ->with('productCategory:id,name')
                 ->orderBy('name')
                 ->get();

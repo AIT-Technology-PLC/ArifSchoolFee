@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\BillOfMaterialDetail;
-use App\Models\JobDetail;
-use App\Models\Product;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Model;

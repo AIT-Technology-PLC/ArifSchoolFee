@@ -108,13 +108,11 @@ class PermissionCategorization
         $permissionsByCategory = [];
 
         foreach (array_keys(static::PERMISSION_CATEGORIES) as $key) {
-
             $permissionsByCategory[$key] = $permissions
                 ->filter(function ($permission) use ($key) {
                     return stristr($permission, $key);
                 })
                 ->toArray();
-
         }
 
         return $permissionsByCategory;

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions;
 
 use App\Models\Siv;
@@ -31,7 +32,7 @@ class ConvertToSivAction
                 );
             }
 
-            if (!userCompany()->isConvertToSivAsApproved()) {
+            if (! userCompany()->isConvertToSivAsApproved()) {
                 Notification::send(
                     Notifiables::byNextActionPermission('Approve SIV'),
                     new SivPrepared($siv)

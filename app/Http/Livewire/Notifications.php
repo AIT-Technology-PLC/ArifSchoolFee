@@ -6,7 +6,9 @@ use Livewire\Component;
 
 class Notifications extends Component
 {
-    public $readNotifications, $unreadNotifications;
+    public $readNotifications;
+
+    public $unreadNotifications;
 
     public function mount()
     {
@@ -19,7 +21,7 @@ class Notifications extends Component
     {
         $this->unreadNotifications = authUser()->unreadNotifications;
 
-        $this->emit("notificationComponentRefreshed", $this->unreadNotifications->count());
+        $this->emit('notificationComponentRefreshed', $this->unreadNotifications->count());
     }
 
     public function render()

@@ -24,7 +24,7 @@ class TransferDetailDatatable extends DataTable
             ->editColumn('quantity', function ($transferDetail) {
                 return quantity($transferDetail->quantity, $transferDetail->product->unit_of_measurement);
             })
-            ->editColumn('description', fn($transferDetail) => nl2br(e($transferDetail->description)))
+            ->editColumn('description', fn ($transferDetail) => nl2br(e($transferDetail->description)))
             ->editColumn('actions', function ($transferDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'transfer-details',
@@ -57,6 +57,6 @@ class TransferDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Transfer Details_' . date('YmdHis');
+        return 'Transfer Details_'.date('YmdHis');
     }
 }

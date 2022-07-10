@@ -20,7 +20,11 @@ class ProductPerWarehouseHistoryService
         JobExtraHistoryService::class,
     ];
 
-    private $warehouse, $product, $history;
+    private $warehouse;
+
+    private $product;
+
+    private $history;
 
     public function __construct()
     {

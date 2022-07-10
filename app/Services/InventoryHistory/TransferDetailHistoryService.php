@@ -8,7 +8,11 @@ use Illuminate\Support\Str;
 
 class TransferDetailHistoryService implements DetailHistoryServiceInterface
 {
-    private $warehouse, $product, $history;
+    private $warehouse;
+
+    private $product;
+
+    private $history;
 
     private function get()
     {
@@ -23,7 +27,7 @@ class TransferDetailHistoryService implements DetailHistoryServiceInterface
     {
         $history = $this->history
             ->filter(function ($transferDetail) {
-                if ($transferDetail->transfer->transferred_to == $this->warehouse->id && !$transferDetail->transfer->isAdded()) {
+                if ($transferDetail->transfer->transferred_to == $this->warehouse->id && ! $transferDetail->transfer->isAdded()) {
                     return false;
                 }
 
@@ -32,7 +36,7 @@ class TransferDetailHistoryService implements DetailHistoryServiceInterface
             ->map(function ($transferDetail) {
                 return [
                     'type' => 'TRANSFER',
-                    'url' => '/transfers/' . $transferDetail->transfer_id,
+                    'url' => '/transfers/'.$transferDetail->transfer_id,
                     'code' => $transferDetail->transfer->code,
                     'date' => $transferDetail->transfer->issued_on,
                     'quantity' => $transferDetail->quantity,

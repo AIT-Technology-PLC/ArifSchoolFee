@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\BillOfMaterial;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -56,7 +55,7 @@ class JobDetail extends Model
 
         $totalQuantity = $this->quantity ?? 0.00;
 
-        if (!$totalQuantity) {
+        if (! $totalQuantity) {
             return 100.00;
         }
 
@@ -113,7 +112,7 @@ class JobDetail extends Model
             ->load([
                 'job' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class]);
-                }]
+                }, ]
             );
 
         $jobDetailsBillOfMaterials->push(...$jobDetails);

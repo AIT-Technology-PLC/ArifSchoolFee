@@ -3,7 +3,6 @@
 namespace App\Services\Models;
 
 use App\Models\GdnDetail;
-use App\Models\Transaction;
 use App\Services\Inventory\InventoryOperationService;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -55,13 +54,13 @@ class TransactionService
 
     public function subtract($transaction, $user)
     {
-        if (!$transaction->pad->isInventoryOperationSubtract()) {
+        if (! $transaction->pad->isInventoryOperationSubtract()) {
             return [false, 'This transaction can not be subtracted from inventory.'];
         }
 
         $transactionDetails = $this->formatTransactionDetails($transaction);
 
-        if (!$user->hasWarehousePermission('subtract',
+        if (! $user->hasWarehousePermission('subtract',
             $transactionDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
         }
@@ -70,7 +69,7 @@ class TransactionService
             return [false, 'This transaction is cancelled.'];
         }
 
-        if ($transaction->pad->isApprovable() && !$transaction->isApproved()) {
+        if ($transaction->pad->isApprovable() && ! $transaction->isApproved()) {
             return [false, 'This transaction is not approved yet.'];
         }
 
@@ -95,13 +94,13 @@ class TransactionService
 
     public function add($transaction, $user)
     {
-        if (!$transaction->pad->isInventoryOperationAdd()) {
+        if (! $transaction->pad->isInventoryOperationAdd()) {
             return [false, 'This transaction can not be added to inventory.'];
         }
 
         $transactionDetails = $this->formatTransactionDetails($transaction);
 
-        if (!$user->hasWarehousePermission('add',
+        if (! $user->hasWarehousePermission('add',
             $transactionDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
@@ -110,7 +109,7 @@ class TransactionService
             return [false, 'This transaction is cancelled.'];
         }
 
-        if ($transaction->pad->isApprovable() && !$transaction->isApproved()) {
+        if ($transaction->pad->isApprovable() && ! $transaction->isApproved()) {
             return [false, 'This transaction is not approved yet.'];
         }
 
@@ -129,11 +128,11 @@ class TransactionService
 
     public function close($transaction)
     {
-        if ($transaction->pad->isInventoryOperationSubtract() && !$transaction->isSubtracted()) {
+        if ($transaction->pad->isInventoryOperationSubtract() && ! $transaction->isSubtracted()) {
             return [false, 'This transaction is not subtracted yet.'];
         }
 
-        if ($transaction->pad->isInventoryOperationAdd() && !$transaction->isAdded()) {
+        if ($transaction->pad->isInventoryOperationAdd() && ! $transaction->isAdded()) {
             return [false, 'This transaction is not added yet.'];
         }
 

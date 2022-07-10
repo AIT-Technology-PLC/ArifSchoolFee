@@ -3,8 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class DamageSubtracted extends Notification
@@ -26,7 +24,7 @@ class DamageSubtracted extends Notification
         return [
             'icon' => 'bolt',
             'message' => 'Damage claim products have been subtracted from inventory',
-            'endpoint' => '/damages/' . $this->damage->id,
+            'endpoint' => '/damages/'.$this->damage->id,
         ];
     }
 }

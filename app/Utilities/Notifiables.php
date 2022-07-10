@@ -48,7 +48,7 @@ class Notifiables
         }
 
         if (is_countable($warehouseId)) {
-            $warehouseId = $warehouseId->filter(fn($id) => $id != authUser()->warehouse_id);
+            $warehouseId = $warehouseId->filter(fn ($id) => $id != authUser()->warehouse_id);
         }
 
         $users = User::query()

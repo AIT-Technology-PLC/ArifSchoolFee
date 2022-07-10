@@ -2,7 +2,6 @@
 
 namespace App\Services\Models;
 
-use App\Models\Job;
 use App\Services\Inventory\InventoryOperationService;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -11,11 +10,11 @@ class JobService
 {
     public function addToWorkInProcess($data, $job, $user)
     {
-        if (!$user->hasWarehousePermission('subtract', $job->factory_id)) {
+        if (! $user->hasWarehousePermission('subtract', $job->factory_id)) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
         }
 
-        if (!$job->isApproved()) {
+        if (! $job->isApproved()) {
             return [false, 'This job is not approved yet.', ''];
         }
 
@@ -25,7 +24,7 @@ class JobService
 
         DB::transaction(function () use ($data, $job) {
             for ($i = 0; $i < count($job->jobDetails); $i++) {
-                if (!isset($data[$i])) {
+                if (! isset($data[$i])) {
                     continue;
                 }
 
@@ -33,11 +32,11 @@ class JobService
                     continue;
                 }
 
-                if (!$job->jobDetails[$i]->canAddToWip()) {
+                if (! $job->jobDetails[$i]->canAddToWip()) {
                     continue;
                 }
 
-                if (!$this->isQuantityValid($job->jobDetails[$i]->quantity, $job->jobDetails[$i]->available, $job->jobDetails[$i]->wip + $data[$i]['wip'])) {
+                if (! $this->isQuantityValid($job->jobDetails[$i]->quantity, $job->jobDetails[$i]->available, $job->jobDetails[$i]->wip + $data[$i]['wip'])) {
                     return false;
                 }
 
@@ -52,6 +51,7 @@ class JobService
 
                 $details[] = collect($billOfMaterialdetails)->transform(function ($detail) use ($quantity) {
                     $detail['quantity'] = $detail['quantity'] * $quantity;
+
                     return $detail;
                 });
 
@@ -65,7 +65,7 @@ class JobService
             if (isset($details) && count($details)) {
                 $billOfMaterialdetails = Arr::flatten($details, 1);
 
-                if (!InventoryOperationService::areAvailable($billOfMaterialdetails)) {
+                if (! InventoryOperationService::areAvailable($billOfMaterialdetails)) {
                     return false;
                 }
             }
@@ -84,11 +84,11 @@ class JobService
 
     public function addToAvailable($data, $job, $user)
     {
-        if (!$user->hasWarehousePermission('add', $job->factory_id)) {
+        if (! $user->hasWarehousePermission('add', $job->factory_id)) {
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
 
-        if (!$job->isApproved()) {
+        if (! $job->isApproved()) {
             return [false, 'This job is not approved yet.', ''];
         }
 
@@ -98,7 +98,7 @@ class JobService
 
         DB::transaction(function () use ($data, $job) {
             for ($i = 0; $i < count($job->jobDetails); $i++) {
-                if (!isset($data[$i])) {
+                if (! isset($data[$i])) {
                     continue;
                 }
 
@@ -110,7 +110,7 @@ class JobService
                     continue;
                 }
 
-                if (!$this->isQuantityValid($job->jobDetails[$i]->quantity, $job->jobDetails[$i]->available + $data[$i]['available'], 0)) {
+                if (! $this->isQuantityValid($job->jobDetails[$i]->quantity, $job->jobDetails[$i]->available + $data[$i]['available'], 0)) {
                     return false;
                 }
 
@@ -138,6 +138,7 @@ class JobService
 
                     $details[$i] = collect($billOfMaterialdetails)->transform(function ($detail) use ($quantity) {
                         $detail['quantity'] = $detail['quantity'] * $quantity;
+
                         return $detail;
                     });
                 }
@@ -160,7 +161,7 @@ class JobService
             if (isset($details) && count($details)) {
                 $billOfMaterialdetails = Arr::flatten($details, 1);
 
-                if (!InventoryOperationService::areAvailable($billOfMaterialdetails)) {
+                if (! InventoryOperationService::areAvailable($billOfMaterialdetails)) {
                     return false;
                 }
 
@@ -182,7 +183,7 @@ class JobService
 
     public function addExtra($jobExtra, $user)
     {
-        if (!$user->hasWarehousePermission('add', $jobExtra->job->factory_id)) {
+        if (! $user->hasWarehousePermission('add', $jobExtra->job->factory_id)) {
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
 
@@ -209,7 +210,7 @@ class JobService
 
     public function subtractExtra($jobExtra, $user)
     {
-        if (!$user->hasWarehousePermission('subtract', $jobExtra->job->factory_id)) {
+        if (! $user->hasWarehousePermission('subtract', $jobExtra->job->factory_id)) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
         }
 
@@ -251,7 +252,7 @@ class JobService
 
     public function close($job)
     {
-        if (!$job->isCompleted()) {
+        if (! $job->isCompleted()) {
             return [false, 'This Job is not Completed yet.'];
         }
 

@@ -18,7 +18,7 @@ class PurchaseDetailController extends Controller
 
         abort_if($purchaseDetail->purchase->isPurchased(), 403);
 
-        abort_if($purchaseDetail->purchase->isApproved() && !authUser()->can('Delete Approved Purchase'), 403);
+        abort_if($purchaseDetail->purchase->isApproved() && ! authUser()->can('Delete Approved Purchase'), 403);
 
         $purchaseDetail->forceDelete();
 

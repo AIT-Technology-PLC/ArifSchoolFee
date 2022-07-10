@@ -8,12 +8,20 @@ use Illuminate\View\Component;
 
 class CustomerList extends Component
 {
-    public $customers, $selectedId, $id, $name, $value;
+    public $customers;
+
+    public $selectedId;
+
+    public $id;
+
+    public $name;
+
+    public $value;
 
     public function __construct($selectedId, $id = 'customer_id', $name = 'customer_id', $value = 'id')
     {
         $this->customers = Cache::store('array')
-            ->rememberForever(authUser()->id . '_' . 'customerLists', function () {
+            ->rememberForever(authUser()->id.'_'.'customerLists', function () {
                 return Customer::orderBy('company_name')->get(['id', 'company_name']);
             });
 

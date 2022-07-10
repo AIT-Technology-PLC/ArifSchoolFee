@@ -25,7 +25,7 @@ class ReturnController extends Controller
 
         [$isExecuted, $message] = $action->execute($return, ReturnApproved::class, 'Make Return');
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -36,7 +36,7 @@ class ReturnController extends Controller
     {
         $this->authorize('view', $return);
 
-        if (!$return->isApproved()) {
+        if (! $return->isApproved()) {
             return back()->with('failedMessage', 'This return is not approved yet.');
         }
 
@@ -51,7 +51,7 @@ class ReturnController extends Controller
 
         [$isExecuted, $message] = $returnService->add($return, authUser());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 

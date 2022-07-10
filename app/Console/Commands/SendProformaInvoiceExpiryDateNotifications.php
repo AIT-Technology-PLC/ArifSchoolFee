@@ -30,7 +30,6 @@ class SendProformaInvoiceExpiryDateNotifications extends Command
         }
 
         foreach ($companies as $company) {
-
             $proformaInvoices = ProformaInvoice::query()
                 ->where('company_id', $company->id)
                 ->pending()
@@ -57,7 +56,6 @@ class SendProformaInvoiceExpiryDateNotifications extends Command
             }
 
             Notification::send($users, new ProformaInvoiceExpirationIsClose($proformaInvoices));
-
         }
 
         return 0;

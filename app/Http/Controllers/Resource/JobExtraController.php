@@ -20,7 +20,7 @@ class JobExtraController extends Controller
     {
         $this->authorize('create', $job);
 
-        if (!$job->isApproved()) {
+        if (! $job->isApproved()) {
             return back()->with('jobExtraFailedMessage', 'This job is not approved yet.');
         }
 

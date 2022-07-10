@@ -35,7 +35,7 @@ class TransactionDatatable extends DataTable
             ->collection($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn($transaction) => route('transactions.show', $transaction['id']),
+                'data-url' => fn ($transaction) => route('transactions.show', $transaction['id']),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ]);
@@ -64,7 +64,7 @@ class TransactionDatatable extends DataTable
     {
         return Transaction::query()
             ->where('pad_id', request()->route('pad')->id)
-            ->when(is_numeric(request('branch')), fn($query) => $query->where('transactions.warehouse_id', request('branch')))
+            ->when(is_numeric(request('branch')), fn ($query) => $query->where('transactions.warehouse_id', request('branch')))
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
@@ -110,7 +110,7 @@ class TransactionDatatable extends DataTable
         $columns = [
             Column::computed('#'),
             Column::make('branch')->visible(false),
-            Column::make('code')->className('has-text-centered')->title(request()->route('pad')->abbreviation . ' No'),
+            Column::make('code')->className('has-text-centered')->title(request()->route('pad')->abbreviation.' No'),
             (request()->route('pad')->hasStatus() || request()->route('pad')->isClosableOnly()) ? Column::computed('status') : '',
         ];
 
@@ -127,11 +127,11 @@ class TransactionDatatable extends DataTable
 
         array_push($columns, ...$moreColumns);
 
-        return Arr::where($columns, fn($column) => $column != null);
+        return Arr::where($columns, fn ($column) => $column != null);
     }
 
     protected function filename()
     {
-        return 'Transactions_' . date('YmdHis');
+        return 'Transactions_'.date('YmdHis');
     }
 }

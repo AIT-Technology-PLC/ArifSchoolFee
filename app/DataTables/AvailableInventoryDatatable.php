@@ -68,10 +68,10 @@ class AvailableInventoryDatatable extends DataTable
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
             ->where('merchandises.company_id', '=', userCompany()->id)
-            ->when(request('level') == 'sufficient', fn($query) => $query->whereNotIn('products.id', $limitedProducts))
-            ->when(request('level') == 'limited', fn($query) => $query->whereIn('products.id', $limitedProducts))
-            ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
-            ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
+            ->when(request('level') == 'sufficient', fn ($query) => $query->whereNotIn('products.id', $limitedProducts))
+            ->when(request('level') == 'limited', fn ($query) => $query->whereIn('products.id', $limitedProducts))
+            ->when(request('type') == 'finished goods', fn ($query) => $query->where('products.type', '=', 'Finished Goods'))
+            ->when(request('type') == 'raw material', fn ($query) => $query->where('products.type', '=', 'Raw Material'))
             ->where('merchandises.available', '>', 0)
             ->whereIn('warehouses.id', authUser()->getAllowedWarehouses('read')->pluck('id'))
             ->select([
@@ -104,7 +104,6 @@ class AvailableInventoryDatatable extends DataTable
             ];
 
             foreach ($merchandiseValue as $key => $value) {
-
                 $currentMerchandiseItem = Arr::add($currentMerchandiseItem, $key, $value->available);
             }
 
@@ -132,6 +131,6 @@ class AvailableInventoryDatatable extends DataTable
 
     protected function filename()
     {
-        return 'InventoryLevel_' . date('YmdHis');
+        return 'InventoryLevel_'.date('YmdHis');
     }
 }

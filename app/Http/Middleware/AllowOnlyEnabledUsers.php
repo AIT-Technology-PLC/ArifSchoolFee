@@ -22,6 +22,6 @@ class AllowOnlyEnabledUsers
 
         Auth::logout();
 
-        return redirect("/login");
+        return redirect('/login');
     }
 }

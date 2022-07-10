@@ -7,7 +7,9 @@ use Livewire\Component;
 
 class NotificationCounter extends Component
 {
-    public $totalUnreadNotifications, $class;
+    public $totalUnreadNotifications;
+
+    public $class;
 
     protected $listeners = [
         'notificationComponentRefreshed' => 'getTotalUnreadNotifications',
@@ -16,7 +18,7 @@ class NotificationCounter extends Component
     public function mount()
     {
         $this->totalUnreadNotifications = Cache::store('array')
-            ->rememberForever(authUser()->id . '_' . 'totalUnreadNotifications', function () {
+            ->rememberForever(authUser()->id.'_'.'totalUnreadNotifications', function () {
                 return authUser()->unreadNotifications()->count();
             });
     }

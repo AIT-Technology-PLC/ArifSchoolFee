@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Actions\CreateUserAction;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
-use App\Models\Employee;
 use App\Models\Plan;
 use App\Models\Warehouse;
 use App\Providers\RouteServiceProvider;

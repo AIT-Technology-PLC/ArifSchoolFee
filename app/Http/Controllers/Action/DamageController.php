@@ -28,7 +28,7 @@ class DamageController extends Controller
 
         [$isExecuted, $message] = $action->execute($damage, DamageApproved::class, 'Subtract Damage');
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -41,7 +41,7 @@ class DamageController extends Controller
 
         [$isExecuted, $message] = $this->damageService->subtract($damage, authUser());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 

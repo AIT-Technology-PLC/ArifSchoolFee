@@ -114,12 +114,12 @@ class GdnController extends Controller
     public function destroy(Gdn $gdn)
     {
         if ($gdn->reservation()->exists()) {
-            return back()->with('failedMessage', "Delivery orders issued from reservations cannot be deleted.");
+            return back()->with('failedMessage', 'Delivery orders issued from reservations cannot be deleted.');
         }
 
         abort_if($gdn->isSubtracted(), 403);
 
-        abort_if($gdn->isApproved() && !authUser()->can('Delete Approved GDN'), 403);
+        abort_if($gdn->isApproved() && ! authUser()->can('Delete Approved GDN'), 403);
 
         $gdn->forceDelete();
 

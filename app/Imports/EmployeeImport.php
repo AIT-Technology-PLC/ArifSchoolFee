@@ -6,7 +6,6 @@ use App\Models\Employee;
 use App\Models\User;
 use App\Models\Warehouse;
 use App\Rules\MustBelongToCompany;
-use Google\Service\Spanner\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -24,6 +23,7 @@ class EmployeeImport implements WithHeadingRow, OnEachRow, WithValidation, WithC
     {
         if (limitReached('user', Employee::enabled()->count())) {
             session('limitReachedMessage', __('messages.limit_reached', ['limit' => 'users']));
+
             return;
         }
 

@@ -23,8 +23,8 @@ class TransferPrepared extends Notification
     {
         return [
             'icon' => 'exchange-alt',
-            'message' => 'Approval request for Transfer prepared by ' . ucfirst($this->transfer->createdBy->name),
-            'endpoint' => '/transfers/' . $this->transfer->id,
+            'message' => 'Approval request for Transfer prepared by '.ucfirst($this->transfer->createdBy->name),
+            'endpoint' => '/transfers/'.$this->transfer->id,
         ];
     }
 }

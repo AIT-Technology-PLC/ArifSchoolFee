@@ -25,8 +25,8 @@ class TenderOpportunityCreated extends Notification
     {
         return [
             'icon' => 'briefcase',
-            'message' => 'New tender opportunity is created by ' . ucfirst($this->tenderOpportunity->createdBy->name),
-            'endpoint' => '/tender-opportunities/' . $this->tenderOpportunity->id,
+            'message' => 'New tender opportunity is created by '.ucfirst($this->tenderOpportunity->createdBy->name),
+            'endpoint' => '/tender-opportunities/'.$this->tenderOpportunity->id,
         ];
     }
 }

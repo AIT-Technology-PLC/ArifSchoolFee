@@ -44,7 +44,7 @@ class Tender extends Model
         $inProcessChecklists = $this->tenderChecklists->where('status', 'In Process')->count();
         $totalChecklists = $this->tenderChecklists->count();
 
-        if (!$totalChecklists) {
+        if (! $totalChecklists) {
             return 0;
         }
 

@@ -15,7 +15,7 @@ class ReservationDetailDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('from', fn($reservationDetail) => $reservationDetail->warehouse->name)
+            ->editColumn('from', fn ($reservationDetail) => $reservationDetail->warehouse->name)
             ->editColumn('product', function ($reservationDetail) {
                 return view('components.datatables.product-code', [
                     'product' => $reservationDetail->product->name,
@@ -25,10 +25,10 @@ class ReservationDetailDatatable extends DataTable
             ->editColumn('quantity', function ($reservationDetail) {
                 return quantity($reservationDetail->quantity, $reservationDetail->product->unit_of_measurement);
             })
-            ->editColumn('unit_price', fn($reservationDetail) => money($reservationDetail->unit_price))
-            ->editColumn('discount', fn($reservationDetail) => number_format($reservationDetail->discount * 100, 2) . '%')
-            ->editColumn('total', fn($reservationDetail) => money($reservationDetail->totalPrice))
-            ->editColumn('description', fn($reservationDetail) => nl2br(e($reservationDetail->description)))
+            ->editColumn('unit_price', fn ($reservationDetail) => money($reservationDetail->unit_price))
+            ->editColumn('discount', fn ($reservationDetail) => number_format($reservationDetail->discount * 100, 2).'%')
+            ->editColumn('total', fn ($reservationDetail) => money($reservationDetail->totalPrice))
+            ->editColumn('description', fn ($reservationDetail) => nl2br(e($reservationDetail->description)))
             ->editColumn('actions', function ($reservationDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'reservation-details',
@@ -70,6 +70,6 @@ class ReservationDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Reservation Details_' . date('YmdHis');
+        return 'Reservation Details_'.date('YmdHis');
     }
 }

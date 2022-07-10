@@ -9,12 +9,12 @@ class GrnService
 {
     public function add($grn, $user)
     {
-        if (!$user->hasWarehousePermission('add',
+        if (! $user->hasWarehousePermission('add',
             $grn->grnDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
 
-        if (!$grn->isApproved()) {
+        if (! $grn->isApproved()) {
             return [false, 'This Goods Received Note is not approved yet.'];
         }
 

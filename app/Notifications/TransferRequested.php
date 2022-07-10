@@ -25,8 +25,8 @@ class TransferRequested extends Notification
     {
         return [
             'icon' => 'exchange-alt',
-            'message' => 'New Transfer request is received from ' . ucfirst($this->transfer->transferredTo->name),
-            'endpoint' => '/transfers/' . $this->transfer->id,
+            'message' => 'New Transfer request is received from '.ucfirst($this->transfer->transferredTo->name),
+            'endpoint' => '/transfers/'.$this->transfer->id,
         ];
     }
 }

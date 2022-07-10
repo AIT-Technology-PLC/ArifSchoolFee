@@ -16,7 +16,7 @@ class AdjustmentDetailDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('operation', function ($adjustmentDetail) {
-                return ($adjustmentDetail->is_subtract ? 'Subtract From ' : 'Add To ') . $adjustmentDetail->warehouse->name;
+                return ($adjustmentDetail->is_subtract ? 'Subtract From ' : 'Add To ').$adjustmentDetail->warehouse->name;
             })
             ->editColumn('product', function ($adjustmentDetail) {
                 return view('components.datatables.product-code', [
@@ -27,7 +27,7 @@ class AdjustmentDetailDatatable extends DataTable
             ->editColumn('quantity', function ($adjustmentDetail) {
                 return quantity($adjustmentDetail->quantity, $adjustmentDetail->product->unit_of_measurement);
             })
-            ->editColumn('description', fn($adjustmentDetail) => $adjustmentDetail->reason)
+            ->editColumn('description', fn ($adjustmentDetail) => $adjustmentDetail->reason)
             ->editColumn('actions', function ($adjustmentDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'adjustment-details',
@@ -64,6 +64,6 @@ class AdjustmentDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Adjustment Details_' . date('YmdHis');
+        return 'Adjustment Details_'.date('YmdHis');
     }
 }

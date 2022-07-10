@@ -31,7 +31,7 @@ class TransferController extends Controller
 
         [$isExecuted, $message] = $action->execute($transfer);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -46,7 +46,7 @@ class TransferController extends Controller
 
         [$isExecuted, $message] = $this->transferService->subtract($transfer, authUser());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -64,7 +64,7 @@ class TransferController extends Controller
 
         [$isExecuted, $message] = $this->transferService->add($transfer, authUser());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -82,7 +82,7 @@ class TransferController extends Controller
 
         [$isExecuted, $message, $siv] = $this->transferService->convertToSiv($transfer, authUser());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -95,7 +95,7 @@ class TransferController extends Controller
 
         [$isExecuted, $message] = $this->transferService->close($transfer);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 

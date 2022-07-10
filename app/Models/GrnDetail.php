@@ -50,8 +50,7 @@ class GrnDetail extends Model
             ->load([
                 'grn' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class])->with(['supplier']);
-                }]
+                }, ]
             );
     }
-
 }

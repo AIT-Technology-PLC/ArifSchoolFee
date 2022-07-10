@@ -48,7 +48,7 @@ class ProformaInvoice extends Model
     {
         $prefix = $this->prefix;
 
-        if (!$prefix) {
+        if (! $prefix) {
             return $this->code;
         }
 
@@ -109,16 +109,16 @@ class ProformaInvoice extends Model
 
     public function isConverted()
     {
-        return !$this->is_pending && $this->converted_by;
+        return ! $this->is_pending && $this->converted_by;
     }
 
     public function isPending()
     {
-        return $this->is_pending && !$this->converted_by;
+        return $this->is_pending && ! $this->converted_by;
     }
 
     public function isCancelled()
     {
-        return !$this->is_pending && !$this->converted_by;
+        return ! $this->is_pending && ! $this->converted_by;
     }
 }

@@ -23,8 +23,8 @@ class JobApproved extends Notification
     {
         return [
             'icon' => 'fas fa-cogs',
-            'message' => 'Job has been approved by ' . ucfirst($this->job->approvedBy->name),
-            'endpoint' => '/jobs/' . $this->job->id,
+            'message' => 'Job has been approved by '.ucfirst($this->job->approvedBy->name),
+            'endpoint' => '/jobs/'.$this->job->id,
         ];
     }
 }

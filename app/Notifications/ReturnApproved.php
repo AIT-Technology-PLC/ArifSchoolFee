@@ -23,8 +23,8 @@ class ReturnApproved extends Notification
     {
         return [
             'icon' => 'arrow-alt-circle-left',
-            'message' => 'Return voucher has been approved by ' . ucfirst($this->return->approvedBy->name),
-            'endpoint' => '/returns/' . $this->return->id,
+            'message' => 'Return voucher has been approved by '.ucfirst($this->return->approvedBy->name),
+            'endpoint' => '/returns/'.$this->return->id,
         ];
     }
 }

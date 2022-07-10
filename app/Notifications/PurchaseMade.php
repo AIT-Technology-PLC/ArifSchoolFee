@@ -10,7 +10,8 @@ class PurchaseMade extends Notification
     use Queueable;
 
     public function __construct(private $purchase)
-    {}
+    {
+    }
 
     public function via($notifiable)
     {
@@ -21,8 +22,8 @@ class PurchaseMade extends Notification
     {
         return [
             'icon' => 'shopping-bag',
-            'message' => 'Purchase #' . $this->purchase->code . 'is assigned as purchased by' . ucfirst($this->purchase->purchasedBy->name),
-            'endpoint' => '/purchases/' . $this->purchase->id,
+            'message' => 'Purchase #'.$this->purchase->code.'is assigned as purchased by'.ucfirst($this->purchase->purchasedBy->name),
+            'endpoint' => '/purchases/'.$this->purchase->id,
         ];
     }
 }

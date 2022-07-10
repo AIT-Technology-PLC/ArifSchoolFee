@@ -8,11 +8,19 @@ use Illuminate\View\Component;
 
 class SupplierList extends Component
 {
-    public $suppliers, $selectedId, $id, $name, $value;
+    public $suppliers;
+
+    public $selectedId;
+
+    public $id;
+
+    public $name;
+
+    public $value;
 
     public function __construct($selectedId, $id = 'supplier_id', $name = 'supplier_id', $value = 'id')
     {
-        $this->suppliers = Cache::store('array')->rememberForever(authUser()->id . '_' . 'supplierLists', function () {
+        $this->suppliers = Cache::store('array')->rememberForever(authUser()->id.'_'.'supplierLists', function () {
             return Supplier::orderBy('company_name')->get(['id', 'company_name']);
         });
 

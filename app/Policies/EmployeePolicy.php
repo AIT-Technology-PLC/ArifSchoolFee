@@ -31,15 +31,15 @@ class EmployeePolicy
 
     public function update(User $user, Employee $employee)
     {
-        if (!$user->can('Update Employee')) {
+        if (! $user->can('Update Employee')) {
             return false;
         }
 
-        if ($employee->user->hasRole('System Manager') && !$user->hasRole('System Manager')) {
+        if ($employee->user->hasRole('System Manager') && ! $user->hasRole('System Manager')) {
             return false;
         }
 
-        if ($employee->user->id == $user->id && !$user->hasRole('System Manager')) {
+        if ($employee->user->id == $user->id && ! $user->hasRole('System Manager')) {
             return false;
         }
 
@@ -48,7 +48,7 @@ class EmployeePolicy
 
     public function delete(User $user, Employee $employee)
     {
-        if (!$user->can('Delete Employee')) {
+        if (! $user->can('Delete Employee')) {
             return false;
         }
 
@@ -67,5 +67,4 @@ class EmployeePolicy
     {
         return $user->can('Import Employee');
     }
-
 }

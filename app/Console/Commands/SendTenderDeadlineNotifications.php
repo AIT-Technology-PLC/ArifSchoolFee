@@ -30,7 +30,6 @@ class SendTenderDeadlineNotifications extends Command
         }
 
         foreach ($companies as $company) {
-
             $tenders = Tender::where('company_id', $company->id)
                 ->whereRaw('DATEDIFF(closing_date, CURRENT_DATE) BETWEEN 1 AND 5')
                 ->get();
@@ -55,7 +54,6 @@ class SendTenderDeadlineNotifications extends Command
             }
 
             Notification::send($users, new TenderDeadlineIsClose($tenders));
-
         }
 
         return 0;

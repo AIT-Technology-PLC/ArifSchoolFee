@@ -24,7 +24,7 @@ class ReturnAdded extends Notification
         return [
             'icon' => 'arrow-alt-circle-left',
             'message' => 'Returned products have been added to inventory',
-            'endpoint' => '/returns/' . $this->return->id,
+            'endpoint' => '/returns/'.$this->return->id,
         ];
     }
 }

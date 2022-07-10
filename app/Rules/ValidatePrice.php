@@ -23,14 +23,14 @@ class ValidatePrice implements Rule
         $productId = request()->input($productIdKey) ?? Arr::get($this->details, $productIdKey);
 
         if (Product::where('id', $productId)->doesntExist()) {
-            $this->message = "The selected product does not exist.";
+            $this->message = 'The selected product does not exist.';
 
             return false;
         }
 
         $price = Price::firstWhere('product_id', $productId);
 
-        if (!$price) {
+        if (! $price) {
             return true;
         }
 
@@ -40,7 +40,7 @@ class ValidatePrice implements Rule
             return false;
         }
 
-        if (!$price->isFixed() && ($value < $price->min_price || $value > $price->max_price)) {
+        if (! $price->isFixed() && ($value < $price->min_price || $value > $price->max_price)) {
             $this->message = "The price of this product should be a minimum of {$price->min_price} or a maximum of {$price->max_price}.";
 
             return false;

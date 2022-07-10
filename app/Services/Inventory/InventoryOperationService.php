@@ -130,7 +130,7 @@ class InventoryOperationService
 
     private static function formatData($details)
     {
-        if (!is_countable($details) && !Arr::has($details, static::$properties)) {
+        if (! is_countable($details) && ! Arr::has($details, static::$properties)) {
             return null;
         }
 
@@ -138,7 +138,7 @@ class InventoryOperationService
             $details = [$details];
         }
 
-        if (collect($details)->filter(fn($detail) => !Arr::has($detail, static::$properties))->count()) {
+        if (collect($details)->filter(fn ($detail) => ! Arr::has($detail, static::$properties))->count()) {
             return null;
         }
 

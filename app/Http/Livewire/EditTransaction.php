@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Pad;
 use App\Models\Transaction;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -98,7 +97,7 @@ class EditTransaction extends Component
         ];
 
         foreach ($this->masterPadFields as $masterPadField) {
-            $key = 'master.' . $masterPadField->id;
+            $key = 'master.'.$masterPadField->id;
 
             $rules[$key][] = $masterPadField->isRequired() ? 'required' : 'nullable';
 
@@ -111,7 +110,7 @@ class EditTransaction extends Component
         }
 
         foreach ($this->detailPadFields as $detailPadField) {
-            $key = 'details.*.' . $detailPadField->id;
+            $key = 'details.*.'.$detailPadField->id;
 
             $rules[$key][] = $detailPadField->isRequired() ? 'required' : 'nullable';
 

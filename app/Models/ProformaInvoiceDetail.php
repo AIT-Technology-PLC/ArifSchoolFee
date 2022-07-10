@@ -31,7 +31,7 @@ class ProformaInvoiceDetail extends Model
 
     public function setProductIdAttribute($value)
     {
-        if (!is_numeric($value)) {
+        if (! is_numeric($value)) {
             $this->attributes['custom_product'] = $value;
 
             $this->attributes['product_id'] = null;

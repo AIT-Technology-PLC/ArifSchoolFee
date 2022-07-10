@@ -15,7 +15,7 @@ class ReturnDetailDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('to', fn($returnDetail) => $returnDetail->warehouse->name)
+            ->editColumn('to', fn ($returnDetail) => $returnDetail->warehouse->name)
             ->editColumn('product', function ($returnDetail) {
                 return view('components.datatables.product-code', [
                     'product' => $returnDetail->product->name,
@@ -25,9 +25,9 @@ class ReturnDetailDatatable extends DataTable
             ->editColumn('quantity', function ($returnDetail) {
                 return quantity($returnDetail->quantity, $returnDetail->product->unit_of_measurement);
             })
-            ->editColumn('unit_price', fn($returnDetail) => money($returnDetail->unit_price))
-            ->editColumn('total', fn($returnDetail) => money($returnDetail->totalPrice))
-            ->editColumn('description', fn($returnDetail) => nl2br(e($returnDetail->description)))
+            ->editColumn('unit_price', fn ($returnDetail) => money($returnDetail->unit_price))
+            ->editColumn('total', fn ($returnDetail) => money($returnDetail->totalPrice))
+            ->editColumn('description', fn ($returnDetail) => nl2br(e($returnDetail->description)))
             ->editColumn('actions', function ($returnDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'return-details',
@@ -66,6 +66,6 @@ class ReturnDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Return Details_' . date('YmdHis');
+        return 'Return Details_'.date('YmdHis');
     }
 }

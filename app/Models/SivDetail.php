@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Product;
-use App\Models\Siv;
-use App\Models\Warehouse;
 use App\Scopes\ActiveWarehouseScope;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

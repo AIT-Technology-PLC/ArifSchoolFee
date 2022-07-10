@@ -23,8 +23,8 @@ class GdnApproved extends Notification
     {
         return [
             'icon' => 'file-invoice',
-            'message' => 'Delivery Order has been approved by ' . ucfirst($this->gdn->approvedBy->name),
-            'endpoint' => '/gdns/' . $this->gdn->id,
+            'message' => 'Delivery Order has been approved by '.ucfirst($this->gdn->approvedBy->name),
+            'endpoint' => '/gdns/'.$this->gdn->id,
         ];
     }
 }

@@ -78,7 +78,7 @@ class JobExtra extends Model
             ->load([
                 'job' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class]);
-                }]
+                }, ]
             );
     }
 

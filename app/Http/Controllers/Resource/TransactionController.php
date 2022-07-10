@@ -17,11 +17,11 @@ class TransactionController extends Controller
 
     public function index(Pad $pad, TransactionDatatable $datatable)
     {
-        abort_if(!$pad->isEnabled(), 403);
+        abort_if(! $pad->isEnabled(), 403);
 
         $this->authorize('viewAny', [Transaction::class, $pad]);
 
-        $datatable->builder()->setTableId(str($pad->name)->slug() . '-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
+        $datatable->builder()->setTableId(str($pad->name)->slug().'-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
         $transactions = Transaction::where('pad_id', $pad->id)->get();
 
@@ -36,12 +36,12 @@ class TransactionController extends Controller
             $data['totalApproved'] = Transaction::query()
                 ->where('pad_id', $pad->id)
                 ->whereRelation('transactionFields', 'key', '=', 'approved_by')
-                ->whereDoesntHave('transactionFields', fn($q) => $q->where('key', '=', 'added_by'))
+                ->whereDoesntHave('transactionFields', fn ($q) => $q->where('key', '=', 'added_by'))
                 ->count();
 
             $data['totalNotApproved'] = Transaction::query()
                 ->where('pad_id', $pad->id)
-                ->whereDoesntHave('transactionFields', fn($q) => $q->where('key', '=', 'approved_by')->orWhere('key', '=', 'added_by'))
+                ->whereDoesntHave('transactionFields', fn ($q) => $q->where('key', '=', 'approved_by')->orWhere('key', '=', 'added_by'))
                 ->count();
         }
 
@@ -54,12 +54,12 @@ class TransactionController extends Controller
             $data['totalApproved'] = Transaction::query()
                 ->where('pad_id', $pad->id)
                 ->whereRelation('transactionFields', 'key', '=', 'approved_by')
-                ->whereDoesntHave('transactionFields', fn($q) => $q->where('key', '=', 'subtracted_by'))
+                ->whereDoesntHave('transactionFields', fn ($q) => $q->where('key', '=', 'subtracted_by'))
                 ->count();
 
             $data['totalNotApproved'] = Transaction::query()
                 ->where('pad_id', $pad->id)
-                ->whereDoesntHave('transactionFields', fn($q) => $q->where('key', '=', 'approved_by')->orWhere('key', '=', 'subtracted_by'))
+                ->whereDoesntHave('transactionFields', fn ($q) => $q->where('key', '=', 'approved_by')->orWhere('key', '=', 'subtracted_by'))
                 ->count();
         }
 
@@ -71,7 +71,7 @@ class TransactionController extends Controller
 
             $data['totalNotApproved'] = Transaction::query()
                 ->where('pad_id', $pad->id)
-                ->whereDoesntHave('transactionFields', fn($q) => $q->where('key', '=', 'approved_by'))
+                ->whereDoesntHave('transactionFields', fn ($q) => $q->where('key', '=', 'approved_by'))
                 ->count();
         }
 
@@ -90,7 +90,7 @@ class TransactionController extends Controller
 
             $data['totalNotClosed'] = Transaction::query()
                 ->where('pad_id', $pad->id)
-                ->whereDoesntHave('transactionFields', fn($q) => $q->where('key', '=', 'closed_by'))
+                ->whereDoesntHave('transactionFields', fn ($q) => $q->where('key', '=', 'closed_by'))
                 ->count();
         }
 

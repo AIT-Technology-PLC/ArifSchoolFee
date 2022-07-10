@@ -52,7 +52,7 @@ class ReturnDetail extends Model
             ->load([
                 'returnn' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class])->with(['customer']);
-                }]
+                }, ]
             );
     }
 }

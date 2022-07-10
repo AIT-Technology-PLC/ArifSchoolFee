@@ -24,7 +24,7 @@ class ProformaInvoiceExpirationIsClose extends Notification
     {
         return [
             'icon' => 'file-invoice-dollar',
-            'message' => $this->proformaInvoices->count() . ' ' . Str::plural('proforma invoice', $this->proformaInvoices->count()) . ' ' . ($this->proformaInvoices->count() == 1 ? 'has' : 'have') . ' 5 days or less remaining to be expired',
+            'message' => $this->proformaInvoices->count().' '.Str::plural('proforma invoice', $this->proformaInvoices->count()).' '.($this->proformaInvoices->count() == 1 ? 'has' : 'have').' 5 days or less remaining to be expired',
             'endpoint' => '/proforma-invoices',
         ];
     }

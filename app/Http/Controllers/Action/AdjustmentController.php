@@ -31,7 +31,7 @@ class AdjustmentController extends Controller
 
         [$isExecuted, $message] = $action->execute($adjustment, AdjustmentApproved::class, 'Make Adjustment');
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -44,7 +44,7 @@ class AdjustmentController extends Controller
 
         [$isExecuted, $message] = $this->adjustmentService->adjust($adjustment, authUser());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 

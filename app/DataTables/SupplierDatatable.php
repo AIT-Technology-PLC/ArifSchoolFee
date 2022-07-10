@@ -15,9 +15,9 @@ class SupplierDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('registered on', fn($supplier) => $supplier->created_at->toFormattedDateString())
-            ->editColumn('added by', fn($supplier) => $supplier->createdBy->name)
-            ->editColumn('edited by', fn($supplier) => $supplier->updatedBy->name)
+            ->editColumn('registered on', fn ($supplier) => $supplier->created_at->toFormattedDateString())
+            ->editColumn('added by', fn ($supplier) => $supplier->createdBy->name)
+            ->editColumn('edited by', fn ($supplier) => $supplier->updatedBy->name)
             ->editColumn('actions', function ($supplier) {
                 return view('components.common.action-buttons', [
                     'model' => 'suppliers',
@@ -57,6 +57,6 @@ class SupplierDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Supplier_' . date('YmdHis');
+        return 'Supplier_'.date('YmdHis');
     }
 }

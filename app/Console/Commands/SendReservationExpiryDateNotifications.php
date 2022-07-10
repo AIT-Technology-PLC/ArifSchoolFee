@@ -30,7 +30,6 @@ class SendReservationExpiryDateNotifications extends Command
         }
 
         foreach ($companies as $company) {
-
             $reservations = Reservation::query()
                 ->where('company_id', $company->id)
                 ->approved()

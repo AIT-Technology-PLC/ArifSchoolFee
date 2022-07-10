@@ -23,8 +23,8 @@ class DamagePrepared extends Notification
     {
         return [
             'icon' => 'bolt',
-            'message' => 'Approval request for Damage claim prepared by ' . ucfirst($this->damage->createdBy->name),
-            'endpoint' => '/damages/' . $this->damage->id,
+            'message' => 'Approval request for Damage claim prepared by '.ucfirst($this->damage->createdBy->name),
+            'endpoint' => '/damages/'.$this->damage->id,
         ];
     }
 }

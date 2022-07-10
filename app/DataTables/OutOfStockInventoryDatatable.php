@@ -10,7 +10,9 @@ class OutOfStockInventoryDatatable extends DataTable
 {
     use DataTableHtmlBuilder;
 
-    private $warehouses, $service;
+    private $warehouses;
+
+    private $service;
 
     public function __construct()
     {
@@ -58,8 +60,8 @@ class OutOfStockInventoryDatatable extends DataTable
 
         $outOfStockProducts = $this->service
             ->getOutOfStockMerchandiseProductsQuery(user:authUser())->with('productCategory')
-            ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
-            ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
+            ->when(request('type') == 'finished goods', fn ($query) => $query->where('products.type', '=', 'Finished Goods'))
+            ->when(request('type') == 'raw material', fn ($query) => $query->where('products.type', '=', 'Raw Material'))
             ->get();
 
         $organizedoutOfStockProducts = collect();
@@ -94,6 +96,6 @@ class OutOfStockInventoryDatatable extends DataTable
 
     protected function filename()
     {
-        return 'InventoryLevel_' . date('YmdHis');
+        return 'InventoryLevel_'.date('YmdHis');
     }
 }

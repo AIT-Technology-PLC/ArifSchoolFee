@@ -133,7 +133,7 @@ class Reservation extends Model
             $this->cancelled_by = authUser()->id;
         }
 
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             $this->cancelled_by = $this->created_by;
         }
 

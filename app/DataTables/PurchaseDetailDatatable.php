@@ -24,9 +24,9 @@ class PurchaseDetailDatatable extends DataTable
             ->editColumn('quantity', function ($purchaseDetail) {
                 return quantity($purchaseDetail->quantity, $purchaseDetail->product->unit_of_measurement);
             })
-            ->editColumn('unit_price', fn($purchaseDetail) => money($purchaseDetail->unit_price))
-            ->editColumn('discount', fn($purchaseDetail) => number_format($purchaseDetail->discount * 100, 2) . '%')
-            ->editColumn('total', fn($purchaseDetail) => money($purchaseDetail->totalPrice))
+            ->editColumn('unit_price', fn ($purchaseDetail) => money($purchaseDetail->unit_price))
+            ->editColumn('discount', fn ($purchaseDetail) => number_format($purchaseDetail->discount * 100, 2).'%')
+            ->editColumn('total', fn ($purchaseDetail) => money($purchaseDetail->totalPrice))
             ->editColumn('actions', function ($purchaseDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'purchase-details',
@@ -63,6 +63,6 @@ class PurchaseDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Purchase Details_' . date('YmdHis');
+        return 'Purchase Details_'.date('YmdHis');
     }
 }

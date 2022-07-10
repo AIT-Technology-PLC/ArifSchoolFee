@@ -20,7 +20,7 @@ trait CalculateCreditPayment
             $price = $this->grandTotalPrice;
         }
 
-        if (!userCompany()->isDiscountBeforeVAT()) {
+        if (! userCompany()->isDiscountBeforeVAT()) {
             $price = $this->grandTotalPriceAfterDiscount;
         }
 
@@ -41,7 +41,7 @@ trait CalculateCreditPayment
             $price = $this->grandTotalPrice;
         }
 
-        if (!userCompany()->isDiscountBeforeVAT()) {
+        if (! userCompany()->isDiscountBeforeVAT()) {
             $price = $this->grandTotalPriceAfterDiscount;
         }
 
@@ -66,7 +66,7 @@ trait CalculateCreditPayment
             $price = $this->grandTotalPrice;
         }
 
-        if (!userCompany()->isDiscountBeforeVAT()) {
+        if (! userCompany()->isDiscountBeforeVAT()) {
             $price = $this->grandTotalPriceAfterDiscount;
         }
 

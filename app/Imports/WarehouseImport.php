@@ -33,6 +33,7 @@ class WarehouseImport implements ToModel, WithHeadingRow, WithValidation, WithCh
 
         if (limitReached('warehouse', $this->activeWarehouses->count())) {
             session('limitReachedMessage', __('messages.limit_reached', ['limit' => 'branches']));
+
             return null;
         }
 

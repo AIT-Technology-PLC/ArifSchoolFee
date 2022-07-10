@@ -25,8 +25,8 @@ class BillOfMaterialUpdated extends Notification
     {
         return [
             'icon' => 'fas fa-clipboard-list',
-            'message' => 'Bill Of Material has been updated by ' . ucfirst($this->billOfMaterial->createdBy->name),
-            'endpoint' => '/bill-of-materials/' . $this->billOfMaterial->id,
+            'message' => 'Bill Of Material has been updated by '.ucfirst($this->billOfMaterial->createdBy->name),
+            'endpoint' => '/bill-of-materials/'.$this->billOfMaterial->id,
         ];
     }
 }

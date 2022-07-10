@@ -23,8 +23,8 @@ class GrnApproved extends Notification
     {
         return [
             'icon' => 'file-import',
-            'message' => 'GRN has been approved by ' . ucfirst($this->grn->approvedBy->name),
-            'endpoint' => '/grns/' . $this->grn->id,
+            'message' => 'GRN has been approved by '.ucfirst($this->grn->approvedBy->name),
+            'endpoint' => '/grns/'.$this->grn->id,
         ];
     }
 }

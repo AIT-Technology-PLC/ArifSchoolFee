@@ -18,7 +18,7 @@ class AdjustmentDetailController extends Controller
 
         abort_if($adjustmentDetail->adjustment->isAdjusted(), 403);
 
-        abort_if($adjustmentDetail->adjustment->isApproved() && !authUser()->can('Delete Approved Adjustment'), 403);
+        abort_if($adjustmentDetail->adjustment->isApproved() && ! authUser()->can('Delete Approved Adjustment'), 403);
 
         $adjustmentDetail->forceDelete();
 

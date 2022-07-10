@@ -15,7 +15,7 @@ class GrnDetailDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('to', fn($grnDetail) => $grnDetail->warehouse->name)
+            ->editColumn('to', fn ($grnDetail) => $grnDetail->warehouse->name)
             ->editColumn('product', function ($grnDetail) {
                 return view('components.datatables.product-code', [
                     'product' => $grnDetail->product->name,
@@ -25,7 +25,7 @@ class GrnDetailDatatable extends DataTable
             ->editColumn('quantity', function ($grnDetail) {
                 return quantity($grnDetail->quantity, $grnDetail->product->unit_of_measurement);
             })
-            ->editColumn('description', fn($grnDetail) => nl2br(e($grnDetail->description)))
+            ->editColumn('description', fn ($grnDetail) => nl2br(e($grnDetail->description)))
             ->editColumn('actions', function ($grnDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'grn-details',
@@ -62,6 +62,6 @@ class GrnDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'GRN Details_' . date('YmdHis');
+        return 'GRN Details_'.date('YmdHis');
     }
 }

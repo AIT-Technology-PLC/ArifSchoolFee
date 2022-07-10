@@ -2,10 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\BillOfMaterial;
-use App\Models\BillOfMaterialDetail;
-use App\Models\jobDetail;
-use App\Models\jobExtra;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Dyrynda\Database\Support\CascadeSoftDeletes;

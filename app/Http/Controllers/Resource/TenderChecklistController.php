@@ -55,12 +55,12 @@ class TenderChecklistController extends Controller
     {
         abort_if(
             $tenderChecklist->generalTenderChecklist->tenderChecklistType->isSensitive() &&
-            !authUser()->can('Read Tender Sensitive Data'), 403
+            ! authUser()->can('Read Tender Sensitive Data'), 403
         );
 
         abort_if(
             $tenderChecklist->assigned_to &&
-            ($tenderChecklist->assignedTo()->isNot(authUser()) && !authUser()->hasRole('System Manager')), 403
+            ($tenderChecklist->assignedTo()->isNot(authUser()) && ! authUser()->hasRole('System Manager')), 403
         );
 
         $this->authorize('update', $tenderChecklist->tender);
@@ -72,12 +72,12 @@ class TenderChecklistController extends Controller
     {
         abort_if(
             $tenderChecklist->generalTenderChecklist->tenderChecklistType->isSensitive() &&
-            !authUser()->can('Read Tender Sensitive Data'), 403
+            ! authUser()->can('Read Tender Sensitive Data'), 403
         );
 
         abort_if(
             $tenderChecklist->assigned_to &&
-            ($tenderChecklist->assignedTo()->isNot(authUser()) && !authUser()->hasRole('System Manager')), 403
+            ($tenderChecklist->assignedTo()->isNot(authUser()) && ! authUser()->hasRole('System Manager')), 403
         );
 
         $this->authorize('update', $tenderChecklist->tender);
@@ -92,7 +92,7 @@ class TenderChecklistController extends Controller
         $this->authorize('delete', $tenderChecklist->tender);
 
         if ($tenderChecklist->generalTenderChecklist->tenderChecklistType->isSensitive()
-            && !authUser()->can('Read Tender Sensitive Data')) {
+            && ! authUser()->can('Read Tender Sensitive Data')) {
             abort(403);
         }
 

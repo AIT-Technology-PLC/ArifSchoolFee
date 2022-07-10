@@ -65,7 +65,7 @@ class CheckCustomerCreditLimit implements Rule
             $price = Price::getGrandTotalPrice($this->details);
         }
 
-        if (!userCompany()->isDiscountBeforeVAT()) {
+        if (! userCompany()->isDiscountBeforeVAT()) {
             $price = Price::getGrandTotalPriceAfterDiscount($this->discount, $this->details);
         }
 

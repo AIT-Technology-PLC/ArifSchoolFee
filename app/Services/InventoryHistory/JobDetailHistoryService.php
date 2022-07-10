@@ -7,7 +7,11 @@ use App\Models\JobDetail;
 
 class JobDetailHistoryService implements DetailHistoryServiceInterface
 {
-    private $warehouse, $product, $history;
+    private $warehouse;
+
+    private $product;
+
+    private $history;
 
     private function get()
     {
@@ -23,7 +27,7 @@ class JobDetailHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($jobDetail) {
             return [
                 'type' => 'JOB',
-                'url' => '/jobs/' . $jobDetail->job_order_id,
+                'url' => '/jobs/'.$jobDetail->job_order_id,
                 'code' => $jobDetail->job->code,
                 'date' => $jobDetail->job->issued_on,
                 'quantity' => $jobDetail->is_bill_of_material ?
@@ -31,7 +35,7 @@ class JobDetailHistoryService implements DetailHistoryServiceInterface
                 number_format($jobDetail->available, 2),
                 'balance' => 0.00,
                 'unit_of_measurement' => $this->product->unit_of_measurement,
-                'details' => ($jobDetail->is_bill_of_material ? 'Used in ' : 'Manufactured in ') . $this->warehouse->name,
+                'details' => ($jobDetail->is_bill_of_material ? 'Used in ' : 'Manufactured in ').$this->warehouse->name,
                 'function' => $jobDetail->is_bill_of_material ? 'subtract' : 'add',
             ];
         });

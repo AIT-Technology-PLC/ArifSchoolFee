@@ -23,8 +23,8 @@ class AdjustmentPrepared extends Notification
     {
         return [
             'icon' => 'eraser',
-            'message' => 'Approval request for inventory adjustment prepared by ' . ucfirst($this->adjustment->createdBy->name),
-            'endpoint' => '/adjustments/' . $this->adjustment->id,
+            'message' => 'Approval request for inventory adjustment prepared by '.ucfirst($this->adjustment->createdBy->name),
+            'endpoint' => '/adjustments/'.$this->adjustment->id,
         ];
     }
 }

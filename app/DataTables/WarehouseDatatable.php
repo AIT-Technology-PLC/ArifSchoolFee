@@ -15,19 +15,19 @@ class WarehouseDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('is_sales_store', fn($warehouse) => $warehouse->is_sales_store ? 'Sales Store' : 'Main Store')
-            ->editColumn('can_be_sold_from', fn($warehouse) => $warehouse->can_be_sold_from ? 'Yes' : 'No')
-            ->editColumn('pos_provider', fn($warehouse) => $warehouse->pos_provider ?? 'N/A')
-            ->editColumn('status', fn($warehouse) => view('components.datatables.warehouse-status', compact('warehouse')))
+            ->editColumn('is_sales_store', fn ($warehouse) => $warehouse->is_sales_store ? 'Sales Store' : 'Main Store')
+            ->editColumn('can_be_sold_from', fn ($warehouse) => $warehouse->can_be_sold_from ? 'Yes' : 'No')
+            ->editColumn('pos_provider', fn ($warehouse) => $warehouse->pos_provider ?? 'N/A')
+            ->editColumn('status', fn ($warehouse) => view('components.datatables.warehouse-status', compact('warehouse')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'active', fn($query) => $query->active())
-                    ->when($keyword == 'inactive', fn($query) => $query->inactive());
+                    ->when($keyword == 'active', fn ($query) => $query->active())
+                    ->when($keyword == 'inactive', fn ($query) => $query->inactive());
             })
-            ->editColumn('description', fn($warehouse) => view('components.datatables.searchable-description', ['description' => $warehouse->description]))
-            ->editColumn('created on', fn($warehouse) => $warehouse->created_at->toFormattedDateString())
-            ->editColumn('created by', fn($warehouse) => $warehouse->createdBy->name)
-            ->editColumn('edited by', fn($warehouse) => $warehouse->updatedBy->name)
+            ->editColumn('description', fn ($warehouse) => view('components.datatables.searchable-description', ['description' => $warehouse->description]))
+            ->editColumn('created on', fn ($warehouse) => $warehouse->created_at->toFormattedDateString())
+            ->editColumn('created by', fn ($warehouse) => $warehouse->createdBy->name)
+            ->editColumn('edited by', fn ($warehouse) => $warehouse->updatedBy->name)
             ->editColumn('actions', function ($warehouse) {
                 return view('components.common.action-buttons', [
                     'model' => 'warehouses',
@@ -42,8 +42,8 @@ class WarehouseDatatable extends DataTable
     {
         return $warehouse
             ->newQuery()
-            ->when(request('status') == 'active', fn($query) => $query->active())
-            ->when(request('status') == 'inactive', fn($query) => $query->inactive())
+            ->when(request('status') == 'active', fn ($query) => $query->active())
+            ->when(request('status') == 'inactive', fn ($query) => $query->inactive())
             ->select('warehouses.*')
             ->with([
                 'createdBy:id,name',
@@ -75,6 +75,6 @@ class WarehouseDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Warehouses_' . date('YmdHis');
+        return 'Warehouses_'.date('YmdHis');
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Notifications;
 
-use App\Models\BillOfMaterial;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
@@ -24,8 +23,8 @@ class BillOfMaterialCreated extends Notification
     {
         return [
             'icon' => 'fas fa-clipboard-list',
-            'message' => 'Bill Of Material has been created by ' . ucfirst($this->billOfMaterial->createdBy->name),
-            'endpoint' => '/bill-of-materials/' . $this->billOfMaterial->id,
+            'message' => 'Bill Of Material has been created by '.ucfirst($this->billOfMaterial->createdBy->name),
+            'endpoint' => '/bill-of-materials/'.$this->billOfMaterial->id,
         ];
     }
 }

@@ -18,7 +18,7 @@ class ReturnDetailController extends Controller
 
         abort_if($returnDetail->returnn->isAdded(), 403);
 
-        abort_if($returnDetail->returnn->isApproved() && !authUser()->can('Delete Approved Return'), 403);
+        abort_if($returnDetail->returnn->isApproved() && ! authUser()->can('Delete Approved Return'), 403);
 
         $returnDetail->forceDelete();
 

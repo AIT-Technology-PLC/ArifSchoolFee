@@ -10,11 +10,11 @@ class ActiveWarehouseScope implements Scope
 {
     public function apply(Builder $builder, Model $model)
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return;
         }
 
-        if (request()->routeIs('warehouses.*') && !request()->routeIs('warehouses.merchandises')) {
+        if (request()->routeIs('warehouses.*') && ! request()->routeIs('warehouses.merchandises')) {
             return;
         }
 

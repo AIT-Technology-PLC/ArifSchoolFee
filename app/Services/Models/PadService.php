@@ -60,16 +60,16 @@ class PadService
 
             $pad->padFields()->detailFields()->when(
                 $data['has_prices'],
-                fn($q) => $q->whereIn('label', $this->generatePriceFields()->pluck('label'))->exists()
+                fn ($q) => $q->whereIn('label', $this->generatePriceFields()->pluck('label'))->exists()
                 ?: $pad->padFields()->createMany($this->generatePriceFields()),
-                fn($q) => $q->whereIn('label', $this->generatePriceFields()->pluck('label'))->forceDelete()
+                fn ($q) => $q->whereIn('label', $this->generatePriceFields()->pluck('label'))->forceDelete()
             );
 
             $pad->padFields()->masterFields()->when(
                 $data['has_payment_term'],
-                fn($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->exists()
+                fn ($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->exists()
                 ?: $pad->padFields()->createMany($this->generatePaymentTermFields()),
-                fn($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->forceDelete()
+                fn ($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->forceDelete()
             );
 
             return $pad;
@@ -97,7 +97,7 @@ class PadService
             $permissions[] = ['name' => 'Cancel'];
         }
 
-        if (!$pad->isInventoryOperationNone()) {
+        if (! $pad->isInventoryOperationNone()) {
             $permissions[] = ['name' => ucfirst($pad->getInventoryOperationType())];
         }
 

@@ -101,7 +101,7 @@ class AdjustmentController extends Controller
     {
         abort_if($adjustment->isAdjusted(), 403);
 
-        abort_if($adjustment->isApproved() && !authUser()->can('Delete Approved Adjustment'), 403);
+        abort_if($adjustment->isApproved() && ! authUser()->can('Delete Approved Adjustment'), 403);
 
         $adjustment->forceDelete();
 

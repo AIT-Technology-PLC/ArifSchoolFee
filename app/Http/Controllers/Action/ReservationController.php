@@ -32,7 +32,7 @@ class ReservationController extends Controller
 
         [$isExecuted, $message] = $action->execute($reservation, ReservationApproved::class, 'Make Reservation');
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -45,7 +45,7 @@ class ReservationController extends Controller
 
         [$isExecuted, $message] = $this->reservationService->reserve($reservation, authUser());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -61,7 +61,7 @@ class ReservationController extends Controller
     {
         $this->authorize('view', $reservation);
 
-        if (!$reservation->isApproved()) {
+        if (! $reservation->isApproved()) {
             return back()->with('failedMessage', 'This Reservation is not approved yet.');
         }
 
@@ -80,7 +80,7 @@ class ReservationController extends Controller
 
         [$isExecuted, $message] = $this->reservationService->cancel($reservation);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -100,7 +100,7 @@ class ReservationController extends Controller
 
         [$isExecuted, $message] = $this->reservationService->convertToGdn($reservation, authUser());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 

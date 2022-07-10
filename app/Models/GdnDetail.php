@@ -52,7 +52,7 @@ class GdnDetail extends Model
             ->load([
                 'gdn' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class])->with(['customer']);
-                }]
+                }, ]
             );
     }
 }

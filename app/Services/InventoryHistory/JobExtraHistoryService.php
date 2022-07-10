@@ -7,7 +7,11 @@ use App\Models\JobExtra;
 
 class JobExtraHistoryService implements DetailHistoryServiceInterface
 {
-    private $warehouse, $product, $history;
+    private $warehouse;
+
+    private $product;
+
+    private $history;
 
     private function get()
     {
@@ -23,13 +27,13 @@ class JobExtraHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($jobExtra) {
             return [
                 'type' => 'JOB',
-                'url' => '/jobs/' . $jobExtra->job_order_id,
+                'url' => '/jobs/'.$jobExtra->job_order_id,
                 'code' => $jobExtra->job->code,
                 'date' => $jobExtra->job->issued_on,
                 'quantity' => $jobExtra->quantity,
                 'balance' => 0.00,
                 'unit_of_measurement' => $this->product->unit_of_measurement,
-                'details' => ($jobExtra->status == 'subtracted' ? 'Subtracted' : 'Added') . ' in ' . $this->warehouse->name,
+                'details' => ($jobExtra->status == 'subtracted' ? 'Subtracted' : 'Added').' in '.$this->warehouse->name,
                 'function' => $jobExtra->status == 'subtracted' ? 'subtract' : 'add',
             ];
         });

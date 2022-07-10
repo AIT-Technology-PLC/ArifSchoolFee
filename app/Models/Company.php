@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Damage;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -184,7 +183,7 @@ class Company extends Model
     public function email(): Attribute
     {
         return Attribute::make(
-            get:fn($value) => str()->lower($value) ?? ''
+            get:fn ($value) => str()->lower($value) ?? ''
         );
     }
 

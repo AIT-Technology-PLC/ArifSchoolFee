@@ -65,14 +65,14 @@ class User extends Authenticatable
             return $this->getAllowedWarehouses($type)->contains($warehouses);
         }
 
-        if (!is_array($warehouses)) {
+        if (! is_array($warehouses)) {
             return false;
         }
 
         $allowedWarehouseIds = $this->getAllowedWarehouses($type)->pluck('id')->toArray();
 
         foreach ($warehouses as $warehouse) {
-            if (!in_array($warehouse, $allowedWarehouseIds)) {
+            if (! in_array($warehouse, $allowedWarehouseIds)) {
                 return false;
             }
         }
@@ -84,7 +84,7 @@ class User extends Authenticatable
     {
         $withOnlyCanBeSoldFromBranches = $type == 'sales' ? true : false;
 
-        $cacheKey = $this->id . '_' . $type . '_' . 'allowedWarehouses';
+        $cacheKey = $this->id.'_'.$type.'_'.'allowedWarehouses';
 
         if ($this->hasRole('System Manager')) {
             return Cache::store('array')

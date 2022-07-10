@@ -7,7 +7,11 @@ use App\Models\DamageDetail;
 
 class DamageDetailHistoryService implements DetailHistoryServiceInterface
 {
-    private $warehouse, $product, $history;
+    private $warehouse;
+
+    private $product;
+
+    private $history;
 
     private function get()
     {
@@ -23,13 +27,13 @@ class DamageDetailHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($damageDetail) {
             return [
                 'type' => 'DAMAGE',
-                'url' => '/damages/' . $damageDetail->damage_id,
+                'url' => '/damages/'.$damageDetail->damage_id,
                 'code' => $damageDetail->damage->code,
                 'date' => $damageDetail->damage->issued_on,
                 'quantity' => $damageDetail->quantity,
                 'balance' => 0.00,
                 'unit_of_measurement' => $this->product->unit_of_measurement,
-                'details' => 'Damaged in ' . $this->warehouse->name,
+                'details' => 'Damaged in '.$this->warehouse->name,
                 'function' => 'subtract',
             ];
         });

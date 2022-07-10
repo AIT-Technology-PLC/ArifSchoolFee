@@ -51,7 +51,7 @@ class DamageDetail extends Model
             ->load([
                 'damage' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class]);
-                }]
+                }, ]
             );
     }
 }

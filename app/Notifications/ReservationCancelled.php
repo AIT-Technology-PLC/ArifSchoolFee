@@ -23,8 +23,8 @@ class ReservationCancelled extends Notification
     {
         return [
             'icon' => 'archive',
-            'message' => 'Reservation has been cancelled by ' . ucfirst($this->reservation->cancelledBy->name),
-            'endpoint' => '/reservations/' . $this->reservation->id,
+            'message' => 'Reservation has been cancelled by '.ucfirst($this->reservation->cancelledBy->name),
+            'endpoint' => '/reservations/'.$this->reservation->id,
         ];
     }
 }

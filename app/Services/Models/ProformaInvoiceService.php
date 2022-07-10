@@ -6,7 +6,7 @@ class ProformaInvoiceService
 {
     public function convertToGdn($proformaInvoice)
     {
-        if (!$proformaInvoice->isConverted()) {
+        if (! $proformaInvoice->isConverted()) {
             return [false, 'This Proforma Invoice is not confirmed yet.', ''];
         }
 
@@ -33,7 +33,7 @@ class ProformaInvoiceService
 
     public function close($proformaInvoice)
     {
-        if (!$proformaInvoice->isConverted()) {
+        if (! $proformaInvoice->isConverted()) {
             return [false, 'This Proforma Invoice is not confirmed yet.'];
         }
 

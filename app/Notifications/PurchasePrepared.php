@@ -10,7 +10,8 @@ class PurchasePrepared extends Notification
     use Queueable;
 
     public function __construct(private $purchase)
-    {}
+    {
+    }
 
     public function via($notifiable)
     {
@@ -21,8 +22,8 @@ class PurchasePrepared extends Notification
     {
         return [
             'icon' => 'shopping-bag',
-            'message' => 'Approval request for purchase request prepared by ' . ucfirst($this->purchase->createdBy->name),
-            'endpoint' => '/purchases/' . $this->purchase->id,
+            'message' => 'Approval request for purchase request prepared by '.ucfirst($this->purchase->createdBy->name),
+            'endpoint' => '/purchases/'.$this->purchase->id,
         ];
     }
 }

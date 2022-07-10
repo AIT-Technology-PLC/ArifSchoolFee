@@ -27,12 +27,12 @@ class GdnService
 {
     public function subtract($gdn, $user)
     {
-        if (!$user->hasWarehousePermission('sales',
+        if (! $user->hasWarehousePermission('sales',
             $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to sell from one or more of the warehouses.'];
         }
 
-        if (!$gdn->isApproved()) {
+        if (! $gdn->isApproved()) {
             return [false, 'This Delivery Order is not approved yet.'];
         }
 
@@ -59,7 +59,7 @@ class GdnService
 
     public function convertToCredit($gdn)
     {
-        if (!$gdn->isApproved()) {
+        if (! $gdn->isApproved()) {
             return [false, 'Creating a credit for delivery order that is not approved is not allowed.'];
         }
 
@@ -71,7 +71,7 @@ class GdnService
             return [false, 'Creating a credit for delivery order with 0.00 credit amount is not allowed.'];
         }
 
-        if (!$gdn->customer()->exists()) {
+        if (! $gdn->customer()->exists()) {
             return [false, 'Creating a credit for delivery order that has no customer is not allowed.'];
         }
 
@@ -94,12 +94,12 @@ class GdnService
 
     public function convertToSiv($gdn, $user)
     {
-        if (!$user->hasWarehousePermission('siv',
+        if (! $user->hasWarehousePermission('siv',
             $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
         }
 
-        if (!$gdn->isSubtracted()) {
+        if (! $gdn->isSubtracted()) {
             return [false, 'This Delivery Order is not subtracted yet.', ''];
         }
 
@@ -120,7 +120,7 @@ class GdnService
 
     public function close($gdn)
     {
-        if (!$gdn->isSubtracted()) {
+        if (! $gdn->isSubtracted()) {
             return [false, 'This Delivery Order is not subtracted yet.'];
         }
 
@@ -221,7 +221,7 @@ class GdnService
             return [false, 'This Delivery Order is already converted to invoice.', ''];
         }
 
-        if (!$gdn->isSubtracted()) {
+        if (! $gdn->isSubtracted()) {
             return [false, 'This Delivery Order is not subtracted yet.', ''];
         }
 

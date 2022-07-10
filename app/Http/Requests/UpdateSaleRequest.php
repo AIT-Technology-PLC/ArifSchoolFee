@@ -22,7 +22,7 @@ class UpdateSaleRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('sales', $this->route('sale')->id)],
-            'fs_number' => ['sometimes', Rule::when(!is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'numeric', Rule::notIn(Sale::pluck('fs_number'))],
+            'fs_number' => ['sometimes', Rule::when(! is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'numeric', Rule::notIn(Sale::pluck('fs_number'))],
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'sale.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
@@ -31,7 +31,7 @@ class UpdateSaleRequest extends FormRequest
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 Rule::when(
-                    !$this->route('sale')->isApproved() && !$this->route('sale')->isCancelled(),
+                    ! $this->route('sale')->isApproved() && ! $this->route('sale')->isCancelled(),
                     new CheckCustomerCreditLimit(
                         $this->get('discount'),
                         $this->get('sale'),

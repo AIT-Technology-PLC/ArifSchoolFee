@@ -24,7 +24,7 @@ class ReservationExpirationIsClose extends Notification
     {
         return [
             'icon' => 'archive',
-            'message' => $this->reservations->count() . ' ' . Str::plural('reservation', $this->reservations->count()) . ' ' . ($this->reservations->count() == 1 ? 'has' : 'have') . ' 5 days or less remaining to be expired',
+            'message' => $this->reservations->count().' '.Str::plural('reservation', $this->reservations->count()).' '.($this->reservations->count() == 1 ? 'has' : 'have').' 5 days or less remaining to be expired',
             'endpoint' => '/reservations',
         ];
     }

@@ -14,7 +14,7 @@ class MerchandiseProductService
 
         return Product::query()
             ->whereHas('merchandises', function ($query) use ($warehouseId, $user) {
-                $query->when($warehouseId, fn($q) => $q->where('warehouse_id', $warehouseId))
+                $query->when($warehouseId, fn ($q) => $q->where('warehouse_id', $warehouseId))
                     ->when($user, function ($query) use ($user) {
                         $query->whereIn('warehouse_id', $user->getAllowedWarehouses('read')->pluck('id'));
                     })
@@ -35,8 +35,8 @@ class MerchandiseProductService
             ->whereNotIn('id', function ($query) use ($warehouseId, $user) {
                 $query->select('product_id')
                     ->from('merchandises')
-                    ->when($user, fn($q) => $q->where('company_id', $user->employee->company_id))
-                    ->when($warehouseId, fn($q) => $q->where('warehouse_id', $warehouseId))
+                    ->when($user, fn ($q) => $q->where('company_id', $user->employee->company_id))
+                    ->when($warehouseId, fn ($q) => $q->where('warehouse_id', $warehouseId))
                     ->when($user, function ($query) use ($user) {
                         $query->whereIn('warehouse_id', $user->getAllowedWarehouses('read')->pluck('id'));
                     })
@@ -56,7 +56,7 @@ class MerchandiseProductService
         return Product::query()
             ->where('min_on_hand', '>', 0)
             ->whereHas('merchandises', function ($query) use ($warehouseId, $user) {
-                $query->when($warehouseId, fn($q) => $q->where('warehouse_id', $warehouseId))
+                $query->when($warehouseId, fn ($q) => $q->where('warehouse_id', $warehouseId))
                     ->when($user, function ($query) use ($user) {
                         $query->whereIn('warehouse_id', $user->getAllowedWarehouses('read')->pluck('id'));
                     })

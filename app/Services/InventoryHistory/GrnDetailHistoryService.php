@@ -8,7 +8,11 @@ use Illuminate\Support\Str;
 
 class GrnDetailHistoryService implements DetailHistoryServiceInterface
 {
-    private $warehouse, $product, $history;
+    private $warehouse;
+
+    private $product;
+
+    private $history;
 
     private function get()
     {
@@ -24,7 +28,7 @@ class GrnDetailHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($grnDetail) {
             return [
                 'type' => 'GRN',
-                'url' => '/grns/' . $grnDetail->grn_id,
+                'url' => '/grns/'.$grnDetail->grn_id,
                 'code' => $grnDetail->grn->code,
                 'date' => $grnDetail->grn->issued_on,
                 'quantity' => $grnDetail->quantity,

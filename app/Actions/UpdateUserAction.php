@@ -2,7 +2,6 @@
 
 namespace App\Actions;
 
-use App\Actions\SyncWarehousePermissionsAction;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 

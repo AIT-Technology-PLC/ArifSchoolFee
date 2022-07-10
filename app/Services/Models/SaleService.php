@@ -20,13 +20,13 @@ class SaleService
         return DB::transaction(function () use ($sale) {
             [$isExecuted, $message] = (new ApproveTransactionAction)->execute($sale);
 
-            if (!$isExecuted) {
+            if (! $isExecuted) {
                 return [$isExecuted, $message];
             }
 
             [$isExecuted, $message] = $this->pointOfSaleService->create($sale);
 
-            if (!$isExecuted) {
+            if (! $isExecuted) {
                 return [$isExecuted, $message];
             }
 
@@ -41,7 +41,7 @@ class SaleService
 
             [$isExecuted, $message] = $this->pointOfSaleService->cancel($sale);
 
-            if (!$isExecuted) {
+            if (! $isExecuted) {
                 return [$isExecuted, $message];
             }
 

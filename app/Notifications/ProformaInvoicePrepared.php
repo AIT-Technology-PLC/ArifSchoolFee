@@ -23,15 +23,15 @@ class ProformaInvoicePrepared extends Notification
 
     public function toArray($notifiable)
     {
-        $customer = $this->proformaInvoice->customer ? (' for ' . ucfirst($this->proformaInvoice->customer->company_name)) : '';
+        $customer = $this->proformaInvoice->customer ? (' for '.ucfirst($this->proformaInvoice->customer->company_name)) : '';
 
         return [
             'icon' => 'file-invoice-dollar',
 
-            'message' => 'New Proforma Invoice was prepared by ' .
-            ucfirst($this->proformaInvoice->createdBy->name) . $customer,
+            'message' => 'New Proforma Invoice was prepared by '.
+            ucfirst($this->proformaInvoice->createdBy->name).$customer,
 
-            'endpoint' => '/proforma-invoices/' . $this->proformaInvoice->id,
+            'endpoint' => '/proforma-invoices/'.$this->proformaInvoice->id,
         ];
     }
 }

@@ -29,7 +29,7 @@ class JobController extends Controller
 
         [$isExecuted, $message] = $action->execute($job, JobApproved::class);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -42,7 +42,7 @@ class JobController extends Controller
 
         [$isExecuted, $message] = $this->jobService->addToWorkInProcess($request->validated('job'), $job, auth()->user());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -57,7 +57,7 @@ class JobController extends Controller
 
         [$isExecuted, $message] = $this->jobService->addToAvailable($request->validated('job'), $job, auth()->user());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -70,7 +70,7 @@ class JobController extends Controller
 
         [$isExecuted, $message] = $this->jobService->close($job);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 

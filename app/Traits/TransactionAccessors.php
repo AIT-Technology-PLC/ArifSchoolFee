@@ -113,7 +113,7 @@ trait TransactionAccessors
                             $data['total'] = number_format($unitPrice * $data['quantity'], 2, thousands_separator:'');
                             $discount = userCompany()->isDiscountBeforeVAT() ? $data['discount'] / 100 : 0.00;
                             $discountAmount = number_format($data['total'] * $discount, 2, thousands_separator:'');
-                            $data['discount'] = number_format($discount * 100, 2) . '%';
+                            $data['discount'] = number_format($discount * 100, 2).'%';
                             $data['total'] = number_format($data['total'] - $discountAmount, 2, thousands_separator:'');
                         }
 
@@ -145,7 +145,7 @@ trait TransactionAccessors
     public function vat(): Attribute
     {
         return Attribute::make(
-            get:fn() => number_format(
+            get:fn () => number_format(
                 $this->subtotalPrice * 0.15,
                 2,
                 thousands_separator:''
@@ -156,7 +156,7 @@ trait TransactionAccessors
     public function grandTotalPrice(): Attribute
     {
         return Attribute::make(
-            get:fn() => number_format(
+            get:fn () => number_format(
                 $this->subtotalPrice + $this->vat,
                 2,
                 thousands_separator:''

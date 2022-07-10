@@ -55,7 +55,7 @@ class Job extends Model
 
         $totalJobDetails = $this->jobDetails->sum('quantity') ?? 0.00;
 
-        if (!$totalJobDetails) {
+        if (! $totalJobDetails) {
             return 100.00;
         }
 

@@ -23,8 +23,8 @@ class TransferApproved extends Notification
     {
         return [
             'icon' => 'exchange-alt',
-            'message' => 'Transfer has been approved by ' . ucfirst($this->transfer->approvedBy->name),
-            'endpoint' => '/transfers/' . $this->transfer->id,
+            'message' => 'Transfer has been approved by '.ucfirst($this->transfer->approvedBy->name),
+            'endpoint' => '/transfers/'.$this->transfer->id,
         ];
     }
 }

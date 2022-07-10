@@ -21,16 +21,16 @@ class TransferMade extends Notification
 
     public function toArray($notifiable)
     {
-        $message = 'Transfer has been added to ' . $this->transfer->transferredTo->name;
+        $message = 'Transfer has been added to '.$this->transfer->transferredTo->name;
 
-        if (!$this->transfer->isAdded()) {
-            $message = 'Transfer has been subtracted from ' . $this->transfer->transferredFrom->name;
+        if (! $this->transfer->isAdded()) {
+            $message = 'Transfer has been subtracted from '.$this->transfer->transferredFrom->name;
         }
 
         return [
             'icon' => 'exchange-alt',
             'message' => $message,
-            'endpoint' => '/transfers/' . $this->transfer->id,
+            'endpoint' => '/transfers/'.$this->transfer->id,
         ];
     }
 }

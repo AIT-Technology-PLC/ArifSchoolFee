@@ -57,11 +57,11 @@ class TransactionFieldDatatable extends DataTable
 
         $columns[] = Column::computed('actions')->className('actions');
 
-        return Arr::where($columns, fn($column) => $column != null);
+        return Arr::where($columns, fn ($column) => $column != null);
     }
 
     protected function filename()
     {
-        return 'Transaction Details_' . date('YmdHis');
+        return 'Transaction Details_'.date('YmdHis');
     }
 }

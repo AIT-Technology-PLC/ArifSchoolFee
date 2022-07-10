@@ -111,7 +111,7 @@ class TransferController extends Controller
     {
         abort_if($transfer->isSubtracted(), 403);
 
-        abort_if($transfer->isApproved() && !authUser()->can('Delete Approved Transfer'), 403);
+        abort_if($transfer->isApproved() && ! authUser()->can('Delete Approved Transfer'), 403);
 
         $transfer->forceDelete();
 

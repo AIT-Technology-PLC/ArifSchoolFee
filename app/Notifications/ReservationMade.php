@@ -24,7 +24,7 @@ class ReservationMade extends Notification
         return [
             'icon' => 'archive',
             'message' => 'Reservation is made successfully and products have been reserved',
-            'endpoint' => '/reservations/' . $this->reservation->id,
+            'endpoint' => '/reservations/'.$this->reservation->id,
         ];
     }
 }

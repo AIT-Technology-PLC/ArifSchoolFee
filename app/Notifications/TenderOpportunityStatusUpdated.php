@@ -10,6 +10,7 @@ class TenderOpportunityStatusUpdated extends Notification
     use Queueable;
 
     private $tenderOpportunity;
+
     private $originalStatus;
 
     public function __construct($originalStatus, $tenderOpportunity)
@@ -28,13 +29,12 @@ class TenderOpportunityStatusUpdated extends Notification
         return [
             'icon' => 'briefcase',
 
-            'message' =>
-            'Tender Opportunity No \'' . $this->tenderOpportunity->code . '\' status is changed from \''
-            . $this->originalStatus . '\' to \''
-            . $this->tenderOpportunity->tenderStatus->status
-            . '\' by ' . $this->tenderOpportunity->updatedBy->name,
+            'message' => 'Tender Opportunity No \''.$this->tenderOpportunity->code.'\' status is changed from \''
+            .$this->originalStatus.'\' to \''
+            .$this->tenderOpportunity->tenderStatus->status
+            .'\' by '.$this->tenderOpportunity->updatedBy->name,
 
-            'endpoint' => '/tender-opportunities/' . $this->tenderOpportunity->id,
+            'endpoint' => '/tender-opportunities/'.$this->tenderOpportunity->id,
         ];
     }
 }

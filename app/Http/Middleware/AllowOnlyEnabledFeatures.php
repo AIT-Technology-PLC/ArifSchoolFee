@@ -16,7 +16,7 @@ class AllowOnlyEnabledFeatures
      */
     public function handle(Request $request, Closure $next, $featureName)
     {
-        abort_if(!isFeatureEnabled($featureName), 403);
+        abort_if(! isFeatureEnabled($featureName), 403);
 
         return $next($request);
     }

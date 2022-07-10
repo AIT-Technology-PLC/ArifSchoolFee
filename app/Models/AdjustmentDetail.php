@@ -51,7 +51,7 @@ class AdjustmentDetail extends Model
             ->load([
                 'adjustment' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class]);
-                }]
+                }, ]
             );
     }
 }

@@ -6,7 +6,7 @@ class PointOfSaleService
 {
     public function create($sale)
     {
-        if (!userCompany()->hasIntegration('Point of Sale')) {
+        if (! userCompany()->hasIntegration('Point of Sale')) {
             return [true, ''];
         }
 
@@ -21,7 +21,7 @@ class PointOfSaleService
 
     public function cancel($sale)
     {
-        if (!userCompany()->hasIntegration('Point of Sale')) {
+        if (! userCompany()->hasIntegration('Point of Sale')) {
             return [true, ''];
         }
 
@@ -36,7 +36,7 @@ class PointOfSaleService
 
     public function getFsNumber($sale)
     {
-        if (!userCompany()->hasIntegration('Point of Sale')) {
+        if (! userCompany()->hasIntegration('Point of Sale')) {
             return [true, ''];
         }
 

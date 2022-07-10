@@ -23,8 +23,8 @@ class AdjustmentApproved extends Notification
     {
         return [
             'icon' => 'eraser',
-            'message' => 'Inventory adjustment has been approved by ' . ucfirst($this->adjustment->approvedBy->name),
-            'endpoint' => '/adjustments/' . $this->adjustment->id,
+            'message' => 'Inventory adjustment has been approved by '.ucfirst($this->adjustment->approvedBy->name),
+            'endpoint' => '/adjustments/'.$this->adjustment->id,
         ];
     }
 }

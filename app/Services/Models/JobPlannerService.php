@@ -56,7 +56,7 @@ class JobPlannerService
                     'production_capacity' => $productionCapacity,
                     'status' => $status,
                 ]);
-            };
+            }
         }
 
         return $result;

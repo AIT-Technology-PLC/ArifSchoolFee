@@ -23,8 +23,8 @@ class ReservationPrepared extends Notification
     {
         return [
             'icon' => 'archive',
-            'message' => 'Approval request for reservation prepared by ' . ucfirst($this->reservation->createdBy->name),
-            'endpoint' => '/reservations/' . $this->reservation->id,
+            'message' => 'Approval request for reservation prepared by '.ucfirst($this->reservation->createdBy->name),
+            'endpoint' => '/reservations/'.$this->reservation->id,
         ];
     }
 }

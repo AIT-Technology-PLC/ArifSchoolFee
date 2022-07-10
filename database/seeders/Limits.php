@@ -16,7 +16,6 @@ class Limits extends Seeder
      */
     public function run()
     {
-
         DB::transaction(function () {
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');

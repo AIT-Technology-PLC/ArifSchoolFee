@@ -31,7 +31,7 @@ class UpdateReservationRequest extends FormRequest
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 Rule::when(
-                    !$this->route('reservation')->isCancelled() && !$this->route('reservation')->isConverted(),
+                    ! $this->route('reservation')->isCancelled() && ! $this->route('reservation')->isConverted(),
                     new CheckCustomerCreditLimit(
                         $this->get('discount'),
                         $this->get('reservation'),

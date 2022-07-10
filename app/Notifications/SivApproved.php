@@ -23,8 +23,8 @@ class SivApproved extends Notification
     {
         return [
             'icon' => 'file-export',
-            'message' => 'SIV has been approved by ' . ucfirst($this->siv->approvedBy->name),
-            'endpoint' => '/sivs/' . $this->siv->id,
+            'message' => 'SIV has been approved by '.ucfirst($this->siv->approvedBy->name),
+            'endpoint' => '/sivs/'.$this->siv->id,
         ];
     }
 }

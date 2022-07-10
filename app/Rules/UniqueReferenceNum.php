@@ -7,7 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class UniqueReferenceNum implements Rule
 {
-    private $tableName, $excludedId, $value;
+    private $tableName;
+
+    private $excludedId;
+
+    private $value;
 
     public function __construct($tableName, $excludedId = null)
     {
@@ -24,8 +28,8 @@ class UniqueReferenceNum implements Rule
             ->where('warehouse_id', authUser()->warehouse_id)
             ->where('company_id', userCompany()->id)
             ->where('code', $value)
-            ->when(is_numeric($this->excludedId), fn($q) => $q->where('id', '<>', $this->excludedId))
-            ->when(is_countable($this->excludedId), fn($q) => $q->whereNotIn('id', $this->excludedId))
+            ->when(is_numeric($this->excludedId), fn ($q) => $q->where('id', '<>', $this->excludedId))
+            ->when(is_countable($this->excludedId), fn ($q) => $q->whereNotIn('id', $this->excludedId))
             ->doesntExist();
     }
 

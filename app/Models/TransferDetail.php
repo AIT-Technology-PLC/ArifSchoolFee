@@ -47,7 +47,7 @@ class TransferDetail extends Model
                     return $query
                         ->withoutGlobalScopes([TransferScope::class])
                         ->with(['transferredTo', 'transferredFrom']);
-                }]
+                }, ]
             );
     }
 }

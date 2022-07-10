@@ -15,7 +15,7 @@ class GdnDetailDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('from', fn($gdnDetail) => $gdnDetail->warehouse->name)
+            ->editColumn('from', fn ($gdnDetail) => $gdnDetail->warehouse->name)
             ->editColumn('product', function ($gdnDetail) {
                 return view('components.datatables.product-code', [
                     'product' => $gdnDetail->product->name,
@@ -25,10 +25,10 @@ class GdnDetailDatatable extends DataTable
             ->editColumn('quantity', function ($gdnDetail) {
                 return quantity($gdnDetail->quantity, $gdnDetail->product->unit_of_measurement);
             })
-            ->editColumn('unit_price', fn($gdnDetail) => money($gdnDetail->unit_price))
-            ->editColumn('discount', fn($gdnDetail) => number_format($gdnDetail->discount * 100, 2) . '%')
-            ->editColumn('total', fn($gdnDetail) => money($gdnDetail->totalPrice))
-            ->editColumn('description', fn($gdnDetail) => nl2br(e($gdnDetail->description)))
+            ->editColumn('unit_price', fn ($gdnDetail) => money($gdnDetail->unit_price))
+            ->editColumn('discount', fn ($gdnDetail) => number_format($gdnDetail->discount * 100, 2).'%')
+            ->editColumn('total', fn ($gdnDetail) => money($gdnDetail->totalPrice))
+            ->editColumn('description', fn ($gdnDetail) => nl2br(e($gdnDetail->description)))
             ->editColumn('actions', function ($gdnDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'gdn-details',
@@ -70,6 +70,6 @@ class GdnDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'DO Details_' . date('YmdHis');
+        return 'DO Details_'.date('YmdHis');
     }
 }

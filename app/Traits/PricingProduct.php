@@ -8,7 +8,7 @@ trait PricingProduct
     {
         $inputtedUnitPrice = $this->unit_price;
 
-        if (!userCompany()->isPriceBeforeVAT()) {
+        if (! userCompany()->isPriceBeforeVAT()) {
             $inputtedUnitPrice = $this->unit_price * 1.15;
         }
 
@@ -17,7 +17,7 @@ trait PricingProduct
 
     public function getUnitPriceAttribute($value)
     {
-        if (!userCompany()->isPriceBeforeVAT()) {
+        if (! userCompany()->isPriceBeforeVAT()) {
             $value = $value / 1.15;
         }
 

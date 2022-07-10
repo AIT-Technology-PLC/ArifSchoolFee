@@ -7,7 +7,11 @@ use App\Models\ReturnDetail;
 
 class ReturnDetailHistoryService implements DetailHistoryServiceInterface
 {
-    private $warehouse, $product, $history;
+    private $warehouse;
+
+    private $product;
+
+    private $history;
 
     private function get()
     {
@@ -23,13 +27,13 @@ class ReturnDetailHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($returnDetail) {
             return [
                 'type' => 'RETURN',
-                'url' => '/returns/' . $returnDetail->return_id,
+                'url' => '/returns/'.$returnDetail->return_id,
                 'code' => $returnDetail->returnn->code,
                 'date' => $returnDetail->returnn->issued_on,
                 'quantity' => $returnDetail->quantity,
                 'balance' => 0.00,
                 'unit_of_measurement' => $this->product->unit_of_measurement,
-                'details' => 'Returned to ' . $this->warehouse->name . ' from' . ($returnDetail->returnn->customer->company_name ?? ' Unknown'),
+                'details' => 'Returned to '.$this->warehouse->name.' from'.($returnDetail->returnn->customer->company_name ?? ' Unknown'),
                 'function' => 'add',
             ];
         });

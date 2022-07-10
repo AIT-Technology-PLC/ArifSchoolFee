@@ -93,7 +93,6 @@ class JobController extends Controller
             $job->jobDetails()->forceDelete();
 
             $job->jobDetails()->createMany($request->validated('job'));
-
         });
 
         return redirect()->route('jobs.show', $job->id);

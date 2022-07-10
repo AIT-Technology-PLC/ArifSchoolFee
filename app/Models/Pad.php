@@ -87,7 +87,7 @@ class Pad extends Model
 
     public function isClosableOnly()
     {
-        return $this->isClosable() && !$this->isApprovable() && $this->isInventoryOperationNone() && !$this->isCancellable();
+        return $this->isClosable() && ! $this->isApprovable() && $this->isInventoryOperationNone() && ! $this->isCancellable();
     }
 
     public function isCancellable()
@@ -127,7 +127,7 @@ class Pad extends Model
 
     public function hasStatus()
     {
-        return !$this->isInventoryOperationNone() || $this->isApprovable() || $this->isCancellable();
+        return ! $this->isInventoryOperationNone() || $this->isApprovable() || $this->isCancellable();
     }
 
     public function hasPrices()

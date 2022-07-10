@@ -15,7 +15,7 @@ class DamageDetailDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('from', fn($damageDetail) => $damageDetail->warehouse->name)
+            ->editColumn('from', fn ($damageDetail) => $damageDetail->warehouse->name)
             ->editColumn('product', function ($damageDetail) {
                 return view('components.datatables.product-code', [
                     'product' => $damageDetail->product->name,
@@ -25,7 +25,7 @@ class DamageDetailDatatable extends DataTable
             ->editColumn('quantity', function ($damageDetail) {
                 return quantity($damageDetail->quantity, $damageDetail->product->unit_of_measurement);
             })
-            ->editColumn('description', fn($damageDetail) => nl2br(e($damageDetail->description)))
+            ->editColumn('description', fn ($damageDetail) => nl2br(e($damageDetail->description)))
             ->editColumn('actions', function ($damageDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'damage-details',
@@ -62,6 +62,6 @@ class DamageDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Damage Details_' . date('YmdHis');
+        return 'Damage Details_'.date('YmdHis');
     }
 }

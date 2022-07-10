@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Action;
 use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImportFileRequest;
-use App\Models\Credit;
 use App\Models\Gdn;
 use App\Models\Sale;
 use App\Models\Siv;
@@ -39,7 +38,7 @@ class GdnController extends Controller
 
         [$isExecuted, $message] = $action->execute($gdn, GdnApproved::class, 'Subtract GDN');
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -50,7 +49,7 @@ class GdnController extends Controller
     {
         $this->authorize('view', $gdn);
 
-        if (!$gdn->isApproved()) {
+        if (! $gdn->isApproved()) {
             return back()->with('failedMessage', 'This Delivery Order is not approved yet.');
         }
 
@@ -65,7 +64,7 @@ class GdnController extends Controller
 
         [$isExecuted, $message, $siv] = $this->gdnService->convertToSiv($gdn, authUser());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -78,7 +77,7 @@ class GdnController extends Controller
 
         [$isExecuted, $message] = $this->gdnService->subtract($gdn, authUser());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -96,7 +95,7 @@ class GdnController extends Controller
 
         [$isExecuted, $message] = $this->gdnService->close($gdn);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -109,7 +108,7 @@ class GdnController extends Controller
 
         [$isExecuted, $message] = $this->gdnService->convertToCredit($gdn);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -124,7 +123,7 @@ class GdnController extends Controller
 
         [$isExecuted, $message, $gdn] = $this->gdnService->import($validatedData);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -137,7 +136,7 @@ class GdnController extends Controller
 
         [$isExecuted, $message, $sale] = $this->gdnService->convertToSale($gdn, authUser());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 

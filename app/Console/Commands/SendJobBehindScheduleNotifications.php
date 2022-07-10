@@ -30,7 +30,6 @@ class SendJobBehindScheduleNotifications extends Command
         }
 
         foreach ($companies as $company) {
-
             $jobs = Job::query()
                 ->where('company_id', $company->id)
                 ->get()

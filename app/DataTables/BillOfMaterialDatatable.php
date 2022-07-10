@@ -18,21 +18,21 @@ class BillOfMaterialDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn($billOfMaterial) => route('bill-of-materials.show', $billOfMaterial->id),
+                'data-url' => fn ($billOfMaterial) => route('bill-of-materials.show', $billOfMaterial->id),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
 
-            ->editColumn('name', fn($billOfMaterial) => $billOfMaterial->name)
-            ->editColumn('product', fn($billOfMaterial) => $billOfMaterial->product->name)
-            ->editColumn('prepared by', fn($billOfMaterial) => $billOfMaterial->createdBy->name)
-            ->editColumn('status', fn($billOfMaterial) => view('components.datatables.bill-of-material-status', compact('billOfMaterial')))
+            ->editColumn('name', fn ($billOfMaterial) => $billOfMaterial->name)
+            ->editColumn('product', fn ($billOfMaterial) => $billOfMaterial->product->name)
+            ->editColumn('prepared by', fn ($billOfMaterial) => $billOfMaterial->createdBy->name)
+            ->editColumn('status', fn ($billOfMaterial) => view('components.datatables.bill-of-material-status', compact('billOfMaterial')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'active', fn($query) => $query->active())
-                    ->when($keyword == 'inactive', fn($query) => $query->inactive());
+                    ->when($keyword == 'active', fn ($query) => $query->active())
+                    ->when($keyword == 'inactive', fn ($query) => $query->inactive());
             })
-            ->editColumn('edited by', fn($billOfMaterial) => $billOfMaterial->updatedBy->name)
+            ->editColumn('edited by', fn ($billOfMaterial) => $billOfMaterial->updatedBy->name)
             ->editColumn('actions', function ($billOfMaterial) {
                 return view('components.common.action-buttons', [
                     'model' => 'bill-of-materials',
@@ -47,8 +47,8 @@ class BillOfMaterialDatatable extends DataTable
     {
         return $billOfMaterial
             ->newQuery()
-            ->when(request('status') == 'active', fn($query) => $query->active())
-            ->when(request('status') == 'inactive', fn($query) => $query->inactive())
+            ->when(request('status') == 'active', fn ($query) => $query->active())
+            ->when(request('status') == 'inactive', fn ($query) => $query->inactive())
             ->select('bill_of_materials.*')
             ->with([
                 'createdBy:id,name',
@@ -69,11 +69,11 @@ class BillOfMaterialDatatable extends DataTable
             Column::computed('actions')->className('actions'),
         ];
 
-        return Arr::where($columns, fn($column) => $column != null);
+        return Arr::where($columns, fn ($column) => $column != null);
     }
 
     protected function filename()
     {
-        return 'BillOfMaterial_' . date('YmdHis');
+        return 'BillOfMaterial_'.date('YmdHis');
     }
 }

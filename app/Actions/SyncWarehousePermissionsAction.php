@@ -19,7 +19,7 @@ class SyncWarehousePermissionsAction
         }
 
         foreach ($this->warehousePermissions as $permission) {
-            if (!isset($permissions[$permission])) {
+            if (! isset($permissions[$permission])) {
                 continue;
             }
 

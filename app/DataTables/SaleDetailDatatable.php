@@ -24,8 +24,8 @@ class SaleDetailDatatable extends DataTable
             ->editColumn('quantity', function ($saleDetail) {
                 return quantity($saleDetail->quantity, $saleDetail->product->unit_of_measurement);
             })
-            ->editColumn('unit_price', fn($saleDetail) => money($saleDetail->unit_price))
-            ->editColumn('total', fn($saleDetail) => money($saleDetail->totalPrice))
+            ->editColumn('unit_price', fn ($saleDetail) => money($saleDetail->unit_price))
+            ->editColumn('total', fn ($saleDetail) => money($saleDetail->totalPrice))
             ->editColumn('actions', function ($saleDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'sale-details',
@@ -61,6 +61,6 @@ class SaleDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Sale Details_' . date('YmdHis');
+        return 'Sale Details_'.date('YmdHis');
     }
 }

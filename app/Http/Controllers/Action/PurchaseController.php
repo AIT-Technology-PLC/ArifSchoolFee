@@ -30,7 +30,7 @@ class PurchaseController extends Controller
 
         [$isExecuted, $message, $data] = $this->purchaseService->convertToGrn($purchase);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -41,7 +41,7 @@ class PurchaseController extends Controller
     {
         $this->authorize('close', $purchase);
 
-        if (!$purchase->isPurchased()) {
+        if (! $purchase->isPurchased()) {
             return back()->with('failedMessage', 'This purchase is not yet purchased.');
         }
 
@@ -60,7 +60,7 @@ class PurchaseController extends Controller
 
         [$isExecuted, $message] = $action->execute($purchase, PurchaseApproved::class, 'Make Purchase');
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -71,7 +71,7 @@ class PurchaseController extends Controller
     {
         $this->authorize('purchase', $purchase);
 
-        if (!$purchase->isApproved()) {
+        if (! $purchase->isApproved()) {
             return back()->with('failedMessage', 'This purchase is not yet approved.');
         }
 

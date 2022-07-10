@@ -16,7 +16,7 @@ class Returnn extends Model
 {
     use MultiTenancy, Branchable, HasFactory, SoftDeletes, Approvable, PricingTicket, HasUserstamps, Addable;
 
-    protected $table = "returns";
+    protected $table = 'returns';
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 

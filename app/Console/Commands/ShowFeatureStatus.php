@@ -41,7 +41,7 @@ class ShowFeatureStatus extends Command
         try {
             $status = Feature::status($this->argument('featureName'));
 
-            $this->info('This feature is ' . $status);
+            $this->info('This feature is '.$status);
         } catch (\Throwable $th) {
             $this->error('Feature name is wrong.');
         }

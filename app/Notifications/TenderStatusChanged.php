@@ -30,13 +30,12 @@ class TenderStatusChanged extends Notification
         return [
             'icon' => 'project-diagram',
 
-            'message' =>
-            'Tender No \'' . $this->tender->code . '\' status is changed from \''
-            . $this->originalStatus . '\' to \''
-            . $this->tender->status
-            . '\' by ' . $this->tender->updatedBy->name,
+            'message' => 'Tender No \''.$this->tender->code.'\' status is changed from \''
+            .$this->originalStatus.'\' to \''
+            .$this->tender->status
+            .'\' by '.$this->tender->updatedBy->name,
 
-            'endpoint' => '/tenders/' . $this->tender->id,
+            'endpoint' => '/tenders/'.$this->tender->id,
         ];
     }
 }

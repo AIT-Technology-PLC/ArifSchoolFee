@@ -31,7 +31,7 @@ class GrnController extends Controller
 
         [$isExecuted, $message] = $action->execute($grn, GrnApproved::class, 'Add GRN');
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -44,7 +44,7 @@ class GrnController extends Controller
 
         [$isExecuted, $message] = $this->grnService->add($grn, authUser());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 

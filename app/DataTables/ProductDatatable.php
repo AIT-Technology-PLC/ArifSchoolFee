@@ -20,7 +20,7 @@ class ProductDatatable extends DataTable
                 return $product->productCategory->name;
             })
             ->editColumn('price', function ($product) {
-                if (!$product->price) {
+                if (! $product->price) {
                     return 'N/A';
                 }
 
@@ -28,7 +28,7 @@ class ProductDatatable extends DataTable
                     return money($product->price->fixed_price);
                 }
 
-                return money($product->price->min_price) . ' - ' . money($product->price->max_price);
+                return money($product->price->min_price).' - '.money($product->price->max_price);
             })
             ->editColumn('supplier', function ($product) {
                 return $product->supplier->company_name ?? 'N/A';
@@ -86,11 +86,10 @@ class ProductDatatable extends DataTable
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions'),
         ];
-
     }
 
     protected function filename()
     {
-        return 'Product_' . date('YmdHis');
+        return 'Product_'.date('YmdHis');
     }
 }

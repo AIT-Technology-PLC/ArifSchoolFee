@@ -12,7 +12,7 @@ class TransferScope implements Scope
 {
     public function apply(Builder $builder, Model $model)
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return;
         }
 
@@ -30,7 +30,7 @@ class TransferScope implements Scope
 
     private function inactiveWarehouses()
     {
-        $cacheKey = authUser()->id . '_' . 'inactiveWarehouses';
+        $cacheKey = authUser()->id.'_'.'inactiveWarehouses';
 
         return Cache::store('array')
             ->rememberForever($cacheKey, function () {

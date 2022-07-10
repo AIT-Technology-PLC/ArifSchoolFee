@@ -17,25 +17,25 @@ class ProformaInvoiceDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn($proformaInvoice) => route('proforma-invoices.show', $proformaInvoice->id),
+                'data-url' => fn ($proformaInvoice) => route('proforma-invoices.show', $proformaInvoice->id),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('branch', fn($proformaInvoice) => $proformaInvoice->warehouse->name)
-            ->editColumn('code', fn($proformaInvoice) => $proformaInvoice->reference)
-            ->editColumn('status', fn($proformaInvoice) => view('components.datatables.proforma-invoice-status', compact('proformaInvoice')))
+            ->editColumn('branch', fn ($proformaInvoice) => $proformaInvoice->warehouse->name)
+            ->editColumn('code', fn ($proformaInvoice) => $proformaInvoice->reference)
+            ->editColumn('status', fn ($proformaInvoice) => view('components.datatables.proforma-invoice-status', compact('proformaInvoice')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'pending', fn($query) => $query->pending())
-                    ->when($keyword == 'confirmed', fn($query) => $query->converted())
-                    ->when($keyword == 'cancelled', fn($query) => $query->notPending()->notConverted());
+                    ->when($keyword == 'pending', fn ($query) => $query->pending())
+                    ->when($keyword == 'confirmed', fn ($query) => $query->converted())
+                    ->when($keyword == 'cancelled', fn ($query) => $query->notPending()->notConverted());
             })
-            ->editColumn('customer', fn($proformaInvoice) => $proformaInvoice->customer->company_name ?? 'N/A')
-            ->editColumn('terms', fn($proformaInvoice) => view('components.datatables.searchable-description', ['description' => $proformaInvoice->description]))
-            ->editColumn('issued_on', fn($proformaInvoice) => $proformaInvoice->issued_on->toFormattedDateString())
-            ->editColumn('expires_on', fn($proformaInvoice) => $proformaInvoice->expires_on->toFormattedDateString())
-            ->editColumn('prepared by', fn($proformaInvoice) => $proformaInvoice->createdBy->name)
-            ->editColumn('edited by', fn($proformaInvoice) => $proformaInvoice->updatedBy->name)
+            ->editColumn('customer', fn ($proformaInvoice) => $proformaInvoice->customer->company_name ?? 'N/A')
+            ->editColumn('terms', fn ($proformaInvoice) => view('components.datatables.searchable-description', ['description' => $proformaInvoice->description]))
+            ->editColumn('issued_on', fn ($proformaInvoice) => $proformaInvoice->issued_on->toFormattedDateString())
+            ->editColumn('expires_on', fn ($proformaInvoice) => $proformaInvoice->expires_on->toFormattedDateString())
+            ->editColumn('prepared by', fn ($proformaInvoice) => $proformaInvoice->createdBy->name)
+            ->editColumn('edited by', fn ($proformaInvoice) => $proformaInvoice->updatedBy->name)
             ->editColumn('actions', function ($proformaInvoice) {
                 return view('components.common.action-buttons', [
                     'model' => 'proforma-invoices',
@@ -51,10 +51,10 @@ class ProformaInvoiceDatatable extends DataTable
         return $proformaInvoice
             ->newQuery()
             ->select('proforma_invoices.*')
-            ->when(is_numeric(request('branch')), fn($query) => $query->where('proforma_invoices.warehouse_id', request('branch')))
-            ->when(request('status') == 'pending', fn($query) => $query->pending())
-            ->when(request('status') == 'confirmed', fn($query) => $query->converted())
-            ->when(request('status') == 'cancelled', fn($query) => $query->notPending()->notConverted())
+            ->when(is_numeric(request('branch')), fn ($query) => $query->where('proforma_invoices.warehouse_id', request('branch')))
+            ->when(request('status') == 'pending', fn ($query) => $query->pending())
+            ->when(request('status') == 'confirmed', fn ($query) => $query->converted())
+            ->when(request('status') == 'cancelled', fn ($query) => $query->notPending()->notConverted())
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
@@ -82,6 +82,6 @@ class ProformaInvoiceDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Proforma Invoices_' . date('YmdHis');
+        return 'Proforma Invoices_'.date('YmdHis');
     }
 }

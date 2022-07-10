@@ -24,7 +24,7 @@ class GrnAdded extends Notification
         return [
             'icon' => 'file-import',
             'message' => 'GRN has been added to inventory',
-            'endpoint' => '/grns/' . $this->grn->id,
+            'endpoint' => '/grns/'.$this->grn->id,
         ];
     }
 }

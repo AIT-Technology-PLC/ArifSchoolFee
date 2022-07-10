@@ -7,7 +7,11 @@ use App\Models\AdjustmentDetail;
 
 class AdjustmentDetailHistoryService implements DetailHistoryServiceInterface
 {
-    private $warehouse, $product, $history;
+    private $warehouse;
+
+    private $product;
+
+    private $history;
 
     private function get()
     {
@@ -23,13 +27,13 @@ class AdjustmentDetailHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($adjustmentDetail) {
             return [
                 'type' => 'ADJUSTMENT',
-                'url' => '/adjustments/' . $adjustmentDetail->adjustment_id,
+                'url' => '/adjustments/'.$adjustmentDetail->adjustment_id,
                 'code' => $adjustmentDetail->adjustment->code,
                 'date' => $adjustmentDetail->adjustment->issued_on,
                 'quantity' => $adjustmentDetail->quantity,
                 'balance' => 0.00,
                 'unit_of_measurement' => $this->product->unit_of_measurement,
-                'details' => ($adjustmentDetail->is_subtract ? 'Subtracted' : 'Added') . ' in ' . $this->warehouse->name,
+                'details' => ($adjustmentDetail->is_subtract ? 'Subtracted' : 'Added').' in '.$this->warehouse->name,
                 'function' => $adjustmentDetail->is_subtract ? 'subtract' : 'add',
             ];
         });

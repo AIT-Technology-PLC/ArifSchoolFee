@@ -3,8 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class DamageApproved extends Notification
@@ -25,8 +23,8 @@ class DamageApproved extends Notification
     {
         return [
             'icon' => 'bolt',
-            'message' => 'Damage claim has been approved by ' . ucfirst($this->damage->approvedBy->name),
-            'endpoint' => '/damages/' . $this->damage->id,
+            'message' => 'Damage claim has been approved by '.ucfirst($this->damage->approvedBy->name),
+            'endpoint' => '/damages/'.$this->damage->id,
         ];
     }
 }

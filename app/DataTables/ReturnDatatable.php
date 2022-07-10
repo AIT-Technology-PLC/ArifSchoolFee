@@ -17,27 +17,27 @@ class ReturnDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn($return) => route('returns.show', $return->id),
+                'data-url' => fn ($return) => route('returns.show', $return->id),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('branch', fn($return) => $return->warehouse->name)
-            ->editColumn('status', fn($return) => view('components.datatables.grn-status', ['grn' => $return]))
+            ->editColumn('branch', fn ($return) => $return->warehouse->name)
+            ->editColumn('status', fn ($return) => view('components.datatables.grn-status', ['grn' => $return]))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'waiting-approval', fn($query) => $query->notApproved())
-                    ->when($keyword == 'approved', fn($query) => $query->notAdded()->approved())
-                    ->when($keyword == 'added', fn($query) => $query->added());
+                    ->when($keyword == 'waiting-approval', fn ($query) => $query->notApproved())
+                    ->when($keyword == 'approved', fn ($query) => $query->notAdded()->approved())
+                    ->when($keyword == 'added', fn ($query) => $query->added());
             })
             ->editColumn('total price', function ($return) {
                 return money($return->grandTotalPrice);
             })
-            ->editColumn('customer', fn($return) => $return->customer->company_name ?? 'N/A')
-            ->editColumn('description', fn($return) => view('components.datatables.searchable-description', ['description' => $return->description]))
-            ->editColumn('issued_on', fn($return) => $return->issued_on->toFormattedDateString())
-            ->editColumn('prepared by', fn($return) => $return->createdBy->name)
-            ->editColumn('approved by', fn($return) => $return->approvedBy->name ?? 'N/A')
-            ->editColumn('edited by', fn($return) => $return->updatedBy->name)
+            ->editColumn('customer', fn ($return) => $return->customer->company_name ?? 'N/A')
+            ->editColumn('description', fn ($return) => view('components.datatables.searchable-description', ['description' => $return->description]))
+            ->editColumn('issued_on', fn ($return) => $return->issued_on->toFormattedDateString())
+            ->editColumn('prepared by', fn ($return) => $return->createdBy->name)
+            ->editColumn('approved by', fn ($return) => $return->approvedBy->name ?? 'N/A')
+            ->editColumn('edited by', fn ($return) => $return->updatedBy->name)
             ->editColumn('actions', function ($return) {
                 return view('components.common.action-buttons', [
                     'model' => 'returns',
@@ -53,10 +53,10 @@ class ReturnDatatable extends DataTable
         return $return
             ->newQuery()
             ->select('returns.*')
-            ->when(is_numeric(request('branch')), fn($query) => $query->where('returns.warehouse_id', request('branch')))
-            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
-            ->when(request('status') == 'approved', fn($query) => $query->notAdded()->approved())
-            ->when(request('status') == 'added', fn($query) => $query->added())
+            ->when(is_numeric(request('branch')), fn ($query) => $query->where('returns.warehouse_id', request('branch')))
+            ->when(request('status') == 'waiting approval', fn ($query) => $query->notApproved())
+            ->when(request('status') == 'approved', fn ($query) => $query->notAdded()->approved())
+            ->when(request('status') == 'added', fn ($query) => $query->added())
             ->with([
                 'returnDetails',
                 'createdBy:id,name',
@@ -87,6 +87,6 @@ class ReturnDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Return_' . date('YmdHis');
+        return 'Return_'.date('YmdHis');
     }
 }

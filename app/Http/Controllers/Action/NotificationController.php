@@ -13,7 +13,7 @@ class NotificationController extends Controller
 
     public function markAllAsRead()
     {
-        if (!authUser()->unreadNotifications()->count()) {
+        if (! authUser()->unreadNotifications()->count()) {
             return back()->with('failedMessage', 'You do not have unseen notifications.');
         }
 
@@ -24,7 +24,7 @@ class NotificationController extends Controller
 
     public function deleteAll()
     {
-        if (!authUser()->notifications()->count()) {
+        if (! authUser()->notifications()->count()) {
             return back()->with('failedMessage', 'Your notification box is empty.');
         }
 

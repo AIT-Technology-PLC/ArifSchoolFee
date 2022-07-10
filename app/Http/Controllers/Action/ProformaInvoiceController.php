@@ -63,6 +63,7 @@ class ProformaInvoiceController extends Controller
         }
 
         $proformaInvoice->load(['proformaInvoiceDetails.product', 'warehouse', 'customer', 'company']);
+
         return Pdf::loadView('proforma-invoices.print', compact('proformaInvoice'))->stream();
     }
 
@@ -72,7 +73,7 @@ class ProformaInvoiceController extends Controller
 
         [$isExecuted, $message, $data] = $this->proformaInvoiceService->convertToGdn($proformaInvoice);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -85,7 +86,7 @@ class ProformaInvoiceController extends Controller
 
         [$isExecuted, $message] = $this->proformaInvoiceService->close($proformaInvoice);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 

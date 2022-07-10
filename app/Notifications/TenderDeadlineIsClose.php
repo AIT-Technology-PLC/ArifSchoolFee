@@ -24,7 +24,7 @@ class TenderDeadlineIsClose extends Notification
     {
         return [
             'icon' => 'project-diagram',
-            'message' => $this->tenders->count() . ' ' . Str::plural('tender', $this->tenders->count()) . ' ' . ($this->tenders->count() == 1 ? 'has' : 'have') . ' 5 days or less remaining to reach closing date',
+            'message' => $this->tenders->count().' '.Str::plural('tender', $this->tenders->count()).' '.($this->tenders->count() == 1 ? 'has' : 'have').' 5 days or less remaining to reach closing date',
             'endpoint' => '/tenders',
         ];
     }

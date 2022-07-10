@@ -24,7 +24,7 @@ class AdjustmentMade extends Notification
         return [
             'icon' => 'eraser',
             'message' => 'Inventory adjustment has been made successfully',
-            'endpoint' => '/adjustments/' . $this->adjustment->id,
+            'endpoint' => '/adjustments/'.$this->adjustment->id,
         ];
     }
 }

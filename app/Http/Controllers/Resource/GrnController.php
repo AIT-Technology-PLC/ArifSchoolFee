@@ -112,7 +112,7 @@ class GrnController extends Controller
     {
         abort_if($grn->isAdded(), 403);
 
-        abort_if($grn->isApproved() && !authUser()->can('Delete Approved GRN'), 403);
+        abort_if($grn->isApproved() && ! authUser()->can('Delete Approved GRN'), 403);
 
         $grn->forceDelete();
 

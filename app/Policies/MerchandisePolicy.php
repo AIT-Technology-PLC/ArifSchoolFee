@@ -19,6 +19,7 @@ class MerchandisePolicy
             'Read Out Of Stock Inventory',
         ]);
     }
+
     public function available(User $user)
     {
         return $user->can('Read Available Inventory');

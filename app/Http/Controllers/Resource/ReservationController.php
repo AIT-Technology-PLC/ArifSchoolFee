@@ -95,7 +95,7 @@ class ReservationController extends Controller
             $reservation, $request->safe()->except('reservation'), $request->validated('reservation')
         );
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return redirect()->route('reservations.show', $reservation->id)
                 ->with('failedMessage', $message);
         }
@@ -109,9 +109,9 @@ class ReservationController extends Controller
 
     public function destroy(Reservation $reservation)
     {
-        abort_if(($reservation->isConverted() || $reservation->isReserved()) && !$reservation->isCancelled(), 403);
+        abort_if(($reservation->isConverted() || $reservation->isReserved()) && ! $reservation->isCancelled(), 403);
 
-        abort_if(($reservation->isApproved() || $reservation->isCancelled()) && !authUser()->can('Delete Approved Reservation'), 403);
+        abort_if(($reservation->isApproved() || $reservation->isCancelled()) && ! authUser()->can('Delete Approved Reservation'), 403);
 
         $reservation->forceDelete();
 

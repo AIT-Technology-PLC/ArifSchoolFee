@@ -67,7 +67,7 @@ class ReservationDetail extends Model
             ->load([
                 'reservation' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class])->with(['customer']);
-                }]
+                }, ]
             );
     }
 }

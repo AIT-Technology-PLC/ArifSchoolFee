@@ -23,8 +23,8 @@ class ReturnPrepared extends Notification
     {
         return [
             'icon' => 'arrow-alt-circle-left',
-            'message' => 'Approval request for return voucher prepared by ' . ucfirst($this->return->createdBy->name),
-            'endpoint' => '/returns/' . $this->return->id,
+            'message' => 'Approval request for return voucher prepared by '.ucfirst($this->return->createdBy->name),
+            'endpoint' => '/returns/'.$this->return->id,
         ];
     }
 }

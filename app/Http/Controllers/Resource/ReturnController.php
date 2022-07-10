@@ -101,7 +101,7 @@ class ReturnController extends Controller
     {
         abort_if($return->isAdded(), 403);
 
-        abort_if($return->isApproved() && !authUser()->can('Delete Approved Return'), 403);
+        abort_if($return->isApproved() && ! authUser()->can('Delete Approved Return'), 403);
 
         $return->forceDelete();
 

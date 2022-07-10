@@ -31,7 +31,7 @@ class UpdateGdnRequest extends FormRequest
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 Rule::when(
-                    !$this->route('gdn')->isApproved(),
+                    ! $this->route('gdn')->isApproved(),
                     new CheckCustomerCreditLimit(
                         $this->get('discount'),
                         $this->get('gdn'),

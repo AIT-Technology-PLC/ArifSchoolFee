@@ -43,11 +43,11 @@ class TransferPolicy
 
     public function transfer(User $user, Transfer $transfer)
     {
-        if (!$transfer->isSubtracted() && !$user->hasWarehousePermission('subtract', $transfer->transferred_from)) {
+        if (! $transfer->isSubtracted() && ! $user->hasWarehousePermission('subtract', $transfer->transferred_from)) {
             return false;
         }
 
-        if ($transfer->isSubtracted() && !$user->hasWarehousePermission('add', $transfer->transferred_to)) {
+        if ($transfer->isSubtracted() && ! $user->hasWarehousePermission('add', $transfer->transferred_to)) {
             return false;
         }
 

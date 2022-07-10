@@ -16,6 +16,7 @@ class VerifyCashReceivedAmountIsValid implements Rule
     private $cashReceivedType;
 
     private $message;
+
     /**
      * Create a new rule instance.
      *
@@ -39,14 +40,13 @@ class VerifyCashReceivedAmountIsValid implements Rule
      * @param  mixed  $value
      * @return bool
      */
-
     public function passes($attribute, $value)
     {
         if (userCompany()->isDiscountBeforeVAT()) {
             $price = Price::getGrandTotalPrice($this->details);
         }
 
-        if (!userCompany()->isDiscountBeforeVAT()) {
+        if (! userCompany()->isDiscountBeforeVAT()) {
             $price = Price::getGrandTotalPriceAfterDiscount($this->discount, $this->details);
         }
 
@@ -82,6 +82,7 @@ class VerifyCashReceivedAmountIsValid implements Rule
 
         return true;
     }
+
     /**
      * Get the validation error message.
      *

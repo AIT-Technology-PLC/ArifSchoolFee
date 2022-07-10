@@ -7,7 +7,11 @@ use App\Models\TransactionField;
 
 class TransactionDetailHistoryService implements DetailHistoryServiceInterface
 {
-    private $warehouse, $product, $history;
+    private $warehouse;
+
+    private $product;
+
+    private $history;
 
     private function get()
     {
@@ -23,7 +27,7 @@ class TransactionDetailHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($transactionDetail) {
             return [
                 'type' => $transactionDetail['transaction']->pad->name,
-                'url' => '/transactions/' . $transactionDetail['transaction']->id,
+                'url' => '/transactions/'.$transactionDetail['transaction']->id,
                 'code' => $transactionDetail['transaction']->code,
                 'date' => $transactionDetail['transaction']->issued_on,
                 'quantity' => number_format($transactionDetail['quantity'], 2, thousands_separator:''),

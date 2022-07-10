@@ -40,7 +40,6 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (HttpException $exception, $request) {
-
             if ($exception->getStatusCode() == 419) {
                 return redirect()->route('login');
             }
@@ -48,7 +47,6 @@ class Handler extends ExceptionHandler
             if ($exception instanceof MethodNotAllowedHttpException) {
                 return back();
             }
-
         });
     }
 }

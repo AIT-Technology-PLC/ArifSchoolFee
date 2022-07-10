@@ -23,7 +23,8 @@ class StoreJobPlannerRequest extends FormRequest
             'jobPlanner.*.bill_of_material_id' => ['required', 'integer', new MustBelongToCompany('bill_of_materials'), function ($attribute, $value, $fail) {
                 if (BillOfMaterial::where('id', $value)->where('product_id', $this->input(str_replace('.bill_of_material_id', '.product_id', $attribute)))->doesntExist()) {
                     $fail('Invalid bill of material!');
-                }}],
+                }
+            }],
 
             'jobPlanner.*.quantity' => ['required', 'numeric', 'gt:0'],
         ];

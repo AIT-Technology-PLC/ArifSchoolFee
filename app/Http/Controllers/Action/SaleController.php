@@ -25,7 +25,7 @@ class SaleController extends Controller
 
         [$isExecuted, $message] = $this->saleService->approve($sale);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -38,7 +38,7 @@ class SaleController extends Controller
 
         [$isExecuted, $message] = $this->saleService->cancel($sale);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 

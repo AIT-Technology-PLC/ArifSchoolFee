@@ -77,7 +77,7 @@ class EmployeeController extends Controller
 
     public function update(UpdateEmployeeRequest $request, Employee $employee, UpdateUserAction $action)
     {
-        if (!$employee->isEnabled() && $request->validated('enabled') && limitReached('user', Employee::enabled()->count())) {
+        if (! $employee->isEnabled() && $request->validated('enabled') && limitReached('user', Employee::enabled()->count())) {
             $action->execute($employee, $request->safe()->except('enabled'));
 
             return back()->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'users']));
