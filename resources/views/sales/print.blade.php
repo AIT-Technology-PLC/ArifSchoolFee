@@ -116,7 +116,7 @@
                 </h1>
                 <h1 class="has-text-black is-size-6 pr-2">
                     {{ number_format($sale->payment_in_cash, 2) }}
-                    ({{ number_format($sale->cashPayableInPercentage, 2) }}%)
+                    ({{ number_format($sale->cashReceivedInPercentage, 2) }}%)
                 </h1>
             </aside>
             @if (!$sale->isPaymentInCash())
