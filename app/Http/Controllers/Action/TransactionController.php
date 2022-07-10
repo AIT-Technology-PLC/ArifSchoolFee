@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Services\Models\TransactionService;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Arr;
 
 class TransactionController extends Controller
 {
@@ -96,6 +97,8 @@ class TransactionController extends Controller
         }
 
         $columns = array_keys($transaction->transactionDetails->first());
+
+        Arr::forget($columns, [0, 1]);
 
         return Pdf::loadView('transactions.print', compact('transaction', 'columns'))->stream();
     }
