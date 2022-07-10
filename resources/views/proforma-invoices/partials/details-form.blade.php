@@ -162,13 +162,14 @@
                             </x-forms.label>
                             <x-forms.control>
                                 <x-forms.textarea
+                                    rows="5"
+                                    class="summernote-details"
+                                    placeholder="Specification about the product"
                                     x-bind:id="`proformaInvoice[${index}][specification]`"
                                     x-bind:name="`proformaInvoice[${index}][specification]`"
+                                    x-init="summernote(index)"
                                     x-model="proformaInvoice.specification"
-                                    rows="5"
-                                    class="summernote"
-                                    placeholder="Specification about the product"
-                                >{{ $proformaInvoiceDetail['specification'] ?? '' }}</x-forms.textarea>
+                                ></x-forms.textarea>
                                 <span
                                     class="help has-text-danger"
                                     x-text="$store.errors.getErrors(`proformaInvoice.${index}.specification`)"
@@ -227,6 +228,7 @@
                         this.proformaInvoices.forEach((proformaInvoice, i) => {
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), proformaInvoice.product_id, proformaInvoice.product_category_id);
+                                $(".summernote-details").eq(i).summernote("code", proformaInvoice.specification);
                             }
                         })
                     );
@@ -250,6 +252,29 @@
                             this.proformaInvoices[index].unit_price = Product.price(
                                 this.proformaInvoices[index].product_id
                             );
+                        }
+                    });
+                },
+                summernote(index) {
+                    let object = this;
+
+                    let summernote = $(this.$el).summernote({
+                        placeholder: "Write description or other notes here",
+                        tabsize: 2,
+                        minHeight: 90,
+                        tabDisable: true,
+                        toolbar: [
+                            ["font", ["bold"]],
+                            ["table", ["table"]],
+                            ["forecolor", ["forecolor"]],
+                        ],
+                        callbacks: {
+                            onInit: function() {
+                                $(this).summernote("code", object.proformaInvoices[index].specification);
+                            },
+                            onChange: function(contents, $editable) {
+                                object.proformaInvoices[index].specification = contents;
+                            }
                         }
                     });
                 },

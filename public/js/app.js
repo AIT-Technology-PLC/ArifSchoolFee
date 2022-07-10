@@ -202,8 +202,8 @@ const initializeSelect2 = (element) => {
             }
 
             if (
-                data.element.dataset.category
-                    .toLowerCase()
+                data.element.dataset.productCategoryName
+                    ?.toLowerCase()
                     .indexOf(params.term.toLowerCase()) > -1
             ) {
                 return data;

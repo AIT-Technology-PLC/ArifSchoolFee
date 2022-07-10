@@ -15,10 +15,6 @@ class AdjustmentDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
-    protected $casts = [
-        'is_subtract' => 'boolean',
-    ];
-
     public function adjustment()
     {
         return $this->belongsTo(Adjustment::class);

@@ -9,13 +9,13 @@
     >
         <option
             data-code=""
-            data-category=""
+            data-product-category-name=""
         ></option>
         @foreach ($products as $product)
             <option
                 value="{{ $product->id }}"
                 data-code="{{ $product->code ?? '' }}"
-                data-category="{{ str($product->productCategory->name)->replace('  ', ' ') }}"
+                data-product-category-name="{{ str($product->productCategory->name)->replace('  ', ' ') }}"
             >
                 {{ $product->name }}
 

@@ -109,14 +109,8 @@
                                     x-bind:name="`adjustment[${index}][is_subtract]`"
                                     x-model="adjustment.is_subtract"
                                 >
-                                    <option
-                                        value="0"
-                                        {{ ($adjustmentDetail['is_subtract'] ?? '') == 0 ? 'selected' : '' }}
-                                    > Add </option>
-                                    <option
-                                        value="1"
-                                        {{ ($adjustmentDetail['is_subtract'] ?? '') == 1 ? 'selected' : '' }}
-                                    > Subtract </option>
+                                    <option value="0"> Add </option>
+                                    <option value="1"> Subtract </option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-sort"
@@ -142,10 +136,7 @@
                                     x-model="adjustment.warehouse_id"
                                 >
                                     @foreach ($warehouses as $warehouse)
-                                        <option
-                                            value="{{ $warehouse->id }}"
-                                            {{ ($adjustmentDetail['warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}
-                                        >{{ $warehouse->name }}</option>
+                                        <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                                     @endforeach
                                 </x-forms.select>
                                 <x-common.icon
