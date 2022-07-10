@@ -28,20 +28,6 @@ if (d.getElementsByClassName("summernote").length) {
     initializeSummernote();
 }
 
-if (d.getElementById("addNewProformaInvoiceForm")) {
-    d.getElementById("addNewProformaInvoiceForm").addEventListener(
-        "click",
-        addProformaInvoiceDetail
-    );
-}
-
-if (d.getElementById("addNewAdjustmentForm")) {
-    d.getElementById("addNewAdjustmentForm").addEventListener(
-        "click",
-        addAdjustmentDetail
-    );
-}
-
 if (d.getElementsByClassName("summernote-table").length) {
     modifySummernoteTableClass();
 }
