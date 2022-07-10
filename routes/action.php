@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Action as Action;
+
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
     [Action\PermissionController::class, 'edit'])
@@ -254,6 +255,7 @@ Route::controller(Action\TransactionController::class)->group(function () {
     Route::post('/transactions/{transaction}/add', 'add')->name('transactions.add');
     Route::post('/transactions/{transaction}/close', 'close')->name('transactions.close');
     Route::post('/transactions/{transaction}/cancel', 'cancel')->name('transactions.cancel');
+    Route::get('/transactions/{transaction}/print', 'printed')->name('transactions.print');
 });
 
 Route::controller(Action\SaleController::class)->group(function () {

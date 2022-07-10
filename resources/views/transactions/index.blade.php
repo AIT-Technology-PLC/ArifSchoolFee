@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="columns is-marginless is-multiline">
-        <div class="column">
+        <div class="column p-lr-0">
             <x-common.total-model
                 model="{{ $pad->abbreviation }}"
                 :amount="$transactions->count()"
@@ -89,7 +89,7 @@
                 href="{{ route('pads.transactions.create', $pad->id) }}"
                 mode="button"
                 icon="fas fa-plus-circle"
-                label="Create {{ $pad->name }}"
+                label="Create {{ str()->singular($pad->name) }}"
                 class="btn-green is-outlined is-small"
             />
             @endcanpad

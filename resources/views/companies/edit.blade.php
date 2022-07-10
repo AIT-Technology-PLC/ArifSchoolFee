@@ -39,6 +39,26 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
+                            <x-forms.label for="tin">
+                                TIN <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    name="tin"
+                                    id="tin"
+                                    type="number"
+                                    placeholder="TIN"
+                                    value="{{ $company->tin }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-building"
+                                    class="is-small is-left"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
                             <x-forms.label for="currency">
                                 Currency <sup class="has-text-danger">*</sup>
                             </x-forms.label>

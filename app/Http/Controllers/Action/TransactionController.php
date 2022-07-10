@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Services\Models\TransactionService;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransactionController extends Controller
 {
@@ -80,5 +81,18 @@ class TransactionController extends Controller
         }
 
         return back()->with('successMessage', $message);
+    }
+
+    public function printed(Transaction $transaction)
+    {
+        $this->authorize('view', $transaction);
+
+        if ($transaction->pad->isApprovable() && !$transaction->isApproved()) {
+            return back()->with('failedMessage', 'This transaction is not approved yet.');
+        }
+
+        $columns = array_keys($transaction->transactionDetails->first());
+
+        return Pdf::loadView('transactions.print', compact('transaction', 'columns'))->stream();
     }
 }

@@ -61,38 +61,38 @@
                         </x-forms.field>
                     </div>
                 </div>
-                <div class="columns is-marginless is-multiline">
-                    @continue (is_null($category->properties))
-                    @foreach ($category->properties as $property)
-                        <div class="column is-6">
-                            <x-forms.field>
-                                <x-forms.label for="properties[{{ $loop->index }}][{{ $property['key'] }}]">Property</x-forms.label>
-                                <x-forms.control>
-                                    <x-forms.input
-                                        id="properties[{{ $loop->index }}][{{ $property['key'] }}]"
-                                        name="properties[{{ $loop->index }}][key]"
-                                        type="text"
-                                        value="{{ $property['key'] }}"
-                                    />
-                                </x-forms.control>
-                            </x-forms.field>
-                        </div>
-                        <div class="column is-6">
-                            <x-forms.field>
-                                <x-forms.label for="properties[{{ $loop->index }}][{{ $property['value'] }}]">Data</x-forms.label>
-                                <x-forms.control>
-                                    <x-forms.input
-                                        id="properties[{{ $loop->index }}][{{ $property['value'] }}]"
-                                        name="properties[{{ $loop->index }}][value]"
-                                        type="text"
-                                        value="{{ $property['value'] }}"
-                                    />
-                                </x-forms.control>
-                            </x-forms.field>
-                        </div>
-                    @endforeach
-                    @endif
-                </div>
+                @if (!is_null($category->properties))
+                    <div class="columns is-marginless is-multiline">
+                        @foreach ($category->properties as $property)
+                            <div class="column is-6">
+                                <x-forms.field>
+                                    <x-forms.label for="properties[{{ $loop->index }}][{{ $property['key'] }}]">Property</x-forms.label>
+                                    <x-forms.control>
+                                        <x-forms.input
+                                            id="properties[{{ $loop->index }}][{{ $property['key'] }}]"
+                                            name="properties[{{ $loop->index }}][key]"
+                                            type="text"
+                                            value="{{ $property['key'] }}"
+                                        />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div class="column is-6">
+                                <x-forms.field>
+                                    <x-forms.label for="properties[{{ $loop->index }}][{{ $property['value'] }}]">Data</x-forms.label>
+                                    <x-forms.control>
+                                        <x-forms.input
+                                            id="properties[{{ $loop->index }}][{{ $property['value'] }}]"
+                                            name="properties[{{ $loop->index }}][value]"
+                                            type="text"
+                                            value="{{ $property['value'] }}"
+                                        />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
             </x-content.main>
             <x-content.footer>
                 <x-common.save-button />

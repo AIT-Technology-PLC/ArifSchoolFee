@@ -14,7 +14,7 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="code">
-                                {{ $pad->abbreviation }} Number <sup class="has-text-danger">*</sup>
+                                {{ str()->singular($pad->abbreviation) }} Number <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
@@ -67,7 +67,7 @@
                                         >
                                             <x-dynamic-component
                                                 :component="$masterPadField->padRelation->component_name"
-                                                selected-id=""
+                                                :selected-id="$master[$masterPadField->id]"
                                                 id="{{ $masterPadField->id }}"
                                                 x-init="initSelect2($el, '{{ $masterPadField->padRelation->model_name }}');
                                                 bindData($el, 'master.{{ $masterPadField->id }}')"

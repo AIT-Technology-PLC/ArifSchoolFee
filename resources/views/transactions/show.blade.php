@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $transaction->pad->name . ' Details')
+@section('title', str()->singular($transaction->pad->name) . ' Details')
 
 @section('content')
     <x-common.content-wrapper>
@@ -99,7 +99,7 @@
                     <x-common.show-data-section
                         :icon="$transaction->pad->icon"
                         :data="$transaction->code"
-                        label="{{ $transaction->pad->abbreviation }} No"
+                        label="{{ str()->singular($transaction->pad->abbreviation) }} No"
                     />
                 </div>
                 <div class="column is-6">
@@ -201,7 +201,7 @@
                                     :route="route('transactions.close', $transaction->id)"
                                     action="close"
                                     intention="close this transaction"
-                                    icon="fas fa-signature"
+                                    icon="fas fa-ban"
                                     label="Close"
                                     class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                                 />
@@ -214,7 +214,7 @@
                                     :route="route('transactions.cancel', $transaction->id)"
                                     action="cancel"
                                     intention="cancel this transaction"
-                                    icon="fas fa-signature"
+                                    icon="fas fa-times-circle"
                                     label="Cancel"
                                     class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                                 />
@@ -230,6 +230,21 @@
                                     mode="button"
                                     icon="fas fa-pen"
                                     label="Edit"
+                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                                />
+                            </x-common.dropdown-item>
+                        @endcan
+                    @endif
+                    @if ($transaction->pad->isApprovable() && $transaction->isApproved())
+                        @can('view', $transaction)
+                            <x-common.dropdown-item>
+                                <x-common.button
+                                    tag="a"
+                                    href="{{ route('transactions.print', $transaction->id) }}"
+                                    target="_blank"
+                                    mode="button"
+                                    icon="fas fa-print"
+                                    label="Print"
                                     class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                                 />
                             </x-common.dropdown-item>

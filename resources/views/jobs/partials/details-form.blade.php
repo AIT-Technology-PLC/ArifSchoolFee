@@ -74,6 +74,7 @@
                                     x-bind:id="`job[${index}][quantity]`"
                                     x-bind:name="`job[${index}][quantity]`"
                                     x-model="job.quantity"
+                                    type="number"
                                 />
                                 <x-common.icon
                                     name="fas fa-balance-scale"

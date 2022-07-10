@@ -141,6 +141,7 @@
                                                 x-bind:id="`jobPlanner[${index}][quantity]`"
                                                 x-bind:name="`jobPlanner[${index}][quantity]`"
                                                 x-model="jobPlanner.quantity"
+                                                type="number"
                                             />
                                             <x-common.icon
                                                 name="fas fa-balance-scale"

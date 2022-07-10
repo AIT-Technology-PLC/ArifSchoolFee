@@ -79,7 +79,7 @@
                     FS N<u>o</u>
                 </h1>
                 <h1 class="has-text-black is-size-6 pr-2">
-                    {{ $sale->fs_number ?? '-' }}
+                    {{ !is_null($sale->fs_number) ? str()->padLeft($sale->fs_number, 8, 0) : '-' }}
                 </h1>
             </aside>
             <aside
@@ -115,7 +115,7 @@
                     Cash Amount
                 </h1>
                 <h1 class="has-text-black is-size-6 pr-2">
-                    {{ number_format($sale->payment_in_cahs, 2) }}
+                    {{ number_format($sale->payment_in_cash, 2) }}
                     ({{ number_format($sale->cashPayableInPercentage, 2) }}%)
                 </h1>
             </aside>

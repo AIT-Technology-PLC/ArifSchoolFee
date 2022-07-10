@@ -10,7 +10,7 @@
 @elseif ($transaction->pad->isClosableOnly() && $transaction->isClosed())
     <span class="tag is-small bg-gold has-text-white">
         <span class="icon">
-            <i class="fas fa-times-circle"></i>
+            <i class="fas fa-check-circle"></i>
         </span>
         <span>
             Closed

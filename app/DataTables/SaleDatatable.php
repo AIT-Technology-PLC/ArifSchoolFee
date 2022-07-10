@@ -22,6 +22,7 @@ class SaleDatatable extends DataTable
                 '@click' => 'showDetails',
             ])
             ->editColumn('branch', fn($sale) => $sale->warehouse->name)
+            ->editColumn('fs_number', fn($sale) => !is_null($sale->fs_number) ? str()->padLeft($sale->fs_number, 8, 0) : 'N/A')
             ->editColumn('status', fn($sale) => view('components.datatables.sale-status', compact('sale')))
             ->editColumn('total price', function ($sale) {
                 return userCompany()->isDiscountBeforeVAT() ?
@@ -64,7 +65,7 @@ class SaleDatatable extends DataTable
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Invoice No'),
-            Column::make('fs_number')->className('has-text-centered')->title('FS No')->content('N/A'),
+            Column::make('fs_number')->className('has-text-centered')->title('FS No'),
             Column::computed('status'),
             Column::make('payment_type')->visible(false),
             Column::computed('total price'),

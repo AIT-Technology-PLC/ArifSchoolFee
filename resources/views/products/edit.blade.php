@@ -207,10 +207,8 @@
                         </x-forms.field>
                     </div>
                 </div>
-                <div class="columns is-marginless is-multiline">
-                    @if (is_null($product->properties))
-                        {{ '' }}
-                    @else
+                @if (!is_null($product->properties))
+                    <div class="columns is-marginless is-multiline">
                         @foreach ($product->properties as $property)
                             <div class="column is-6">
                                 <x-forms.field>
@@ -243,8 +241,8 @@
                                 </x-forms.field>
                             </div>
                         @endforeach
-                    @endif
-                </div>
+                    </div>
+                @endif
             </x-content.main>
             <x-content.footer>
                 <x-common.save-button />

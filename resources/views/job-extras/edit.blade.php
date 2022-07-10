@@ -44,7 +44,7 @@
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    type="input"
+                                    type="number"
                                     name="quantity"
                                     id="quantity"
                                     value="{{ $jobExtra->quantity }}"
