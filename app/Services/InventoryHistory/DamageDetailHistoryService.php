@@ -23,6 +23,7 @@ class DamageDetailHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($damageDetail) {
             return [
                 'type' => 'DAMAGE',
+                'url' => '/damages/' . $damageDetail->damage_id,
                 'code' => $damageDetail->damage->code,
                 'date' => $damageDetail->damage->issued_on,
                 'quantity' => $damageDetail->quantity,

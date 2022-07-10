@@ -24,6 +24,7 @@ class GdnDetailHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($gdnDetail) {
             return [
                 'type' => 'DO',
+                'url' => '/gdns/' . $gdnDetail->gdn_id,
                 'code' => $gdnDetail->gdn->code,
                 'date' => $gdnDetail->gdn->issued_on,
                 'quantity' => $gdnDetail->quantity,

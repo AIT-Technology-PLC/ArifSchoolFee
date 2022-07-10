@@ -85,11 +85,9 @@ class ProformaInvoiceController extends Controller
         DB::transaction(function () use ($request, $proformaInvoice) {
             $proformaInvoice->update($request->safe()->except('proformaInvoice'));
 
-            $proformaInvoice
-                ->proformaInvoiceDetails
-                ->each(function ($proformaInvoiceDetail, $key) use ($request) {
-                    $proformaInvoiceDetail->update($request->validated('proformaInvoice')[$key]);
-                });
+            $proformaInvoice->proformaInvoiceDetails()->forceDelete();
+
+            $proformaInvoice->proformaInvoiceDetails()->createMany($request->validated('proformaInvoice'));
         });
 
         return redirect()->route('proforma-invoices.show', $proformaInvoice->id);

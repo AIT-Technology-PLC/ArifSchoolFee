@@ -23,6 +23,7 @@ class JobDetailHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($jobDetail) {
             return [
                 'type' => 'JOB',
+                'url' => '/jobs/' . $jobDetail->job_order_id,
                 'code' => $jobDetail->job->code,
                 'date' => $jobDetail->job->issued_on,
                 'quantity' => $jobDetail->is_bill_of_material ?
