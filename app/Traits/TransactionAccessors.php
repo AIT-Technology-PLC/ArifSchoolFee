@@ -75,7 +75,7 @@ trait TransactionAccessors
                 $padFieldId = $this->pad->padFields()->where('label', 'Payment Method')->first()->id ?? null;
 
                 return $padFieldId
-                ? $this->transactionFields()->masterFields()->where('id', $padFieldId)->first()->value
+                ? $this->transactionFields()->masterFields()->where('pad_field_id', $padFieldId)->first()->value
                 : null;
             });
     }
