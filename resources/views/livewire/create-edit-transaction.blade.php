@@ -67,7 +67,7 @@
                                         >
                                             <x-dynamic-component
                                                 :component="$masterPadField->padRelation->component_name"
-                                                :selected-id="$master[$masterPadField->id]"
+                                                :selected-id="$master[$masterPadField->id] ?? ''"
                                                 id="{{ $masterPadField->id }}"
                                                 x-init="initSelect2($el, '{{ $masterPadField->padRelation->model_name }}');
                                                 bindData($el, 'master.{{ $masterPadField->id }}')"
