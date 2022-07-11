@@ -37,6 +37,22 @@ class StoreEmployeeRequest extends FormRequest
             'sales.*' => ['nullable', 'integer', new MustBelongToCompany('warehouses')],
             'adjustment.*' => ['nullable', 'integer', new MustBelongToCompany('warehouses')],
             'siv.*' => ['nullable', 'integer', new MustBelongToCompany('warehouses')],
+            'gender' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'bank_name' => ['nullable', 'string', 'max:255'],
+            'bank_account' => ['nullable', 'string', 'max:255'],
+            'tin_number' => ['nullable', 'string', 'max:255'],
+            'job_type' => ['required', 'string', 'max:255', Rule::in(['Full Time', 'Part Time', 'Contractual', 'Remote', 'Internship'])],
+            'phone' => ['required', 'string', 'max:255'],
+            'id_type' => ['nullable', 'string', 'max:255'],
+            'id_number' => ['nullable', 'string', 'max:255'],
+            'date_of_hiring' => ['required', 'date'],
+            'gross_salary' => ['nullable', 'numeric', 'max:255'],
+            'date_of_birth' => ['nullable', 'date'],
+            'emergency_name' => ['nullable', 'string', 'max:255'],
+            'emergency_phone' => ['nullable', 'string', 'max:255'],
+            'department_id' => ['required', 'integer', new MustBelongToCompany('departments')],
+
         ];
     }
 }
