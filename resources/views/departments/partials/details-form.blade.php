@@ -65,7 +65,7 @@
                                     x-bind:description="`department[${index}][description]`"
                                     x-model="department.description"
                                     class="pl-6"
-                                    placeholder="Description or note about the new Department"
+                                    placeholder="Description or note about the new department"
                                 >
                                     {{ old('description') ?? '' }}
                                 </x-forms.textarea>
@@ -103,12 +103,13 @@
                 departments: [],
 
                 async init() {
-
                     this.add();
                 },
+
                 add() {
                     this.departments.push({});
                 },
+
                 async remove(index) {
                     if (this.departments.length <= 0) {
                         return;
