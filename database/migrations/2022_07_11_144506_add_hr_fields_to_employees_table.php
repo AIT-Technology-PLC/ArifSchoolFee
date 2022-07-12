@@ -23,9 +23,9 @@ return new class extends Migration
             $table->string('phone');
             $table->string('id_type');
             $table->string('id_number');
-            $table->dateTime('date_of_hiring');
+            $table->dateTime('date_of_hiring')->nullable();
             $table->decimal('gross_salary', 22);
-            $table->dateTime('date_of_birth');
+            $table->dateTime('date_of_birth')->nullable();
             $table->string('emergency_name');
             $table->string('emergency_phone');
             $table->foreignId('department_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
