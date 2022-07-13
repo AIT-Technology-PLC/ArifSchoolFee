@@ -39,8 +39,8 @@ class StoreEmployeeRequest extends FormRequest
             'siv.*' => ['nullable', 'integer', new MustBelongToCompany('warehouses')],
             'gender' => ['required', 'string', 'max:255', Rule::in(['male', 'female'])],
             'address' => ['required', 'string', 'max:255'],
-            'bank_name' => ['nullable', 'string', 'max:255'],
-            'bank_account' => ['nullable', 'string', 'max:255'],
+            'bank_name' => ['nullable', 'string', 'max:255', 'required_unless:bank_account,null'],
+            'bank_account' => ['nullable', 'string', 'max:255', 'required_unless:bank_name,null'],
             'tin_number' => ['nullable', 'string', 'max:255'],
             'job_type' => ['required', 'string', 'max:255', Rule::in(['full time', 'part time', 'contractual', 'remote', 'internship'])],
             'phone' => ['required', 'string', 'max:255'],
@@ -49,9 +49,9 @@ class StoreEmployeeRequest extends FormRequest
             'date_of_hiring' => ['required', 'date'],
             'gross_salary' => ['nullable', 'numeric'],
             'date_of_birth' => ['nullable', 'date', 'before:' . now()],
-            'emergency_name' => ['nullable', 'string', 'max:255'],
-            'emergency_phone' => ['nullable', 'string', 'max:255'],
-            'department_id' => ['required', 'integer', new MustBelongToCompany('departments')],
+            'emergency_name' => ['nullable', 'string', 'max:255', 'required_unless:emergency_phone,null'],
+            'emergency_phone' => ['nullable', 'string', 'max:255', 'required_unless:emergency_name,null'],
+            'department_id' => ['nullable', 'integer', new MustBelongToCompany('departments')],
 
         ];
     }

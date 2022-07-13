@@ -98,6 +98,28 @@
                             </div>
                             <div class="column is-6">
                                 <x-forms.field>
+                                    <x-forms.label for="phone">
+                                        Phone <sup class="has-text-danger">*</sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            id="phone"
+                                            name="phone"
+                                            type="phone"
+                                            placeholder="Phone"
+                                            value="{{ old('phone') }}"
+                                            autocomplete="phone"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-phone"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="phone" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div class="column is-6">
+                                <x-forms.field>
                                     <x-forms.label for="address">
                                         Address <sup class="has-text-danger">*</sup>
                                     </x-forms.label>
@@ -120,67 +142,22 @@
                             </div>
                             <div class="column is-6">
                                 <x-forms.field>
-                                    <x-forms.label for="bank_name">
-                                        Bank Name <sup class="has-text-danger"></sup>
+                                    <x-forms.label for="position">
+                                        Job Title/Position <sup class="has-text-danger">*</sup>
                                     </x-forms.label>
                                     <x-forms.control class="has-icons-left">
                                         <x-forms.input
-                                            id="bank_name"
-                                            name="bank_name"
+                                            id="position"
+                                            name="position"
                                             type="text"
-                                            placeholder="Bank Name"
-                                            value="{{ old('bank_name') }}"
-                                            autocomplete="bank_name"
+                                            placeholder="Job Title"
+                                            value="{{ old('position') ?? '' }}"
                                         />
                                         <x-common.icon
-                                            name="fas fa-university"
+                                            name="fas fa-user-tie"
                                             class="is-small is-left"
                                         />
-                                        <x-common.validation-error property="bank_name" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="bank_account">
-                                        Bank Account <sup class="has-text-danger"></sup>
-                                    </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.input
-                                            id="bank_account"
-                                            name="bank_account"
-                                            type="text"
-                                            placeholder="Bank Account"
-                                            value="{{ old('bank_account') }}"
-                                            autocomplete="bank_account"
-                                        />
-                                        <x-common.icon
-                                            name="fas fa-hashtag"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="bank_account" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="tin_number">
-                                        Tin Number <sup class="has-text-danger"></sup>
-                                    </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.input
-                                            id="tin_number"
-                                            name="tin_number"
-                                            type="text"
-                                            placeholder="Tin Number"
-                                            value="{{ old('tin_number') }}"
-                                            autocomplete="tin_number"
-                                        />
-                                        <x-common.icon
-                                            name="fas fa-hashtag"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="tin_number" />
+                                        <x-common.validation-error property="position" />
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
@@ -226,31 +203,187 @@
                             </div>
                             <div class="column is-6">
                                 <x-forms.field>
-                                    <x-forms.label for="phone">
-                                        Phone <sup class="has-text-danger">*</sup>
+                                    <x-forms.label for="date_of_hiring">
+                                        Date Of Hiring <sup class="has-text-danger">*</sup>
                                     </x-forms.label>
                                     <x-forms.control class="has-icons-left">
                                         <x-forms.input
-                                            id="phone"
-                                            name="phone"
-                                            type="phone"
-                                            placeholder="Phone"
-                                            value="{{ old('phone') }}"
-                                            autocomplete="phone"
+                                            id="date_of_hiring"
+                                            name="date_of_hiring"
+                                            type="datetime-local"
+                                            placeholder="mm/dd/yyyy"
+                                            value="{{ old('date_of_hiring') ?? now()->toDateTimeLocalString() }}"
+                                            autocomplete="date_of_hiring"
                                         />
                                         <x-common.icon
-                                            name="fas fa-phone"
+                                            name="fas fa-calendar-alt"
                                             class="is-small is-left"
                                         />
-                                        <x-common.validation-error property="phone" />
+                                        <x-common.validation-error property="date_of_hiring" />
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
                             <div class="column is-6">
                                 <x-forms.field>
-                                    <x-forms.label for="id_type">
-                                        ID Type <sup class="has-text-danger">*</sup>
+                                    <x-forms.label for="warehouse_id">
+                                        Assign To <sup class="has-text-danger">*</sup>
                                     </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.select
+                                            class="is-fullwidth"
+                                            id="warehouse_id"
+                                            name="warehouse_id"
+                                        >
+                                            @foreach ($warehouses as $warehouse)
+                                                <option
+                                                    value="{{ $warehouse->id }}"
+                                                    {{ old('warehouse_id') == $warehouse->id ? 'selected' : '' }}
+                                                >{{ $warehouse->name }}</option>
+                                            @endforeach
+                                        </x-forms.select>
+                                        <x-common.icon
+                                            name="fas fa-warehouse"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="warehouse_id" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div class="column is-6">
+                                <x-forms.label>
+                                    Password <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.field class="has-addons">
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            id="password"
+                                            name="password"
+                                            type="password"
+                                            placeholder="Employee Password"
+                                            autocomplete="new-password"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-unlock"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="password" />
+                                    </x-forms.control>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            id="password-confirm"
+                                            type="password"
+                                            name="password_confirmation"
+                                            placeholder="Confirm Password"
+                                            autocomplete="new-password"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-unlock"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="password" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div class="column is-6">
+                                <x-forms.field>
+                                    <x-forms.label for="department_id">
+                                        Department <sup class="has-text-danger"></sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.select
+                                            class="is-fullwidth"
+                                            id="department_id"
+                                            name="department_id"
+                                        >
+                                            @foreach ($departments as $department)
+                                                <option
+                                                    value="{{ $department->id }}"
+                                                    {{ old('department_id') == $department->id ? 'selected' : '' }}
+                                                >{{ $department->name }}</option>
+                                            @endforeach
+                                            <option value="">None</option>
+                                        </x-forms.select>
+                                        <x-common.icon
+                                            name="fas fa-sort"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="department_id" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div class="column is-6">
+                                <x-forms.label>
+                                    Bank Detail <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.field class="has-addons">
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.select
+                                            class="is-fullwidth"
+                                            id="bank_name"
+                                            name="bank_name"
+                                        >
+                                            <option
+                                                selected
+                                                value=""
+                                            > Select Bank </option>
+                                            @if (old('bank_name'))
+                                                <option
+                                                    value="{{ old('bank_name') }}"
+                                                    selected
+                                                > {{ old('bank_name') }} </option>
+                                            @endif
+                                            @include('lists.banks')
+                                        </x-forms.select>
+                                        <x-common.icon
+                                            name="fas fa-university"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="bank_name" />
+                                    </x-forms.control>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            id="bank_account"
+                                            name="bank_account"
+                                            type="text"
+                                            placeholder="Bank Account"
+                                            value="{{ old('bank_account') }}"
+                                            autocomplete="bank_account"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-hashtag"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="bank_account" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div class="column is-6">
+                                <x-forms.field>
+                                    <x-forms.label for="tin_number">
+                                        TIN Number <sup class="has-text-danger"></sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            id="tin_number"
+                                            name="tin_number"
+                                            type="text"
+                                            placeholder="TIN Number"
+                                            value="{{ old('tin_number') }}"
+                                            autocomplete="tin_number"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-hashtag"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="tin_number" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div class="column is-6">
+                                <x-forms.label>
+                                    ID Type <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.field class="has-addons">
                                     <x-forms.control class="has-icons-left ">
                                         <x-forms.select
                                             class="is-fullwidth"
@@ -284,13 +417,6 @@
                                         />
                                         <x-common.validation-error property="id_type" />
                                     </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="id_number">
-                                        ID Number <sup class="has-text-danger"></sup>
-                                    </x-forms.label>
                                     <x-forms.control class="has-icons-left">
                                         <x-forms.input
                                             id="id_number"
@@ -310,30 +436,8 @@
                             </div>
                             <div class="column is-6">
                                 <x-forms.field>
-                                    <x-forms.label for="date_of_hiring">
-                                        Date Of Hiring <sup class="has-text-danger">*</sup>
-                                    </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.input
-                                            id="date_of_hiring"
-                                            name="date_of_hiring"
-                                            type="datetime-local"
-                                            placeholder="mm/dd/yyyy"
-                                            value="{{ old('date_of_hiring') ?? now()->toDateTimeLocalString() }}"
-                                            autocomplete="date_of_hiring"
-                                        />
-                                        <x-common.icon
-                                            name="fas fa-calendar-alt"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="date_of_hiring" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
                                     <x-forms.label for="gross_salary">
-                                        Gross salery <sup class="has-text-danger"></sup>
+                                        Gross Salary <sup class="has-text-danger"></sup>
                                     </x-forms.label>
                                     <x-forms.control class="has-icons-left">
                                         <x-forms.input
@@ -361,7 +465,7 @@
                                         <x-forms.input
                                             id="date_of_birth"
                                             name="date_of_birth"
-                                            type="datetime-local"
+                                            type="date"
                                             placeholder="mm/dd/yyyy"
                                             value="{{ old('date_of_birth') }}"
                                             autocomplete="date_of_birth"
@@ -375,10 +479,10 @@
                                 </x-forms.field>
                             </div>
                             <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="emergency_name">
-                                        Emergency Name <sup class="has-text-danger"></sup>
-                                    </x-forms.label>
+                                <x-forms.label>
+                                    Emergency Contact <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.field class="has-addons">
                                     <x-forms.control class="has-icons-left">
                                         <x-forms.input
                                             id="emergency_name"
@@ -394,13 +498,6 @@
                                         />
                                         <x-common.validation-error property="emergency_name" />
                                     </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="emergency_phone">
-                                        Emergency Phone <sup class="has-text-danger"></sup>
-                                    </x-forms.label>
                                     <x-forms.control class="has-icons-left">
                                         <x-forms.input
                                             id="emergency_phone"
@@ -415,121 +512,6 @@
                                             class="is-small is-left"
                                         />
                                         <x-common.validation-error property="emergency_phone" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="department_id">
-                                        Department <sup class="has-text-danger">*</sup>
-                                    </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.select
-                                            class="is-fullwidth"
-                                            id="department_id"
-                                            name="department_id"
-                                        >
-                                            @foreach ($departments as $department)
-                                                <option
-                                                    value="{{ $department->id }}"
-                                                    {{ old('department_id') == $department->id ? 'selected' : '' }}
-                                                >{{ $department->name }}</option>
-                                            @endforeach
-                                        </x-forms.select>
-                                        <x-common.icon
-                                            name="fas fa-sort"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="department_id" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="password">
-                                        Password <sup class="has-text-danger">*</sup>
-                                    </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.input
-                                            id="password"
-                                            name="password"
-                                            type="password"
-                                            placeholder="Employee Password"
-                                            autocomplete="new-password"
-                                        />
-                                        <x-common.icon
-                                            name="fas fa-unlock"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="password" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="password-confirm">
-                                        Confrim Password <sup class="has-text-danger">*</sup>
-                                    </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.input
-                                            id="password-confirm"
-                                            type="password"
-                                            name="password_confirmation"
-                                            placeholder="Confirm Password"
-                                            autocomplete="new-password"
-                                        />
-                                        <x-common.icon
-                                            name="fas fa-unlock"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="password" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="position">
-                                        Job Title/Position <sup class="has-text-danger">*</sup>
-                                    </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.input
-                                            id="position"
-                                            name="position"
-                                            type="text"
-                                            placeholder="Job Title"
-                                            value="{{ old('position') ?? '' }}"
-                                        />
-                                        <x-common.icon
-                                            name="fas fa-user-tie"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="position" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="warehouse_id">
-                                        Assign To <sup class="has-text-danger">*</sup>
-                                    </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.select
-                                            class="is-fullwidth"
-                                            id="warehouse_id"
-                                            name="warehouse_id"
-                                        >
-                                            @foreach ($warehouses as $warehouse)
-                                                <option
-                                                    value="{{ $warehouse->id }}"
-                                                    {{ old('warehouse_id') == $warehouse->id ? 'selected' : '' }}
-                                                >{{ $warehouse->name }}</option>
-                                            @endforeach
-                                        </x-forms.select>
-                                        <x-common.icon
-                                            name="fas fa-warehouse"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="warehouse_id" />
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
