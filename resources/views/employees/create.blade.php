@@ -268,15 +268,15 @@
                                             <option
                                                 value="employee id"
                                                 @selected(old('employee id'))
-                                            > Employee Id </option>
+                                            > Employee ID </option>
                                             <option
                                                 value="kebele id"
                                                 @selected(old('Kebele Id'))
-                                            > Kebele Id </option>
+                                            > Kebele ID </option>
                                             <option
                                                 value="student id"
                                                 @selected(old('student id'))
-                                            > Student Id </option>
+                                            > Student ID </option>
                                         </x-forms.select>
                                         <x-common.icon
                                             name="fas fa-id-card"
@@ -345,7 +345,7 @@
                                             autocomplete="gross_salary"
                                         />
                                         <x-common.icon
-                                            name="fas fa-phone"
+                                            name="fas fa-money-bill"
                                             class="is-small is-left"
                                         />
                                         <x-common.validation-error property="gross_salary" />
