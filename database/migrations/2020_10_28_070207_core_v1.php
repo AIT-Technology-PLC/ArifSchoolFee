@@ -107,8 +107,23 @@ return new class extends Migration
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('department_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('position');
             $table->boolean('enabled');
+            $table->string('gender');
+            $table->string('address');
+            $table->string('bank_name');
+            $table->string('bank_account');
+            $table->string('tin_number');
+            $table->string('job_type');
+            $table->string('phone');
+            $table->string('id_type');
+            $table->string('id_number');
+            $table->dateTime('date_of_hiring')->nullable();
+            $table->decimal('gross_salary', 22);
+            $table->dateTime('date_of_birth')->nullable();
+            $table->string('emergency_name');
+            $table->string('emergency_phone');
             $table->timestamps();
             $table->softDeletes();
 
@@ -936,6 +951,19 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('departments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->string('name');
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -1003,5 +1031,6 @@ return new class extends Migration
         Schema::drop('job_orders');
         Schema::drop('company_integration');
         Schema::drop('integrations');
+        Schema::drop('departments');
     }
 };
