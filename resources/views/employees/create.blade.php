@@ -285,6 +285,61 @@
                                 </x-forms.field>
                             </div>
                             <div class="column is-6">
+                                <x-forms.label>
+                                    ID Type <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.field class="has-addons">
+                                    <x-forms.control class="has-icons-left ">
+                                        <x-forms.select
+                                            class="is-fullwidth"
+                                            id="id_type"
+                                            name="id_type"
+                                        >
+                                            <option
+                                                value="passport"
+                                                @selected(old('passport'))
+                                            > Passport </option>
+                                            <option
+                                                value="drivers license"
+                                                @selected(old('drivers license'))
+                                            > Drivers license </option>
+                                            <option
+                                                value="employee id"
+                                                @selected(old('employee id'))
+                                            > Employee ID </option>
+                                            <option
+                                                value="kebele id"
+                                                @selected(old('Kebele Id'))
+                                            > Kebele ID </option>
+                                            <option
+                                                value="student id"
+                                                @selected(old('student id'))
+                                            > Student ID </option>
+                                        </x-forms.select>
+                                        <x-common.icon
+                                            name="fas fa-id-card"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="id_type" />
+                                    </x-forms.control>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            id="id_number"
+                                            name="id_number"
+                                            type="text"
+                                            placeholder="ID Number"
+                                            value="{{ old('id_number') }}"
+                                            autocomplete="id_number"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-hashtag"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="id_number" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div class="column is-6">
                                 <x-forms.field>
                                     <x-forms.label for="department_id">
                                         Department <sup class="has-text-danger"></sup>
@@ -376,61 +431,6 @@
                                             class="is-small is-left"
                                         />
                                         <x-common.validation-error property="tin_number" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.label>
-                                    ID Type <sup class="has-text-danger">*</sup>
-                                </x-forms.label>
-                                <x-forms.field class="has-addons">
-                                    <x-forms.control class="has-icons-left ">
-                                        <x-forms.select
-                                            class="is-fullwidth"
-                                            id="id_type"
-                                            name="id_type"
-                                        >
-                                            <option
-                                                value="passport"
-                                                @selected(old('passport'))
-                                            > Passport </option>
-                                            <option
-                                                value="drivers license"
-                                                @selected(old('drivers license'))
-                                            > Drivers license </option>
-                                            <option
-                                                value="employee id"
-                                                @selected(old('employee id'))
-                                            > Employee ID </option>
-                                            <option
-                                                value="kebele id"
-                                                @selected(old('Kebele Id'))
-                                            > Kebele ID </option>
-                                            <option
-                                                value="student id"
-                                                @selected(old('student id'))
-                                            > Student ID </option>
-                                        </x-forms.select>
-                                        <x-common.icon
-                                            name="fas fa-id-card"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="id_type" />
-                                    </x-forms.control>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.input
-                                            id="id_number"
-                                            name="id_number"
-                                            type="text"
-                                            placeholder="ID Number"
-                                            value="{{ old('id_number') }}"
-                                            autocomplete="id_number"
-                                        />
-                                        <x-common.icon
-                                            name="fas fa-hashtag"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="id_number" />
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
