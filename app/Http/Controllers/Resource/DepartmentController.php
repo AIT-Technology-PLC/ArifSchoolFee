@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 class DepartmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('isFeatureAccessible:Department Management');
+
+        $this->authorizeResource(Department::class);
+    }
     public function index(DepartmentDatatable $datatable)
     {
         $datatable->builder()->setTableId('departments-datatable')->orderBy(1, 'asc');
@@ -28,10 +34,6 @@ class DepartmentController extends Controller
     public function store(StoreDepartmentRequest $request)
     {
         $departments = collect($request->validated('department'));
-
-        if ($departments->duplicates('name')->count()) {
-            return back()->withInput()->with('failedMessage', 'Department name should be unique.');
-        }
 
         DB::transaction(function () use ($departments) {
             foreach ($departments as $department) {

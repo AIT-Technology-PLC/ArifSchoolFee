@@ -8,6 +8,7 @@ use App\DataTables\EmployeeDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Warehouse;
 use App\Scopes\ActiveWarehouseScope;
@@ -43,7 +44,9 @@ class EmployeeController extends Controller
 
         $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        return view('employees.create', compact('roles', 'warehouses'));
+        $departments = Department::orderBy('name')->get(['id', 'name']);
+
+        return view('employees.create', compact('roles', 'warehouses', 'departments'));
     }
 
     public function store(StoreEmployeeRequest $request, CreateUserAction $action)
@@ -70,14 +73,16 @@ class EmployeeController extends Controller
 
         $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
+        $departments = Department::orderBy('name')->get(['id', 'name']);
+
         $warehousePermissions = $employee->user->warehouses->groupBy('pivot.type');
 
-        return view('employees.edit', compact('employee', 'roles', 'warehouses', 'warehousePermissions'));
+        return view('employees.edit', compact('employee', 'roles', 'warehouses', 'warehousePermissions', 'departments'));
     }
 
     public function update(UpdateEmployeeRequest $request, Employee $employee, UpdateUserAction $action)
     {
-        if (! $employee->isEnabled() && $request->validated('enabled') && limitReached('user', Employee::enabled()->count())) {
+        if (!$employee->isEnabled() && $request->validated('enabled') && limitReached('user', Employee::enabled()->count())) {
             $action->execute($employee, $request->safe()->except('enabled'));
 
             return back()->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'users']));

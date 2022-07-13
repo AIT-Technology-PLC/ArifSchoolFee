@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Models\Department;
-use App\Traits\MultiTenancy;
 use App\Traits\HasUserstamps;
+use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -41,5 +41,10 @@ class Employee extends Model
     public function department()
     {
         return $this->belongsTo(Department::class);
+    }
+
+    public function isMale()
+    {
+        return $this->gender == 'male';
     }
 }
