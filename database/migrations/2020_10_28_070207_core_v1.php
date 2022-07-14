@@ -112,18 +112,18 @@ return new class extends Migration
             $table->boolean('enabled');
             $table->string('gender');
             $table->string('address');
-            $table->string('bank_name');
-            $table->string('bank_account');
-            $table->string('tin_number');
+            $table->string('bank_name')->nullable();
+            $table->string('bank_account')->nullable();
+            $table->string('tin_number')->nullable();
             $table->string('job_type');
             $table->string('phone');
-            $table->string('id_type');
-            $table->string('id_number');
+            $table->string('id_type')->nullable();
+            $table->string('id_number')->nullable();
             $table->dateTime('date_of_hiring')->nullable();
-            $table->decimal('gross_salary', 22);
+            $table->decimal('gross_salary', 22)->nullable();
             $table->dateTime('date_of_birth')->nullable();
-            $table->string('emergency_name');
-            $table->string('emergency_phone');
+            $table->string('emergency_name')->nullable();
+            $table->string('emergency_phone')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
