@@ -2,35 +2,36 @@
 
 namespace App\Http\Controllers\Action;
 
-use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\EmployeeTransfer;
 use App\Notifications\EmployeeTransferApproved;
+use App\Services\Models\EmployeeTransferService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 
 class EmployeeTransferController extends Controller
 {
-    public function __construct()
+    private $employeeTransferService;
+
+    public function __construct(EmployeeTransferService $employeeTransferService)
     {
         $this->middleware('isFeatureAccessible:Employee Transfer');
+
+        $this->employeeTransferService = $employeeTransferService;
     }
 
-    public function approve(EmployeeTransfer $employeeTransfer, ApproveTransactionAction $action)
+    public function approve(EmployeeTransfer $employeeTransfer)
     {
         $this->authorize('approve', $employeeTransfer);
 
-        // dd($employeeTransfer->employeeTransferDetails()->get(['warehouse_id']));
-        // dd($employeeTransfer->employeeTransferDetails->employee->user()->get(['warehouse_id']));
-
-        [$isExecuted, $message] = $action->execute($employeeTransfer);
+        [$isExecuted, $message] = $this->employeeTransferService->approve($employeeTransfer);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read GDN', $employeeTransfer->employeeTransferDetails->pluck('warehouse_id'), $employeeTransfer->createdBy),
+            Notifiables::byPermission('Read Employee Transfer', $employeeTransfer->createdBy),
             new EmployeeTransferApproved($employeeTransfer)
         );
 

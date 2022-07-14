@@ -19,7 +19,7 @@ class UpdateEmployeeTransferRequest extends FormRequest
             'code' => ['required', 'integer', new UniqueReferenceNum('employee_transfers', $this->route('employee_transfer')->id)],
             'issued_on' => ['required', 'date'],
             'employeeTransfer' => ['required', 'array'],
-            'employeeTransfer.*.employee_id' => ['required', 'integer', new MustBelongToCompany('users')],
+            'employeeTransfer.*.employee_id' => ['required', 'integer', new MustBelongToCompany('employees')],
             'employeeTransfer.*.warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
         ];
     }
