@@ -42,7 +42,7 @@ precacheAndRoute(
             revision: null,
         },
         {
-            url: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css",
+            url: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css",
             revision: null,
         },
         {
