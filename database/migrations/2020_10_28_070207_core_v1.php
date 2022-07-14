@@ -920,6 +920,31 @@ return new class extends Migration
             $table->index('product_id');
         });
 
+        Schema::create('employee_transfers', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('code');
+            $table->dateTime('issued_on')->nullable();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+        });
+
+        Schema::create('employee_transfer_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('employee_transfer_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('employee_transfer_id');
+        });
+
         Schema::create('integrations', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
@@ -1001,6 +1026,8 @@ return new class extends Migration
         Schema::drop('job_details');
         Schema::drop('job_extras');
         Schema::drop('job_orders');
+        Schema::drop('employee_transfer_details');
+        Schema::drop('employee_transfers');
         Schema::drop('company_integration');
         Schema::drop('integrations');
     }

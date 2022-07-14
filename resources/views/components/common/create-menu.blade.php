@@ -83,6 +83,39 @@
                 @endcanany
             @endif
 
+            @if (isFeatureEnabled('Employee Transfer'))
+                @canany(['Create Employee Transfer'])
+                    <x-content.header>
+                        <x-slot name="header">
+                            <x-common.icon
+                                name="fas fa-users"
+                                class="is-size-6 text-green"
+                            />
+                            <span class="ml-2 is-size-6 text-green"> Human Resource</span>
+                        </x-slot>
+                    </x-content.header>
+                    <x-content.footer>
+                        <div class="columns is-marginless is-multiline is-mobile">
+                            @if (isFeatureEnabled('Employee Transfer'))
+                                @can('Create Employee Transfer')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('employee-transfers.create') }}"
+                                            icon="fas fa-people-arrows-left-right"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Transfer </span>
+                                    </div>
+                                @endcan
+                            @endif
+                        </div>
+                    </x-content.footer>
+                @endcanany
+            @endif
+
             @if (isFeatureEnabled('Merchandise Inventory', 'Warehouse Management', 'Grn Management', 'Transfer Management', 'Damage Management', 'Inventory Adjustment', 'Siv Management'))
                 @canany(['Create Merchandise', 'Create Warehouse', 'Create GRN', 'Create Transfer', 'Create Damage', 'Create Adjustment', 'Create SIV'])
                     <x-content.header>

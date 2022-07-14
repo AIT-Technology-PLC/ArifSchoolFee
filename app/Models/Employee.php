@@ -22,6 +22,11 @@ class Employee extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function employeeTransferDetails()
+    {
+        return $this->hasMany(EmployeeTransferDetail::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);

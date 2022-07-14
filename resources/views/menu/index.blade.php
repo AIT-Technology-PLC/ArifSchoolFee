@@ -81,6 +81,45 @@
             @endcanany
         @endif
 
+        @if (isFeatureEnabled('Employee Transfer'))
+            @canany(['Read Employee Transfer'])
+                <section class="mb-5">
+                    <x-content.header>
+                        <x-slot name="header">
+                            <span class="icon">
+                                <i class="fas fa-users"></i>
+                            </span>
+                            <span class="ml-2">
+                                Human Resource
+                            </span>
+                        </x-slot>
+                    </x-content.header>
+                    <x-content.footer>
+                        <div class="columns is-marginless is-multiline is-mobile">
+                            @if (isFeatureEnabled('Employee Transfer'))
+                                @can('Read Employee Transfer')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('employee-transfers.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-people-arrows-left-right"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Transfers
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+                        </div>
+                    </x-content.footer>
+                </section>
+            @endcanany
+        @endif
+
         @if (isFeatureEnabled('Merchandise Inventory', 'Warehouse Management', 'Grn Management', 'Transfer Management', 'Damage Management', 'Inventory Adjustment', 'Siv Management'))
             @canany(['Read Available Inventory', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
                 <section class="mb-5">

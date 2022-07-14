@@ -147,6 +147,59 @@
         @endcanany
     @endif
 
+    @if (isFeatureEnabled('Employee Transfer'))
+        @canany(['Read Employee Transfer'])
+            <ul
+                x-data="sideMenuAccordion"
+                class="menu-list mb-2"
+            >
+                <li>
+                    <x-common.button
+                        tag="button"
+                        mode="button"
+                        class="is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0"
+                        ::class="{ 'is-active': isAccordionActive }"
+                        @click="toggleAccordion"
+                    >
+                        <x-common.icon
+                            name="fas fa-users"
+                            class="m-0"
+                        />
+                        <span class="ml-2"> Human Resource </span>
+                        <span class="icon ml-auto">
+                            <i
+                                class="fas fa-caret-right"
+                                :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
+                            ></i>
+                        </span>
+                    </x-common.button>
+                </li>
+                <li>
+                    <ul
+                        class="mt-0 ml-5"
+                        x-cloak
+                        x-show="isAccordionOpen"
+                        x-collapse
+                    >
+                        @if (isFeatureEnabled('Employee Transfer'))
+                            @can('Read Employee Transfer')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('employee-transfers.index') }}"
+                                        label="Transfers"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('employee-transfers.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('employee-transfers.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+                    </ul>
+                </li>
+            </ul>
+        @endcanany
+    @endif
+
     @if (isFeatureEnabled('Merchandise Inventory', 'Warehouse Management', 'Grn Management', 'Transfer Management', 'Damage Management', 'Inventory Adjustment', 'Siv Management'))
         @canany(['Read Available Inventory', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
             <ul
