@@ -45,11 +45,11 @@ class UpdateEmployeeRequest extends FormRequest
             'phone' => ['required', 'string', 'max:255'],
             'id_type' => ['nullable', 'string', 'max:255', Rule::in(['passport', 'drivers license', 'employee id', 'kebele id', 'student id'])],
             'id_number' => ['nullable', 'string', 'max:255'],
-            'date_of_hiring' => ['required', 'date'],
+            'date_of_hiring' => ['nullable', 'date'],
             'date_of_birth' => ['nullable', 'date', 'before:' . now()],
             'emergency_name' => ['nullable', 'string', 'max:255', 'required_unless:emergency_phone,null'],
             'emergency_phone' => ['nullable', 'string', 'max:255', 'required_unless:emergency_name,null'],
-            'department_id' => ['nullable', 'integer', new MustBelongToCompany('departments')],
+            'department_id' => ['nullable', 'integer', Rule::when(!isFeatureEnabled('Department Management'), 'prohibited'), new MustBelongToCompany('departments')],
         ];
     }
 }

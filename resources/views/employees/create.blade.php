@@ -203,28 +203,6 @@
                             </div>
                             <div class="column is-6">
                                 <x-forms.field>
-                                    <x-forms.label for="date_of_hiring">
-                                        Date Of Hiring <sup class="has-text-danger">*</sup>
-                                    </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.input
-                                            id="date_of_hiring"
-                                            name="date_of_hiring"
-                                            type="datetime-local"
-                                            placeholder="mm/dd/yyyy"
-                                            value="{{ old('date_of_hiring') ?? now()->toDateTimeLocalString() }}"
-                                            autocomplete="date_of_hiring"
-                                        />
-                                        <x-common.icon
-                                            name="fas fa-calendar-alt"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="date_of_hiring" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
                                     <x-forms.label for="warehouse_id">
                                         Assign To <sup class="has-text-danger">*</sup>
                                     </x-forms.label>
@@ -286,7 +264,7 @@
                             </div>
                             <div class="column is-6">
                                 <x-forms.label>
-                                    ID Type <sup class="has-text-danger">*</sup>
+                                    ID Details <sup class="has-text-danger">*</sup>
                                 </x-forms.label>
                                 <x-forms.field class="has-addons">
                                     <x-forms.control class="has-icons-left ">
@@ -339,36 +317,38 @@
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
-                            <div class="column is-6">
-                                <x-forms.field>
-                                    <x-forms.label for="department_id">
-                                        Department <sup class="has-text-danger"></sup>
-                                    </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.select
-                                            class="is-fullwidth"
-                                            id="department_id"
-                                            name="department_id"
-                                        >
-                                            @foreach ($departments as $department)
-                                                <option
-                                                    value="{{ $department->id }}"
-                                                    {{ old('department_id') == $department->id ? 'selected' : '' }}
-                                                >{{ $department->name }}</option>
-                                            @endforeach
-                                            <option value="">None</option>
-                                        </x-forms.select>
-                                        <x-common.icon
-                                            name="fas fa-sort"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="department_id" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
+                            @if (isFeatureEnabled('Department Management'))
+                                <div class="column is-6">
+                                    <x-forms.field>
+                                        <x-forms.label for="department_id">
+                                            Department <sup class="has-text-danger"></sup>
+                                        </x-forms.label>
+                                        <x-forms.control class="has-icons-left">
+                                            <x-forms.select
+                                                class="is-fullwidth"
+                                                id="department_id"
+                                                name="department_id"
+                                            >
+                                                @foreach ($departments as $department)
+                                                    <option
+                                                        value="{{ $department->id }}"
+                                                        {{ old('department_id') == $department->id ? 'selected' : '' }}
+                                                    >{{ $department->name }}</option>
+                                                @endforeach
+                                                <option value="">None</option>
+                                            </x-forms.select>
+                                            <x-common.icon
+                                                name="fas fa-sort"
+                                                class="is-small is-left"
+                                            />
+                                            <x-common.validation-error property="department_id" />
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
+                            @endif
                             <div class="column is-6">
                                 <x-forms.label>
-                                    Bank Detail <sup class="has-text-danger"></sup>
+                                    Bank Details <sup class="has-text-danger"></sup>
                                 </x-forms.label>
                                 <x-forms.field class="has-addons">
                                     <x-forms.control class="has-icons-left">
@@ -453,6 +433,28 @@
                                             class="is-small is-left"
                                         />
                                         <x-common.validation-error property="gross_salary" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div class="column is-6">
+                                <x-forms.field>
+                                    <x-forms.label for="date_of_hiring">
+                                        Date Of Hiring <sup class="has-text-danger"></sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            id="date_of_hiring"
+                                            name="date_of_hiring"
+                                            type="datetime-local"
+                                            placeholder="mm/dd/yyyy"
+                                            value="{{ old('date_of_hiring') ?? now()->toDateTimeLocalString() }}"
+                                            autocomplete="date_of_hiring"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-calendar-alt"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="date_of_hiring" />
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
