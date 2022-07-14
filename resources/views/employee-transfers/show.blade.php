@@ -63,7 +63,7 @@
             @if (!$employeeTransfer->isApproved())
                 <x-common.fail-message message="This Transfer has not been approved yet." />
             @else
-                <x-common.success-message message="Employee Transfered successfully." />
+                <x-common.success-message message="Employee(s) Transfered successfully." />
             @endif
             {{ $dataTable->table() }}
         </x-content.footer>

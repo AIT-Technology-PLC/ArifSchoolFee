@@ -16,6 +16,10 @@ class EmployeeTransferDetailController extends Controller
     {
         $this->authorize('delete', $employeeTransferDetail->employeeTransfer);
 
+        if ($employeeTransferDetail->employeeTransfer->isApproved()) {
+            return back()->with('failedMessage', 'You can not delete an employee transfer that is approved.');
+        }
+
         $employeeTransferDetail->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');

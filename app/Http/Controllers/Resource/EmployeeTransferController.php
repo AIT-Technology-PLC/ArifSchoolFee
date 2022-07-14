@@ -26,7 +26,7 @@ class EmployeeTransferController extends Controller
 
     public function index(EmployeeTransferDatatable $datatable)
     {
-        $datatable->builder()->setTableId('employee-transfer-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
+        $datatable->builder()->setTableId('employee-transfer-datatable')->orderBy(1, 'desc');
 
         $totalEmployeeTransfers = EmployeeTransfer::count();
 
@@ -67,8 +67,6 @@ class EmployeeTransferController extends Controller
     {
         $datatable->builder()->setTableId('employee-transfer-details-datatable');
 
-        $employeeTransfer->load(['employeeTransferDetails']);
-
         return $datatable->render('employee-transfers.show', compact('employeeTransfer'));
     }
 
@@ -82,7 +80,7 @@ class EmployeeTransferController extends Controller
 
         $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
 
-        $employeeTransfer->load(['employeeTransferDetails']);
+        $employeeTransfer->load(['employeeTransferDetails.employee.user', 'employeeTransferDetails.warehouse']);
 
         return view('employee-transfers.edit', compact('employeeTransfer', 'users', 'warehouses'));
     }
@@ -106,6 +104,10 @@ class EmployeeTransferController extends Controller
 
     public function destroy(EmployeeTransfer $employeeTransfer)
     {
+        if ($employeeTransfer->isApproved()) {
+            return back()->with('failedMessage', 'You can not delete an employee transfer that is approved.');
+        }
+
         $employeeTransfer->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');

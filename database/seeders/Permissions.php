@@ -298,7 +298,6 @@ class Permissions extends Seeder
                 'Update Department',
                 'Update Employee',
                 'Update Employee Transfer',
-
             ]);
 
             $purchaseManager->syncPermissions([
