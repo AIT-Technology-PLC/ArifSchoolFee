@@ -149,7 +149,7 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Employee Transfer'],
-                ['is_enabled' => 1]
+                ['is_enabled' => 0]
             );
 
             $standard = Plan::firstWhere('name', 'standard');
@@ -184,13 +184,16 @@ class Features extends Seeder
 
             $professional->features()->sync(
                 $features
-                    ->whereNotIn('name', ['Bill Of Material Management', 'Job Management'])
+                    ->whereNotIn('name', ['Bill Of Material Management', 'Job Management', 'Tender Management'])
                     ->pluck('id')
                     ->toArray()
             );
 
             $premium->features()->sync(
-                $features->pluck('id')->toArray()
+                $features
+                    ->whereNotIn('name', ['Tender Management'])
+                    ->pluck('id')
+                    ->toArray()
             );
         });
     }
