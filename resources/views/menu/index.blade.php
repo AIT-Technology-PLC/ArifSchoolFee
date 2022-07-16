@@ -122,7 +122,7 @@
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class="fas fa-group-layer"></i>
+                                                <i class="fas fa-users-rectangle"></i>
                                             </span>
                                         </a>
                                         <br>

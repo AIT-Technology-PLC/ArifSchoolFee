@@ -119,7 +119,7 @@
                                             tag="a"
                                             mode="button"
                                             href="{{ route('departments.create') }}"
-                                            icon="fas fa-building-user"
+                                            icon="fas fa-users-rectangle"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>

@@ -107,7 +107,7 @@ return new class extends Migration
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreignId('department_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('department_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->string('position');
             $table->boolean('enabled');
             $table->string('gender');
@@ -961,6 +961,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->unique(['company_id', 'name']);
             $table->index('company_id');
         });
 

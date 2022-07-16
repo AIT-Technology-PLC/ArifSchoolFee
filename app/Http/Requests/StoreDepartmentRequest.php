@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreDepartmentRequest extends FormRequest
 {
@@ -15,7 +16,9 @@ class StoreDepartmentRequest extends FormRequest
     {
         return [
             'department' => ['required', 'array'],
-            'department.*.name' => ['required', 'string', 'distinct', 'max:255', 'unique:companies'],
+            'department.*.name' => ['required', 'string', 'distinct', 'max:255', Rule::unique('departments', 'name')->where(function ($query) {
+                return $query->where('company_id', userCompany()->id);
+            })],
             'department.*.description' => ['nullable', 'string'],
         ];
     }

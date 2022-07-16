@@ -28,7 +28,7 @@ return new class extends Migration
             $table->dateTime('date_of_birth')->nullable();
             $table->string('emergency_name')->nullable();
             $table->string('emergency_phone')->nullable();
-            $table->foreignId('department_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('department_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
         });
     }
 
