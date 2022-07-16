@@ -83,8 +83,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Employee Transfer'))
-                @canany(['Create Employee Transfer'])
+            @if (isFeatureEnabled('Employee Transfer', 'Warning Management'))
+                @canany(['Create Employee Transfer', 'Create Warning'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -108,6 +108,21 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Transfer </span>
+                                    </div>
+                                @endcan
+                            @endif
+                            @if (isFeatureEnabled('Warning Management'))
+                                @can('Create Warning')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('warnings.create') }}"
+                                            icon="fas fa-circle-exclamation"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Warning </span>
                                     </div>
                                 @endcan
                             @endif

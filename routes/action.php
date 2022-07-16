@@ -255,6 +255,11 @@ Route::post('/employee-transfers/{employee_transfer}/approve',
     [Action\EmployeeTransferController::class, 'approve'])
     ->name('employee-transfers.approve');
 
+// Warning
+Route::post('/warnings/{warning}/approve',
+    [Action\WarningController::class, 'approve'])
+    ->name('warnings.approve');
+
 Route::controller(Action\TransactionController::class)->group(function () {
     Route::post('/transactions/{transaction}/approve', 'approve')->name('transactions.approve');
     Route::post('/transactions/{transaction}/subtract', 'subtract')->name('transactions.subtract');

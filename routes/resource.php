@@ -112,3 +112,5 @@ Route::resource('jobs.job-extras', Resource\JobExtraController::class)->shallow(
 Route::resource('employee-transfers', Resource\EmployeeTransferController::class);
 
 Route::resource('employee-transfer-details', Resource\EmployeeTransferDetailController::class)->only(['destroy']);
+
+Route::resource('warnings', Resource\WarningController::class);
