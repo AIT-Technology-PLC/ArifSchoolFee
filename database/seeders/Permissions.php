@@ -241,6 +241,13 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Employee Transfer']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Employee Transfer']);
 
+            //Employee Transfer
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Warning']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Warning']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Warning']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Warning']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Warning']);
+
             // Other
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Credit']);
 
@@ -274,23 +281,31 @@ class Permissions extends Seeder
             $humanResourceManager->syncPermissions([
                 'Create Employee',
                 'Create Employee Transfer',
+                'Create Warning',
                 'Read Employee',
                 'Read Employee Transfer',
+                'Read Warning',
                 'Update Employee',
                 'Update Employee Transfer',
+                'Update Warning',
                 'Delete Employee',
                 'Delete Employee Transfer',
+                'Delete Warning',
                 'Import Employee',
                 'Approve Employee Transfer',
+                'Approve Warning',
             ]);
 
             $humanResourceOfficer->syncPermissions([
                 'Create Employee',
                 'Create Employee Transfer',
+                'Create Warning',
                 'Read Employee',
                 'Read Employee Transfer',
+                'Read Warning',
                 'Update Employee',
                 'Update Employee Transfer',
+                'Update Warning',
             ]);
 
             $purchaseManager->syncPermissions([

@@ -152,6 +152,11 @@ class Features extends Seeder
                 ['is_enabled' => 0]
             );
 
+            Feature::updateOrCreate(
+                ['name' => 'Warning Management'],
+                ['is_enabled' => 0]
+            );
+
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');
             $premium = Plan::firstWhere('name', 'premium');
