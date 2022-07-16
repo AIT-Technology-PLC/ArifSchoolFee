@@ -83,46 +83,47 @@
                 @endcanany
             @endif
 
-<<<<<<< HEAD
-            @if (isFeatureEnabled('Department Management', 'User Management'))
-                @canany(['Create Department', 'Create Employee'])
-=======
-            @if (isFeatureEnabled('Employee Transfer'))
-                @canany(['Create Employee Transfer'])
->>>>>>> dev
+            @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer'))
+                @canany(['Create Department', 'Create Employee', 'Create Employee Transfer'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
                                 name="fas fa-users"
                                 class="is-size-6 text-green"
                             />
-<<<<<<< HEAD
                             <span class="ml-2 is-size-6 text-green"> Human Resource </span>
-=======
-                            <span class="ml-2 is-size-6 text-green"> Human Resource</span>
->>>>>>> dev
                         </x-slot>
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-<<<<<<< HEAD
                             @if (isFeatureEnabled('User Management'))
                                 @can('Create Employee')
-=======
-                            @if (isFeatureEnabled('Employee Transfer'))
-                                @can('Create Employee Transfer')
->>>>>>> dev
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
                                             mode="button"
-<<<<<<< HEAD
                                             href="{{ route('employees.create') }}"
                                             icon="fas fa-user"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>
                                         <span class="is-size-7"> New Employee </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Employee Transfer'))
+                                @can('Create Employee Transfer')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('employee-transfers.create') }}"
+                                            icon="fas fa-people-arrows-left-right"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Transfer </span>
                                     </div>
                                 @endcan
                             @endif
@@ -140,14 +141,6 @@
                                         <br>
                                         <span class="is-size-7"> New Department </span>
                                         <br>
-=======
-                                            href="{{ route('employee-transfers.create') }}"
-                                            icon="fas fa-people-arrows-left-right"
-                                            class="text-green bg-lightgreen is-borderless"
-                                        />
-                                        <br>
-                                        <span class="is-size-7"> New Transfer </span>
->>>>>>> dev
                                     </div>
                                 @endcan
                             @endif
