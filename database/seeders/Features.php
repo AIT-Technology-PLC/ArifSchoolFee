@@ -148,13 +148,19 @@ class Features extends Seeder
             );
 
             Feature::updateOrCreate(
+<<<<<<< HEAD
                 ['name' => 'Department Management'],
                 ['is_enabled' => 1]
+=======
+                ['name' => 'Employee Transfer'],
+                ['is_enabled' => 0]
+>>>>>>> dev
             );
 
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');
             $premium = Plan::firstWhere('name', 'premium');
+            $tender = Plan::firstWhere('name', 'tender');
 
             $features = Feature::all();
 
@@ -184,13 +190,32 @@ class Features extends Seeder
 
             $professional->features()->sync(
                 $features
-                    ->whereNotIn('name', ['Bill Of Material Management', 'Job Management'])
+                    ->whereNotIn('name', ['Bill Of Material Management', 'Job Management', 'Tender Management'])
                     ->pluck('id')
                     ->toArray()
             );
 
             $premium->features()->sync(
-                $features->pluck('id')->toArray()
+                $features
+                    ->whereNotIn('name', ['Tender Management'])
+                    ->pluck('id')
+                    ->toArray()
+            );
+
+            $tender->features()->sync(
+                $features
+                    ->whereIn('name', [
+                        'Proforma Invoice',
+                        'Customer Management',
+                        'Product Management',
+                        'Warehouse Management',
+                        'User Management',
+                        'General Settings',
+                        'Notification Management',
+                        'Tender Management',
+                    ])
+                    ->pluck('id')
+                    ->toArray()
             );
         });
     }

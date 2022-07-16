@@ -25,6 +25,8 @@ class Permissions extends Seeder
 
             // Roles
             $analyst = Role::firstOrCreate(['name' => 'Analyst']);
+            $humanResourceManager = Role::firstOrCreate(['name' => 'Human Resource Manager']);
+            $humanResourceOfficer = Role::firstOrCreate(['name' => 'Human Resource Officer']);
             $purchaseManager = Role::firstOrCreate(['name' => 'Purchase Manager']);
             $salesOfficer = Role::firstOrCreate(['name' => 'Sales Officer']);
             $storeKeeper = Role::firstOrCreate(['name' => 'Store Keeper']);
@@ -237,6 +239,12 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Department']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Department']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Department']);
+            //Employee Transfer
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Employee Transfer']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Employee Transfer']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Employee Transfer']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Employee Transfer']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Employee Transfer']);
 
             // Other
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Credit']);
@@ -266,6 +274,28 @@ class Permissions extends Seeder
                 'Read Customer',
                 'Read Reservation',
                 'Read BOM',
+            ]);
+
+            $humanResourceManager->syncPermissions([
+                'Create Employee',
+                'Create Employee Transfer',
+                'Read Employee',
+                'Read Employee Transfer',
+                'Update Employee',
+                'Update Employee Transfer',
+                'Delete Employee',
+                'Delete Employee Transfer',
+                'Import Employee',
+                'Approve Employee Transfer',
+            ]);
+
+            $humanResourceOfficer->syncPermissions([
+                'Create Employee',
+                'Create Employee Transfer',
+                'Read Employee',
+                'Read Employee Transfer',
+                'Update Employee',
+                'Update Employee Transfer',
             ]);
 
             $purchaseManager->syncPermissions([

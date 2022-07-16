@@ -110,3 +110,7 @@ Route::resource('job-details', Resource\JobDetailController::class)->only(['dest
 Route::resource('jobs.job-extras', Resource\JobExtraController::class)->shallow()->except(['index', 'create', 'show']);
 
 Route::resource('departments', Resource\DepartmentController::class);
+
+Route::resource('employee-transfers', Resource\EmployeeTransferController::class);
+
+Route::resource('employee-transfer-details', Resource\EmployeeTransferDetailController::class)->only(['destroy']);

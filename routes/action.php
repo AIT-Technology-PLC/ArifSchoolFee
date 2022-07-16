@@ -250,6 +250,11 @@ Route::post('/job-extras/{job_extra}/subtract',
     [Action\JobExtraController::class, 'subtract'])
     ->name('job-extras.subtract');
 
+// Employee Transfer
+Route::post('/employee-transfers/{employee_transfer}/approve',
+    [Action\EmployeeTransferController::class, 'approve'])
+    ->name('employee-transfers.approve');
+
 Route::controller(Action\TransactionController::class)->group(function () {
     Route::post('/transactions/{transaction}/approve', 'approve')->name('transactions.approve');
     Route::post('/transactions/{transaction}/subtract', 'subtract')->name('transactions.subtract');

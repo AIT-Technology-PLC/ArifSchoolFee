@@ -23,5 +23,10 @@ class Plans extends Seeder
             'name' => 'premium',
             'is_enabled' => 1,
         ]);
+
+        Plan::firstOrCreate([
+            'name' => 'tender',
+            'is_enabled' => 1,
+        ]);
     }
 }
