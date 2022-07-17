@@ -68,7 +68,7 @@
                 >
                     <span class="icon">
                         <i
-                            class="fas fa-toggle-off"
+                            class="fas fa-toggle-on"
                             x-bind:class="{ 'fas fa-toggle-off': isHidden, 'fas fa-toggle-on': !isHidden }"
                         ></i>
                     </span>
