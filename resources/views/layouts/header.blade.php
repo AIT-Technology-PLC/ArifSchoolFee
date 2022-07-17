@@ -64,7 +64,7 @@
                     x-data="toggler(false)"
                     x-on:click="toggle;$dispatch('toggle-side-menu-on-laptop')"
                     class="navbar-item has-text-white link-text"
-                    x-bind:data-title="isHidden ? 'Open Side Menu' : 'Close Side Menu'"
+                    x-bind:data-title="isHidden ? 'Change to Standard Mode' : 'Change to Fullscreen Mode'"
                 >
                     <span class="icon">
                         <i
