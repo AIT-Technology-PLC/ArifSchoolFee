@@ -53,7 +53,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`gdn.${index}.employee_id`)"
+                                    x-text="$store.errors.getErrors(`employeeTransfer.${index}.employee_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -80,7 +80,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`gdn.${index}.warehouse_id`)"
+                                    x-text="$store.errors.getErrors(`employeeTransfer.${index}.warehouse_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>

@@ -149,7 +149,7 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Employee Transfer'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
 
             $standard = Plan::firstWhere('name', 'standard');
