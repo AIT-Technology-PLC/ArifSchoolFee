@@ -1,28 +1,19 @@
-@if ($warning->type == 'Initial Warning')
-    <span class="tag is-small bg-gold has-text-white">
+@if (!$warning->isApproved())
+    <span class="tag is-small bg-purple has-text-white">
         <span class="icon">
-            <i class="fas fa-circle-exclamation"></i>
+            <i class="fas fa-clock"></i>
         </span>
         <span>
-            Initial Warning
-        </span>
-    </span>
-@elseif ($warning->type == 'Affirmation Warning')
-    <span class="tag is-small bg-gold has-text-white">
-        <span class="icon">
-            <i class="fas fa-circle-exclamation"></i>
-        </span>
-        <span>
-            Affirmation Warning
+            Waiting Approval
         </span>
     </span>
 @else
-    <span class="tag is-small bg-brown has-text-white">
+    <span class="tag is-small bg-green has-text-white">
         <span class="icon">
-            <i class="fas fa-circle-exclamation"></i>
+            <i class="fas fa-check-circle"></i>
         </span>
         <span>
-            Final Warning
+            Approved
         </span>
     </span>
 @endif

@@ -80,7 +80,7 @@
                 <x-common.success-message message="Warning(s) is successfully Requested." />
             @endif
             <div class="column is-12">
-                {{ $warning->letter }}
+                {!! $warning->letter !!}
             </div>
         </x-content.footer>
     </x-common.content-wrapper>

@@ -19,13 +19,17 @@ class Warning extends Model
         'issued_on' => 'datetime',
     ];
 
+    protected static function booted()
+    {
+        static::creating(function ($warning) {
+            if (auth()->check()) {
+                $warning['code'] = nextReferenceNumber('warnings');
+            }
+        });
+    }
+
     public function employee()
     {
         return $this->belongsTo(Employee::class);
-    }
-
-    public function setCodeAttribute($attributes)
-    {
-        $attributes['code'] = nextReferenceNumber('warnings');
     }
 }

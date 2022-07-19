@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Resource;
 
-use App\Models\User;
-use App\Models\Warning;
-use Illuminate\Support\Facades\DB;
 use App\DataTables\WarningDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreWarningRequest;
 use App\Http\Requests\UpdateWarningRequest;
+use App\Models\User;
+use App\Models\Warning;
+use Illuminate\Support\Facades\DB;
 
 class WarningController extends Controller
 {
@@ -43,7 +43,7 @@ class WarningController extends Controller
 
         DB::transaction(function () use ($warnings) {
             foreach ($warnings as $warning) {
-                Warning::firstOrCreate($warning);
+                Warning::create($warning);
             }
         });
 
@@ -63,7 +63,7 @@ class WarningController extends Controller
 
         $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
 
-        return view('warnings.edit', compact('warning','users'));
+        return view('warnings.edit', compact('warning', 'users'));
     }
 
     public function update(UpdateWarningRequest $request, Warning $warning)

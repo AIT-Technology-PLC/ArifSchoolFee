@@ -16,6 +16,7 @@ class WarningDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('status', fn($warning) => view('components.datatables.warning-status', compact('warning')))
+            ->editColumn('type', fn($warning) => view('components.datatables.warning-type', compact('warning')))
             ->editColumn('employee name', fn($warning) => $warning->employee->user->name)
             ->editColumn('branch', fn($warning) => $warning->warehouse->name)
             ->editColumn('issued_on', fn($warning) => $warning->issued_on->toFormattedDateString())
@@ -35,6 +36,11 @@ class WarningDatatable extends DataTable
     {
         return $warning
             ->newQuery()
+            ->when(request('status') == 'approved', fn($query) => $query->Approved())
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
+            ->when(request('type') == 'initial warning', fn($query) => $query->where('type', 'Initial Warning'))
+            ->when(request('type') == 'affirmation warning', fn($query) => $query->where('type', 'Affirmation Warning'))
+            ->when(request('type') == 'final warning', fn($query) => $query->where('type', 'Final Warning'))
             ->select('warnings.*')
             ->with([
                 'createdBy:id,name',
@@ -52,6 +58,7 @@ class WarningDatatable extends DataTable
             Column::make('employee name', 'employee.user.name'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::computed('status')->orderable(false),
+            Column::computed('type')->orderable(false),
             Column::make('issued_on'),
             Column::make('created by', 'createdBy.name')->visible(false),
             Column::make('approved by', 'approvedBy.name')->visible(false),
