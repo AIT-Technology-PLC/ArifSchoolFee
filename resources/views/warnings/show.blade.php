@@ -51,7 +51,7 @@
                             <x-common.transaction-button
                                 :route="route('warnings.approve', $warning->id)"
                                 action="approve"
-                                intention="approve this Warning"
+                                intention="approve this warning"
                                 icon="fas fa-signature"
                                 label="Approve"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
@@ -77,7 +77,7 @@
             @if (!$warning->isApproved())
                 <x-common.fail-message message="This Warning has not been approved yet." />
             @else
-                <x-common.success-message message="Warning(s) is successfully Requested." />
+                <x-common.success-message message="Warning(s) successfully Requested." />
             @endif
             <div class="column is-12">
                 {!! $warning->letter !!}
