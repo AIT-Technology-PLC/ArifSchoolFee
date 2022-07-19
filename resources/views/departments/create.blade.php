@@ -77,12 +77,12 @@
                                         <x-forms.control class="has-icons-left">
                                             <x-forms.textarea
                                                 x-bind:id="`department[${index}][description]`"
+                                                x-bind:name="`department[${index}][description]`"
                                                 x-bind:description="`department[${index}][description]`"
                                                 x-model="department.description"
-                                                class="pl-6"
+                                                class="textarea pl-6"
                                                 placeholder="Description or note about the new department"
                                             >
-                                                {{ old('description') ?? '' }}
                                             </x-forms.textarea>
                                             <x-common.icon
                                                 name="fas fa-edit"
@@ -124,19 +124,23 @@
                 departments: [],
 
                 async init() {
+                    if (department) {
+                        this.departments = department;
+
+                        return;
+                    }
+
                     this.add();
                 },
-
                 add() {
                     this.departments.push({});
                 },
-
-                async remove(index) {
+                remove(index) {
                     if (this.departments.length <= 0) {
                         return;
                     }
 
-                    await Promise.resolve(this.departments.splice(index, 1));
+                    this.departments.splice(index, 1);
 
                     Pace.restart();
                 },
