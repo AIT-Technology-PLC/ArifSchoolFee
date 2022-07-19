@@ -80,6 +80,63 @@
                 </section>
             @endcanany
         @endif
+        @if (isFeatureEnabled('Department Management', 'User Management'))
+            @canany(['Read Employee', 'Read Department'])
+                <section class="mb-5">
+                    <x-content.header>
+                        <x-slot name="header">
+                            <span class="icon">
+                                <i class="fas fa-users"></i>
+                            </span>
+                            <span class="ml-2">
+                                Human Resource
+                            </span>
+                        </x-slot>
+                    </x-content.header>
+                    <x-content.footer>
+                        <div class="columns is-marginless is-multiline is-mobile">
+                            @if (isFeatureEnabled('User Management'))
+                                @can('Read Employee')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('employees.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-users"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Employees
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Department Management'))
+                                @can('Read Department')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('departments.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-users-rectangle"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Departments
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+                        </div>
+                    </x-content.footer>
+                </section>
+            @endcanany
+        @endif
 
         @if (isFeatureEnabled('Employee Transfer', 'Warning Management'))
             @canany(['Read Employee Transfer', 'Read Warning'])

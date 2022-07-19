@@ -234,6 +234,12 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Wip Job']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Available Job']);
 
+            //Department
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Department']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Department']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Department']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Department']);
+
             //Employee Transfer
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Employee Transfer']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Employee Transfer']);

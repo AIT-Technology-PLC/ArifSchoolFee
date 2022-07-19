@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Department;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Model;
@@ -45,5 +46,15 @@ class Employee extends Model
     public function isEnabled()
     {
         return $this->enabled;
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function isMale()
+    {
+        return $this->gender == 'male';
     }
 }

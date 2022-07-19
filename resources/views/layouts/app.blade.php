@@ -13,13 +13,16 @@
     >
     <title> @yield('title') - {{ userCompany()->name }} </title>
     @include('assets.css')
-    @include("pwa.tags")
+    @include('pwa.tags')
 </head>
 
 <body class="has-navbar-fixed-top">
     @include('layouts.header')
 
-    <main>
+    <main
+        x-data="sideMenu"
+        @toggle-side-menu-on-laptop.window="toggleOnLaptop"
+    >
         <div
             x-data="toggler"
             @side-menu-opened.window="toggle"
@@ -28,14 +31,15 @@
             <div
                 id="menuLeft"
                 class="column is-one-fifth-desktop is-full-touch py-5 scroller is-overflow is-hidden-touch"
-                :class="{ 'is-hidden-touch': isHidden }"
+                x-bind:class="{ 'is-hidden-touch': isHidden, 'is-hidden-desktop': !isSideMenuOpenedOnLaptop }"
             >
                 <x-common.side-menu />
             </div>
             <div
                 id="contentRight"
                 class="column bg-lightgreen py-5 scroller"
-                :class="{ 'is-hidden-touch': !isHidden }"
+                x-bind:class="{ 'is-hidden-touch': !isHidden }"
+                x-bind:style="!isSideMenuOpenedOnLaptop && { left: 0 }"
             >
                 @yield('content')
                 @include('layouts.footer')

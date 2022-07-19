@@ -147,8 +147,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Employee Transfer', 'Warning Management'))
-        @canany(['Read Employee Transfer', 'Read Warning'])
+    @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Warning Management'))
+        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer', 'Read Warning'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -181,6 +181,34 @@
                         x-show="isAccordionOpen"
                         x-collapse
                     >
+                        @if (isFeatureEnabled('User Management'))
+                            @can('Read Employee')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('employees.index') }}"
+                                        label="Employees"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('employees.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('employees.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Department Management'))
+                            @can('Read Department')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('departments.index') }}"
+                                        label="Departments"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('departments.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('departments.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
                         @if (isFeatureEnabled('Employee Transfer'))
                             @can('Read Employee Transfer')
                                 <li>
@@ -737,7 +765,7 @@
     @endif
 
     @if (isFeatureEnabled('Pad Management', 'User Management', 'General Settings'))
-        @canany(['Read Pad', 'Read Employee', 'Update Company'])
+        @canany(['Read Pad', 'Update Company'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -779,19 +807,6 @@
                                         label="Pads"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.*') && !request()->routeIs('pads.transactions.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('pads.*') && !request()->routeIs('pads.transactions.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                            @endcan
-                        @endif
-                        @if (isFeatureEnabled('User Management'))
-                            @can('Read Employee')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('employees.index') }}"
-                                        label="Users"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('employees.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('employees.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

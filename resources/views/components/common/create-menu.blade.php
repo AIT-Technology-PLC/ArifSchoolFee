@@ -83,19 +83,34 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Employee Transfer', 'Warning Management'))
-                @canany(['Create Employee Transfer', 'Create Warning'])
+            @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Warning Management'))
+                @canany(['Create Department', 'Create Employee', 'Create Employee Transfer', 'Create Warning'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
                                 name="fas fa-users"
                                 class="is-size-6 text-green"
                             />
-                            <span class="ml-2 is-size-6 text-green"> Human Resource</span>
+                            <span class="ml-2 is-size-6 text-green"> Human Resource </span>
                         </x-slot>
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
+                            @if (isFeatureEnabled('User Management'))
+                                @can('Create Employee')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('employees.create') }}"
+                                            icon="fas fa-user"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Employee </span>
+                                    </div>
+                                @endcan
+                            @endif
                             @if (isFeatureEnabled('Employee Transfer'))
                                 @can('Create Employee Transfer')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
@@ -123,6 +138,22 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Warning </span>
+                                    </div>
+                                @endcan
+                            @endif
+                            @if (isFeatureEnabled('Department Management'))
+                                @can('Create Department')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('departments.create') }}"
+                                            icon="fas fa-users-rectangle"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Department </span>
+                                        <br>
                                     </div>
                                 @endcan
                             @endif

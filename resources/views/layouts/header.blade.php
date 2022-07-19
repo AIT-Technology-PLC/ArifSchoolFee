@@ -61,6 +61,19 @@
             </div>
             <div class="navbar-end">
                 <a
+                    x-data="toggler(false)"
+                    x-on:click="toggle;$dispatch('toggle-side-menu-on-laptop')"
+                    class="navbar-item has-text-white link-text"
+                    x-bind:data-title="isHidden ? 'Change to Standard Mode' : 'Change to Fullscreen Mode'"
+                >
+                    <span class="icon">
+                        <i
+                            class="fas fa-toggle-on"
+                            x-bind:class="{ 'fas fa-toggle-off': isHidden, 'fas fa-toggle-on': !isHidden }"
+                        ></i>
+                    </span>
+                </a>
+                <a
                     href="/"
                     id="mainMenuButton"
                     class="navbar-item has-text-white link-text"

@@ -232,8 +232,12 @@ document.addEventListener("alpine:init", () => {
         },
     }));
 
-    Alpine.data("toggler", () => ({
+    Alpine.data("toggler", (value = true) => ({
         isHidden: true,
+
+        init() {
+            this.isHidden = value;
+        },
         toggle() {
             this.isHidden = !this.isHidden;
         },
@@ -655,6 +659,16 @@ document.addEventListener("alpine:init", () => {
         },
         getFileName() {
             this.fileName = this.file.slice(this.file.lastIndexOf("\\") + 1);
+        },
+    }));
+
+    Alpine.data("sideMenu", () => ({
+        isSideMenuOpenedOnLaptop: true,
+
+        toggleOnLaptop() {
+            this.isSideMenuOpenedOnLaptop = !this.isSideMenuOpenedOnLaptop;
+
+            $("table.display").DataTable().columns.adjust().draw();
         },
     }));
 
