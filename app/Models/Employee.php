@@ -27,6 +27,11 @@ class Employee extends Model
         return $this->hasMany(EmployeeTransferDetail::class);
     }
 
+    public function warnings()
+    {
+        return $this->hasMany(Warning::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);

@@ -23,4 +23,9 @@ class Warning extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+    public function setCodeAttribute($attributes)
+    {
+        $attributes['code'] = nextReferenceNumber('warnings');
+    }
 }

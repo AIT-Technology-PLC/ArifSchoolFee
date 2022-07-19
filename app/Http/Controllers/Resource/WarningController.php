@@ -2,84 +2,89 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\Models\User;
+use App\Models\Warning;
+use Illuminate\Support\Facades\DB;
+use App\DataTables\WarningDatatable;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreWarningRequest;
+use App\Http\Requests\UpdateWarningRequest;
 
 class WarningController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('isFeatureAccessible:Warning Management');
+
+        $this->authorizeResource(Warning::class, 'warning');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index(WarningDatatable $datatable)
+    {
+        $datatable->builder()->setTableId('warnings-datatable')->orderBy(1, 'asc');
+
+        $totalWarnings = Warning::count();
+
+        return $datatable->render('warnings.index', compact('totalWarnings'));
+    }
+
     public function create()
     {
-        //
+        $currentWarningNo = nextReferenceNumber('warnings');
+
+        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+
+        return view('warnings.create', compact('currentWarningNo', 'users'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreWarningRequest $request)
     {
-        //
+        $warnings = collect($request->validated('warning'));
+
+        DB::transaction(function () use ($warnings) {
+            foreach ($warnings as $warning) {
+                Warning::firstOrCreate($warning);
+            }
+        });
+
+        return redirect()->route('warnings.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Warning $warning)
     {
-        //
+        return view('warnings.show', compact('warning'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Warning $warning)
     {
-        //
+        if ($warning->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify a warning request that is approved.');
+        }
+
+        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+
+        return view('warnings.edit', compact('warning','users'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(UpdateWarningRequest $request, Warning $warning)
     {
-        //
+        if ($warning->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify a warning request that is approved.');
+        }
+
+        $warning->update($request->validated());
+
+        return redirect()->route('warnings.show', $warning->id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Warning $warning)
     {
-        //
+        if ($warning->isApproved()) {
+            return back()->with('failedMessage', 'You can not delete a warning request that is approved.');
+        }
+
+        $warning->forceDelete();
+
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }

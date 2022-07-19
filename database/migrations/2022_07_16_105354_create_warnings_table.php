@@ -12,14 +12,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->bigInteger('code');
-            $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->string('type');
-            $table->dateTime('issued_on')->nullable();
-            $table->longText('letter')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('code');
+            $table->string('type');
+            $table->dateTime('issued_on')->nullable();
+            $table->longText('letter');
             $table->timestamps();
             $table->softDeletes();
 
