@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('attendance_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->bigInteger('no_of_absent');
+            $table->bigInteger('days');
             $table->timestamps();
             $table->softDeletes();
 

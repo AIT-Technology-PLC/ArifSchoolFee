@@ -6,7 +6,7 @@ use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAttendance extends FormRequest
+class StoreAttendanceRequest extends FormRequest
 {
     public function authorize()
     {
@@ -16,11 +16,11 @@ class UpdateAttendance extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('attendances', $this->route('attendance')->id)],
+            'code' => ['required', 'integer', new UniqueReferenceNum('attendances')],
             'date' => ['required', 'date'],
             'attendance' => ['required', 'array'],
             'attendance.*.employee_id' => ['required', 'integer', new MustBelongToCompany('employees')],
-            'attendance.*.no_of_absent' => ['required', 'numeric'],
+            'attendance.*.days' => ['required', 'numeric', 'gt:0'],
         ];
     }
 }
