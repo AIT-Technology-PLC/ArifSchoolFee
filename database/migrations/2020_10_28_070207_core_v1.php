@@ -107,8 +107,23 @@ return new class extends Migration
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('department_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->string('position');
             $table->boolean('enabled');
+            $table->string('gender');
+            $table->string('address');
+            $table->string('bank_name')->nullable();
+            $table->string('bank_account')->nullable();
+            $table->string('tin_number')->nullable();
+            $table->string('job_type');
+            $table->string('phone');
+            $table->string('id_type')->nullable();
+            $table->string('id_number')->nullable();
+            $table->dateTime('date_of_hiring')->nullable();
+            $table->decimal('gross_salary', 22)->nullable();
+            $table->dateTime('date_of_birth')->nullable();
+            $table->string('emergency_name')->nullable();
+            $table->string('emergency_phone')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -961,6 +976,20 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('departments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->string('name');
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->unique(['company_id', 'name']);
+            $table->index('company_id');
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -1030,5 +1059,6 @@ return new class extends Migration
         Schema::drop('employee_transfers');
         Schema::drop('company_integration');
         Schema::drop('integrations');
+        Schema::drop('departments');
     }
 };
