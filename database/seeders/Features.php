@@ -148,6 +148,11 @@ class Features extends Seeder
             );
 
             Feature::updateOrCreate(
+                ['name' => 'Department Management'],
+                ['is_enabled' => 1]
+            );
+
+            Feature::updateOrCreate(
                 ['name' => 'Employee Transfer'],
                 ['is_enabled' => 1]
             );

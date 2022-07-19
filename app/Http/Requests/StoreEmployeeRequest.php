@@ -37,6 +37,22 @@ class StoreEmployeeRequest extends FormRequest
             'sales.*' => ['nullable', 'integer', new MustBelongToCompany('warehouses')],
             'adjustment.*' => ['nullable', 'integer', new MustBelongToCompany('warehouses')],
             'siv.*' => ['nullable', 'integer', new MustBelongToCompany('warehouses')],
+            'gender' => ['required', 'string', 'max:255', Rule::in(['male', 'female'])],
+            'address' => ['required', 'string', 'max:255'],
+            'bank_name' => ['nullable', 'string', 'max:255', 'required_unless:bank_account,null'],
+            'bank_account' => ['nullable', 'string', 'max:255', 'required_unless:bank_name,null'],
+            'tin_number' => ['nullable', 'string', 'max:255'],
+            'job_type' => ['required', 'string', 'max:255', Rule::in(['full time', 'part time', 'contractual', 'remote', 'internship'])],
+            'phone' => ['required', 'string', 'max:255'],
+            'id_type' => ['nullable', 'string', 'max:255', Rule::in(['passport', 'drivers license', 'employee id', 'kebele id', 'student id'])],
+            'id_number' => ['nullable', 'string', 'max:255'],
+            'date_of_hiring' => ['nullable', 'date'],
+            'gross_salary' => ['nullable', 'numeric'],
+            'date_of_birth' => ['nullable', 'date', 'before:' . now()],
+            'emergency_name' => ['nullable', 'string', 'max:255', 'required_unless:emergency_phone,null'],
+            'emergency_phone' => ['nullable', 'string', 'max:255', 'required_unless:emergency_name,null'],
+            'department_id' => ['nullable', 'integer', Rule::when(!isFeatureEnabled('Department Management'), 'prohibited'), new MustBelongToCompany('departments')],
+
         ];
     }
 }
