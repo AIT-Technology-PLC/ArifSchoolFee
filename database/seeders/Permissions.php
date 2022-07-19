@@ -275,17 +275,22 @@ class Permissions extends Seeder
                 'Read Customer',
                 'Read Reservation',
                 'Read BOM',
+                'Read Department',
             ]);
 
             $humanResourceManager->syncPermissions([
                 'Create Employee',
                 'Create Employee Transfer',
+                'Create Department',
                 'Read Employee',
                 'Read Employee Transfer',
+                'Read Department',
                 'Update Employee',
                 'Update Employee Transfer',
+                'Update Department',
                 'Delete Employee',
                 'Delete Employee Transfer',
+                'Delete Department',
                 'Import Employee',
                 'Approve Employee Transfer',
             ]);
@@ -293,10 +298,13 @@ class Permissions extends Seeder
             $humanResourceOfficer->syncPermissions([
                 'Create Employee',
                 'Create Employee Transfer',
+                'Create Department',
                 'Read Employee',
                 'Read Employee Transfer',
+                'Read Department',
                 'Update Employee',
                 'Update Employee Transfer',
+                'Update Department',
             ]);
 
             $purchaseManager->syncPermissions([

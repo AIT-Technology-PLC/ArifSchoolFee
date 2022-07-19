@@ -80,7 +80,7 @@
                 </section>
             @endcanany
         @endif
-        @if (isFeatureEnabled('Department Management', 'User Management'))
+        @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer'))
             @canany(['Read Employee', 'Read Department'])
                 <section class="mb-5">
                     <x-content.header>
@@ -95,7 +95,7 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('User Management'))
+                            @if (isFeatureEnabled('Employee Management'))
                                 @can('Read Employee')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
@@ -132,27 +132,7 @@
                                     </div>
                                 @endcan
                             @endif
-                        </div>
-                    </x-content.footer>
-                </section>
-            @endcanany
-        @endif
 
-        @if (isFeatureEnabled('Employee Transfer'))
-            @canany(['Read Employee Transfer'])
-                <section class="mb-5">
-                    <x-content.header>
-                        <x-slot name="header">
-                            <span class="icon">
-                                <i class="fas fa-users"></i>
-                            </span>
-                            <span class="ml-2">
-                                Human Resource
-                            </span>
-                        </x-slot>
-                    </x-content.header>
-                    <x-content.footer>
-                        <div class="columns is-marginless is-multiline is-mobile">
                             @if (isFeatureEnabled('Employee Transfer'))
                                 @can('Read Employee Transfer')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
@@ -791,7 +771,7 @@
                                 @endcan
                             @endif
 
-                            @if (isFeatureEnabled('User Management'))
+                            @if (isFeatureEnabled('User Management') && !isFeatureEnabled('Employee Management'))
                                 @can('Read Employee')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a

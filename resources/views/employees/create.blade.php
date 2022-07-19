@@ -80,13 +80,23 @@
                                             name="gender"
                                         >
                                             <option
+                                                disabled
+                                                selected
+                                            >
+                                                Select Gender
+                                            </option>
+                                            <option
                                                 value="male"
-                                                @selected(old('male'))
-                                            > Male</option>
+                                                @selected(old('gender') == 'male')
+                                            >
+                                                Male
+                                            </option>
                                             <option
                                                 value="female"
-                                                @selected(old('female'))
-                                            > Female </option>
+                                                @selected(old('gender') == 'female')
+                                            >
+                                                Female
+                                            </option>
                                         </x-forms.select>
                                         <x-common.icon
                                             name="fas fa-sort"
@@ -173,24 +183,30 @@
                                             name="job_type"
                                         >
                                             <option
+                                                disabled
+                                                selected
+                                            >
+                                                Select Job Type
+                                            </option>
+                                            <option
                                                 value="full time"
-                                                @selected(old('Full time'))
+                                                @selected(old('job_type') == 'full time')
                                             > Full Time </option>
                                             <option
                                                 value="part time"
-                                                @selected(old('Part time'))
+                                                @selected(old('job_type') == 'part time')
                                             > Part Time </option>
                                             <option
                                                 value="contractual"
-                                                @selected(old('Contractual'))
+                                                @selected(old('job_type') == 'contractual')
                                             > Contractual </option>
                                             <option
                                                 value="remote"
-                                                @selected(old('Remote'))
+                                                @selected(old('job_type') == 'remote')
                                             > Remote </option>
                                             <option
                                                 value="internship"
-                                                @selected(old('Internship'))
+                                                @selected(old('job_type') == 'internship')
                                             > Internship </option>
                                         </x-forms.select>
                                         <x-common.icon
@@ -237,7 +253,7 @@
                                             id="password"
                                             name="password"
                                             type="password"
-                                            placeholder="Employee Password"
+                                            placeholder="Password"
                                             autocomplete="new-password"
                                         />
                                         <x-common.icon
@@ -264,7 +280,7 @@
                             </div>
                             <div class="column is-6">
                                 <x-forms.label>
-                                    ID Details <sup class="has-text-danger">*</sup>
+                                    ID Details <sup class="has-text-danger"></sup>
                                 </x-forms.label>
                                 <x-forms.field class="has-addons">
                                     <x-forms.control class="has-icons-left ">
@@ -274,24 +290,30 @@
                                             name="id_type"
                                         >
                                             <option
+                                                disabled
+                                                selected
+                                            >
+                                                Select ID Type
+                                            </option>
+                                            <option
                                                 value="passport"
-                                                @selected(old('passport'))
+                                                @selected(old('id_type') == 'passport')
                                             > Passport </option>
                                             <option
                                                 value="drivers license"
-                                                @selected(old('drivers license'))
+                                                @selected(old('id_type') == 'drivers license')
                                             > Drivers license </option>
                                             <option
                                                 value="employee id"
-                                                @selected(old('employee id'))
+                                                @selected(old('id_type') == 'employee id')
                                             > Employee ID </option>
                                             <option
                                                 value="kebele id"
-                                                @selected(old('Kebele Id'))
+                                                @selected(old('id_type') == 'kebele id')
                                             > Kebele ID </option>
                                             <option
                                                 value="student id"
-                                                @selected(old('student id'))
+                                                @selected(old('id_type') == 'student id')
                                             > Student ID </option>
                                         </x-forms.select>
                                         <x-common.icon
@@ -329,11 +351,19 @@
                                                 id="department_id"
                                                 name="department_id"
                                             >
+                                                <option
+                                                    disabled
+                                                    selected
+                                                >
+                                                    Select Department
+                                                </option>
                                                 @foreach ($departments as $department)
                                                     <option
                                                         value="{{ $department->id }}"
-                                                        {{ old('department_id') == $department->id ? 'selected' : '' }}
-                                                    >{{ $department->name }}</option>
+                                                        @selected(old('department_id') == $department->id)
+                                                    >
+                                                        {{ $department->name }}
+                                                    </option>
                                                 @endforeach
                                                 <option value="">None</option>
                                             </x-forms.select>
@@ -358,14 +388,18 @@
                                             name="bank_name"
                                         >
                                             <option
+                                                disabled
                                                 selected
-                                                value=""
-                                            > Select Bank </option>
+                                            >
+                                                Select Bank
+                                            </option>
                                             @if (old('bank_name'))
                                                 <option
                                                     value="{{ old('bank_name') }}"
                                                     selected
-                                                > {{ old('bank_name') }} </option>
+                                                >
+                                                    {{ old('bank_name') }}
+                                                </option>
                                             @endif
                                             @include('lists.banks')
                                         </x-forms.select>
@@ -445,9 +479,9 @@
                                         <x-forms.input
                                             id="date_of_hiring"
                                             name="date_of_hiring"
-                                            type="datetime-local"
+                                            type="date"
                                             placeholder="mm/dd/yyyy"
-                                            value="{{ old('date_of_hiring') ?? now()->toDateTimeLocalString() }}"
+                                            value="{{ old('date_of_hiring') }}"
                                             autocomplete="date_of_hiring"
                                         />
                                         <x-common.icon
