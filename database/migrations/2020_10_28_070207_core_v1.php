@@ -101,6 +101,20 @@ return new class extends Migration
             $table->index('plan_id');
         });
 
+        Schema::create('departments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->string('name');
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->unique(['company_id', 'name']);
+            $table->index('company_id');
+        });
+
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
@@ -976,20 +990,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('departments', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
-            $table->string('name');
-            $table->longText('description')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->unique(['company_id', 'name']);
-            $table->index('company_id');
-        });
-
         Schema::enableForeignKeyConstraints();
     }
 
@@ -1006,6 +1006,7 @@ return new class extends Migration
         Schema::drop('limitables');
         Schema::drop('limits');
         Schema::drop('companies');
+        Schema::drop('departments');
         Schema::drop('employees');
         Schema::drop('warehouses');
         Schema::drop('suppliers');
@@ -1059,6 +1060,5 @@ return new class extends Migration
         Schema::drop('employee_transfers');
         Schema::drop('company_integration');
         Schema::drop('integrations');
-        Schema::drop('departments');
     }
 };
