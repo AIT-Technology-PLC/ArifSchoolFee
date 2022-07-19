@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Action as Action;
 use Illuminate\Support\Facades\Route;
 
 // Permissions
@@ -254,6 +253,15 @@ Route::post('/job-extras/{job_extra}/subtract',
 Route::post('/employee-transfers/{employee_transfer}/approve',
     [Action\EmployeeTransferController::class, 'approve'])
     ->name('employee-transfers.approve');
+
+// Attendance
+Route::post('/attendances/{attendane}/approve',
+    [Action\AttendanceController::class, 'approve'])
+    ->name('attendances.approve');
+
+Route::post('/attendances/{attendane}/cancel',
+    [Action\AttendanceController::class, 'cancel'])
+    ->name('attendances.cancel');
 
 Route::controller(Action\TransactionController::class)->group(function () {
     Route::post('/transactions/{transaction}/approve', 'approve')->name('transactions.approve');
