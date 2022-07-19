@@ -147,8 +147,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer'))
-        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer'])
+    @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management'))
+        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer', 'Read Attendance'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -218,6 +218,20 @@
                                         label="Transfers"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('employee-transfers.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('employee-transfers.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Attendance Management'))
+                            @can('Read Attendance')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('attendances.index') }}"
+                                        label="Attendances"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('attendances.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('attendances.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
