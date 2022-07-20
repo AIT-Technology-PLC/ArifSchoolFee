@@ -15,6 +15,12 @@ class WarningDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->setRowClass('is-clickable')
+            ->setRowAttr([
+                'data-url' => fn($warning) => route('warnings.show', $warning->id),
+                'x-data' => 'showRowDetails',
+                '@click' => 'showDetails',
+            ])
             ->editColumn('status', fn($warning) => view('components.datatables.warning-status', compact('warning')))
             ->editColumn('type', fn($warning) => view('components.datatables.warning-type', compact('warning')))
             ->editColumn('employee name', fn($warning) => $warning->employee->user->name)

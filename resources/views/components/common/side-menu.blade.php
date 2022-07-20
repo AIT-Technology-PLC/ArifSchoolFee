@@ -223,19 +223,6 @@
                             @endcan
                         @endif
 
-                        @if (isFeatureEnabled('Warning Management'))
-                            @can('Read Warning')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('warnings.index') }}"
-                                        label="Warnings"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('warnings.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('warnings.*') ? 'activateAccordion' : '' }}"
-                                </li>
-                            @endcan
-                        @endif
-                        
                         @if (isFeatureEnabled('Attendance Management'))
                             @can('Read Attendance')
                                 <li>
@@ -245,6 +232,20 @@
                                         label="Attendances"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('attendances.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('attendances.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Warning Management'))
+                            @can('Read Warning')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('warnings.index') }}"
+                                        label="Warnings"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('warnings.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('warnings.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

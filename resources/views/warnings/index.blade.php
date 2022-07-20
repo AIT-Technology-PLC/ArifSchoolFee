@@ -40,13 +40,7 @@
         <x-content.header>
             <x-slot name="header">
                 <h1 class="title text-green has-text-weight-medium is-size-5">
-                    Warnings
-                    <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
-                        <x-common.icon name="fas fa-circle-exclamation" />
-                        <span>
-                            {{ number_format($totalWarnings) }} {{ str()->plural('warning', $totalWarnings) }}
-                        </span>
-                    </span>
+                    Warnings 
                 </h1>
             </x-slot>
             @can('Create Warning')

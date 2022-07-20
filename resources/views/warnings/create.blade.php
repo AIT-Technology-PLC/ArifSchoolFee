@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Create Warnings')
+@section('title', 'Create Warning')
 
 @section('content')
     <x-common.content-wrapper>
@@ -127,7 +127,7 @@
                                 <div class="column is-12">
                                     <x-forms.field>
                                         <x-forms.label x-bind:for="`warning[${index}][letter]`">
-                                            Reason <sup class="has-text-danger">*</sup>
+                                            Letter <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
                                         <x-forms.control>
                                             <x-forms.textarea
