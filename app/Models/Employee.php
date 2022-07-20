@@ -15,6 +15,8 @@ class Employee extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
+        'date_of_hiring' => 'datetime',
+        'date_of_birth' => 'datetime',
         'enabled' => 'boolean',
     ];
 
@@ -56,5 +58,10 @@ class Employee extends Model
     public function isMale()
     {
         return $this->gender == 'male';
+    }
+
+    public function isFemale()
+    {
+        return $this->gender == 'female';
     }
 }

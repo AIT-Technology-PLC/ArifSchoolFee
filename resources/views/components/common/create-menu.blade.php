@@ -96,7 +96,7 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('User Management'))
+                            @if (isFeatureEnabled('Employee Management'))
                                 @can('Create Employee')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
@@ -111,11 +111,26 @@
                                     </div>
                                 @endcan
                             @endif
+                            @if (isFeatureEnabled('Department Management'))
+                                @can('Create Department')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('departments.create') }}"
+                                            icon="fas fa-users-rectangle"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Department </span>
+                                        <br>
+                                    </div>
+                                @endcan
+                            @endif
                             @if (isFeatureEnabled('Employee Transfer'))
                                 @can('Create Employee Transfer')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
-                                            tag="a"
                                             mode="button"
                                             href="{{ route('employee-transfers.create') }}"
                                             icon="fas fa-people-arrows-left-right"
@@ -138,22 +153,6 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Warning </span>
-                                    </div>
-                                @endcan
-                            @endif
-                            @if (isFeatureEnabled('Department Management'))
-                                @can('Create Department')
-                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                        <x-common.button
-                                            tag="a"
-                                            mode="button"
-                                            href="{{ route('departments.create') }}"
-                                            icon="fas fa-users-rectangle"
-                                            class="text-green bg-lightgreen is-borderless"
-                                        />
-                                        <br>
-                                        <span class="is-size-7"> New Department </span>
-                                        <br>
                                     </div>
                                 @endcan
                             @endif
@@ -661,7 +660,7 @@
                                 @endcan
                             @endif
 
-                            @if (isFeatureEnabled('User Management'))
+                            @if (isFeatureEnabled('User Management') && !isFeatureEnabled('Employee Management'))
                                 @can('Create Employee')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button

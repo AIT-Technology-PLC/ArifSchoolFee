@@ -148,13 +148,18 @@ class Features extends Seeder
             );
 
             Feature::updateOrCreate(
+                ['name' => 'Employee Management'],
+                ['is_enabled' => 1]
+            );
+
+            Feature::updateOrCreate(
                 ['name' => 'Department Management'],
                 ['is_enabled' => 1]
             );
 
             Feature::updateOrCreate(
                 ['name' => 'Employee Transfer'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
 
             Feature::updateOrCreate(
@@ -195,14 +200,20 @@ class Features extends Seeder
 
             $professional->features()->sync(
                 $features
-                    ->whereNotIn('name', ['Bill Of Material Management', 'Job Management', 'Tender Management'])
+                    ->whereNotIn('name', [
+                        'Bill Of Material Management',
+                        'Job Management',
+                        'Tender Management',
+                    ])
                     ->pluck('id')
                     ->toArray()
             );
 
             $premium->features()->sync(
                 $features
-                    ->whereNotIn('name', ['Tender Management'])
+                    ->whereNotIn('name', [
+                        'Tender Management',
+                    ])
                     ->pluck('id')
                     ->toArray()
             );

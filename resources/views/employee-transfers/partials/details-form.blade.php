@@ -39,9 +39,11 @@
                             <x-forms.control class="has-icons-left">
                                 <x-forms.select
                                     class="is-fullwidth"
+                                    x-bind:class="`employee-list`"
                                     x-bind:id="`employeeTransfer[${index}][employee_id]`"
                                     x-bind:name="`employeeTransfer[${index}][employee_id]`"
                                     x-model="employeeTransfer.employee_id"
+                                    x-init="select2(index)"
                                 >
                                     @foreach ($users as $user)
                                         <option value="{{ $user->employee->id }}">{{ $user->name }}</option>
@@ -53,7 +55,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`gdn.${index}.employee_id`)"
+                                    x-text="$store.errors.getErrors(`employeeTransfer.${index}.employee_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -80,7 +82,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`gdn.${index}.warehouse_id`)"
+                                    x-text="$store.errors.getErrors(`employeeTransfer.${index}.warehouse_id`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>
@@ -107,9 +109,12 @@
             }) => ({
                 employeeTransfers: [],
 
-                init() {
+                async init() {
                     if (employeeTransfer) {
-                        this.employeeTransfers = employeeTransfer;
+                        await Promise.resolve(this.employeeTransfers = employeeTransfer);
+
+                        await Promise.resolve($(".employee-list").trigger("change"));
+
                         return;
                     }
 
@@ -118,15 +123,24 @@
                 add() {
                     this.employeeTransfers.push({});
                 },
-                remove(index) {
+                async remove(index) {
                     if (this.employeeTransfers.length <= 0) {
                         return;
                     }
 
-                    this.employeeTransfers.splice(index, 1);
+                    await Promise.resolve(this.employeeTransfers.splice(index, 1));
+
+                    await Promise.resolve($(".employee-list").trigger("change"));
 
                     Pace.restart();
                 },
+                select2(index) {
+                    let select2 = initializeSelect2(this.$el);
+
+                    select2.on("change", (event) => {
+                        this.employeeTransfers[index].employee_id = event.target.value;
+                    });
+                }
             }));
         });
     </script>

@@ -19,7 +19,7 @@ class StoreEmployeeTransferRequest extends FormRequest
             'code' => ['required', 'integer', new UniqueReferenceNum('employee_transfers')],
             'issued_on' => ['required', 'date'],
             'employeeTransfer' => ['required', 'array'],
-            'employeeTransfer.*.employee_id' => ['required', 'integer', new MustBelongToCompany('employees')],
+            'employeeTransfer.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees')],
             'employeeTransfer.*.warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
         ];
     }
