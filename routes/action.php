@@ -255,6 +255,11 @@ Route::post('/employee-transfers/{employee_transfer}/approve',
     [Action\EmployeeTransferController::class, 'approve'])
     ->name('employee-transfers.approve');
 
+// Warning
+Route::post('/warnings/{warning}/approve',
+    [Action\WarningController::class, 'approve'])
+    ->name('warnings.approve');
+ 
 // Attendance
 Route::post('/attendances/{attendance}/approve',
     [Action\AttendanceController::class, 'approve'])
