@@ -24,7 +24,7 @@ class EmployeeTransferDatatable extends DataTable
             ])
             ->editColumn('issued_on', fn($employeeTransfer) => $employeeTransfer->issued_on->toFormattedDateString())
             ->editColumn('status', fn($employeeTransfer) => view('components.datatables.employee-transfer-status', compact('employeeTransfer')))
-            ->editColumn('created by', fn($employeeTransfer) => $employeeTransfer->createdBy->name ?? 'N/A')
+            ->editColumn('prepared by', fn($employeeTransfer) => $employeeTransfer->createdBy->name ?? 'N/A')
             ->editColumn('approved by', fn($employeeTransfer) => $employeeTransfer->approvedBy->name ?? 'N/A')
             ->editColumn('actions', function ($employeeTransfer) {
                 return view('components.common.action-buttons', [
@@ -57,7 +57,7 @@ class EmployeeTransferDatatable extends DataTable
             Column::make('code')->className('has-text-centered')->title('Transfer No'),
             Column::computed('status')->orderable(false),
             Column::make('issued_on'),
-            Column::make('created by', 'createdBy.name')->visible(false),
+            Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
         ];

@@ -283,6 +283,7 @@ class Permissions extends Seeder
                 'Read Customer',
                 'Read Reservation',
                 'Read BOM',
+                'Read Department',
             ]);
 
             $humanResourceManager->syncPermissions([
@@ -298,6 +299,7 @@ class Permissions extends Seeder
                 'Delete Attendance',
                 'Delete Employee',
                 'Delete Employee Transfer',
+                'Delete Department',
                 'Import Employee',
                 'Approve Attendance',
                 'Approve Employee Transfer',
@@ -314,6 +316,7 @@ class Permissions extends Seeder
                 'Update Attendance',
                 'Update Employee',
                 'Update Employee Transfer',
+                'Update Department',
             ]);
 
             $purchaseManager->syncPermissions([

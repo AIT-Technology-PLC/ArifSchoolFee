@@ -15,9 +15,12 @@ class JobDetailDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('product', fn ($jobDetail) => $jobDetail->product->name)
-            ->editColumn('bill of material', fn ($jobDetail) => $jobDetail->billOfMaterial->name)
-            ->editColumn('status', fn ($jobDetail) => view('components.datatables.job-detail-status', compact('jobDetail')))
+            ->editColumn('product', fn($jobDetail) => $jobDetail->product->name)
+            ->editColumn('bill of material', fn($jobDetail) => view('components.datatables.link', [
+                'url' => route('bill-of-materials.show', $jobDetail->bill_of_material_id),
+                'label' => $jobDetail->billOfMaterial->name,
+            ]))
+            ->editColumn('status', fn($jobDetail) => view('components.datatables.job-detail-status', compact('jobDetail')))
             ->editColumn('actions', function ($jobDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'job-details',
@@ -56,6 +59,6 @@ class JobDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'JobDetail_'.date('YmdHis');
+        return 'JobDetail_' . date('YmdHis');
     }
 }
