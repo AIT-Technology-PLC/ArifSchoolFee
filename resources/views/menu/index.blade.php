@@ -80,7 +80,6 @@
                 </section>
             @endcanany
         @endif
-
         @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer'))
             @canany(['Read Employee', 'Read Department'])
                 <section class="mb-5">
