@@ -39,4 +39,9 @@ class AttendancePolicy
     {
         return $user->can('Approve Attendance');
     }
+
+    public function cancel(User $user, Attendance $attendance)
+    {
+        return $user->can('Cancel Attendance');
+    }
 }

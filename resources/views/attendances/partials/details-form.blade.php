@@ -1,5 +1,5 @@
 <x-content.main
-    x-data="attendanceMasterDetailForm({{ Js::from(session()->getOldInput()) }})"
+    x-data="attendanceMasterDetailForm({{ Js::from($data) }})"
     x-init="$store.errors.setErrors({{ Js::from($errors->get('attendance.*')) }})"
 >
     <template
@@ -106,6 +106,10 @@
                 attendances: [],
 
                 async init() {
+                    if (attendance) {
+                        this.attendances = attendance;
+                        return;
+                    }
                     this.add();
                 },
 

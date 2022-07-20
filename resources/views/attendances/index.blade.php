@@ -4,14 +4,14 @@
 
 @section('content')
     <div class="columns is-marginless is-multiline">
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.total-model
                 model="Attendances"
                 :amount="$totalAttendances"
                 icon="fas fa-clipboard-user"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 :amount="$totalApproved"
                 border-color="#3d8660"
@@ -19,7 +19,7 @@
                 label="Approved"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 :amount="$totalNotApproved"
                 border-color="#86843d"
@@ -27,14 +27,14 @@
                 label="Waiting Approval"
             />
         </div>
-        {{-- <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
-                :amount="$totalCanceled"
+                :amount="$totalCancelled"
                 border-color="#86843d"
                 text-color="text-gold"
-                label="Canceled"
+                label="Cancelled"
             />
-        </div> --}}
+        </div>
     </div>
 
     <x-common.content-wrapper>
@@ -51,7 +51,8 @@
             @endcan
         </x-content.header>
         <x-content.footer>
-            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
+            <x-common.success-message :message="session('deleted')" />
+            <x-common.fail-message :message="session('failedMessage')" />
             <x-datatables.filter filters="'branch', 'status'">
                 <div class="columns is-marginless is-vcentered">
                     <div class="column is-3 p-lr-0 pt-0">
@@ -72,7 +73,7 @@
                                         Statuses
                                     </option>
                                     <option value="all"> All </option>
-                                    @foreach (['Waiting Approval', 'Approved'] as $status)
+                                    @foreach (['Waiting Approval', 'Approved', 'Cancelled'] as $status)
                                         <option value="{{ str()->lower($status) }}"> {{ $status }} </option>
                                     @endforeach
                                 </x-forms.select>

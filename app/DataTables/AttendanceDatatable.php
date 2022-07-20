@@ -27,6 +27,7 @@ class AttendanceDatatable extends DataTable
             ->editColumn('date', fn($attendance) => $attendance->date)
             ->editColumn('prepared by', fn($attendance) => $attendance->createdBy->name)
             ->editColumn('approved by', fn($attendance) => $attendance->approvedBy->name ?? 'N/A')
+            ->editColumn('cancelled by', fn($attendance) => $attendance->cancelledBy->name ?? 'N/A')
             ->editColumn('edited by', fn($attendance) => $attendance->updatedBy->name)
             ->editColumn('actions', function ($attendance) {
                 return view('components.common.action-buttons', [
@@ -44,11 +45,13 @@ class AttendanceDatatable extends DataTable
             ->newQuery()
             ->when(request('status') == 'approved', fn($query) => $query->Approved())
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
+            ->when(request('status') == 'cancelled', fn($query) => $query->Cancelled())
             ->select('attendances.*')
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'approvedBy:id,name',
+                'cancelledBy:id,name',
                 'warehouse:id,name',
             ]);
     }
@@ -64,7 +67,7 @@ class AttendanceDatatable extends DataTable
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
-            // Column::make('canceled by', 'canceledBy.name')->visible(false),
+            Column::make('cancelled by', 'cancelledBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
         ];
 

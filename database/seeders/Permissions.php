@@ -253,6 +253,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Attendance']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Attendance']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Attendance']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Attendance']);
 
             // Other
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Credit']);
@@ -285,23 +286,32 @@ class Permissions extends Seeder
             ]);
 
             $humanResourceManager->syncPermissions([
+                'Create Attendance',
                 'Create Employee',
                 'Create Employee Transfer',
+                'Read Attendance',
                 'Read Employee',
                 'Read Employee Transfer',
+                'Update Attendance',
                 'Update Employee',
                 'Update Employee Transfer',
+                'Delete Attendance',
                 'Delete Employee',
                 'Delete Employee Transfer',
                 'Import Employee',
+                'Approve Attendance',
                 'Approve Employee Transfer',
+                'Cancel Attendance',
             ]);
 
             $humanResourceOfficer->syncPermissions([
+                'Create Attendance',
                 'Create Employee',
                 'Create Employee Transfer',
+                'Read Attendance',
                 'Read Employee',
                 'Read Employee Transfer',
+                'Update Attendance',
                 'Update Employee',
                 'Update Employee Transfer',
             ]);

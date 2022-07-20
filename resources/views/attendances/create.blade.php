@@ -4,7 +4,7 @@
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="New attendance" />
+        <x-content.header title="New Attendance" />
         <form
             id="formOne"
             action="{{ route('attendances.store') }}"

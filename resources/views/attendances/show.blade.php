@@ -45,6 +45,20 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
+                @if (!$attendance->isCancelled())
+                    @can('Cancel Attendance')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('attendances.cancel', $attendance->id)"
+                                action="cancel"
+                                intention="cancel this Attendance"
+                                icon="fas fa-times-circle"
+                                label="Cancel"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
                 <x-common.dropdown-item>
                     <x-common.button
                         tag="a"

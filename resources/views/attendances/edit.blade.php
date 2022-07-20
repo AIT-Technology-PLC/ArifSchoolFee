@@ -4,15 +4,16 @@
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="Edit attendance" />
+        <x-content.header title="Edit Attendance" />
         <form
             id="formOne"
-            action="{{ route('attendances.update') }}"
+            action="{{ route('attendances.update', $attendance->id) }}"
             method="POST"
             enctype="multipart/form-data"
             novalidate
         >
             @csrf
+            @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
@@ -46,7 +47,7 @@
                                     name="date"
                                     id="date"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ $attendance->date->toDateTimeLocalString() }}"
+                                    value="{{ $attendance->date }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"

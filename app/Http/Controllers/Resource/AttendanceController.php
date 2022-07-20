@@ -30,9 +30,9 @@ class AttendanceController extends Controller
 
         $totalNotApproved = Attendance::notApproved()->count();
 
-        // $totalCanceled = Attendance::Canceled()->count();
+        $totalCancelled = Attendance::Cancelled()->count();
 
-        return $datatable->render('attendances.index', compact('totalAttendances', 'totalApproved', 'totalNotApproved'));
+        return $datatable->render('attendances.index', compact('totalAttendances', 'totalApproved', 'totalNotApproved', 'totalCancelled'));
     }
 
     public function create()
@@ -66,13 +66,23 @@ class AttendanceController extends Controller
 
     public function edit(Attendance $attendance)
     {
+        if ($attendance->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify an attendance that is approved.');
+        }
+
+        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+
         $attendance->load(['attendanceDetails']);
 
-        return view('attendances.edit', compact('attendance'));
+        return view('attendances.edit', compact('attendance', 'users'));
     }
 
     public function update(UpdateAttendanceRequest $request, Attendance $attendance)
     {
+        if ($attendance->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify an attendance that is approved.');
+        }
+
         DB::transaction(function () use ($request, $attendance) {
             $attendance->update($request->safe()->except('attendance'));
 
@@ -83,5 +93,16 @@ class AttendanceController extends Controller
         });
 
         return redirect()->route('attendances.show', $attendance->id);
+    }
+
+    public function destroy(Attendance $attendance)
+    {
+        if ($attendance->isApproved()) {
+            return back()->with('failedMessage', 'You can not delete an attendance that is approved.');
+        }
+
+        $attendance->forceDelete();
+
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }
