@@ -83,8 +83,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer'))
-                @canany(['Create Department', 'Create Employee', 'Create Employee Transfer'])
+            @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management'))
+                @canany(['Create Department', 'Create Employee', 'Create Employee Transfer', 'Create Attendance', 'Create Warning'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -111,7 +111,6 @@
                                     </div>
                                 @endcan
                             @endif
-
                             @if (isFeatureEnabled('Department Management'))
                                 @can('Create Department')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
@@ -128,12 +127,10 @@
                                     </div>
                                 @endcan
                             @endif
-
                             @if (isFeatureEnabled('Employee Transfer'))
                                 @can('Create Employee Transfer')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
-                                            tag="a"
                                             mode="button"
                                             href="{{ route('employee-transfers.create') }}"
                                             icon="fas fa-people-arrows-left-right"
@@ -141,6 +138,38 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Transfer </span>
+                                    </div>
+                                @endcan
+                            @endif
+                            
+                            @if (isFeatureEnabled('Attendance Management'))
+                                @can('Create Attendance')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('attendances.create') }}"
+                                            icon="fa-solid fa-user-clock"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Attendance </span>
+                                    </div>
+                                @endcan
+                            @endif
+                            
+                            @if (isFeatureEnabled('Warning Management'))
+                                @can('Create Warning')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('warnings.create') }}"
+                                            icon="fa-solid fa-exclamation-circle"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Warning </span>
                                     </div>
                                 @endcan
                             @endif

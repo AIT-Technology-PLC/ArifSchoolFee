@@ -114,3 +114,9 @@ Route::resource('departments', Resource\DepartmentController::class);
 Route::resource('employee-transfers', Resource\EmployeeTransferController::class);
 
 Route::resource('employee-transfer-details', Resource\EmployeeTransferDetailController::class)->only(['destroy']);
+
+Route::resource('warnings', Resource\WarningController::class);
+
+Route::resource('attendances', Resource\AttendanceController::class);
+
+Route::resource('attendance-details', Resource\AttendanceDetailController::class)->only(['destroy']);

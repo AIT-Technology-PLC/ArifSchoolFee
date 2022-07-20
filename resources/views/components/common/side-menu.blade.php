@@ -147,8 +147,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer'))
-        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer'])
+    @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management'))
+        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer', 'Read Attendance', 'Read Warning'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -218,6 +218,33 @@
                                         label="Transfers"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('employee-transfers.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('employee-transfers.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Warning Management'))
+                            @can('Read Warning')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('warnings.index') }}"
+                                        label="Warnings"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('warnings.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('warnings.*') ? 'activateAccordion' : '' }}"
+                                </li>
+                            @endcan
+                        @endif
+                        
+                        @if (isFeatureEnabled('Attendance Management'))
+                            @can('Read Attendance')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('attendances.index') }}"
+                                        label="Attendances"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('attendances.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('attendances.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
