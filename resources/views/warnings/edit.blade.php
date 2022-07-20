@@ -98,7 +98,7 @@
                     <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="letter">
-                                Reason <sup class="has-text-danger"></sup>
+                                Reason <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control>
                                 <x-forms.textarea
