@@ -63,6 +63,10 @@ class RegisterController extends Controller
                 'enabled' => 1,
                 'position' => 'Onrica Support Department',
                 'role' => 'System Manager',
+                'gender' => 'female',
+                'address' => 'Gerji, Taxi Tera',
+                'job_type' => 'remote',
+                'phone' => '0976006522',
             ]);
 
             $user->employee->company()->associate($company)->save();
