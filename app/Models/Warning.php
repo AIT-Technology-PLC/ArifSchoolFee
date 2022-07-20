@@ -32,4 +32,19 @@ class Warning extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+    public function scopeInitial($query)
+    {
+        return $query->where('type', 'Initial Warning');
+    }
+
+    public function scopeAffirmation($query)
+    {
+        return $query->where('type', 'Affirmation Warning');
+    }
+
+    public function scopeFinal($query)
+    {
+        return $query->where('type', 'Final Warning');
+    }
 }

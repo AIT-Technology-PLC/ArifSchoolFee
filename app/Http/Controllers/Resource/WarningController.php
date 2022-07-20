@@ -25,16 +25,20 @@ class WarningController extends Controller
 
         $totalWarnings = Warning::count();
 
-        return $datatable->render('warnings.index', compact('totalWarnings'));
+        $totalInitalWarning = Warning::initial()->count();
+
+        $totalAffirmedWarning = Warning::affirmation()->count();
+
+        $totalFinalWarning = Warning::final ()->count();
+
+        return $datatable->render('warnings.index', compact('totalWarnings', 'totalInitalWarning', 'totalAffirmedWarning', 'totalFinalWarning'));
     }
 
     public function create()
     {
-        $currentWarningNo = nextReferenceNumber('warnings');
-
         $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
 
-        return view('warnings.create', compact('currentWarningNo', 'users'));
+        return view('warnings.create', compact('users'));
     }
 
     public function store(StoreWarningRequest $request)
@@ -52,6 +56,8 @@ class WarningController extends Controller
 
     public function show(Warning $warning)
     {
+        $warning->load('employee.user');
+
         return view('warnings.show', compact('warning'));
     }
 
@@ -61,9 +67,9 @@ class WarningController extends Controller
             return back()->with('failedMessage', 'You can not modify a warning request that is approved.');
         }
 
-        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+        $warning->load('employee.user');
 
-        return view('warnings.edit', compact('warning', 'users'));
+        return view('warnings.edit', compact('warning'));
     }
 
     public function update(UpdateWarningRequest $request, Warning $warning)

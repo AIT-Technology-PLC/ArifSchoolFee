@@ -27,12 +27,7 @@
                                     id="employee_id"
                                     name="employee_id"
                                 >
-                                    @foreach ($users as $user)
-                                        <option
-                                            value="{{ $user->employee->id }}"
-                                            {{ $warning->employee_id == $user->id ? 'selected' : '' }}
-                                        >{{ $user->name }}</option>
-                                    @endforeach
+                                    <option value="{{ $warning->employee_id }}">{{ $warning->employee->user->name }}</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-user"

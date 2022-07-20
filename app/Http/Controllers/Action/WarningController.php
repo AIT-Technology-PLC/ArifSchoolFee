@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Notification;
 
 class WarningController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('isFeatureAccessible:Warning Management');
+    }
+
     public function approve(Warning $warning, ApproveTransactionAction $action)
     {
         $this->authorize('approve', $warning);

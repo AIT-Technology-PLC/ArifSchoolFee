@@ -3,6 +3,32 @@
 @section('title', 'Warnings')
 
 @section('content')
+    <div class="columns is-marginless is-multiline">
+        <div class="column is-4 p-lr-0">
+            <x-common.index-insight
+                :amount="$totalInitalWarning"
+                border-color="#86843d"
+                text-color="text-gold"
+                label="Initial"
+            />
+        </div>
+        <div class="column is-4 p-lr-0">
+            <x-common.index-insight
+                :amount="$totalAffirmedWarning"
+                border-color="#3d8660"
+                text-color="text-green"
+                label="Affirmation"
+            />
+        </div>
+        <div class="column is-4 p-lr-0">
+            <x-common.index-insight
+                :amount="$totalFinalWarning"
+                border-color="#863d3e"
+                text-color="text-brown"
+                label="Final"
+            />
+        </div>
+    </div>
     <x-common.content-wrapper>
         <x-content.header>
             <x-slot name="header">

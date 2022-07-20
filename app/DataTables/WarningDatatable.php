@@ -38,9 +38,9 @@ class WarningDatatable extends DataTable
             ->newQuery()
             ->when(request('status') == 'approved', fn($query) => $query->Approved())
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
-            ->when(request('type') == 'initial warning', fn($query) => $query->where('type', 'Initial Warning'))
-            ->when(request('type') == 'affirmation warning', fn($query) => $query->where('type', 'Affirmation Warning'))
-            ->when(request('type') == 'final warning', fn($query) => $query->where('type', 'Final Warning'))
+            ->when(request('type') == 'initial warning', fn($query) => $query->Initial())
+            ->when(request('type') == 'affirmation warning', fn($query) => $query->Affirmation())
+            ->when(request('type') == 'final warning', fn($query) => $query->Final())
             ->select('warnings.*')
             ->with([
                 'createdBy:id,name',
