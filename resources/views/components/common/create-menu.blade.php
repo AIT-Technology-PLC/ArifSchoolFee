@@ -83,8 +83,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer'))
-                @canany(['Create Department', 'Create Employee', 'Create Employee Transfer'])
+            @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management'))
+                @canany(['Create Department', 'Create Employee', 'Create Employee Transfer', 'Create Attendance'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -141,6 +141,23 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Transfer </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Attendance Management'))
+                                @can('Create Attendance')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('attendances.create') }}"
+                                            icon="fa-solid fa-user-clock"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Attendance </span>
+                                        <br>
                                     </div>
                                 @endcan
                             @endif

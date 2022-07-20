@@ -247,6 +247,14 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Employee Transfer']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Employee Transfer']);
 
+            //attendance
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Attendance']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Attendance']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Attendance']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Attendance']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Attendance']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Attendance']);
+
             // Other
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Credit']);
 
@@ -279,29 +287,38 @@ class Permissions extends Seeder
             ]);
 
             $humanResourceManager->syncPermissions([
+                'Create Attendance',
                 'Create Employee',
                 'Create Employee Transfer',
-                'Create Department',
+                'Create Departmnt',
+                'Read Attendance',
                 'Read Employee',
                 'Read Employee Transfer',
                 'Read Department',
+                'Update Attendance',
                 'Update Employee',
                 'Update Employee Transfer',
                 'Update Department',
+                'Delete Attendance',
                 'Delete Employee',
                 'Delete Employee Transfer',
                 'Delete Department',
                 'Import Employee',
+                'Approve Attendance',
                 'Approve Employee Transfer',
+                'Cancel Attendance',
             ]);
 
             $humanResourceOfficer->syncPermissions([
+                'Create Attendance',
                 'Create Employee',
                 'Create Employee Transfer',
                 'Create Department',
+                'Read Attendance',
                 'Read Employee',
                 'Read Employee Transfer',
                 'Read Department',
+                'Update Attendance',
                 'Update Employee',
                 'Update Employee Transfer',
                 'Update Department',

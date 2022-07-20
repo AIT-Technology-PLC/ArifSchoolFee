@@ -133,6 +133,25 @@
                                 @endcan
                             @endif
 
+                            @if (isFeatureEnabled('Attendance Management'))
+                                @can('Read Attendance')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('attendances.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-user-clock"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Attendances
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
                             @if (isFeatureEnabled('Employee Transfer'))
                                 @can('Read Employee Transfer')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
