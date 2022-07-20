@@ -247,12 +247,20 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Employee Transfer']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Employee Transfer']);
 
-            //Employee Transfer
+            //Warning
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Warning']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Warning']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Warning']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Warning']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Warning']);
+
+            //Attendance
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Attendance']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Attendance']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Attendance']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Attendance']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Attendance']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Attendance']);
 
             // Other
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Credit']);
@@ -290,10 +298,12 @@ class Permissions extends Seeder
                 'Create Employee',
                 'Create Employee Transfer',
                 'Create Warning',
+                'Create Attendance',
                 'Read Department',
                 'Read Employee',
                 'Read Employee Transfer',
                 'Read Warning',
+                'Read Attendance',
                 'Update Department',
                 'Update Employee',
                 'Update Employee Transfer',
@@ -302,21 +312,23 @@ class Permissions extends Seeder
                 'Delete Employee',
                 'Delete Employee Transfer',
                 'Delete Warning',
+                'Delete Attendance',
                 'Import Employee',
+                'Approve Attendance',
                 'Approve Employee Transfer',
                 'Approve Warning',
             ]);
 
             $humanResourceOfficer->syncPermissions([
-                'Create Department',
+                'Create Attendance',
                 'Create Employee',
                 'Create Employee Transfer',
-                'Create Warning',
-                'Read Department',
+                'Create Department',
+                'Read Attendance',
                 'Read Employee',
                 'Read Employee Transfer',
-                'Read Warning',
-                'Update Department',
+                'Read Department',
+                'Update Attendance',
                 'Update Employee',
                 'Update Employee Transfer',
                 'Update Warning',

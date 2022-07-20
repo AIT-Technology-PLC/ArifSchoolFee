@@ -60,6 +60,11 @@ class Employee extends Model
         return $this->gender == 'male';
     }
 
+    public function attendanceDetails()
+    {
+        return $this->hasMany(AttendanceDetail::class);
+    }
+
     public function isFemale()
     {
         return $this->gender == 'female';

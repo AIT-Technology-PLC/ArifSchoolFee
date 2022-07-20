@@ -147,8 +147,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Warning Management'))
-        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer', 'Read Warning'])
+    @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management'))
+        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer', 'Read Attendance', 'Read Warning'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -222,6 +222,7 @@
                                 </li>
                             @endcan
                         @endif
+
                         @if (isFeatureEnabled('Warning Management'))
                             @can('Read Warning')
                                 <li>
@@ -231,6 +232,19 @@
                                         label="Warnings"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('warnings.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('warnings.*') ? 'activateAccordion' : '' }}"
+                                </li>
+                            @endcan
+                        @endif
+                        
+                        @if (isFeatureEnabled('Attendance Management'))
+                            @can('Read Attendance')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('attendances.index') }}"
+                                        label="Attendances"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('attendances.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('attendances.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
