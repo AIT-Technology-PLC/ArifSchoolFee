@@ -152,7 +152,7 @@
                                             tag="a"
                                             mode="button"
                                             href="{{ route('attendances.create') }}"
-                                            icon="fas fa-clipboard-user"
+                                            icon="fa-solid fa-user-clock"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>

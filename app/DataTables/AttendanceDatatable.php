@@ -43,9 +43,9 @@ class AttendanceDatatable extends DataTable
     {
         return $attendance
             ->newQuery()
-            ->when(request('status') == 'approved', fn($query) => $query->Approved())
-            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
-            ->when(request('status') == 'cancelled', fn($query) => $query->Cancelled())
+            ->when(request('status') == 'approved', fn($query) => $query->approved()->notCancelled())
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
+            ->when(request('status') == 'cancelled', fn($query) => $query->cancelled())
             ->select('attendances.*')
             ->with([
                 'createdBy:id,name',

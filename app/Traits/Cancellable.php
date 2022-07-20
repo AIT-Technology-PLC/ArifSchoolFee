@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use App\Models\User;
 
-trait Cancelable
+trait Cancellable
 {
     public function cancelledBy()
     {

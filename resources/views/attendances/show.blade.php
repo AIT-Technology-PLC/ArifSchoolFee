@@ -9,7 +9,7 @@
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-clipboard-user"
+                        icon="fa-solid fa-user-clock"
                         :data="$attendance->code"
                         label="Attendance No"
                     />

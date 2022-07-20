@@ -26,11 +26,11 @@ class AttendanceController extends Controller
 
         $totalAttendances = Attendance::count();
 
-        $totalApproved = Attendance::Approved()->count();
+        $totalApproved = Attendance::approved()->notCancelled()->count();
 
-        $totalNotApproved = Attendance::notApproved()->count();
+        $totalNotApproved = Attendance::notApproved()->notCancelled()->count();
 
-        $totalCancelled = Attendance::Cancelled()->count();
+        $totalCancelled = Attendance::cancelled()->count();
 
         return $datatable->render('attendances.index', compact('totalAttendances', 'totalApproved', 'totalNotApproved', 'totalCancelled'));
     }
@@ -70,6 +70,10 @@ class AttendanceController extends Controller
             return back()->with('failedMessage', 'You can not modify an attendance that is approved.');
         }
 
+        if ($attendance->isCancelled()) {
+            return back()->with('failedMessage', 'You can not modify an attendance that is cancelled.');
+        }
+
         $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
 
         $attendance->load(['attendanceDetails']);
@@ -81,6 +85,10 @@ class AttendanceController extends Controller
     {
         if ($attendance->isApproved()) {
             return back()->with('failedMessage', 'You can not modify an attendance that is approved.');
+        }
+
+        if ($attendance->isCancelled()) {
+            return back()->with('failedMessage', 'You can not modify an attendance that is cancelled.');
         }
 
         DB::transaction(function () use ($request, $attendance) {
@@ -99,6 +107,10 @@ class AttendanceController extends Controller
     {
         if ($attendance->isApproved()) {
             return back()->with('failedMessage', 'You can not delete an attendance that is approved.');
+        }
+
+        if ($attendance->isCancelled()) {
+            return back()->with('failedMessage', 'You can not delete an attendance that is cancelled.');
         }
 
         $attendance->forceDelete();

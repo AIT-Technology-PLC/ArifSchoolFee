@@ -141,7 +141,7 @@
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class="fas fa-clipboard-user"></i>
+                                                <i class="fa-solid fa-user-clock"></i>
                                             </span>
                                         </a>
                                         <br>

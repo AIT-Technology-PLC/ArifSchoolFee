@@ -19,7 +19,7 @@ class StoreAttendanceRequest extends FormRequest
             'code' => ['required', 'integer', new UniqueReferenceNum('attendances')],
             'date' => ['required', 'date'],
             'attendance' => ['required', 'array'],
-            'attendance.*.employee_id' => ['required', 'integer', new MustBelongToCompany('employees')],
+            'attendance.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees')],
             'attendance.*.days' => ['required', 'numeric', 'gt:0'],
         ];
     }

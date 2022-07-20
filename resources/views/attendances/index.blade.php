@@ -8,7 +8,7 @@
             <x-common.total-model
                 model="Attendances"
                 :amount="$totalAttendances"
-                icon="fas fa-clipboard-user"
+                icon="fa-solid fa-user-clock"
             />
         </div>
         <div class="column is-3 p-lr-0">

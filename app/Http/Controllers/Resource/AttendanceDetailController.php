@@ -20,6 +20,10 @@ class AttendanceDetailController extends Controller
             return back()->with('failedMessage', 'You can not delete an attendance that is approved.');
         }
 
+        if ($attendanceDetail->attendance->isCancelled()) {
+            return back()->with('failedMessage', 'You can not delete an attendance that is cancelled.');
+        }
+
         $attendanceDetail->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');
