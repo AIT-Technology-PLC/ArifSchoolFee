@@ -81,12 +81,18 @@
                                             name="gender"
                                         >
                                             <option
+                                                disabled
+                                                selected
+                                            >
+                                                Select Gender
+                                            </option>
+                                            <option
                                                 value="male"
                                                 @selected($employee->isMale())
                                             > Male</option>
                                             <option
                                                 value="female"
-                                                @selected(!$employee->isMale())
+                                                @selected(!$employee->isFemale())
                                             > Female </option>
                                         </x-forms.select>
                                         <x-common.icon
@@ -174,6 +180,12 @@
                                             name="job_type"
                                         >
                                             <option
+                                                disabled
+                                                selected
+                                            >
+                                                Select Job Type
+                                            </option>
+                                            <option
                                                 value="full time"
                                                 @selected($employee->job_type == 'full time')
                                             > Full Time </option>
@@ -202,9 +214,37 @@
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
+                            @if (!isFeatureEnabled('Employee Transfer'))
+                                <div class="column is-6">
+                                    <x-forms.field>
+                                        <x-forms.label for="warehouse_id">
+                                            Assign To <sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.control class="has-icons-left">
+                                            <x-forms.select
+                                                class="is-fullwidth"
+                                                id="warehouse_id"
+                                                name="warehouse_id"
+                                            >
+                                                @foreach ($warehouses as $warehouse)
+                                                    <option
+                                                        value="{{ $warehouse->id }}"
+                                                        {{ $employee->user->warehouse_id == $warehouse->id ? 'selected' : '' }}
+                                                    >{{ $warehouse->name }}</option>
+                                                @endforeach
+                                            </x-forms.select>
+                                            <x-common.icon
+                                                name="fas fa-warehouse"
+                                                class="is-small is-left"
+                                            />
+                                            <x-common.validation-error property="warehouse_id" />
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
+                            @endif
                             <div class="column is-6">
                                 <x-forms.label>
-                                    ID Details <sup class="has-text-danger">*</sup>
+                                    ID Details <sup class="has-text-danger"></sup>
                                 </x-forms.label>
                                 <x-forms.field class="has-addons">
                                     <x-forms.control class="has-icons-left ">
@@ -213,6 +253,12 @@
                                             id="id_type"
                                             name="id_type"
                                         >
+                                            <option
+                                                disabled
+                                                selected
+                                            >
+                                                Select ID Type
+                                            </option>
                                             <option
                                                 value="passport"
                                                 @selected($employee->id_type == 'passport')
@@ -257,34 +303,6 @@
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
-                            @if (!isFeatureEnabled('Employee Transfer'))
-                                <div class="column is-6">
-                                    <x-forms.field>
-                                        <x-forms.label for="warehouse_id">
-                                            Assign To <sup class="has-text-danger">*</sup>
-                                        </x-forms.label>
-                                        <x-forms.control class="has-icons-left">
-                                            <x-forms.select
-                                                class="is-fullwidth"
-                                                id="warehouse_id"
-                                                name="warehouse_id"
-                                            >
-                                                @foreach ($warehouses as $warehouse)
-                                                    <option
-                                                        value="{{ $warehouse->id }}"
-                                                        {{ $employee->user->warehouse_id == $warehouse->id ? 'selected' : '' }}
-                                                    >{{ $warehouse->name }}</option>
-                                                @endforeach
-                                            </x-forms.select>
-                                            <x-common.icon
-                                                name="fas fa-warehouse"
-                                                class="is-small is-left"
-                                            />
-                                            <x-common.validation-error property="warehouse_id" />
-                                        </x-forms.control>
-                                    </x-forms.field>
-                                </div>
-                            @endif
                             @if (isFeatureEnabled('Department Management'))
                                 <div class="column is-6">
                                     <x-forms.field>
@@ -297,11 +315,19 @@
                                                 id="department_id"
                                                 name="department_id"
                                             >
+                                                <option
+                                                    disabled
+                                                    selected
+                                                >
+                                                    Select Department
+                                                </option>
                                                 @foreach ($departments as $department)
                                                     <option
                                                         value="{{ $department->id }}"
-                                                        {{ $employee->department_id == $department->id ? 'selected' : '' }}
-                                                    >{{ $department->name }}</option>
+                                                        @selected($employee->department_id == $department->id)
+                                                    >
+                                                        {{ $department->name }}
+                                                    </option>
                                                 @endforeach
                                                 <option value="">None</option>
                                             </x-forms.select>
@@ -326,14 +352,18 @@
                                             name="bank_name"
                                         >
                                             <option
+                                                disabled
                                                 selected
-                                                value=""
-                                            > Select Bank </option>
-                                            @if (old('bank_name'))
+                                            >
+                                                Select Bank
+                                            </option>
+                                            @if ($employee->bank_name)
                                                 <option
                                                     value="{{ $employee->bank_name }}"
                                                     selected
-                                                > {{ old('bank_name') }} </option>
+                                                >
+                                                    {{ $employee->bank_name }}
+                                                </option>
                                             @endif
                                             @include('lists.banks')
                                         </x-forms.select>
@@ -391,9 +421,9 @@
                                         <x-forms.input
                                             id="date_of_hiring"
                                             name="date_of_hiring"
-                                            type="datetime-local"
+                                            type="date"
                                             placeholder="mm/dd/yyyy"
-                                            value="{{ $employee->date_of_hiring }}"
+                                            value="{{ $employee->date_of_hiring?->toDateString() }}"
                                             autocomplete="date_of_hiring"
                                         />
                                         <x-common.icon
@@ -413,9 +443,9 @@
                                         <x-forms.input
                                             id="date_of_birth"
                                             name="date_of_birth"
-                                            type="datetime-local"
+                                            type="date"
                                             placeholder="mm/dd/yyyy"
-                                            value="{{ $employee->date_of_birth }}"
+                                            value="{{ $employee->date_of_birth?->toDateString() }}"
                                             autocomplete="date_of_birth"
                                         />
                                         <x-common.icon

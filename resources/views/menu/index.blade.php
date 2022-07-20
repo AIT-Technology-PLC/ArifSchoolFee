@@ -80,7 +80,7 @@
                 </section>
             @endcanany
         @endif
-        @if (isFeatureEnabled('Department Management', 'User Management'))
+        @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer'))
             @canany(['Read Employee', 'Read Department'])
                 <section class="mb-5">
                     <x-content.header>
@@ -95,7 +95,7 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('User Management'))
+                            @if (isFeatureEnabled('Employee Management'))
                                 @can('Read Employee')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
@@ -158,718 +158,703 @@
         @endif
 
         @if (isFeatureEnabled('Employee Transfer'))
-            @canany(['Read Employee Transfer'])
-                <section class="mb-5">
-                    <x-content.header>
-                        <x-slot name="header">
-                            <span class="icon">
-                                <i class="fas fa-users"></i>
-                            </span>
-                            <span class="ml-2">
-                                Human Resource
-                            </span>
-                        </x-slot>
-                    </x-content.header>
-                    <x-content.footer>
-                        <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('Employee Transfer'))
-                                @can('Read Employee Transfer')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('employee-transfers.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-people-arrows-left-right"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Transfers
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-                        </div>
-                    </x-content.footer>
-                </section>
-            @endcanany
+            @can('Read Employee Transfer')
+                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                    <a
+                        href="{{ route('employee-transfers.index') }}"
+                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                    >
+                        <span class="icon is-size-5">
+                            <i class="fas fa-people-arrows-left-right"></i>
+                        </span>
+                    </a>
+                    <br>
+                    <span class="is-size-6 is-size-7-mobile text-green">
+                        Transfers
+                    </span>
+                </div>
+            @endcan
         @endif
+        </div>
+        </x-content.footer>
+        </section>
+    @endcanany
+    @endif
 
-        @if (isFeatureEnabled('Merchandise Inventory', 'Warehouse Management', 'Grn Management', 'Transfer Management', 'Damage Management', 'Inventory Adjustment', 'Siv Management'))
-            @canany(['Read Available Inventory', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
-                <section class="mb-5">
-                    <x-content.header>
-                        <x-slot name="header">
-                            <span class="icon">
-                                <i class="fas fa-warehouse"></i>
-                            </span>
-                            <span class="ml-2">
-                                Warehouse & Inventory
-                            </span>
-                        </x-slot>
-                    </x-content.header>
-                    <x-content.footer>
-                        <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('Merchandise Inventory'))
-                                @can('Read Available Inventory')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('merchandises.index', 'available') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-chart-bar"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Inventory Level
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Warehouse Management'))
-                                @can('Read Warehouse')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('warehouses.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-warehouse"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Warehouses
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Grn Management'))
-                                @can('Read GRN')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('grns.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-file-import"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            GRN
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Transfer Management'))
-                                @can('Read Transfer')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('transfers.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-exchange-alt"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Transfers
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Damage Management'))
-                                @can('Read Damage')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('damages.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-bolt"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Damages
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Inventory Adjustment'))
-                                @can('Read Adjustment')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('adjustments.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-eraser"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Adjustments
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Siv Management'))
-                                @can('Read SIV')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('sivs.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-file-export"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            SIV
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @foreach (pads('Warehouse & Inventory') as $pad)
-                                @canpad('Read', $pad)
+    @if (isFeatureEnabled('Merchandise Inventory', 'Warehouse Management', 'Grn Management', 'Transfer Management', 'Damage Management', 'Inventory Adjustment', 'Siv Management'))
+        @canany(['Read Available Inventory', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
+            <section class="mb-5">
+                <x-content.header>
+                    <x-slot name="header">
+                        <span class="icon">
+                            <i class="fas fa-warehouse"></i>
+                        </span>
+                        <span class="ml-2">
+                            Warehouse & Inventory
+                        </span>
+                    </x-slot>
+                </x-content.header>
+                <x-content.footer>
+                    <div class="columns is-marginless is-multiline is-mobile">
+                        @if (isFeatureEnabled('Merchandise Inventory'))
+                            @can('Read Available Inventory')
                                 <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                     <a
-                                        href="{{ route('pads.transactions.index', $pad->id) }}"
+                                        href="{{ route('merchandises.index', 'available') }}"
                                         class="general-menu-item button text-green bg-lightgreen is-borderless"
                                     >
                                         <span class="icon is-size-5">
-                                            <i class="{{ $pad->icon }}"></i>
+                                            <i class="fas fa-chart-bar"></i>
                                         </span>
                                     </a>
                                     <br>
                                     <span class="is-size-6 is-size-7-mobile text-green">
-                                        {{ $pad->abbreviation }}
+                                        Inventory Level
                                     </span>
                                 </div>
-                                @endcanpad
-                            @endforeach
-                        </div>
-                    </x-content.footer>
-                </section>
-            @endcanany
-        @endif
+                            @endcan
+                        @endif
 
-        @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management'))
-            @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer'])
-                <section class="mb-5">
-                    <x-content.header>
-                        <x-slot name="header">
-                            <span class="icon">
-                                <i class="fas fa-tags"></i>
-                            </span>
-                            <span class="ml-2">
-                                Sales & Customers
-                            </span>
-                        </x-slot>
-                    </x-content.header>
-                    <x-content.footer>
-                        <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('Sale Management'))
-                                @can('Read Sale')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('sales.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-cash-register"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Invoices
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Gdn Management'))
-                                @can('Read GDN')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('gdns.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-file-invoice"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Delivery Orders
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Proforma Invoice'))
-                                @can('Read Proforma Invoice')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('proforma-invoices.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-receipt"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Proforma Invoices
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Reservation Management'))
-                                @can('Read Reservation')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('reservations.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-archive"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Reservations
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Return Management'))
-                                @can('Read Return')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('returns.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-arrow-alt-circle-left"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Returns
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Credit Management'))
-                                @can('Read Credit')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('credits.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-money-check"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Credits
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Price Management'))
-                                @can('Read Price')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('prices.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-tags"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Prices
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Customer Management'))
-                                @can('Read Customer')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('customers.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-user"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Customers
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @foreach (pads('Sales & Customers') as $pad)
-                                @canpad('Read', $pad)
+                        @if (isFeatureEnabled('Warehouse Management'))
+                            @can('Read Warehouse')
                                 <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                     <a
-                                        href="{{ route('pads.transactions.index', $pad->id) }}"
+                                        href="{{ route('warehouses.index') }}"
                                         class="general-menu-item button text-green bg-lightgreen is-borderless"
                                     >
                                         <span class="icon is-size-5">
-                                            <i class="{{ $pad->icon }}"></i>
+                                            <i class="fas fa-warehouse"></i>
                                         </span>
                                     </a>
                                     <br>
                                     <span class="is-size-6 is-size-7-mobile text-green">
-                                        {{ $pad->abbreviation }}
+                                        Warehouses
                                     </span>
                                 </div>
-                                @endcanpad
-                            @endforeach
-                        </div>
-                    </x-content.footer>
-                </section>
-            @endcanany
-        @endif
+                            @endcan
+                        @endif
 
-        @if (isFeatureEnabled('Tender Management'))
-            @can('Read Tender')
-                <section class="mb-5">
-                    <x-content.header>
-                        <x-slot name="header">
-                            <span class="icon">
-                                <i class="fas fa-project-diagram"></i>
-                            </span>
-                            <span class="ml-2">
+                        @if (isFeatureEnabled('Grn Management'))
+                            @can('Read GRN')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('grns.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-file-import"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        GRN
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Transfer Management'))
+                            @can('Read Transfer')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('transfers.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-exchange-alt"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Transfers
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Damage Management'))
+                            @can('Read Damage')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('damages.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-bolt"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Damages
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Inventory Adjustment'))
+                            @can('Read Adjustment')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('adjustments.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-eraser"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Adjustments
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Siv Management'))
+                            @can('Read SIV')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('sivs.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-file-export"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        SIV
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @foreach (pads('Warehouse & Inventory') as $pad)
+                            @canpad('Read', $pad)
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                <a
+                                    href="{{ route('pads.transactions.index', $pad->id) }}"
+                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                >
+                                    <span class="icon is-size-5">
+                                        <i class="{{ $pad->icon }}"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile text-green">
+                                    {{ $pad->abbreviation }}
+                                </span>
+                            </div>
+                            @endcanpad
+                        @endforeach
+                    </div>
+                </x-content.footer>
+            </section>
+        @endcanany
+    @endif
+
+    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management'))
+        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer'])
+            <section class="mb-5">
+                <x-content.header>
+                    <x-slot name="header">
+                        <span class="icon">
+                            <i class="fas fa-tags"></i>
+                        </span>
+                        <span class="ml-2">
+                            Sales & Customers
+                        </span>
+                    </x-slot>
+                </x-content.header>
+                <x-content.footer>
+                    <div class="columns is-marginless is-multiline is-mobile">
+                        @if (isFeatureEnabled('Sale Management'))
+                            @can('Read Sale')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('sales.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-cash-register"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Invoices
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Gdn Management'))
+                            @can('Read GDN')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('gdns.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-file-invoice"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Delivery Orders
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Proforma Invoice'))
+                            @can('Read Proforma Invoice')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('proforma-invoices.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-receipt"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Proforma Invoices
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Reservation Management'))
+                            @can('Read Reservation')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('reservations.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-archive"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Reservations
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Return Management'))
+                            @can('Read Return')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('returns.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-arrow-alt-circle-left"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Returns
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Credit Management'))
+                            @can('Read Credit')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('credits.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-money-check"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Credits
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Price Management'))
+                            @can('Read Price')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('prices.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-tags"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Prices
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Customer Management'))
+                            @can('Read Customer')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('customers.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-user"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Customers
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @foreach (pads('Sales & Customers') as $pad)
+                            @canpad('Read', $pad)
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                <a
+                                    href="{{ route('pads.transactions.index', $pad->id) }}"
+                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                >
+                                    <span class="icon is-size-5">
+                                        <i class="{{ $pad->icon }}"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile text-green">
+                                    {{ $pad->abbreviation }}
+                                </span>
+                            </div>
+                            @endcanpad
+                        @endforeach
+                    </div>
+                </x-content.footer>
+            </section>
+        @endcanany
+    @endif
+
+    @if (isFeatureEnabled('Tender Management'))
+        @can('Read Tender')
+            <section class="mb-5">
+                <x-content.header>
+                    <x-slot name="header">
+                        <span class="icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </span>
+                        <span class="ml-2">
+                            Tenders
+                        </span>
+                    </x-slot>
+                </x-content.header>
+                <x-content.footer>
+                    <div class="columns is-marginless is-multiline is-mobile">
+                        <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                            <a
+                                href="{{ route('tenders.index') }}"
+                                class="general-menu-item button text-green bg-lightgreen is-borderless"
+                            >
+                                <span class="icon is-size-5">
+                                    <i class="fas fa-project-diagram"></i>
+                                </span>
+                            </a>
+                            <br>
+                            <span class="is-size-6 is-size-7-mobile text-green">
                                 Tenders
                             </span>
-                        </x-slot>
-                    </x-content.header>
-                    <x-content.footer>
-                        <div class="columns is-marginless is-multiline is-mobile">
-                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                <a
-                                    href="{{ route('tenders.index') }}"
-                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                >
-                                    <span class="icon is-size-5">
-                                        <i class="fas fa-project-diagram"></i>
-                                    </span>
-                                </a>
-                                <br>
-                                <span class="is-size-6 is-size-7-mobile text-green">
-                                    Tenders
-                                </span>
-                            </div>
-                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                <a
-                                    href="{{ route('tender-opportunities.index') }}"
-                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                >
-                                    <span class="icon is-size-5">
-                                        <i class="fas fa-comment-dollar"></i>
-                                    </span>
-                                </a>
-                                <br>
-                                <span class="is-size-6 is-size-7-mobile text-green">
-                                    Tender Opportunities
-                                </span>
-                            </div>
-                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                <a
-                                    href="{{ route('tender-checklist-types.index') }}"
-                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                >
-                                    <span class="icon is-size-5">
-                                        <i class="fas fa-tasks"></i>
-                                    </span>
-                                </a>
-                                <br>
-                                <span class="is-size-6 is-size-7-mobile text-green">
-                                    Checklist Categories
-                                </span>
-                            </div>
-                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                <a
-                                    href="{{ route('general-tender-checklists.index') }}"
-                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                >
-                                    <span class="icon is-size-5">
-                                        <i class="fas fa-check-double"></i>
-                                    </span>
-                                </a>
-                                <br>
-                                <span class="is-size-6 is-size-7-mobile text-green">
-                                    Available Checklists
-                                </span>
-                            </div>
-                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                <a
-                                    href="{{ route('tender-statuses.index') }}"
-                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                >
-                                    <span class="icon is-size-5">
-                                        <i class="fas fa-info"></i>
-                                    </span>
-                                </a>
-                                <br>
-                                <span class="is-size-6 is-size-7-mobile text-green">
-                                    Statuses
-                                </span>
-                            </div>
                         </div>
-                    </x-content.footer>
-                </section>
-            @endcan
-        @endif
-
-        @if (isFeatureEnabled('Purchase Management', 'Supplier Management'))
-            @canany(['Read Purchase', 'Read Supplier'])
-                <section class="mb-5">
-                    <x-content.header>
-                        <x-slot name="header">
-                            <span class="icon">
-                                <i class="fas fa-shopping-bag"></i>
+                        <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                            <a
+                                href="{{ route('tender-opportunities.index') }}"
+                                class="general-menu-item button text-green bg-lightgreen is-borderless"
+                            >
+                                <span class="icon is-size-5">
+                                    <i class="fas fa-comment-dollar"></i>
+                                </span>
+                            </a>
+                            <br>
+                            <span class="is-size-6 is-size-7-mobile text-green">
+                                Tender Opportunities
                             </span>
-                            <span class="ml-2">
-                                Purchases & Suppliers
+                        </div>
+                        <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                            <a
+                                href="{{ route('tender-checklist-types.index') }}"
+                                class="general-menu-item button text-green bg-lightgreen is-borderless"
+                            >
+                                <span class="icon is-size-5">
+                                    <i class="fas fa-tasks"></i>
+                                </span>
+                            </a>
+                            <br>
+                            <span class="is-size-6 is-size-7-mobile text-green">
+                                Checklist Categories
                             </span>
-                        </x-slot>
-                    </x-content.header>
-                    <x-content.footer>
-                        <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('Purchase Management'))
-                                @can('Read Purchase')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('purchases.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-shopping-bag"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Purchases
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
+                        </div>
+                        <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                            <a
+                                href="{{ route('general-tender-checklists.index') }}"
+                                class="general-menu-item button text-green bg-lightgreen is-borderless"
+                            >
+                                <span class="icon is-size-5">
+                                    <i class="fas fa-check-double"></i>
+                                </span>
+                            </a>
+                            <br>
+                            <span class="is-size-6 is-size-7-mobile text-green">
+                                Available Checklists
+                            </span>
+                        </div>
+                        <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                            <a
+                                href="{{ route('tender-statuses.index') }}"
+                                class="general-menu-item button text-green bg-lightgreen is-borderless"
+                            >
+                                <span class="icon is-size-5">
+                                    <i class="fas fa-info"></i>
+                                </span>
+                            </a>
+                            <br>
+                            <span class="is-size-6 is-size-7-mobile text-green">
+                                Statuses
+                            </span>
+                        </div>
+                    </div>
+                </x-content.footer>
+            </section>
+        @endcan
+    @endif
 
-                            @if (isFeatureEnabled('Supplier Management'))
-                                @can('Read Supplier')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('suppliers.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-address-card"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Suppliers
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @foreach (pads('Purchases & Suppliers') as $pad)
-                                @canpad('Read', $pad)
+    @if (isFeatureEnabled('Purchase Management', 'Supplier Management'))
+        @canany(['Read Purchase', 'Read Supplier'])
+            <section class="mb-5">
+                <x-content.header>
+                    <x-slot name="header">
+                        <span class="icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </span>
+                        <span class="ml-2">
+                            Purchases & Suppliers
+                        </span>
+                    </x-slot>
+                </x-content.header>
+                <x-content.footer>
+                    <div class="columns is-marginless is-multiline is-mobile">
+                        @if (isFeatureEnabled('Purchase Management'))
+                            @can('Read Purchase')
                                 <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                     <a
-                                        href="{{ route('pads.transactions.index', $pad->id) }}"
+                                        href="{{ route('purchases.index') }}"
                                         class="general-menu-item button text-green bg-lightgreen is-borderless"
                                     >
                                         <span class="icon is-size-5">
-                                            <i class="{{ $pad->icon }}"></i>
+                                            <i class="fas fa-shopping-bag"></i>
                                         </span>
                                     </a>
                                     <br>
                                     <span class="is-size-6 is-size-7-mobile text-green">
-                                        {{ $pad->abbreviation }}
+                                        Purchases
                                     </span>
                                 </div>
-                                @endcanpad
-                            @endforeach
-                        </div>
-                    </x-content.footer>
-                </section>
-            @endcanany
-        @endif
+                            @endcan
+                        @endif
 
-        @if (isFeatureEnabled('Product Management'))
-            @can('Read Product')
-                <section class="mb-5">
-                    <x-content.header>
-                        <x-slot name="header">
-                            <span class="icon">
-                                <i class="fas fa-th"></i>
-                            </span>
-                            <span class="ml-2">
-                                Products & Categories
-                            </span>
-                        </x-slot>
-                    </x-content.header>
-                    <x-content.footer>
-                        <div class="columns is-marginless is-multiline is-mobile">
-                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                <a
-                                    href="{{ route('categories.index') }}"
-                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                >
-                                    <span class="icon is-size-5">
-                                        <i class="fas fa-layer-group"></i>
-                                    </span>
-                                </a>
-                                <br>
-                                <span class="is-size-6 is-size-7-mobile text-green">
-                                    Categories
-                                </span>
-                            </div>
-                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                <a
-                                    href="{{ route('products.index') }}"
-                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                >
-                                    <span class="icon is-size-5">
-                                        <i class="fas fa-th"></i>
-                                    </span>
-                                </a>
-                                <br>
-                                <span class="is-size-6 is-size-7-mobile text-green">
-                                    Products
-                                </span>
-                            </div>
-                        </div>
-                    </x-content.footer>
-                </section>
-            @endcan
-        @endif
-
-        @if (isFeatureEnabled('Pad Management', 'User Management', 'General Settings'))
-            @canany(['Read Pad', 'Read Employee', 'Update Company'])
-                <section>
-                    <x-content.header>
-                        <x-slot name="header">
-                            <span class="icon">
-                                <i class="fas fa-cog"></i>
-                            </span>
-                            <span class="ml-2">
-                                General Settings
-                            </span>
-                        </x-slot>
-                    </x-content.header>
-                    <x-content.footer>
-                        <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('Pad Management'))
-                                @can('Read Pad')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('pads.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-book"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Pads
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('User Management'))
-                                @can('Read Employee')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('employees.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-users"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Employees
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('General Settings'))
-                                @can('Update Company')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('companies.edit', userCompany()->id) }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-building"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Company Profile
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @foreach (pads('General Settings') as $pad)
-                                @canpad('Read', $pad)
+                        @if (isFeatureEnabled('Supplier Management'))
+                            @can('Read Supplier')
                                 <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                     <a
-                                        href="{{ route('pads.transactions.index', $pad->id) }}"
+                                        href="{{ route('suppliers.index') }}"
                                         class="general-menu-item button text-green bg-lightgreen is-borderless"
                                     >
                                         <span class="icon is-size-5">
-                                            <i class="{{ $pad->icon }}"></i>
+                                            <i class="fas fa-address-card"></i>
                                         </span>
                                     </a>
                                     <br>
                                     <span class="is-size-6 is-size-7-mobile text-green">
-                                        {{ $pad->abbreviation }}
+                                        Suppliers
                                     </span>
                                 </div>
-                                @endcanpad
-                            @endforeach
+                            @endcan
+                        @endif
+
+                        @foreach (pads('Purchases & Suppliers') as $pad)
+                            @canpad('Read', $pad)
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                <a
+                                    href="{{ route('pads.transactions.index', $pad->id) }}"
+                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                >
+                                    <span class="icon is-size-5">
+                                        <i class="{{ $pad->icon }}"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile text-green">
+                                    {{ $pad->abbreviation }}
+                                </span>
+                            </div>
+                            @endcanpad
+                        @endforeach
+                    </div>
+                </x-content.footer>
+            </section>
+        @endcanany
+    @endif
+
+    @if (isFeatureEnabled('Product Management'))
+        @can('Read Product')
+            <section class="mb-5">
+                <x-content.header>
+                    <x-slot name="header">
+                        <span class="icon">
+                            <i class="fas fa-th"></i>
+                        </span>
+                        <span class="ml-2">
+                            Products & Categories
+                        </span>
+                    </x-slot>
+                </x-content.header>
+                <x-content.footer>
+                    <div class="columns is-marginless is-multiline is-mobile">
+                        <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                            <a
+                                href="{{ route('categories.index') }}"
+                                class="general-menu-item button text-green bg-lightgreen is-borderless"
+                            >
+                                <span class="icon is-size-5">
+                                    <i class="fas fa-layer-group"></i>
+                                </span>
+                            </a>
+                            <br>
+                            <span class="is-size-6 is-size-7-mobile text-green">
+                                Categories
+                            </span>
                         </div>
-                    </x-content.footer>
-                </section>
-            @endcanany
-        @endif
-    </x-common.content-wrapper>
+                        <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                            <a
+                                href="{{ route('products.index') }}"
+                                class="general-menu-item button text-green bg-lightgreen is-borderless"
+                            >
+                                <span class="icon is-size-5">
+                                    <i class="fas fa-th"></i>
+                                </span>
+                            </a>
+                            <br>
+                            <span class="is-size-6 is-size-7-mobile text-green">
+                                Products
+                            </span>
+                        </div>
+                    </div>
+                </x-content.footer>
+            </section>
+        @endcan
+    @endif
+
+    @if (isFeatureEnabled('Pad Management', 'User Management', 'General Settings'))
+        @canany(['Read Pad', 'Read Employee', 'Update Company'])
+            <section>
+                <x-content.header>
+                    <x-slot name="header">
+                        <span class="icon">
+                            <i class="fas fa-cog"></i>
+                        </span>
+                        <span class="ml-2">
+                            General Settings
+                        </span>
+                    </x-slot>
+                </x-content.header>
+                <x-content.footer>
+                    <div class="columns is-marginless is-multiline is-mobile">
+                        @if (isFeatureEnabled('Pad Management'))
+                            @can('Read Pad')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('pads.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-book"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Pads
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('User Management') && !isFeatureEnabled('Employee Management'))
+                            @can('Read Employee')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('employees.index') }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-users"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Employees
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('General Settings'))
+                            @can('Update Company')
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('companies.edit', userCompany()->id) }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="fas fa-building"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        Company Profile
+                                    </span>
+                                </div>
+                            @endcan
+                        @endif
+
+                        @foreach (pads('General Settings') as $pad)
+                            @canpad('Read', $pad)
+                            <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                <a
+                                    href="{{ route('pads.transactions.index', $pad->id) }}"
+                                    class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                >
+                                    <span class="icon is-size-5">
+                                        <i class="{{ $pad->icon }}"></i>
+                                    </span>
+                                </a>
+                                <br>
+                                <span class="is-size-6 is-size-7-mobile text-green">
+                                    {{ $pad->abbreviation }}
+                                </span>
+                            </div>
+                            @endcanpad
+                        @endforeach
+                    </div>
+                </x-content.footer>
+            </section>
+        @endcanany
+    @endif
+</x-common.content-wrapper>
 @endsection
