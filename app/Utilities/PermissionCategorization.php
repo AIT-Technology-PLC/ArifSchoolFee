@@ -105,6 +105,10 @@ class PermissionCategorization
             'label' => 'Employee Transfer',
             'feature' => 'Employee Transfer',
         ],
+        'warning' => [
+            'label' => 'Warning',
+            'feature' => 'Warning Management',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)

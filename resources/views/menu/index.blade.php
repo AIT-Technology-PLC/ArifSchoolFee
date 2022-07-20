@@ -80,8 +80,8 @@
                 </section>
             @endcanany
         @endif
-        @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer'))
-            @canany(['Read Employee', 'Read Department'])
+        @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer', 'Warning Management'))
+            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Warning'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -166,6 +166,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Transfers
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Warning Management'))
+                                @can('Read Warning')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('warnings.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-circle-exclamation"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Warnings
                                         </span>
                                     </div>
                                 @endcan
