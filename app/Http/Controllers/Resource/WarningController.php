@@ -29,7 +29,7 @@ class WarningController extends Controller
 
         $totalAffirmedWarning = Warning::affirmation()->count();
 
-        $totalFinalWarning = Warning::final ()->count();
+        $totalFinalWarning = Warning::final()->count();
 
         return $datatable->render('warnings.index', compact('totalWarnings', 'totalInitalWarning', 'totalAffirmedWarning', 'totalFinalWarning'));
     }
