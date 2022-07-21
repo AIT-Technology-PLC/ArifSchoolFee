@@ -2,43 +2,66 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\LeaveCategoryDatatable;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreLeaveCategoryRequest;
+use App\Http\Requests\UpdateLeaveCategoryRequest;
+use App\Models\Leave;
+use App\Models\LeaveCategory;
+use Illuminate\Support\Facades\DB;
 
 class LeaveCategoryController extends Controller
 {
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('isFeatureAccessible:Leave Management');
+
+        $this->authorizeResource(Leave::class);
+    }
+
+    public function index(LeaveCategoryDatatable $datatable)
+    {
+        $datatable->builder()->setTableId('leave_categories-datatable')->orderBy(1, 'asc');
+
+        $totalLeaveCategories = LeaveCategory::count();
+
+        return $datatable->render('leave_categories.index', compact('totalLeaveCategories'));
     }
 
     public function create()
     {
-        //
+        return view('leave_categories.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreLeaveCategoryRequest $request)
     {
-        //
+        $leaveCategories = collect($request->validated('leaveCategory'));
+
+        DB::transaction(function () use ($leaveCategories) {
+            foreach ($leaveCategories as $leaveCategory) {
+                leaveCategory::firstOrCreate($leaveCategory);
+            }
+        });
+
+        return redirect()->route('leave_categories.index')->with('successMessage', 'New leave Category are added.');
     }
 
-    public function show($id)
+    public function edit(LeaveCategory $leaveCategory)
     {
-        //
+        return view('leave_categories.edit', compact('LeaveCategory'));
     }
 
-    public function edit($id)
+    public function update(UpdateLeaveCategoryRequest $request, LeaveCategory $leaveCategory)
     {
-        //
+        $leaveCategory->update($request->validated());
+
+        return redirect()->route('leave_categories.index');
     }
 
-    public function update(Request $request, $id)
+    public function destroy(LeaveCategory $leaveCategory)
     {
-        //
-    }
+        $leaveCategory->delete();
 
-    public function destroy($id)
-    {
-        //
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }

@@ -250,6 +250,29 @@
                                 </li>
                             @endcan
                         @endif
+
+                        @if (isFeatureEnabled('Leave Management'))
+                            @can('Read Leave')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('leave_categories.index') }}"
+                                        label="Leave Categories"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('leave_categories.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('leave_categories.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('leaves.index') }}"
+                                        label="Leaves"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('leaves.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('leaves.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
                     </ul>
                 </li>
             </ul>
