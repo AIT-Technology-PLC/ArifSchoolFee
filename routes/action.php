@@ -259,7 +259,7 @@ Route::post('/employee-transfers/{employee_transfer}/approve',
 Route::post('/warnings/{warning}/approve',
     [Action\WarningController::class, 'approve'])
     ->name('warnings.approve');
- 
+
 // Attendance
 Route::post('/attendances/{attendance}/approve',
     [Action\AttendanceController::class, 'approve'])
@@ -299,3 +299,12 @@ Route::post('/gdns/import',
 Route::post('/gdns/{gdn}/convert-to-sale',
     [Action\GdnController::class, 'convertToSale'])
     ->name('gdns.convert_to_sale');
+
+// Leave
+Route::post('/leaves/{leave}/approve',
+    [Action\LeaveController::class, 'approve'])
+    ->name('leaves.approve');
+
+Route::post('/leaves/{leave}/cancel',
+    [Action\LeaveController::class, 'cancel'])
+    ->name('leaves.cancel');
