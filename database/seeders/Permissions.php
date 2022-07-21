@@ -331,6 +331,8 @@ class Permissions extends Seeder
                 'Approve Employee Transfer',
                 'Approve Warning',
                 'Approve Leave',
+                'Cancel Attendance',
+                'Cancel Leave',
             ]);
 
             $humanResourceOfficer->syncPermissions([

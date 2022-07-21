@@ -109,6 +109,14 @@ class PermissionCategorization
             'label' => 'Warning',
             'feature' => 'Warning Management',
         ],
+        'attendance' => [
+            'label' => 'Attendance',
+            'feature' => 'Attendance Management',
+        ],
+        'leave' => [
+            'label' => 'Leave',
+            'feature' => 'Leave Management',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)
