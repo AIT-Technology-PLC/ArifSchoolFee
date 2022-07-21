@@ -988,7 +988,7 @@ return new class extends Migration
             $table->longText('letter');
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->index('company_id');
             $table->index('warehouse_id');
         });
@@ -1035,6 +1035,36 @@ return new class extends Migration
             $table->foreignId('integration_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->boolean('is_enabled');
             $table->timestamps();
+        });
+
+        Schema::create('advancements', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->bigInteger('code');
+            $table->dateTime('issued_on')->nullable();
+            $table->string('type');
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+            $table->index('warehouse_id');
+        });
+
+        Schema::create('advancement_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('advancement_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->decimal('gross_salary', 22)->nullable();
+            $table->string('job_position');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('advancement_id');
         });
 
         Schema::enableForeignKeyConstraints();
@@ -1110,5 +1140,7 @@ return new class extends Migration
         Schema::drop('attendances');
         Schema::drop('company_integration');
         Schema::drop('integrations');
+        Schema::drop('advancement_details');
+        Schema::drop('advancements');
     }
 };
