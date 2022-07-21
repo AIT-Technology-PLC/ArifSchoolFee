@@ -80,8 +80,8 @@
                 </section>
             @endcanany
         @endif
-        @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer', 'Warning Management'))
-            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Warning'])
+        @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer', 'Warning Management', 'Advancement Management'))
+            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Warning', 'Read Advancement'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -185,6 +185,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Warnings
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Advancement Management'))
+                                @can('Read Advancement')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('advancements.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-chart"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Advancements
                                         </span>
                                     </div>
                                 @endcan
