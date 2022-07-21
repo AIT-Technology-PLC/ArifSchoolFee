@@ -17,7 +17,7 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$attendance->date"
+                        :data="$attendance->date->toFormattedDateString()"
                         label="Date"
                     />
                 </div>

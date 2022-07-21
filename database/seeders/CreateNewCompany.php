@@ -39,6 +39,10 @@ class CreateNewCompany extends Seeder
                 'enabled' => 1,
                 'position' => 'Onrica Support Department',
                 'role' => 'System Manager',
+                'gender' => 'male',
+                'address' => 'Bole',
+                'job_type' => 'full time',
+                'phone' => '0312131415',
             ]);
 
             $user->employee->company()->associate($company)->save();

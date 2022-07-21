@@ -4,7 +4,14 @@
 
 @section('content')
     <div class="columns is-marginless is-multiline">
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
+            <x-common.total-model
+                model="Warnings"
+                :amount="$totalWarnings"
+                icon="fas fa-exclamation-circle"
+            />
+        </div>
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 :amount="$totalInitalWarning"
                 border-color="#86843d"
@@ -12,7 +19,7 @@
                 label="Initial"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 :amount="$totalAffirmedWarning"
                 border-color="#3d8660"
@@ -20,7 +27,7 @@
                 label="Affirmation"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 :amount="$totalFinalWarning"
                 border-color="#863d3e"
@@ -33,13 +40,7 @@
         <x-content.header>
             <x-slot name="header">
                 <h1 class="title text-green has-text-weight-medium is-size-5">
-                    Warnings
-                    <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
-                        <x-common.icon name="fas fa-circle-exclamation" />
-                        <span>
-                            {{ number_format($totalWarnings) }} {{ str()->plural('warning', $totalWarnings) }}
-                        </span>
-                    </span>
+                    Warnings 
                 </h1>
             </x-slot>
             @can('Create Warning')

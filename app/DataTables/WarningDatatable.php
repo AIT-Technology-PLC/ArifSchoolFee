@@ -15,6 +15,12 @@ class WarningDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->setRowClass('is-clickable')
+            ->setRowAttr([
+                'data-url' => fn($warning) => route('warnings.show', $warning->id),
+                'x-data' => 'showRowDetails',
+                '@click' => 'showDetails',
+            ])
             ->editColumn('status', fn($warning) => view('components.datatables.warning-status', compact('warning')))
             ->editColumn('type', fn($warning) => view('components.datatables.warning-type', compact('warning')))
             ->editColumn('employee name', fn($warning) => $warning->employee->user->name)
@@ -36,11 +42,11 @@ class WarningDatatable extends DataTable
     {
         return $warning
             ->newQuery()
-            ->when(request('status') == 'approved', fn($query) => $query->Approved())
+            ->when(request('status') == 'approved', fn($query) => $query->approved())
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
-            ->when(request('type') == 'initial warning', fn($query) => $query->Initial())
-            ->when(request('type') == 'affirmation warning', fn($query) => $query->Affirmation())
-            ->when(request('type') == 'final warning', fn($query) => $query->Final())
+            ->when(request('type') == 'initial warning', fn($query) => $query->initial())
+            ->when(request('type') == 'affirmation warning', fn($query) => $query->affirmation())
+            ->when(request('type') == 'final warning', fn($query) => $query->final())
             ->select('warnings.*')
             ->with([
                 'createdBy:id,name',

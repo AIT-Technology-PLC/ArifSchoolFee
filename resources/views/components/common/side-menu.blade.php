@@ -223,20 +223,6 @@
                             @endcan
                         @endif
 
-                        @if (isFeatureEnabled('Warning Management'))
-                            @can('Read Warning')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('warnings.index') }}"
-                                        label="Warnings"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('warnings.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('warnings.*') ? 'activateAccordion' : '' }}"
-                                        </li
-                                    >
-                                    @endcan
-                        @endif
-
                         @if (isFeatureEnabled('Attendance Management'))
                             @can('Read Attendance')
                                 <li>
@@ -251,24 +237,15 @@
                             @endcan
                         @endif
 
-                        @if (isFeatureEnabled('Leave Management'))
-                            @can('Read Leave')
+                        @if (isFeatureEnabled('Warning Management'))
+                            @can('Read Warning')
                                 <li>
                                     <x-common.button
                                         tag="a"
-                                        href="{{ route('leave_catgories.index') }}"
-                                        label="Leave Categories"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('leave_categories.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('leave_categories.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('leaves.index') }}"
-                                        label="Leaves"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('leaves.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('leaves.*') ? 'activateAccordion' : '' }}"
+                                        href="{{ route('warnings.index') }}"
+                                        label="Warnings"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('warnings.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('warnings.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
