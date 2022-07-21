@@ -22,7 +22,7 @@ class AdvancementCreated extends Notification
     public function toArray($notifiable)
     {
         return [
-            'icon' => 'fas fa-user',
+            'icon' => 'fas fa-arrows-up-down',
             'message' => 'New advancement has been created by ' . ucfirst($this->advancement->createdBy->name),
             'endpoint' => '/advancements/' . $this->advancement->id,
         ];

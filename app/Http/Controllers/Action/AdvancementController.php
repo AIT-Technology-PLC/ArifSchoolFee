@@ -15,7 +15,7 @@ class AdvancementController extends Controller
 
     public function __construct(AdvancementService $advancementService)
     {
-        $this->middleware('isFeatureAccessible:Attendance Management');
+        $this->middleware('isFeatureAccessible:Advancement Management');
 
         $this->advancementService = $advancementService;
     }

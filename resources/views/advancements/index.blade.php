@@ -8,7 +8,7 @@
             <x-common.total-model
                 model="Advancements"
                 :amount="$totalAdvancements"
-                icon="fas fa-chart-user"
+                icon="fas fa-arrows-up-down"
             />
         </div>
         <div class="column is-4 p-lr-0">

@@ -22,7 +22,7 @@ class AdvancementApproved extends Notification
     public function toArray($notifiable)
     {
         return [
-            'icon' => 'fas fa-user',
+            'icon' => 'fas fa-arrows-up-down',
             'message' => 'Advancement has been approved by ' . ucfirst($this->advancement->approvedBy->name),
             'endpoint' => '/advancements/' . $this->advancement->id,
         ];

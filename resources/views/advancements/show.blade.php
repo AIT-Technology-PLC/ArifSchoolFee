@@ -9,7 +9,7 @@
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-user"
+                        icon="fas fa-arrows-up-down"
                         :data="$advancement->code"
                         label="Advancement NO"
                     />

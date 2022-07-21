@@ -304,7 +304,3 @@ Route::post('/gdns/{gdn}/convert-to-sale',
 Route::post('/advancements/{advancement}/approve',
     [Action\AdvancementController::class, 'approve'])
     ->name('advancements.approve');
-
-Route::post('/advancements/{advancement}/cancel',
-    [Action\AdvancementController::class, 'cancel'])
-    ->name('advancements.cancel');

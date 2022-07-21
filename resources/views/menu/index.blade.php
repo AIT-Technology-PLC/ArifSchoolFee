@@ -198,7 +198,7 @@
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class="fas fa-chart"></i>
+                                                <i class="fas fa-arrows-up-down"></i>
                                             </span>
                                         </a>
                                         <br>

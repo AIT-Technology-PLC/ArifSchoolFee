@@ -182,7 +182,7 @@
                                             tag="a"
                                             mode="button"
                                             href="{{ route('advancements.create') }}"
-                                            icon="fas fa-chart"
+                                            icon="fas fa-arrows-up-down"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>
