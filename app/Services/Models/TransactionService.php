@@ -2,10 +2,12 @@
 
 namespace App\Services\Models;
 
+use App\Models\Product;
 use App\Models\GdnDetail;
-use App\Services\Inventory\InventoryOperationService;
+use App\Models\Warehouse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use App\Services\Inventory\InventoryOperationService;
 
 class TransactionService
 {
@@ -194,21 +196,14 @@ class TransactionService
 
     private function formatTransactionDetails($transaction)
     {
-        $padFields = $transaction->pad->padFields()->detailFields()->get();
-
         return $transaction
-            ->transactionFields()
-            ->detailFields()
-            ->get()
-            ->groupBy('line')
-            ->map(function ($transactionFields) use ($padFields) {
-                $data['quantity'] = $transactionFields->firstWhere('pad_field_id', $padFields->firstWhere('label', 'Quantity')->id)->value;
-
-                $data['product_id'] = $transactionFields->firstWhere('pad_field_id', $padFields->firstWhere('label', 'Product')->id)->value;
-
-                $data['warehouse_id'] = $transactionFields->firstWhere('pad_field_id', $padFields->firstWhere('label', 'Warehouse')->id)->value;
-
-                return new GdnDetail($data);
+            ->transactionDetails
+            ->map(function ($detail) {
+                return [
+                    'product_id' => Product::firstWhere('name', $detail['product'])->id,
+                    'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'])->id,
+                    'quantity' => $detail['quantity'],
+                ];
             });
     }
 }

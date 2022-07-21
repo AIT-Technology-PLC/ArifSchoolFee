@@ -131,6 +131,36 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="features">
+                                Converts <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth is-multiple"
+                                    id="features"
+                                    name="features[]"
+                                    multiple
+                                    size="2"
+                                >
+                                    @foreach ($features as $feature)
+                                        <option
+                                            value="{{ $feature }}"
+                                            @selected(in_array($feature, old('features', [])))
+                                        >
+                                            {{ str($feature)->title()->singular() }}
+                                        </option>
+                                    @endforeach
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="features" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-4">
                         <x-forms.field>
                             <x-forms.label>

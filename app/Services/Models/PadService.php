@@ -97,6 +97,10 @@ class PadService
             $permissions[] = ['name' => 'Cancel'];
         }
 
+        if ($pad->isConvertable()) {
+            $permissions[] = ['name' => 'Convert'];
+        }
+
         if (! $pad->isInventoryOperationNone()) {
             $permissions[] = ['name' => ucfirst($pad->getInventoryOperationType())];
         }

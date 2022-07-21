@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -65,6 +66,14 @@ class Pad extends Model
         return $this->hasMany(Transaction::class);
     }
 
+    public function features(): Attribute
+    {
+        return Attribute::make(
+            get:fn($value) => !is_null($value) ? explode(',', $value) : [],
+            set:fn($value) => implode(',', $value)
+        );
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('is_enabled', 1);
@@ -87,7 +96,7 @@ class Pad extends Model
 
     public function isClosableOnly()
     {
-        return $this->isClosable() && ! $this->isApprovable() && $this->isInventoryOperationNone() && ! $this->isCancellable();
+        return $this->isClosable() && !$this->isApprovable() && $this->isInventoryOperationNone() && !$this->isCancellable();
     }
 
     public function isCancellable()
@@ -98,6 +107,11 @@ class Pad extends Model
     public function isPrintable()
     {
         return $this->is_printable;
+    }
+
+    public function isConvertable()
+    {
+        return count($this->features);
     }
 
     public function isEnabled()
@@ -127,7 +141,7 @@ class Pad extends Model
 
     public function hasStatus()
     {
-        return ! $this->isInventoryOperationNone() || $this->isApprovable() || $this->isCancellable();
+        return !$this->isInventoryOperationNone() || $this->isApprovable() || $this->isCancellable();
     }
 
     public function hasPrices()
@@ -143,5 +157,25 @@ class Pad extends Model
     public function hasDetailPadFields()
     {
         return $this->padFields()->detailFields()->exists();
+    }
+
+    public function converts()
+    {
+        return $this
+            ->enabled()
+            ->pluck('name')
+            ->merge([
+                'grns',
+                'transfers',
+                'damages',
+                'adjustments',
+                'sivs',
+                'sales',
+                'gdns',
+                'proforma-invoices',
+                'reservations',
+                'returns',
+                'purchases',
+            ]);
     }
 }
