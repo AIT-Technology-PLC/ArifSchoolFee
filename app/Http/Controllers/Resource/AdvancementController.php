@@ -2,84 +2,110 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\AdvancementDatatable;
+use App\DataTables\AdvancementDetailDatatable;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreAdvancementRequest;
+use App\Http\Requests\UpdateAdvancementRequest;
+use App\Models\Advancement;
+use App\Models\User;
+use App\Notifications\AdvancementCreated;
+use App\Utilities\Notifiables;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class AdvancementController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('isFeatureAccessible:Advancement Management');
+
+        $this->authorizeResource(Advancement::class);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index(AdvancementDatatable $datatable)
+    {
+        $datatable->builder()->setTableId('advancements-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
+
+        $totalAdvancements = Advancement::count();
+
+        $totalApproved = Advancement::approved()->count();
+
+        $totalNotApproved = Advancement::notApproved()->count();
+
+        return $datatable->render('advancements.index', compact('totalAdvancements', 'totalApproved', 'totalNotApproved'));
+    }
+
     public function create()
     {
-        //
+        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+
+        return view('advancements.create', compact('users'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreAdvancementRequest $request)
     {
-        //
+        $advancement = DB::transaction(function () use ($request) {
+            $advancement = Advancement::create($request->safe()->except('advancement'));
+
+            $advancement->advancementDetails()->createMany($request->validated('advancement'));
+
+            Notification::send(Notifiables::byNextActionPermission('Approve Advancement'), new AdvancementCreated($advancement));
+
+            return $advancement;
+        });
+
+        return redirect()->route('advancements.show', $advancement->id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Advancement $advancement, AdvancementDetailDatatable $datatable)
     {
-        //
+        $datatable->builder()->setTableId('advancement-details-datatable');
+
+        $advancement->load(['advancementDetails']);
+
+        return $datatable->render('advancements.show', compact('advancement'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Advancement $advancement)
     {
-        //
+        if ($advancement->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify an advancement that is approved.');
+        }
+
+        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+
+        $advancement->load(['advancementDetails']);
+
+        return view('advancements.edit', compact('advancement', 'users'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(UpdateAdvancementRequest $request, Advancement $advancement)
     {
-        //
+        if ($advancement->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify an advancement that is approved.');
+        }
+
+        DB::transaction(function () use ($request, $advancement) {
+            $advancement->update($request->safe()->except('advancement'));
+
+            $advancement->advancementDetails()->forceDelete();
+
+            $advancement->advancementDetails()->createMany($request->validated('advancement'));
+
+        });
+
+        return redirect()->route('advancements.show', $advancement->id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Advancement $advancement)
     {
-        //
+        if ($advancement->isApproved()) {
+            return back()->with('failedMessage', 'You can not delete an advancement that is approved.');
+        }
+
+        $advancement->forceDelete();
+
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }

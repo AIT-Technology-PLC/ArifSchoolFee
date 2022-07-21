@@ -39,9 +39,4 @@ class AdvancementPolicy
     {
         return $user->can('Approve Advancement');
     }
-
-    public function cancel(User $user, Advancement $advancement)
-    {
-        return $user->can('Cancel Advancement');
-    }
 }

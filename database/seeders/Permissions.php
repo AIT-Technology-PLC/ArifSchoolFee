@@ -268,7 +268,6 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Advancement']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Advancement']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Advancement']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Advancement']);
 
             // Other
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Credit']);
@@ -332,7 +331,6 @@ class Permissions extends Seeder
                 'Approve Warning',
                 'Approve Advancement',
                 'Cancel Attendance',
-                'Cancel Advancement',
             ]);
 
             $humanResourceOfficer->syncPermissions([
