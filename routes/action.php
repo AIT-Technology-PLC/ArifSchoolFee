@@ -299,3 +299,12 @@ Route::post('/gdns/import',
 Route::post('/gdns/{gdn}/convert-to-sale',
     [Action\GdnController::class, 'convertToSale'])
     ->name('gdns.convert_to_sale');
+
+// Advancement
+Route::post('/advancements/{advancement}/approve',
+    [Action\AdvancementController::class, 'approve'])
+    ->name('advancements.approve');
+
+Route::post('/advancements/{advancement}/cancel',
+    [Action\AdvancementController::class, 'cancel'])
+    ->name('advancements.cancel');
