@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('cancelled_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('leave_category_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('code');
             $table->timestamps();
             $table->softDeletes();
 

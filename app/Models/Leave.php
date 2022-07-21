@@ -17,6 +17,20 @@ class Leave extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected static function booted()
+    {
+        static::creating(function ($leave) {
+            if (auth()->check()) {
+                $leave['code'] = nextReferenceNumber('leaves');
+            }
+        });
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
     public function leaveCategory()
     {
         return $this->belongsTo(LeaveCategory::class);
