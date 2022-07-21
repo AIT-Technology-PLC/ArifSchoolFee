@@ -18,4 +18,9 @@ class LeaveCategory extends Model
     {
         return $this->hasMany(Leave::class);
     }
+
+    public function isTypePaid()
+    {
+        return $this->type == 'paid';
+    }
 }

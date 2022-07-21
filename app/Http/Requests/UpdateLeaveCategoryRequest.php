@@ -15,9 +15,10 @@ class UpdateLeaveCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'leaveCategory' => ['required', 'array'],
-            'leaveCategory.*.name' => ['required', 'string', 'distinct'],
-            'leaveCategory.*.type' => ['required', 'string', Rule::in(['paid', 'unpaid'])],
+            'name' => ['required', 'string', 'distinct', Rule::unique('leave_categories')->where(function ($query) {
+                return $query->where('company_id', userCompany()->id)->where('id', '<>', $this->route('leave_categorie')->id);
+            })],
+            'type' => ['required', 'string', Rule::in(['paid', 'unpaid'])],
 
         ];
     }

@@ -6,7 +6,6 @@ use App\DataTables\LeaveCategoryDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLeaveCategoryRequest;
 use App\Http\Requests\UpdateLeaveCategoryRequest;
-use App\Models\Leave;
 use App\Models\LeaveCategory;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +15,7 @@ class LeaveCategoryController extends Controller
     {
         $this->middleware('isFeatureAccessible:Leave Management');
 
-        $this->authorizeResource(Leave::class);
+        $this->authorizeResource(LeaveCategory::class);
     }
 
     public function index(LeaveCategoryDatatable $datatable)
@@ -48,7 +47,7 @@ class LeaveCategoryController extends Controller
 
     public function edit(LeaveCategory $leaveCategory)
     {
-        return view('leave_categories.edit', compact('LeaveCategory'));
+        return view('leave_categories.edit', compact('leaveCategory'));
     }
 
     public function update(UpdateLeaveCategoryRequest $request, LeaveCategory $leaveCategory)
