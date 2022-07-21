@@ -10,9 +10,12 @@ return new class extends Migration
     {
         Schema::create('leave_categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('name');
             $table->string('type');
             $table->timestamps();
+
+            $table->index('company_id');
         });
     }
 

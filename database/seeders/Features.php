@@ -166,9 +166,14 @@ class Features extends Seeder
                 ['name' => 'Warning Management'],
                 ['is_enabled' => 0]
             );
-            
+
             Feature::updateOrCreate(
                 ['name' => 'Attendance Management'],
+                ['is_enabled' => 1]
+            );
+
+            Feature::updateOrCreate(
+                ['name' => 'Leave Management'],
                 ['is_enabled' => 1]
             );
 

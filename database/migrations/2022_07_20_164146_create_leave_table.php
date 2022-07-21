@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->index('leave_category_id');
             $table->index('company_id');
             $table->index('warehouse_id');
         });
