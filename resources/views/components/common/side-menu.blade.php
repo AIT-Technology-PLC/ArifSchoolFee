@@ -147,8 +147,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management'))
-        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer', 'Read Attendance', 'Read Warning'])
+    @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Leave Management'))
+        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Leave'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -232,10 +232,11 @@
                                         label="Warnings"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('warnings.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('warnings.*') ? 'activateAccordion' : '' }}"
-                                </li>
-                            @endcan
+                                        </li
+                                    >
+                                    @endcan
                         @endif
-                        
+
                         @if (isFeatureEnabled('Attendance Management'))
                             @can('Read Attendance')
                                 <li>
@@ -245,6 +246,29 @@
                                         label="Attendances"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('attendances.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('attendances.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Leave Management'))
+                            @can('Read Leave')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('leave_catgories.index') }}"
+                                        label="Leave Categories"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('leave_categories.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('leave_categories.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('leaves.index') }}"
+                                        label="Leaves"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('leaves.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('leaves.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
