@@ -16,7 +16,7 @@
         <x-common.content-wrapper>
             <x-content.header title="{{ $title }}" />
             <form
-                id="import-file"
+                id="formOne"
                 action="{{ $action }}"
                 method="POST"
                 enctype="multipart/form-data"
