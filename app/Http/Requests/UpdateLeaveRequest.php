@@ -17,7 +17,8 @@ class UpdateLeaveRequest extends FormRequest
         return [
             'employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees')],
             'leave_category_id' => ['required', 'integer', new MustBelongToCompany('leave_categories')],
-
+            'starting_period' => ['required', 'date'],
+            'ending_period' => ['required', 'date', 'after:starting_period'],
         ];
     }
 }

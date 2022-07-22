@@ -18,6 +18,8 @@ class StoreLeaveRequest extends FormRequest
             'leave' => ['required', 'array'],
             'leave.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees')],
             'leave.*.leave_category_id' => ['required', 'integer', new MustBelongToCompany('leave_categories')],
+            'leave.*.starting_period' => ['required', 'date'],
+            'leave.*.ending_period' => ['required', 'date', 'after:leave.*.starting_period'],
         ];
     }
 }

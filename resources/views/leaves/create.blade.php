@@ -100,6 +100,54 @@
                                         </x-forms.control>
                                     </x-forms.field>
                                 </div>
+                                <div class="column is-6">
+                                    <x-forms.field>
+                                        <x-forms.label x-bind:for="`leave[${index}][starting_period]`">
+                                            Starting Period<sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.control class="has-icons-left">
+                                            <x-forms.input
+                                                x-bind:id="`leave[${index}][starting_period]`"
+                                                x-bind:name="`leave[${index}][starting_period]`"
+                                                x-model="leave.starting_period"
+                                                type="datetime-local"
+                                                placeholder="mm/dd/yyyy"
+                                            />
+                                            <x-common.icon
+                                                name="fas fa-calendar-alt"
+                                                class="is-small is-left"
+                                            />
+                                            <span
+                                                class="help has-text-danger"
+                                                x-text="$store.errors.getErrors(`leave.${index}.starting_period`)"
+                                            ></span>
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
+                                <div class="column is-6">
+                                    <x-forms.field>
+                                        <x-forms.label x-bind:for="`leave[${index}][ending_period]`">
+                                            Ending Period<sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.control class="has-icons-left">
+                                            <x-forms.input
+                                                x-bind:id="`leave[${index}][ending_period]`"
+                                                x-bind:name="`leave[${index}][ending_period]`"
+                                                x-model="leave.ending_period"
+                                                type="datetime-local"
+                                                placeholder="mm/dd/yyyy"
+                                            />
+                                            <x-common.icon
+                                                name="fas fa-calendar-alt"
+                                                class="is-small is-left"
+                                            />
+                                            <span
+                                                class="help has-text-danger"
+                                                x-text="$store.errors.getErrors(`leave.${index}.ending_period`)"
+                                            ></span>
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
                             </div>
                         </div>
                     </div>

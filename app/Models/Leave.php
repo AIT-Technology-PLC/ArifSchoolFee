@@ -17,6 +17,11 @@ class Leave extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $casts = [
+        'starting_period' => 'datetime',
+        'ending_period' => 'datetime',
+    ];
+
     protected static function booted()
     {
         static::creating(function ($leave) {
@@ -34,5 +39,10 @@ class Leave extends Model
     public function leaveCategory()
     {
         return $this->belongsTo(LeaveCategory::class);
+    }
+
+    public function leavePeriod()
+    {
+        return $this->ending_period->diffInDays($this->starting_period);
     }
 }
