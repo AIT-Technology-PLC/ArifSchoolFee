@@ -15,9 +15,8 @@ class UpdateLeaveRequest extends FormRequest
     public function rules()
     {
         return [
-            'leave' => ['required', 'array'],
-            'leave.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees')],
-            'leave.*.leave_category_id' => ['required', 'integer', new MustBelongToCompany('leave_categories')],
+            'employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees')],
+            'leave_category_id' => ['required', 'integer', new MustBelongToCompany('leave_categories')],
 
         ];
     }

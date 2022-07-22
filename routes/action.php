@@ -301,10 +301,10 @@ Route::post('/gdns/{gdn}/convert-to-sale',
     ->name('gdns.convert_to_sale');
 
 // Leave
-Route::post('/leaves/{leave}/approve',
+Route::post('/leaves/{leaf}/approve',
     [Action\LeaveController::class, 'approve'])
     ->name('leaves.approve');
 
-Route::post('/leaves/{leave}/cancel',
+Route::post('/leaves/{leaf}/cancel',
     [Action\LeaveController::class, 'cancel'])
     ->name('leaves.cancel');

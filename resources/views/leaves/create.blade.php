@@ -1,24 +1,24 @@
 @extends('layouts.app')
 
-@section('title', 'Create New Leave Category')
+@section('title', 'Create New Leave')
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="New Leave Category" />
+        <x-content.header title="New Leave" />
         <form
             id="formOne"
-            action="{{ route('leave_categories.store') }}"
+            action="{{ route('leaves.store') }}"
             method="post"
             enctype="multipart/form-data"
             novalidate
         >
             @csrf
             <x-content.main
-                x-data="leaveCategoryMasterDetailForm({{ Js::from(session()->getOldInput()) }})"
-                x-init="$store.errors.setErrors({{ Js::from($errors->get('leaveCategory.*')) }})"
+                x-data="leaveMasterDetailForm({{ Js::from(session()->getOldInput()) }})"
+                x-init="$store.errors.setErrors({{ Js::from($errors->get('leave.*')) }})"
             >
                 <template
-                    x-for="(leaveCategory, index) in leaveCategories"
+                    x-for="(leave, index) in leaves"
                     x-bind:key="index"
                 >
                     <div class="mx-3">
@@ -47,50 +47,55 @@
                         <div class="box has-background-white-bis radius-top-0">
                             <div class="columns is-marginless is-multiline">
                                 <div class="column is-6">
-                                    <x-forms.label x-bind:for="`leaveCategory[${index}][name]`">
-                                        Name <sup class="has-text-danger">*</sup>
-                                    </x-forms.label>
-                                    <x-forms.field class="has-addons">
-                                        <x-forms.control class="has-icons-left is-expanded">
-                                            <x-forms.input
-                                                type="text"
-                                                x-bind:id="`leaveCategory[${index}][name]`"
-                                                x-bind:name="`leaveCategory[${index}][name]`"
-                                                x-model="leaveCategory.name"
-                                            />
+                                    <x-forms.field>
+                                        <x-forms.label x-bind:for="`leave[${index}][employee_id]`">
+                                            Employee Name <sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.control class="has-icons-left">
+                                            <x-forms.select
+                                                class="is-fullwidth"
+                                                x-bind:id="`leave[${index}][employee_id]`"
+                                                x-bind:name="`leave[${index}][employee_id]`"
+                                                x-model="leave.employee_id"
+                                            >
+                                                @foreach ($users as $user)
+                                                    <option value="{{ $user->employee->id }}">{{ $user->name }}</option>
+                                                @endforeach
+                                            </x-forms.select>
                                             <x-common.icon
-                                                name="fas fa-users-slash"
+                                                name="fas fa-user"
                                                 class="is-small is-left"
                                             />
                                             <span
                                                 class="help has-text-danger"
-                                                x-text="$store.errors.getErrors(`leaveCategory.${index}.name`)"
+                                                x-text="$store.errors.getErrors(`leave.${index}.employee_id`)"
                                             ></span>
                                         </x-forms.control>
                                     </x-forms.field>
                                 </div>
                                 <div class="column is-6">
                                     <x-forms.field>
-                                        <x-forms.label x-bind:for="`leaveCategory[${index}][type]`">
-                                            Type <sup class="has-text-danger">*</sup>
+                                        <x-forms.label x-bind:for="`leave[${index}][leave_category_id]`">
+                                            Category <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
-                                        <x-forms.control class="has-icons-left ">
+                                        <x-forms.control class="has-icons-left">
                                             <x-forms.select
                                                 class="is-fullwidth"
-                                                x-bind:id="`leaveCategory[${index}][type]`"
-                                                x-bind:name="`leaveCategory[${index}][type]`"
-                                                x-model="leaveCategory.type"
+                                                x-bind:id="`leave[${index}][leave_category_id]`"
+                                                x-bind:name="`leave[${index}][leave_category_id]`"
+                                                x-model="leave.leave_category_id"
                                             >
-                                                <option value="paid">Paid</option>
-                                                <option value="unpaid"> Unpaid </option>
+                                                @foreach ($leaveCategories as $leaveCategory)
+                                                    <option value="{{ $leaveCategory->id }}">{{ $leaveCategory->name }}</option>
+                                                @endforeach
                                             </x-forms.select>
                                             <x-common.icon
-                                                name="fas fa-sort"
+                                                name="fas fa-users-slash"
                                                 class="is-small is-left"
                                             />
                                             <span
                                                 class="help has-text-danger"
-                                                x-text="$store.errors.getErrors(`leaveCategory.${index}.type`)"
+                                                x-text="$store.errors.getErrors(`leave.${index}.leave_category_id`)"
                                             ></span>
                                         </x-forms.control>
                                     </x-forms.field>
@@ -118,29 +123,29 @@
 @push('scripts')
     <script>
         document.addEventListener("alpine:init", () => {
-            Alpine.data("leaveCategoryMasterDetailForm", ({
-                leaveCategory
+            Alpine.data("leaveMasterDetailForm", ({
+                leave
             }) => ({
-                leaveCategories: [],
+                leaves: [],
 
                 async init() {
-                    if (leaveCategory) {
-                        this.leaveCategories = leaveCategory;
+                    if (leave) {
+                        this.leaves = leave;
                         return;
                     }
                     this.add();
                 },
 
                 add() {
-                    this.leaveCategories.push({});
+                    this.leaves.push({});
                 },
 
                 async remove(index) {
-                    if (this.leaveCategories.length <= 0) {
+                    if (this.leaves.length <= 0) {
                         return;
                     }
 
-                    await Promise.resolve(this.leaveCategories.splice(index, 1));
+                    await Promise.resolve(this.leaves.splice(index, 1));
 
                     Pace.restart();
                 },

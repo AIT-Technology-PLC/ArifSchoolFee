@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Resource;
 use App\DataTables\LeaveDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLeaveRequest;
+use App\Http\Requests\UpdateLeaveRequest;
 use App\Models\Leave;
+use App\Models\LeaveCategory;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class LeaveController extends Controller
@@ -16,7 +17,7 @@ class LeaveController extends Controller
     {
         $this->middleware('isFeatureAccessible:Leave Management');
 
-        $this->authorizeResource(Leave::class);
+        // $this->authorizeResource(Leave::class);
     }
 
     public function index(LeaveDatatable $datatable)
@@ -32,61 +33,72 @@ class LeaveController extends Controller
         $totalCancelled = Leave::cancelled()->count();
 
         return $datatable->render('leaves.index', compact('totalLeaves', 'totalApproved', 'totalNotApproved', 'totalCancelled'));
-
     }
 
     public function create()
     {
+        $leaveCategories = LeaveCategory::all();
+
         $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
 
-        return view('leaves.create', compact('users'));
-
+        return view('leaves.create', compact('users', 'leaveCategories'));
     }
 
     public function store(StoreLeaveRequest $request)
     {
-        $leave = DB::transaction(function () use ($request) {
-            $leave = Leave::create($request->safe()->except('leave'));
+        $leaves = collect($request->validated('leave'));
 
-            $leave->attendanceDetails()->createMany($request->validated('leave'));
-
-            return $leave;
+        DB::transaction(function () use ($leaves) {
+            foreach ($leaves as $leave) {
+                Leave::firstOrCreate($leave);
+            }
         });
 
-        return redirect()->route('leaves.show', $leave->id);
+        return redirect()->route('leaves.index')->with('successMessage', 'New leave are added.');
     }
 
-    public function edit(Leave $leave)
+    public function show(Leave $leaf)
     {
-        if ($leave->isApproved()) {
+        $leaf->load('employee.user');
+
+        return view('leaves.show', compact('leaf'));
+    }
+
+    public function edit(Leave $leaf)
+    {
+        if ($leaf->isApproved()) {
             return back()->with('failedMessage', 'You can not modify an leave that is approved.');
         }
 
-        if ($leave->isCancelled()) {
+        if ($leaf->isCancelled()) {
             return back()->with('failedMessage', 'You can not modify an leave that is cancelled.');
         }
 
+        $leaveCategories = LeaveCategory::all();
+
         $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
 
-        return view('leaves.edit', compact('leave', 'users'));
+        return view('leaves.edit', compact('leaf', 'users', 'leaveCategories'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateLeaveRequest $request, Leave $leaf)
     {
-        //
+        $leaf->update($request->validated());
+
+        return redirect()->route('leaves.index');
     }
 
-    public function destroy(Leave $leave)
+    public function destroy(Leave $leaf)
     {
-        if ($leave->isApproved()) {
+        if ($leaf->isApproved()) {
             return back()->with('failedMessage', 'You can not delete an leave that is approved.');
         }
 
-        if ($leave->isCancelled()) {
+        if ($leaf->isCancelled()) {
             return back()->with('failedMessage', 'You can not delete an leave that is cancelled.');
         }
 
-        $leave->forceDelete();
+        $leaf->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');
     }
