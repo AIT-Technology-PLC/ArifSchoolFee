@@ -9,9 +9,9 @@ class LeaveCreated extends Notification
 {
     use Queueable;
 
-    public function __construct($leave)
+    public function __construct($leaf)
     {
-        $this->leave = $leave;
+        $this->leaf = $leaf;
     }
 
     public function via($notifiable)
@@ -23,8 +23,8 @@ class LeaveCreated extends Notification
     {
         return [
             'icon' => 'user-slash',
-            'message' => 'New leave has been created by ' . ucfirst($this->leave->createdBy->name),
-            'endpoint' => '/leaves/' . $this->leave->id,
+            'message' => 'New leave has been created by ' . ucfirst($this->leaf->createdBy->name),
+            'endpoint' => '/leaves/' . $this->leaf->id,
         ];
     }
 }

@@ -9,9 +9,9 @@ class LeaveApproved extends Notification
 {
     use Queueable;
 
-    public function __construct($leave)
+    public function __construct($leaf)
     {
-        $this->leave = $leave;
+        $this->leaf = $leaf;
     }
 
     public function via($notifiable)
@@ -23,8 +23,8 @@ class LeaveApproved extends Notification
     {
         return [
             'icon' => 'user-slash',
-            'message' => 'Leave has been approved by ' . ucfirst($this->leave->approvedBy->name),
-            'endpoint' => '/leaves/' . $this->leave->id,
+            'message' => 'Leave has been approved by ' . ucfirst($this->leaf->approvedBy->name),
+            'endpoint' => '/leaves/' . $this->leaf->id,
         ];
     }
 }
