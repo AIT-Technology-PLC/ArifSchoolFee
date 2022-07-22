@@ -9,7 +9,10 @@ use App\Http\Requests\UpdateLeaveRequest;
 use App\Models\Leave;
 use App\Models\LeaveCategory;
 use App\Models\User;
+use App\Notifications\LeaveCreated;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class LeaveController extends Controller
 {
@@ -52,6 +55,8 @@ class LeaveController extends Controller
             foreach ($leaves as $leave) {
                 Leave::firstOrCreate($leave);
             }
+
+            Notification::send(Notifiables::byNextActionPermission('Approve Leave'), new LeaveCreated($leave));
         });
 
         return redirect()->route('leaves.index')->with('successMessage', 'New leave are added.');
