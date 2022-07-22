@@ -154,6 +154,11 @@ class Product extends Model
         $this->attributes['properties'] = json_encode($properties);
     }
 
+    public function getCodeAttribute($value)
+    {
+        return str()->squish($value);
+    }
+
     public function isProductLimited($onHandQuantity)
     {
         return $this->min_on_hand >= $onHandQuantity;
