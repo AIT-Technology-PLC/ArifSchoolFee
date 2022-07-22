@@ -19,8 +19,6 @@ class LeaveController extends Controller
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Leave Management');
-
-        // $this->authorizeResource(Leave::class);
     }
 
     public function index(LeaveDatatable $datatable)
