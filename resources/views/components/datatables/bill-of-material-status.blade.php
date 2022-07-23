@@ -1,11 +1,11 @@
-@if ($billOfMaterial->isActive())
-    <span class="icon is-small text-green">
-        <i class="fas fa-circle"></i>
-    </span>
-    <span class="text-green"> Active </span>
-@else
-    <span class="icon is-small text-purple">
-        <i class="fas fa-circle"></i>
-    </span>
-    <span class="text-purple"> Not Active </span>
-@endif
+ @if (!$billOfMaterial->isApproved())
+     <span class="tag is-small bg-purple has-text-white">
+         <x-common.icon name="fas fa-clock" />
+         <span> Waiting Approval </span>
+     </span>
+ @else
+     <span class="tag is-small bg-gold has-text-white">
+         <x-common.icon name="fas fa-exclamation-circle" />
+         <span> Approved </span>
+     </span>
+ @endif
