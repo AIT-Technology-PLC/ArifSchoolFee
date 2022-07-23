@@ -19,11 +19,14 @@
                     </h1>
                     <h1 class="title text-green">
                         <span>
-                            Internal Server Error
+                           Sorry, we are having a problem with this feature.
                         </span>
                     </h1>
                     <h2 class="subtitle has-text-grey-light has-text-weight-normal">
-                        Server encountered something unexpected that prevented it from fulfilling the request.
+                        We will have things fixed in no time. 
+                        <br>
+                        If you need help while the feature is down, please
+                        call the helpdesk at +251 97-600-6522.
                     </h2>
                     <button x-data class="button btn-green is-outlined is-uppercase has-text-weight-medium px-5 py-5" @click="history.back()">
                         <span class="icon">
