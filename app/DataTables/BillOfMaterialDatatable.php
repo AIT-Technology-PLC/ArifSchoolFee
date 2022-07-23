@@ -30,11 +30,6 @@ class BillOfMaterialDatatable extends DataTable
             ->editColumn('approved by', fn($billOfMaterial) => $billOfMaterial->approvedBy->name)
             ->editColumn('active status', fn($billOfMaterial) => view('components.datatables.bill-of-material-is-active-status', compact('billOfMaterial')))
             ->editColumn('status', fn($billOfMaterial) => view('components.datatables.bill-of-material-status', compact('billOfMaterial')))
-            ->filterColumn('status', function ($query, $keyword) {
-                $query
-                    ->when($keyword == 'active', fn($query) => $query->active())
-                    ->when($keyword == 'inactive', fn($query) => $query->inactive());
-            })
             ->editColumn('edited by', fn($billOfMaterial) => $billOfMaterial->updatedBy->name)
             ->editColumn('actions', function ($billOfMaterial) {
                 return view('components.common.action-buttons', [
@@ -50,9 +45,9 @@ class BillOfMaterialDatatable extends DataTable
     {
         return $billOfMaterial
             ->newQuery()
-            ->when(request('status') == 'active', fn($query) => $query->active())
-            ->when(request('status') == 'inactive', fn($query) => $query->inactive())
-            ->when(request('status') == 'approved', fn($query) => $query->Approved())
+            ->when(request('activeStatus') == 'active', fn($query) => $query->active())
+            ->when(request('activeStatus') == 'inactive', fn($query) => $query->inactive())
+            ->when(request('status') == 'approved', fn($query) => $query->approved())
             ->when(request('status') == 'waiting approvale', fn($query) => $query->notApproved())
             ->select('bill_of_materials.*')
             ->with([
@@ -69,10 +64,10 @@ class BillOfMaterialDatatable extends DataTable
         $columns = [
             Column::computed('#'),
             Column::make('name'),
-            Column::make('status')->orderable(false),
+            Column::computed('status'),
             Column::make('product', 'product.name'),
             Column::make('customer', 'customer.company_name'),
-            Column::make('active status')->orderable(false),
+            Column::computed('active status'),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),

@@ -61,7 +61,7 @@
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
             <x-common.fail-message :message="session('failedMessage')" />
-            <x-datatables.filter filters="'status'">
+            <x-datatables.filter filters="'activeStatus','status'">
                 <div class="columns is-marginless is-vcentered">
                     <div class="column is-3 p-lr-0 pt-0">
                         <x-forms.field class="has-text-centered">
@@ -95,8 +95,8 @@
                                     id=""
                                     name=""
                                     class="is-size-7-mobile is-fullwidth"
-                                    x-model="filters.status"
-                                    x-on:change="add('status')"
+                                    x-model="filters.activeStatus"
+                                    x-on:change="add('activeStatus')"
                                 >
                                     <option
                                         disabled
