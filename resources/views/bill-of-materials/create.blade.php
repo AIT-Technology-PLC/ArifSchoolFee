@@ -61,6 +61,26 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
+                            <x-forms.label for="customer_id">
+                                Customer <sup class="has-text-danger"> </sup>
+                            </x-forms.label>
+                            <x-forms.control class="select is-fullwidth has-icons-left">
+                                <x-common.customer-list
+                                    id="customer_id"
+                                    name="customer_id"
+                                    key=""
+                                    :selected-id="old('customer_id') ?? ''"
+                                />
+                                <x-common.icon
+                                    name="fas fa-user"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="customer_id" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
                             <x-forms.label for="is_active">
                                 Active or not <sup class="has-text-danger">*</sup>
                             </x-forms.label>
