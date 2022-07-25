@@ -266,6 +266,14 @@ class Permissions extends Seeder
             // Other
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Credit']);
 
+            //Expense Claim
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Expense Claim']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Expense Claim']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Expense Claim']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Expense Claim']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Expense Claim']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Reject Expense Claim']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
@@ -300,24 +308,30 @@ class Permissions extends Seeder
                 'Create Employee Transfer',
                 'Create Warning',
                 'Create Attendance',
+                'Create Expense Claim',
                 'Read Department',
                 'Read Employee',
                 'Read Employee Transfer',
                 'Read Warning',
                 'Read Attendance',
+                'Read Expense Claim',
                 'Update Department',
                 'Update Employee',
                 'Update Employee Transfer',
                 'Update Warning',
+                'Update Expense Claim',
                 'Delete Department',
                 'Delete Employee',
                 'Delete Employee Transfer',
                 'Delete Warning',
                 'Delete Attendance',
+                'Delete Expense Claim',
                 'Import Employee',
                 'Approve Attendance',
                 'Approve Employee Transfer',
                 'Approve Warning',
+                'Approve Expense Claim',
+                'Reject Expense Claim',
             ]);
 
             $humanResourceOfficer->syncPermissions([
@@ -325,14 +339,17 @@ class Permissions extends Seeder
                 'Create Employee',
                 'Create Employee Transfer',
                 'Create Department',
+                'Create Expense Claim',
                 'Read Attendance',
                 'Read Employee',
                 'Read Employee Transfer',
                 'Read Department',
+                'Read Expense Claim',
                 'Update Attendance',
                 'Update Employee',
                 'Update Employee Transfer',
                 'Update Warning',
+                'Update Expense Claim',
             ]);
 
             $purchaseManager->syncPermissions([
