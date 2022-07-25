@@ -2,84 +2,65 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\EarningCategoryDatatable;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreEarningCategoryRequest;
+use App\Http\Requests\UpdateEarningCategoryRequest;
+use App\Models\EarningCategory;
+use Illuminate\Support\Facades\DB;
 
 class EarningCategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('isFeatureAccessible:Earning Management');
+
+        $this->authorizeResource(EarningCategory::class);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index(EarningCategoryDatatable $datatable)
+    {
+        $datatable->builder()->setTableId('earning-categories-datatable')->orderBy(1, 'asc');
+
+        $totalEarningCategories = EarningCategory::count();
+
+        return $datatable->render('earning-categories.index', compact('totalEarningCategories'));
+    }
+
     public function create()
     {
-        //
+        return view('earning-categories.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreEarningCategoryRequest $request)
     {
-        //
+        $earningCategories = collect($request->validated('earningCategory'));
+
+        DB::transaction(function () use ($earningCategories) {
+            foreach ($earningCategories as $earningCategory) {
+                EarningCategory::create($earningCategory);
+            }
+        });
+
+        return redirect()->route('earning-categories.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(EarningCategory $earningCategory)
     {
-        //
+        return view('earning-categories.edit', compact('earningCategory'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(UpdateEarningCategoryRequest $request, EarningCategory $earningCategory)
     {
-        //
+        $earningCategory->update($request->validated());
+
+        return redirect()->route('earning-categories.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function destroy(EarningCategory $earningCategory)
     {
-        //
-    }
+        $earningCategory->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }

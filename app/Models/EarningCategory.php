@@ -17,4 +17,9 @@ class EarningCategory extends Model
     {
         return $this->hasMany(Earning::class);
     }
+
+    public function isBeforeTax()
+    {
+        return $this->type == 'Before Tax';
+    }
 }

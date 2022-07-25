@@ -16,9 +16,9 @@ class UpdateEarningCategoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255', Rule::unique('earning_categories')->where(function ($query) {
-                return $query->where('company_id', userCompany()->id)->where('id', '<>', $this->route('earningCategory')->id);
+                return $query->where('company_id', userCompany()->id)->where('id', '<>', $this->route('earning_category')->id);
             })],
-            'type' => ['required', 'string'],
+            'type' => ['required', 'string', Rule::in(['Before Tax', 'After Tax'])],
         ];
     }
 }

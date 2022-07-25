@@ -19,7 +19,7 @@ class StoreEarningCategoryRequest extends FormRequest
             'earningCategory.*.name' => ['required', 'string', 'distinct', 'max:255', Rule::unique('earning_categories', 'name')->where(function ($query) {
                 return $query->where('company_id', userCompany()->id);
             })],
-            'earningCategory.*.type' => ['required', 'string'],
+            'earningCategory.*.type' => ['required', 'string', Rule::in(['Before Tax', 'After Tax'])],
         ];
     }
 }
