@@ -35,4 +35,9 @@ class BillOfMaterialPolicy
     {
         return $user->can('Delete BOM');
     }
+
+    public function approve(User $user, BillOfMaterial $billOfMaterial)
+    {
+        return $user->can('Approve BOM');
+    }
 }

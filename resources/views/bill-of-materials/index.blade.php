@@ -27,6 +27,22 @@
                 label="Inactive"
             />
         </div>
+        <div class="column is-6 p-lr-0">
+            <x-common.index-insight
+                :amount="$totalApproved"
+                border-color="#3d8660"
+                text-color="text-green"
+                label="Approved"
+            />
+        </div>
+        <div class="column is-6 p-lr-0">
+            <x-common.index-insight
+                :amount="$totalNotApproved"
+                border-color="#86843d"
+                text-color="text-gold"
+                label="Waiting Approval"
+            />
+        </div>
     </div>
 
     <x-common.content-wrapper>
@@ -45,7 +61,7 @@
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
             <x-common.fail-message :message="session('failedMessage')" />
-            <x-datatables.filter filters="'status'">
+            <x-datatables.filter filters="'activeStatus','status'">
                 <div class="columns is-marginless is-vcentered">
                     <div class="column is-3 p-lr-0 pt-0">
                         <x-forms.field class="has-text-centered">
@@ -63,6 +79,31 @@
                                         value=""
                                     >
                                         Statuses
+                                    </option>
+                                    <option value="all"> All </option>
+                                    @foreach (['Approved', 'Waiting Approval'] as $status)
+                                        <option value="{{ str()->lower($status) }}"> {{ $status }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-3 p-lr-0 pt-0">
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id=""
+                                    name=""
+                                    class="is-size-7-mobile is-fullwidth"
+                                    x-model="filters.activeStatus"
+                                    x-on:change="add('activeStatus')"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                        value=""
+                                    >
+                                        Active Status
                                     </option>
                                     <option value="all"> All </option>
                                     @foreach (['Active', 'Inactive'] as $status)

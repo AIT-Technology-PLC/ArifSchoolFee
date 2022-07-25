@@ -45,6 +45,20 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
+                @if (!$billOfMaterial->isApproved())
+                    @can('Approve BOM')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('bill_of_materials.approve', $billOfMaterial->id)"
+                                action="approve"
+                                intention="approve this Bill of material"
+                                icon="fas fa-signature"
+                                label="Approve"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
                 @can('Update BOM')
                     <x-common.dropdown-item>
                         <x-common.button
@@ -62,6 +76,9 @@
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
+            @if (!$billOfMaterial->isApproved())
+                <x-common.fail-message message="This Bill of material has not been approved yet." />
+            @endif
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Approvable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BillOfMaterial extends Model
 {
-    use MultiTenancy, HasUserstamps, SoftDeletes;
+    use MultiTenancy, HasUserstamps, Approvable, SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -61,5 +62,10 @@ class BillOfMaterial extends Model
                     ->orWhere('available', '>', 0);
             })
             ->exists();
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
     }
 }

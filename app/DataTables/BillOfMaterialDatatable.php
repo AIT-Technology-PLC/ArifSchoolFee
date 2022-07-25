@@ -18,21 +18,19 @@ class BillOfMaterialDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn ($billOfMaterial) => route('bill-of-materials.show', $billOfMaterial->id),
+                'data-url' => fn($billOfMaterial) => route('bill-of-materials.show', $billOfMaterial->id),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
 
-            ->editColumn('name', fn ($billOfMaterial) => $billOfMaterial->name)
-            ->editColumn('product', fn ($billOfMaterial) => $billOfMaterial->product->name)
-            ->editColumn('prepared by', fn ($billOfMaterial) => $billOfMaterial->createdBy->name)
-            ->editColumn('status', fn ($billOfMaterial) => view('components.datatables.bill-of-material-status', compact('billOfMaterial')))
-            ->filterColumn('status', function ($query, $keyword) {
-                $query
-                    ->when($keyword == 'active', fn ($query) => $query->active())
-                    ->when($keyword == 'inactive', fn ($query) => $query->inactive());
-            })
-            ->editColumn('edited by', fn ($billOfMaterial) => $billOfMaterial->updatedBy->name)
+            ->editColumn('name', fn($billOfMaterial) => $billOfMaterial->name)
+            ->editColumn('product', fn($billOfMaterial) => $billOfMaterial->product->name)
+            ->editColumn('customer', fn($billOfMaterial) => $billOfMaterial->customer->company_name ?? 'N/A')
+            ->editColumn('prepared by', fn($billOfMaterial) => $billOfMaterial->createdBy->name)
+            ->editColumn('approved by', fn($billOfMaterial) => $billOfMaterial->approvedBy->name)
+            ->editColumn('active status', fn($billOfMaterial) => view('components.datatables.bill-of-material-is-active-status', compact('billOfMaterial')))
+            ->editColumn('status', fn($billOfMaterial) => view('components.datatables.bill-of-material-status', compact('billOfMaterial')))
+            ->editColumn('edited by', fn($billOfMaterial) => $billOfMaterial->updatedBy->name)
             ->editColumn('actions', function ($billOfMaterial) {
                 return view('components.common.action-buttons', [
                     'model' => 'bill-of-materials',
@@ -47,13 +45,17 @@ class BillOfMaterialDatatable extends DataTable
     {
         return $billOfMaterial
             ->newQuery()
-            ->when(request('status') == 'active', fn ($query) => $query->active())
-            ->when(request('status') == 'inactive', fn ($query) => $query->inactive())
+            ->when(request('activeStatus') == 'active', fn($query) => $query->active())
+            ->when(request('activeStatus') == 'inactive', fn($query) => $query->inactive())
+            ->when(request('status') == 'approved', fn($query) => $query->approved())
+            ->when(request('status') == 'waiting approvale', fn($query) => $query->notApproved())
             ->select('bill_of_materials.*')
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
+                'approvedBy:id,name',
                 'product:id,name',
+                'customer:id,company_name',
             ]);
     }
 
@@ -62,18 +64,21 @@ class BillOfMaterialDatatable extends DataTable
         $columns = [
             Column::computed('#'),
             Column::make('name'),
+            Column::computed('status'),
             Column::make('product', 'product.name'),
-            Column::make('status')->orderable(false),
+            Column::make('customer', 'customer.company_name'),
+            Column::computed('active status'),
             Column::make('prepared by', 'createdBy.name'),
+            Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
         ];
 
-        return Arr::where($columns, fn ($column) => $column != null);
+        return Arr::where($columns, fn($column) => $column != null);
     }
 
     protected function filename()
     {
-        return 'BillOfMaterial_'.date('YmdHis');
+        return 'BillOfMaterial_' . date('YmdHis');
     }
 }
