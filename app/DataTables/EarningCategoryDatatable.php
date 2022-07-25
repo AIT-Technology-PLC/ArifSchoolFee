@@ -15,7 +15,7 @@ class EarningCategoryDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            // ->editColumn('earnings', fn($earningCategory) => $earningCategory->earnings_count)
+            ->editColumn('earnings', fn($earningCategory) => $earningCategory->earnings_count)
             ->editColumn('created by', fn($earningCategory) => $earningCategory->createdBy->name)
             ->editColumn('edited by', fn($earningCategory) => $earningCategory->updatedBy->name)
             ->editColumn('actions', function ($earningCategory) {
@@ -33,7 +33,7 @@ class EarningCategoryDatatable extends DataTable
         return $earningCategory
             ->newQuery()
             ->select('earning_categories.*')
-            // ->withCount('earnings')
+            ->withCount('earnings')
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
@@ -45,7 +45,7 @@ class EarningCategoryDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('name')->addClass('text-green has-text-weight-bold'),
-            // Column::computed('earnings')->className('has-text-centered'),
+            Column::computed('earnings')->className('has-text-centered'),
             Column::make('type'),
             Column::make('created by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
