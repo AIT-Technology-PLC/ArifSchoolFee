@@ -12,26 +12,26 @@ class EarningCategoryPolicy
 
     public function viewAny(User $user)
     {
-        return $user->can('Read Earning Category');
+        return $user->can('Read Earning');
     }
 
-    public function view(User $user, EarningCategory $category)
+    public function view(User $user, EarningCategory $earningCategory)
     {
-        return $user->can('Read Earning Category');
+        return $user->can('Read Earning');
     }
 
     public function create(User $user)
     {
-        return $user->can('Create Earning Category');
+        return $user->can('Create Earning');
     }
 
-    public function update(User $user, EarningCategory $category)
+    public function update(User $user, EarningCategory $earningCategory)
     {
-        return $user->can('Update Earning Category');
+        return $user->can('Update Earning');
     }
 
-    public function delete(User $user, EarningCategory $category)
+    public function delete(User $user, EarningCategory $earningCategory)
     {
-        return $user->can('Delete Earning Category');
+        return $user->can('Delete Earning');
     }
 }

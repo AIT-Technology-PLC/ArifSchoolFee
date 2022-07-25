@@ -173,7 +173,7 @@ class Features extends Seeder
             );
 
             Feature::updateOrCreate(
-                ['name' => 'Earning Category'],
+                ['name' => 'Earning Management'],
                 ['is_enabled' => 1]
             );
 

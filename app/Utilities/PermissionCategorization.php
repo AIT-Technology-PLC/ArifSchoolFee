@@ -109,9 +109,9 @@ class PermissionCategorization
             'label' => 'Warning',
             'feature' => 'Warning Management',
         ],
-        'earning category' => [
-            'label' => 'Earning Category',
-            'feature' => 'Earning Category',
+        'earning' => [
+            'label' => 'Earning',
+            'feature' => 'Earning Management',
         ],
     ];
 
