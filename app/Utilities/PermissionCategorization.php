@@ -109,6 +109,10 @@ class PermissionCategorization
             'label' => 'Warning',
             'feature' => 'Warning Management',
         ],
+        'expense claim' => [
+            'label' => 'Expense Claim',
+            'feature' => 'Expense Claim',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)
