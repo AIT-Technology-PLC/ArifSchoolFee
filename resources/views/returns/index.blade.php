@@ -6,7 +6,7 @@
     <div class="columns is-marginless is-multiline">
         <div class="column is-3 p-lr-0">
             <x-common.total-model
-                model="GRNS"
+                model="Returns"
                 :amount="$totalReturns"
                 icon="fas fa-arrow-alt-circle-left"
             />

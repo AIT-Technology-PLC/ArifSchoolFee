@@ -33,7 +33,11 @@ class BillOfMaterialController extends Controller
 
         $totalInActiveBillOfMaterials = BillOfMaterial::inActive()->count();
 
-        return $datatable->render('bill-of-materials.index', compact('totalBillOfMaterials', 'totalActiveBillOfMaterials', 'totalInActiveBillOfMaterials'));
+        $totalApproved = BillOfMaterial::approved()->count();
+
+        $totalNotApproved = BillOfMaterial::notApproved()->count();
+
+        return $datatable->render('bill-of-materials.index', compact('totalBillOfMaterials', 'totalActiveBillOfMaterials', 'totalInActiveBillOfMaterials', 'totalApproved', 'totalNotApproved'));
     }
 
     public function create()
@@ -71,6 +75,10 @@ class BillOfMaterialController extends Controller
             return back()->with('failedMessage', 'This bill of material was used for production, therefore it is not allowed to be modified.');
         }
 
+        if ($billOfMaterial->isApproved()) {
+            return back()->with('failedMessage', 'You can not modified an bill of material that is approved.');
+        }
+
         $billOfMaterial->load(['billOfMaterialDetails.product']);
 
         return view('bill-of-materials.edit', compact('billOfMaterial'));
@@ -81,6 +89,10 @@ class BillOfMaterialController extends Controller
         if ($billOfMaterial->isUsedForProduction()) {
             return redirect()->route('bill-of-materials.show')
                 ->with('failedMessage', 'This bill of material was used for production, therefore it is not allowed to be modified.');
+        }
+
+        if ($billOfMaterial->isApproved()) {
+            return back()->with('failedMessage', 'You can not modified an bill of material that is approved.');
         }
 
         DB::transaction(function () use ($request, $billOfMaterial) {
@@ -100,6 +112,10 @@ class BillOfMaterialController extends Controller
     {
         if ($billOfMaterial->isUsedForProduction()) {
             return back()->with('failedMessage', 'This bill of material was used for production, therefore it is not allowed to be deleted.');
+        }
+
+        if ($billOfMaterial->isApproved()) {
+            return back()->with('failedMessage', 'You can not delete an bill of material that is approved.');
         }
 
         $billOfMaterial->forceDelete();

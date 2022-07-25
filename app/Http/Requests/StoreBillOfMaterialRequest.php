@@ -18,6 +18,7 @@ class StoreBillOfMaterialRequest extends FormRequest
             'is_active' => ['required', 'boolean'],
             'name' => ['required', 'string'],
             'product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
             'billOfMaterial' => ['required', 'array'],
             'billOfMaterial.*.product_id' => ['required', 'integer', 'different:product_id', 'distinct', new MustBelongToCompany('products')],
             'billOfMaterial.*.quantity' => ['required', 'numeric', 'gt:0'],

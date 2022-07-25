@@ -147,8 +147,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management'))
-        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer', 'Read Attendance', 'Read Warning'])
+    @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management'))
+        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -246,6 +246,20 @@
                                         label="Warnings"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('warnings.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('warnings.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Advancement Management'))
+                            @can('Read Advancement')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('advancements.index') }}"
+                                        label="Advancements"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('advancements.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('advancements.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

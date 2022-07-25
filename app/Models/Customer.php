@@ -68,11 +68,11 @@ class Customer extends Model
         }
 
         $totalCreditAmount = $this->credits()
-            ->when($excludedCreditId, fn ($query) => $query->where('id', '<>', $excludedCreditId))
+            ->when($excludedCreditId, fn($query) => $query->where('id', '<>', $excludedCreditId))
             ->sum('credit_amount');
 
         $totalCreditAmountSettled = $this->credits()
-            ->when($excludedCreditId, fn ($query) => $query->where('id', '<>', $excludedCreditId))
+            ->when($excludedCreditId, fn($query) => $query->where('id', '<>', $excludedCreditId))
             ->sum('credit_amount_settled');
 
         $currentCreditAmount = $totalCreditAmount - $totalCreditAmountSettled;
@@ -82,5 +82,10 @@ class Customer extends Model
         }
 
         return false;
+    }
+
+    public function billOfMaterials()
+    {
+        return $this->hasMany(BillOfMaterial::class);
     }
 }

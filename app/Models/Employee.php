@@ -35,6 +35,11 @@ class Employee extends Model
         return $this->hasMany(Warning::class);
     }
 
+    public function advancementDetails()
+    {
+        return $this->hasMany(AdvancementDetail::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);

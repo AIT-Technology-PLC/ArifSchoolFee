@@ -120,3 +120,7 @@ Route::resource('warnings', Resource\WarningController::class);
 Route::resource('attendances', Resource\AttendanceController::class);
 
 Route::resource('attendance-details', Resource\AttendanceDetailController::class)->only(['destroy']);
+
+Route::resource('advancements', Resource\AdvancementController::class);
+
+Route::resource('advancement-details', Resource\AdvancementDetailController::class)->only(['destroy']);

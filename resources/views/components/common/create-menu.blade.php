@@ -83,8 +83,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management'))
-                @canany(['Create Department', 'Create Employee', 'Create Employee Transfer', 'Create Attendance', 'Create Warning'])
+            @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management'))
+                @canany(['Create Department', 'Create Employee', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -142,7 +142,7 @@
                                     </div>
                                 @endcan
                             @endif
-                            
+
                             @if (isFeatureEnabled('Attendance Management'))
                                 @can('Create Attendance')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
@@ -158,7 +158,7 @@
                                     </div>
                                 @endcan
                             @endif
-                            
+
                             @if (isFeatureEnabled('Warning Management'))
                                 @can('Create Warning')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
@@ -171,6 +171,22 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Warning </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Advancement Management'))
+                                @can('Create Advancement')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('advancements.create') }}"
+                                            icon="fas fa-arrows-up-down"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Advancement </span>
                                     </div>
                                 @endcan
                             @endif

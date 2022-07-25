@@ -16,6 +16,10 @@ class BillOfMaterialDetailController extends Controller
     {
         $this->authorize('delete', $billOfMaterialDetail->billOfMaterial);
 
+        if ($billOfMaterialDetail->billOfMaterial->isApproved()) {
+            return back()->with('failedMessage', 'You can not delete an bill of material that is approved.');
+        }
+
         $billOfMaterialDetail->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');
