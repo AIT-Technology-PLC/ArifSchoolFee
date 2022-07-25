@@ -176,6 +176,10 @@ class Features extends Seeder
                 ['name' => 'Leave Management'],
                 ['is_enabled' => 1]
             );
+            Feature::updateOrCreate(
+                ['name' => 'Advancement Management'],
+                ['is_enabled' => 1]
+            );
 
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');

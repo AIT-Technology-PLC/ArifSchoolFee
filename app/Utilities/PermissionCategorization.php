@@ -115,7 +115,10 @@ class PermissionCategorization
         ],
         'leave' => [
             'label' => 'Leave',
-            'feature' => 'Leave Management',
+            'feature' => 'Leave Management'],
+        'advancement' => [
+            'label' => 'Advancement',
+            'feature' => 'Advancement Management',
         ],
     ];
 

@@ -147,8 +147,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Leave Management'))
-        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Leave'])
+    @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Leave Management', 'Advancement Management'))
+        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Leave', 'Read Advancement'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -269,6 +269,20 @@
                                         label="Leaves"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('leaves.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('leaves.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Advancement Management'))
+                            @can('Read Advancement')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('advancements.index') }}"
+                                        label="Advancements"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('advancements.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('advancements.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

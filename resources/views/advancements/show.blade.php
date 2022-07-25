@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Bill Of Material Details')
+@section('title', 'Advancement Details')
 
 @section('content')
     <x-common.content-wrapper>
@@ -9,30 +9,30 @@
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-th"
-                        :data="$billOfMaterial->product->name"
-                        label="Product"
+                        icon="fas fa-arrows-up-down"
+                        :data="$advancement->code"
+                        label="Advancement NO"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-clipboard-list"
-                        :data="$billOfMaterial->name"
-                        label="Name"
-                    />
-                </div>
-                <div class="column is-6">
-                    <x-common.show-data-section
-                        icon="fas fa-info"
-                        :data="$billOfMaterial->isActive() ? 'Active' : 'Not Active'"
-                        label="Status"
+                        icon="fas fa-sort"
+                        :data="$advancement->isPromotion() ? 'Promotion' : 'Demotion'"
+                        label="Type"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$billOfMaterial->created_at->toFormattedDateString()"
+                        :data="$advancement->issued_on->toFormattedDateString()"
                         label="Issued On"
+                    />
+                </div>
+                <div class="column is-12">
+                    <x-common.show-data-section
+                        type="long"
+                        :data="$advancement->description"
+                        label="Details"
                     />
                 </div>
             </div>
@@ -45,13 +45,13 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if (!$billOfMaterial->isApproved())
-                    @can('Approve BOM')
+                @if (!$advancement->isApproved())
+                    @can('Approve Advancement')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
-                                :route="route('bill_of_materials.approve', $billOfMaterial->id)"
+                                :route="route('advancements.approve', $advancement->id)"
                                 action="approve"
-                                intention="approve this Bill of material"
+                                intention="approve this Advancement"
                                 icon="fas fa-signature"
                                 label="Approve"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
@@ -59,25 +59,25 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @can('Update BOM')
-                    <x-common.dropdown-item>
-                        <x-common.button
-                            tag="a"
-                            href="{{ route('bill-of-materials.edit', $billOfMaterial->id) }}"
-                            mode="button"
-                            icon="fas fa-pen"
-                            label="Edit"
-                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                        />
-                    </x-common.dropdown-item>
-                @endcan
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('advancements.edit', $advancement->id) }}"
+                        mode="button"
+                        icon="fas fa-pen"
+                        label="Edit"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                    />
+                </x-common.dropdown-item>
             </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
-            @if (!$billOfMaterial->isApproved())
-                <x-common.fail-message message="This Bill of material has not been approved yet." />
+            @if (!$advancement->isApproved())
+                <x-common.fail-message message="This Advancement has not been approved yet." />
+            @else
+                <x-common.success-message message="Advancement successfully approved." />
             @endif
             {{ $dataTable->table() }}
         </x-content.footer>

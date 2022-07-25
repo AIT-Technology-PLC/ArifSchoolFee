@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Action as Action;
-
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
     [Action\PermissionController::class, 'edit'])
@@ -308,3 +307,13 @@ Route::post('/leaves/{leaf}/approve',
 Route::post('/leaves/{leaf}/cancel',
     [Action\LeaveController::class, 'cancel'])
     ->name('leaves.cancel');
+
+// Advancement
+Route::post('/advancements/{advancement}/approve',
+    [Action\AdvancementController::class, 'approve'])
+    ->name('advancements.approve');
+
+// BOM
+Route::post('/bill_of_materials/{bill_of_material}/approve',
+    [Action\BillOfMaterialController::class, 'approve'])
+    ->name('bill_of_materials.approve');

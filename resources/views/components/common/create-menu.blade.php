@@ -83,8 +83,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Leave Management'))
-                @canany(['Create Department', 'Create Employee', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Leave'])
+            @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Leave Management', 'Advancement Management'))
+                @canany(['Create Department', 'Create Employee', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Leave', 'Create Advancement'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -198,6 +198,22 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Leave </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Advancement Management'))
+                                @can('Create Advancement')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('advancements.create') }}"
+                                            icon="fas fa-arrows-up-down"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Advancement </span>
                                     </div>
                                 @endcan
                             @endif
