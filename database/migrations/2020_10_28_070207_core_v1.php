@@ -1023,6 +1023,20 @@ return new class extends Migration
             $table->index('attendance_id');
         });
 
+        Schema::create('earning_categories', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->string('name');
+            $table->string('type');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->unique(['company_id', 'name']);
+            $table->index('company_id');
+        });
+
         Schema::create('integrations', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
@@ -1112,5 +1126,6 @@ return new class extends Migration
         Schema::drop('attendances');
         Schema::drop('company_integration');
         Schema::drop('integrations');
+        Schema::drop('earning_categories');
     }
 };
