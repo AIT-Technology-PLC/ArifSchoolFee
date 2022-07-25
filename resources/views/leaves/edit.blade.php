@@ -51,12 +51,12 @@
                                     @foreach ($leaveCategories as $leaveCategory)
                                         <option
                                             value="{{ $leaveCategory->id }}"
-                                            {{ $leaf->leave_category_id == $leaveCategory->id ? 'selected' : '' }}
+                                            @selected($leaf->leave_category_id == $leaveCategory->id)
                                         >{{ $leaveCategory->name }}</option>
                                     @endforeach
                                 </x-forms.select>
                                 <x-common.icon
-                                    name="fas fa-users-slash"
+                                    name="fa-solid fa-umbrella-beach"
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="leave_category_id" />

@@ -198,7 +198,7 @@
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class="fas fa-users-slash"></i>
+                                                <i class="fa-solid fa-umbrella-beach"></i>
                                             </span>
                                         </a>
                                         <br>

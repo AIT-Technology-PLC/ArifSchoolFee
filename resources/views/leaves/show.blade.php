@@ -53,9 +53,10 @@
             <div>
                 <x-common.fail-message :message="session('failedMessage')" />
                 <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
-                @if (!$leaf->isApproved())
+                @if (!$leaf->isApproved() && !$leaf->isCancelled())
                     <x-common.fail-message message="This Leave has not been approved yet." />
-                @else
+                @endif
+                @if ($leaf->isApproved())
                     <x-common.success-message message="Leave successfully approved." />
                 @endif
             </div>
@@ -76,7 +77,7 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-users-slash"
+                        icon="fa-solid fa-umbrella-beach"
                         :data="$leaf->leaveCategory->name"
                         label="category"
                     />

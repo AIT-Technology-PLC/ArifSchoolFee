@@ -9,7 +9,7 @@
                 <h1 class="title text-green has-text-weight-medium is-size-5">
                     Leave Categories
                     <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
-                        <x-common.icon name="fas fa-users-slash" />
+                        <x-common.icon name="fa-solid fa-umbrella-beach" />
                         <span>
                             {{ number_format($totalLeaveCategories) }} {{ str()->plural('Category', $totalLeaveCategories) }}
                         </span>

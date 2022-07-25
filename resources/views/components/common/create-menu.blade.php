@@ -182,7 +182,7 @@
                                             tag="a"
                                             mode="button"
                                             href="{{ route('leave-categories.create') }}"
-                                            icon="fas fa-users-slash"
+                                            icon="fa-solid fa-umbrella-beach"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>

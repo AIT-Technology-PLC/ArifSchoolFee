@@ -30,7 +30,7 @@
                                     value="{{ $leaveCategory->name }}"
                                 />
                                 <x-common.icon
-                                    name="fas fa-users-slash"
+                                    name="fa-solid fa-umbrella-beach"
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="name" />

@@ -34,10 +34,8 @@ class LeaveCategoryController extends Controller
 
     public function store(StoreLeaveCategoryRequest $request)
     {
-        $leaveCategories = collect($request->validated('leaveCategory'));
-
-        DB::transaction(function () use ($leaveCategories) {
-            foreach ($leaveCategories as $leaveCategory) {
+        DB::transaction(function () use ($request) {
+            foreach ($request->validated('leaveCategory') as $leaveCategory) {
                 leaveCategory::create($leaveCategory);
             }
         });

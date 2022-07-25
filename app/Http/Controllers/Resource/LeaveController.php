@@ -49,10 +49,8 @@ class LeaveController extends Controller
 
     public function store(StoreLeaveRequest $request)
     {
-        $leaves = collect($request->validated('leave'));
-
-        DB::transaction(function () use ($leaves) {
-            foreach ($leaves as $leave) {
+        DB::transaction(function () use ($request) {
+            foreach ($request->validated('leave') as $leave) {
                 Leave::create($leave);
             }
 

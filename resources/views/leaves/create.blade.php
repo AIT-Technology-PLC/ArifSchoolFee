@@ -90,7 +90,7 @@
                                                 @endforeach
                                             </x-forms.select>
                                             <x-common.icon
-                                                name="fas fa-users-slash"
+                                                name="fa-solid fa-umbrella-beach"
                                                 class="is-small is-left"
                                             />
                                             <span
