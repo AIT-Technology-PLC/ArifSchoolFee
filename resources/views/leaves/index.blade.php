@@ -8,7 +8,7 @@
             <x-common.total-model
                 model="Leaves"
                 :amount="$totalLeaves"
-                icon="fa-solid fa-user-slash"
+                icon="fa-solid fa-umbrella-beach"
             />
         </div>
         <div class="column is-3 p-lr-0">

@@ -62,7 +62,7 @@
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-user-slash"
+                        icon="fa-solid fa-umbrella-beach"
                         :data="$leaf->code"
                         label="Leave NO"
                     />

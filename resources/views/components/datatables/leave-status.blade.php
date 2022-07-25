@@ -12,7 +12,7 @@
      </span>
  @else
      <span class="tag is-small bg-gold has-text-white">
-         <x-common.icon name="fas fa-exclamation-circle" />
+         <x-common.icon name="fas fa-check-circle" />
          <span> Approved </span>
      </span>
  @endif

@@ -194,7 +194,7 @@
                                 @can('Read Leave')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('leave_categories.index') }}"
+                                            href="{{ route('leave-categories.index') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
@@ -213,7 +213,7 @@
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class="fas fa-user-slash"></i>
+                                                <i class="fa-solid fa-umbrella-beach"></i>
                                             </span>
                                         </a>
                                         <br>

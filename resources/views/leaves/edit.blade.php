@@ -27,9 +27,7 @@
                                     id="employee_id"
                                     name="employee_id"
                                 >
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->employee->id }}">{{ $user->name }}</option>
-                                    @endforeach
+                                    <option value="{{ $leaf->employee->id }}">{{ $leaf->employee->user->name }}</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-user"
@@ -51,7 +49,10 @@
                                     name="leave_category_id"
                                 >
                                     @foreach ($leaveCategories as $leaveCategory)
-                                        <option value="{{ $leaveCategory->id }}">{{ $leaveCategory->name }}</option>
+                                        <option
+                                            value="{{ $leaveCategory->id }}"
+                                            {{ $leaf->leave_category_id == $leaveCategory->id ? 'selected' : '' }}
+                                        >{{ $leaveCategory->name }}</option>
                                     @endforeach
                                 </x-forms.select>
                                 <x-common.icon

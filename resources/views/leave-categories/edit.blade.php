@@ -7,7 +7,7 @@
         <x-content.header title="Edit Leave Category" />
         <form
             id="formOne"
-            action="{{ route('leave_categories.update', $leaveCategory->id) }}"
+            action="{{ route('leave-categories.update', $leaveCategory->id) }}"
             method="post"
             enctype="multipart/form-data"
             novalidate

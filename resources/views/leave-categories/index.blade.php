@@ -11,7 +11,7 @@
                     <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-users-slash" />
                         <span>
-                            {{ number_format($totalLeaveCategories) }} {{ str()->plural('Leave Category', $totalLeaveCategories) }}
+                            {{ number_format($totalLeaveCategories) }} {{ str()->plural('Category', $totalLeaveCategories) }}
                         </span>
                     </span>
                 </h1>
@@ -19,17 +19,16 @@
             @can('Create Leave')
                 <x-common.button
                     tag="a"
-                    href="{{ route('leave_categories.create') }}"
+                    href="{{ route('leave-categories.create') }}"
                     mode="button"
                     icon="fas fa-plus-circle"
-                    label="Create Leave Category"
+                    label="Create Category"
                     class="btn-green is-outlined is-small"
                 />
             @endcan
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
-            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>

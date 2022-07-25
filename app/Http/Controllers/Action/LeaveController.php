@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Notification;
 
 class LeaveController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Leave Management');
@@ -21,6 +20,10 @@ class LeaveController extends Controller
     public function approve(Leave $leaf, ApproveTransactionAction $action)
     {
         $this->authorize('approve', $leaf);
+
+        if ($leaf->isCancelled()) {
+            return back()->with('failedMessage', 'You can not approve a leave that is cancelled.');
+        }
 
         [$isExecuted, $message] = $action->execute($leaf);
 
@@ -39,6 +42,10 @@ class LeaveController extends Controller
     public function cancel(Leave $leaf, CancelTransactionAction $action)
     {
         $this->authorize('cancel', $leaf);
+
+        if ($leaf->isApproved()) {
+            return back()->with('failedMessage', 'You can not cancel a leave that is approved..');
+        }
 
         [$isExecuted, $message] = $action->execute($leaf);
 

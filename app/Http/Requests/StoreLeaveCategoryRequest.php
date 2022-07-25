@@ -16,7 +16,7 @@ class StoreLeaveCategoryRequest extends FormRequest
     {
         return [
             'leaveCategory' => ['required', 'array'],
-            'leaveCategory.*.name' => ['required', 'string', 'distinct', Rule::unique('leave_categories', 'name')->where(function ($query) {
+            'leaveCategory.*.name' => ['required', 'string', 'distinct', Rule::unique('leave_categories')->where(function ($query) {
                 return $query->where('company_id', userCompany()->id);
             })],
             'leaveCategory.*.type' => ['required', 'string', Rule::in(['paid', 'unpaid'])],

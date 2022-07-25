@@ -1047,7 +1047,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('company_id');
+            $table->unique(['company_id', 'name', 'type']);
         });
 
         Schema::create('leaves', function (Blueprint $table) {

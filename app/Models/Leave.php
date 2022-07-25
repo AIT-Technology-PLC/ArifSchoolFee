@@ -41,7 +41,7 @@ class Leave extends Model
         return $this->belongsTo(LeaveCategory::class);
     }
 
-    public function leavePeriod()
+    public function getLeavePeriodAttribute()
     {
         return $this->ending_period->diffInDays($this->starting_period);
     }

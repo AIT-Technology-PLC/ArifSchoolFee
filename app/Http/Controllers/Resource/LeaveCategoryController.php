@@ -20,16 +20,16 @@ class LeaveCategoryController extends Controller
 
     public function index(LeaveCategoryDatatable $datatable)
     {
-        $datatable->builder()->setTableId('leave_categories-datatable')->orderBy(1, 'asc');
+        $datatable->builder()->setTableId('leave-categories-datatable')->orderBy(1, 'asc');
 
         $totalLeaveCategories = LeaveCategory::count();
 
-        return $datatable->render('leave_categories.index', compact('totalLeaveCategories'));
+        return $datatable->render('leave-categories.index', compact('totalLeaveCategories'));
     }
 
     public function create()
     {
-        return view('leave_categories.create');
+        return view('leave-categories.create');
     }
 
     public function store(StoreLeaveCategoryRequest $request)
@@ -38,23 +38,23 @@ class LeaveCategoryController extends Controller
 
         DB::transaction(function () use ($leaveCategories) {
             foreach ($leaveCategories as $leaveCategory) {
-                leaveCategory::firstOrCreate($leaveCategory);
+                leaveCategory::create($leaveCategory);
             }
         });
 
-        return redirect()->route('leave_categories.index')->with('successMessage', 'New leave Category are added.');
+        return redirect()->route('leave-categories.index')->with('successMessage', 'New leave Category are added.');
     }
 
     public function edit(LeaveCategory $leaveCategory)
     {
-        return view('leave_categories.edit', compact('leaveCategory'));
+        return view('leave-categories.edit', compact('leaveCategory'));
     }
 
     public function update(UpdateLeaveCategoryRequest $request, LeaveCategory $leaveCategory)
     {
         $leaveCategory->update($request->validated());
 
-        return redirect()->route('leave_categories.index');
+        return redirect()->route('leave-categories.index');
     }
 
     public function destroy(LeaveCategory $leaveCategory)

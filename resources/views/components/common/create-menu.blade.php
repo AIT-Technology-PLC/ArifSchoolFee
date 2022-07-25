@@ -181,8 +181,8 @@
                                         <x-common.button
                                             tag="a"
                                             mode="button"
-                                            href="{{ route('leave_categories.create') }}"
-                                            icon="fa-solid fa-users-slash"
+                                            href="{{ route('leave-categories.create') }}"
+                                            icon="fas fa-users-slash"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>
@@ -193,7 +193,7 @@
                                             tag="a"
                                             mode="button"
                                             href="{{ route('leaves.create') }}"
-                                            icon="fa-solid fa-user-slash"
+                                            icon="fa-solid fa-umbrella-beach"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>

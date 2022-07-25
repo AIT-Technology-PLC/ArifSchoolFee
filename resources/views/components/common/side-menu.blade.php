@@ -256,10 +256,10 @@
                                 <li>
                                     <x-common.button
                                         tag="a"
-                                        href="{{ route('leave_categories.index') }}"
+                                        href="{{ route('leave-categories.index') }}"
                                         label="Leave Categories"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('leave_categories.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('leave_categories.*') ? 'activateAccordion' : '' }}"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('leave-categories.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('leave-categories.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                                 <li>

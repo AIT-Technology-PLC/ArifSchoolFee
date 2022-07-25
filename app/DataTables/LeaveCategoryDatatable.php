@@ -20,7 +20,7 @@ class LeaveCategoryDatatable extends DataTable
             ->editColumn('edited by', fn($leaveCategory) => $leaveCategory->updatedBy->name)
             ->editColumn('actions', function ($leaveCategory) {
                 return view('components.common.action-buttons', [
-                    'model' => 'leave_categories',
+                    'model' => 'leave-categories',
                     'id' => $leaveCategory->id,
                     'buttons' => ['edit', 'delete'],
                 ]);

@@ -40,7 +40,7 @@ class LeaveController extends Controller
 
     public function create()
     {
-        $leaveCategories = LeaveCategory::all();
+        $leaveCategories = LeaveCategory::orderBy('name')->get(['id', 'name']);
 
         $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
 
@@ -53,7 +53,7 @@ class LeaveController extends Controller
 
         DB::transaction(function () use ($leaves) {
             foreach ($leaves as $leave) {
-                Leave::firstOrCreate($leave);
+                Leave::create($leave);
             }
 
             Notification::send(Notifiables::byNextActionPermission('Approve Leave'), new LeaveCreated($leave));
@@ -72,18 +72,18 @@ class LeaveController extends Controller
     public function edit(Leave $leaf)
     {
         if ($leaf->isApproved()) {
-            return back()->with('failedMessage', 'You can not modify an leave that is approved.');
+            return back()->with('failedMessage', 'You can not modify a leave that is approved.');
         }
 
         if ($leaf->isCancelled()) {
-            return back()->with('failedMessage', 'You can not modify an leave that is cancelled.');
+            return back()->with('failedMessage', 'You can not modify a leave that is cancelled.');
         }
 
-        $leaveCategories = LeaveCategory::all();
+        $leaveCategories = LeaveCategory::orderBy('name')->get(['id', 'name']);
 
-        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+        $leaf->load('leaveCategory', 'employee.user');
 
-        return view('leaves.edit', compact('leaf', 'users', 'leaveCategories'));
+        return view('leaves.edit', compact('leaf', 'leaveCategories'));
     }
 
     public function update(UpdateLeaveRequest $request, Leave $leaf)
@@ -96,11 +96,11 @@ class LeaveController extends Controller
     public function destroy(Leave $leaf)
     {
         if ($leaf->isApproved()) {
-            return back()->with('failedMessage', 'You can not delete an leave that is approved.');
+            return back()->with('failedMessage', 'You can not delete a leave that is approved.');
         }
 
         if ($leaf->isCancelled()) {
-            return back()->with('failedMessage', 'You can not delete an leave that is cancelled.');
+            return back()->with('failedMessage', 'You can not delete a leave that is cancelled.');
         }
 
         $leaf->forceDelete();

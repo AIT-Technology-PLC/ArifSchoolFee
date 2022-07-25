@@ -14,6 +14,8 @@ class LeaveCategory extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $cascadeDeletes = ['leaves'];
+
     public function leaves()
     {
         return $this->hasMany(Leave::class);

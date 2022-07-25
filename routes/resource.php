@@ -121,6 +121,6 @@ Route::resource('attendances', Resource\AttendanceController::class);
 
 Route::resource('attendance-details', Resource\AttendanceDetailController::class)->only(['destroy']);
 
-Route::resource('leave_categories', Resource\LeaveCategoryController::class);
+Route::resource('leave-categories', Resource\LeaveCategoryController::class);
 
 Route::resource('leaves', Resource\LeaveController::class);

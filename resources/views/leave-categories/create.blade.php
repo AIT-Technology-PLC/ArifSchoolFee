@@ -7,7 +7,7 @@
         <x-content.header title="New Leave Category" />
         <form
             id="formOne"
-            action="{{ route('leave_categories.store') }}"
+            action="{{ route('leave-categories.store') }}"
             method="post"
             enctype="multipart/form-data"
             novalidate
@@ -126,8 +126,10 @@
                 async init() {
                     if (leaveCategory) {
                         this.leaveCategories = leaveCategory;
+
                         return;
                     }
+
                     this.add();
                 },
 
