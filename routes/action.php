@@ -300,6 +300,11 @@ Route::post('/gdns/{gdn}/convert-to-sale',
     [Action\GdnController::class, 'convertToSale'])
     ->name('gdns.convert_to_sale');
 
+// Advancement
+Route::post('/advancements/{advancement}/approve',
+    [Action\AdvancementController::class, 'approve'])
+    ->name('advancements.approve');
+
 // BOM
 Route::post('/bill_of_materials/{bill_of_material}/approve',
     [Action\BillOfMaterialController::class, 'approve'])
