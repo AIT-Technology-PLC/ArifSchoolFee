@@ -79,7 +79,28 @@
                     <x-common.show-data-section
                         icon="fa-solid fa-umbrella-beach"
                         :data="$leaf->leaveCategory->name"
-                        label="category"
+                        label="Category"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fa-solid fa-clock"
+                        :data="$leaf->leavePeriod"
+                        label="Period (In Days)"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fa-solid fa-calendar"
+                        :data="$leaf->starting_period"
+                        label="Starting Period"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fa-solid fa-calendar"
+                        :data="$leaf->ending_period"
+                        label="Ending Period"
                     />
                 </div>
             </div>

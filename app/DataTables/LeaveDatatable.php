@@ -27,6 +27,8 @@ class LeaveDatatable extends DataTable
             ->editColumn('employee', fn($leave) => $leave->employee->user->name)
             ->editColumn('category', fn($leave) => $leave->leaveCategory->name)
             ->editColumn('period', fn($leave) => $leave->leavePeriod)
+            ->editColumn('starting_period', fn($leave) => $leave->starting_period->toFormattedDateString())
+            ->editColumn('ending_period', fn($leave) => $leave->ending_period->toFormattedDateString())
             ->editColumn('prepared by', fn($leave) => $leave->createdBy->name)
             ->editColumn('approved by', fn($leave) => $leave->approvedBy->name ?? 'N/A')
             ->editColumn('cancelled by', fn($leave) => $leave->cancelledBy->name ?? 'N/A')
@@ -70,6 +72,8 @@ class LeaveDatatable extends DataTable
             Column::make('category', ' leaveCategory.name'),
             Column::make('employee', 'employee.user.name'),
             Column::computed('period'),
+            Column::make('starting_period')->visible(false),
+            Column::make('ending_period')->visible(false),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
