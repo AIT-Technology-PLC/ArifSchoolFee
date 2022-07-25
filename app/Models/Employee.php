@@ -69,4 +69,9 @@ class Employee extends Model
     {
         return $this->gender == 'female';
     }
+
+    public function expenseClaims()
+    {
+        return $this->hasMany(ExpenseClaim::class);
+    }
 }
