@@ -263,6 +263,12 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Attendance']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Attendance']);
 
+            //Earning Category
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Earning Category']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Earning Category']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Earning Category']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Earning Category']);
+
             // Other
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Credit']);
 
@@ -300,20 +306,24 @@ class Permissions extends Seeder
                 'Create Employee Transfer',
                 'Create Warning',
                 'Create Attendance',
+                'Create Earning Category',
                 'Read Department',
                 'Read Employee',
                 'Read Employee Transfer',
                 'Read Warning',
                 'Read Attendance',
+                'Read Earning Category',
                 'Update Department',
                 'Update Employee',
                 'Update Employee Transfer',
                 'Update Warning',
+                'Update Earning Category',
                 'Delete Department',
                 'Delete Employee',
                 'Delete Employee Transfer',
                 'Delete Warning',
                 'Delete Attendance',
+                'Delete Earning Category',
                 'Import Employee',
                 'Approve Attendance',
                 'Approve Employee Transfer',
@@ -325,14 +335,17 @@ class Permissions extends Seeder
                 'Create Employee',
                 'Create Employee Transfer',
                 'Create Department',
+                'Create Earning Category',
                 'Read Attendance',
                 'Read Employee',
                 'Read Employee Transfer',
                 'Read Department',
+                'Read Earning Category',
                 'Update Attendance',
                 'Update Employee',
                 'Update Employee Transfer',
                 'Update Warning',
+                'Update Earning Category',
             ]);
 
             $purchaseManager->syncPermissions([
