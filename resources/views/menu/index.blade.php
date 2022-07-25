@@ -80,8 +80,8 @@
                 </section>
             @endcanany
         @endif
-        @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer', 'Warning Management'))
-            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Warning'])
+        @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer', 'Warning Management', 'Earning Management'))
+            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Warning', 'Read Earning'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -185,6 +185,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Warnings
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Earning Management'))
+                                @can('Read Earning')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('earning-categories.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-coins"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Earning Categories
                                         </span>
                                     </div>
                                 @endcan
