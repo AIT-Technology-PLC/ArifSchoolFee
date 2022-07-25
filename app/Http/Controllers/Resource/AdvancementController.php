@@ -62,8 +62,6 @@ class AdvancementController extends Controller
     {
         $datatable->builder()->setTableId('advancement-details-datatable');
 
-        $advancement->load(['advancementDetails']);
-
         return $datatable->render('advancements.show', compact('advancement'));
     }
 

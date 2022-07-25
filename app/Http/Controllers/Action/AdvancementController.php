@@ -31,7 +31,7 @@ class AdvancementController extends Controller
         }
 
         Notification::send(
-            Notifiables::byPermission('Read Advancement', $advancement->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read Advancement', $advancement->createdBy),
             new AdvancementApproved($advancement)
         );
 

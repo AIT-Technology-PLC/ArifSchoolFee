@@ -26,7 +26,7 @@ class AdvancementDatatable extends DataTable
             ->editColumn('branch', fn($advancement) => $advancement->warehouse->name)
             ->editColumn('status', fn($advancement) => view('components.datatables.advancement-status', compact('advancement')))
             ->editColumn('type', fn($advancement) => $advancement->type)
-            ->editColumn('description', fn($advancement) => $advancement->description)
+            ->editColumn('description', fn($advancement) => $advancement->description ?? 'N/A')
             ->editColumn('prepared by', fn($advancement) => $advancement->createdBy->name ?? 'N/A')
             ->editColumn('approved by', fn($advancement) => $advancement->approvedBy->name ?? 'N/A')
             ->editColumn('actions', function ($advancement) {
@@ -43,11 +43,10 @@ class AdvancementDatatable extends DataTable
     {
         return $advancement
             ->newQuery()
-            ->when(request('status') == 'approved', fn($query) => $query->Approved())
+            ->when(request('status') == 'approved', fn($query) => $query->approved())
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
             ->select('advancements.*')
             ->with([
-                'advancementDetails',
                 'createdBy:id,name',
                 'approvedBy:id,name',
                 'warehouse:id,name',
@@ -60,9 +59,9 @@ class AdvancementDatatable extends DataTable
             Column::computed('#'),
             Column::make('code')->className('has-text-centered')->title('Advancement No'),
             Column::make('branch', 'warehouse.name')->visible(false),
-            Column::computed('status')->orderable(false),
+            Column::computed('status'),
             Column::make('issued_on'),
-            Column::computed('type')->orderable(false),
+            Column::make('type'),
             Column::make('description')->visible(false),
             Column::make('prepared by', 'createdBy.name')->visible(false),
             Column::make('approved by', 'approvedBy.name')->visible(false),
