@@ -10,11 +10,11 @@ class JobService
 {
     public function addToWorkInProcess($data, $job, $user)
     {
-        if (! $user->hasWarehousePermission('subtract', $job->factory_id)) {
+        if (!$user->hasWarehousePermission('subtract', $job->factory_id)) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
         }
 
-        if (! $job->isApproved()) {
+        if (!$job->isApproved()) {
             return [false, 'This job is not approved yet.', ''];
         }
 
@@ -22,9 +22,9 @@ class JobService
             return [false, 'This Job is already closed.'];
         }
 
-        DB::transaction(function () use ($data, $job) {
+        return DB::transaction(function () use ($data, $job) {
             for ($i = 0; $i < count($job->jobDetails); $i++) {
-                if (! isset($data[$i])) {
+                if (!isset($data[$i])) {
                     continue;
                 }
 
@@ -32,12 +32,13 @@ class JobService
                     continue;
                 }
 
-                if (! $job->jobDetails[$i]->canAddToWip()) {
+                if (!$job->jobDetails[$i]->canAddToWip()) {
                     continue;
                 }
 
-                if (! $this->isQuantityValid($job->jobDetails[$i]->quantity, $job->jobDetails[$i]->available, $job->jobDetails[$i]->wip + $data[$i]['wip'])) {
-                    return false;
+                if (!$this->isQuantityValid($job->jobDetails[$i]->quantity, $job->jobDetails[$i]->available, $job->jobDetails[$i]->wip + $data[$i]['wip'])) {
+                    DB::rollBack();
+                    return [false, 'The quantity provided is inaccurate.'];
                 }
 
                 $job->jobDetails[$i]->update([
@@ -62,12 +63,16 @@ class JobService
                 ];
             }
 
-            if (isset($details) && count($details)) {
-                $billOfMaterialdetails = Arr::flatten($details, 1);
+            if (!isset($details) || !count($details)) {
+                DB::rollBack();
+                return false;
+            }
 
-                if (! InventoryOperationService::areAvailable($billOfMaterialdetails)) {
-                    return false;
-                }
+            $billOfMaterialdetails = Arr::flatten($details, 1);
+
+            if (InventoryOperationService::unavailableProducts($billOfMaterialdetails)->isNotEmpty()) {
+                DB::rollBack();
+                return [false, InventoryOperationService::unavailableProducts($billOfMaterialdetails)];
             }
 
             if (isset($billOfMaterialdetails) && count($billOfMaterialdetails)) {
@@ -77,18 +82,18 @@ class JobService
             if (isset($addDetails) && count($addDetails)) {
                 InventoryOperationService::add($addDetails, 'wip');
             }
-        });
 
-        return [true, ''];
+            return [true, ''];
+        });
     }
 
     public function addToAvailable($data, $job, $user)
     {
-        if (! $user->hasWarehousePermission('add', $job->factory_id)) {
+        if (!$user->hasWarehousePermission('add', $job->factory_id)) {
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
 
-        if (! $job->isApproved()) {
+        if (!$job->isApproved()) {
             return [false, 'This job is not approved yet.', ''];
         }
 
@@ -96,9 +101,9 @@ class JobService
             return [false, 'This Job is already closed.'];
         }
 
-        DB::transaction(function () use ($data, $job) {
+        return DB::transaction(function () use ($data, $job) {
             for ($i = 0; $i < count($job->jobDetails); $i++) {
-                if (! isset($data[$i])) {
+                if (!isset($data[$i])) {
                     continue;
                 }
 
@@ -110,8 +115,9 @@ class JobService
                     continue;
                 }
 
-                if (! $this->isQuantityValid($job->jobDetails[$i]->quantity, $job->jobDetails[$i]->available + $data[$i]['available'], 0)) {
-                    return false;
+                if (!$this->isQuantityValid($job->jobDetails[$i]->quantity, $job->jobDetails[$i]->available + $data[$i]['available'], 0)) {
+                    DB::rollBack();
+                    return [false, 'The quantity provided is inaccurate.'];
                 }
 
                 if ($data[$i]['available'] > $job->jobDetails[$i]->wip) {
@@ -158,15 +164,19 @@ class JobService
                 }
             }
 
-            if (isset($details) && count($details)) {
-                $billOfMaterialdetails = Arr::flatten($details, 1);
-
-                if (! InventoryOperationService::areAvailable($billOfMaterialdetails)) {
-                    return false;
-                }
-
-                InventoryOperationService::subtract($billOfMaterialdetails);
+            if (!isset($details) || !count($details)) {
+                DB::rollBack();
+                return false;
             }
+
+            $billOfMaterialdetails = Arr::flatten($details, 1);
+
+            if (InventoryOperationService::unavailableProducts($billOfMaterialdetails)->isNotEmpty()) {
+                DB::rollBack();
+                return [false, InventoryOperationService::unavailableProducts($billOfMaterialdetails)];
+            }
+
+            InventoryOperationService::subtract($billOfMaterialdetails);
 
             if (isset($wipDetails) && count($wipDetails)) {
                 InventoryOperationService::subtract($wipDetails, 'wip');
@@ -176,14 +186,14 @@ class JobService
             if (isset($availableDetails) && count($availableDetails)) {
                 InventoryOperationService::add($availableDetails);
             }
-        });
 
-        return [true, ''];
+            return [true, ''];
+        });
     }
 
     public function addExtra($jobExtra, $user)
     {
-        if (! $user->hasWarehousePermission('add', $jobExtra->job->factory_id)) {
+        if (!$user->hasWarehousePermission('add', $jobExtra->job->factory_id)) {
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
 
@@ -210,7 +220,7 @@ class JobService
 
     public function subtractExtra($jobExtra, $user)
     {
-        if (! $user->hasWarehousePermission('subtract', $jobExtra->job->factory_id)) {
+        if (!$user->hasWarehousePermission('subtract', $jobExtra->job->factory_id)) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
         }
 
@@ -252,7 +262,7 @@ class JobService
 
     public function close($job)
     {
-        if (! $job->isCompleted()) {
+        if (!$job->isCompleted()) {
             return [false, 'This Job is not Completed yet.'];
         }
 
