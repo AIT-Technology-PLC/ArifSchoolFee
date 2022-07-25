@@ -66,7 +66,15 @@ class Pad extends Model
         return $this->hasMany(Transaction::class);
     }
 
-    public function features(): Attribute
+    public function convertTo(): Attribute
+    {
+        return Attribute::make(
+            get:fn($value) => !is_null($value) ? explode(',', $value) : [],
+            set:fn($value) => implode(',', $value)
+        );
+    }
+
+    public function convertFrom(): Attribute
     {
         return Attribute::make(
             get:fn($value) => !is_null($value) ? explode(',', $value) : [],
@@ -111,7 +119,7 @@ class Pad extends Model
 
     public function isConvertable()
     {
-        return count($this->features);
+        return count($this->convert_to) || count($this->convert_from);
     }
 
     public function isEnabled()
@@ -166,16 +174,10 @@ class Pad extends Model
             ->pluck('name')
             ->merge([
                 'grns',
-                'transfers',
-                'damages',
-                'adjustments',
                 'sivs',
                 'sales',
                 'gdns',
                 'proforma-invoices',
-                'reservations',
-                'returns',
-                'purchases',
             ]);
     }
 }

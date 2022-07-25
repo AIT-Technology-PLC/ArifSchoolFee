@@ -102,4 +102,22 @@ class TransactionController extends Controller
 
         return Pdf::loadView('transactions.print', compact('transaction', 'columns'))->stream();
     }
+
+    public function convertTo(Transaction $transaction)
+    {
+        $this->authorize('convert', $transaction);
+
+        [$route, $data] = $this->transactionService->convertTo($transaction, request('target'));
+
+        return redirect($route)->withInput($data);
+    }
+
+    public function convertFrom(Transaction $transaction)
+    {
+        $this->authorize('convert', $transaction);
+
+        [$route, $data] = $this->transactionService->convertFrom($transaction, request('target'), request('id'));
+
+        return redirect($route)->withInput($data);
+    }
 }

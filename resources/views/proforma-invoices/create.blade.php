@@ -20,7 +20,7 @@
                             PI No <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
-                            <x-forms.control>
+                            <x-forms.control class="is-expanded">
                                 <x-forms.input
                                     name="prefix"
                                     type="text"
@@ -28,7 +28,7 @@
                                     value="{{ userCompany()->proforma_invoice_prefix ?? '' }}"
                                 />
                             </x-forms.control>
-                            <x-forms.control class="has-icons-left">
+                            <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
                                     type="text"
                                     name="code"

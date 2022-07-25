@@ -133,21 +133,21 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label for="features">
-                                Converts <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="convert_to">
+                                Convert To <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.select
                                     class="is-fullwidth is-multiple"
-                                    id="features"
-                                    name="features[]"
+                                    id="convert_to"
+                                    name="convert_to[]"
                                     multiple
                                     size="2"
                                 >
                                     @foreach ($features as $feature)
                                         <option
                                             value="{{ $feature }}"
-                                            @selected(in_array($feature, old('features', [])))
+                                            @selected(in_array($feature, old('convert_to', [])))
                                         >
                                             {{ str($feature)->title()->singular() }}
                                         </option>
@@ -157,7 +157,37 @@
                                     name="fas fa-th"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="features" />
+                                <x-common.validation-error property="convert_to" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="convert_from">
+                                Convert From <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth is-multiple"
+                                    id="convert_from"
+                                    name="convert_from[]"
+                                    multiple
+                                    size="2"
+                                >
+                                    @foreach ($features as $feature)
+                                        <option
+                                            value="{{ $feature }}"
+                                            @selected(in_array($feature, old('convert_from', [])))
+                                        >
+                                            {{ str($feature)->title()->singular() }}
+                                        </option>
+                                    @endforeach
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="convert_from" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

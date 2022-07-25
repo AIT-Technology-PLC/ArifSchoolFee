@@ -143,7 +143,7 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header title="Converts" />
+        <x-content.header title="Convert To" />
         <x-content.footer>
             <x-common.bulma-table>
                 <x-slot name="headings">
@@ -151,7 +151,38 @@
                     <th> Feature </th>
                 </x-slot>
                 <x-slot name="body">
-                    @forelse ($pad->features as $feature)
+                    @forelse ($pad->convert_to as $feature)
+                        <tr>
+                            <td> {{ $loop->index + 1 }} </td>
+                            <td>
+                                {{ str($feature)->title()->singular() }}
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td
+                                colspan="2"
+                                class="has-text-centered"
+                            >
+                                No converts found
+                            </td>
+                        </tr>
+                    @endforelse
+                </x-slot>
+            </x-common.bulma-table>
+        </x-content.footer>
+    </x-common.content-wrapper>
+
+    <x-common.content-wrapper class="mt-5">
+        <x-content.header title="Convert From" />
+        <x-content.footer>
+            <x-common.bulma-table>
+                <x-slot name="headings">
+                    <th> # </th>
+                    <th> Feature </th>
+                </x-slot>
+                <x-slot name="body">
+                    @forelse ($pad->convert_from as $feature)
                         <tr>
                             <td> {{ $loop->index + 1 }} </td>
                             <td>

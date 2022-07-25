@@ -28,7 +28,8 @@ class StorePadRequest extends FormRequest
             'has_payment_term' => ['required', 'boolean'],
             'is_enabled' => ['required', 'boolean'],
             'module' => ['required', 'string', Rule::in(Pad::MODULES)],
-            'features' => ['nullable', 'array', Rule::in((new Pad)->converts())],
+            'convert_to' => ['nullable', 'array', Rule::in((new Pad)->converts())],
+            'convert_from' => ['nullable', 'array', Rule::in((new Pad)->converts())],
 
             'field' => ['required', 'array'],
 

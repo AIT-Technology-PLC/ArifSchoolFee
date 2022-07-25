@@ -276,6 +276,8 @@ Route::controller(Action\TransactionController::class)->group(function () {
     Route::post('/transactions/{transaction}/close', 'close')->name('transactions.close');
     Route::post('/transactions/{transaction}/cancel', 'cancel')->name('transactions.cancel');
     Route::get('/transactions/{transaction}/print', 'printed')->name('transactions.print');
+    Route::get('/transactions/{transaction}/convert-to', 'convertTo')->name('transactions.convert_to');
+    Route::get('/transactions/{transaction}/convert-from', 'convertFrom')->name('transactions.convert_from');
 });
 
 Route::controller(Action\SaleController::class)->group(function () {

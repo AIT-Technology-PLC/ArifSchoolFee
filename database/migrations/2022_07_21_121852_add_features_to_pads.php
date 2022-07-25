@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('pads', function (Blueprint $table) {
-            $table->string('features')->nullable()->after('module');
+            $table->string('convert_to')->nullable()->after('module');
+            $table->string('convert_from')->nullable()->after('convert_to');
         });
     }
 
@@ -26,7 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('pads', function (Blueprint $table) {
-            $table->dropColumn('features');
+            $table->dropColumn('convert_from', 'convert_to');
         });
     }
 };
