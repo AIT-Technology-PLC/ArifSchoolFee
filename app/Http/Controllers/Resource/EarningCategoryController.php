@@ -34,10 +34,8 @@ class EarningCategoryController extends Controller
 
     public function store(StoreEarningCategoryRequest $request)
     {
-        $earningCategories = collect($request->validated('earningCategory'));
-
-        DB::transaction(function () use ($earningCategories) {
-            foreach ($earningCategories as $earningCategory) {
+        DB::transaction(function () use ($request) {
+            foreach ($request->validated('earningCategory') as $earningCategory) {
                 EarningCategory::create($earningCategory);
             }
         });
