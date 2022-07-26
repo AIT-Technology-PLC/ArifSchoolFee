@@ -182,7 +182,7 @@
                                             tag="a"
                                             mode="button"
                                             href="{{ route('expense-claims.create') }}"
-                                            icon=""
+                                            icon="fa-solid fa-file-invoice-dollar"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\MustBelongToCompany;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateExpenseClaimRequest extends FormRequest
@@ -16,7 +15,6 @@ class UpdateExpenseClaimRequest extends FormRequest
     {
         return [
             'issued_on' => ['required', 'date'],
-            'employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees')],
             'description' => ['nullable', 'string'],
             'expenseClaim' => ['required', 'array'],
             'expenseClaim.*.item' => ['required', 'string', 'max:255'],

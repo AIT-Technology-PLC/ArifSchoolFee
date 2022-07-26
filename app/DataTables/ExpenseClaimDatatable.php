@@ -23,9 +23,9 @@ class ExpenseClaimDatatable extends DataTable
                 '@click' => 'showDetails',
             ])
             ->editColumn('branch', fn($expenseClaim) => $expenseClaim->warehouse->name)
-            ->editColumn('status', fn($expenseClaim) => view('components.datatables.expense-claim-status', compact('attendance')))
+            ->editColumn('status', fn($expenseClaim) => view('components.datatables.expense-claim-status', compact('expenseClaim')))
             ->editColumn('employee', fn($expenseClaim) => $expenseClaim->employee->user->name)
-            ->editColumn('issued on', fn($expenseClaim) => $expenseClaim->issued_on)
+            ->editColumn('issued_on', fn($expenseClaim) => $expenseClaim->issued_on->toFormattedDateString())
             ->editColumn('prepared by', fn($expenseClaim) => $expenseClaim->createdBy->name)
             ->editColumn('approved by', fn($expenseClaim) => $expenseClaim->approvedBy->name ?? 'N/A')
             ->editColumn('rejected by', fn($expenseClaim) => $expenseClaim->rejectedBy->name ?? 'N/A')
@@ -44,8 +44,8 @@ class ExpenseClaimDatatable extends DataTable
     {
         return $expenseClaim
             ->newQuery()
-            ->when(request('status') == 'approved', fn($query) => $query->approved()->notCancelled())
-            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
+            ->when(request('status') == 'approved', fn($query) => $query->approved()->notRejected())
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved()->notRejected())
             ->when(request('status') == 'rejected', fn($query) => $query->rejected())
             ->select('expense_claims.*')
             ->with([
@@ -64,7 +64,7 @@ class ExpenseClaimDatatable extends DataTable
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Claim No'),
-            Column::make('status')->orderable(false),
+            Column::computed('status')->orderable(false),
             Column::make('employee', 'employee.user.name'),
             Column::make('issued_on'),
             Column::make('prepared by', 'createdBy.name'),

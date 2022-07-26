@@ -19,11 +19,12 @@ class ExpenseClaimController extends Controller
 
         $this->authorizeResource(ExpenseClaim::class);
     }
+
     public function index(ExpenseClaimDatatable $datatable)
     {
         $datatable->builder()->setTableId('expense-claims-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
-        $totalExpanse = ExpenseClaim::count();
+        $totalExpanseClaims = ExpenseClaim::count();
 
         $totalApproved = ExpenseClaim::approved()->notRejected()->count();
 
@@ -31,7 +32,7 @@ class ExpenseClaimController extends Controller
 
         $totalRejected = ExpenseClaim::rejected()->count();
 
-        return $datatable->render('expense-claims.index', compact('totalExpense', 'totalApproved', 'totalNotApproved', 'totalRejected'));
+        return $datatable->render('expense-claims.index', compact('totalExpanseClaims', 'totalApproved', 'totalNotApproved', 'totalRejected'));
     }
 
     public function create()
@@ -67,6 +68,10 @@ class ExpenseClaimController extends Controller
             return back()->with('failedMessage', 'You can not modify an expense claims that is approved.');
         }
 
+        if ($expenseClaim->isRejected()) {
+            return back()->with('failedMessage', 'You can not modify an expense claims that is rejected.');
+        }
+
         return view('expense-claims.edit', compact('expenseClaim'));
     }
 
@@ -74,6 +79,10 @@ class ExpenseClaimController extends Controller
     {
         if ($expenseClaim->isApproved()) {
             return back()->with('failedMessage', 'You can not modify an expense claims that is approved.');
+        }
+
+        if ($expenseClaim->isRejected()) {
+            return back()->with('failedMessage', 'You can not modify an expense claims that is rejected.');
         }
 
         DB::transaction(function () use ($request, $expenseClaim) {
@@ -91,6 +100,10 @@ class ExpenseClaimController extends Controller
     {
         if ($expenseClaim->isApproved()) {
             return back()->with('failedMessage', 'You can not delete an expense claims that is approved.');
+        }
+
+        if ($expenseClaim->isRejected()) {
+            return back()->with('failedMessage', 'You can not delete an expense claims that is rejected.');
         }
 
         $expenseClaim->forceDelete();
