@@ -161,12 +161,13 @@ trait TransactionConverts
 
     private function convertToPad($target)
     {
+        $transaction = request()->route('transaction');
         $data = [];
         $master = $this->transactionFields()->masterFields()->pluck('value', 'pad_field_id')->toArray();
         $details = $this->transactionFields()->detailFields()->get()->groupBy('line')->map->pluck('value', 'pad_field_id')->toArray();
 
         foreach ($master as $key => $value) {
-            $padFieldId = Pad::firstWhere('name', $target)->padFields()->firstWhere('label', PadField::find($key)->label)->id ?? null;
+            $padFieldId = Pad::firstWhere('name', $target)->padFields()->masterFields()->firstWhere('label', PadField::find($key)->label)->id ?? null;
 
             if ($padFieldId != null) {
                 $data['master'][$padFieldId] = $value;
@@ -175,13 +176,16 @@ trait TransactionConverts
 
         foreach ($details as $index => $detail) {
             foreach ($detail as $key => $value) {
-                $padFieldId = Pad::firstWhere('name', $target)->padFields()->firstWhere('label', PadField::find($key)->label)->id ?? null;
+                $padFieldId = Pad::firstWhere('name', $target)->padFields()->detailFields()->firstWhere('label', PadField::find($key)->label)->id ?? null;
 
                 if ($padFieldId != null) {
                     $data['details'][$index][$padFieldId] = $value;
                 }
             }
         }
+
+        $data['master'][Pad::firstWhere('name', $target)->padFields()->masterFields()->where('label', 'like', '%' . $transaction->pad->name . '%')->orWhere('label', 'like', '%' . $transaction->pad->abbreviation . '%')->first()->id ?? null] = $transaction->code;
+        data_set($data, '*.' . (Pad::firstWhere('name', $target)->padFields()->detailFields()->where('label', 'like', '%' . $transaction->pad->name . '%')->orWhere('label', 'like', '%' . $transaction->pad->abbreviation . '%')->first()->id ?? null), $transaction->code);
 
         return count($data) ? $data : null;
     }

@@ -40,13 +40,14 @@ class PadService
     {
         return DB::transaction(function () use ($pad, $data) {
             $pad->update(Arr::except($data, ['field']));
+            $padFields = $pad->padFields()->whereIn('label', collect($data['field'])->pluck('label'))->get();
 
             collect($data['field'])
-                ->each(function ($field, $i) use ($pad) {
-                    $pad->padFields[$i]->update($field);
+                ->each(function ($field, $i) use ($padFields) {
+                    $padFields[$i]->update($field);
 
                     if ($field['is_relational_field']) {
-                        $pad->padFields[$i]->padRelation->update(
+                        $padFields[$i]->padRelation->update(
                             Arr::only($field, ['relationship_type', 'model_name', 'representative_column', 'component_name'])
                         );
                     }
