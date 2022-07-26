@@ -184,8 +184,8 @@ trait TransactionConverts
             }
         }
 
-        $data['master'][Pad::firstWhere('name', $target)->padFields()->masterFields()->where('label', 'like', '%' . $transaction->pad->name . '%')->orWhere('label', 'like', '%' . $transaction->pad->abbreviation . '%')->first()->id ?? null] = $transaction->code;
-        data_set($data, '*.' . (Pad::firstWhere('name', $target)->padFields()->detailFields()->where('label', 'like', '%' . $transaction->pad->name . '%')->orWhere('label', 'like', '%' . $transaction->pad->abbreviation . '%')->first()->id ?? null), $transaction->code);
+        $data['master'][Pad::firstWhere('name', $target)->padFields()->masterFields()->where('label', 'like', '%' . $transaction->pad->name . '%')->orWhere('label', 'like', '%' . $transaction->pad->abbreviation . '%')->first()->id ?? null] = (string) $transaction->code;
+        data_set($data['details'], '*.' . (Pad::firstWhere('name', $target)->padFields()->detailFields()->where('label', 'like', '%' . $transaction->pad->name . '%')->orWhere('label', 'like', '%' . $transaction->pad->abbreviation . '%')->first()->id ?? null), (string) $transaction->code);
 
         return count($data) ? $data : null;
     }
