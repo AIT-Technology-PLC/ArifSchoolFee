@@ -7,7 +7,7 @@
         <div class="column is-3 p-lr-0">
             <x-common.total-model
                 model="Expense Claims"
-                :amount="$totalExpanseClaims"
+                :amount="$totalExpenseClaims"
                 icon="fa-solid fa-file-invoice-dollar"
             />
         </div>

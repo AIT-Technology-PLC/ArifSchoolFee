@@ -301,15 +301,15 @@ Route::post('/gdns/{gdn}/convert-to-sale',
     ->name('gdns.convert_to_sale');
 
 // BOM
-Route::post('/bill_of_materials/{bill_of_material}/approve',
+Route::post('/bill-of-materials/{billOfMaterial}/approve',
     [Action\BillOfMaterialController::class, 'approve'])
-    ->name('bill_of_materials.approve');
+    ->name('bill-of-materials.approve');
 
 // Expense Claim
-Route::post('/expense-claims/{expense_claim}/approve',
+Route::post('/expense-claims/{expenseClaim}/approve',
     [Action\ExpenseClaimController::class, 'approve'])
     ->name('expense-claims.approve');
 
-Route::post('/expense-claims/{expense_claim}/reject',
+Route::post('/expense-claims/{expenseClaim}/reject',
     [Action\ExpenseClaimController::class, 'reject'])
     ->name('expense-claims.reject');

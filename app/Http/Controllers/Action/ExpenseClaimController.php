@@ -19,7 +19,7 @@ class ExpenseClaimController extends Controller
         $this->authorize('approve', $expenseClaim);
 
         if ($expenseClaim->isRejected()) {
-            return back()->with('failedMessage', 'You can not approve an expense claim that is rejected.');
+            return back()->with('failedMessage', 'You can not approve an expense claims that is rejected.');
         }
 
         [$isExecuted, $message] = $action->execute($expenseClaim);
@@ -36,7 +36,7 @@ class ExpenseClaimController extends Controller
         $this->authorize('reject', $expenseClaim);
 
         if ($expenseClaim->isapproved()) {
-            return back()->with('failedMessage', 'You can not reject an expense claim that is approved.');
+            return back()->with('failedMessage', 'You can not reject an expense claims that is approved.');
         }
 
         [$isExecuted, $message] = $action->execute($expenseClaim);

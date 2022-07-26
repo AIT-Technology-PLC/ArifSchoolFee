@@ -24,7 +24,7 @@ class ExpenseClaimController extends Controller
     {
         $datatable->builder()->setTableId('expense-claims-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
 
-        $totalExpanseClaims = ExpenseClaim::count();
+        $totalExpenseClaims = ExpenseClaim::count();
 
         $totalApproved = ExpenseClaim::approved()->notRejected()->count();
 
@@ -32,7 +32,7 @@ class ExpenseClaimController extends Controller
 
         $totalRejected = ExpenseClaim::rejected()->count();
 
-        return $datatable->render('expense-claims.index', compact('totalExpanseClaims', 'totalApproved', 'totalNotApproved', 'totalRejected'));
+        return $datatable->render('expense-claims.index', compact('totalExpenseClaims', 'totalApproved', 'totalNotApproved', 'totalRejected'));
     }
 
     public function create()

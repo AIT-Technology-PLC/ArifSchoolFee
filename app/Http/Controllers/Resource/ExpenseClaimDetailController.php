@@ -21,7 +21,7 @@ class ExpenseClaimDetailController extends Controller
         }
 
         if ($expenseClaimDetail->expenseClaim->isRejected()) {
-            return back()->with('failedMessage', 'You can not delete an expense claims that is rejected.');
+            return back()->with('failedMessage', 'You can not delete an expense claim that is rejected.');
         }
 
         $expenseClaimDetail->forceDelete();
