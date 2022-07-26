@@ -80,8 +80,8 @@
                 </section>
             @endcanany
         @endif
-        @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer', 'Warning Management', 'Advancement Management'))
-            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Warning', 'Read Advancement'])
+        @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management'))
+            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">

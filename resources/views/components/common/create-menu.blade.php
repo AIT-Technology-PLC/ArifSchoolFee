@@ -83,8 +83,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management'))
-                @canany(['Create Department', 'Create Employee', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement'])
+            @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management'))
+                @canany(['Create Employee', 'Create Department', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
