@@ -1039,6 +1039,36 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('expense_claims', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('rejected_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('code');
+            $table->dateTime('issued_on')->nullable();
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+            $table->index('warehouse_id');
+        });
+
+        Schema::create('expense_claim_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('expense_claim_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->text('item');
+            $table->decimal('price', 22)->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('expense_claim_id');
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -1112,5 +1142,7 @@ return new class extends Migration
         Schema::drop('attendances');
         Schema::drop('company_integration');
         Schema::drop('integrations');
+        Schema::drop('expense_claim_details');
+        Schema::drop('expense_claims');
     }
 };
