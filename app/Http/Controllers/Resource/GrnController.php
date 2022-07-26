@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGrnRequest;
 use App\Http\Requests\UpdateGrnRequest;
 use App\Models\Grn;
-use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Notifications\GrnPrepared;
 use App\Utilities\Notifiables;
@@ -45,11 +44,9 @@ class GrnController extends Controller
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        $purchases = Purchase::purchased()->notClosed()->latest('code')->get();
-
         $currentGrnCode = nextReferenceNumber('grns');
 
-        return view('grns.create', compact('warehouses', 'suppliers', 'purchases', 'currentGrnCode'));
+        return view('grns.create', compact('warehouses', 'suppliers', 'currentGrnCode'));
     }
 
     public function store(StoreGrnRequest $request)
@@ -84,9 +81,7 @@ class GrnController extends Controller
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        $purchases = Purchase::purchased()->notClosed()->latest('code')->get();
-
-        return view('grns.edit', compact('grn', 'warehouses', 'suppliers', 'purchases'));
+        return view('grns.edit', compact('grn', 'warehouses', 'suppliers'));
     }
 
     public function update(UpdateGrnRequest $request, Grn $grn)
