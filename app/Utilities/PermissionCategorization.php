@@ -109,13 +109,21 @@ class PermissionCategorization
             'label' => 'Warning',
             'feature' => 'Warning Management',
         ],
-        'expense claim' => [
-            'label' => 'Expense Claim',
-            'feature' => 'Expense Claim',
+        'attendance' => [
+            'label' => 'Attendance',
+            'feature' => 'Attendance Management',
+        ],
+        'leave' => [
+            'label' => 'Leave',
+            'feature' => 'Leave Management',
         ],
         'advancement' => [
             'label' => 'Advancement',
             'feature' => 'Advancement Management',
+        ],
+        'expense claim' => [
+            'label' => 'Expense Claim',
+            'feature' => 'Expense Claim',
         ],
     ];
 

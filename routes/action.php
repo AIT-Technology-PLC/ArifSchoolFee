@@ -302,6 +302,15 @@ Route::post('/gdns/{gdn}/convert-to-sale',
     [Action\GdnController::class, 'convertToSale'])
     ->name('gdns.convert_to_sale');
 
+// Leave
+Route::post('/leaves/{leaf}/approve',
+    [Action\LeaveController::class, 'approve'])
+    ->name('leaves.approve');
+
+Route::post('/leaves/{leaf}/cancel',
+    [Action\LeaveController::class, 'cancel'])
+    ->name('leaves.cancel');
+
 // Advancement
 Route::post('/advancements/{advancement}/approve',
     [Action\AdvancementController::class, 'approve'])
