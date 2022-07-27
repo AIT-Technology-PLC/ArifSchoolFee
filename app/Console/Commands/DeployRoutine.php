@@ -43,11 +43,11 @@ class DeployRoutine extends Command
         if (env('APP_ENV') == 'production') {
             $githubData = env('GITHUB_USERNAME').':'.env('GITHUB_PASSWORD');
 
-            $this->info(exec('composer install --no-dev'));
+            $this->info(exec('git pull https://'.$githubData.'@github.com/onrica/smartwork.git main'));
 
             $this->newLine();
 
-            $this->info(exec('git pull https://'.$githubData.'@github.com/onrica/smartwork.git main'));
+            $this->info(exec('composer install --no-dev'));
 
             $this->newLine();
         }
