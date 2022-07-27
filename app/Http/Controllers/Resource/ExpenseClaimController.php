@@ -9,7 +9,10 @@ use App\Http\Requests\StoreExpenseClaimRequest;
 use App\Http\Requests\UpdateExpenseClaimRequest;
 use App\Models\ExpenseClaim;
 use App\Models\User;
+use App\Notifications\ExpenseClaimCreated;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class ExpenseClaimController extends Controller
 {
@@ -48,6 +51,8 @@ class ExpenseClaimController extends Controller
             $expenseClaim = ExpenseClaim::create($request->safe()->except('expenseClaim'));
 
             $expenseClaim->expenseClaimDetails()->createMany($request->validated('expenseClaim'));
+
+            Notification::send(Notifiables::byNextActionPermission('Approve Expense Claim'), new ExpenseClaimCreated($expenseClaim));
 
             return $expenseClaim;
         });
