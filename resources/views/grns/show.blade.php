@@ -14,7 +14,7 @@
                         label="GRN No"
                     />
                 </div>
-                @if (isFeatureEnabled('Purchase Management'))
+                @if (isFeatureEnabled('Purchase Management') && is_numeric($grn->purchase?->code))
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-hashtag"

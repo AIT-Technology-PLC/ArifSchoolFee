@@ -65,38 +65,6 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    @if (isFeatureEnabled('Purchase Management'))
-                        <div class="column is-6">
-                            <x-forms.field>
-                                <x-forms.label for="purchase_id">
-                                    Purchase No <sup class="has-text-danger"></sup>
-                                </x-forms.label>
-                                <x-forms.control class="has-icons-left">
-                                    <x-forms.select
-                                        class="is-fullwidth"
-                                        id="purchase_id"
-                                        name="purchase_id"
-                                    >
-                                        <option
-                                            selected
-                                            disabled
-                                        >Select Purchase</option>
-                                        @foreach ($purchases as $purchase)
-                                            <option
-                                                value="{{ $purchase->id }}"
-                                                {{ old('purchase_id') == $purchase->id ? 'selected' : '' }}
-                                            >{{ $purchase->code ?? '' }}</option>
-                                        @endforeach
-                                        <option value="">None</option>
-                                    </x-forms.select>
-                                    <x-common.icon
-                                        name="fas fa-shopping-bag"
-                                        class="is-small is-left"
-                                    />
-                                </x-forms.control>
-                            </x-forms.field>
-                        </div>
-                    @endif
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="issued_on">
