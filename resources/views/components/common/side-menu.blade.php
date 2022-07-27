@@ -147,8 +147,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Leave Management', 'Advancement Management'))
-        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Leave', 'Read Advancement'])
+    @if (isFeatureEnabled('Employee Management', 'User Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management','Leave Management', 'Expense Claim'))
+        @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -283,6 +283,20 @@
                                         label="Advancements"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('advancements.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('advancements.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Expense Claim'))
+                            @can('Read Expense Claim')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('expense-claims.index') }}"
+                                        label="Expense Claims"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('expense-claims.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('expense-claims.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

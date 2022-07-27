@@ -115,10 +115,15 @@ class PermissionCategorization
         ],
         'leave' => [
             'label' => 'Leave',
-            'feature' => 'Leave Management'],
+            'feature' => 'Leave Management',
+        ],
         'advancement' => [
             'label' => 'Advancement',
             'feature' => 'Advancement Management',
+        ],
+        'expense claim' => [
+            'label' => 'Expense Claim',
+            'feature' => 'Expense Claim',
         ],
     ];
 

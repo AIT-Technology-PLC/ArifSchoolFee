@@ -49,7 +49,7 @@
                     @can('Approve BOM')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
-                                :route="route('bill_of_materials.approve', $billOfMaterial->id)"
+                                :route="route('bill-of-materials.approve', $billOfMaterial->id)"
                                 action="approve"
                                 intention="approve this Bill of material"
                                 icon="fas fa-signature"
