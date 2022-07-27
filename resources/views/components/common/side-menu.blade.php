@@ -147,8 +147,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management','Leave Management', 'Expense Claim'))
-        @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim'])
+    @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management','Leave Management', 'Expense Claim', 'Earning Management'))
+        @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Earning'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -251,6 +251,20 @@
                             @endcan
                         @endif
 
+                        @if (isFeatureEnabled('Advancement Management'))
+                            @can('Read Advancement')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('advancements.index') }}"
+                                        label="Advancements"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('advancements.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('advancements.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
                         @if (isFeatureEnabled('Leave Management'))
                             @can('Read Leave')
                                 <li>
@@ -274,15 +288,24 @@
                             @endcan
                         @endif
 
-                        @if (isFeatureEnabled('Advancement Management'))
-                            @can('Read Advancement')
+                        @if (isFeatureEnabled('Earning Management'))
+                            @can('Read Earning')
                                 <li>
                                     <x-common.button
                                         tag="a"
-                                        href="{{ route('advancements.index') }}"
-                                        label="Advancements"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('advancements.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('advancements.*') ? 'activateAccordion' : '' }}"
+                                        href="{{ route('earning-categories.index') }}"
+                                        label="Earning Categories"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('earning-categories.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('earning-categories.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('earnings.index') }}"
+                                        label="Earnings"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('earnings.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('earnings.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

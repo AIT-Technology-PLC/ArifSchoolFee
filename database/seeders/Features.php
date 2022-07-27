@@ -180,10 +180,13 @@ class Features extends Seeder
                 ['name' => 'Advancement Management'],
                 ['is_enabled' => 0]
             );
-
             Feature::updateOrCreate(
                 ['name' => 'Expense Claim'],
                 ['is_enabled' => 0]
+            );
+            Feature::updateOrCreate(
+                ['name' => 'Earning Management'],
+                ['is_enabled' => 1]
             );
 
             $standard = Plan::firstWhere('name', 'standard');

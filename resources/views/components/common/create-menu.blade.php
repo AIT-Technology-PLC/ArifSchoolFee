@@ -83,8 +83,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim'))
-                @canany(['Create Employee', 'Create Department', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement', 'Create Leave', 'Create Expense Claim'])
+            @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Earning Management'))
+                @canany(['Create Employee', 'Create Department', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement', 'Create Leave', 'Create Expense Claim', 'Create Earning'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -111,6 +111,7 @@
                                     </div>
                                 @endcan
                             @endif
+
                             @if (isFeatureEnabled('Department Management'))
                                 @can('Create Department')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
@@ -127,6 +128,7 @@
                                     </div>
                                 @endcan
                             @endif
+
                             @if (isFeatureEnabled('Employee Transfer'))
                                 @can('Create Employee Transfer')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
@@ -175,6 +177,22 @@
                                 @endcan
                             @endif
 
+                            @if (isFeatureEnabled('Advancement Management'))
+                                @can('Create Advancement')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('advancements.create') }}"
+                                            icon="fas fa-arrows-up-down"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Advancement </span>
+                                    </div>
+                                @endcan
+                            @endif
+
                             @if (isFeatureEnabled('Leave Management'))
                                 @can('Create Leave')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
@@ -202,18 +220,29 @@
                                 @endcan
                             @endif
 
-                            @if (isFeatureEnabled('Advancement Management'))
-                                @can('Create Advancement')
+                            @if (isFeatureEnabled('Earning Management'))
+                                @can('Create Earning')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
                                             mode="button"
-                                            href="{{ route('advancements.create') }}"
-                                            icon="fas fa-arrows-up-down"
+                                            href="{{ route('earning-categories.create') }}"
+                                            icon="fa-solid fa-coins"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>
-                                        <span class="is-size-7"> New Advancement </span>
+                                        <span class="is-size-7"> New Earning Category </span>
+                                    </div>
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('earnings.create') }}"
+                                            icon="fa-solid fa-hand-holding-dollar"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Earning </span>
                                     </div>
                                 @endcan
                             @endif

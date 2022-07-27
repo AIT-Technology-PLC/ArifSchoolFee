@@ -263,15 +263,18 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Attendance']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Attendance']);
 
+            //Earning
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Earning']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Earning']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Earning']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Earning']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Earning']);
             //Advancement
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Advancement']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Advancement']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Advancement']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Advancement']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Advancement']);
-
-            // Other
-            $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Credit']);
 
             //Leave
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Leave']);
@@ -280,6 +283,9 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Leave']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Leave']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Leave']);
+
+            // Other
+            $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Credit']);
 
             //Expense Claim
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Expense Claim']);
@@ -326,6 +332,7 @@ class Permissions extends Seeder
                 'Create Leave',
                 'Create Expense Claim',
                 'Create Advancement',
+                'Create Earning',
                 'Read Department',
                 'Read Employee',
                 'Read Employee Transfer',
@@ -334,14 +341,16 @@ class Permissions extends Seeder
                 'Read Leave',
                 'Read Expense Claim',
                 'Read Advancement',
+                'Read Earning',
                 'Update Department',
                 'Update Employee',
                 'Update Employee Transfer',
                 'Update Warning',
                 'Update Expense Claim',
                 'Update Attendance',
-                'Update Leave',
                 'Update Advancement',
+                'Update Leave',
+                'Update Earning',
                 'Delete Department',
                 'Delete Employee',
                 'Delete Employee Transfer',
@@ -350,10 +359,11 @@ class Permissions extends Seeder
                 'Delete Leave',
                 'Delete Expense Claim',
                 'Delete Advancement',
+                'Delete Earning',
                 'Import Employee',
                 'Approve Attendance',
-                'Approve Employee Transfer',
                 'Approve Warning',
+                'Approve Earning',
                 'Approve Leave',
                 'Approve Expense Claim',
                 'Approve Advancement',
@@ -367,21 +377,26 @@ class Permissions extends Seeder
                 'Create Employee',
                 'Create Employee Transfer',
                 'Create Department',
+                'Create Earning',
                 'Create Leave',
                 'Create Expense Claim',
                 'Create Advancement',
+                'Create Warning',
                 'Read Attendance',
                 'Read Employee',
                 'Read Employee Transfer',
                 'Read Department',
+                'Read Earning',
                 'Read Leave',
                 'Read Expense Claim',
                 'Read Advancement',
+                'Read Warning',
                 'Update Attendance',
                 'Update Employee',
                 'Update Employee Transfer',
                 'Update Department',
                 'Update Warning',
+                'Update Earning',
                 'Update Leave',
                 'Update Expense Claim',
                 'Update Advancement',
