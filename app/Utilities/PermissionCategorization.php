@@ -121,6 +121,10 @@ class PermissionCategorization
             'label' => 'Advancement',
             'feature' => 'Advancement Management',
         ],
+        'expense claim' => [
+            'label' => 'Expense Claim',
+            'feature' => 'Expense Claim',
+        ],
         'earning' => [
             'label' => 'Earning',
             'feature' => 'Earning Management',

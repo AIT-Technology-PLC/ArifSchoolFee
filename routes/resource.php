@@ -129,8 +129,13 @@ Route::resource('advancements', Resource\AdvancementController::class);
 
 Route::resource('advancement-details', Resource\AdvancementDetailController::class)->only(['destroy']);
 
+Route::resource('expense-claims', Resource\ExpenseClaimController::class);
+
+Route::resource('expense-claim-details', Resource\ExpenseClaimDetailController::class)->only(['destroy']);
+
 Route::resource('earning-categories', Resource\EarningCategoryController::class)->except('show');
 
 Route::resource('earnings', Resource\EarningController::class);
 
 Route::resource('earning-details', Resource\EarningDetailController::class)->only(['destroy']);
+

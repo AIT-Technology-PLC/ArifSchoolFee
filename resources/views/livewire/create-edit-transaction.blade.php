@@ -14,7 +14,7 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="code">
-                                {{ str()->singular($pad->abbreviation) }} Number <sup class="has-text-danger">*</sup>
+                                {{ $pad->abbreviation }} Number <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input

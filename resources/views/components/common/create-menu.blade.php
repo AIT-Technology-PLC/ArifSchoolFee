@@ -83,8 +83,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Leave Management', 'Advancement Management', 'Earning Management'))
-                @canany(['Create Department', 'Create Employee', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Leave', 'Create Advancement', 'Create Earning'])
+            @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Earning Management'))
+                @canany(['Create Employee', 'Create Department', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement', 'Create Leave', 'Create Expense Claim', 'Create Earning'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -246,6 +246,22 @@
                                     </div>
                                 @endcan
                             @endif
+
+                            @if (isFeatureEnabled('Expense Claim'))
+                                @can('Create Expense Claim')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('expense-claims.create') }}"
+                                            icon="fa-solid fa-file-invoice-dollar"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Expense Claim </span>
+                                    </div>
+                                @endcan
+                            @endif
                         </div>
                     </x-content.footer>
                 @endcanany
@@ -371,7 +387,7 @@
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
-                                    <span class="is-size-7"> New {{ str()->singular($pad->abbreviation) }} </span>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
                                 @endcanpad
                             @endforeach
@@ -534,7 +550,7 @@
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
-                                    <span class="is-size-7"> New {{ str()->singular($pad->abbreviation) }} </span>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
                                 @endcanpad
                             @endforeach
@@ -672,7 +688,7 @@
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
-                                    <span class="is-size-7"> New {{ str()->singular($pad->abbreviation) }} </span>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
                                 @endcanpad
                             @endforeach
@@ -777,7 +793,7 @@
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
-                                    <span class="is-size-7"> New {{ str()->singular($pad->abbreviation) }} </span>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
                                 @endcanpad
                             @endforeach

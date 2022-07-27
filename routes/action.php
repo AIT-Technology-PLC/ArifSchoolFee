@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Action as Action;
+
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
     [Action\PermissionController::class, 'edit'])
@@ -316,11 +317,21 @@ Route::post('/advancements/{advancement}/approve',
     ->name('advancements.approve');
 
 // BOM
-Route::post('/bill_of_materials/{bill_of_material}/approve',
+Route::post('/bill-of-materials/{bill_of_material}/approve',
     [Action\BillOfMaterialController::class, 'approve'])
     ->name('bill_of_materials.approve');
+
+// Expense Claim
+Route::post('/expense-claims/{expense_claim}/approve',
+    [Action\ExpenseClaimController::class, 'approve'])
+    ->name('expense-claims.approve');
+
+Route::post('/expense-claims/{expense_claim}/reject',
+    [Action\ExpenseClaimController::class, 'reject'])
+    ->name('expense-claims.reject');
 
 // Earning
 Route::post('/earnings/{earning}/approve',
     [Action\EarningController::class, 'approve'])
     ->name('earnings.approve');
+

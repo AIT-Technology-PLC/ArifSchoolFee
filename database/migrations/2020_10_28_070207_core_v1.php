@@ -1149,6 +1149,34 @@ return new class extends Migration
             $table->index('advancement_id');
         });
 
+        Schema::create('expense_claims', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('rejected_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('code');
+            $table->dateTime('issued_on')->nullable();
+
+            $table->unique(['warehouse_id', 'code']);
+            $table->index('company_id');
+            $table->index('warehouse_id');
+        });
+
+        Schema::create('expense_claim_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('expense_claim_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->string('item');
+            $table->decimal('price', 22);
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('expense_claim_id');
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -1226,6 +1254,8 @@ return new class extends Migration
         Schema::drop('leaves');
         Schema::drop('advancement_details');
         Schema::drop('advancements');
+        Schema::drop('expense_claim_details');
+        Schema::drop('expense_claims');
         Schema::drop('earning_categories');
         Schema::drop('earning_details');
         Schema::drop('earnings');

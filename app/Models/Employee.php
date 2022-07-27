@@ -84,4 +84,9 @@ class Employee extends Model
     {
         return $this->hasMany(Leave::class);
     }
+
+    public function expenseClaims()
+    {
+        return $this->hasMany(ExpenseClaim::class);
+    }
 }

@@ -174,13 +174,16 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Leave Management'],
-                ['is_enabled' => 1]
+                ['is_enabled' => 0]
             );
             Feature::updateOrCreate(
                 ['name' => 'Advancement Management'],
                 ['is_enabled' => 0]
             );
-
+            Feature::updateOrCreate(
+                ['name' => 'Expense Claim'],
+                ['is_enabled' => 0]
+            );
             Feature::updateOrCreate(
                 ['name' => 'Earning Management'],
                 ['is_enabled' => 1]
