@@ -36,7 +36,7 @@ class EarningCategoryController extends Controller
     {
         DB::transaction(function () use ($request) {
             foreach ($request->validated('earningCategory') as $earningCategory) {
-                EarningCategory::create($earningCategory);
+                EarningCategory::firstOrCreate($earningCategory);
             }
         });
 
@@ -57,7 +57,7 @@ class EarningCategoryController extends Controller
 
     public function destroy(EarningCategory $earningCategory)
     {
-        $earningCategory->delete();
+        $earningCategory->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');
     }

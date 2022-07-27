@@ -1033,8 +1033,8 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['company_id', 'name']);
             $table->index('company_id');
+            $table->unique(['company_id', 'name', 'type']);
         });
 
         Schema::create('earnings', function (Blueprint $table) {

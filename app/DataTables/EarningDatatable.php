@@ -48,7 +48,6 @@ class EarningDatatable extends DataTable
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
             ->select('earnings.*')
             ->with([
-                'earningDetails',
                 'warehouse:id,name',
                 'createdBy:id,name',
                 'updatedBy:id,name',
@@ -62,7 +61,7 @@ class EarningDatatable extends DataTable
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Earnings No'),
-            Column::computed('status')->orderable(false),
+            Column::computed('status'),
             Column::make('starting_period'),
             Column::make('ending_period'),
             Column::make('description')->visible(false),
