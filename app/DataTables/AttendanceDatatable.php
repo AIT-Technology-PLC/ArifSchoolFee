@@ -24,7 +24,7 @@ class AttendanceDatatable extends DataTable
             ])
             ->editColumn('branch', fn($attendance) => $attendance->warehouse->name)
             ->editColumn('status', fn($attendance) => view('components.datatables.attendance-status', compact('attendance')))
-            ->editColumn('date', fn($attendance) => $attendance->date)
+            ->editColumn('date', fn($attendance) => $attendance->date->toFormattedDateString())
             ->editColumn('prepared by', fn($attendance) => $attendance->createdBy->name)
             ->editColumn('approved by', fn($attendance) => $attendance->approvedBy->name ?? 'N/A')
             ->editColumn('cancelled by', fn($attendance) => $attendance->cancelledBy->name ?? 'N/A')
@@ -62,7 +62,7 @@ class AttendanceDatatable extends DataTable
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Attendance No'),
-            Column::make('status')->orderable(false),
+            Column::computed('status'),
             Column::make('date'),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),

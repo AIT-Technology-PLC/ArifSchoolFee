@@ -128,3 +128,7 @@ Route::resource('leaves', Resource\LeaveController::class);
 Route::resource('advancements', Resource\AdvancementController::class);
 
 Route::resource('advancement-details', Resource\AdvancementDetailController::class)->only(['destroy']);
+
+Route::resource('expense-claims', Resource\ExpenseClaimController::class);
+
+Route::resource('expense-claim-details', Resource\ExpenseClaimDetailController::class)->only(['destroy']);

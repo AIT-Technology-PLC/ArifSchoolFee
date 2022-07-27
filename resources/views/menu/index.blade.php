@@ -80,8 +80,8 @@
                 </section>
             @endcanany
         @endif
-        @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer', 'Warning Management', 'Leave Management', 'Advancement Management'))
-            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Warning', 'Read Leave', 'Read Advancement'])
+        @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim'))
+            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -238,6 +238,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Advancements
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Expense Claim'))
+                                @can('Read Expense Claim')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('expense-claims.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Expense Claims
                                         </span>
                                     </div>
                                 @endcan

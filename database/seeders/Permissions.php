@@ -281,6 +281,14 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Leave']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Leave']);
 
+            //Expense Claim
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Expense Claim']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Expense Claim']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Expense Claim']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Expense Claim']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Expense Claim']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Reject Expense Claim']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
@@ -316,6 +324,7 @@ class Permissions extends Seeder
                 'Create Warning',
                 'Create Attendance',
                 'Create Leave',
+                'Create Expense Claim',
                 'Create Advancement',
                 'Read Department',
                 'Read Employee',
@@ -323,11 +332,13 @@ class Permissions extends Seeder
                 'Read Warning',
                 'Read Attendance',
                 'Read Leave',
+                'Read Expense Claim',
                 'Read Advancement',
                 'Update Department',
                 'Update Employee',
                 'Update Employee Transfer',
                 'Update Warning',
+                'Update Expense Claim',
                 'Update Attendance',
                 'Update Leave',
                 'Update Advancement',
@@ -337,16 +348,18 @@ class Permissions extends Seeder
                 'Delete Warning',
                 'Delete Attendance',
                 'Delete Leave',
+                'Delete Expense Claim',
                 'Delete Advancement',
                 'Import Employee',
                 'Approve Attendance',
                 'Approve Employee Transfer',
                 'Approve Warning',
                 'Approve Leave',
+                'Approve Expense Claim',
                 'Approve Advancement',
                 'Cancel Attendance',
                 'Cancel Leave',
-
+                'Reject Expense Claim',
             ]);
 
             $humanResourceOfficer->syncPermissions([
@@ -355,12 +368,14 @@ class Permissions extends Seeder
                 'Create Employee Transfer',
                 'Create Department',
                 'Create Leave',
+                'Create Expense Claim',
                 'Create Advancement',
                 'Read Attendance',
                 'Read Employee',
                 'Read Employee Transfer',
                 'Read Department',
                 'Read Leave',
+                'Read Expense Claim',
                 'Read Advancement',
                 'Update Attendance',
                 'Update Employee',
@@ -368,6 +383,7 @@ class Permissions extends Seeder
                 'Update Department',
                 'Update Warning',
                 'Update Leave',
+                'Update Expense Claim',
                 'Update Advancement',
             ]);
 
