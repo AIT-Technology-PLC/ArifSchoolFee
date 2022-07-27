@@ -304,3 +304,8 @@ Route::post('/gdns/{gdn}/convert-to-sale',
 Route::post('/bill_of_materials/{bill_of_material}/approve',
     [Action\BillOfMaterialController::class, 'approve'])
     ->name('bill_of_materials.approve');
+
+// Earning
+Route::post('/earnings/{earning}/approve',
+    [Action\EarningController::class, 'approve'])
+    ->name('earnings.approve');

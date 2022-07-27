@@ -262,6 +262,15 @@
                                         x-init="{{ request()->routeIs('earning-categories.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('earnings.index') }}"
+                                        label="Earnings"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('earnings.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('earnings.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
                             @endcan
                         @endif
                     </ul>

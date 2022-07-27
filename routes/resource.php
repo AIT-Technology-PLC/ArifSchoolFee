@@ -122,3 +122,7 @@ Route::resource('attendances', Resource\AttendanceController::class);
 Route::resource('attendance-details', Resource\AttendanceDetailController::class)->only(['destroy']);
 
 Route::resource('earning-categories', Resource\EarningCategoryController::class)->except('show');
+
+Route::resource('earnings', Resource\EarningController::class);
+
+Route::resource('earning-details', Resource\EarningDetailController::class)->only(['destroy']);
