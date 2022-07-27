@@ -147,8 +147,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management'))
-        @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement'])
+    @if (isFeatureEnabled('Department Management', 'User Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Leave Management', 'Advancement Management'))
+        @canany(['Read Department', 'Read Employee', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Leave', 'Read Advancement'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -246,6 +246,29 @@
                                         label="Warnings"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('warnings.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('warnings.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Leave Management'))
+                            @can('Read Leave')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('leave-categories.index') }}"
+                                        label="Leave Categories"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('leave-categories.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('leave-categories.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('leaves.index') }}"
+                                        label="Leaves"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('leaves.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('leaves.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

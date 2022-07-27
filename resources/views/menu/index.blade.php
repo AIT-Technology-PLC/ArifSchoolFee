@@ -80,8 +80,8 @@
                 </section>
             @endcanany
         @endif
-        @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management'))
-            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement'])
+        @if (isFeatureEnabled('Department Management', 'Employee Management', 'Employee Transfer', 'Warning Management', 'Leave Management', 'Advancement Management'))
+            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Warning', 'Read Leave', 'Read Advancement'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -185,6 +185,40 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Warnings
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Leave Management'))
+                                @can('Read Leave')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('leave-categories.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-umbrella-beach"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Leave Categories
+                                        </span>
+                                    </div>
+
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('leaves.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-umbrella-beach"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Leaves
                                         </span>
                                     </div>
                                 @endcan
