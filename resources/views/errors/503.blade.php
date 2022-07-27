@@ -31,7 +31,7 @@
                         </span>
                     </h1>
                     <h2 class="subtitle has-text-grey-light has-text-weight-normal">
-                        We are releasing new updates. It will take less than 2 minutes.
+                        We are releasing new updates. It will take 1 or 2 minutes.
                         <br>
                         If it is taking longer, please call the helpdesk at +251 97-600-6522.
                     </h2>
