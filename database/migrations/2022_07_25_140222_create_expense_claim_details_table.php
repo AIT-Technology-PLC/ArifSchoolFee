@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('expense_claim_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->text('item');
-            $table->decimal('price', 22)->nullable();
+            $table->decimal('price', 22);
             $table->timestamps();
             $table->softDeletes();
 
