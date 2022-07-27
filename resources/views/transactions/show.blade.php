@@ -99,7 +99,7 @@
                     <x-common.show-data-section
                         :icon="$transaction->pad->icon"
                         :data="$transaction->code"
-                        label="{{ str()->singular($transaction->pad->abbreviation) }} No"
+                        label="{{ $transaction->pad->abbreviation }} No"
                     />
                 </div>
                 <div class="column is-6">

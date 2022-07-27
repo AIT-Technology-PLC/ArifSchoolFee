@@ -315,7 +315,7 @@
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
-                                    <span class="is-size-7"> New {{ str()->singular($pad->abbreviation) }} </span>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
                                 @endcanpad
                             @endforeach
@@ -478,7 +478,7 @@
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
-                                    <span class="is-size-7"> New {{ str()->singular($pad->abbreviation) }} </span>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
                                 @endcanpad
                             @endforeach
@@ -616,7 +616,7 @@
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
-                                    <span class="is-size-7"> New {{ str()->singular($pad->abbreviation) }} </span>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
                                 @endcanpad
                             @endforeach
@@ -721,7 +721,7 @@
                                         class="text-green bg-lightgreen is-borderless"
                                     />
                                     <br>
-                                    <span class="is-size-7"> New {{ str()->singular($pad->abbreviation) }} </span>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
                                 </div>
                                 @endcanpad
                             @endforeach
