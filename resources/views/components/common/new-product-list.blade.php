@@ -15,7 +15,7 @@
             <option
                 value="{{ $product->id }}"
                 data-code="{{ $product->code ?? '' }}"
-                data-product-category-name="{{ str($product->productCategory->name)->replace('  ', ' ') }}"
+                data-product-category-name="{{ $product->productCategory->name }}"
             >
                 {{ $product->name }}
 

@@ -20,7 +20,7 @@
                 value="{{ $product->id }}"
                 {{ $selectedProductId == $product->id ? 'selected' : '' }}
                 data-code="{{ $product->code ?? '' }}"
-                data-category="{{ str($product->productCategory->name)->replace('  ', ' ') }}"
+                data-category="{{ $product->productCategory->name }}"
             >
                 {{ $product->name }}
 
@@ -54,7 +54,7 @@
         <option
             value="{{ $product->id }}"
             data-code="{{ $product->code ?? '' }}"
-            data-category="{{ str($product->productCategory->name)->replace('  ', ' ') }}"
+            data-category="{{ $product->productCategory->name }}"
         >
             {{ $product->name }}
 

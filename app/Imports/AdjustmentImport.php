@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\AdjustmentDetail;
 use App\Models\Merchandise;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Models\Warehouse;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -24,11 +25,15 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
 
     private $products;
 
+    private $productCategories;
+
     public function __construct($adjustment)
     {
         $this->adjustment = $adjustment;
 
-        $this->products = Product::all(['id', 'name']);
+        $this->products = Product::all(['id', 'name', 'code', 'product_category_id']);
+
+        $this->productCategories = ProductCategory::all(['id', 'name']);
 
         $this->warehouses = Warehouse::all(['id', 'name']);
 
@@ -37,21 +42,37 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
 
     public function model(array $row)
     {
-        $currentQuantity = $this->merchandises
-            ->where('product_id', $this->products->firstWhere('name', $row['product_name'])->id)
+        $merchandise = $this->merchandises
+            ->where('product_id', $this->products
+                    ->where('name', $row['product_name'])
+                    ->where('code', $row['product_code'])
+                    ->where('product_category_id', $this->productCategories->firstWhere('name', $row['product_category_name'])->id)
+                    ->first()
+                    ->id
+            )
             ->where('warehouse_id', $this->warehouses->firstWhere('name', $row['warehouse_name'])->id)
-            ->first()
-            ->available;
+            ->first();
 
-        $newQuantity = $row['quantity'];
+        $newQuantity = $row['quantity'] ?? 0;
 
-        $isSubtract = $currentQuantity > $newQuantity ? '1' : '0';
+        if (!$merchandise) {
+            $isSubtract = '0';
+            $quantity = abs($newQuantity);
+        }
 
-        $quantity = abs($currentQuantity - $newQuantity);
+        if ($merchandise) {
+            $isSubtract = $merchandise->available > $newQuantity ? '1' : '0';
+            $quantity = abs($merchandise->available - $newQuantity);
+        }
 
         return new AdjustmentDetail([
             'adjustment_id' => $this->adjustment->id,
-            'product_id' => $this->products->firstWhere('name', $row['product_name'])->id,
+            'product_id' => $this->products
+                ->where('name', $row['product_name'])
+                ->where('code', $row['product_code'])
+                ->where('product_category_id', $this->productCategories->firstWhere('name', $row['product_category_name'])->id)
+                ->first()
+                ->id,
             'warehouse_id' => $this->warehouses->firstWhere('name', $row['warehouse_name'])->id,
             'is_subtract' => $isSubtract,
             'quantity' => $quantity,
@@ -63,8 +84,10 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
     {
         return [
             'product_name' => ['required', 'string', 'max:255', Rule::in($this->products->pluck('name'))],
+            'product_category_name' => ['required', 'string', 'max:255', Rule::in($this->productCategories->pluck('name'))],
+            'product_code' => ['nullable', 'string', 'max:255', Rule::in($this->products->pluck('code'))],
             'warehouse_name' => ['required', 'string', Rule::in($this->warehouses->pluck('name'))],
-            'quantity' => ['required', 'numeric', 'gte:0'],
+            'quantity' => ['nullable', 'numeric', 'gte:0'],
             'reason' => ['required', 'string'],
         ];
     }
