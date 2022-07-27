@@ -149,27 +149,36 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Employee Management'],
-                ['is_enabled' => 1]
+                ['is_enabled' => 0]
             );
 
             Feature::updateOrCreate(
                 ['name' => 'Department Management'],
-                ['is_enabled' => 1]
+                ['is_enabled' => 0]
             );
 
             Feature::updateOrCreate(
                 ['name' => 'Employee Transfer'],
-                ['is_enabled' => 1]
+                ['is_enabled' => 0]
             );
 
             Feature::updateOrCreate(
                 ['name' => 'Warning Management'],
-                ['is_enabled' => 1]
+                ['is_enabled' => 0]
             );
 
             Feature::updateOrCreate(
                 ['name' => 'Attendance Management'],
+                ['is_enabled' => 0]
+            );
+
+            Feature::updateOrCreate(
+                ['name' => 'Leave Management'],
                 ['is_enabled' => 1]
+            );
+            Feature::updateOrCreate(
+                ['name' => 'Advancement Management'],
+                ['is_enabled' => 0]
             );
 
             Feature::updateOrCreate(

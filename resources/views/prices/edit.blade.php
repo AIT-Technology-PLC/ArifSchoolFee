@@ -180,3 +180,5 @@
         </form>
     </x-common.content-wrapper>
 @endsection
+
+@include('prices.partials.details-form')

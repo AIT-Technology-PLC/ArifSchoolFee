@@ -2,7 +2,9 @@
 
 namespace App\Services\Models;
 
-use App\Models\GdnDetail;
+use App\Models\Pad;
+use App\Models\Product;
+use App\Models\Warehouse;
 use App\Services\Inventory\InventoryOperationService;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -54,13 +56,13 @@ class TransactionService
 
     public function subtract($transaction, $user)
     {
-        if (! $transaction->pad->isInventoryOperationSubtract()) {
+        if (!$transaction->pad->isInventoryOperationSubtract()) {
             return [false, 'This transaction can not be subtracted from inventory.'];
         }
 
         $transactionDetails = $this->formatTransactionDetails($transaction);
 
-        if (! $user->hasWarehousePermission('subtract',
+        if (!$user->hasWarehousePermission('subtract',
             $transactionDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
         }
@@ -69,7 +71,7 @@ class TransactionService
             return [false, 'This transaction is cancelled.'];
         }
 
-        if ($transaction->pad->isApprovable() && ! $transaction->isApproved()) {
+        if ($transaction->pad->isApprovable() && !$transaction->isApproved()) {
             return [false, 'This transaction is not approved yet.'];
         }
 
@@ -94,13 +96,13 @@ class TransactionService
 
     public function add($transaction, $user)
     {
-        if (! $transaction->pad->isInventoryOperationAdd()) {
+        if (!$transaction->pad->isInventoryOperationAdd()) {
             return [false, 'This transaction can not be added to inventory.'];
         }
 
         $transactionDetails = $this->formatTransactionDetails($transaction);
 
-        if (! $user->hasWarehousePermission('add',
+        if (!$user->hasWarehousePermission('add',
             $transactionDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
@@ -109,7 +111,7 @@ class TransactionService
             return [false, 'This transaction is cancelled.'];
         }
 
-        if ($transaction->pad->isApprovable() && ! $transaction->isApproved()) {
+        if ($transaction->pad->isApprovable() && !$transaction->isApproved()) {
             return [false, 'This transaction is not approved yet.'];
         }
 
@@ -128,11 +130,11 @@ class TransactionService
 
     public function close($transaction)
     {
-        if ($transaction->pad->isInventoryOperationSubtract() && ! $transaction->isSubtracted()) {
+        if ($transaction->pad->isInventoryOperationSubtract() && !$transaction->isSubtracted()) {
             return [false, 'This transaction is not subtracted yet.'];
         }
 
-        if ($transaction->pad->isInventoryOperationAdd() && ! $transaction->isAdded()) {
+        if ($transaction->pad->isInventoryOperationAdd() && !$transaction->isAdded()) {
             return [false, 'This transaction is not added yet.'];
         }
 
@@ -162,6 +164,28 @@ class TransactionService
         $transaction->cancel();
 
         return [true, ''];
+    }
+
+    public function convertTo($transaction, $target)
+    {
+        $isRouteForPad = Pad::enabled()->where('name', $target)->exists();
+
+        $route = $isRouteForPad
+        ? route('pads.transactions.create', Pad::enabled()->firstWhere('name', $target)->id)
+        : route($target . '.create');
+
+        $data = $transaction->convertTo($target, $isRouteForPad);
+
+        return [$route, $data];
+    }
+
+    public function convertFrom($transaction, $target, $id)
+    {
+        $route = route('pads.transactions.create', $transaction->pad_id);
+
+        $data = $transaction->convertFrom($target, $id);
+
+        return [$route, $data];
     }
 
     private function storeTransactionFields($transaction, $data)
@@ -194,21 +218,14 @@ class TransactionService
 
     private function formatTransactionDetails($transaction)
     {
-        $padFields = $transaction->pad->padFields()->detailFields()->get();
-
         return $transaction
-            ->transactionFields()
-            ->detailFields()
-            ->get()
-            ->groupBy('line')
-            ->map(function ($transactionFields) use ($padFields) {
-                $data['quantity'] = $transactionFields->firstWhere('pad_field_id', $padFields->firstWhere('label', 'Quantity')->id)->value;
-
-                $data['product_id'] = $transactionFields->firstWhere('pad_field_id', $padFields->firstWhere('label', 'Product')->id)->value;
-
-                $data['warehouse_id'] = $transactionFields->firstWhere('pad_field_id', $padFields->firstWhere('label', 'Warehouse')->id)->value;
-
-                return new GdnDetail($data);
+            ->transactionDetails
+            ->map(function ($detail) {
+                return [
+                    'product_id' => Product::firstWhere('name', $detail['product'])->id,
+                    'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'])->id,
+                    'quantity' => $detail['quantity'],
+                ];
             });
     }
 }

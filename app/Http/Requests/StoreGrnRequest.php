@@ -24,7 +24,6 @@ class StoreGrnRequest extends FormRequest
             'grn.*.quantity' => ['required', 'numeric', 'gt:0'],
             'grn.*.description' => ['nullable', 'string'],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
-            'purchase_id' => ['nullable', 'integer', new MustBelongToCompany('purchases')],
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];

@@ -32,7 +32,7 @@ class CreateTransaction extends Component
 
     public $issued_on;
 
-    public function mount(Pad $pad)
+    public function mount(Pad $pad, $master, $details)
     {
         $this->pad = $pad;
 
@@ -42,11 +42,9 @@ class CreateTransaction extends Component
 
         $this->detailPadFields = $this->pad->padFields()->with('padRelation')->detailFields()->get();
 
-        $this->master = [];
+        $this->master = $master;
 
-        $this->details = [
-            [],
-        ];
+        $this->details = $details;
 
         $this->code = $this->currentReferenceCode;
 
@@ -91,7 +89,7 @@ class CreateTransaction extends Component
         ];
 
         foreach ($this->masterPadFields as $masterPadField) {
-            $key = 'master.'.$masterPadField->id;
+            $key = 'master.' . $masterPadField->id;
 
             $rules[$key][] = $masterPadField->isRequired() ? 'required' : 'nullable';
 
@@ -104,7 +102,7 @@ class CreateTransaction extends Component
         }
 
         foreach ($this->detailPadFields as $detailPadField) {
-            $key = 'details.*.'.$detailPadField->id;
+            $key = 'details.*.' . $detailPadField->id;
 
             $rules[$key][] = $detailPadField->isRequired() ? 'required' : 'nullable';
 

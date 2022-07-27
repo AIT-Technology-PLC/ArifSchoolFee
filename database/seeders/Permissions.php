@@ -269,6 +269,20 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Earning']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Earning']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Earning']);
+            //Advancement
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Advancement']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Advancement']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Advancement']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Advancement']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Advancement']);
+
+            //Leave
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Leave']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Leave']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Leave']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Leave']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Leave']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Leave']);
 
             // Other
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Credit']);
@@ -307,29 +321,41 @@ class Permissions extends Seeder
                 'Create Employee Transfer',
                 'Create Warning',
                 'Create Attendance',
+                'Create Leave',
+                'Create Advancement',
                 'Create Earning',
                 'Read Department',
                 'Read Employee',
                 'Read Employee Transfer',
                 'Read Warning',
                 'Read Attendance',
+                'Read Leave',
+                'Read Advancement',
                 'Read Earning',
                 'Update Department',
                 'Update Employee',
                 'Update Employee Transfer',
                 'Update Warning',
+                'Update Attendance',
+                'Update Advancement',
+                'Update Leave',
                 'Update Earning',
                 'Delete Department',
                 'Delete Employee',
                 'Delete Employee Transfer',
                 'Delete Warning',
                 'Delete Attendance',
+                'Delete Advancement',
+                'Delete Leave',
                 'Delete Earning',
                 'Import Employee',
                 'Approve Attendance',
-                'Approve Employee Transfer',
                 'Approve Warning',
                 'Approve Earning',
+                'Approve Leave',
+                'Approve Advancement',
+                'Cancel Attendance',
+                'Cancel Leave',
             ]);
 
             $humanResourceOfficer->syncPermissions([
@@ -338,16 +364,25 @@ class Permissions extends Seeder
                 'Create Employee Transfer',
                 'Create Department',
                 'Create Earning',
+                'Create Leave',
+                'Create Advancement',
+                'Create Warning',
                 'Read Attendance',
                 'Read Employee',
                 'Read Employee Transfer',
                 'Read Department',
                 'Read Earning',
+                'Read Leave',
+                'Read Advancement',
+                'Read Warning',
                 'Update Attendance',
                 'Update Employee',
                 'Update Employee Transfer',
+                'Update Department',
                 'Update Warning',
                 'Update Earning',
+                'Update Leave',
+                'Update Advancement',
             ]);
 
             $purchaseManager->syncPermissions([

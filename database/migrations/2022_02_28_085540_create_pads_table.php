@@ -30,6 +30,8 @@ return new class extends Migration
             $table->boolean('has_payment_term');
             $table->boolean('is_enabled');
             $table->string('module');
+            $table->string('convert_to')->nullable();
+            $table->string('convert_from')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

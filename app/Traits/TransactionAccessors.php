@@ -123,6 +123,33 @@ trait TransactionAccessors
         );
     }
 
+    public function transactionMasters(): Attribute
+    {
+        return Attribute::make(
+            get:function () {
+                $data = [];
+                $this->transactionFields()
+                    ->with('padField.padRelation')
+                    ->masterFields()
+                    ->get()
+                    ->each(function ($transactionField) use (&$data) {
+                        $data['id'] = $transactionField->id;
+                        $data['transaction'] = $transactionField->transaction;
+
+                        $value = $transactionField->value;
+
+                        if ($transactionField->padField->hasRelation()) {
+                            $value = $transactionField->relationValue;
+                        }
+
+                        $data[str()->snake($transactionField->padField->label)] = $value;
+                    });
+
+                return $data;
+            }
+        );
+    }
+
     public function subtotalPrice(): Attribute
     {
         return Attribute::make(

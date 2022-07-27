@@ -108,7 +108,6 @@
                                     x-bind:id="`purchase[${index}][unit_price]`"
                                     x-bind:name="`purchase[${index}][unit_price]`"
                                     x-model="purchase.unit_price"
-                                    x-bind:readonly="Product.isPriceFixed(purchase.product_id)"
                                     placeholder="Purchase Price"
                                 />
                                 <x-common.icon
