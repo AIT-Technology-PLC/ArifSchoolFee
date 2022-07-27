@@ -36,7 +36,7 @@ class LeaveCategoryController extends Controller
     {
         DB::transaction(function () use ($request) {
             foreach ($request->validated('leaveCategory') as $leaveCategory) {
-                leaveCategory::create($leaveCategory);
+                LeaveCategory::create($leaveCategory);
             }
         });
 
