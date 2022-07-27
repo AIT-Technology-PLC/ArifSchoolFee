@@ -14,7 +14,7 @@ trait DataTableHtmlBuilder
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('lBfrtip')
-            ->lengthMenu([10, 25, 50, 75, 100])
+            ->lengthMenu([10, 25, 50, 100, 250, 500])
             ->buttons([
                 'colvis',
                 [
