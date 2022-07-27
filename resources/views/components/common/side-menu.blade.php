@@ -147,7 +147,7 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Employee Management', 'User Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management','Leave Management', 'Expense Claim'))
+    @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management','Leave Management', 'Expense Claim'))
         @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim'])
             <ul
                 x-data="sideMenuAccordion"
