@@ -10,7 +10,10 @@
         </button>
     </div>
     <div class="dropdown-menu">
-        <div class="dropdown-content">
+        <div
+            class="dropdown-content"
+            style="max-height: 185px; overflow-y: scroll"
+        >
             {{ $slot }}
         </div>
     </div>

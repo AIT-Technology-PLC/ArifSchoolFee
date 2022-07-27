@@ -1050,6 +1050,21 @@ return new class extends Migration
             $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->dateTime('issued_on')->nullable();
+
+            $table->index('company_id');
+            $table->index('warehouse_id');
+        });
+
+        Schema::create('advancements', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->bigInteger('code');
+            $table->dateTime('issued_on')->nullable();
+            $table->string('type');
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -1067,6 +1082,17 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->index('expense_claim_id');
+        });
+        Schema::create('advancement_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('advancement_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->decimal('gross_salary', 22)->nullable();
+            $table->string('job_position');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('advancement_id');
         });
 
         Schema::enableForeignKeyConstraints();
@@ -1144,5 +1170,7 @@ return new class extends Migration
         Schema::drop('integrations');
         Schema::drop('expense_claim_details');
         Schema::drop('expense_claims');
+        Schema::drop('advancement_details');
+        Schema::drop('advancements');
     }
 };

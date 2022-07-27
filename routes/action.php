@@ -276,6 +276,8 @@ Route::controller(Action\TransactionController::class)->group(function () {
     Route::post('/transactions/{transaction}/close', 'close')->name('transactions.close');
     Route::post('/transactions/{transaction}/cancel', 'cancel')->name('transactions.cancel');
     Route::get('/transactions/{transaction}/print', 'printed')->name('transactions.print');
+    Route::get('/transactions/{transaction}/convert-to', 'convertTo')->name('transactions.convert_to');
+    Route::get('/transactions/{transaction}/convert-from', 'convertFrom')->name('transactions.convert_from');
 });
 
 Route::controller(Action\SaleController::class)->group(function () {
@@ -299,6 +301,11 @@ Route::post('/gdns/import',
 Route::post('/gdns/{gdn}/convert-to-sale',
     [Action\GdnController::class, 'convertToSale'])
     ->name('gdns.convert_to_sale');
+
+// Advancement
+Route::post('/advancements/{advancement}/approve',
+    [Action\AdvancementController::class, 'approve'])
+    ->name('advancements.approve');
 
 // BOM
 Route::post('/bill-of-materials/{billOfMaterial}/approve',

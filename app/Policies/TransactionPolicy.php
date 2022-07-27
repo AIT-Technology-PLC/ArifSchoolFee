@@ -72,4 +72,10 @@ class TransactionPolicy
         return $user->hasRole('System Manager') ||
         $user->padPermissions()->where('pad_id', $transaction->pad_id)->where('name', 'Cancel')->exists();
     }
+
+    public function convert(User $user, Transaction $transaction)
+    {
+        return $user->hasRole('System Manager') ||
+        $user->padPermissions()->where('pad_id', $transaction->pad_id)->where('name', 'Convert')->exists();
+    }
 }

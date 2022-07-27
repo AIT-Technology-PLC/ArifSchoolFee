@@ -39,4 +39,9 @@ class ProductCategory extends Model
 
         $this->attributes['properties'] = json_encode($properties);
     }
+
+    public function getNameAttribute($value)
+    {
+        return str()->squish($value);
+    }
 }

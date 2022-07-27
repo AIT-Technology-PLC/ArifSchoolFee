@@ -38,7 +38,9 @@ class PadController extends Controller
 
     public function create()
     {
-        return view('pads.create');
+        $features = (new Pad)->converts();
+
+        return view('pads.create', compact('features'));
     }
 
     public function store(StorePadRequest $request)
@@ -59,14 +61,17 @@ class PadController extends Controller
 
     public function edit(Pad $pad)
     {
+        $features = (new Pad)->converts();
+        
         $pricesFields = $this->padService->generatePriceFields()->pluck('label');
+        
         $excludedPadFields = $this->padService->generatePaymentTermFields()->pluck('label')->merge($pricesFields);
 
         $pad->load(['padFields' => function ($query) use ($excludedPadFields) {
             $query->with('padRelation')->whereNotIn('label', $excludedPadFields);
         }]);
 
-        return view('pads.edit', compact('pad'));
+        return view('pads.edit', compact('pad', 'features'));
     }
 
     public function update(UpdatePadRequest $request, Pad $pad)

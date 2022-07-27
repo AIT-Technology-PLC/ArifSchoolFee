@@ -250,6 +250,20 @@
                             </x-common.dropdown-item>
                         @endcan
                     @endif
+                    @foreach ($transaction->pad->convert_to as $feature)
+                        @can('convert', $transaction)
+                            <x-common.dropdown-item>
+                                <x-common.button
+                                    tag="a"
+                                    href="{{ route('transactions.convert_to', [$transaction->id, 'target' => $feature]) }}"
+                                    mode="button"
+                                    icon="fas fa-file-invoice"
+                                    label="Issue {{ str($feature)->singular()->title() }}"
+                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                                />
+                            </x-common.dropdown-item>
+                        @endcan
+                    @endforeach
                 </x-common.dropdown>
             </x-content.header>
             <x-content.footer>
