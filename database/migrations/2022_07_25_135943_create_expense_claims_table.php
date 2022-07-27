@@ -23,6 +23,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->unique(['warehouse_id', 'code']);
             $table->index('company_id');
             $table->index('warehouse_id');
         });

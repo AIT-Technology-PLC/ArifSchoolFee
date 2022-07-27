@@ -1081,6 +1081,7 @@ return new class extends Migration
             $table->bigInteger('code');
             $table->dateTime('issued_on')->nullable();
 
+            $table->unique(['warehouse_id', 'code']);
             $table->index('company_id');
             $table->index('warehouse_id');
         });
@@ -1088,7 +1089,7 @@ return new class extends Migration
         Schema::create('expense_claim_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('expense_claim_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->text('item');
+            $table->string('item');
             $table->decimal('price', 22);
             $table->timestamps();
             $table->softDeletes();

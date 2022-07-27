@@ -64,7 +64,7 @@ class ExpenseClaimDatatable extends DataTable
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Claim No'),
-            Column::computed('status')->orderable(false),
+            Column::computed('status'),
             Column::make('employee', 'employee.user.name'),
             Column::make('issued_on'),
             Column::make('prepared by', 'createdBy.name'),

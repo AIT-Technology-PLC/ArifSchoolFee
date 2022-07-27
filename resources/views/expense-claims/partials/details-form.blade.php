@@ -45,7 +45,7 @@
                                     placeholder="Item"
                                 />
                                 <x-common.icon
-                                    name="fas fa-hashtag"
+                                    name="fas fa-th"
                                     class="is-small is-left"
                                 />
                                 <span

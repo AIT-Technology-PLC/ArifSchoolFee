@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('expense_claim_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('expense_claim_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->text('item');
+            $table->string('item');
             $table->decimal('price', 22);
             $table->timestamps();
             $table->softDeletes();

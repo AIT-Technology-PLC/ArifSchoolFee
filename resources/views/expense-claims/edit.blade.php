@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Expense Claims')
+@section('title', 'Edit Expense Claim')
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="Edit Expense Claims" />
+        <x-content.header title="Edit Expense Claim" />
         <form
             id="formOne"
             action="{{ route('expense-claims.update', $expenseClaim->id) }}"

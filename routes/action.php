@@ -308,15 +308,15 @@ Route::post('/advancements/{advancement}/approve',
     ->name('advancements.approve');
 
 // BOM
-Route::post('/bill-of-materials/{billOfMaterial}/approve',
+Route::post('/bill-of-materials/{bill_of_material}/approve',
     [Action\BillOfMaterialController::class, 'approve'])
     ->name('bill-of-materials.approve');
 
 // Expense Claim
-Route::post('/expense-claims/{expenseClaim}/approve',
+Route::post('/expense-claims/{expense_claim}/approve',
     [Action\ExpenseClaimController::class, 'approve'])
     ->name('expense-claims.approve');
 
-Route::post('/expense-claims/{expenseClaim}/reject',
+Route::post('/expense-claims/{expense_claim}/reject',
     [Action\ExpenseClaimController::class, 'reject'])
     ->name('expense-claims.reject');

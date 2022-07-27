@@ -62,7 +62,7 @@ class AttendanceDatatable extends DataTable
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Attendance No'),
-            Column::computed('status')->orderable(false),
+            Column::computed('status'),
             Column::make('date'),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
