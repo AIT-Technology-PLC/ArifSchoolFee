@@ -43,6 +43,6 @@ class Leave extends Model
 
     public function getLeavePeriodAttribute()
     {
-        return number_format($this->ending_period->diffInMinutes($this->starting_period) / 60 / 24, 2);
+        return number_format($this->ending_period->floatDiffInDays($this->starting_period), 2);
     }
 }
