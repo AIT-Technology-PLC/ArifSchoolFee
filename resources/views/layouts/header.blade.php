@@ -74,6 +74,16 @@
                     </span>
                 </a>
                 <a
+                    href="{{ route('announcements.board') }}"
+                    id="announcementButton"
+                    class="navbar-item has-text-white link-text"
+                    data-title="Announcement"
+                >
+                    <span class="icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </span>
+                </a>
+                <a
                     href="/"
                     id="mainMenuButton"
                     class="navbar-item has-text-white link-text"

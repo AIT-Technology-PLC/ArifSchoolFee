@@ -1,10 +1,9 @@
-
 <?php
 
 namespace App\Policies;
 
+use App\Models\Announcement;
 use App\Models\User;
-use Google\Service\Classroom\Announcement;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AnnouncementPolicy

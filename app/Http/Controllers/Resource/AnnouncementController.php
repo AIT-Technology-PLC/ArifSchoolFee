@@ -2,84 +2,77 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\AnnouncementDatatable;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreAnnouncementRequest;
+use App\Http\Requests\UpdateAnnouncementRequest;
+use App\Models\Announcement;
 
 class AnnouncementController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('isFeatureAccessible:Announcement Management');
+
+        $this->authorizeResource(Announcement::class);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index(AnnouncementDatatable $datatable)
+    {
+        $datatable->builder()->setTableId('announcements-datatable')->orderBy(1, 'desc');
+
+        $totalAnnouncements = Announcement::count();
+
+        $totalApproved = Announcement::approved()->count();
+
+        $totalNotApproved = Announcement::notApproved()->count();
+
+        return $datatable->render('announcements.index', compact('totalAnnouncements', 'totalApproved', 'totalNotApproved'));
+    }
+
     public function create()
     {
-        //
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreAnnouncementRequest $request)
     {
-        //
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Announcement $announcement)
     {
+        if ($announcement->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify an announcement that is approved.');
+        }
+
         //
+        return view('announcements.edit', compact());
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(UpdateAnnouncementRequest $request, Announcement $announcement)
     {
+        if ($announcement->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify an announcement that is approved.');
+        }
+
         //
+        return redirect()->route('announcements.show', $announcement->id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Announcement $announcement)
     {
-        //
+        if ($announcement->isApproved()) {
+            return back()->with('failedMessage', 'You can not delete an announcement that is approved.');
+        }
+
+        $announcement->forceDelete();
+
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }
