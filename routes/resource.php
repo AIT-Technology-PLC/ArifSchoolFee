@@ -139,3 +139,4 @@ Route::resource('earnings', Resource\EarningController::class);
 
 Route::resource('earning-details', Resource\EarningDetailController::class)->only(['destroy']);
 
+Route::resource('announcements', Resource\AnnouncementController::class);

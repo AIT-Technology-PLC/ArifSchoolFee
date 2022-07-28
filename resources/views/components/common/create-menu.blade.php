@@ -83,8 +83,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Earning Management'))
-                @canany(['Create Employee', 'Create Department', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement', 'Create Leave', 'Create Expense Claim', 'Create Earning'])
+            @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Earning Management', 'Announcement Management'))
+                @canany(['Create Employee', 'Create Department', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement', 'Create Leave', 'Create Expense Claim', 'Create Earning', 'Create Announcement'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -259,6 +259,22 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Expense Claim </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Announcement Management'))
+                                @can('Create Announcement')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('announcements.create') }}"
+                                            icon="fa-solid fa-bullhorn"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Announcement </span>
                                     </div>
                                 @endcan
                             @endif

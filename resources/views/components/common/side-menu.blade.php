@@ -147,8 +147,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management','Leave Management', 'Expense Claim', 'Earning Management'))
-        @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Earning'])
+    @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Earning Management', 'Announcement Management'))
+        @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Earning', 'Read Announcement'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -320,6 +320,20 @@
                                         label="Expense Claims"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('expense-claims.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('expense-claims.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Announcement Management'))
+                            @can('Read Announcement')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('announcements.index') }}"
+                                        label="Announcements"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('announcements.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('announcements.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
