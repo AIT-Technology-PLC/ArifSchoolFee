@@ -188,6 +188,10 @@ class Features extends Seeder
                 ['name' => 'Earning Management'],
                 ['is_enabled' => 0]
             );
+            Feature::updateOrCreate(
+                ['name' => 'Announcement Management'],
+                ['is_enabled' => 1]
+            );
 
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');
