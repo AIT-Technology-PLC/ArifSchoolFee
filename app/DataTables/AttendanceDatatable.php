@@ -24,7 +24,9 @@ class AttendanceDatatable extends DataTable
             ])
             ->editColumn('branch', fn($attendance) => $attendance->warehouse->name)
             ->editColumn('status', fn($attendance) => view('components.datatables.attendance-status', compact('attendance')))
-            ->editColumn('date', fn($attendance) => $attendance->date->toFormattedDateString())
+            ->editColumn('issued_on', fn($attendance) => $attendance->issued_on->toFormattedDateString())
+            ->editColumn('starting_period', fn($attendance) => $attendance->starting_period->toFormattedDateString())
+            ->editColumn('ending_period', fn($attendance) => $attendance->ending_period->toFormattedDateString())
             ->editColumn('prepared by', fn($attendance) => $attendance->createdBy->name)
             ->editColumn('approved by', fn($attendance) => $attendance->approvedBy->name ?? 'N/A')
             ->editColumn('cancelled by', fn($attendance) => $attendance->cancelledBy->name ?? 'N/A')
@@ -63,7 +65,9 @@ class AttendanceDatatable extends DataTable
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Attendance No'),
             Column::computed('status'),
-            Column::make('date'),
+            Column::make('issued_on'),
+            Column::make('starting_period')->visible(false),
+            Column::make('ending_period')->visible(false),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),

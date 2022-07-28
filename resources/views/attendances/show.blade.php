@@ -17,8 +17,22 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$attendance->date->toFormattedDateString()"
-                        label="Date"
+                        :data="$attendance->issued_on->toFormattedDateString()"
+                        label="Issued On"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-calendar-day"
+                        :data="$attendance->starting_period->toDayDateTimeString()"
+                        label="Starting Period"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-calendar-day"
+                        :data="$attendance->ending_period->toDayDateTimeString()"
+                        label="Ending Period"
                     />
                 </div>
             </div>
