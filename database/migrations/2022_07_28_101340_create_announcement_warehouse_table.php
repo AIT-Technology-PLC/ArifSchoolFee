@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('announcement_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamps();
 
             $table->index('announcement_id');
             $table->index('warehouse_id');

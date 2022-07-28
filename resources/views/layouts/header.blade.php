@@ -74,7 +74,7 @@
                     </span>
                 </a>
                 <a
-                    href="{{ route('announcements.board') }}"
+                    href="{{ route('announcements.index') }}"
                     id="announcementButton"
                     class="navbar-item has-text-white link-text"
                     data-title="Announcement"

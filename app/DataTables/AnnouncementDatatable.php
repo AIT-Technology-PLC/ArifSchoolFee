@@ -24,6 +24,7 @@ class AnnouncementDatatable extends DataTable
             ])
             ->editColumn('status', fn($announcement) => view('components.datatables.announcement-status', compact('announcement')))
             ->editColumn('prepared by', fn($announcement) => $announcement->createdBy->name)
+            ->editColumn('edited by', fn($announcement) => $announcement->updatedBy->name)
             ->editColumn('approved by', fn($announcement) => $announcement->approvedBy->name ?? 'N/A')
             ->editColumn('actions', function ($announcement) {
                 return view('components.common.action-buttons', [
@@ -44,6 +45,7 @@ class AnnouncementDatatable extends DataTable
             ->select('announcements.*')
             ->with([
                 'createdBy:id,name',
+                'updatedBy:id,name',
                 'approvedBy:id,name',
             ]);
     }
@@ -56,6 +58,7 @@ class AnnouncementDatatable extends DataTable
             Column::computed('status'),
             Column::make('title'),
             Column::make('prepared by', 'createdBy.name')->visible(false),
+            Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
         ];
