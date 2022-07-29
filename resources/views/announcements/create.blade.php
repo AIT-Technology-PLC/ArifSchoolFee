@@ -87,7 +87,7 @@
                                     id="content"
                                     class="summernote textarea"
                                     placeholder="Description or note to be taken"
-                                >{{ old('content') ?? '' }}
+                                >{{ old('content') }}
                                 </x-forms.textarea>
                                 <x-common.validation-error property="content" />
                             </x-forms.control>

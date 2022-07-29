@@ -42,7 +42,7 @@
                 @if (!$announcement->isApproved())
                     <x-common.fail-message message="This Announcement has not been approved yet." />
                 @else
-                    <x-common.success-message message="Announcement successfully send." />
+                    <x-common.success-message message="Announcement successfully sent." />
                 @endif
             </div>
             <div class="columns is-marginless is-multiline">
