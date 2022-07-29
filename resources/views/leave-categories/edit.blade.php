@@ -16,7 +16,7 @@
             @method('PATCH')
             <x-content.main>
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-6">
+                    <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="name">
                                 Name <sup class="has-text-danger">*</sup>

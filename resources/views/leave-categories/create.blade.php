@@ -46,7 +46,7 @@
                         </x-forms.field>
                         <div class="box has-background-white-bis radius-top-0">
                             <div class="columns is-marginless is-multiline">
-                                <div class="column is-6">
+                                <div class="column is-12">
                                     <x-forms.label x-bind:for="`leaveCategory[${index}][name]`">
                                         Name <sup class="has-text-danger">*</sup>
                                     </x-forms.label>
