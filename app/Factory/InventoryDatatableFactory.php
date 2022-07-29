@@ -2,18 +2,17 @@
 
 namespace App\Factory;
 
-use Illuminate\Support\Str;
-
 class InventoryDatatableFactory
 {
     public static function make($type)
     {
-        $datatable = (string) Str::of($type)
+        $datatable = str($type)
             ->studly()
             ->remove('-')
             ->prepend('App\\DataTables\\')
             ->append('InventoryDatatable')
-            ->studly();
+            ->studly()
+            ->toString();
 
         return new $datatable;
     }

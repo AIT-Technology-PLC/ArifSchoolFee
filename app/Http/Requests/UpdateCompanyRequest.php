@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCompanyRequest extends FormRequest
 {
@@ -24,6 +25,7 @@ class UpdateCompanyRequest extends FormRequest
             'is_price_before_vat' => ['required', 'boolean'],
             'is_convert_to_siv_as_approved' => ['required', 'boolean'],
             'can_show_branch_detail_on_print' => ['required', 'boolean'],
+            'income_tax_region' => ['required', 'string', Rule::in(['Ethiopia'])],
 
             'is_discount_before_vat' => [
                 'required',

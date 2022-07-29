@@ -92,14 +92,14 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fa-solid fa-calendar-day"
-                        :data="$leaf->starting_period->toFormattedDateString()"
+                        :data="$leaf->starting_period->toDayDateTimeString()"
                         label="Starting Period"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fa-solid fa-calendar-day"
-                        :data="$leaf->ending_period->toFormattedDateString()"
+                        :data="$leaf->ending_period->toDayDateTimeString()"
                         label="Ending Period"
                     />
                 </div>

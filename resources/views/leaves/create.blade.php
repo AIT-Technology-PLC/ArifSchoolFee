@@ -103,7 +103,7 @@
                                 <div class="column is-6">
                                     <x-forms.field>
                                         <x-forms.label x-bind:for="`leave[${index}][starting_period]`">
-                                            Starting Period<sup class="has-text-danger">*</sup>
+                                            Starting Period <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
                                         <x-forms.control class="has-icons-left">
                                             <x-forms.input
@@ -127,7 +127,7 @@
                                 <div class="column is-6">
                                     <x-forms.field>
                                         <x-forms.label x-bind:for="`leave[${index}][ending_period]`">
-                                            Ending Period<sup class="has-text-danger">*</sup>
+                                            Ending Period <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
                                         <x-forms.control class="has-icons-left">
                                             <x-forms.input

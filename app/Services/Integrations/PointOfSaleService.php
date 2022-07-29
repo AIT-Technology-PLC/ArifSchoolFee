@@ -14,7 +14,7 @@ class PointOfSaleService
             return [true, ''];
         }
 
-        $posClass = (string) str($sale->warehouse->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\');
+        $posClass = str($sale->warehouse->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\')->toString();
 
         return (new $posClass($sale))->create();
     }
@@ -29,7 +29,7 @@ class PointOfSaleService
             return [true, ''];
         }
 
-        $posClass = (string) str($sale->warehouse->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\');
+        $posClass = str($sale->warehouse->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\')->toString();
 
         return (new $posClass($sale))->void();
     }
@@ -44,7 +44,7 @@ class PointOfSaleService
             return [true, ''];
         }
 
-        $posClass = (string) str($sale->warehouse->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\');
+        $posClass = str($sale->warehouse->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\')->toString();
 
         return (new $posClass($sale))->getFsNumber();
     }

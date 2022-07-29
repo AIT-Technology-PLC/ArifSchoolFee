@@ -18,6 +18,8 @@ class CheckCustomerCreditLimit implements Rule
 
     private $cashReceived;
 
+    private $message;
+
     /**
      * Create a new rule instance.
      *
@@ -34,6 +36,8 @@ class CheckCustomerCreditLimit implements Rule
         $this->cashReceivedType = $cashReceivedType;
 
         $this->cashReceived = $cashReceived;
+
+        $this->message = 'The customer has exceeded the credit amount limit.';
     }
 
     /**
@@ -47,6 +51,11 @@ class CheckCustomerCreditLimit implements Rule
     {
         if ($this->paymentType != 'Credit Payment' || is_null($value)) {
             return true;
+        }
+
+        if (is_null($this->details) || is_null($this->cashReceivedType) || is_null($this->cashReceived)) {
+            $this->message = 'Please provide all payment details information.';
+            return false;
         }
 
         $customer = Customer::find($value);
@@ -65,7 +74,7 @@ class CheckCustomerCreditLimit implements Rule
             $price = Price::getGrandTotalPrice($this->details);
         }
 
-        if (! userCompany()->isDiscountBeforeVAT()) {
+        if (!userCompany()->isDiscountBeforeVAT()) {
             $price = Price::getGrandTotalPriceAfterDiscount($this->discount, $this->details);
         }
 
@@ -88,6 +97,6 @@ class CheckCustomerCreditLimit implements Rule
      */
     public function message()
     {
-        return 'The customer has exceeded the credit amount limit.';
+        return $this->message;
     }
 }
