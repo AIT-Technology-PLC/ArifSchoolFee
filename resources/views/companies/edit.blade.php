@@ -390,6 +390,34 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="income_tax_region">
+                                Income Tax Region <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="income_tax_region"
+                                    name="income_tax_region"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Region</option>
+                                    <option
+                                        value="Ethiopia"
+                                        @selected($company->income_tax_region == 'Ethiopia')
+                                    >Ethiopia</option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-city"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="income_tax_region" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </x-content.main>
             <x-content.footer>

@@ -88,7 +88,7 @@ class LeaveController extends Controller
     {
         $leaf->update($request->validated());
 
-        return redirect()->route('leaves.index');
+        return redirect()->route('leaves.show', $leaf);
     }
 
     public function destroy(Leave $leaf)
