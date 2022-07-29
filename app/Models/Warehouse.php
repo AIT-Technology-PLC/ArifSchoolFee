@@ -142,4 +142,9 @@ class Warehouse extends Model
     {
         return $this->can_be_sold_from;
     }
+
+    public function announcements()
+    {
+        return $this->belongsToMany(Announcement::class);
+    }
 }
