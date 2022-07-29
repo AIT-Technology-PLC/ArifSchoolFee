@@ -339,3 +339,7 @@ Route::post('/earnings/{earning}/approve',
 Route::post('/announcements/{announcement}/approve',
     [Action\AnnouncementController::class, 'approve'])
     ->name('announcements.approve');
+
+Route::get('/announcements/board',
+    [Action\AnnouncementController::class, 'board'])
+    ->name('announcements.board');

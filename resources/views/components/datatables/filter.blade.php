@@ -1,7 +1,7 @@
 @props(['filters'])
 
 <div
-    class="box is-shadowless bg-lightgreen py-0"
+    {{ $attributes->merge(['class' => 'box is-shadowless bg-lightgreen py-0']) }}
     x-data="laravelDatatableFilter({{ $filters }})"
 >
     <div class="level mt-3 m-btm-0">

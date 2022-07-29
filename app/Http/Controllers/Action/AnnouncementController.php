@@ -27,10 +27,22 @@ class AnnouncementController extends Controller
         }
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Announcement', $announcement->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read Announcement', $announcement->warehouses()->pluck('id'), $announcement->createdBy),
             new AnnouncementApproved($announcement)
         );
 
         return back()->with('successMessage', $message);
+    }
+
+    public function board(Announcement $announcement)
+    {
+        $this->authorize('viewAny', $announcement);
+
+        $announcements = Announcement::query()
+            ->when(request('sort') == 'latest', fn($query) => $query->orderBy('created_at', 'DESC'))
+            ->when(request('sort') == 'oldest', fn($query) => $query->orderBy('created_at', 'ASC'))
+            ->simplePaginate(5);
+
+        return view('announcements.board', compact('announcements'));
     }
 }
