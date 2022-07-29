@@ -1177,6 +1177,30 @@ return new class extends Migration
             $table->index('expense_claim_id');
         });
 
+        Schema::create('announcements', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->bigInteger('code');
+            $table->string('title');
+            $table->longText('content');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+        });
+
+        Schema::create('announcement_warehouse', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('announcement_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+
+            $table->index('announcement_id');
+            $table->index('warehouse_id');
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -1259,5 +1283,7 @@ return new class extends Migration
         Schema::drop('earning_categories');
         Schema::drop('earning_details');
         Schema::drop('earnings');
+        Schema::drop('announcements');
+        Schema::drop('announcement_warehouse');
     }
 };
