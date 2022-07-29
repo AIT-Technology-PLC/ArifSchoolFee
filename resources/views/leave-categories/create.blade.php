@@ -69,32 +69,6 @@
                                         </x-forms.control>
                                     </x-forms.field>
                                 </div>
-                                <div class="column is-6">
-                                    <x-forms.field>
-                                        <x-forms.label x-bind:for="`leaveCategory[${index}][type]`">
-                                            Type <sup class="has-text-danger">*</sup>
-                                        </x-forms.label>
-                                        <x-forms.control class="has-icons-left ">
-                                            <x-forms.select
-                                                class="is-fullwidth"
-                                                x-bind:id="`leaveCategory[${index}][type]`"
-                                                x-bind:name="`leaveCategory[${index}][type]`"
-                                                x-model="leaveCategory.type"
-                                            >
-                                                <option value="paid">Paid</option>
-                                                <option value="unpaid"> Unpaid </option>
-                                            </x-forms.select>
-                                            <x-common.icon
-                                                name="fas fa-sort"
-                                                class="is-small is-left"
-                                            />
-                                            <span
-                                                class="help has-text-danger"
-                                                x-text="$store.errors.getErrors(`leaveCategory.${index}.type`)"
-                                            ></span>
-                                        </x-forms.control>
-                                    </x-forms.field>
-                                </div>
                             </div>
                         </div>
                     </div>

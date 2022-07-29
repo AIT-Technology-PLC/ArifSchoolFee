@@ -37,34 +37,6 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="type">
-                                Type <sup class="has-text-danger">*</sup>
-                                </x-forms.labelfor>
-                                <x-forms.control class="has-icons-left ">
-                                    <x-forms.select
-                                        class="is-fullwidth"
-                                        id="type"
-                                        name="type"
-                                    >
-                                        <option
-                                            value="paid"
-                                            @selected($leaveCategory->isTypePaid())
-                                        > Paid </option>
-                                        <option
-                                            value="unpaid"
-                                            @selected(!$leaveCategory->isTypePaid())
-                                        > UnPaid </option>
-                                    </x-forms.select>
-                                    <x-common.icon
-                                        name="fas fa-sort"
-                                        class="is-small is-left"
-                                    />
-                                    <x-common.validation-error property="type" />
-                                </x-forms.control>
-                        </x-forms.field>
-                    </div>
                 </div>
             </x-content.main>
             <x-content.footer>

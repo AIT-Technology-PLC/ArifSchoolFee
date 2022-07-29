@@ -44,8 +44,7 @@ class LeaveCategoryDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('name')->addClass('text-green has-text-weight-bold'),
-            Column::make('type')->addClass('has-text-centered'),
-            Column::make('added on', 'created_at')->className('has-text-right'),
+            Column::make('added on', 'created_at'),
             Column::make('created by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
