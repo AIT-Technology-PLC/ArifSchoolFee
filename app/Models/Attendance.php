@@ -17,7 +17,9 @@ class Attendance extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
-        'date' => 'datetime',
+        'issued_on' => 'datetime',
+        'starting_period' => 'datetime',
+        'ending_period' => 'datetime',
     ];
 
     public function attendanceDetails()
