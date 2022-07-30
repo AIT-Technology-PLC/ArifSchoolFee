@@ -27,7 +27,7 @@ class AnnouncementController extends Controller
         }
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Announcement', $announcement->warehouses()->pluck('id'), $announcement->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read Announcement', $announcement->warehouses()->pluck('warehouses.id'), $announcement->createdBy),
             new AnnouncementApproved($announcement)
         );
 
@@ -39,10 +39,21 @@ class AnnouncementController extends Controller
         $this->authorize('viewAny', $announcement);
 
         $announcements = Announcement::query()
+            ->approved()
+            ->with(['createdBy', 'approvedBy'])
             ->when(request('sort') == 'latest', fn($query) => $query->orderBy('created_at', 'DESC'))
             ->when(request('sort') == 'oldest', fn($query) => $query->orderBy('created_at', 'ASC'))
+            ->when(request('period') == 'today', fn($query) => $query->whereDate('created_at', today()))
+            ->when(request('period') == 'this week', fn($query) => $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]))
+            ->when(request('period') == 'this month', fn($query) => $query->whereMonth('created_at', today()->month)->whereYear('created_at', today()->year))
             ->simplePaginate(5);
 
-        return view('announcements.board', compact('announcements'));
+        $totalAnnouncementsToday = Announcement::whereDate('created_at', today())->count();
+
+        $totalAnnouncementsThisWeek = Announcement::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count();
+
+        $totalAnnouncementsThisMonth = Announcement::whereMonth('created_at', today()->month)->whereYear('created_at', today()->year)->count();
+
+        return view('announcements.board', compact('announcements', 'totalAnnouncementsToday', 'totalAnnouncementsThisWeek', 'totalAnnouncementsThisMonth'));
     }
 }

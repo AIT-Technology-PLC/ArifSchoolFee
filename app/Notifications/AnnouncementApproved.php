@@ -23,7 +23,7 @@ class AnnouncementApproved extends Notification
     {
         return [
             'icon' => 'fas fa-bullhorn',
-            'message' => 'Announcement has been approved by ' . ucfirst($this->announcement->approvedBy->name),
+            'message' => 'New announcement is posted on the board by ' . ucfirst($this->announcement->approvedBy->name),
             'endpoint' => '/announcements/' . $this->announcement->id,
         ];
     }
