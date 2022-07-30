@@ -22,7 +22,7 @@ class AnnouncementApproved extends Notification
     public function toArray($notifiable)
     {
         return [
-            'icon' => 'fas fa-bullhorn',
+            'icon' => 'fas fa-rss',
             'message' => 'New announcement is posted on the board by ' . ucfirst($this->announcement->approvedBy->name),
             'endpoint' => '/announcements/' . $this->announcement->id,
         ];

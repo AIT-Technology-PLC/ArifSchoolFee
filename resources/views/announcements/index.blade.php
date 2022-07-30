@@ -8,7 +8,7 @@
             <x-common.total-model
                 model="Announcements"
                 :amount="$totalAnnouncements"
-                icon="fas fa-bullhorn"
+                icon="fas fa-rss"
             />
         </div>
         <div class="column is-4 p-lr-0">

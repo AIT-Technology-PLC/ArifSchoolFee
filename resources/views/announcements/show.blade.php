@@ -48,7 +48,7 @@
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-bullhorn"
+                        icon="fas fa-rss"
                         :data="$announcement->code"
                         label="Announcement No"
                     />

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Announcement Board')
+@section('title', 'Board')
 
 @section('content')
     <div class="mx-3">
@@ -9,7 +9,7 @@
                 <div class="level-item">
                     <span class="ml-2 text-green is-size-4 has-text-weight-bold is-size-5-mobile is-uppercase">
                         <span class="icon is-medium">
-                            <i class="fa fa-bullhorn"></i>
+                            <i class="fa fa-rss"></i>
                         </span>
                         <span>
                             Board
@@ -94,13 +94,13 @@
                         <x-common.index-insight
                             :amount="$totalAnnouncementsThisWeek"
                             border-color="#3d8660"
-                            text-color="text-green"
+                            text-color="text-gold"
                             label="This Week"
                         />
                         <x-common.index-insight
                             :amount="$totalAnnouncementsThisMonth"
                             border-color="#3d8660"
-                            text-color="text-green"
+                            text-color="text-purple"
                             label="This Month"
                         />
                     </div>
@@ -120,25 +120,11 @@
                                     <span>{{ $announcement->title }}</span>
                                 </aside>
 
-                                @if ($announcement->createdBy->is($announcement->approvedBy))
-                                    <aside class="mt-4">
-                                        <span class="is-size-7 text-green has-text-weight-bold">POSTED & <br> APPROVED BY</span>
-                                        <br>
-                                        <span>{{ $announcement->createdBy->name }}</span>
-                                    </aside>
-                                @else
-                                    <aside class="mt-4">
-                                        <span class="is-size-7 text-green has-text-weight-bold">POSTED BY</span>
-                                        <br>
-                                        <span>{{ $announcement->createdBy->name }}</span>
-                                    </aside>
-
-                                    <aside class="mt-4">
-                                        <span class="is-size-7 text-green has-text-weight-bold">APPROVED BY</span>
-                                        <br>
-                                        <span>{{ $announcement->approvedBy->name }}</span>
-                                    </aside>
-                                @endif
+                                <aside class="mt-4">
+                                    <span class="is-size-7 text-green has-text-weight-bold">APPROVED BY</span>
+                                    <br>
+                                    <span>{{ $announcement->approvedBy->name }}</span>
+                                </aside>
 
                                 <aside class="mt-4">
                                     <span class="is-size-7 text-green has-text-weight-bold">POSTED ON</span>

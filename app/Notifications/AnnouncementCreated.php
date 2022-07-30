@@ -22,7 +22,7 @@ class AnnouncementCreated extends Notification
     public function toArray($notifiable)
     {
         return [
-            'icon' => 'fas fa-bullhorn',
+            'icon' => 'fas fa-rss',
             'message' => 'New announcement has been created by ' . ucfirst($this->announcement->createdBy->name),
             'endpoint' => '/announcements/' . $this->announcement->id,
         ];

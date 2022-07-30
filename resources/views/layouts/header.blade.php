@@ -80,7 +80,7 @@
                     data-title="Announcement"
                 >
                     <span class="icon">
-                        <i class="fas fa-bullhorn"></i>
+                        <i class="fas fa-rss"></i>
                     </span>
                 </a>
                 <a

@@ -270,7 +270,7 @@
                                             tag="a"
                                             mode="button"
                                             href="{{ route('announcements.create') }}"
-                                            icon="fa-solid fa-bullhorn"
+                                            icon="fa-solid fa-rss"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>
