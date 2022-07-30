@@ -79,6 +79,33 @@
             </div>
         </x-datatables.filter>
         <div class="columns">
+            <div class="column is-4 is-hidden-mobile">
+                <div
+                    class="columns is-marginless is-vcentered is-multiline"
+                    style="position: sticky;top: 5rem;"
+                >
+                    <div class="column is-12 p-lr-0 p-0">
+                        <x-common.index-insight
+                            :amount="$totalAnnouncementsToday"
+                            border-color="#3d8660"
+                            text-color="text-green"
+                            label="Today"
+                        />
+                        <x-common.index-insight
+                            :amount="$totalAnnouncementsThisWeek"
+                            border-color="#3d8660"
+                            text-color="text-green"
+                            label="This Week"
+                        />
+                        <x-common.index-insight
+                            :amount="$totalAnnouncementsThisMonth"
+                            border-color="#3d8660"
+                            text-color="text-green"
+                            label="This Month"
+                        />
+                    </div>
+                </div>
+            </div>
             <div class="column is-8">
                 @forelse ($announcements as $announcement)
                     <div class="box has-background-white m-lr-0">
@@ -148,33 +175,6 @@
                         </span>
                     </div>
                 @endforelse
-            </div>
-            <div class="column is-4 is-hidden-mobile">
-                <div
-                    class="columns is-marginless is-vcentered is-multiline"
-                    style="position: sticky;top: 5rem;"
-                >
-                    <div class="column is-12 p-lr-0 p-0">
-                        <x-common.index-insight
-                            :amount="$totalAnnouncementsToday"
-                            border-color="#3d8660"
-                            text-color="text-green"
-                            label="Today"
-                        />
-                        <x-common.index-insight
-                            :amount="$totalAnnouncementsThisWeek"
-                            border-color="#3d8660"
-                            text-color="text-green"
-                            label="This Week"
-                        />
-                        <x-common.index-insight
-                            :amount="$totalAnnouncementsThisMonth"
-                            border-color="#3d8660"
-                            text-color="text-green"
-                            label="This Month"
-                        />
-                    </div>
-                </div>
             </div>
         </div>
     </div>
