@@ -14,12 +14,11 @@ return new class extends Migration
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('name');
-            $table->string('type');
             $table->timestamps();
             $table->softDeletes();
 
             $table->index('company_id');
-            $table->unique(['company_id', 'name', 'type']);
+            $table->unique(['company_id', 'name']);
         });
     }
 
