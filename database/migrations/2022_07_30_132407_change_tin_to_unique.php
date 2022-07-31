@@ -38,9 +38,7 @@ return new class extends Migration
             $companies = Company::all();
 
             foreach ($companies as $company) {
-                $tins = Customer::where('company_id', $company->id)->where(function ($query) {
-                    $query->whereNot('tin', null)->orWhereNot('tin', '');
-                })->pluck('tin');
+                $tins = Customer::where('company_id', $company->id)->whereRaw("tin != null or tin != ''")->pluck('tin');
 
                 foreach ($tins as $tin) {
                     $originalCustomer = Customer::where('company_id', $company->id)->where('tin', $tin)->oldest()->first();
@@ -63,9 +61,7 @@ return new class extends Migration
             }
 
             foreach ($companies as $company) {
-                $tins = Supplier::where('company_id', $company->id)->where(function ($query) {
-                    $query->whereNot('tin', null)->orWhereNot('tin', '');
-                })->pluck('tin');
+                $tins = Supplier::where('company_id', $company->id)->whereRaw("tin != null or tin != ''")->pluck('tin');
 
                 foreach ($tins as $tin) {
                     $originalSupplier = Supplier::where('company_id', $company->id)->where('tin', $tin)->oldest()->first();
