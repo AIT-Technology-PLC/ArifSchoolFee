@@ -48,12 +48,13 @@
                                     id="tin"
                                     type="number"
                                     placeholder="TIN"
-                                    value="{{ $company->tin }}"
+                                    value="{{ old('tin', $company->tin) }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-building"
                                     class="is-small is-left"
                                 />
+                                <x-common.validation-error property="tin" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

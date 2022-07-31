@@ -13,7 +13,7 @@
             novalidate
         >
             @csrf
-            <x-content.main>
+            <x-content.main x-data="customerForm({{ Js::from(session()->getOldInput()) }})">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <x-forms.field>
@@ -26,7 +26,8 @@
                                     name="company_name"
                                     type="text"
                                     placeholder="Company Name"
-                                    value="{{ old('company_name') ?? '' }}"
+                                    x-on:change="fetchByCompanyName"
+                                    x-model="customer.company_name"
                                 />
                                 <x-common.icon
                                     name="fas fa-building"
@@ -47,7 +48,7 @@
                                     name="credit_amount_limit"
                                     type="number"
                                     placeholder="Credit Limit"
-                                    value="{{ old('credit_amount_limit') ?? 0.0 }}"
+                                    x-model="customer.credit_amount_limit"
                                 />
                                 <x-common.icon
                                     name="fas fa-dollar-sign"
@@ -68,7 +69,8 @@
                                     name="tin"
                                     type="number"
                                     placeholder="Tin No"
-                                    value="{{ old('tin') ?? '' }}"
+                                    x-on:change="fetchByTin"
+                                    x-model="customer.tin"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
@@ -89,7 +91,7 @@
                                     name="address"
                                     type="text"
                                     placeholder="Address"
-                                    value="{{ old('address') ?? '' }}"
+                                    x-model="customer.address"
                                 />
                                 <x-common.icon
                                     name="fas fa-map-marker-alt"
@@ -110,7 +112,7 @@
                                     name="contact_name"
                                     type="text"
                                     placeholder="Contact Name"
-                                    value="{{ old('contact_name') ?? '' }}"
+                                    x-model="customer.contact_name"
                                 />
                                 <x-common.icon
                                     name="fas fa-address-book"
@@ -131,7 +133,7 @@
                                     name="email"
                                     type="text"
                                     placeholder="Email Address"
-                                    value="{{ old('email') ?? '' }}"
+                                    x-model="customer.email"
                                 />
                                 <x-common.icon
                                     name="fas fa-at"
@@ -152,7 +154,7 @@
                                     name="phone"
                                     type="text"
                                     placeholder="Phone/Telephone"
-                                    value="{{ old('phone') ?? '' }}"
+                                    x-model="customer.phone"
                                 />
                                 <x-common.icon
                                     name="fas fa-phone"
@@ -172,17 +174,12 @@
                                     class="is-fullwidth"
                                     id="country"
                                     name="country"
+                                    x-model="customer.country"
                                 >
                                     <option
                                         selected
                                         disabled
                                     > Select Country/City </option>
-                                    @if (old('country'))
-                                        <option
-                                            value="{{ old('country') }}"
-                                            selected
-                                        > {{ old('country') }} </option>
-                                    @endif
                                     <optgroup label="Ethiopian Cities">
                                         @include('lists.cities')
                                     </optgroup>
@@ -207,3 +204,47 @@
         </form>
     </x-common.content-wrapper>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("customerForm", (customer) => ({
+                customer: {
+                    credit_amount_limit: 0.00,
+                },
+
+                async init() {
+                    await Customer.init();
+
+                    if (Object.keys(customer).length) {
+                        this.customer = customer;
+                    }
+                },
+                fetchByCompanyName() {
+                    let customer = Customer.whereCompanyName(this.customer.company_name) || {};
+
+                    if (Object.keys(customer).length) {
+                        this.changeProperties(customer);
+                    }
+                },
+                fetchByTin() {
+                    let customer = Customer.whereTin(this.customer.tin) || {};
+
+                    if (Object.keys(customer).length) {
+                        this.changeProperties(customer);
+                    }
+                },
+                changeProperties(customer) {
+                    this.customer.company_name = customer.company_name || '';
+                    this.customer.credit_amount_limit = customer.credit_amount_limit || 0.00;
+                    this.customer.tin = customer.tin || '';
+                    this.customer.address = customer.address || '';
+                    this.customer.contact_name = customer.contact_name || '';
+                    this.customer.email = customer.email || '';
+                    this.customer.phone = customer.phone || '';
+                    this.customer.country = customer.country || '';
+                }
+            }));
+        });
+    </script>
+@endpush

@@ -21,7 +21,7 @@ class DailyRunCommands extends Command
         'reservation:expiry-date-notification',
         'tender:daily-deadline-notification',
         'credit:due-date-notification',
-        'backup:run --only-db --disable-notifications',
+        'backup:run --disable-notifications',
         'job:behind-schedule-notification',
     ];
 

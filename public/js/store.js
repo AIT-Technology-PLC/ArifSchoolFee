@@ -141,3 +141,49 @@ const BillOfMaterial = {
         });
     },
 };
+
+const Customer = {
+    customers: [],
+
+    async init() {
+        const response = await axios.get(`/api/customers`);
+
+        this.customers = response.data;
+    },
+    all() {
+        return this.customers;
+    },
+    whereTin(tin) {
+        return this.customers.find((customer) => tin == customer.tin);
+    },
+    whereCompanyName(companyName) {
+        return this.customers.find(
+            (customer) =>
+                companyName?.trim().toLowerCase() ==
+                customer.company_name?.trim().toLowerCase()
+        );
+    },
+};
+
+const Supplier = {
+    suppliers: [],
+
+    async init() {
+        const response = await axios.get(`/api/suppliers`);
+
+        this.suppliers = response.data;
+    },
+    all() {
+        return this.suppliers;
+    },
+    whereTin(tin) {
+        return this.suppliers.find((supplier) => tin == supplier.tin);
+    },
+    whereCompanyName(companyName) {
+        return this.suppliers.find(
+            (supplier) =>
+                companyName?.trim().toLowerCase() ==
+                supplier.company_name?.trim().toLowerCase()
+        );
+    },
+};

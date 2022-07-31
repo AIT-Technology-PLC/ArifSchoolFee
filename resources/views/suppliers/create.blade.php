@@ -13,7 +13,7 @@
             novalidate
         >
             @csrf
-            <x-content.main>
+            <x-content.main x-data="supplierForm({{ Js::from(session()->getOldInput()) }})">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <x-forms.field>
@@ -26,7 +26,8 @@
                                     id="company_name"
                                     name="company_name"
                                     placeholder="Company Name"
-                                    value="{{ old('company_name') ?? '' }}"
+                                    x-on:change="fetchByCompanyName"
+                                    x-model="supplier.company_name"
                                 />
                                 <x-common.icon
                                     name="fas fa-building"
@@ -47,7 +48,8 @@
                                     id="tin"
                                     name="tin"
                                     placeholder="Tin No"
-                                    value="{{ old('tin') ?? '' }}"
+                                    x-on:change="fetchByTin"
+                                    x-model="supplier.tin"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
@@ -68,7 +70,7 @@
                                     id="address"
                                     name="address"
                                     placeholder="Address"
-                                    value="{{ old('address') ?? '' }}"
+                                    x-model="supplier.address"
                                 />
                                 <x-common.icon
                                     name="fas fa-map-marker-alt"
@@ -89,7 +91,7 @@
                                     id="contact_name"
                                     name="contact_name"
                                     placeholder="Contact name"
-                                    value="{{ old('contact_name') ?? '' }}"
+                                    x-model="supplier.contact_name"
                                 />
                                 <x-common.icon
                                     name="fas fa-address-book"
@@ -110,7 +112,7 @@
                                     id="email"
                                     name="email"
                                     placeholder="Email Address"
-                                    value="{{ old('email') ?? '' }}"
+                                    x-model="supplier.email"
                                 />
                                 <x-common.icon
                                     name="fas fa-at"
@@ -131,7 +133,7 @@
                                     id="phone"
                                     name="phone"
                                     placeholder="Phone/Telephone"
-                                    value="{{ old('phone') ?? '' }}"
+                                    x-model="supplier.phone"
                                 />
                                 <x-common.icon
                                     name="fas fa-phone"
@@ -151,17 +153,12 @@
                                     class="is-fullwidth"
                                     id="country"
                                     name="country"
+                                    x-model="supplier.country"
                                 >
                                     <option
                                         selected
                                         disabled
                                     > Select Country/City </option>
-                                    @if (old('country'))
-                                        <option
-                                            value="{{ old('country') }}"
-                                            selected
-                                        > {{ old('country') }} </option>
-                                    @endif
                                     <optgroup label="Ethiopian Cities">
                                         @include('lists.cities')
                                     </optgroup>
@@ -186,3 +183,44 @@
         </form>
     </x-common.content-wrapper>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("supplierForm", (supplier) => ({
+                supplier: {},
+
+                async init() {
+                    await Supplier.init();
+
+                    if (Object.keys(supplier).length) {
+                        this.supplier = supplier;
+                    }
+                },
+                fetchByCompanyName() {
+                    let supplier = Supplier.whereCompanyName(this.supplier.company_name) || {};
+
+                    if (Object.keys(supplier).length) {
+                        this.changeProperties(supplier);
+                    }
+                },
+                fetchByTin() {
+                    let supplier = Supplier.whereTin(this.supplier.tin) || {};
+
+                    if (Object.keys(supplier).length) {
+                        this.changeProperties(supplier);
+                    }
+                },
+                changeProperties(supplier) {
+                    this.supplier.company_name = supplier.company_name || '';
+                    this.supplier.tin = supplier.tin || '';
+                    this.supplier.address = supplier.address || '';
+                    this.supplier.contact_name = supplier.contact_name || '';
+                    this.supplier.email = supplier.email || '';
+                    this.supplier.phone = supplier.phone || '';
+                    this.supplier.country = supplier.country || '';
+                }
+            }));
+        });
+    </script>
+@endpush
