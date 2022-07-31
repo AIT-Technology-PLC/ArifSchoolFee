@@ -16,7 +16,7 @@ class UpdateSupplierRequest extends FormRequest
     {
         return [
             'company_name' => ['required', 'string', 'max:255'],
-            'tin' => ['nullable', 'numeric', 'digits:10', Rule::unique('supplier')->where(function ($query) {
+            'tin' => ['nullable', 'numeric', 'digits:10', Rule::unique('suppliers')->where(function ($query) {
                 return $query->where('company_id', userCompany()->id)->where('id', '<>', $this->route('supplier')->id);
             })],
             'address' => ['nullable', 'string', 'max:255'],
