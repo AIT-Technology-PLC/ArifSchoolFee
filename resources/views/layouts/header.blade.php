@@ -73,16 +73,17 @@
                         ></i>
                     </span>
                 </a>
-                <a
-                    href="{{ route('announcements.board', ['sort' => 'latest']) }}"
-                    id="announcementButton"
-                    class="navbar-item has-text-white link-text"
-                    data-title="Announcement"
-                >
-                    <span class="icon">
-                        <i class="fas fa-rss"></i>
-                    </span>
-                </a>
+                @if (isFeatureEnabled('Announcement Management'))
+                    <a
+                        href="{{ route('announcements.board', ['sort' => 'latest']) }}"
+                        class="navbar-item has-text-white link-text"
+                        data-title="Board"
+                    >
+                        <span class="icon">
+                            <i class="fas fa-rss"></i>
+                        </span>
+                    </a>
+                @endif
                 <a
                     href="/"
                     id="mainMenuButton"

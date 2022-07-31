@@ -88,11 +88,11 @@
                                             </option>
                                             <option
                                                 value="male"
-                                                @selected($employee->isMale())
+                                                @selected(old('gender', $employee->gender) == 'male')
                                             > Male</option>
                                             <option
                                                 value="female"
-                                                @selected(!$employee->isFemale())
+                                                @selected(old('gender', $employee->gender) == 'female')
                                             > Female </option>
                                         </x-forms.select>
                                         <x-common.icon
@@ -114,7 +114,7 @@
                                             name="phone"
                                             type="phone"
                                             placeholder="Phone"
-                                            value="{{ $employee->phone }}"
+                                            value="{{ old('phone', $employee->phone) }}"
                                             autocomplete="phone"
                                         />
                                         <x-common.icon
@@ -136,7 +136,7 @@
                                             name="address"
                                             type="text"
                                             placeholder="Address"
-                                            value="{{ $employee->address }}"
+                                            value="{{ old('address', $employee->address) }}"
                                             autocomplete="address"
                                         />
                                         <x-common.icon
@@ -158,7 +158,7 @@
                                             name="position"
                                             type="text"
                                             placeholder="Job Title"
-                                            value="{{ $employee->position }}"
+                                            value="{{ old('position', $employee->position) }}"
                                         />
                                         <x-common.icon
                                             name="fas fa-user-tie"
@@ -187,23 +187,23 @@
                                             </option>
                                             <option
                                                 value="full time"
-                                                @selected($employee->job_type == 'full time')
+                                                @selected(old('job_type', $employee->job_type) == 'full time')
                                             > Full Time </option>
                                             <option
                                                 value="part time"
-                                                @selected($employee->job_type == 'part time')
+                                                @selected(old('job_type', $employee->job_type) == 'part time')
                                             > Part Time </option>
                                             <option
                                                 value="contractual"
-                                                @selected($employee->job_type == 'contractual')
+                                                @selected(old('job_type', $employee->job_type) == 'contractual')
                                             > Contractual </option>
                                             <option
                                                 value="remote"
-                                                @selected($employee->job_type == 'remote')
+                                                @selected(old('job_type', $employee->job_type) == 'remote')
                                             > Remote </option>
                                             <option
                                                 value="internship"
-                                                @selected($employee->job_type == 'internship')
+                                                @selected(old('job_type', $employee->job_type) == 'internship')
                                             > Internship </option>
                                         </x-forms.select>
                                         <x-common.icon
@@ -229,8 +229,10 @@
                                                 @foreach ($warehouses as $warehouse)
                                                     <option
                                                         value="{{ $warehouse->id }}"
-                                                        {{ $employee->user->warehouse_id == $warehouse->id ? 'selected' : '' }}
-                                                    >{{ $warehouse->name }}</option>
+                                                        @selected(old('warehouse_id', $employee->user->warehouse_id) == $warehouse->id)
+                                                    >
+                                                        {{ $warehouse->name }}
+                                                    </option>
                                                 @endforeach
                                             </x-forms.select>
                                             <x-common.icon
@@ -247,7 +249,7 @@
                                     ID Details <sup class="has-text-danger"></sup>
                                 </x-forms.label>
                                 <x-forms.field class="has-addons">
-                                    <x-forms.control class="has-icons-left ">
+                                    <x-forms.control class="has-icons-left">
                                         <x-forms.select
                                             class="is-fullwidth"
                                             id="id_type"
@@ -261,23 +263,23 @@
                                             </option>
                                             <option
                                                 value="passport"
-                                                @selected($employee->id_type == 'passport')
+                                                @selected(old('id_type', $employee->id_type) == 'passport')
                                             > Passport </option>
                                             <option
                                                 value="drivers license"
-                                                @selected($employee->id_type == 'drivers license')
+                                                @selected(old('id_type', $employee->id_type) == 'drivers license')
                                             > Drivers license </option>
                                             <option
                                                 value="employee id"
-                                                @selected($employee->id_type == 'employee id')
+                                                @selected(old('id_type', $employee->id_type) == 'employee id')
                                             > Employee ID </option>
                                             <option
                                                 value="kebele id"
-                                                @selected($employee->id_type == 'kebele id')
+                                                @selected(old('id_type', $employee->id_type) == 'kebele id')
                                             > Kebele ID </option>
                                             <option
                                                 value="student id"
-                                                @selected($employee->id_type == 'student id')
+                                                @selected(old('id_type', $employee->id_type) == 'student id')
                                             > Student ID </option>
                                         </x-forms.select>
                                         <x-common.icon
@@ -286,13 +288,13 @@
                                         />
                                         <x-common.validation-error property="id_type" />
                                     </x-forms.control>
-                                    <x-forms.control class="has-icons-left">
+                                    <x-forms.control class="has-icons-left is-expanded">
                                         <x-forms.input
                                             id="id_number"
                                             name="id_number"
                                             type="text"
                                             placeholder="ID Number"
-                                            value="{{ $employee->id_number }}"
+                                            value="{{ old('id_number', $employee->id_number) }}"
                                             autocomplete="id_number"
                                         />
                                         <x-common.icon
@@ -324,7 +326,7 @@
                                                 @foreach ($departments as $department)
                                                     <option
                                                         value="{{ $department->id }}"
-                                                        @selected($employee->department_id == $department->id)
+                                                        @selected(old('department_id', $employee->department_id) == $department->id)
                                                     >
                                                         {{ $department->name }}
                                                     </option>
@@ -357,12 +359,12 @@
                                             >
                                                 Select Bank
                                             </option>
-                                            @if ($employee->bank_name)
+                                            @if (old('bank_name', $employee->bank_name))
                                                 <option
-                                                    value="{{ $employee->bank_name }}"
+                                                    value="{{ old('bank_name', $employee->bank_name) }}"
                                                     selected
                                                 >
-                                                    {{ $employee->bank_name }}
+                                                    {{ old('bank_name', $employee->bank_name) }}
                                                 </option>
                                             @endif
                                             @include('lists.banks')
@@ -373,13 +375,13 @@
                                         />
                                         <x-common.validation-error property="bank_name" />
                                     </x-forms.control>
-                                    <x-forms.control class="has-icons-left">
+                                    <x-forms.control class="has-icons-left is-expanded">
                                         <x-forms.input
                                             id="bank_account"
                                             name="bank_account"
                                             type="text"
                                             placeholder="Bank Account"
-                                            value="{{ $employee->bank_account }}"
+                                            value="{{ old('bank_account', $employee->bank_account) }}"
                                             autocomplete="bank_account"
                                         />
                                         <x-common.icon
@@ -401,7 +403,7 @@
                                             name="tin_number"
                                             type="text"
                                             placeholder="Tin Number"
-                                            value="{{ $employee->tin_number }}"
+                                            value="{{ old('tin_number', $employee->tin_number) }}"
                                             autocomplete="tin_number"
                                         />
                                         <x-common.icon
@@ -423,7 +425,7 @@
                                             name="date_of_hiring"
                                             type="date"
                                             placeholder="mm/dd/yyyy"
-                                            value="{{ $employee->date_of_hiring?->toDateString() }}"
+                                            value="{{ old('date_of_hiring', $employee->date_of_hiring?->toDateString()) }}"
                                             autocomplete="date_of_hiring"
                                         />
                                         <x-common.icon
@@ -445,7 +447,7 @@
                                             name="date_of_birth"
                                             type="date"
                                             placeholder="mm/dd/yyyy"
-                                            value="{{ $employee->date_of_birth?->toDateString() }}"
+                                            value="{{ old('date_of_birth', $employee->date_of_birth?->toDateString()) }}"
                                             autocomplete="date_of_birth"
                                         />
                                         <x-common.icon
@@ -467,7 +469,7 @@
                                             name="emergency_name"
                                             type="text"
                                             placeholder="Emergency Name"
-                                            value="{{ $employee->emergency_name }}"
+                                            value="{{ old('emergency_name', $employee->emergency_name) }}"
                                             autocomplete="emergency_name"
                                         />
                                         <x-common.icon
@@ -482,7 +484,7 @@
                                             name="emergency_phone"
                                             type="phone"
                                             placeholder="Emergency Phone"
-                                            value="{{ $employee->emergency_phone }}"
+                                            value="{{ old('emergency_phone', $employee->emergency_phone) }}"
                                             autocomplete="emergency_phone"
                                         />
                                         <x-common.icon
@@ -506,7 +508,7 @@
                                                     name="enabled"
                                                     value="1"
                                                     class="mt-3"
-                                                    {{ $employee->enabled ? 'checked' : '' }}
+                                                    @checked(old('enabled', $employee->enabled))
                                                 >
                                                 Yes, this employee can access the system
                                             </label>
@@ -516,7 +518,7 @@
                                                     type="radio"
                                                     name="enabled"
                                                     value="0"
-                                                    {{ $employee->enabled ? '' : 'checked' }}
+                                                    @checked(!old('enabled', $employee->enabled))
                                                 >
                                                 No, this employee can't access the system
                                             </label>
@@ -539,7 +541,7 @@
                                                         name="role"
                                                         value="{{ $role->name }}"
                                                         class="mt-3"
-                                                        {{ $employee->user->roles[0]->name == $role->name ? 'checked' : '' }}
+                                                        @checked(old('role', $employee->user->roles[0]->name) == $role->name)
                                                     >
                                                     {{ $role->name }}
                                                 </label>

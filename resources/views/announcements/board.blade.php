@@ -93,13 +93,13 @@
                         />
                         <x-common.index-insight
                             :amount="$totalAnnouncementsThisWeek"
-                            border-color="#3d8660"
+                            border-color="#86843d"
                             text-color="text-gold"
                             label="This Week"
                         />
                         <x-common.index-insight
                             :amount="$totalAnnouncementsThisMonth"
-                            border-color="#3d8660"
+                            border-color="#863d63"
                             text-color="text-purple"
                             label="This Month"
                         />
@@ -115,9 +115,9 @@
                                 style="width: 20% !important"
                             >
                                 <aside>
-                                    <span class="is-size-7 text-green has-text-weight-bold">TITLE</span>
+                                    <span class="is-size-7 text-green has-text-weight-bold">POSTED BY</span>
                                     <br>
-                                    <span>{{ $announcement->title }}</span>
+                                    <span>{{ $announcement->createdBy->name }}</span>
                                 </aside>
 
                                 <aside class="mt-4">
@@ -134,8 +134,17 @@
                             </div>
                             <div class="media-content">
                                 <div class="content">
-                                    <div class="has-text-weight-bold">{{ $announcement->createdBy->name }}</div>
-                                    <div class="is-size-7"> {{ $announcement->created_at->diffForHumans() }} </div><br>
+                                    <div class="has-text-weight-bold">
+                                        {{ $announcement->title }}
+                                    </div>
+                                    <div class="is-size-7">
+                                        {{ $announcement->created_at->diffForHumans() }}
+                                    </div>
+                                    <div class="mt-2 mb-3">
+                                        @foreach ($announcement->warehouses as $warehouse)
+                                            <span class="tag bg-green has-text-white is-uppercase"> {{ $warehouse->name }} </span>
+                                        @endforeach
+                                    </div>
                                     <p x-data='contentLengthManager(`{!! str($announcement->content)->squish()->toString() !!}`)'>
                                         <span x-html="isCollapsed ? originalContent : content"></span>
                                         <x-common.button
@@ -161,6 +170,9 @@
                         </span>
                     </div>
                 @endforelse
+                <div>
+                    {{ $announcements->links() }}
+                </div>
             </div>
         </div>
     </div>

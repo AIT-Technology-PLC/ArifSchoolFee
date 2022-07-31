@@ -1,6 +1,6 @@
 @if ($paginator->hasPages())
     <nav>
-        <ul class="pagination">
+        <ul class="pagination is-justify-content-center">
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())
                 <li>
@@ -8,7 +8,8 @@
                         tag="button"
                         mode="button"
                         href="{{ $paginator->previousPageUrl() }}"
-                        label="PREVIOUS"
+                        icon="fas fa-arrow-left-long"
+                        data-title="Previous"
                         class="is-small is-outlined btn-green has-text-weight-bold p-2 mx-1"
                         disabled
                     />
@@ -19,7 +20,8 @@
                         tag="a"
                         mode="button"
                         href="{{ $paginator->previousPageUrl() }}"
-                        label="PREVIOUS"
+                        icon="fas fa-arrow-left-long"
+                        data-title="Previous"
                         class="is-small is-outlined btn-green has-text-weight-bold p-2 mx-1"
                     />
                 </li>
@@ -31,7 +33,8 @@
                     tag="a"
                     mode="button"
                     href="{{ $paginator->nextPageUrl() }}"
-                    label="NEXT"
+                    icon="fas fa-arrow-right-long"
+                    data-title="Next"
                     class="is-small is-outlined btn-green has-text-weight-bold p-2 mx-1"
                 />
             @else
@@ -40,7 +43,8 @@
                         tag="button"
                         mode="button"
                         href="{{ $paginator->previousPageUrl() }}"
-                        label="NEXT"
+                        icon="fas fa-arrow-right-long"
+                        data-title="Next"
                         class="is-small is-outlined btn-green has-text-weight-bold p-2 mx-1"
                         disabled
                     />

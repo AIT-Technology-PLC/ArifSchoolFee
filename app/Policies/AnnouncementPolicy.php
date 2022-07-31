@@ -12,7 +12,7 @@ class AnnouncementPolicy
 
     public function viewAny(User $user)
     {
-        return $user->can('Read Announcement');
+        return true;
     }
 
     public function view(User $user, Announcement $announcement)

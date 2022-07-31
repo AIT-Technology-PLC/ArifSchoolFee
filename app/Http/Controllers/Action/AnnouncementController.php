@@ -40,9 +40,9 @@ class AnnouncementController extends Controller
 
         $announcements = Announcement::query()
             ->approved()
-            ->with(['createdBy', 'approvedBy'])
-            ->when(request('sort') == 'latest', fn($query) => $query->orderBy('created_at', 'DESC'))
-            ->when(request('sort') == 'oldest', fn($query) => $query->orderBy('created_at', 'ASC'))
+            ->with(['createdBy', 'approvedBy', 'warehouses'])
+            ->when(authUser()->cannot('view', $announcement), fn($q) => $q->whereRelation('warehouses', 'warehouses.id', '=', authUser()->warehouse_id))
+            ->when(request('sort') == 'oldest', fn($query) => $query->orderBy('created_at', 'ASC'), fn($query) => $query->orderBy('created_at', 'DESC'))
             ->when(request('period') == 'today', fn($query) => $query->whereDate('created_at', today()))
             ->when(request('period') == 'this week', fn($query) => $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]))
             ->when(request('period') == 'this month', fn($query) => $query->whereMonth('created_at', today()->month)->whereYear('created_at', today()->year))
