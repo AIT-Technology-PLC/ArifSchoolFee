@@ -24,7 +24,7 @@ class StoreCompensationRequest extends FormRequest
             'compensation.*.is_adjustable' => ['required', 'boolean'],
             'compensation.*.can_be_inputted_manually' => ['required', 'boolean'],
             'compensation.*.percentage' => ['nullable', 'numeric', 'required_unless:depends_on,null'],
-            'compensation.*.default_value' => ['required', 'string', 'max:255'],
+            'compensation.*.default_value' => ['required', 'numeric'],
         ];
     }
 }

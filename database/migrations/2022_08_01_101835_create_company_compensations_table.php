@@ -20,7 +20,7 @@ return new class extends Migration
             $table->boolean('is_adjustable');
             $table->boolean('can_be_inputted_manually');
             $table->decimal('percentage', 22)->nullable();
-            $table->string('default_value');
+            $table->decimal('default_value', 22);
             $table->timestamps();
 
             $table->index('depends_on');
