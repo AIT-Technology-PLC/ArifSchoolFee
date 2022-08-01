@@ -81,8 +81,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Announcement Management', 'Compensation Management'))
-            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Earning', 'Read Announcement', 'Read Compensation'])
+        @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Announcement Management', 'Company Compensation'))
+            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Earning', 'Read Announcement', 'Read Company Compensation'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -314,11 +314,11 @@
                                 @endcan
                             @endif
 
-                            @if (isFeatureEnabled('Compensation Management'))
-                                @can('Read Compensation')
+                            @if (isFeatureEnabled('Company Compensation'))
+                                @can('Read Company Compensation')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('compensations.index') }}"
+                                            href="{{ route('company_compensations.index') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
@@ -327,7 +327,7 @@
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Compensations
+                                            Company Compensations
                                         </span>
                                     </div>
                                 @endcan
