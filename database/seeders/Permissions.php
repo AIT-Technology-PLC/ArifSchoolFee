@@ -302,6 +302,13 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Announcement']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Announcement']);
 
+            //Compensation
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Compensation']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Compensation']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Compensation']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Compensation']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Compensation']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
