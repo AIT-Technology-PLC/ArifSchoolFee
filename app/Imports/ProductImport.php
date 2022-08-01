@@ -30,7 +30,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
     public function model(array $row)
     {
         $productName = $row['product_name'];
-        $code = $row['product_code'] ?? '';
+        $code = $row['product_code'] ?? null;
         $productCategory = $this->productCategories->firstWhere('name', $row['product_category_name']);
 
         if ($this->products->where('name', $productName)->where('code', $code)->where('product_category_id', $productCategory->id)->count()) {
@@ -42,10 +42,10 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
             'created_by' => authUser()->id,
             'updated_by' => authUser()->id,
             'product_category_id' => $productCategory->id,
-            'name' => $row['product_name'],
-            'code' => $row['product_code'] ?? '',
-            'type' => $row['product_type'],
-            'unit_of_measurement' => $row['product_unit_of_measurement'],
+            'name' => str()->squish($row['product_name']),
+            'code' => str()->squish($row['product_code'] ?? null),
+            'type' => str()->title($row['product_type']),
+            'unit_of_measurement' => str()->title($row['product_unit_of_measurement']),
             'min_on_hand' => $row['product_min_on_hand'] ?? 0.00,
         ]);
 
