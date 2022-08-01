@@ -53,7 +53,7 @@ class EmployeeImport implements WithHeadingRow, OnEachRow, WithValidation, WithC
                 'date_of_birth' => $row['date_of_birth'] ?? null,
                 'emergency_name' => $row['emergency_name'] ?? '',
                 'emergency_phone' => $row['emergency_phone'] ?? '',
-                'department_id' => Department::firstWhere('name', $row['department_name'])->id ?? '',
+                'department_id' => Department::firstWhere('name', $row['department_name'] ?? '')->id ?? '',
             ]);
 
         $user->assignRole($row['role']);
