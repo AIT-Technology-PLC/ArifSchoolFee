@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Action as Action;
 
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
@@ -343,8 +342,3 @@ Route::post('/announcements/{announcement}/approve',
 Route::get('/announcements/board',
     [Action\AnnouncementController::class, 'board'])
     ->name('announcements.board');
-
-// Compensation
-Route::post('/compensations/{compensation}/approve',
-    [Action\CompanyCompensationController::class, 'approve'])
-    ->name('compensations.approve');

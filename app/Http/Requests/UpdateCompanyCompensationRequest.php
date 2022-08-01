@@ -6,7 +6,7 @@ use App\Rules\MustBelongToCompany;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateCompensationRequest extends FormRequest
+class UpdateCompanyCompensationRequest extends FormRequest
 {
     public function authorize()
     {
@@ -24,7 +24,7 @@ class UpdateCompensationRequest extends FormRequest
             'compensation.*.is_adjustable' => ['required', 'boolean'],
             'compensation.*.can_be_inputted_manually' => ['required', 'boolean'],
             'compensation.*.percentage' => ['nullable', 'numeric', 'required_unless:depends_on,null'],
-            'compensation.*.default_value' => ['required', 'numeric'],
+            'compensation.*.default_value' => ['nullable', 'numeric'],
         ];
     }
 }

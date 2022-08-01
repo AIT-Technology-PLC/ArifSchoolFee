@@ -6,7 +6,7 @@ use App\Models\CompanyCompensation;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CompensationPolicy
+class CompanyCompensationPolicy
 {
     use HandlesAuthorization;
 
@@ -17,26 +17,21 @@ class CompensationPolicy
 
     public function view(User $user, CompanyCompensation $companyCompensation)
     {
-        return $user->can('Read Compensation');
+        return $user->can('Read Company Compensation');
     }
 
     public function create(User $user)
     {
-        return $user->can('Create Compensation');
+        return $user->can('Create Company Compensation');
     }
 
     public function update(User $user)
     {
-        return $user->can('Update Compensation');
+        return $user->can('Update Company Compensation');
     }
 
     public function delete(User $user, CompanyCompensation $companyCompensation)
     {
-        return $user->can('Delete Compensation');
-    }
-
-    public function approve(User $user, CompanyCompensation $companyCompensation)
-    {
-        return $user->can('Approve Compensation');
+        return $user->can('Delete Company Compensation');
     }
 }
