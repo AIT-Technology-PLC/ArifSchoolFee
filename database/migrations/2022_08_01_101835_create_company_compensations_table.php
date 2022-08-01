@@ -26,6 +26,7 @@ return new class extends Migration
             $table->index('depends_on');
             $table->index('company_id');
         });
+
         Schema::table('company_compensations', function (Blueprint $table) {
             $table->foreignId('depends_on')->nullable()->after('id')->constrained('company_compensations')->onDelete('cascade')->onUpdate('cascade');
         });
