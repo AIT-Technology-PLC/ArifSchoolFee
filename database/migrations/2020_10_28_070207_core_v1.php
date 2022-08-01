@@ -185,6 +185,7 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->index('company_id');
+            $table->unique(['company_id', 'tin']);
         });
 
         Schema::create('product_categories', function (Blueprint $table) {
@@ -279,6 +280,7 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->index('company_id');
+            $table->unique(['company_id', 'tin']);
         });
 
         Schema::create('sales', function (Blueprint $table) {
