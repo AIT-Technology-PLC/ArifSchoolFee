@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Action as Action;
 
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
