@@ -27,7 +27,7 @@ return new class extends Migration
         });
 
         Schema::table('transactions', function (Blueprint $table) {
-            $table->string('status')->nullable();
+            $table->string('status')->nullable()->after('code');
         });
     }
 
