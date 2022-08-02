@@ -345,7 +345,7 @@
                                     <x-common.button
                                         tag="a"
                                         href="{{ route('compensations.index') }}"
-                                        label="Compensations"
+                                        label="Compensation"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('compensations.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('compensations.*') ? 'activateAccordion' : '' }}"
                                     />

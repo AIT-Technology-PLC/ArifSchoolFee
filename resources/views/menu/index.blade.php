@@ -327,7 +327,7 @@
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Compensations
+                                            Compensation
                                         </span>
                                     </div>
                                 @endcan
