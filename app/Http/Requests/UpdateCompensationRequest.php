@@ -6,7 +6,7 @@ use App\Rules\MustBelongToCompany;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateCompanyCompensationRequest extends FormRequest
+class UpdateCompensationRequest extends FormRequest
 {
     public function authorize()
     {
@@ -16,7 +16,7 @@ class UpdateCompanyCompensationRequest extends FormRequest
     public function rules()
     {
         return [
-            'depends_on' => ['nullable', 'integer', new MustBelongToCompany('company_compensations')],
+            'depends_on' => ['nullable', 'integer', new MustBelongToCompany('compensations')],
             'name' => ['required', 'string', 'max:255'],
             'type' => ['required', 'string', 'max:255', Rule::In(['earning', 'deduction'])],
             'is_taxable' => ['required', 'boolean'],

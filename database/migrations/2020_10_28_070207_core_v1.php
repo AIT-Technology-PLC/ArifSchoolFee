@@ -1202,7 +1202,7 @@ return new class extends Migration
             $table->index('warehouse_id');
         });
 
-        Schema::create('company_compensations', function (Blueprint $table) {
+        Schema::create('compensations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
@@ -1220,8 +1220,8 @@ return new class extends Migration
             $table->index('company_id');
         });
 
-        Schema::table('company_compensations', function (Blueprint $table) {
-            $table->foreignId('depends_on')->nullable()->after('id')->constrained('company_compensations')->onDelete('cascade')->onUpdate('cascade');
+        Schema::table('compensations', function (Blueprint $table) {
+            $table->foreignId('depends_on')->nullable()->after('id')->constrained('compensations')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::enableForeignKeyConstraints();
@@ -1308,6 +1308,6 @@ return new class extends Migration
         Schema::drop('earnings');
         Schema::drop('announcements');
         Schema::drop('announcement_warehouse');
-        Schema::drop('company_compensations');
+        Schema::drop('compensations');
     }
 };

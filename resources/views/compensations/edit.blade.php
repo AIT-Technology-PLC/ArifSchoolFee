@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Company Compensation')
+@section('title', 'Edit Compensation')
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="Edit Company Compensation" />
+        <x-content.header title="Edit Compensation" />
         <form
             id="formOne"
-            action="{{ route('company-compensations.update', $companyCompensation->id) }}"
+            action="{{ route('compensations.update', $compensation->id) }}"
             method="post"
             enctype="multipart/form-data"
             novalidate
@@ -27,10 +27,10 @@
                                     name="name"
                                     type="text"
                                     placeholder="Name"
-                                    value="{{ $companyCompensation->name }}"
+                                    value="{{ $compensation->name }}"
                                 />
                                 <x-common.icon
-                                    name=""
+                                    name="fa-solid fa-circle-dollar-to-slot"
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="name" />
@@ -50,11 +50,11 @@
                                     >
                                         <option
                                             value="earning"
-                                            @selected($companyCompensation->isEarning())
+                                            @selected($compensation->isEarning())
                                         > Earning </option>
                                         <option
                                             value="deduction"
-                                            @selected(!$companyCompensation->isEarning())
+                                            @selected(!$compensation->isEarning())
                                         > Deduction </option>
                                     </x-forms.select>
                                     <x-common.icon
@@ -76,15 +76,15 @@
                                     id="depends_on"
                                     name="depends_on"
                                 >
-                                    @foreach ($compensations as $compensation)
+                                    @foreach ($compensationNames as $compensationName)
                                         <option
                                             value="{{ $compensation->id }}"
-                                            @selected($compensation->id == $companyCompensation->id)
+                                            @selected($compensationName->id == $compensation->depends_on)
                                         >{{ $compensation->name }}</option>
                                     @endforeach
                                 </x-forms.select>
                                 <x-common.icon
-                                    name=""
+                                    name="fas fa-sort"
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="depends_on" />
@@ -102,7 +102,7 @@
                                     name="percentage"
                                     type="number"
                                     placeholder="Percentage"
-                                    value="{{ $companyCompensation->percentage }}"
+                                    value="{{ $compensation->percentage }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-percent"
@@ -123,10 +123,10 @@
                                     name="default_value"
                                     type="number"
                                     placeholder="Default Value"
-                                    value="{{ $companyCompensation->default_value }}"
+                                    value="{{ $compensation->default_value }}"
                                 />
                                 <x-common.icon
-                                    name=""
+                                    name="fas fa-th"
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="default_value" />
@@ -146,7 +146,7 @@
                                         type="radio"
                                         value="1"
                                         class="mt-3"
-                                        @checked($companyCompensation->isTaxable())
+                                        @checked($compensation->isTaxable())
                                     >
                                     Taxable
                                 </label>
@@ -156,7 +156,7 @@
                                         type="radio"
                                         name="is_taxable"
                                         value="0"
-                                        @checked(!$companyCompensation->isTaxable())
+                                        @checked(!$compensation->isTaxable())
                                     >
                                     Not Taxable
                                 </label>
@@ -177,7 +177,7 @@
                                         type="radio"
                                         value="1"
                                         class="mt-3"
-                                        @checked($companyCompensation->isAdjustable())
+                                        @checked($compensation->isAdjustable())
                                     >
                                     Adjustable
                                 </label>
@@ -187,7 +187,7 @@
                                         type="radio"
                                         name="is_adjustable"
                                         value="0"
-                                        @checked(!$companyCompensation->isAdjustable())
+                                        @checked(!$compensation->isAdjustable())
                                     >
                                     Not Adjustable
                                 </label>
@@ -208,7 +208,7 @@
                                         type="radio"
                                         value="1"
                                         class="mt-3"
-                                        @checked($companyCompensation->canBeInputtedManually())
+                                        @checked($compensation->canBeInputtedManually())
                                     >
                                     Inputted Manually
                                 </label>
@@ -218,7 +218,7 @@
                                         type="radio"
                                         name="can_be_inputted_manually"
                                         value="0"
-                                        @checked(!$companyCompensation->canBeInputtedManually())
+                                        @checked(!$compensation->canBeInputtedManually())
                                     >
                                     Not Inputted Manually
                                 </label>

@@ -339,15 +339,15 @@
                             @endcan
                         @endif
 
-                        @if (isFeatureEnabled('Company Compensation'))
-                            @can('Read Company Compensation')
+                        @if (isFeatureEnabled('Compensation Management'))
+                            @can('Read Compensation')
                                 <li>
                                     <x-common.button
                                         tag="a"
-                                        href="{{ route('company-compensations.index') }}"
-                                        label="Company Compensations"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('company_compensations.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('company_compensations.*') ? 'activateAccordion' : '' }}"
+                                        href="{{ route('compensations.index') }}"
+                                        label="Compensations"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('compensations.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('compensations.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

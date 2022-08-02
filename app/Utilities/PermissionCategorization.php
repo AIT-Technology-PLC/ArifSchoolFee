@@ -133,9 +133,9 @@ class PermissionCategorization
             'label' => 'Announcement',
             'feature' => 'Announcement Management',
         ],
-        'company compensation' => [
-            'label' => 'Company Compensation',
-            'feature' => 'Company Compensation',
+        'compensation' => [
+            'label' => 'Compensation',
+            'feature' => 'Compensation Management',
         ],
     ];
 

@@ -81,8 +81,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Announcement Management', 'Company Compensation'))
-            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Earning', 'Read Announcement', 'Read Company Compensation'])
+        @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Announcement Management', 'Compensation Management'))
+            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Earning', 'Read Announcement', 'Read Compensation'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -314,20 +314,20 @@
                                 @endcan
                             @endif
 
-                            @if (isFeatureEnabled('Company Compensation'))
-                                @can('Read Company Compensation')
+                            @if (isFeatureEnabled('Compensation Management'))
+                                @can('Read Compensation')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('company-compensations.index') }}"
+                                            href="{{ route('compensations.index') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class=""></i>
+                                                <i class="fa-solid fa-circle-dollar-to-slot"></i>
                                             </span>
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Company Compensations
+                                            Compensations
                                         </span>
                                     </div>
                                 @endcan

@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Create New Company Compensation')
+@section('title', 'Create Compensation')
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="New Company Compensation" />
+        <x-content.header title="New Compensation" />
         <form
             id="formOne"
-            action="{{ route('company-compensations.store') }}"
+            action="{{ route('compensations.store') }}"
             method="post"
             enctype="multipart/form-data"
             novalidate
@@ -60,7 +60,7 @@
                                                 placeholder="Name"
                                             />
                                             <x-common.icon
-                                                name=""
+                                                name="fa-solid fa-circle-dollar-to-slot"
                                                 class="is-small is-left"
                                             />
                                             <span
@@ -113,7 +113,7 @@
                                                 @endforeach
                                             </x-forms.select>
                                             <x-common.icon
-                                                name="fas fa-user"
+                                                name="fas fa-sort"
                                                 class="is-small is-left"
                                             />
                                             <span
@@ -161,7 +161,7 @@
                                                 placeholder="Default Value"
                                             />
                                             <x-common.icon
-                                                name=""
+                                                name="fas fa-th"
                                                 class="is-small is-left"
                                             />
                                             <span

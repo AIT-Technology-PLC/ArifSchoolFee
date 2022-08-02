@@ -141,4 +141,4 @@ Route::resource('earning-details', Resource\EarningDetailController::class)->onl
 
 Route::resource('announcements', Resource\AnnouncementController::class);
 
-Route::resource('company-compensations', Resource\CompanyCompensationController::class);
+Route::resource('compensations', Resource\CompensationController::class)->except('show');

@@ -193,7 +193,7 @@ class Features extends Seeder
                 ['is_enabled' => 0]
             );
             Feature::updateOrCreate(
-                ['name' => 'Company Compensation'],
+                ['name' => 'Compensation Management'],
                 ['is_enabled' => 0]
             );
 
