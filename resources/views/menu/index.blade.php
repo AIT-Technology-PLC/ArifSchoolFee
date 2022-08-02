@@ -318,7 +318,7 @@
                                 @can('Read Company Compensation')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('company_compensations.index') }}"
+                                            href="{{ route('company-compensations.index') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">

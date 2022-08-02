@@ -16,15 +16,14 @@ class UpdateCompanyCompensationRequest extends FormRequest
     public function rules()
     {
         return [
-            'compensation' => ['required', 'array'],
-            'compensation.*.depends_on' => ['required', 'integer', new MustBelongToCompany('company_compensations')],
-            'compensation.*.name' => ['required', 'string', 'max:255'],
-            'compensation.*.type' => ['required', 'string', 'max:255', Rule::In(['earning', 'deduction'])],
-            'compensation.*.is_taxable' => ['required', 'boolean'],
-            'compensation.*.is_adjustable' => ['required', 'boolean'],
-            'compensation.*.can_be_inputted_manually' => ['required', 'boolean'],
-            'compensation.*.percentage' => ['nullable', 'numeric', 'required_unless:depends_on,null'],
-            'compensation.*.default_value' => ['nullable', 'numeric'],
+            'depends_on' => ['nullable', 'integer', new MustBelongToCompany('company_compensations')],
+            'name' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'string', 'max:255', Rule::In(['earning', 'deduction'])],
+            'is_taxable' => ['required', 'boolean'],
+            'is_adjustable' => ['required', 'boolean'],
+            'can_be_inputted_manually' => ['required', 'boolean'],
+            'percentage' => ['nullable', 'numeric', 'required_unless:depends_on,null'],
+            'default_value' => ['nullable', 'numeric'],
         ];
     }
 }

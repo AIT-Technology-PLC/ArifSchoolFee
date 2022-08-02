@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('percentage', 22)->nullable();
             $table->decimal('default_value', 22)->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index('company_id');
         });

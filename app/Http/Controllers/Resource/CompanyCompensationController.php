@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Resource;
 
-use Illuminate\Support\Facades\DB;
-use App\Models\CompanyCompensation;
+use App\DataTables\CompanyCompensationDatatable;
 use App\Http\Controllers\Controller;
-use App\DataTables\CompanyCompensationDataTable;
 use App\Http\Requests\StoreCompanyCompensationRequest;
 use App\Http\Requests\UpdateCompanyCompensationRequest;
+use App\Models\CompanyCompensation;
+use Illuminate\Support\Facades\DB;
 
 class CompanyCompensationController extends Controller
 {
@@ -18,18 +18,20 @@ class CompanyCompensationController extends Controller
         $this->authorizeResource(CompanyCompensation::class);
     }
 
-    public function index(CompanyCompensationDataTable $datatable)
+    public function index(CompanyCompensationDatatable $datatable)
     {
-        $datatable->builder()->setTableId('company_compensations-datatable')->orderBy(1, 'desc');
+        $datatable->builder()->setTableId('company-compensations-datatable')->orderBy(1, 'desc');
 
         $totalCompensations = CompanyCompensation::count();
 
-        return $datatable->render('company_compensations.index', compact('totalCompensations'));
+        return $datatable->render('company-compensations.index', compact('totalCompensations'));
     }
 
     public function create()
     {
-        return view('company_compensations.create');
+        $compensations = CompanyCompensation::orderBy('name')->get(['id', 'name']);
+
+        return view('company-compensations.create', compact('compensations'));
     }
 
     public function store(StoreCompanyCompensationRequest $request)
@@ -40,19 +42,21 @@ class CompanyCompensationController extends Controller
             }
         });
 
-        return redirect()->route('company_compensations.index')->with('successMessage', 'New compensation are added.');
+        return redirect()->route('company-compensations.index')->with('successMessage', 'New compensation are added.');
     }
 
     public function edit(CompanyCompensation $companyCompensation)
     {
-        return view('company_compensations.edit', compact('companyCompensation'));
+        $compensations = CompanyCompensation::orderBy('name')->get(['id', 'name']);
+
+        return view('company-compensations.edit', compact('companyCompensation', 'compensations'));
     }
 
     public function update(UpdateCompanyCompensationRequest $request, CompanyCompensation $companyCompensation)
     {
         $companyCompensation->update($request->validated());
 
-        return redirect()->route('company_compensations.index');
+        return redirect()->route('company-compensations.index');
     }
 
     public function destroy(CompanyCompensation $companyCompensation)

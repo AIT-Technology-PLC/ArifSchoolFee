@@ -285,7 +285,7 @@
                                         <x-common.button
                                             tag="a"
                                             mode="button"
-                                            href="{{ route('company_compensations.create') }}"
+                                            href="{{ route('company-compensations.create') }}"
                                             icon=""
                                             class="text-green bg-lightgreen is-borderless"
                                         />

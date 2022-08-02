@@ -18,14 +18,16 @@ class CompanyCompensationDataTable extends DataTable
             ->eloquent($query)
             ->editColumn('name', fn($companyCompensation) => $companyCompensation->name)
             ->editColumn('type', fn($companyCompensation) => $companyCompensation->type)
-            ->editColumn('is_taxable', fn($companyCompensation) => $companyCompensation->is_taxable)
-            ->editColumn('is_adjustable', fn($companyCompensation) => $companyCompensation->is_adjustable)
+            ->editColumn('is_taxable', fn($companyCompensation) => $companyCompensation->isTaxable() ? 'Yes' : 'No')
+            ->editColumn('is_adjustable', fn($companyCompensation) => $companyCompensation->isAdjustable() ? 'Yes' : 'No')
+            ->editColumn('can_be_inputted_manually', fn($companyCompensation) => $companyCompensation->canBeInputtedManually() ? 'Yes' : 'No')
             ->editColumn('percentage', fn($companyCompensation) => $companyCompensation->percentage)
+            ->editColumn('default_value', fn($companyCompensation) => $companyCompensation->default_value)
             ->editColumn('created by', fn($companyCompensation) => $companyCompensation->createdBy->name)
             ->editColumn('edited by', fn($companyCompensation) => $companyCompensation->updatedBy->name)
             ->editColumn('actions', function ($companyCompensation) {
                 return view('components.common.action-buttons', [
-                    'model' => 'company_compensations',
+                    'model' => 'company-compensations',
                     'id' => $companyCompensation->id,
                     'buttons' => ['edit', 'delete'],
                 ]);
@@ -49,11 +51,12 @@ class CompanyCompensationDataTable extends DataTable
         $columns = [
             Column::computed('#'),
             Column::make('name'),
-            Column::computed('status'),
             Column::make('type'),
             Column::make('is_taxable'),
             Column::make('is_adjustable'),
+            Column::make('can_be_inputted_manually'),
             Column::make('percentage'),
+            Column::make('default_value')->visible(false),
             Column::make('created by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
