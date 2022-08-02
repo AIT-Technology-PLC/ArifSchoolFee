@@ -18,18 +18,19 @@ class CompensationDatatable extends DataTable
             ->eloquent($query)
             ->editColumn('name', fn($compensation) => $compensation->name)
             ->editColumn('type', fn($compensation) => $compensation->type)
+            ->editColumn('is_active', fn($compensation) => $compensation->isActive() ? 'Yes' : 'No')
             ->editColumn('is_taxable', fn($compensation) => $compensation->isTaxable() ? 'Yes' : 'No')
             ->editColumn('is_adjustable', fn($compensation) => $compensation->isAdjustable() ? 'Yes' : 'No')
             ->editColumn('can_be_inputted_manually', fn($compensation) => $compensation->canBeInputtedManually() ? 'Yes' : 'No')
-            ->editColumn('percentage', fn($compensation) => $compensation->percentage)
-            ->editColumn('default_value', fn($compensation) => $compensation->default_value)
+            ->editColumn('percentage', fn($compensation) => $compensation->percentage ?? 'N/A')
+            ->editColumn('default_value', fn($compensation) => $compensation->default_value ?? 'N/A')
             ->editColumn('created by', fn($compensation) => $compensation->createdBy->name)
             ->editColumn('edited by', fn($compensation) => $compensation->updatedBy->name)
             ->editColumn('actions', function ($compensation) {
                 return view('components.common.action-buttons', [
                     'model' => 'compensations',
                     'id' => $compensation->id,
-                    'buttons' => ['edit', 'delete'],
+                    'buttons' => ['edit'],
                 ]);
             })
             ->addIndexColumn();
@@ -52,6 +53,7 @@ class CompensationDatatable extends DataTable
             Column::computed('#'),
             Column::make('name'),
             Column::make('type'),
+            Column::make('is_active'),
             Column::make('is_taxable'),
             Column::make('is_adjustable'),
             Column::make('can_be_inputted_manually'),

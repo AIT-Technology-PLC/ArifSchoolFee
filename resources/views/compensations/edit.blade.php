@@ -135,6 +135,37 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
+                            <x-forms.label for="is_active">
+                                Active or not <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input
+                                        id="is_active"
+                                        name="is_active"
+                                        type="radio"
+                                        value="1"
+                                        class="mt-3"
+                                        @checked($compensation->isActive())
+                                    >
+                                    Active
+                                </label>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                    <input
+                                        id="is_active"
+                                        type="radio"
+                                        name="is_active"
+                                        value="0"
+                                        @checked(!$compensation->isActive())
+                                    >
+                                    Not Active
+                                </label>
+                                <x-common.validation-error property="is_active" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
                             <x-forms.label for="is_taxable">
                                 Taxable or not <sup class="has-text-danger">*</sup>
                             </x-forms.label>

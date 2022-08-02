@@ -173,6 +173,42 @@
                                 </div>
                                 <div class="column is-6">
                                     <x-forms.field>
+                                        <x-forms.label x-bind:for="`compensation[${index}][is_active]`">
+                                            Active or not <sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.control>
+                                            <label class="radio has-text-grey has-text-weight-normal">
+                                                <input
+                                                    x-bind:id="`compensation[${index}][is_active]`"
+                                                    x-bind:name="`compensation[${index}][is_active]`"
+                                                    x-model="compensation.is_active"
+                                                    type="radio"
+                                                    value="1"
+                                                    class="mt-3"
+                                                    @checked(old('is_active'))
+                                                >
+                                                Active
+                                            </label>
+                                            <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                                <input
+                                                    type="radio"
+                                                    x-bind:id="`compensation[${index}][is_active]`"
+                                                    x-bind:name="`compensation[${index}][is_active]`"
+                                                    x-model="compensation.is_active"
+                                                    value="0"
+                                                    @checked(!old('is_active'))
+                                                >
+                                                Not Active
+                                            </label>
+                                            <span
+                                                class="help has-text-danger"
+                                                x-text="$store.errors.getErrors(`compensation.${index}.is_active`)"
+                                            ></span>
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
+                                <div class="column is-6">
+                                    <x-forms.field>
                                         <x-forms.label x-bind:for="`compensation[${index}][is_taxable]`">
                                             Taxable or not <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
@@ -307,7 +343,7 @@
             }) => ({
                 compensations: [],
 
-                async init() {
+                init() {
                     if (compensation) {
                         this.compensations = compensation;
 

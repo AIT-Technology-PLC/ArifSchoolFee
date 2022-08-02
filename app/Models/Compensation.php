@@ -20,6 +20,11 @@ class Compensation extends Model
         return $this->type == 'earning';
     }
 
+    public function isActive()
+    {
+        return $this->is_active == 1;
+    }
+
     public function isTaxable()
     {
         return $this->is_taxable == 1;

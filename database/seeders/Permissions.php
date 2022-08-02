@@ -305,7 +305,6 @@ class Permissions extends Seeder
             //Compensation
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Compensation']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Compensation']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Compensation']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Compensation']);
 
             // Delete Non-existent permissions

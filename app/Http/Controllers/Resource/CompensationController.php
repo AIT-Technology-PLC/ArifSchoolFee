@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompensationRequest;
 use App\Http\Requests\UpdateCompensationRequest;
 use App\Models\Compensation;
-use Illuminate\Support\Facades\DB;
 
 class CompensationController extends Controller
 {
@@ -36,11 +35,10 @@ class CompensationController extends Controller
 
     public function store(StoreCompensationRequest $request)
     {
-        DB::transaction(function () use ($request) {
-            foreach ($request->validated('compensation') as $compensation) {
-                Compensation::create($compensation);
-            }
-        });
+        Compensation::firstOrCreate(
+            $request->only(['name'] + ['company_id' => userCompany()->id]),
+            $request->except(['name'] + ['company_id' => userCompany()->id])
+        );
 
         return redirect()->route('compensations.index')->with('successMessage', 'New compensation are added.');
     }
@@ -57,12 +55,5 @@ class CompensationController extends Controller
         $compensation->update($request->validated());
 
         return redirect()->route('compensations.index');
-    }
-
-    public function destroy(Compensation $compensation)
-    {
-        $compensation->forceDelete();
-
-        return back()->with('deleted', 'Deleted successfully.');
     }
 }

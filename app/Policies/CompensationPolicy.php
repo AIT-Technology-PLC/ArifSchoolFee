@@ -29,9 +29,4 @@ class CompensationPolicy
     {
         return $user->can('Update Compensation');
     }
-
-    public function delete(User $user, Compensation $compensation)
-    {
-        return $user->can('Delete Compensation');
-    }
 }

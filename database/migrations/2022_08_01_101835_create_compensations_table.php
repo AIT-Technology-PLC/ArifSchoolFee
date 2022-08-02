@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('name');
             $table->string('type');
+            $table->boolean('is_active');
             $table->boolean('is_taxable');
             $table->boolean('is_adjustable');
             $table->boolean('can_be_inputted_manually');
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->unique(['name, company_id']);
             $table->index('company_id');
         });
 
