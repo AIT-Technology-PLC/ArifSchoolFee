@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompensationRequest;
 use App\Http\Requests\UpdateCompensationRequest;
 use App\Models\Compensation;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class CompensationController extends Controller
 {
@@ -35,10 +37,14 @@ class CompensationController extends Controller
 
     public function store(StoreCompensationRequest $request)
     {
-        Compensation::firstOrCreate(
-            $request->only(['name'] + ['company_id' => userCompany()->id]),
-            $request->except(['name'] + ['company_id' => userCompany()->id])
-        );
+        DB::transaction(function () use ($request) {
+            foreach ($request->validated('compensation') as $compensation) {
+                Compensation::firstOrCreate(
+                    Arr::only($compensation, 'name') + ['company_id' => userCompany()->id],
+                    Arr::except($compensation, 'name') + ['company_id' => userCompany()->id],
+                );
+            }
+        });
 
         return redirect()->route('compensations.index')->with('successMessage', 'New compensation are added.');
     }

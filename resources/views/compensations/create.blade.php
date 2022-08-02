@@ -99,7 +99,7 @@
                                 <div class="column is-6">
                                     <x-forms.field>
                                         <x-forms.label x-bind:for="`compensation[${index}][depends_on]`">
-                                            Dependas On <sup class="has-text-danger"></sup>
+                                            Depends On <sup class="has-text-danger"></sup>
                                         </x-forms.label>
                                         <x-forms.control class="has-icons-left">
                                             <x-forms.select
