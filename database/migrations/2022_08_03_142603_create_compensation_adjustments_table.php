@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('cancelled_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
-            $table->string('reference_number');
+            $table->bigInteger('code');
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('starting_period')->nullable();
             $table->dateTime('ending_period')->nullable();
