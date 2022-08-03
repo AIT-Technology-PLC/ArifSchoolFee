@@ -33,6 +33,12 @@ class UpdateUserAction
                 Arr::only($data, ['transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv'])
             );
 
+            if (isFeatureEnabled('Compensation Management')) {
+                $user->employee->employeeCompensations()->forceDelete();
+
+                $user->employee->employeeCompensations()->createMany($data['employeeCompensation']);
+            }
+
             $user->syncRoles(Arr::has($data, 'role') ? $data['role'] : $user->roles[0]->name);
         });
     }

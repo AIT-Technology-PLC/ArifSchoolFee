@@ -607,6 +607,11 @@
                         </div>
                     </div>
                 </section>
+
+                @if (isFeatureEnabled('Compensation Management'))
+                    @include('employees.partials.details-form', ['data' => session()->getOldInput()])
+                @endif
+
                 <section class="mt-5">
                     <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3">
                         <h1 class="text-green is-size-5">
