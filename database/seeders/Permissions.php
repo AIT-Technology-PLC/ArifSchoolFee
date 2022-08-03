@@ -307,6 +307,14 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Compensation']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Compensation']);
 
+            // Compensation Adjustment
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Compensation Adjustment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Compensation Adjustment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Compensation Adjustment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Compensation Adjustment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Compensation Adjustment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Compensation Adjustment']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
@@ -346,6 +354,7 @@ class Permissions extends Seeder
                 'Create Advancement',
                 'Create Earning',
                 'Create Announcement',
+                'Create Compensation Adjustment',
                 'Read Department',
                 'Read Employee',
                 'Read Employee Transfer',
@@ -356,6 +365,7 @@ class Permissions extends Seeder
                 'Read Advancement',
                 'Read Earning',
                 'Read Announcement',
+                'Read Compensation Adjustment',
                 'Update Department',
                 'Update Employee',
                 'Update Employee Transfer',
@@ -366,6 +376,7 @@ class Permissions extends Seeder
                 'Update Leave',
                 'Update Earning',
                 'Update Announcement',
+                'Update Compensation Adjustment',
                 'Delete Department',
                 'Delete Employee',
                 'Delete Employee Transfer',
@@ -376,6 +387,7 @@ class Permissions extends Seeder
                 'Delete Advancement',
                 'Delete Earning',
                 'Delete Announcement',
+                'Delete Compensation Adjustment',
                 'Import Employee',
                 'Approve Attendance',
                 'Approve Warning',
@@ -384,8 +396,10 @@ class Permissions extends Seeder
                 'Approve Expense Claim',
                 'Approve Advancement',
                 'Approve Announcement',
+                'Approve Compensation Adjustment',
                 'Cancel Attendance',
                 'Cancel Leave',
+                'Cancel Compensation Adjustment',
                 'Reject Expense Claim',
             ]);
 
@@ -400,6 +414,7 @@ class Permissions extends Seeder
                 'Create Advancement',
                 'Create Warning',
                 'Create Announcement',
+                'Create Compensation Adjustment',
                 'Read Attendance',
                 'Read Employee',
                 'Read Employee Transfer',
@@ -410,6 +425,7 @@ class Permissions extends Seeder
                 'Read Advancement',
                 'Read Warning',
                 'Read Announcement',
+                'Read Compensation Adjustment',
                 'Update Attendance',
                 'Update Employee',
                 'Update Employee Transfer',
@@ -420,6 +436,7 @@ class Permissions extends Seeder
                 'Update Expense Claim',
                 'Update Advancement',
                 'Update Announcement',
+                'Update Compensation Adjustment',
             ]);
 
             $purchaseManager->syncPermissions([

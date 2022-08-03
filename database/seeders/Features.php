@@ -196,6 +196,10 @@ class Features extends Seeder
                 ['name' => 'Compensation Management'],
                 ['is_enabled' => 0]
             );
+            Feature::updateOrCreate(
+                ['name' => 'Compensation Adjustmen'],
+                ['is_enabled' => 1]
+            );
 
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');
