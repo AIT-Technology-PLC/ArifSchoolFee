@@ -39,4 +39,9 @@ class Compensation extends Model
     {
         return $this->can_be_inputted_manually == 1;
     }
+
+    public function scopeAllowedCompensation($query)
+    {
+        return $query->where('can_be_inputted_manually', 1 && 'type', 'earning');
+    }
 }

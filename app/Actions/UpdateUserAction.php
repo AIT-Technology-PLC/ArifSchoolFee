@@ -35,7 +35,6 @@ class UpdateUserAction
 
             if (isFeatureEnabled('Compensation Management')) {
                 $user->employee->employeeCompensations()->forceDelete();
-
                 $user->employee->employeeCompensations()->createMany($data['employeeCompensation']);
             }
 
