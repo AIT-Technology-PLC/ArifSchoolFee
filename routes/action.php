@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Action as Action;
 use Illuminate\Support\Facades\Route;
 
 // Permissions
@@ -342,3 +343,12 @@ Route::post('/announcements/{announcement}/approve',
 Route::get('/announcements/board',
     [Action\AnnouncementController::class, 'board'])
     ->name('announcements.board');
+
+// Compensation Adjustment
+Route::post('/compensation-adjustments/{compensation_adjustment}/approve',
+    [Action\CompensationAdjustmentController::class, 'approve'])
+    ->name('compensation-adjustments.approve');
+
+Route::post('/compensation-adjustments/{compensation_adjustment}/cancel',
+    [Action\CompensationAdjustmentController::class, 'cancel'])
+    ->name('compensation-adjustments.cancel');

@@ -142,3 +142,7 @@ Route::resource('earning-details', Resource\EarningDetailController::class)->onl
 Route::resource('announcements', Resource\AnnouncementController::class);
 
 Route::resource('compensations', Resource\CompensationController::class)->except(['show', 'destroy']);
+
+Route::resource('compensation-adjustments', Resource\CompensationAdjustmentController::class);
+
+Route::resource('compensation-adjustment-details', Resource\CompensationAdjustmentDetailController::class)->only(['destroy']);
