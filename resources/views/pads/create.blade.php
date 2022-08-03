@@ -402,6 +402,9 @@
                         </x-forms.field>
                     </div>
                 </div>
+
+                @include('pads.partials.statuses', ['data' => session()->getOldInput()])
+
                 <div
                     x-data="padMasterDetailForm({{ Js::from(session()->getOldInput()) }})"
                     x-init="setErrors({{ Js::from($errors->get('field.*')) }})"
@@ -816,3 +819,52 @@
         </form>
     </x-common.content-wrapper>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("padMasterDetailForm", ({
+                field
+            }) => ({
+                fields: [],
+                errors: {},
+
+                init() {
+                    if (field) {
+                        this.fields = field;
+                        return;
+                    }
+                },
+                setErrors(errors) {
+                    this.errors = errors;
+                },
+                add() {
+                    this.fields.push({
+                        relationship_type: "",
+                        model_name: "",
+                        representative_column: "",
+                        component_name: "",
+                        label: "",
+                        icon: "",
+                        is_relational_field: "0",
+                        is_master_field: "0",
+                        is_required: "0",
+                        is_visible: "0",
+                        is_printable: "0",
+                        tag: "",
+                        tag_type: "",
+                    });
+                },
+                remove(index) {
+                    this.fields.splice(index, 1);
+                },
+                isFieldRelational(fieldType) {
+                    return fieldType === "1";
+                },
+                isTagInput(tagName) {
+                    return tagName.toLowerCase() === "input";
+                },
+            }));
+        });
+    </script>
+@endpush

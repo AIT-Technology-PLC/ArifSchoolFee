@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('text_color');
             $table->string('bg_color');
-            $table->bigInteger('order');
+            $table->boolean('is_active');
             $table->boolean('is_editable');
             $table->boolean('is_deletable');
             $table->timestamps();

@@ -28,6 +28,7 @@ class Pad extends Model
     protected $cascadeDeletes = [
         'padFields',
         'padPermissions',
+        'padStatuses',
     ];
 
     public const INVENTORY_OPERATIONS = [
@@ -54,6 +55,11 @@ class Pad extends Model
     public function padFields()
     {
         return $this->hasMany(PadField::class);
+    }
+
+    public function padStatuses()
+    {
+        return $this->hasMany(PadStatus::class);
     }
 
     public function padPermissions()

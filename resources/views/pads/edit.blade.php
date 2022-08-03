@@ -403,6 +403,9 @@
                         </x-forms.field>
                     </div>
                 </div>
+
+                @include('pads.partials.statuses', ['data' => ['status' => old('status', $pad->padStatuses)]])
+
                 @foreach ($pad->padFields as $padField)
                     <div class="mx-3">
                         <x-forms.field class="has-addons mb-0 mt-5">

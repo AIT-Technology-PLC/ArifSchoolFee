@@ -12,6 +12,7 @@ class PadService
     {
         return DB::transaction(function () use ($data) {
             $pad = Pad::create(Arr::except($data, ['field']));
+            $pad->padStatuses()->createMany($data['status']);
 
             collect($data['field'])
                 ->each(function ($field) use ($pad) {
@@ -40,7 +41,15 @@ class PadService
     {
         return DB::transaction(function () use ($pad, $data) {
             $pad->update(Arr::except($data, ['field']));
-            $padFields = $pad->padFields()->whereIn('label', collect($data['field'])->pluck('label'))->get();
+
+            $padFields = $pad->padFields()
+                ->whereNotIn('label', $this->generatePriceFields()->pluck('label')->merge($this->generatePaymentTermFields()->pluck('label')))
+                ->get();
+
+            if (isset($data['status'])) {
+                $pad->padStatuses()->forceDelete();
+                $pad->padStatuses()->createMany($data['status']);
+            }
 
             collect($data['field'])
                 ->each(function ($field, $i) use ($padFields) {
@@ -61,16 +70,16 @@ class PadService
 
             $pad->padFields()->detailFields()->when(
                 $data['has_prices'],
-                fn ($q) => $q->whereIn('label', $this->generatePriceFields()->pluck('label'))->exists()
+                fn($q) => $q->whereIn('label', $this->generatePriceFields()->pluck('label'))->exists()
                 ?: $pad->padFields()->createMany($this->generatePriceFields()),
-                fn ($q) => $q->whereIn('label', $this->generatePriceFields()->pluck('label'))->forceDelete()
+                fn($q) => $q->whereIn('label', $this->generatePriceFields()->pluck('label'))->forceDelete()
             );
 
             $pad->padFields()->masterFields()->when(
                 $data['has_payment_term'],
-                fn ($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->exists()
+                fn($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->exists()
                 ?: $pad->padFields()->createMany($this->generatePaymentTermFields()),
-                fn ($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->forceDelete()
+                fn($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->forceDelete()
             );
 
             return $pad;
@@ -102,7 +111,7 @@ class PadService
             $permissions[] = ['name' => 'Convert'];
         }
 
-        if (! $pad->isInventoryOperationNone()) {
+        if (!$pad->isInventoryOperationNone()) {
             $permissions[] = ['name' => ucfirst($pad->getInventoryOperationType())];
         }
 
