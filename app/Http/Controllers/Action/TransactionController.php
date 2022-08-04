@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateTransactionStatusRequest;
 use App\Models\Transaction;
 use App\Services\Models\TransactionService;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -93,5 +94,15 @@ class TransactionController extends Controller
         [$route, $data] = $this->transactionService->convertFrom($transaction, request('target'), request('id'));
 
         return redirect($route)->withInput($data);
+    }
+
+    public function updateStatus(Transaction $transaction, UpdateTransactionStatusRequest $request)
+    {
+        $this->authorize('update', $transaction);
+
+        $transaction->status = $request->validated('status');
+        $transaction->save();
+
+        return back()->with('successMessage', 'Status updated to ' . $transaction->status);
     }
 }

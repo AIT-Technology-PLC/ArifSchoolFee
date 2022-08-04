@@ -91,7 +91,7 @@ class TransactionController extends Controller
     {
         $this->authorize('view', $transaction);
 
-        $transaction->load(['pad', 'transactionFields']);
+        $transaction->load(['pad.padStatuses', 'transactionFields']);
 
         $datatable->builder()->setTableId(str($transaction->pad->name)->slug()->append('-details-datatable'));
 
