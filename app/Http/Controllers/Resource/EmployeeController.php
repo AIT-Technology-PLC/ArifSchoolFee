@@ -8,6 +8,7 @@ use App\DataTables\EmployeeDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use App\Models\Compensation;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Warehouse;
@@ -46,7 +47,9 @@ class EmployeeController extends Controller
 
         $departments = Department::orderBy('name')->get(['id', 'name']);
 
-        return view('employees.create', compact('roles', 'warehouses', 'departments'));
+        $compensations = Compensation::orderBy('name')->canBeInputtedManually()->earnings()->get(['id', 'name']);
+
+        return view('employees.create', compact('roles', 'warehouses', 'departments', 'compensations'));
     }
 
     public function store(StoreEmployeeRequest $request, CreateUserAction $action)
@@ -75,9 +78,11 @@ class EmployeeController extends Controller
 
         $departments = Department::orderBy('name')->get(['id', 'name']);
 
+        $compensations = Compensation::orderBy('name')->canBeInputtedManually()->earnings()->get(['id', 'name']);
+
         $warehousePermissions = $employee->user->warehouses->groupBy('pivot.type');
 
-        return view('employees.edit', compact('employee', 'roles', 'warehouses', 'warehousePermissions', 'departments'));
+        return view('employees.edit', compact('employee', 'roles', 'warehouses', 'warehousePermissions', 'departments', 'compensations'));
     }
 
     public function update(UpdateEmployeeRequest $request, Employee $employee, UpdateUserAction $action)

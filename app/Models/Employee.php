@@ -90,6 +90,11 @@ class Employee extends Model
         return $this->hasMany(ExpenseClaim::class);
     }
 
+    public function employeeCompensations()
+    {
+        return $this->hasMany(EmployeeCompensation::class);
+    }
+
     public function compensationAdjustmentDetails()
     {
         return $this->hasMany(CompensationAdjustmentDetail::class);

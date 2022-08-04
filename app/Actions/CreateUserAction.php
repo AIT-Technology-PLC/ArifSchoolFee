@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +38,10 @@ class CreateUserAction
                 $user,
                 Arr::only($data, ['transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv'])
             );
+
+            if (isFeatureEnabled('Compensation Management')) {
+                $user->employee->employeeCompensations()->createMany($data['employeeCompensation']);
+            }
 
             $user->assignRole($data['role']);
 

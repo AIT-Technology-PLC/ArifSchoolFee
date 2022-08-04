@@ -1228,6 +1228,22 @@ return new class extends Migration
             $table->foreignId('depends_on')->nullable()->after('id')->constrained('compensations')->onDelete('cascade')->onUpdate('cascade');
         });
 
+        Schema::create('employee_compensations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('compensation_id')->nullable()->constrained('compensations')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->decimal('amount', 22);
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->unique(['employee_id', 'compensation_id']);
+            $table->index('compensation_id');
+            $table->index('company_id');
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -1313,5 +1329,6 @@ return new class extends Migration
         Schema::drop('announcements');
         Schema::drop('announcement_warehouse');
         Schema::drop('compensations');
+        Schema::drop('employee_compensations');
     }
 };
