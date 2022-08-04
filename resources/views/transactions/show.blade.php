@@ -49,34 +49,8 @@
                                 />
                             </x-common.dropdown-item>
                         @endcan
-                    @elseif($transaction->pad->isClosable() && !$transaction->isClosed())
-                        @can('close', $transaction)
-                            <x-common.dropdown-item>
-                                <x-common.transaction-button
-                                    :route="route('transactions.close', $transaction->id)"
-                                    action="close"
-                                    intention="close this transaction"
-                                    icon="fas fa-signature"
-                                    label="Close"
-                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                                />
-                            </x-common.dropdown-item>
-                        @endcan
-                    @elseif($transaction->pad->isCancellable() && !$transaction->isCancelled())
-                        @can('cancel', $transaction)
-                            <x-common.dropdown-item>
-                                <x-common.transaction-button
-                                    :route="route('transactions.cancel', $transaction->id)"
-                                    action="cancel"
-                                    intention="cancel this transaction"
-                                    icon="fas fa-signature"
-                                    label="Cancel"
-                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                                />
-                            </x-common.dropdown-item>
-                        @endcan
                     @endif
-                    @if (!$transaction->isApproved() && !$transaction->isCancelled() && !$transaction->isClosed() && !$transaction->isAdded() && !$transaction->isSubtracted())
+                    @if (!$transaction->isApproved() && !$transaction->isAdded() && !$transaction->isSubtracted())
                         @can('update', $transaction)
                             <x-common.dropdown-item>
                                 <x-common.button
@@ -203,34 +177,8 @@
                                 />
                             </x-common.dropdown-item>
                         @endcan
-                    @elseif($transaction->pad->isClosable() && !$transaction->isClosed())
-                        @can('close', $transaction)
-                            <x-common.dropdown-item>
-                                <x-common.transaction-button
-                                    :route="route('transactions.close', $transaction->id)"
-                                    action="close"
-                                    intention="close this transaction"
-                                    icon="fas fa-ban"
-                                    label="Close"
-                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                                />
-                            </x-common.dropdown-item>
-                        @endcan
-                    @elseif($transaction->pad->isCancellable() && !$transaction->isCancelled())
-                        @can('cancel', $transaction)
-                            <x-common.dropdown-item>
-                                <x-common.transaction-button
-                                    :route="route('transactions.cancel', $transaction->id)"
-                                    action="cancel"
-                                    intention="cancel this transaction"
-                                    icon="fas fa-times-circle"
-                                    label="Cancel"
-                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                                />
-                            </x-common.dropdown-item>
-                        @endcan
                     @endif
-                    @if (!$transaction->isApproved() && !$transaction->isCancelled() && !$transaction->isClosed() && !$transaction->isAdded() && !$transaction->isSubtracted())
+                    @if (!$transaction->isApproved() && !$transaction->isAdded() && !$transaction->isSubtracted())
                         @can('update', $transaction)
                             <x-common.dropdown-item>
                                 <x-common.button
@@ -278,11 +226,7 @@
             <x-content.footer>
                 <x-common.fail-message :message="session('failedMessage')" />
                 <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
-                @if ($transaction->pad->isCancellable() && $transaction->isCancelled())
-                    <x-common.fail-message message="This transaction is cancelled." />
-                @elseif ($transaction->pad->isClosable() && $transaction->isClosed())
-                    <x-common.success-message message="This transaction is closed and archived." />
-                @elseif ($transaction->pad->isInventoryOperationAdd() && $transaction->isAdded())
+                @if ($transaction->pad->isInventoryOperationAdd() && $transaction->isAdded())
                     <x-common.success-message message="Products have been added to the inventory." />
                 @elseif ($transaction->pad->isInventoryOperationSubtract() && $transaction->isSubtracted())
                     <x-common.success-message message="Products have been subtracted from the inventory." />

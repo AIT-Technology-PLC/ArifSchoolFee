@@ -45,16 +45,6 @@ class Transaction extends Model
         return $this->transactionFields()->where('key', 'approved_by')->exists();
     }
 
-    public function isCancelled()
-    {
-        return $this->transactionFields()->where('key', 'cancelled_by')->exists();
-    }
-
-    public function isClosed()
-    {
-        return $this->transactionFields()->where('key', 'closed_by')->exists();
-    }
-
     public function approve()
     {
         $this->transactionFields()->create([
@@ -75,22 +65,6 @@ class Transaction extends Model
     {
         $this->transactionFields()->create([
             'key' => 'added_by',
-            'value' => authUser()->id,
-        ]);
-    }
-
-    public function close()
-    {
-        $this->transactionFields()->create([
-            'key' => 'closed_by',
-            'value' => authUser()->id,
-        ]);
-    }
-
-    public function cancel()
-    {
-        $this->transactionFields()->create([
-            'key' => 'cancelled_by',
             'value' => authUser()->id,
         ]);
     }

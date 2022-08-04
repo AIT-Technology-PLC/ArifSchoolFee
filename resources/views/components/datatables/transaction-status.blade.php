@@ -1,6 +1,6 @@
 <span
     class="tag has-text-weight-bold"
-    style="background: {{ $status->bg_color }} !important;color: {{ $status->text_color }} !important"
+    style="background: {{ $transaction->transactionStatus->bg_color }} !important;color: {{ $transaction->transactionStatus->text_color }} !important"
 >
-    {{ $status->name }}
+    {{ $transaction->transactionStatus->name }}
 </span>

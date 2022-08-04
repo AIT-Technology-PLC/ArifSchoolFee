@@ -46,7 +46,7 @@ class TransactionDatatable extends DataTable
 
         if ($this->padStatuses->isNotEmpty()) {
             $datatable->editColumn('status', fn($transaction) => view('components.datatables.transaction-status', [
-                'status' => $this->padStatuses->firstWhere('name', $transaction['status']),
+                'transaction' => Transaction::find($transaction['id']),
             ]));
         }
 
@@ -87,7 +87,6 @@ class TransactionDatatable extends DataTable
                 $data['id'] = $transaction->id;
                 $data['branch'] = $transaction->warehouse->name;
                 $data['code'] = $transaction->code;
-                $data['status'] = $transaction->status ?? '';
                 $data['issued_on'] = $transaction->issued_on->toDateTimeString();
                 $data['prepared by'] = $transaction->createdBy->name;
                 $data['edited by'] = $transaction->updatedBy->name;

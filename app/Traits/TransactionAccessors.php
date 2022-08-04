@@ -18,16 +18,6 @@ trait TransactionAccessors
             });
     }
 
-    public function cancelledBy(): Attribute
-    {
-        return Attribute::make(
-            get:function () {
-                $id = $this->transactionFields()->where('key', 'cancelled_by')->first()->value ?? null;
-
-                return $id ? User::find($id) : null;
-            });
-    }
-
     public function addedBy(): Attribute
     {
         return Attribute::make(
@@ -48,13 +38,11 @@ trait TransactionAccessors
             });
     }
 
-    public function closedBy(): Attribute
+    public function transactionStatus(): Attribute
     {
         return Attribute::make(
             get:function () {
-                $id = $this->transactionFields()->where('key', 'closed_by')->first()->value ?? null;
-
-                return $id ? User::find($id) : null;
+                return $this->pad->padStatuses()->active()->firstWhere('name', $this->status) ?? '';
             });
     }
 
@@ -113,7 +101,7 @@ trait TransactionAccessors
                             $data['total'] = number_format($unitPrice * $data['quantity'], 2, thousands_separator:'');
                             $discount = userCompany()->isDiscountBeforeVAT() ? $data['discount'] / 100 : 0.00;
                             $discountAmount = number_format($data['total'] * $discount, 2, thousands_separator:'');
-                            $data['discount'] = number_format($discount * 100, 2).'%';
+                            $data['discount'] = number_format($discount * 100, 2) . '%';
                             $data['total'] = number_format($data['total'] - $discountAmount, 2, thousands_separator:'');
                         }
 
@@ -172,7 +160,7 @@ trait TransactionAccessors
     public function vat(): Attribute
     {
         return Attribute::make(
-            get:fn () => number_format(
+            get:fn() => number_format(
                 $this->subtotalPrice * 0.15,
                 2,
                 thousands_separator:''
@@ -183,7 +171,7 @@ trait TransactionAccessors
     public function grandTotalPrice(): Attribute
     {
         return Attribute::make(
-            get:fn () => number_format(
+            get:fn() => number_format(
                 $this->subtotalPrice + $this->vat,
                 2,
                 thousands_separator:''

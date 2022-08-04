@@ -37,14 +37,6 @@ class TransactionService
 
     public function approve($transaction)
     {
-        if ($transaction->pad->isCancellable() && $transaction->isCancelled()) {
-            return [false, 'This transaction is cancelled.'];
-        }
-
-        if ($transaction->pad->isClosable() && $transaction->isClosed()) {
-            return [false, 'This transaction is closed.'];
-        }
-
         if ($transaction->pad->isApprovable() && $transaction->isApproved()) {
             return [false, 'This transaction is already approved.'];
         }
@@ -65,10 +57,6 @@ class TransactionService
         if (!$user->hasWarehousePermission('subtract',
             $transactionDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
-        }
-
-        if ($transaction->pad->isCancellable() && $transaction->isCancelled()) {
-            return [false, 'This transaction is cancelled.'];
         }
 
         if ($transaction->pad->isApprovable() && !$transaction->isApproved()) {
@@ -107,10 +95,6 @@ class TransactionService
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
 
-        if ($transaction->pad->isCancellable() && $transaction->isCancelled()) {
-            return [false, 'This transaction is cancelled.'];
-        }
-
         if ($transaction->pad->isApprovable() && !$transaction->isApproved()) {
             return [false, 'This transaction is not approved yet.'];
         }
@@ -124,44 +108,6 @@ class TransactionService
 
             $transaction->add();
         });
-
-        return [true, ''];
-    }
-
-    public function close($transaction)
-    {
-        if ($transaction->pad->isInventoryOperationSubtract() && !$transaction->isSubtracted()) {
-            return [false, 'This transaction is not subtracted yet.'];
-        }
-
-        if ($transaction->pad->isInventoryOperationAdd() && !$transaction->isAdded()) {
-            return [false, 'This transaction is not added yet.'];
-        }
-
-        if ($transaction->pad->isCancellable() && $transaction->isCancelled()) {
-            return [false, 'This transaction is cancelled.'];
-        }
-
-        if ($transaction->pad->isClosable() && $transaction->isClosed()) {
-            return [false, 'This transaction is already closed.'];
-        }
-
-        $transaction->close();
-
-        return [true, ''];
-    }
-
-    public function cancel($transaction)
-    {
-        if ($transaction->pad->isClosable() && $transaction->isClosed()) {
-            return [false, 'This transaction is closed.'];
-        }
-
-        if ($transaction->pad->isCancellable() && $transaction->isCancelled()) {
-            return [false, 'This transaction is already cancelled.'];
-        }
-
-        $transaction->cancel();
 
         return [true, ''];
     }
