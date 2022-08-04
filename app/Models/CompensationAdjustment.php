@@ -17,8 +17,8 @@ class CompensationAdjustment extends Model
 
     protected $casts = [
         'issued_on' => 'datetime',
-        'starting_period' => 'datetime',
-        'ending_period' => 'datetime',
+        'starting_period' => 'date',
+        'ending_period' => 'date',
     ];
 
     public function compensationAdjustmentDetails()
