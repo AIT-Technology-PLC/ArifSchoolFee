@@ -15,28 +15,28 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::create('pad_statuses', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('pad_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->string('name');
+            $table->string('text_color');
+            $table->string('bg_color');
+            $table->boolean('is_active');
+            $table->boolean('is_editable');
+            $table->boolean('is_deletable');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->string('status')->nullable()->after('code');
+        });
+
+        Schema::table('pads', function (Blueprint $table) {
+            $table->dropColumn(['is_closable', 'is_cancellable']);
+        });
+
         DB::transaction(function () {
-            Schema::create('pad_statuses', function (Blueprint $table) {
-                $table->id();
-                $table->foreignId('pad_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-                $table->string('name');
-                $table->string('text_color');
-                $table->string('bg_color');
-                $table->boolean('is_active');
-                $table->boolean('is_editable');
-                $table->boolean('is_deletable');
-                $table->timestamps();
-                $table->softDeletes();
-            });
-
-            Schema::table('transactions', function (Blueprint $table) {
-                $table->string('status')->nullable()->after('code');
-            });
-
-            Schema::table('pads', function (Blueprint $table) {
-                $table->dropColumn(['is_closable', 'is_cancellable']);
-            });
-
             TransactionField::where('key', 'closed_by')->get()->each(function ($transactionField) {
                 $transactionField->key = '';
                 $transactionField->value = '';
