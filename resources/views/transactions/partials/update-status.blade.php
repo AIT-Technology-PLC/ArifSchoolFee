@@ -32,6 +32,12 @@
                                 id="status"
                                 name="status"
                             >
+                                <option
+                                    disabled
+                                    selected
+                                >
+                                    Update Status
+                                </option>
                                 @foreach ($transaction->pad->padStatuses as $padStatus)
                                     <option
                                         value="{{ $padStatus->name }}"

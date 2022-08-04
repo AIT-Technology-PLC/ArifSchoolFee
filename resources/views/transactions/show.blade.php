@@ -13,6 +13,8 @@
             @endif
         </x-content.header>
         <x-content.footer>
+            <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
+
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
