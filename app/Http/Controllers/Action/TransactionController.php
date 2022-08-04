@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateTransactionStatusRequest;
+use App\Models\PadPermission;
 use App\Models\Transaction;
+use App\Notifications\TransactionStatusUpdated;
 use App\Services\Models\TransactionService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Notification;
 
 class TransactionController extends Controller
 {
@@ -102,6 +105,11 @@ class TransactionController extends Controller
 
         $transaction->status = $request->validated('status');
         $transaction->save();
+
+        Notification::send(
+            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id()),
+            new TransactionStatusUpdated($transaction)
+        );
 
         return back()->with('successMessage', 'Status updated to ' . $transaction->status);
     }
