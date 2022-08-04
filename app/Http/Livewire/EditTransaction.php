@@ -80,7 +80,7 @@ class EditTransaction extends Component
 
     public function update()
     {
-        abort_if(!$this->transaction->canBeEdited(), 403);
+        abort_if(!$this->transaction>->canBeEdited(), 403);
 
         $this->authorize('update', $this->transaction);
 
