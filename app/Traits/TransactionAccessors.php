@@ -42,7 +42,7 @@ trait TransactionAccessors
     {
         return Attribute::make(
             get:function () {
-                return $this->pad->padStatuses()->active()->firstWhere('name', $this->status) ?? '';
+                return $this->pad->padStatuses()->active()->firstWhere('name', $this->status) ?? null;
             });
     }
 

@@ -273,8 +273,6 @@ Route::controller(Action\TransactionController::class)->group(function () {
     Route::post('/transactions/{transaction}/approve', 'approve')->name('transactions.approve');
     Route::post('/transactions/{transaction}/subtract', 'subtract')->name('transactions.subtract');
     Route::post('/transactions/{transaction}/add', 'add')->name('transactions.add');
-    Route::post('/transactions/{transaction}/close', 'close')->name('transactions.close');
-    Route::post('/transactions/{transaction}/cancel', 'cancel')->name('transactions.cancel');
     Route::get('/transactions/{transaction}/print', 'printed')->name('transactions.print');
     Route::get('/transactions/{transaction}/convert-to', 'convertTo')->name('transactions.convert_to');
     Route::get('/transactions/{transaction}/convert-from', 'convertFrom')->name('transactions.convert_from');

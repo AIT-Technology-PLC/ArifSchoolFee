@@ -31,4 +31,14 @@ class PadStatus extends Model
     {
         return $this->is_active;
     }
+
+    public function isEditable()
+    {
+        return $this->is_editable;
+    }
+
+    public function isDeletable()
+    {
+        return $this->is_deletable;
+    }
 }

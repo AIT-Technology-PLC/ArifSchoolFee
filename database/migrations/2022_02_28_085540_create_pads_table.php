@@ -23,8 +23,6 @@ return new class extends Migration
             $table->string('icon');
             $table->string('inventory_operation_type'); // add, subtract, none
             $table->boolean('is_approvable');
-            $table->boolean('is_closable');
-            $table->boolean('is_cancellable');
             $table->boolean('is_printable');
             $table->boolean('has_prices');
             $table->boolean('has_payment_term');

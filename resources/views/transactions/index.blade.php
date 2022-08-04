@@ -66,6 +66,68 @@
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
+            @if ($padStatuses->isNotEmpty() ||
+                authUser()->getAllowedWarehouses('transactions')->isNotEmpty())
+                <x-datatables.filter filters="'branch', 'status'">
+                    <div class="columns is-marginless is-vcentered">
+                        @if (authUser()->getAllowedWarehouses('transactions')->isNotEmpty())
+                            <div class="column is-3 p-lr-0 pt-0">
+                                <x-forms.field class="has-text-centered">
+                                    <x-forms.control>
+                                        <x-forms.select
+                                            id=""
+                                            name=""
+                                            class="is-size-7-mobile is-fullwidth"
+                                            x-model="filters.branch"
+                                            x-on:change="add('branch')"
+                                        >
+                                            <option
+                                                disabled
+                                                selected
+                                                value=""
+                                            >
+                                                Branches
+                                            </option>
+                                            <option value="all"> All </option>
+                                            @foreach (authUser()->getAllowedWarehouses('transactions') as $warehouse)
+                                                <option value="{{ $warehouse->id }}"> {{ $warehouse->name }} </option>
+                                            @endforeach
+                                        </x-forms.select>
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                        @endif
+                        @if ($padStatuses->isNotEmpty())
+                            <div class="column is-3 p-lr-0 pt-0">
+                                <x-forms.field class="has-text-centered">
+                                    <x-forms.control>
+                                        <x-forms.select
+                                            id=""
+                                            name=""
+                                            class="is-size-7-mobile is-fullwidth"
+                                            x-model="filters.status"
+                                            x-on:change="add('status')"
+                                        >
+                                            <option
+                                                disabled
+                                                selected
+                                                value=""
+                                            >
+                                                Statuses
+                                            </option>
+                                            <option value="all"> All </option>
+                                            @foreach ($padStatuses as $padStatus)
+                                                <option value="{{ str()->lower($padStatus->name) }}"> {{ $padStatus->name }} </option>
+                                            @endforeach
+                                        </x-forms.select>
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                        @endif
+                    </div>
+                </x-datatables.filter>
+            @endif
+
             <div>
                 {{ $dataTable->table() }}
             </div>

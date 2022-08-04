@@ -29,6 +29,10 @@ return new class extends Migration
         Schema::table('transactions', function (Blueprint $table) {
             $table->string('status')->nullable()->after('code');
         });
+
+        Schema::table('pads', function (Blueprint $table) {
+            $table->dropColumn(['is_closable', 'is_cancellable']);
+        });
     }
 
     /**

@@ -66,20 +66,6 @@
                  </div>
                  <div class="column is-6">
                      <x-common.show-data-section
-                         icon="far {{ $pad->is_closable ? 'fa-check-square' : 'fa-square' }}"
-                         :data="$pad->is_closable ? 'Yes' : 'No'"
-                         label="Closable"
-                     />
-                 </div>
-                 <div class="column is-6">
-                     <x-common.show-data-section
-                         icon="far {{ $pad->is_cancellable ? 'fa-check-square' : 'fa-square' }}"
-                         :data="$pad->is_cancellable ? 'Yes' : 'No'"
-                         label="Cancellable"
-                     />
-                 </div>
-                 <div class="column is-6">
-                     <x-common.show-data-section
                          icon="far {{ $pad->is_printable ? 'fa-check-square' : 'fa-square' }}"
                          :data="$pad->is_printable ? 'Yes' : 'No'"
                          label="Printable"
@@ -128,9 +114,9 @@
                      <th> # </th>
                      <th> Name </th>
                      <th> Colors </th>
-                     <th> Active </th>
-                     <th> Editable </th>
-                     <th> Deletable </th>
+                     <th class="has-text-centered"> Active </th>
+                     <th class="has-text-centered"> Editable </th>
+                     <th class="has-text-centered"> Deletable </th>
                  </x-slot>
                  <x-slot name="body">
                      @foreach ($pad->padStatuses as $padStatus)
@@ -145,9 +131,39 @@
                                      {{ $padStatus->name }}
                                  </span>
                              </td>
-                             <td class="is-capitalized">{{ $padStatus->is_active ? 'Yes' : 'No' }}</td>
-                             <td class="is-capitalized">{{ $padStatus->is_editable ? 'Yes' : 'No' }}</td>
-                             <td class="is-capitalized">{{ $padStatus->is_deletable ? 'Yes' : 'No' }}</td>
+                             <td class="has-text-centered">
+                                 @if ($padStatus->isActive())
+                                     <span class="icon text-green">
+                                         <i class="fas fa-check-circle"></i>
+                                     </span>
+                                 @else
+                                     <span class="icon text-purple">
+                                         <i class="fas fa-times-circle"></i>
+                                     </span>
+                                 @endif
+                             </td>
+                             <td class="has-text-centered">
+                                 @if ($padStatus->isEditable())
+                                     <span class="icon text-green">
+                                         <i class="fas fa-check-circle"></i>
+                                     </span>
+                                 @else
+                                     <span class="icon text-purple">
+                                         <i class="fas fa-times-circle"></i>
+                                     </span>
+                                 @endif
+                             </td>
+                             <td class="has-text-centered">
+                                 @if ($padStatus->isDeletable())
+                                     <span class="icon text-green">
+                                         <i class="fas fa-check-circle"></i>
+                                     </span>
+                                 @else
+                                     <span class="icon text-purple">
+                                         <i class="fas fa-times-circle"></i>
+                                     </span>
+                                 @endif
+                             </td>
                          </tr>
                      @endforeach
                  </x-slot>

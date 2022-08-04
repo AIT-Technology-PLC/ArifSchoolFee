@@ -16,12 +16,7 @@ class TransactionFieldController extends Controller
     {
         $this->authorize('delete', $transactionField->transaction);
 
-        abort_if(
-            $transactionField->transaction->isApproved() || $transactionField->transaction->isCancelled() ||
-            $transactionField->transaction->isClosed() || $transactionField->transaction->isAdded() ||
-            $transactionField->transaction->isSubtracted(),
-            403
-        );
+        abort_if(!$transactionField->transaction->canBeDeleted(), 403);
 
         TransactionField::where('line', $transactionField->line)->forceDelete();
 

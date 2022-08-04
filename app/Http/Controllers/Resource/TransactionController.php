@@ -25,6 +25,8 @@ class TransactionController extends Controller
 
         $transactions = Transaction::where('pad_id', $pad->id)->get();
 
+        $padStatuses = $pad->padStatuses()->active()->get();
+
         $data = [];
 
         if ($pad->isInventoryOperationAdd()) {
@@ -75,7 +77,7 @@ class TransactionController extends Controller
                 ->count();
         }
 
-        return $datatable->render('transactions.index', compact('pad', 'transactions', 'data'));
+        return $datatable->render('transactions.index', compact('pad', 'transactions', 'data', 'padStatuses'));
     }
 
     public function create(Pad $pad)
@@ -104,11 +106,7 @@ class TransactionController extends Controller
     {
         $this->authorize('update', $transaction);
 
-        abort_if(
-            $transaction->isApproved() || $transaction->isCancelled() ||
-            $transaction->isClosed() || $transaction->isAdded() || $transaction->isSubtracted(),
-            403
-        );
+        abort_if(!$transaction->canBeEdited(), 403);
 
         $transaction->load('pad');
 
@@ -119,11 +117,7 @@ class TransactionController extends Controller
     {
         $this->authorize('delete', $transaction);
 
-        abort_if(
-            $transaction->isApproved() || $transaction->isCancelled() ||
-            $transaction->isClosed() || $transaction->isAdded() || $transaction->isSubtracted(),
-            403
-        );
+        abort_if(!$transaction->canBeDeleted(), 403);
 
         $transaction->forceDelete();
 

@@ -21,8 +21,6 @@ class UpdatePadRequest extends FormRequest
             'icon' => ['required', 'string'],
             'inventory_operation_type' => ['required', 'string', Rule::in(Pad::INVENTORY_OPERATIONS)],
             'is_approvable' => ['required', 'boolean'],
-            'is_closable' => ['required', 'boolean'],
-            'is_cancellable' => ['required', 'boolean'],
             'is_printable' => ['required', 'boolean'],
             'has_prices' => ['required', 'boolean'],
             'has_payment_term' => ['required', 'boolean'],

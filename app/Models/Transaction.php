@@ -68,4 +68,18 @@ class Transaction extends Model
             'value' => authUser()->id,
         ]);
     }
+
+    public function canBeEdited()
+    {
+        $isEditable = $this->transactionStatus ? $this->transactionStatus->isEditable() : true;
+
+        return !$this->isApproved() && !$this->isAdded() && !$this->isSubtracted() && $isEditable;
+    }
+
+    public function canBeDeleted()
+    {
+        $isDeletable = $this->transactionStatus ? $this->transactionStatus->isDeletable() : true;
+
+        return !$this->isApproved() && !$this->isAdded() && !$this->isSubtracted() && $isDeletable;
+    }
 }

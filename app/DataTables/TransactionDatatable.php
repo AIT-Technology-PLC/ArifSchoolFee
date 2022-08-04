@@ -50,7 +50,7 @@ class TransactionDatatable extends DataTable
             ]));
         }
 
-        if (request()->route('pad')->hasStatus() || request()->route('pad')->isClosableOnly()) {
+        if (request()->route('pad')->hasStatus()) {
             $datatable
                 ->editColumn('inventory status', function ($transaction) {
                     return view('components.datatables.transaction-inventory-status', [
@@ -75,6 +75,7 @@ class TransactionDatatable extends DataTable
         return Transaction::query()
             ->where('pad_id', request()->route('pad')->id)
             ->when(is_numeric(request('branch')), fn($query) => $query->where('transactions.warehouse_id', request('branch')))
+            ->when(is_string(request('status')) && request('status') != 'all', fn($query) => $query->where('transactions.status', request('status')))
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
@@ -122,7 +123,7 @@ class TransactionDatatable extends DataTable
             Column::make('branch')->visible(false),
             Column::make('code')->className('has-text-centered')->title(request()->route('pad')->abbreviation . ' No'),
             $this->padStatuses->isNotEmpty() ? Column::make('status') : '',
-            (request()->route('pad')->hasStatus() || request()->route('pad')->isClosableOnly()) ? Column::computed('inventory status') : '',
+            request()->route('pad')->hasStatus() ? Column::computed('inventory status') : '',
         ];
 
         foreach ($this->padFields as $padField) {

@@ -224,66 +224,6 @@
                     <div class="column is-4">
                         <x-forms.field>
                             <x-forms.label>
-                                Closable <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.label class="radio is-inline">
-                                    <input
-                                        type="radio"
-                                        name="is_closable"
-                                        id="is_closable"
-                                        value="1"
-                                        @checked(old('is_closable') == 1)
-                                    />
-                                    Yes
-                                </x-forms.label>
-                                <x-forms.label class="radio is-inline">
-                                    <input
-                                        type="radio"
-                                        name="is_closable"
-                                        id="is_closable"
-                                        value="0"
-                                        @checked(old('is_closable') == 0)
-                                    />
-                                    No
-                                </x-forms.label>
-                                <x-common.validation-error property="is_closable" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-4">
-                        <x-forms.field>
-                            <x-forms.label>
-                                Cancellable <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.label class="radio is-inline">
-                                    <input
-                                        type="radio"
-                                        name="is_cancellable"
-                                        id="is_cancellable"
-                                        value="1"
-                                        @checked(old('is_cancellable') == 1)
-                                    />
-                                    Yes
-                                </x-forms.label>
-                                <x-forms.label class="radio is-inline">
-                                    <input
-                                        type="radio"
-                                        name="is_cancellable"
-                                        id="is_cancellable"
-                                        value="0"
-                                        @checked(old('is_cancellable') == 0)
-                                    />
-                                    No
-                                </x-forms.label>
-                                <x-common.validation-error property="is_cancellable" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-4">
-                        <x-forms.field>
-                            <x-forms.label>
                                 Printable <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">

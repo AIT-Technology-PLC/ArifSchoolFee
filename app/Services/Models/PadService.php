@@ -99,14 +99,6 @@ class PadService
             $permissions[] = ['name' => 'Approve'];
         }
 
-        if ($pad->isClosable()) {
-            $permissions[] = ['name' => 'Close'];
-        }
-
-        if ($pad->isCancellable()) {
-            $permissions[] = ['name' => 'Cancel'];
-        }
-
         if ($pad->isConvertable()) {
             $permissions[] = ['name' => 'Convert'];
         }
