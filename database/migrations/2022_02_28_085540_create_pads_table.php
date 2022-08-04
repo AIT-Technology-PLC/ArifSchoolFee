@@ -34,6 +34,19 @@ return new class extends Migration
             $table->softDeletes();
         });
 
+        Schema::create('pad_statuses', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('pad_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->string('name');
+            $table->string('text_color');
+            $table->string('bg_color');
+            $table->boolean('is_active');
+            $table->boolean('is_editable');
+            $table->boolean('is_deletable');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
         Schema::create('pad_fields', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pad_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
