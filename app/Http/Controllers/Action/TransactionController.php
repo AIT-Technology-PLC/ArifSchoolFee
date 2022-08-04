@@ -74,6 +74,10 @@ class TransactionController extends Controller
             return back()->with('failedMessage', 'This transaction is not approved yet.');
         }
 
+        if ($transaction->transactionDetails->isEmpty()) {
+            return back()->with('failedMessage', 'This transaction is not applicable for printing.');
+        }
+
         $columns = array_keys($transaction->transactionDetails->first());
 
         Arr::forget($columns, [0, 1]);
