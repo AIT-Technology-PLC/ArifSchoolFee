@@ -7,6 +7,7 @@ use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Services\Models\TransactionService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class EditTransaction extends Component
@@ -31,6 +32,10 @@ class EditTransaction extends Component
 
     public $issued_on;
 
+    public $status;
+
+    public $padStatuses;
+
     public function mount(Transaction $transaction)
     {
         $this->transaction = $transaction;
@@ -53,6 +58,10 @@ class EditTransaction extends Component
             ->pluck('id');
 
         $this->issued_on = $this->transaction->issued_on->toDateTimeLocalString();
+
+        $this->status = $transaction->status ?? '';
+
+        $this->padStatuses = $transaction->pad->padStatuses()->active()->get();
     }
 
     public function addDetail()
@@ -94,10 +103,11 @@ class EditTransaction extends Component
         $rules = [
             'code' => ['required', 'integer', new UniqueReferenceNum('transactions', $this->excludedTransactions)],
             'issued_on' => ['required', 'date'],
+            'status' => [Rule::requiredIf($this->padStatuses->isNotEmpty()), 'string'],
         ];
 
         foreach ($this->masterPadFields as $masterPadField) {
-            $key = 'master.'.$masterPadField->id;
+            $key = 'master.' . $masterPadField->id;
 
             $rules[$key][] = $masterPadField->isRequired() ? 'required' : 'nullable';
 
@@ -110,7 +120,7 @@ class EditTransaction extends Component
         }
 
         foreach ($this->detailPadFields as $detailPadField) {
-            $key = 'details.*.'.$detailPadField->id;
+            $key = 'details.*.' . $detailPadField->id;
 
             $rules[$key][] = $detailPadField->isRequired() ? 'required' : 'nullable';
 

@@ -102,6 +102,15 @@
                         label="{{ $transaction->pad->abbreviation }} No"
                     />
                 </div>
+                @if ($transaction->status)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-info"
+                            :data="$transaction->status"
+                            label="Status"
+                        />
+                    </div>
+                @endif
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"

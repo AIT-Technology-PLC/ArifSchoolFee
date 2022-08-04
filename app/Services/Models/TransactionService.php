@@ -14,7 +14,7 @@ class TransactionService
     public function store($pad, $data)
     {
         return DB::transaction(function () use ($pad, $data) {
-            $transaction = $pad->transactions()->create(Arr::only($data, ['code', 'issued_on']));
+            $transaction = $pad->transactions()->create(Arr::only($data, ['code', 'status', 'issued_on']));
 
             $this->storeTransactionFields($transaction, $data);
 
@@ -27,7 +27,7 @@ class TransactionService
         return DB::transaction(function () use ($transaction, $data) {
             $transaction->transactionFields()->forceDelete();
 
-            $transaction->update(Arr::only($data, ['code', 'issued_on']));
+            $transaction->update(Arr::only($data, ['code', 'status', 'issued_on']));
 
             $this->storeTransactionFields($transaction, $data);
 
