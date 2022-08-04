@@ -30,9 +30,9 @@ class CompensationAdjustmentController extends Controller
 
         $totalAdjustments = CompensationAdjustment::count();
 
-        $totalApproved = CompensationAdjustment::approved()->count();
+        $totalApproved = CompensationAdjustment::approved()->notCancelled()->count();
 
-        $totalNotApproved = CompensationAdjustment::notApproved()->count();
+        $totalNotApproved = CompensationAdjustment::notApproved()->notCancelled()->count();
 
         $totalCancelled = CompensationAdjustment::cancelled()->count();
 
@@ -50,7 +50,7 @@ class CompensationAdjustmentController extends Controller
         return view('compensation-adjustments.create', compact('adjustmentCode', 'compensations', 'users'));
     }
 
-    public function store(StoreCompensationAdjustmentRequest $request, CompensationAdjustment $compensationAdjustment)
+    public function store(StoreCompensationAdjustmentRequest $request)
     {
         $compensationAdjustmentDetails = $request->validated('compensationAdjustment');
 
@@ -58,7 +58,7 @@ class CompensationAdjustmentController extends Controller
             data_set($compensationAdjustmentDetail, 'employeeAdjustments.*.employee_id', $compensationAdjustmentDetail['employee_id']);
         }
 
-        $compensationAdjustmentDetails = data_get($compensationAdjustmentDetails, '*.employeeadjustments');
+        $compensationAdjustmentDetails = data_get($compensationAdjustmentDetails, '*.employeeAdjustments');
 
         $compensationAdjustment = DB::transaction(function () use ($request, $compensationAdjustmentDetails) {
             $compensationAdjustment = CompensationAdjustment::create($request->safe()->except('compensationAdjustment'));
@@ -88,6 +88,10 @@ class CompensationAdjustmentController extends Controller
             return back()->with('failedMessage', 'You can not modify an adjustment that is approved.');
         }
 
+        if ($compensationAdjustment->isCancelled()) {
+            return back()->with('failedMessage', 'You can not modify an adjustment that is cancelled.');
+        }
+
         $compensations = Compensation::orderBy('name')->get(['id', 'name']);
 
         $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
@@ -101,6 +105,10 @@ class CompensationAdjustmentController extends Controller
     {
         if ($compensationAdjustment->isApproved()) {
             return back()->with('failedMessage', 'You can not modify an adjustment that is approved.');
+        }
+
+        if ($compensationAdjustment->isCancelled()) {
+            return back()->with('failedMessage', 'You can not modify an adjustment that is cancelled.');
         }
 
         $compensationAdjustmentDetails = $request->validated('compensationAdjustment');
@@ -128,6 +136,10 @@ class CompensationAdjustmentController extends Controller
     {
         if ($compensationAdjustment->isApproved()) {
             return back()->with('failedMessage', 'You can not delete an adjustment that is approved.');
+        }
+
+        if ($compensationAdjustment->isCancelled()) {
+            return back()->with('failedMessage', 'You can not delete an adjustment that is cancelled.');
         }
 
         $compensationAdjustment->forceDelete();

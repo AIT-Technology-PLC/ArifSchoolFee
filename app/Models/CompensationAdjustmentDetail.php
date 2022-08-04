@@ -17,8 +17,18 @@ class CompensationAdjustmentDetail extends Model
         return $this->belongsTo(CompensationAdjustment::class, 'adjustment_id');
     }
 
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
     public function parentModel()
     {
         return $this->compensationAdjustment();
+    }
+
+    public function compensation()
+    {
+        return $this->belongsTo(Compensation::class);
     }
 }

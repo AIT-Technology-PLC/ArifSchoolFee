@@ -21,6 +21,10 @@ class CompensationAdjustmentController extends Controller
     {
         $this->authorize('approve', $compensationAdjustment);
 
+        if ($compensationAdjustment->isCancelled()) {
+            return back()->with('failedMessage', 'You can not approve an adjustment that is cancelled.');
+        }
+
         [$isExecuted, $message] = $action->execute($compensationAdjustment, CompensationAdjustmentApproved::class);
 
         if (!$isExecuted) {
@@ -38,6 +42,10 @@ class CompensationAdjustmentController extends Controller
     public function cancel(CompensationAdjustment $compensationAdjustment, CancelTransactionAction $action)
     {
         $this->authorize('cancel', $compensationAdjustment);
+
+        if ($compensationAdjustment->isApproved()) {
+            return back()->with('failedMessage', 'You can not cancel an adjustment that is approved.');
+        }
 
         [$isExecuted, $message] = $action->execute($compensationAdjustment);
 

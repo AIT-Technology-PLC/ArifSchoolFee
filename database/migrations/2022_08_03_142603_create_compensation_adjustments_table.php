@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('cancelled_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->dateTime('issued_on')->nullable();
-            $table->dateTime('starting_period')->nullable();
-            $table->dateTime('ending_period')->nullable();
+            $table->date('starting_period')->nullable();
+            $table->date('ending_period')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

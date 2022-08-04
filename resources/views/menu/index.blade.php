@@ -337,7 +337,7 @@
                                 @can('Read Compensation Adjustment')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('compensation-djustments.index') }}"
+                                            href="{{ route('compensation-adjustments.index') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">

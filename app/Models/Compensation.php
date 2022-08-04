@@ -39,4 +39,9 @@ class Compensation extends Model
     {
         return $this->can_be_inputted_manually == 1;
     }
+
+    public function compensationAdjustmentDetails()
+    {
+        return $this->hasMany(CompensationAdjustmentDetail::class);
+    }
 }

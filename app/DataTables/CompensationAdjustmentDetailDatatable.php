@@ -15,9 +15,9 @@ class CompensationAdjustmentDetailDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('employee name', fn($compensationAdjustmentDetail) => $compensationAdjustmentDetail->employee->user->name)
-            ->editColumn('compensation', fn($compensationAdjustmentDetailDetail) => $compensationAdjustmentDetailDetail->compensation->name)
-            ->editColumn('amount', fn($compensationAdjustmentDetailDetail) => $compensationAdjustmentDetailDetail->amount)
+            ->editColumn('employee', fn($compensationAdjustmentDetail) => $compensationAdjustmentDetail->employee->user->name)
+            ->editColumn('compensation', fn($compensationAdjustmentDetail) => $compensationAdjustmentDetail->compensation->name)
+            ->editColumn('amount', fn($compensationAdjustmentDetail) => $compensationAdjustmentDetail->amount)
             ->editColumn('actions', function ($compensationAdjustmentDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'compensation-adjustment-details',
@@ -33,7 +33,7 @@ class CompensationAdjustmentDetailDatatable extends DataTable
         return $compensationAdjustmentDetail
             ->newQuery()
             ->select('compensation_adjustment_details.*')
-            ->where('adjustment_id', request()->route('compensation-adjustment')->id)
+            ->where('adjustment_id', request()->route('compensation_adjustment')->id)
             ->with([
                 'employee.user',
                 'compensation:id,name',
@@ -44,7 +44,7 @@ class CompensationAdjustmentDetailDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('employee name', 'employee.user.name'),
+            Column::make('employee', 'employee.user.name'),
             Column::make('compensation', 'compensation.name'),
             Column::make('amount'),
             Column::computed('actions'),

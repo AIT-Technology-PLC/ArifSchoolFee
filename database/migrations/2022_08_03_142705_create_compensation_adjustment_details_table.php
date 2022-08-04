@@ -17,7 +17,6 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['employee_id', 'compensation_id'], 'employee_id_compensation_id_unique');
             $table->index('adjustment_id');
         });
     }

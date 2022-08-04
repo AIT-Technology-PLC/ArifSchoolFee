@@ -20,6 +20,10 @@ class CompensationAdjustmentDetailController extends Controller
             return back()->with('failedMessage', 'You can not delete an adjustment that is approved.');
         }
 
+        if ($compensationAdjustmentDetail->compensationAdjustment->isCancelled()) {
+            return back()->with('failedMessage', 'You can not delete an adjustment that is cancelled.');
+        }
+
         $compensationAdjustmentDetail->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');

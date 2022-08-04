@@ -16,13 +16,13 @@ class UpdateCompensationAdjustmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('compensation_adjustments')],
+            'code' => ['required', 'integer', new UniqueReferenceNum('compensation_adjustments', $this->route('compensation_adjustment')->id)],
             'issued_on' => ['required', 'date'],
             'starting_period' => ['required', 'date'],
             'ending_period' => ['required', 'date', 'after:starting_period'],
             'compensationAdjustment' => ['required', 'array'],
             'compensationAdjustment.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees')],
-            'compensationAdjustment.*.employeeAdjustments.*.compensation_id' => ['required', 'integer', new MustBelongToCompany('employee_compensations')],
+            'compensationAdjustment.*.employeeAdjustments.*.compensation_id' => ['required', 'integer', new MustBelongToCompany('compensations')],
             'compensationAdjustment.*.employeeAdjustments.*.amount' => ['required', 'numeric'],
         ];
     }

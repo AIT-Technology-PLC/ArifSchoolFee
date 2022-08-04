@@ -197,7 +197,7 @@ class Features extends Seeder
                 ['is_enabled' => 0]
             );
             Feature::updateOrCreate(
-                ['name' => 'Compensation Adjustmen'],
+                ['name' => 'Compensation Adjustment'],
                 ['is_enabled' => 1]
             );
 

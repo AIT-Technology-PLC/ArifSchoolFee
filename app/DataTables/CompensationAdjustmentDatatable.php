@@ -22,8 +22,9 @@ class CompensationAdjustmentDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('starting_period', fn($compensationAdjustment) => $compensationAdjustment->starting_period->toFormattedDateString())
-            ->editColumn('ending_period', fn($compensationAdjustment) => $compensationAdjustment->ending_period->toFormattedDateString())
+            ->editColumn('issued_on', fn($compensationAdjustment) => $compensationAdjustment->issued_on->toFormattedDateString())
+            ->editColumn('starting_period', fn($compensationAdjustment) => $compensationAdjustment->starting_period->toDateString())
+            ->editColumn('ending_period', fn($compensationAdjustment) => $compensationAdjustment->ending_period->toDateString())
             ->editColumn('status', fn($compensationAdjustment) => view('components.datatables.compensation-adjustment-status', compact('compensationAdjustment')))
             ->editColumn('prepared by', fn($compensationAdjustment) => $compensationAdjustment->createdBy->name)
             ->editColumn('edited by', fn($compensationAdjustment) => $compensationAdjustment->updatedBy->name)
@@ -61,6 +62,7 @@ class CompensationAdjustmentDatatable extends DataTable
             Column::computed('#'),
             Column::make('code')->className('has-text-centered')->title('Reference No'),
             Column::computed('status'),
+            Column::make('issued_on'),
             Column::make('starting_period'),
             Column::make('ending_period'),
             Column::make('prepared by', 'createdBy.name')->visible(false),
