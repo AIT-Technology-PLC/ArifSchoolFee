@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\CompensationAdjustmentDatatable;
+use App\DataTables\CompensationAdjustmentDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompensationAdjustmentRequest;
 use App\Http\Requests\UpdateCompensationAdjustmentRequest;
@@ -22,14 +24,24 @@ class CompensationAdjustmentController extends Controller
         $this->authorizeResource(CompensationAdjustment::class);
     }
 
-    public function index()
+    public function index(CompensationAdjustmentDatatable $datatable)
     {
-        //
+        $datatable->builder()->setTableId('compensation-adjustments-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
+
+        $totalAdjustments = CompensationAdjustment::count();
+
+        $totalApproved = CompensationAdjustment::approved()->count();
+
+        $totalNotApproved = CompensationAdjustment::notApproved()->count();
+
+        $totalCancelled = CompensationAdjustment::cancelled()->count();
+
+        return $datatable->render('compensation-adjustments.index', compact('totalAdjustments', 'totalApproved', 'totalNotApproved', 'totalCancelled'));
     }
 
     public function create()
     {
-        $compensationAdjustmentCode = nextReferenceNumber('compensation_adjustments');
+        $adjustmentCode = nextReferenceNumber('compensation_adjustments');
 
         $compensations = Compensation::orderBy('name')->get(['id', 'name']);
 
@@ -63,9 +75,11 @@ class CompensationAdjustmentController extends Controller
         return redirect()->route('compensation-adjustments.show', $compensationAdjustment->id);
     }
 
-    public function show(CompensationAdjustment $compensationAdjustment)
+    public function show(CompensationAdjustment $compensationAdjustment, CompensationAdjustmentDetailDatatable $datatable)
     {
-        //
+        $datatable->builder()->setTableId('compensation-adjustment-details-datatable');
+
+        return $datatable->render('compensation-adjustments.show', compact('compensationAdjustment'));
     }
 
     public function edit(CompensationAdjustment $compensationAdjustment)
