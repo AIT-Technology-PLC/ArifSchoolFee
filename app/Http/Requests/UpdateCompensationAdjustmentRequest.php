@@ -22,8 +22,8 @@ class UpdateCompensationAdjustmentRequest extends FormRequest
             'ending_period' => ['required', 'date', 'after:starting_period'],
             'compensationAdjustment' => ['required', 'array'],
             'compensationAdjustment.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees')],
-            'compensationAdjustment.*.compensation_id' => ['required', 'integer', new MustBelongToCompany('employee_compensations')],
-            'compensationAdjustment.*.amount' => ['required', 'numeric'],
+            'compensationAdjustment.*.employeeAdjustments.*.compensation_id' => ['required', 'integer', new MustBelongToCompany('employee_compensations')],
+            'compensationAdjustment.*.employeeAdjustments.*.amount' => ['required', 'numeric'],
         ];
     }
 }

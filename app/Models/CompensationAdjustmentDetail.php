@@ -14,7 +14,7 @@ class CompensationAdjustmentDetail extends Model
 
     public function compensationAdjustment()
     {
-        return $this->belongsTo(CompensationAdjustment::class);
+        return $this->belongsTo(CompensationAdjustment::class, 'adjustment_id');
     }
 
     public function parentModel()

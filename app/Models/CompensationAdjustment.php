@@ -24,6 +24,6 @@ class CompensationAdjustment extends Model
 
     public function compensationAdjustmentDetails()
     {
-        return $this->hasMany(CompensationAdjustmentDetail::class);
+        return $this->hasMany(CompensationAdjustmentDetail::class, 'adjustment_id');
     }
 }
