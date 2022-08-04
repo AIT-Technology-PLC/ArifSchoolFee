@@ -4,14 +4,14 @@
 
 @section('content')
     <div class="columns is-marginless is-multiline">
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.total-model
                 model="Adjustments"
                 :amount="$totalAdjustments"
                 icon="fa-solid fa-circle-dollar-to-slot"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 :amount="$totalApproved"
                 border-color="#3d8660"
@@ -19,7 +19,7 @@
                 label="Approved"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 :amount="$totalNotApproved"
                 border-color="#86843d"
@@ -27,7 +27,7 @@
                 label="Waiting Approval"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 :amount="$totalCancelled"
                 border-color="#86843d"
