@@ -10,9 +10,10 @@ return new class extends Migration
     {
         Schema::create('compensation_adjustment_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('compensation_adjustment_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('compensation_adjustment_id')->nullable()->unsigned();
+            $table->foreign('compensation_adjustment_id', 'compensation_adjustment_id_foreign')->references('id')->on('compensation_adjustments')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('compensation_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('compensation_id')->nullable()->constrained('compensations')->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('amount', 22);
             $table->timestamps();
             $table->softDeletes();

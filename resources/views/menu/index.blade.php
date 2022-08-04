@@ -81,8 +81,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Announcement Management', 'Compensation Management'))
-            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Earning', 'Read Announcement', 'Read Compensation'])
+        @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Announcement Management', 'Compensation Management', 'Compensation Adjustment'))
+            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Earning', 'Read Announcement', 'Read Compensation', 'Read Compensation Adjustment'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -328,6 +328,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Compensation
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Compensation Adjustment'))
+                                @can('Read Compensation Adjustment')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('compensation-djustments.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Adjustments
                                         </span>
                                     </div>
                                 @endcan
