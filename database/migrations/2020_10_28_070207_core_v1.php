@@ -1244,6 +1244,36 @@ return new class extends Migration
             $table->index('company_id');
         });
 
+        Schema::create('compensation_adjustments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('cancelled_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->bigInteger('code');
+            $table->dateTime('issued_on')->nullable();
+            $table->date('starting_period')->nullable();
+            $table->date('ending_period')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->unique(['starting_period', 'ending_period']);
+            $table->index('company_id');
+        });
+
+        Schema::create('compensation_adjustment_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('adjustment_id')->nullable()->constrained('compensation_adjustments')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('compensation_id')->nullable()->constrained('compensations')->onDelete('cascade')->onUpdate('cascade');
+            $table->decimal('amount', 22);
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('adjustment_id');
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -1330,5 +1360,7 @@ return new class extends Migration
         Schema::drop('announcement_warehouse');
         Schema::drop('compensations');
         Schema::drop('employee_compensations');
+        Schema::drop('compensation_adjustment_details');
+        Schema::drop('compensation_adjustments');
     }
 };
