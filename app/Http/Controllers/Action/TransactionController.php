@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateTransactionStatusRequest;
 use App\Models\PadPermission;
 use App\Models\Transaction;
+use App\Models\Warehouse;
+use App\Notifications\TransactionAdded;
+use App\Notifications\TransactionApproved;
 use App\Notifications\TransactionStatusUpdated;
+use App\Notifications\TransactionSubtracted;
 use App\Services\Models\TransactionService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Arr;
@@ -33,6 +37,11 @@ class TransactionController extends Controller
             return back()->with('failedMessage', $message);
         }
 
+        Notification::send(
+            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id())->whereIn('warehouse_id', Warehouse::whereIn('name', $transaction->transactionDetails->pluck('warehouse'))->pluck('id')),
+            new TransactionApproved($transaction)
+        );
+
         return back()->with('successMessage', $message);
     }
 
@@ -46,7 +55,12 @@ class TransactionController extends Controller
             return back()->with('failedMessage', $message);
         }
 
-        return back()->with('successMessage', $message);
+        Notification::send(
+            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id())->whereIn('warehouse_id', Warehouse::whereIn('name', $transaction->transactionDetails->pluck('warehouse'))->pluck('id')),
+            new TransactionSubtracted($transaction)
+        );
+
+        return back()->with('successMessage', '$message');
     }
 
     public function add(Transaction $transaction)
@@ -58,6 +72,11 @@ class TransactionController extends Controller
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(
+            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id())->whereIn('warehouse_id', Warehouse::whereIn('name', $transaction->transactionDetails->pluck('warehouse'))->pluck('id')),
+            new TransactionAdded($transaction)
+        );
 
         return back()->with('successMessage', $message);
     }
@@ -111,7 +130,7 @@ class TransactionController extends Controller
         $transaction->save();
 
         Notification::send(
-            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id()),
+            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id())->whereIn('warehouse_id', Warehouse::whereIn('name', $transaction->transactionDetails->pluck('warehouse'))->pluck('id')),
             new TransactionStatusUpdated($transaction)
         );
 

@@ -13,8 +13,10 @@
             @endif
         </x-content.header>
         <x-content.footer>
-            <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
-            <x-common.fail-message :message="session('failedMessage')" />
+            @if (!$hasDetails)
+                <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
+                <x-common.fail-message :message="session('failedMessage')" />
+            @endif
 
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
@@ -105,9 +107,11 @@
         </x-common.content-wrapper>
     @endif
 
-    @can('update', $transaction)
-        @include('transactions.partials.update-status')
-    @endcan
+    @if ($transaction->pad->padStatuses->isNotEmpty())
+        @can('update', $transaction)
+            @include('transactions.partials.update-status')
+        @endcan
+    @endif
 @endsection
 
 @push('scripts')

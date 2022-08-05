@@ -82,16 +82,18 @@
             </x-common.dropdown-item>
         @endcan
     @endforeach
-    @can('update', $transaction)
-        <x-common.dropdown-item>
-            <x-common.button
-                tag="button"
-                mode="button"
-                @click="$dispatch('open-update-status-modal')"
-                icon="fas fa-info"
-                label="Update Status"
-                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-            />
-        </x-common.dropdown-item>
-    @endcan
+    @if ($transaction->pad->padStatuses->isNotEmpty())
+        @can('update', $transaction)
+            <x-common.dropdown-item>
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-update-status-modal')"
+                    icon="fas fa-info"
+                    label="Update Status"
+                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                />
+            </x-common.dropdown-item>
+        @endcan
+    @endif
 </x-common.dropdown>
