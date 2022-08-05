@@ -57,31 +57,38 @@ class TransactionField extends Model
     {
         $data = collect();
 
-        $transactions = $this
-            ->with('transaction')
-            ->where(function ($query) {
-                $query->where('key', 'subtracted_by')
-                    ->orWhere('key', 'added_by');
+        $transactions = Transaction::query()
+            ->with([
+                'transactionFields' => function ($query) {
+                    return $query->where(function ($query) {
+                        $query->where('key', 'subtracted_by')
+                            ->orWhere('key', 'added_by');
+                    });
+                },
+            ])
+            ->whereHas('transactionFields', function ($query) {
+                return $query->where(function ($query) {
+                    $query->where('key', 'subtracted_by')
+                        ->orWhere('key', 'added_by');
+                });
             })
-            ->whereNotNull('line')
-            ->get()
-            ->pluck('transaction')
-            ->filter();
+            ->get();
 
         if ($transactions->isNotEmpty()) {
             $transactions
                 ->each(function ($transaction) use ($warehouse, $product, $data) {
                     $transaction
                         ->transactionDetails
+                        ->whereIn('line', $transaction->transactionFields->pluck('line')->unique())
                         ->each(function ($transactionDetail) use ($warehouse, $product, $data) {
-                            if ((static::isSubtracted($transactionDetail['transaction'], $transactionDetail['line']) || static::isAdded($transactionDetail['transaction'], $transactionDetail['line'])) && $transactionDetail['product'] == $product->name && $transactionDetail['warehouse'] == $warehouse->name) {
+                            if ($transactionDetail['product'] == $product->name && $transactionDetail['warehouse'] == $warehouse->name) {
                                 $data->push($transactionDetail);
                             }
                         });
                 });
         }
 
-        return $data->unique();
+        return $data;
     }
 
     public static function subtract($transaction, $line)

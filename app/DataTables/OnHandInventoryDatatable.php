@@ -2,9 +2,9 @@
 
 namespace App\DataTables;
 
+use App\Models\Merchandise;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 
 class OnHandInventoryDatatable extends DataTable
@@ -57,13 +57,12 @@ class OnHandInventoryDatatable extends DataTable
 
     public function query()
     {
-        $onHandMerchandises = DB::table('merchandises')
+        $onHandMerchandises = Merchandise::query()
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
-            ->where('merchandises.company_id', '=', userCompany()->id)
-            ->when(request('type') == 'finished goods', fn ($query) => $query->where('products.type', '=', 'Finished Goods'))
-            ->when(request('type') == 'raw material', fn ($query) => $query->where('products.type', '=', 'Raw Material'))
+            ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
+            ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
             ->where(function ($query) {
                 $query->where('merchandises.available', '>', 0)
                     ->orWhere('merchandises.reserved', '>', 0);
@@ -123,6 +122,6 @@ class OnHandInventoryDatatable extends DataTable
 
     protected function filename()
     {
-        return 'InventoryLevel_'.date('YmdHis');
+        return 'InventoryLevel_' . date('YmdHis');
     }
 }
