@@ -32,14 +32,34 @@ class Transaction extends Model
 
     public function isAdded()
     {
-        return $this->transactionFields()->where('key', 'added_by')->whereNull('line')->exists() ||
-            ($this->transactionDetails->count() == $this->transactionFields()->where('key', 'added_by')->whereNotNull('line')->count());
+        $totalDetails = $this->transactionDetails->count();
+        $totalAddedDetails = $this->transactionFields()->where('key', 'added_by')->whereNotNull('line')->count();
+
+        return $totalDetails > 0 && $totalAddedDetails > 0 && $totalDetails == $totalAddedDetails;
+    }
+
+    public function isPartiallyAdded()
+    {
+        $totalDetails = $this->transactionDetails->count();
+        $totalAddedDetails = $this->transactionFields()->where('key', 'added_by')->whereNotNull('line')->count();
+
+        return $totalDetails > 0 && $totalAddedDetails > 0 && $totalDetails > $totalAddedDetails;
     }
 
     public function isSubtracted()
     {
-        return $this->transactionFields()->where('key', 'subtracted_by')->whereNull('line')->exists() ||
-            ($this->transactionDetails->count() == $this->transactionFields()->where('key', 'subtracted_by')->whereNotNull('line')->count());
+        $totalDetails = $this->transactionDetails->count();
+        $totalSubtractedDetails = $this->transactionFields()->where('key', 'subtracted_by')->whereNotNull('line')->count();
+
+        return $totalDetails > 0 && $totalSubtractedDetails > 0 && $totalDetails == $totalSubtractedDetails;
+    }
+
+    public function isPartiallySubtracted()
+    {
+        $totalDetails = $this->transactionDetails->count();
+        $totalSubtractedDetails = $this->transactionFields()->where('key', 'subtracted_by')->whereNotNull('line')->count();
+
+        return $totalDetails > 0 && $totalSubtractedDetails > 0 && $totalDetails > $totalSubtractedDetails;
     }
 
     public function isApproved()
@@ -57,7 +77,9 @@ class Transaction extends Model
 
     public function subtract()
     {
-        foreach ($this->transactionDetails as $transactionDetail) {
+        $subtractedLines = $this->transactionFields()->where('key', 'subtracted_by')->whereNotNull('line')->pluck('line')->unique();
+
+        foreach ($this->transactionDetails->whereNotIn('line', $subtractedLines) as $transactionDetail) {
             $this->transactionFields()->create([
                 'key' => 'subtracted_by',
                 'value' => authUser()->id,
@@ -68,7 +90,9 @@ class Transaction extends Model
 
     public function add()
     {
-        foreach ($this->transactionDetails as $transactionDetail) {
+        $addedLines = $this->transactionFields()->where('key', 'added_by')->whereNotNull('line')->pluck('line')->unique();
+
+        foreach ($this->transactionDetails->whereNotIn('line', $addedLines) as $transactionDetail) {
             $this->transactionFields()->create([
                 'key' => 'added_by',
                 'value' => authUser()->id,

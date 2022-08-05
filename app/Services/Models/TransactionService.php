@@ -53,7 +53,9 @@ class TransactionService
             return [false, 'This transaction can not be subtracted from inventory.'];
         }
 
-        $transactionDetails = $this->formatTransactionDetails($transaction, $line);
+        $subtractedLines = $transaction->transactionFields()->where('key', 'subtracted_by')->whereNotNull('line')->pluck('line')->unique();
+
+        $transactionDetails = $this->formatTransactionDetails($transaction, $line)->whereNotIn('line', $subtractedLines);
 
         if (!$user->hasWarehousePermission('subtract',
             $transactionDetails->pluck('warehouse_id')->toArray())) {
@@ -99,7 +101,9 @@ class TransactionService
             return [false, 'This transaction can not be added to inventory.'];
         }
 
-        $transactionDetails = $this->formatTransactionDetails($transaction, $line);
+        $addedLines = $transaction->transactionFields()->where('key', 'added_by')->whereNotNull('line')->pluck('line')->unique();
+
+        $transactionDetails = $this->formatTransactionDetails($transaction, $line)->whereNotIn('line', $addedLines);
 
         if (!$user->hasWarehousePermission('add',
             $transactionDetails->pluck('warehouse_id')->toArray())) {

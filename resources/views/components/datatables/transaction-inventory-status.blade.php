@@ -7,6 +7,15 @@
             Added
         </span>
     </span>
+@elseif ($transaction->pad->isInventoryOperationAdd() && $transaction->isPartiallyAdded())
+    <span class="tag is-small bg-green has-text-white">
+        <span class="icon">
+            <i class="fas fa-check-circle"></i>
+        </span>
+        <span>
+            Partially Added
+        </span>
+    </span>
 @elseif ($transaction->pad->isInventoryOperationSubtract() && $transaction->isSubtracted())
     <span class="tag is-small bg-green has-text-white">
         <span class="icon">
@@ -14,6 +23,15 @@
         </span>
         <span>
             Subtracted
+        </span>
+    </span>
+@elseif ($transaction->pad->isInventoryOperationSubtract() && $transaction->isPartiallySubtracted())
+    <span class="tag is-small bg-green has-text-white">
+        <span class="icon">
+            <i class="fas fa-check-circle"></i>
+        </span>
+        <span>
+            Partially Subtracted
         </span>
     </span>
 @elseif ($transaction->pad->isApprovable() && $transaction->isApproved())
