@@ -50,7 +50,8 @@
                                                                 type="checkbox"
                                                                 name="permissions[]"
                                                                 value="{{ $permission }}"
-                                                                {{ $userDirectPermissions->contains($permission) ? 'checked' : '' }}
+                                                                @checked($userPermissions->contains($permission))
+                                                                @disabled($userRolesPermissions->contains($permission))
                                                             >
                                                             {{ $permission }}
                                                         </label>
