@@ -12,7 +12,8 @@ return new class extends Migration
             $table->date('starting_period')->change();
             $table->date('ending_period')->change();
 
-            $table->unique(['starting_period', 'ending_period', 'warehouse_id']);
+            $table->unique(['starting_period', 'warehouse_id']);
+            $table->unique(['ending_period', 'warehouse_id']);
         });
     }
 
@@ -21,7 +22,8 @@ return new class extends Migration
         Schema::table('attendances', function (Blueprint $table) {
             $table->dateTime('starting_period')->change();
             $table->dateTime('ending_period')->change();
-            $table->dropUnique(['starting_period', 'ending_period', 'warehouse_id']);
+            $table->dropUnique(['starting_period', 'warehouse_id']);
+            $table->dropUnique(['ending_period', 'warehouse_id']);
         });
     }
 };

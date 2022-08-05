@@ -20,8 +20,8 @@ class StoreAttendanceRequest extends FormRequest
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('attendances')],
             'issued_on' => ['required', 'date'],
-            'starting_period' => ['required', 'date', Rule::unique('attendances')->where('company_id', userCompany()->id)],
-            'ending_period' => ['required', 'date', 'after:starting_period', Rule::unique('attendances')->where('company_id', userCompany()->id)],
+            'starting_period' => ['required', 'date', Rule::unique('attendances')->where('warehouse_id', authUser()->warehouse_id)],
+            'ending_period' => ['required', 'date', 'after:starting_period', Rule::unique('attendances')->where('warehouse_id', authUser()->warehouse_id)],
             'attendance' => ['required', 'array'],
             'attendance.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees')],
             'attendance.*.days' => ['required', 'numeric', 'gt:0', function ($attribute, $value, $fail) {
