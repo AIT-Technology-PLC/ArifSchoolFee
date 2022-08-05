@@ -6,6 +6,7 @@ use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -21,6 +22,13 @@ class Job extends Model
     ];
 
     protected $table = 'job_orders';
+
+    protected static function booted()
+    {
+        static::addGlobalScope('ancient', function (Builder $builder) {
+            $builder->whereIn('factory_id', Warehouse::pluck('id')->merge(authUser()->warehouse->isActive() ? authUser()->warehouse_id : null));
+        });
+    }
 
     public function closedBy()
     {
@@ -55,7 +63,7 @@ class Job extends Model
 
         $totalJobDetails = $this->jobDetails->sum('quantity') ?? 0.00;
 
-        if (! $totalJobDetails) {
+        if (!$totalJobDetails) {
             return 100.00;
         }
 
