@@ -81,6 +81,7 @@ trait TransactionAccessors
                         $data = [];
                         $data['id'] = $transactionFields->first()->id;
                         $data['transaction'] = $transactionFields->first()->transaction;
+                        $data['line'] = $transactionFields->first()->line;
 
                         foreach ($transactionFields as $transactionField) {
                             $value = $transactionField->value;

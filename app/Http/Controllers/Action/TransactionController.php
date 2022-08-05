@@ -60,7 +60,7 @@ class TransactionController extends Controller
             new TransactionSubtracted($transaction)
         );
 
-        return back()->with('successMessage', '$message');
+        return back()->with('successMessage', $message);
     }
 
     public function add(Transaction $transaction)

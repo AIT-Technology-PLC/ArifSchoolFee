@@ -4,6 +4,7 @@ namespace App\Services\Models;
 
 use App\Models\Pad;
 use App\Models\Product;
+use App\Models\TransactionField;
 use App\Models\Warehouse;
 use App\Services\Inventory\InventoryOperationService;
 use Illuminate\Support\Arr;
@@ -46,13 +47,13 @@ class TransactionService
         return [true, ''];
     }
 
-    public function subtract($transaction, $user)
+    public function subtract($transaction, $user, $line = null)
     {
         if (!$transaction->pad->isInventoryOperationSubtract()) {
             return [false, 'This transaction can not be subtracted from inventory.'];
         }
 
-        $transactionDetails = $this->formatTransactionDetails($transaction);
+        $transactionDetails = $this->formatTransactionDetails($transaction, $line);
 
         if (!$user->hasWarehousePermission('subtract',
             $transactionDetails->pluck('warehouse_id')->toArray())) {
@@ -64,7 +65,11 @@ class TransactionService
         }
 
         if ($transaction->isSubtracted()) {
-            return [false, 'This transaction is already subtracted from inventory'];
+            return [false, 'This transaction is already subtracted from inventory.'];
+        }
+
+        if (!is_null($line) && TransactionField::isSubtracted($transaction, $line)) {
+            return [false, 'This product is already subtracted from inventory.'];
         }
 
         $unavailableProducts = InventoryOperationService::unavailableProducts($transactionDetails);
@@ -73,22 +78,28 @@ class TransactionService
             return [false, $unavailableProducts];
         }
 
-        DB::transaction(function () use ($transaction, $transactionDetails) {
+        DB::transaction(function () use ($transaction, $transactionDetails, $line) {
             InventoryOperationService::subtract($transactionDetails);
 
-            $transaction->subtract();
+            if (!is_null($line)) {
+                TransactionField::subtract($transaction, $line);
+            }
+
+            if (is_null($line)) {
+                $transaction->subtract();
+            }
         });
 
         return [true, ''];
     }
 
-    public function add($transaction, $user)
+    public function add($transaction, $user, $line = null)
     {
         if (!$transaction->pad->isInventoryOperationAdd()) {
             return [false, 'This transaction can not be added to inventory.'];
         }
 
-        $transactionDetails = $this->formatTransactionDetails($transaction);
+        $transactionDetails = $this->formatTransactionDetails($transaction, $line);
 
         if (!$user->hasWarehousePermission('add',
             $transactionDetails->pluck('warehouse_id')->toArray())) {
@@ -100,13 +111,23 @@ class TransactionService
         }
 
         if ($transaction->isAdded()) {
-            return [false, 'This transaction is already add to inventory'];
+            return [false, 'This transaction is already added to inventory.'];
         }
 
-        DB::transaction(function () use ($transaction, $transactionDetails) {
+        if (!is_null($line) && TransactionField::isAdded($transaction, $line)) {
+            return [false, 'This product is already added to inventory.'];
+        }
+
+        DB::transaction(function () use ($transaction, $transactionDetails, $line) {
             InventoryOperationService::add($transactionDetails);
 
-            $transaction->add();
+            if (!is_null($line)) {
+                TransactionField::add($transaction, $line);
+            }
+
+            if (is_null($line)) {
+                $transaction->add();
+            }
         });
 
         return [true, ''];
@@ -162,16 +183,19 @@ class TransactionService
         }
     }
 
-    private function formatTransactionDetails($transaction)
+    private function formatTransactionDetails($transaction, $line)
     {
-        return $transaction
+        $transactionDetails = $transaction
             ->transactionDetails
             ->map(function ($detail) {
                 return [
                     'product_id' => Product::firstWhere('name', $detail['product'])->id,
                     'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'])->id,
                     'quantity' => $detail['quantity'],
+                    'line' => $detail['line'],
                 ];
             });
+
+        return is_null($transactionDetails) ? $transactionDetails : $transactionDetails->where('line', $line);
     }
 }

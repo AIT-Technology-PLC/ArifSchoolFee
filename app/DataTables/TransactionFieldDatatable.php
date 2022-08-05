@@ -24,10 +24,12 @@ class TransactionFieldDatatable extends DataTable
         return datatables()
             ->collection($query->all())
             ->editColumn('actions', function ($row) {
-                return view('components.common.action-buttons', [
+                return view('components.common.transaction-actions', [
                     'model' => 'transaction-fields',
                     'id' => $row['id'],
-                    'buttons' => ['delete'],
+                    'buttons' => ['delete', 'subtract', 'add'],
+                    'transaction' => $row['transaction'],
+                    'line' => $row['line'],
                 ]);
             })
             ->addIndexColumn();
@@ -57,11 +59,11 @@ class TransactionFieldDatatable extends DataTable
 
         $columns[] = Column::computed('actions')->className('actions');
 
-        return Arr::where($columns, fn ($column) => $column != null);
+        return Arr::where($columns, fn($column) => $column != null);
     }
 
     protected function filename()
     {
-        return 'Transaction Details_'.date('YmdHis');
+        return 'Transaction Details_' . date('YmdHis');
     }
 }

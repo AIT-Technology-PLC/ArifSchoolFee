@@ -279,6 +279,11 @@ Route::controller(Action\TransactionController::class)->group(function () {
     Route::post('/transactions/{transaction}/update-status', 'updateStatus')->name('transactions.update_status');
 });
 
+Route::controller(Action\TransactionFieldController::class)->group(function () {
+    Route::post('/transaction-fields/{transaction_field}/subtract', 'subtract')->name('transaction-fields.subtract');
+    Route::post('/transaction-fields/{transaction_field}/add', 'add')->name('transaction-fields.add');
+});
+
 Route::controller(Action\SaleController::class)->group(function () {
     Route::post('/sales/{sale}/approve', 'approve')->name('sales.approve');
     Route::post('/sales/{sale}/cancel', 'cancel')->name('sales.cancel');

@@ -63,6 +63,7 @@ class TransactionField extends Model
                 $query->where('key', 'subtracted_by')
                     ->orWhere('key', 'added_by');
             })
+            ->whereNotNull('line')
             ->get()
             ->pluck('transaction')
             ->filter();
@@ -73,13 +74,43 @@ class TransactionField extends Model
                     $transaction
                         ->transactionDetails
                         ->each(function ($transactionDetail) use ($warehouse, $product, $data) {
-                            if ($transactionDetail['product'] == $product->name && $transactionDetail['warehouse'] == $warehouse->name) {
+                            if ((static::isSubtracted($transactionDetail['transaction'], $transactionDetail['line']) || static::isAdded($transactionDetail['transaction'], $transactionDetail['line'])) && $transactionDetail['product'] == $product->name && $transactionDetail['warehouse'] == $warehouse->name) {
                                 $data->push($transactionDetail);
                             }
                         });
                 });
         }
 
-        return $data;
+        return $data->unique();
+    }
+
+    public static function subtract($transaction, $line)
+    {
+        static::create([
+            'transaction_id' => $transaction->id,
+            'key' => 'subtracted_by',
+            'value' => authUser()->id,
+            'line' => $line,
+        ]);
+    }
+
+    public static function add($transaction, $line)
+    {
+        static::create([
+            'transaction_id' => $transaction->id,
+            'key' => 'added_by',
+            'value' => authUser()->id,
+            'line' => $line,
+        ]);
+    }
+
+    public static function isSubtracted($transaction, $line)
+    {
+        return static::where('transaction_id', $transaction->id)->where('line', $line)->where('key', 'subtracted_by')->exists();
+    }
+
+    public static function isAdded($transaction, $line)
+    {
+        return static::where('transaction_id', $transaction->id)->where('line', $line)->where('key', 'added_by')->exists();
     }
 }
