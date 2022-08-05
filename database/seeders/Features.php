@@ -212,7 +212,7 @@ class Features extends Seeder
                         'Gdn Management',
                         'Grn Management',
                         'Transfer Management',
-                        'Inventory Adjustment',
+                        'Siv Management',
                         'Proforma Invoice',
                         'Customer Management',
                         'Purchase Management',
