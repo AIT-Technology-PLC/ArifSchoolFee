@@ -134,7 +134,6 @@ return new class extends Migration
             $table->string('id_type')->nullable();
             $table->string('id_number')->nullable();
             $table->dateTime('date_of_hiring')->nullable();
-            $table->decimal('gross_salary', 22)->nullable();
             $table->dateTime('date_of_birth')->nullable();
             $table->string('emergency_name')->nullable();
             $table->string('emergency_phone')->nullable();
