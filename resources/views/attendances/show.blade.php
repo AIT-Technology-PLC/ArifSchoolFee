@@ -24,14 +24,14 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$attendance->starting_period->toDayDateTimeString()"
+                        :data="$attendance->starting_period->toDateString()"
                         label="Starting Period"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$attendance->ending_period->toDayDateTimeString()"
+                        :data="$attendance->ending_period->toDateString()"
                         label="Ending Period"
                     />
                 </div>

@@ -134,7 +134,6 @@ return new class extends Migration
             $table->string('id_type')->nullable();
             $table->string('id_number')->nullable();
             $table->dateTime('date_of_hiring')->nullable();
-            $table->decimal('gross_salary', 22)->nullable();
             $table->dateTime('date_of_birth')->nullable();
             $table->string('emergency_name')->nullable();
             $table->string('emergency_phone')->nullable();
@@ -1007,11 +1006,12 @@ return new class extends Migration
             $table->foreignId('cancelled_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->dateTime('issued_on')->nullable();
-            $table->dateTime('starting_period')->nullable();
-            $table->dateTime('ending_period')->nullable();
+            $table->date('starting_period')->nullable();
+            $table->date('ending_period')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
+            $table->unique(['starting_period', 'ending_period', 'warehouse_id']);
             $table->index('company_id');
             $table->index('warehouse_id');
         });

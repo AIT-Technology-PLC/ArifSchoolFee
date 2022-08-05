@@ -64,11 +64,11 @@
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    type="datetime-local"
+                                    type="date"
                                     name="starting_period"
                                     id="starting_period"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ $attendance->starting_period }}"
+                                    value="{{ $attendance->starting_period->toDateString() }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"
@@ -85,11 +85,11 @@
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    type="datetime-local"
+                                    type="date"
                                     name="ending_period"
                                     id="ending_period"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ $attendance->ending_period }}"
+                                    value="{{ $attendance->ending_period->toDateString() }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"
