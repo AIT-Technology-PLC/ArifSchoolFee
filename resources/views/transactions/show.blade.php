@@ -94,8 +94,12 @@
                 <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
                 @if ($transaction->pad->isInventoryOperationAdd() && $transaction->isAdded())
                     <x-common.success-message message="Products have been added to the inventory." />
+                @elseif ($transaction->pad->isInventoryOperationAdd() && $transaction->isPartiallyAdded())
+                    <x-common.success-message message="Products have been partially added to the inventory." />
                 @elseif ($transaction->pad->isInventoryOperationSubtract() && $transaction->isSubtracted())
                     <x-common.success-message message="Products have been subtracted from the inventory." />
+                @elseif ($transaction->pad->isInventoryOperationSubtract() && $transaction->isPartiallySubtracted())
+                    <x-common.success-message message="Products have been partially subtracted from the inventory." />
                 @elseif ($transaction->pad->isApprovable() && $transaction->isApproved())
                     <x-common.success-message message="This transaction is approved." />
                 @elseif ($transaction->pad->isApprovable() && !$transaction->isApproved())
