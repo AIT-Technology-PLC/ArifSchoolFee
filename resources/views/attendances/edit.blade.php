@@ -47,7 +47,7 @@
                                     name="issued_on"
                                     id="issued_on"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ $attendance->issued_on }}"
+                                    value="{{ $attendance->issued_on->toDateTimeLocalString() }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"
