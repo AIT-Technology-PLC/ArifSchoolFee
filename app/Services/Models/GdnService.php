@@ -152,6 +152,8 @@ class GdnService
 
     public function importValidatedData($import)
     {
+        $products = Product::all(['id', 'name']);
+
         $sheets = (new GdnImport)->toArray($import);
         $data = $sheets[0][0];
         $data['gdn'] = $sheets[1];
@@ -160,7 +162,7 @@ class GdnService
 
         foreach ($data['gdn'] as &$gdn) {
             $gdn['warehouse_id'] = Warehouse::firstWhere('name', $gdn['warehouse_name'])->id ?? null;
-            $gdn['product_id'] = Product::firstWhere('name', $gdn['product_name'])->id ?? null;
+            $gdn['product_id'] = $products->firstWhere('name', str()->squish($gdn['product_name']))->id ?? null;
         }
 
         return Validator::make($data, [
