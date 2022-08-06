@@ -2,6 +2,7 @@
 
 namespace App\Services\Models;
 
+use App\Actions\ApproveTransactionAction;
 use App\Actions\ConvertToSivAction;
 use App\Imports\GdnImport;
 use App\Models\Customer;
@@ -9,6 +10,7 @@ use App\Models\Gdn;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Warehouse;
+use App\Notifications\GdnApproved;
 use App\Notifications\GdnPrepared;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\MustBelongToCompany;
@@ -25,6 +27,27 @@ use Illuminate\Validation\Rule;
 
 class GdnService
 {
+    public function approve($gdn)
+    {
+        return DB::transaction(function () use ($gdn) {
+            [$isExecuted, $message] = (new ApproveTransactionAction)->execute($gdn, GdnApproved::class, 'Subtract GDN');
+
+            if (! $isExecuted) {
+                DB::rollBack();
+                return [$isExecuted, $message];
+            }
+
+            [$isExecuted, $failedMessage] = $this->convertToCredit($gdn);
+
+            if (! $isExecuted) {
+                DB::rollBack();
+                return [$isExecuted, $failedMessage];
+            }
+
+            return [true, $message];
+        });
+    }
+
     public function subtract($gdn, $user)
     {
         if (! $user->hasWarehousePermission('sales',
