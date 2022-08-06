@@ -38,7 +38,7 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
             'grn_id' => $this->grn->id,
             'product_id' => $this->products->firstWhere('name', $row['product_name'])->id,
             'warehouse_id' => $this->warehouses->firstWhere('name', $row['warehouse_name'])->id,
-            'quantity' => $row['quantity'],
+            'quantity' => $row['quantity'] ?? 0.00,
             'description' => $row['description'] ?? '',
         ]);
     }
@@ -48,7 +48,7 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
         return [
             'product_name' => ['required', 'string', 'max:255', Rule::in($this->products->pluck('name'))],
             'warehouse_name' => ['required', 'string', Rule::in($this->warehouses->pluck('name'))],
-            'quantity' => ['required', 'numeric', 'gt:0'],
+            'quantity' => ['nullable', 'numeric', 'gt:0'],
             'description' => ['nullable', 'string'],
         ];
     }
