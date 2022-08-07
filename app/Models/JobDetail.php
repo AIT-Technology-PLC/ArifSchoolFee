@@ -12,6 +12,11 @@ class JobDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $casts =[
+        'available' => 'float',
+        'wip' => 'float',
+    ];
+
     public function job()
     {
         return $this->belongsTo(Job::class, 'job_order_id');
