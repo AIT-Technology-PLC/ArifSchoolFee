@@ -323,7 +323,7 @@ Route::post('/advancements/{advancement}/approve',
 // BOM
 Route::post('/bill-of-materials/{bill_of_material}/approve',
     [Action\BillOfMaterialController::class, 'approve'])
-    ->name('bill_of_materials.approve');
+    ->name('bill-of-materials.approve');
 
 // Expense Claim
 Route::post('/expense-claims/{expense_claim}/approve',
