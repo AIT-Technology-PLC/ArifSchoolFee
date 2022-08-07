@@ -30,9 +30,9 @@ class JobDetailHistoryService implements DetailHistoryServiceInterface
                 'url' => '/jobs/'.$jobDetail->job_order_id,
                 'code' => $jobDetail->job->code,
                 'date' => $jobDetail->job->issued_on,
-                'quantity' => $jobDetail->is_bill_of_material ?
-                number_format($jobDetail->wip + $jobDetail->available, 2) :
-                number_format($jobDetail->available, 2),
+                'quantity' => $jobDetail->is_bill_of_material 
+                ? $jobDetail->wip + $jobDetail->available 
+                : jobDetail->available,
                 'balance' => 0.00,
                 'unit_of_measurement' => $this->product->unit_of_measurement,
                 'details' => ($jobDetail->is_bill_of_material ? 'Used in ' : 'Manufactured in ').$this->warehouse->name,

@@ -12,11 +12,6 @@ class JobDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
-    protected $casts =[
-        'available' => 'float',
-        'wip' => 'float',
-    ];
-
     public function job()
     {
         return $this->belongsTo(Job::class, 'job_order_id');
@@ -102,8 +97,8 @@ class JobDetail extends Model
                     ->map(function ($billOfMaterialDetail) use ($jobDetail) {
                         return (new JobDetail([
                             'job_order_id' => $jobDetail->job_order_id,
-                            'available' => number_format($billOfMaterialDetail->quantity * $jobDetail->available, 2),
-                            'wip' => number_format($billOfMaterialDetail->quantity * $jobDetail->wip, 2),
+                            'available' => $billOfMaterialDetail->quantity * $jobDetail->available,
+                            'wip' => $billOfMaterialDetail->quantity * $jobDetail->wip,
                         ]))->setAttribute('is_bill_of_material', 1)->load('job');
                     });
             })
