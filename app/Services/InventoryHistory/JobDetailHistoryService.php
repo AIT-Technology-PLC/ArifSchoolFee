@@ -32,7 +32,7 @@ class JobDetailHistoryService implements DetailHistoryServiceInterface
                 'date' => $jobDetail->job->issued_on,
                 'quantity' => $jobDetail->is_bill_of_material 
                 ? $jobDetail->wip + $jobDetail->available 
-                : jobDetail->available,
+                : $jobDetail->available,
                 'balance' => 0.00,
                 'unit_of_measurement' => $this->product->unit_of_measurement,
                 'details' => ($jobDetail->is_bill_of_material ? 'Used in ' : 'Manufactured in ').$this->warehouse->name,
