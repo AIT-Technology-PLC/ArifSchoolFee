@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Models\Employee;
-use App\Models\Pad;
 use App\Utilities\PermissionCategorization;
 use Spatie\Permission\Models\Permission;
 
@@ -22,17 +21,17 @@ class PermissionController extends Controller
 
         $this->authorize('update', $employee);
 
-        $permissions = Permission::whereNotIn('name', $employee->user->getPermissionsViaRoles()->pluck('name'))
-            ->oldest()
-            ->pluck('name');
+        $permissions = Permission::oldest()->pluck('name');
 
         $permissionCategories = PermissionCategorization::getPermissionCategories();
 
         $permissionsByCategories = PermissionCategorization::getPermissionsByCategories($permissions);
 
-        $userDirectPermissions = $employee->user->getDirectPermissions()->pluck('name');
+        $userPermissions = $employee->user->getAllPermissions()->pluck('name');
 
-        $pads = Pad::with('padPermissions.pad')->enabled()->get();
+        $userRolesPermissions = $employee->user->getPermissionsViaRoles()->pluck('name');
+
+        $pads = pads()->load('padPermissions.pad');
 
         $userPadPermissions = $employee->user->padPermissions()->pluck('pad_permission_id');
 
@@ -41,7 +40,8 @@ class PermissionController extends Controller
                 'employee',
                 'permissionCategories',
                 'permissionsByCategories',
-                'userDirectPermissions',
+                'userPermissions',
+                'userRolesPermissions',
                 'pads',
                 'userPadPermissions'
             )

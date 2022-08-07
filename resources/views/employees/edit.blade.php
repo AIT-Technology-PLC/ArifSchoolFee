@@ -555,6 +555,11 @@
                         </div>
                     </div>
                 </section>
+
+                @if (isFeatureEnabled('Compensation Management'))
+                    @include('employees.partials.details-form', ['data' => ['employeeCompensation' => old('employeeCompensation') ?? $employee->employeeCompensations]])
+                @endif
+
                 @if (!$employee->user->hasRole('System Manager'))
                     <section class="mt-5">
                         <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3">

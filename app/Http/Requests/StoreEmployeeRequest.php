@@ -47,12 +47,13 @@ class StoreEmployeeRequest extends FormRequest
             'id_type' => ['nullable', 'string', 'max:255', Rule::in(['passport', 'drivers license', 'employee id', 'kebele id', 'student id'])],
             'id_number' => ['nullable', 'string', 'max:255'],
             'date_of_hiring' => ['nullable', 'date'],
-            'gross_salary' => ['nullable', 'numeric'],
             'date_of_birth' => ['nullable', 'date', 'before:' . now()],
             'emergency_name' => ['nullable', 'string', 'max:255', 'required_unless:emergency_phone,null'],
             'emergency_phone' => ['nullable', 'string', 'max:255', 'required_unless:emergency_name,null'],
             'department_id' => ['nullable', 'integer', Rule::when(!isFeatureEnabled('Department Management'), 'prohibited'), new MustBelongToCompany('departments')],
-
+            'employeeCompensation' => ['required', 'array', Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited')],
+            'employeeCompensation.*.compensation_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('compensations')],
+            'employeeCompensation.*.amount' => ['required', 'numeric'],
         ];
     }
 }

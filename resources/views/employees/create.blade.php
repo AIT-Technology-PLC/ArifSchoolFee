@@ -450,28 +450,6 @@
                             </div>
                             <div class="column is-6">
                                 <x-forms.field>
-                                    <x-forms.label for="gross_salary">
-                                        Gross Salary <sup class="has-text-danger"></sup>
-                                    </x-forms.label>
-                                    <x-forms.control class="has-icons-left">
-                                        <x-forms.input
-                                            id="gross_salary"
-                                            name="gross_salary"
-                                            type="number"
-                                            placeholder="Gross Salary"
-                                            value="{{ old('gross_salary') }}"
-                                            autocomplete="gross_salary"
-                                        />
-                                        <x-common.icon
-                                            name="fas fa-money-bill"
-                                            class="is-small is-left"
-                                        />
-                                        <x-common.validation-error property="gross_salary" />
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                            <div class="column is-6">
-                                <x-forms.field>
                                     <x-forms.label for="date_of_hiring">
                                         Date Of Hiring <sup class="has-text-danger"></sup>
                                     </x-forms.label>
@@ -607,6 +585,11 @@
                         </div>
                     </div>
                 </section>
+
+                @if (isFeatureEnabled('Compensation Management'))
+                    @include('employees.partials.details-form', ['data' => session()->getOldInput()])
+                @endif
+
                 <section class="mt-5">
                     <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3">
                         <h1 class="text-green is-size-5">

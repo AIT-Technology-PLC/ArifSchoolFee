@@ -227,8 +227,7 @@
                                             action="subtract"
                                             intention="subtract this Job Materials"
                                             icon="fas fa-minus-circle"
-                                            label="Subtract"
-                                            class="tag is-white btn-purple is-small is-outlined  is-not-underlined"
+                                            class="text-purple has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
                                         />
                                     @endcan
                                 @endif
@@ -239,8 +238,7 @@
                                             action="add"
                                             intention="add this Job Materials"
                                             icon="fas fa-plus"
-                                            label="Add"
-                                            class="tag is-white btn-green is-small is-outlined is-not-underlined"
+                                            class="text-green has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
                                         />
                                     @endcan
                                 @endif

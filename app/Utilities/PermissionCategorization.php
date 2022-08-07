@@ -16,6 +16,7 @@ class PermissionCategorization
         'transfer' => [
             'label' => 'Transfer',
             'feature' => 'Transfer Management',
+            'exclude' => ['Employee'],
         ],
         'damage' => [
             'label' => 'Damage',
@@ -133,6 +134,10 @@ class PermissionCategorization
             'label' => 'Announcement',
             'feature' => 'Announcement Management',
         ],
+        'compensation' => [
+            'label' => 'Compensation',
+            'feature' => 'Compensation Management',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)
@@ -143,6 +148,13 @@ class PermissionCategorization
             $permissionsByCategory[$key] = $permissions
                 ->filter(function ($permission) use ($key) {
                     return stristr($permission, $key);
+                })
+                ->reject(function ($permission) use ($key) {
+                    if (!isset(static::PERMISSION_CATEGORIES[$key]['exclude'])) {
+                        return;
+                    }
+
+                    return str($permission)->containsAll(static::PERMISSION_CATEGORIES[$key]['exclude']);
                 })
                 ->toArray();
         }

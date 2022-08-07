@@ -1,30 +1,14 @@
-<a
+<x-common.button
+    tag="a"
     href="{{ route('permissions.edit', $employee->id) }}"
-    data-title="Modify Employee Permissions"
->
-    <span class="tag is-white btn-purple is-outlined is-small text-purple has-text-weight-medium">
-        <span class="icon">
-            <i class="fas fa-lock"></i>
-        </span>
-        <span>
-            Permissions
-        </span>
-    </span>
-</a>
-<a
-    href="{{ route('employees.edit', $employee->id) }}"
-    data-title="Modify Employee Data"
->
-    <span class="tag is-white btn-green is-outlined is-small text-green has-text-weight-medium">
-        <span class="icon">
-            <i class="fas fa-pen-square"></i>
-        </span>
-        <span>
-            Edit
-        </span>
-    </span>
-</a>
-<x-common.delete-button
-    route="employees.destroy"
+    mode="button"
+    data-title="Permissions"
+    icon="fas fa-lock"
+    class="text-green has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
+/>
+
+<x-common.action-buttons
+    :buttons="['delete', 'edit']"
+    model="job-extras"
     :id="$employee->id"
 />

@@ -6,6 +6,7 @@ use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreAttendanceRequest extends FormRequest
 {
@@ -19,8 +20,8 @@ class StoreAttendanceRequest extends FormRequest
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('attendances')],
             'issued_on' => ['required', 'date'],
-            'starting_period' => ['required', 'date'],
-            'ending_period' => ['required', 'date', 'after:starting_period'],
+            'starting_period' => ['required', 'date', Rule::unique('attendances')->where('warehouse_id', authUser()->warehouse_id)],
+            'ending_period' => ['required', 'date', 'after:starting_period', Rule::unique('attendances')->where('warehouse_id', authUser()->warehouse_id)],
             'attendance' => ['required', 'array'],
             'attendance.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees')],
             'attendance.*.days' => ['required', 'numeric', 'gt:0', function ($attribute, $value, $fail) {
