@@ -38,7 +38,11 @@ class TransactionService
 
     public function approve($transaction)
     {
-        if ($transaction->pad->isApprovable() && $transaction->isApproved()) {
+        if (! $transaction->pad->isApprovable()) {
+            return [false, 'This feature is not approvable.'];
+        }
+
+        if ($transaction->isApproved()) {
             return [false, 'This transaction is already approved.'];
         }
 
