@@ -21,8 +21,19 @@ class TransactionFieldDatatable extends DataTable
 
     public function dataTable($query)
     {
-        return datatables()
-            ->collection($query->all())
+        $datatable = datatables()->collection($query->all());
+
+        if (!request()->route('transaction')->pad->isInventoryOperationNone()) {
+            $datatable
+                ->editColumn('status', function ($row) {
+                    return view('components.datatables.transaction-field-inventory-status', [
+                        'transaction' => $row['transaction'],
+                        'line' => $row['line'],
+                    ]);
+                });
+        }
+
+        return $datatable
             ->editColumn('actions', function ($row) {
                 return view('components.common.transaction-actions', [
                     'model' => 'transaction-fields',
@@ -56,6 +67,8 @@ class TransactionFieldDatatable extends DataTable
             $columns[] = userCompany()->isDiscountBeforeVAT() && $padFields->contains('label', 'discount') ? Column::computed('discount') : null;
             $columns[] = Column::make('total');
         }
+
+        $columns[] = !request()->route('transaction')->pad->isInventoryOperationNone() ? Column::computed('status') : '';
 
         $columns[] = Column::computed('actions')->className('actions');
 
