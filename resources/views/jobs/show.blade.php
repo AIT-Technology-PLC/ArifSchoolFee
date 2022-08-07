@@ -227,7 +227,7 @@
                                             action="subtract"
                                             intention="subtract this Job Materials"
                                             icon="fas fa-minus-circle"
-                                            class="text-purple has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
+                                            class="text-green has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
                                         />
                                     @endcan
                                 @endif
@@ -237,7 +237,7 @@
                                             :route="route('job-extras.add', $jobExtra->id)"
                                             action="add"
                                             intention="add this Job Materials"
-                                            icon="fas fa-plus"
+                                            icon="fas fa-plus-circle"
                                             class="text-green has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
                                         />
                                     @endcan
