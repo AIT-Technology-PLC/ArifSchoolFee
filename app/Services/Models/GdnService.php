@@ -37,12 +37,7 @@ class GdnService
                 return [$isExecuted, $message];
             }
 
-            [$isExecuted, $failedMessage] = $this->convertToCredit($gdn);
-
-            if (! $isExecuted) {
-                DB::rollBack();
-                return [$isExecuted, $failedMessage];
-            }
+            $this->convertToCredit($gdn);
 
             return [true, $message];
         });
