@@ -33,7 +33,7 @@ class ExpenseClaimController extends Controller
         }
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Expense Claim', $expenseClaim->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read Expense Claim', $expenseClaim->warehouse_id, $expenseClaim->createdBy),
             new ExpenseClaimApproved($expenseClaim)
         );
 
@@ -55,7 +55,7 @@ class ExpenseClaimController extends Controller
         }
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Expense Claim', $expenseClaim->rejectedBy),
+            Notifiables::byPermissionAndWarehouse('Read Expense Claim', $expenseClaim->warehouse_id, $expenseClaim->rejectedBy),
             new ExpenseClaimRejected($expenseClaim)
         );
 

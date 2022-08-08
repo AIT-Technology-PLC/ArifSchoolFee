@@ -32,7 +32,7 @@ class LeaveController extends Controller
         }
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Leave', $leaf->createdBy)->push($leaf->employee->user),
+            Notifiables::byPermissionAndWarehouse('Read Leave', $leaf->warehouse_id, $leaf->createdBy)->push($leaf->employee->user),
             new LeaveApproved($leaf)
         );
 

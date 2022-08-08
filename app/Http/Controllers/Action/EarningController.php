@@ -27,7 +27,7 @@ class EarningController extends Controller
         }
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Earning', $earning->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read Earning', $earning->warehouse_id, $earning->createdBy),
             new EarningApproved($earning)
         );
 
