@@ -96,7 +96,7 @@
                 'Announcement Management',
                 'Compensation Management',
                 'Compensation Adjustment'))
-                @canany(['Create Employee', 'Create Department', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement', 'Create Leave', 'Create Expense Claim', 'Create Earning', 'Create Announcement', 'Create Compensation', 'Read Compensation Adjustment'])
+                @canany(['Create Employee', 'Create Department', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement', 'Create Leave', 'Create Expense Claim', 'Create Earning', 'Create Announcement', 'Create Compensation', 'Create Compensation Adjustment'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon

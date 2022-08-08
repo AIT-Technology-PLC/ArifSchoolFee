@@ -198,7 +198,7 @@ class Features extends Seeder
             );
             Feature::updateOrCreate(
                 ['name' => 'Compensation Adjustment'],
-                ['is_enabled' => 1]
+                ['is_enabled' => 0]
             );
 
             $standard = Plan::firstWhere('name', 'standard');

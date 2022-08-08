@@ -1258,7 +1258,8 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['starting_period', 'ending_period']);
+            $table->unique(['company_id', 'starting_period']);
+            $table->unique(['company_id', 'ending_period']);
             $table->index('company_id');
         });
 

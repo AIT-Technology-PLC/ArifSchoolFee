@@ -7,6 +7,7 @@ use App\Actions\CancelTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\CompensationAdjustment;
 use App\Notifications\CompensationAdjustmentApproved;
+use App\Notifications\CompensationAdjustmentCancelled;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 
@@ -32,7 +33,7 @@ class CompensationAdjustmentController extends Controller
         }
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Compensation Adjustment', $compensationAdjustment->createdBy),
+            Notifiables::byPermissionAndWarehouse('Read Compensation Adjustment', $compensationAdjustment->createdBy, $compensationAdjustment->warehouse_id),
             new CompensationAdjustmentApproved($compensationAdjustment)
         );
 
@@ -52,6 +53,11 @@ class CompensationAdjustmentController extends Controller
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read Compensation Adjustment', $compensationAdjustment->cancelledBy, $compensationAdjustment->warehouse_id),
+            new CompensationAdjustmentCancelled($compensationAdjustment)
+        );
 
         return back()->with('successMessage', $message);
     }
