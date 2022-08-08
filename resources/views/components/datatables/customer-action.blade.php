@@ -1,4 +1,4 @@
-@if ($customer->credits()->sum('credit_amount') != $customer->credits()->sum('credit_amount_settled'))
+@if (isFeatureEnabled('Credit Management') && $customer->credits()->sum('credit_amount') != $customer->credits()->sum('credit_amount_settled'))
     <a
         href="{{ route('customers.settle', $customer->id) }}"
         data-title="Settle Customer Credit"

@@ -17,6 +17,8 @@ class CustomerController extends Controller
     {
         $this->middleware('isFeatureAccessible:Customer Management');
 
+        $this->middleware('isFeatureAccessible:Credit Management')->only('settle', 'settleCredit');
+
         $this->customerService = $customerService;
     }
 
