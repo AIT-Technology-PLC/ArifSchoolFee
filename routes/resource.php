@@ -23,7 +23,7 @@ Route::resource('notifications', Resource\NotificationController::class)->except
 
 Route::resource('suppliers', Resource\SupplierController::class)->except('show');
 
-Route::resource('warehouses', Resource\WarehouseController::class)->except('show');
+Route::resource('warehouses', Resource\WarehouseController::class)->except(['show', 'destroy']);
 
 Route::resource('customers', Resource\CustomerController::class)->except('show');
 

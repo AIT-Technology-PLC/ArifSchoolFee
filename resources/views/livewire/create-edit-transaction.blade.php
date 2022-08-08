@@ -30,6 +30,40 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    @if ($padStatuses->isNotEmpty())
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="status">
+                                    Status <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="status"
+                                        wire:model="status"
+                                    >
+                                        <option
+                                            selected
+                                            hidden
+                                            value=""
+                                        >
+                                            Select Status
+                                        </option>
+                                        @foreach ($padStatuses as $padStatus)
+                                            <option value="{{ $padStatus->name }}">
+                                                {{ $padStatus->name }}
+                                            </option>
+                                        @endforeach
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-info"
+                                        class="is-large is-left"
+                                    />
+                                    <x-common.validation-error property="status" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="issued_on">

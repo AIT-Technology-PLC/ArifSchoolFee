@@ -17,8 +17,6 @@ class Pad extends Model
 
     protected $casts = [
         'is_approvable' => 'boolean',
-        'is_closable' => 'boolean',
-        'is_cancellable' => 'boolean',
         'is_printable' => 'boolean',
         'has_prices' => 'boolean',
         'has_payment_term' => 'boolean',
@@ -28,6 +26,7 @@ class Pad extends Model
     protected $cascadeDeletes = [
         'padFields',
         'padPermissions',
+        'padStatuses',
     ];
 
     public const INVENTORY_OPERATIONS = [
@@ -54,6 +53,11 @@ class Pad extends Model
     public function padFields()
     {
         return $this->hasMany(PadField::class);
+    }
+
+    public function padStatuses()
+    {
+        return $this->hasMany(PadStatus::class);
     }
 
     public function padPermissions()
@@ -97,21 +101,6 @@ class Pad extends Model
         return $this->is_approvable;
     }
 
-    public function isClosable()
-    {
-        return $this->is_closable;
-    }
-
-    public function isClosableOnly()
-    {
-        return $this->isClosable() && !$this->isApprovable() && $this->isInventoryOperationNone() && !$this->isCancellable();
-    }
-
-    public function isCancellable()
-    {
-        return $this->is_cancellable;
-    }
-
     public function isPrintable()
     {
         return $this->is_printable;
@@ -149,7 +138,7 @@ class Pad extends Model
 
     public function hasStatus()
     {
-        return !$this->isInventoryOperationNone() || $this->isApprovable() || $this->isCancellable();
+        return !$this->isInventoryOperationNone() || $this->isApprovable();
     }
 
     public function hasPrices()

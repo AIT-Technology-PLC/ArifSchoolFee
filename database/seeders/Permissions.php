@@ -160,7 +160,6 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Warehouse']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Warehouse']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Warehouse']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Warehouse']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Import Warehouse']);
 
             // Employee

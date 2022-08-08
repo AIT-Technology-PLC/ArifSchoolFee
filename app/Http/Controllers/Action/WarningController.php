@@ -27,7 +27,7 @@ class WarningController extends Controller
         }
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Warning', $warning->createdBy)->push($warning->employee->user),
+            Notifiables::byPermissionAndWarehouse('Read Warning', $warning->warehouse_id, $warning->createdBy)->push($warning->employee->user),
             new WarningApproved($warning)
         );
 

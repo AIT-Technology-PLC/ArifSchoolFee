@@ -1,64 +1,12 @@
-@if ($transaction->pad->isCancellable() && $transaction->isCancelled())
-    <span class="tag is-small bg-gold has-text-white">
-        <span class="icon">
-            <i class="fas fa-times-circle"></i>
-        </span>
-        <span>
-            Cancelled
-        </span>
+@if ($transaction->transactionStatus)
+    <span
+        class="tag has-text-weight-bold"
+        style="background: {{ $transaction->transactionStatus->bg_color }} !important;color: {{ $transaction->transactionStatus->text_color }} !important"
+    >
+        {{ $transaction->transactionStatus->name }}
     </span>
-@elseif ($transaction->pad->isClosableOnly() && $transaction->isClosed())
-    <span class="tag is-small bg-gold has-text-white">
-        <span class="icon">
-            <i class="fas fa-check-circle"></i>
-        </span>
-        <span>
-            Closed
-        </span>
-    </span>
-@elseif ($transaction->pad->isInventoryOperationAdd() && $transaction->isAdded())
-    <span class="tag is-small bg-green has-text-white">
-        <span class="icon">
-            <i class="fas fa-check-circle"></i>
-        </span>
-        <span>
-            Added
-        </span>
-    </span>
-@elseif ($transaction->pad->isInventoryOperationSubtract() && $transaction->isSubtracted())
-    <span class="tag is-small bg-green has-text-white">
-        <span class="icon">
-            <i class="fas fa-check-circle"></i>
-        </span>
-        <span>
-            Subtracted
-        </span>
-    </span>
-@elseif ($transaction->pad->isApprovable() && $transaction->isApproved())
-    <span class="tag is-small bg-gold has-text-white">
-        <span class="icon">
-            <i class="fas fa-exclamation-circle"></i>
-        </span>
-        <span>
-            Approved
-        </span>
-    </span>
-@elseif ($transaction->pad->isApprovable() && !$transaction->isApproved())
-    <span class="tag is-small bg-purple has-text-white">
-        <span class="icon">
-            <i class="fas fa-clock"></i>
-        </span>
-        <span>
-            Waiting Approval
-        </span>
-    </span>
-@elseif ($transaction->pad->isClosable() && !$transaction->isClosed())
-    <span class="tag is-small bg-purple has-text-white">
-        <span class="icon">
-            <i class="fas fa-clock"></i>
-        </span>
-        <span>
-            Open
-        </span>
+@else
+    <span class="tag is-dark">
+        No Status
     </span>
 @endif

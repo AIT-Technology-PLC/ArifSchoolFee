@@ -54,7 +54,7 @@ class PadController extends Controller
     {
         $datatable->builder()->setTableId('pad-fields-datatable');
 
-        $pad->load(['padPermissions']);
+        $pad->load(['padPermissions', 'padStatuses']);
 
         return $datatable->render('pads.show', compact('pad'));
     }
@@ -62,12 +62,12 @@ class PadController extends Controller
     public function edit(Pad $pad)
     {
         $features = (new Pad)->converts();
-        
+
         $pricesFields = $this->padService->generatePriceFields()->pluck('label');
-        
+
         $excludedPadFields = $this->padService->generatePaymentTermFields()->pluck('label')->merge($pricesFields);
 
-        $pad->load(['padFields' => function ($query) use ($excludedPadFields) {
+        $pad->load(['padStatuses', 'padFields' => function ($query) use ($excludedPadFields) {
             $query->with('padRelation')->whereNotIn('label', $excludedPadFields);
         }]);
 

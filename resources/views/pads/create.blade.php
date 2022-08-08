@@ -224,66 +224,6 @@
                     <div class="column is-4">
                         <x-forms.field>
                             <x-forms.label>
-                                Closable <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.label class="radio is-inline">
-                                    <input
-                                        type="radio"
-                                        name="is_closable"
-                                        id="is_closable"
-                                        value="1"
-                                        @checked(old('is_closable') == 1)
-                                    />
-                                    Yes
-                                </x-forms.label>
-                                <x-forms.label class="radio is-inline">
-                                    <input
-                                        type="radio"
-                                        name="is_closable"
-                                        id="is_closable"
-                                        value="0"
-                                        @checked(old('is_closable') == 0)
-                                    />
-                                    No
-                                </x-forms.label>
-                                <x-common.validation-error property="is_closable" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-4">
-                        <x-forms.field>
-                            <x-forms.label>
-                                Cancellable <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.label class="radio is-inline">
-                                    <input
-                                        type="radio"
-                                        name="is_cancellable"
-                                        id="is_cancellable"
-                                        value="1"
-                                        @checked(old('is_cancellable') == 1)
-                                    />
-                                    Yes
-                                </x-forms.label>
-                                <x-forms.label class="radio is-inline">
-                                    <input
-                                        type="radio"
-                                        name="is_cancellable"
-                                        id="is_cancellable"
-                                        value="0"
-                                        @checked(old('is_cancellable') == 0)
-                                    />
-                                    No
-                                </x-forms.label>
-                                <x-common.validation-error property="is_cancellable" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-4">
-                        <x-forms.field>
-                            <x-forms.label>
                                 Printable <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
@@ -402,6 +342,9 @@
                         </x-forms.field>
                     </div>
                 </div>
+
+                @include('pads.partials.statuses', ['data' => session()->getOldInput()])
+
                 <div
                     x-data="padMasterDetailForm({{ Js::from(session()->getOldInput()) }})"
                     x-init="setErrors({{ Js::from($errors->get('field.*')) }})"
@@ -816,3 +759,52 @@
         </form>
     </x-common.content-wrapper>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener("alpine:init", () => {
+            Alpine.data("padMasterDetailForm", ({
+                field
+            }) => ({
+                fields: [],
+                errors: {},
+
+                init() {
+                    if (field) {
+                        this.fields = field;
+                        return;
+                    }
+                },
+                setErrors(errors) {
+                    this.errors = errors;
+                },
+                add() {
+                    this.fields.push({
+                        relationship_type: "",
+                        model_name: "",
+                        representative_column: "",
+                        component_name: "",
+                        label: "",
+                        icon: "",
+                        is_relational_field: "0",
+                        is_master_field: "0",
+                        is_required: "0",
+                        is_visible: "0",
+                        is_printable: "0",
+                        tag: "",
+                        tag_type: "",
+                    });
+                },
+                remove(index) {
+                    this.fields.splice(index, 1);
+                },
+                isFieldRelational(fieldType) {
+                    return fieldType === "1";
+                },
+                isTagInput(tagName) {
+                    return tagName.toLowerCase() === "input";
+                },
+            }));
+        });
+    </script>
+@endpush

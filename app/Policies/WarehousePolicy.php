@@ -30,11 +30,6 @@ class WarehousePolicy
         return $user->can('Update Warehouse');
     }
 
-    public function delete(User $user, Warehouse $warehouse)
-    {
-        return $user->can('Delete Warehouse');
-    }
-
     public function import(User $user)
     {
         return $user->can('Import Warehouse');

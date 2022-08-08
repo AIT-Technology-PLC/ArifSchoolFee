@@ -31,6 +31,8 @@ class EditTransaction extends Component
 
     public $issued_on;
 
+    public $padStatuses;
+
     public function mount(Transaction $transaction)
     {
         $this->transaction = $transaction;
@@ -53,6 +55,8 @@ class EditTransaction extends Component
             ->pluck('id');
 
         $this->issued_on = $this->transaction->issued_on->toDateTimeLocalString();
+
+        $this->padStatuses = collect();
     }
 
     public function addDetail()
@@ -71,11 +75,7 @@ class EditTransaction extends Component
 
     public function update()
     {
-        abort_if(
-            $this->transaction->isApproved() || $this->transaction->isCancelled() ||
-            $this->transaction->isClosed() || $this->transaction->isAdded() || $this->transaction->isSubtracted(),
-            403
-        );
+        abort_if(!$this->transaction->canBeEdited(), 403);
 
         $this->authorize('update', $this->transaction);
 
@@ -97,7 +97,7 @@ class EditTransaction extends Component
         ];
 
         foreach ($this->masterPadFields as $masterPadField) {
-            $key = 'master.'.$masterPadField->id;
+            $key = 'master.' . $masterPadField->id;
 
             $rules[$key][] = $masterPadField->isRequired() ? 'required' : 'nullable';
 
@@ -110,7 +110,7 @@ class EditTransaction extends Component
         }
 
         foreach ($this->detailPadFields as $detailPadField) {
-            $key = 'details.*.'.$detailPadField->id;
+            $key = 'details.*.' . $detailPadField->id;
 
             $rules[$key][] = $detailPadField->isRequired() ? 'required' : 'nullable';
 

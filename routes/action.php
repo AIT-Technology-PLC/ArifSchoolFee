@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Action as Action;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Action as Action;
 
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
@@ -273,11 +274,15 @@ Route::controller(Action\TransactionController::class)->group(function () {
     Route::post('/transactions/{transaction}/approve', 'approve')->name('transactions.approve');
     Route::post('/transactions/{transaction}/subtract', 'subtract')->name('transactions.subtract');
     Route::post('/transactions/{transaction}/add', 'add')->name('transactions.add');
-    Route::post('/transactions/{transaction}/close', 'close')->name('transactions.close');
-    Route::post('/transactions/{transaction}/cancel', 'cancel')->name('transactions.cancel');
     Route::get('/transactions/{transaction}/print', 'printed')->name('transactions.print');
     Route::get('/transactions/{transaction}/convert-to', 'convertTo')->name('transactions.convert_to');
     Route::get('/transactions/{transaction}/convert-from', 'convertFrom')->name('transactions.convert_from');
+    Route::post('/transactions/{transaction}/update-status', 'updateStatus')->name('transactions.update_status');
+});
+
+Route::controller(Action\TransactionFieldController::class)->group(function () {
+    Route::post('/transaction-fields/{transaction_field}/subtract', 'subtract')->name('transaction-fields.subtract');
+    Route::post('/transaction-fields/{transaction_field}/add', 'add')->name('transaction-fields.add');
 });
 
 Route::controller(Action\SaleController::class)->group(function () {
@@ -319,7 +324,7 @@ Route::post('/advancements/{advancement}/approve',
 // BOM
 Route::post('/bill-of-materials/{bill_of_material}/approve',
     [Action\BillOfMaterialController::class, 'approve'])
-    ->name('bill_of_materials.approve');
+    ->name('bill-of-materials.approve');
 
 // Expense Claim
 Route::post('/expense-claims/{expense_claim}/approve',

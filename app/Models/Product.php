@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -154,9 +155,20 @@ class Product extends Model
         $this->attributes['properties'] = json_encode($properties);
     }
 
-    public function getCodeAttribute($value)
+    public function name(): Attribute
     {
-        return str()->squish($value);
+        return Attribute::make(
+            get:fn($value) => str()->squish($value),
+            set:fn($value) => $this->attributes['name'] = str()->squish($value),
+        );
+    }
+
+    public function code(): Attribute
+    {
+        return Attribute::make(
+            get:fn($value) => str()->squish($value),
+            set:fn($value) => $this->attributes['code'] = str()->squish($value),
+        );
     }
 
     public function isProductLimited($onHandQuantity)

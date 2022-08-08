@@ -66,11 +66,4 @@ class WarehouseController extends Controller
 
         return redirect()->route('warehouses.index');
     }
-
-    public function destroy(Warehouse $warehouse)
-    {
-        $warehouse->delete();
-
-        return back()->with('deleted', 'Deleted successfully.');
-    }
 }

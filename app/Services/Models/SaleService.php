@@ -21,12 +21,14 @@ class SaleService
             [$isExecuted, $message] = (new ApproveTransactionAction)->execute($sale);
 
             if (! $isExecuted) {
+                DB::rollBack();
                 return [$isExecuted, $message];
             }
 
             [$isExecuted, $message] = $this->pointOfSaleService->create($sale);
 
             if (! $isExecuted) {
+                DB::rollBack();
                 return [$isExecuted, $message];
             }
 
@@ -42,6 +44,7 @@ class SaleService
             [$isExecuted, $message] = $this->pointOfSaleService->cancel($sale);
 
             if (! $isExecuted) {
+                DB::rollBack();
                 return [$isExecuted, $message];
             }
 

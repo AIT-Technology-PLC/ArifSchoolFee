@@ -9,11 +9,10 @@
     @method('DELETE')
     <x-common.button
         tag="button"
-        mode="tag"
+        mode="button"
         data-title="Delete permanently"
         icon="fas fa-trash"
-        label="Delete"
-        class="is-black has-text-white has-text-weight-medium"
+        class="text-purple has-text-weight-medium is-small px-2 py-0 is-transparent-color"
     />
 </form>
 

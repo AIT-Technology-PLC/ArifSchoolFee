@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['name, company_id']);
+            $table->unique(['name', 'company_id']);
             $table->index('company_id');
         });
 

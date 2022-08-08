@@ -18,6 +18,10 @@ class AttendanceController extends Controller
     {
         $this->authorize('approve', $attendance);
 
+        if (!$attendance->attendanceEnded()) {
+            return back()->with('failedMessage', 'You can not approve an attendance with ending period after today.');
+        }
+
         [$isExecuted, $message] = $action->execute($attendance);
 
         if (!$isExecuted) {

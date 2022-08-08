@@ -44,8 +44,8 @@ class TransferDetailHistoryService implements DetailHistoryServiceInterface
                     'unit_of_measurement' => $this->product->unit_of_measurement,
 
                     'details' => $transferDetail->transfer->transferred_from == $this->warehouse->id ?
-                    Str::of('Transferred')->append(' from ', $this->warehouse->name) :
-                    Str::of('Transferred')->append(' to ', $transferDetail->transfer->transferredTo->name),
+                    Str::of('Transferred')->append(' to ', $transferDetail->transfer->transferredTo->name) :
+                    Str::of('Transferred')->append(' from ', $this->warehouse->name),
 
                     'function' => $transferDetail->transfer->transferred_from == $this->warehouse->id ? 'subtract' : 'add',
                 ];
