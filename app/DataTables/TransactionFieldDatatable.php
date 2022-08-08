@@ -21,13 +21,26 @@ class TransactionFieldDatatable extends DataTable
 
     public function dataTable($query)
     {
-        return datatables()
-            ->collection($query->all())
+        $datatable = datatables()->collection($query->all());
+
+        if (!request()->route('transaction')->pad->isInventoryOperationNone()) {
+            $datatable
+                ->editColumn('status', function ($row) {
+                    return view('components.datatables.transaction-field-inventory-status', [
+                        'transaction' => $row['transaction'],
+                        'line' => $row['line'],
+                    ]);
+                });
+        }
+
+        return $datatable
             ->editColumn('actions', function ($row) {
-                return view('components.common.action-buttons', [
+                return view('components.common.transaction-actions', [
                     'model' => 'transaction-fields',
                     'id' => $row['id'],
-                    'buttons' => ['delete'],
+                    'buttons' => ['delete', 'subtract', 'add'],
+                    'transaction' => $row['transaction'],
+                    'line' => $row['line'],
                 ]);
             })
             ->addIndexColumn();
@@ -55,13 +68,15 @@ class TransactionFieldDatatable extends DataTable
             $columns[] = Column::make('total');
         }
 
+        $columns[] = !request()->route('transaction')->pad->isInventoryOperationNone() ? Column::computed('status') : '';
+
         $columns[] = Column::computed('actions')->className('actions');
 
-        return Arr::where($columns, fn ($column) => $column != null);
+        return Arr::where($columns, fn($column) => $column != null);
     }
 
     protected function filename()
     {
-        return 'Transaction Details_'.date('YmdHis');
+        return 'Transaction Details_' . date('YmdHis');
     }
 }

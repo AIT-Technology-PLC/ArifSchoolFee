@@ -21,8 +21,6 @@ class UpdatePadRequest extends FormRequest
             'icon' => ['required', 'string'],
             'inventory_operation_type' => ['required', 'string', Rule::in(Pad::INVENTORY_OPERATIONS)],
             'is_approvable' => ['required', 'boolean'],
-            'is_closable' => ['required', 'boolean'],
-            'is_cancellable' => ['required', 'boolean'],
             'is_printable' => ['required', 'boolean'],
             'has_prices' => ['required', 'boolean'],
             'has_payment_term' => ['required', 'boolean'],
@@ -32,6 +30,14 @@ class UpdatePadRequest extends FormRequest
             'convert_from' => ['nullable', 'array', Rule::in((new Pad)->converts())],
 
             'field' => ['required', 'array'],
+            'status' => ['nullable', 'array'],
+
+            'status.*.name' => ['sometimes', 'required', 'string', 'distinct', 'required_with:status'],
+            'status.*.bg_color' => ['nullable', 'string', 'required_with:status'],
+            'status.*.text_color' => ['nullable', 'string', 'required_with:status'],
+            'status.*.is_active' => ['nullable', 'boolean', 'required_with:status'],
+            'status.*.is_editable' => ['nullable', 'boolean', 'required_with:status'],
+            'status.*.is_deletable' => ['nullable', 'boolean', 'required_with:status'],
 
             'field.*.is_relational_field' => ['sometimes', 'required', 'boolean', 'required_with:field'],
             'field.*.relationship_type' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0'],

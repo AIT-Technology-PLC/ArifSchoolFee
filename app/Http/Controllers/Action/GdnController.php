@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Action;
 
-use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImportFileRequest;
 use App\Models\Gdn;
 use App\Models\Sale;
 use App\Models\Siv;
-use App\Notifications\GdnApproved;
 use App\Notifications\GdnSubtracted;
 use App\Services\Models\GdnService;
 use App\Utilities\Notifiables;
@@ -32,11 +30,11 @@ class GdnController extends Controller
         $this->gdnService = $gdnService;
     }
 
-    public function approve(Gdn $gdn, ApproveTransactionAction $action)
+    public function approve(Gdn $gdn)
     {
         $this->authorize('approve', $gdn);
 
-        [$isExecuted, $message] = $action->execute($gdn, GdnApproved::class, 'Subtract GDN');
+        [$isExecuted, $message] = $this->gdnService->approve($gdn);
 
         if (! $isExecuted) {
             return back()->with('failedMessage', $message);

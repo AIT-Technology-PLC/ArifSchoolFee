@@ -2,10 +2,10 @@
 
 namespace App\DataTables;
 
+use App\Models\Merchandise;
 use App\Services\Inventory\MerchandiseProductService;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 
 class AvailableInventoryDatatable extends DataTable
@@ -63,15 +63,14 @@ class AvailableInventoryDatatable extends DataTable
     {
         $limitedProducts = (new MerchandiseProductService)->getLimitedMerchandiseProductsQuery(user:authUser())->pluck('id');
 
-        $availableMerchandises = DB::table('merchandises')
+        $availableMerchandises = Merchandise::query()
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
-            ->where('merchandises.company_id', '=', userCompany()->id)
-            ->when(request('level') == 'sufficient', fn ($query) => $query->whereNotIn('products.id', $limitedProducts))
-            ->when(request('level') == 'limited', fn ($query) => $query->whereIn('products.id', $limitedProducts))
-            ->when(request('type') == 'finished goods', fn ($query) => $query->where('products.type', '=', 'Finished Goods'))
-            ->when(request('type') == 'raw material', fn ($query) => $query->where('products.type', '=', 'Raw Material'))
+            ->when(request('level') == 'sufficient', fn($query) => $query->whereNotIn('products.id', $limitedProducts))
+            ->when(request('level') == 'limited', fn($query) => $query->whereIn('products.id', $limitedProducts))
+            ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
+            ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
             ->where('merchandises.available', '>', 0)
             ->whereIn('warehouses.id', authUser()->getAllowedWarehouses('read')->pluck('id'))
             ->select([
@@ -131,6 +130,6 @@ class AvailableInventoryDatatable extends DataTable
 
     protected function filename()
     {
-        return 'InventoryLevel_'.date('YmdHis');
+        return 'InventoryLevel_' . date('YmdHis');
     }
 }

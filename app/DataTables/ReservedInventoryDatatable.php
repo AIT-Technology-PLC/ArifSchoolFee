@@ -2,9 +2,9 @@
 
 namespace App\DataTables;
 
+use App\Models\Merchandise;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 
 class ReservedInventoryDatatable extends DataTable
@@ -13,7 +13,7 @@ class ReservedInventoryDatatable extends DataTable
 
     public function __construct()
     {
-        abort_if(! isFeatureEnabled('Reservation Management'), 403);
+        abort_if(!isFeatureEnabled('Reservation Management'), 403);
 
         $this->warehouses = authUser()->getAllowedWarehouses('read');
     }
@@ -59,13 +59,12 @@ class ReservedInventoryDatatable extends DataTable
 
     public function query()
     {
-        $reservedMerchandises = DB::table('merchandises')
+        $reservedMerchandises = Merchandise::query()
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
-            ->where('merchandises.company_id', '=', userCompany()->id)
-            ->when(request('type') == 'finished goods', fn ($query) => $query->where('products.type', '=', 'Finished Goods'))
-            ->when(request('type') == 'raw material', fn ($query) => $query->where('products.type', '=', 'Raw Material'))
+            ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
+            ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
             ->where('merchandises.reserved', '>', 0)
             ->whereIn('warehouses.id', authUser()->getAllowedWarehouses('read')->pluck('id'))
             ->select([
@@ -123,6 +122,6 @@ class ReservedInventoryDatatable extends DataTable
 
     protected function filename()
     {
-        return 'InventoryLevel_'.date('YmdHis');
+        return 'InventoryLevel_' . date('YmdHis');
     }
 }

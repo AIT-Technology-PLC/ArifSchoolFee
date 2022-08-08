@@ -92,6 +92,13 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
         ];
     }
 
+    public function prepareForValidation($data, $index)
+    {
+        $data['product_name'] = str()->squish($data['product_name']);
+
+        return $data;
+    }
+
     public function chunkSize(): int
     {
         return 500;

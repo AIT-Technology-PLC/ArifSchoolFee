@@ -18,6 +18,8 @@ class TransactionDatatable extends DataTable
 
     private $padFields;
 
+    private $padStatuses;
+
     private $datatable;
 
     public function __construct()
@@ -27,6 +29,8 @@ class TransactionDatatable extends DataTable
             ->masterFields()
             ->where('is_visible', 1)
             ->get();
+
+        $this->padStatuses = request()->route('pad')->padStatuses()->active()->get();
     }
 
     public function dataTable($query)
@@ -35,15 +39,21 @@ class TransactionDatatable extends DataTable
             ->collection($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn ($transaction) => route('transactions.show', $transaction['id']),
+                'data-url' => fn($transaction) => route('transactions.show', $transaction['id']),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ]);
 
-        if (request()->route('pad')->hasStatus() || request()->route('pad')->isClosableOnly()) {
+        if ($this->padStatuses->isNotEmpty()) {
+            $datatable->editColumn('status', fn($transaction) => view('components.datatables.transaction-status', [
+                'transaction' => Transaction::find($transaction['id']),
+            ]));
+        }
+
+        if (request()->route('pad')->hasStatus()) {
             $datatable
-                ->editColumn('status', function ($transaction) {
-                    return view('components.datatables.transaction-status', [
+                ->editColumn('inventory status', function ($transaction) {
+                    return view('components.datatables.transaction-inventory-status', [
                         'transaction' => Transaction::find($transaction['id']),
                     ]);
                 });
@@ -64,7 +74,8 @@ class TransactionDatatable extends DataTable
     {
         return Transaction::query()
             ->where('pad_id', request()->route('pad')->id)
-            ->when(is_numeric(request('branch')), fn ($query) => $query->where('transactions.warehouse_id', request('branch')))
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('transactions.warehouse_id', request('branch')))
+            ->when(is_string(request('status')) && request('status') != 'all', fn($query) => $query->where('transactions.status', request('status')))
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
@@ -110,8 +121,9 @@ class TransactionDatatable extends DataTable
         $columns = [
             Column::computed('#'),
             Column::make('branch')->visible(false),
-            Column::make('code')->className('has-text-centered')->title(request()->route('pad')->abbreviation.' No'),
-            (request()->route('pad')->hasStatus() || request()->route('pad')->isClosableOnly()) ? Column::computed('status') : '',
+            Column::make('code')->className('has-text-centered')->title(request()->route('pad')->abbreviation . ' No'),
+            $this->padStatuses->isNotEmpty() ? Column::make('status') : '',
+            request()->route('pad')->hasStatus() ? Column::computed('inventory status') : '',
         ];
 
         foreach ($this->padFields as $padField) {
@@ -127,11 +139,11 @@ class TransactionDatatable extends DataTable
 
         array_push($columns, ...$moreColumns);
 
-        return Arr::where($columns, fn ($column) => $column != null);
+        return Arr::where($columns, fn($column) => $column != null);
     }
 
     protected function filename()
     {
-        return 'Transactions_'.date('YmdHis');
+        return 'Transactions_' . date('YmdHis');
     }
 }

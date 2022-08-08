@@ -2,9 +2,9 @@
 
 namespace App\DataTables;
 
+use App\Models\Merchandise;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Services\DataTable;
 
 class WipInventoryDatatable extends DataTable
@@ -57,13 +57,12 @@ class WipInventoryDatatable extends DataTable
 
     public function query()
     {
-        $wipMerchandises = DB::table('merchandises')
+        $wipMerchandises = Merchandise::query()
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
-            ->where('merchandises.company_id', '=', userCompany()->id)
-            ->when(request('type') == 'finished goods', fn ($query) => $query->where('products.type', '=', 'Finished Goods'))
-            ->when(request('type') == 'raw material', fn ($query) => $query->where('products.type', '=', 'Raw Material'))
+            ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
+            ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
             ->where('merchandises.wip', '>', 0)
             ->whereIn('warehouses.id', authUser()->getAllowedWarehouses('read')->pluck('id'))
             ->select([
@@ -121,6 +120,6 @@ class WipInventoryDatatable extends DataTable
 
     protected function filename()
     {
-        return 'InventoryLevel_'.date('YmdHis');
+        return 'InventoryLevel_' . date('YmdHis');
     }
 }

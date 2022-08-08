@@ -8,6 +8,7 @@ use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Services\Models\TransactionService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class CreateTransaction extends Component
@@ -32,6 +33,10 @@ class CreateTransaction extends Component
 
     public $issued_on;
 
+    public $status = '';
+
+    public $padStatuses;
+
     public function mount(Pad $pad, $master, $details)
     {
         $this->pad = $pad;
@@ -51,6 +56,8 @@ class CreateTransaction extends Component
         $this->excludedTransactions = Transaction::where('pad_id', '<>', $this->pad->id)->pluck('id');
 
         $this->issued_on = now()->toDateTimeLocalString();
+
+        $this->padStatuses = $pad->padStatuses()->active()->get();
     }
 
     public function addDetail()
@@ -86,6 +93,7 @@ class CreateTransaction extends Component
         $rules = [
             'code' => ['required', 'integer', new UniqueReferenceNum('transactions', $this->excludedTransactions)],
             'issued_on' => ['required', 'date'],
+            'status' => [Rule::requiredIf($this->padStatuses->isNotEmpty()), 'string'],
         ];
 
         foreach ($this->masterPadFields as $masterPadField) {

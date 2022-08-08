@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
+            $table->string('status')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->timestamps();
             $table->softDeletes();

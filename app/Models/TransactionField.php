@@ -57,21 +57,29 @@ class TransactionField extends Model
     {
         $data = collect();
 
-        $transactions = $this
-            ->with('transaction')
-            ->where(function ($query) {
-                $query->where('key', 'subtracted_by')
-                    ->orWhere('key', 'added_by');
+        $transactions = Transaction::query()
+            ->with([
+                'transactionFields' => function ($query) {
+                    return $query->where(function ($query) {
+                        $query->where('key', 'subtracted_by')
+                            ->orWhere('key', 'added_by');
+                    });
+                },
+            ])
+            ->whereHas('transactionFields', function ($query) {
+                return $query->where(function ($query) {
+                    $query->where('key', 'subtracted_by')
+                        ->orWhere('key', 'added_by');
+                });
             })
-            ->get()
-            ->pluck('transaction')
-            ->filter();
+            ->get();
 
         if ($transactions->isNotEmpty()) {
             $transactions
                 ->each(function ($transaction) use ($warehouse, $product, $data) {
                     $transaction
                         ->transactionDetails
+                        ->whereIn('line', $transaction->transactionFields->pluck('line')->unique())
                         ->each(function ($transactionDetail) use ($warehouse, $product, $data) {
                             if ($transactionDetail['product'] == $product->name && $transactionDetail['warehouse'] == $warehouse->name) {
                                 $data->push($transactionDetail);
@@ -81,5 +89,35 @@ class TransactionField extends Model
         }
 
         return $data;
+    }
+
+    public static function subtract($transaction, $line)
+    {
+        static::create([
+            'transaction_id' => $transaction->id,
+            'key' => 'subtracted_by',
+            'value' => authUser()->id,
+            'line' => $line,
+        ]);
+    }
+
+    public static function add($transaction, $line)
+    {
+        static::create([
+            'transaction_id' => $transaction->id,
+            'key' => 'added_by',
+            'value' => authUser()->id,
+            'line' => $line,
+        ]);
+    }
+
+    public static function isSubtracted($transaction, $line)
+    {
+        return static::where('transaction_id', $transaction->id)->where('line', $line)->where('key', 'subtracted_by')->exists();
+    }
+
+    public static function isAdded($transaction, $line)
+    {
+        return static::where('transaction_id', $transaction->id)->where('line', $line)->where('key', 'added_by')->exists();
     }
 }

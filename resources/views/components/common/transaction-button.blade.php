@@ -1,4 +1,4 @@
-@props(['route', 'intention', 'action', 'icon', 'label'])
+@props(['route', 'intention', 'action', 'icon', 'label' => null])
 
 <form
     x-data="swal('{{ $action }}', '{{ $intention }}')"
@@ -12,7 +12,7 @@
     <x-common.button
         tag="button"
         mode="button"
-        label="{{ $label }}"
+        :label="$label"
         icon="{{ $icon }}"
         x-ref="submitButton"
         {{ $attributes->merge(['class' => '']) }}

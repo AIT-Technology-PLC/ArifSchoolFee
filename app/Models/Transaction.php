@@ -32,27 +32,39 @@ class Transaction extends Model
 
     public function isAdded()
     {
-        return $this->transactionFields()->where('key', 'added_by')->exists();
+        $totalDetails = $this->transactionDetails->count();
+        $totalAddedDetails = $this->transactionFields()->where('key', 'added_by')->whereNotNull('line')->count();
+
+        return $totalDetails > 0 && $totalAddedDetails > 0 && $totalDetails == $totalAddedDetails;
+    }
+
+    public function isPartiallyAdded()
+    {
+        $totalDetails = $this->transactionDetails->count();
+        $totalAddedDetails = $this->transactionFields()->where('key', 'added_by')->whereNotNull('line')->count();
+
+        return $totalDetails > 0 && $totalAddedDetails > 0 && $totalDetails > $totalAddedDetails;
     }
 
     public function isSubtracted()
     {
-        return $this->transactionFields()->where('key', 'subtracted_by')->exists();
+        $totalDetails = $this->transactionDetails->count();
+        $totalSubtractedDetails = $this->transactionFields()->where('key', 'subtracted_by')->whereNotNull('line')->count();
+
+        return $totalDetails > 0 && $totalSubtractedDetails > 0 && $totalDetails == $totalSubtractedDetails;
+    }
+
+    public function isPartiallySubtracted()
+    {
+        $totalDetails = $this->transactionDetails->count();
+        $totalSubtractedDetails = $this->transactionFields()->where('key', 'subtracted_by')->whereNotNull('line')->count();
+
+        return $totalDetails > 0 && $totalSubtractedDetails > 0 && $totalDetails > $totalSubtractedDetails;
     }
 
     public function isApproved()
     {
         return $this->transactionFields()->where('key', 'approved_by')->exists();
-    }
-
-    public function isCancelled()
-    {
-        return $this->transactionFields()->where('key', 'cancelled_by')->exists();
-    }
-
-    public function isClosed()
-    {
-        return $this->transactionFields()->where('key', 'closed_by')->exists();
     }
 
     public function approve()
@@ -65,33 +77,41 @@ class Transaction extends Model
 
     public function subtract()
     {
-        $this->transactionFields()->create([
-            'key' => 'subtracted_by',
-            'value' => authUser()->id,
-        ]);
+        $subtractedLines = $this->transactionFields()->where('key', 'subtracted_by')->whereNotNull('line')->pluck('line')->unique();
+
+        foreach ($this->transactionDetails->whereNotIn('line', $subtractedLines) as $transactionDetail) {
+            $this->transactionFields()->create([
+                'key' => 'subtracted_by',
+                'value' => authUser()->id,
+                'line' => $transactionDetail['line'],
+            ]);
+        }
     }
 
     public function add()
     {
-        $this->transactionFields()->create([
-            'key' => 'added_by',
-            'value' => authUser()->id,
-        ]);
+        $addedLines = $this->transactionFields()->where('key', 'added_by')->whereNotNull('line')->pluck('line')->unique();
+
+        foreach ($this->transactionDetails->whereNotIn('line', $addedLines) as $transactionDetail) {
+            $this->transactionFields()->create([
+                'key' => 'added_by',
+                'value' => authUser()->id,
+                'line' => $transactionDetail['line'],
+            ]);
+        }
     }
 
-    public function close()
+    public function canBeEdited()
     {
-        $this->transactionFields()->create([
-            'key' => 'closed_by',
-            'value' => authUser()->id,
-        ]);
+        $isEditable = $this->transactionStatus ? $this->transactionStatus->isEditable() : true;
+
+        return !$this->isApproved() && !$this->isAdded() && !$this->isSubtracted() && $isEditable;
     }
 
-    public function cancel()
+    public function canBeDeleted()
     {
-        $this->transactionFields()->create([
-            'key' => 'cancelled_by',
-            'value' => authUser()->id,
-        ]);
+        $isDeletable = $this->transactionStatus ? $this->transactionStatus->isDeletable() : true;
+
+        return !$this->isApproved() && !$this->isAdded() && !$this->isSubtracted() && $isDeletable;
     }
 }
