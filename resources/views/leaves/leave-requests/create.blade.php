@@ -48,6 +48,7 @@
                                     id="starting_period"
                                     name="starting_period"
                                     type="datetime-local"
+                                    value="{{ old('starting_period') }}"
                                     placeholder="mm/dd/yyyy"
                                 />
                                 <x-common.icon
@@ -68,6 +69,7 @@
                                     id="ending_period"
                                     name="ending_period"
                                     type="datetime-local"
+                                    value="{{ old('ending_period') }}"
                                     placeholder="mm/dd/yyyy"
                                 />
                                 <x-common.icon
