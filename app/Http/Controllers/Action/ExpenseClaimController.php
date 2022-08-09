@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Action;
 use App\Actions\ApproveTransactionAction;
 use App\Actions\RejectTransactionAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreEmployeeExpenseClaimRequest;
 use App\Models\ExpenseClaim;
 use App\Notifications\ExpenseClaimApproved;
+use App\Notifications\ExpenseClaimCreated;
 use App\Notifications\ExpenseClaimRejected;
 use App\Utilities\Notifiables;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class ExpenseClaimController extends Controller
@@ -60,5 +63,25 @@ class ExpenseClaimController extends Controller
         );
 
         return back()->with('successMessage', $message);
+    }
+
+    public function createExpenseClaim()
+    {
+        return view('expense-claims.employee.create');
+    }
+
+    public function storeExpenseClaim(StoreEmployeeExpenseClaimRequest $request)
+    {
+        DB::transaction(function () use ($request) {
+            $expenseClaim = ExpenseClaim::create($request->safe()->except('expenseClaim'));
+
+            $expenseClaim->expenseClaimDetails()->createMany($request->validated('expenseClaim'));
+
+            Notification::send(Notifiables::byNextActionPermission('Approve Expense Claim'), new ExpenseClaimCreated($expenseClaim));
+
+            return $expenseClaim;
+        });
+
+        return redirect('/');
     }
 }
