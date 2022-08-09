@@ -33,7 +33,7 @@ class CompensationAdjustmentController extends Controller
         }
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Compensation Adjustment', $compensationAdjustment->createdBy, $compensationAdjustment->warehouse_id),
+            Notifiables::byPermissionAndWarehouse('Read Compensation Adjustment', $compensationAdjustment->warehouse_id, $compensationAdjustment->createdBy),
             new CompensationAdjustmentApproved($compensationAdjustment)
         );
 
@@ -55,7 +55,7 @@ class CompensationAdjustmentController extends Controller
         }
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Compensation Adjustment', $compensationAdjustment->cancelledBy, $compensationAdjustment->warehouse_id),
+            Notifiables::byPermissionAndWarehouse('Read Compensation Adjustment', $compensationAdjustment->warehouse_id, $compensationAdjustment->cancelledBy),
             new CompensationAdjustmentCancelled($compensationAdjustment)
         );
 
