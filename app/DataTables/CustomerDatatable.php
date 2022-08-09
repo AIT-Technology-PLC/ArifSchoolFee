@@ -19,19 +19,15 @@ class CustomerDatatable extends DataTable
                 return isFeatureEnabled('Credit Management')
                 ? view('components.datatables.link', [
                     'url' => route('customers.credits.index', $customer->id),
-                    'label' => userCompany()->currency.'. '.number_format($customer->credit_amount_limit, 2),
+                    'label' => userCompany()->currency . '. ' . number_format($customer->credit_amount_limit, 2),
                 ])
-                : userCompany()->currency.'. '.number_format($customer->credit_amount_limit, 2);
+                : userCompany()->currency . '. ' . number_format($customer->credit_amount_limit, 2);
             })
-            ->editColumn('registered on', fn ($customer) => $customer->created_at->toFormattedDateString())
-            ->editColumn('added by', fn ($customer) => $customer->createdBy->name)
-            ->editColumn('edited by', fn ($customer) => $customer->updatedBy->name)
+            ->editColumn('registered on', fn($customer) => $customer->created_at->toFormattedDateString())
+            ->editColumn('added by', fn($customer) => $customer->createdBy->name)
+            ->editColumn('edited by', fn($customer) => $customer->updatedBy->name)
             ->editColumn('actions', function ($customer) {
-                return view('components.common.action-buttons', [
-                    'model' => 'customers',
-                    'id' => $customer->id,
-                    'buttons' => ['edit', 'delete'],
-                ]);
+                return view('components.datatables.customer-action', compact('customer'));
             })
             ->addIndexColumn();
     }
@@ -66,6 +62,6 @@ class CustomerDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Customer_'.date('YmdHis');
+        return 'Customer_' . date('YmdHis');
     }
 }
