@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Action;
 use App\Actions\ApproveTransactionAction;
 use App\Actions\CancelTransactionAction;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUserLeaveRequest;
+use App\Http\Requests\StoreEmployeeLeaveRequest;
 use App\Models\Leave;
 use App\Models\LeaveCategory;
 use App\Notifications\LeaveApproved;
@@ -67,7 +67,7 @@ class LeaveController extends Controller
         return view('leaves.request.create', compact('leaveCategories'));
     }
 
-    public function storeLeaveRequest(StoreUserLeaveRequest $request)
+    public function storeLeaveRequest(StoreEmployeeLeaveRequest $request)
     {
         $leave = DB::transaction(function () use ($request) {
             $leave = Leave::create($request->validated() + ['employee_id' => authUser()->employee->id]);

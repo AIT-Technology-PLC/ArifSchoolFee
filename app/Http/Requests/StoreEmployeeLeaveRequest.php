@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\MustBelongToCompany;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserLeaveRequest extends FormRequest
+class StoreEmployeeLeaveRequest extends FormRequest
 {
     public function authorize()
     {
