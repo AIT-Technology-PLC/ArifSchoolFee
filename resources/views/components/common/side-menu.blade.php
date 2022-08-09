@@ -147,8 +147,20 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Earning Management', 'Announcement Management', 'Compensation Management'))
-        @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Earning', 'Read Announcement', 'Read Compensation'])
+    @if (isFeatureEnabled(
+        'Employee Management',
+        'Department Management',
+        'Employee Transfer',
+        'Attendance Management',
+        'Warning Management',
+        'Advancement Management',
+        'Leave Management',
+        'Expense Claim',
+        'Earning Management',
+        'Announcement Management',
+        'Compensation Management',
+        'Compensation Adjustment'))
+        @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Earning', 'Read Announcement', 'Read Compensation', 'Read Compensation Adjustment'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -348,6 +360,20 @@
                                         label="Compensation"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('compensations.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('compensations.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Compensation Adjustment'))
+                            @can('Read Compensation Adjustment')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('compensation-adjustments.index') }}"
+                                        label="Adjustments"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('compensation-adjustments.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('compensation-adjustments.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

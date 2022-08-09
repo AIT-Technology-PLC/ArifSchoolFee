@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Action as Action;
+use Illuminate\Support\Facades\Route;
 
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
@@ -343,6 +343,14 @@ Route::post('/expense-claims/{expense_claim}/reject',
     [Action\ExpenseClaimController::class, 'reject'])
     ->name('expense-claims.reject');
 
+Route::get('/expense-claims/request/create',
+    [Action\ExpenseClaimController::class, 'createExpenseClaim'])
+    ->name('expense-claims.request.create');
+
+Route::post('/expense-claims/request',
+    [Action\ExpenseClaimController::class, 'storeExpenseClaim'])
+    ->name('expense-claims.request.store');
+
 // Earning
 Route::post('/earnings/{earning}/approve',
     [Action\EarningController::class, 'approve'])
@@ -356,3 +364,12 @@ Route::post('/announcements/{announcement}/approve',
 Route::get('/announcements/board',
     [Action\AnnouncementController::class, 'board'])
     ->name('announcements.board');
+
+// Compensation Adjustment
+Route::post('/compensation-adjustments/{compensation_adjustment}/approve',
+    [Action\CompensationAdjustmentController::class, 'approve'])
+    ->name('compensation-adjustments.approve');
+
+Route::post('/compensation-adjustments/{compensation_adjustment}/cancel',
+    [Action\CompensationAdjustmentController::class, 'cancel'])
+    ->name('compensation-adjustments.cancel');
