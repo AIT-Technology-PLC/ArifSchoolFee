@@ -6,6 +6,7 @@ use App\Actions\ApproveTransactionAction;
 use App\Actions\RejectTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEmployeeExpenseClaimRequest;
+use App\Models\Employee;
 use App\Models\ExpenseClaim;
 use App\Notifications\ExpenseClaimApproved;
 use App\Notifications\ExpenseClaimCreated;
@@ -72,8 +73,8 @@ class ExpenseClaimController extends Controller
 
     public function storeExpenseClaim(StoreEmployeeExpenseClaimRequest $request)
     {
-        DB::transaction(function () use ($request) {
-            $expenseClaim = ExpenseClaim::create($request->safe()->except('expenseClaim'));
+        $expenseClaim = DB::transaction(function () use ($request) {
+            $expenseClaim = ExpenseClaim::create($request->safe()->except('expenseClaim') + ['employee_id' => authUser()->employee->id]);
 
             $expenseClaim->expenseClaimDetails()->createMany($request->validated('expenseClaim'));
 
@@ -82,6 +83,6 @@ class ExpenseClaimController extends Controller
             return $expenseClaim;
         });
 
-        return redirect('/');
+        return redirect()->route('expense-claims.show', $expenseClaim->id);
     }
 }
