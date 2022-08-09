@@ -26,7 +26,9 @@ class Job extends Model
     protected static function booted()
     {
         static::addGlobalScope('activeFactories', function (Builder $builder) {
-            $builder->whereIn('factory_id', Warehouse::pluck('id')->merge(authUser()->warehouse->isActive() ? authUser()->warehouse_id : null));
+            if (auth()->check()) {
+                $builder->whereIn('factory_id', Warehouse::pluck('id')->merge(authUser()->warehouse->isActive() ? authUser()->warehouse_id : null));
+            }
         });
     }
 

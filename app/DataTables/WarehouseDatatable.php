@@ -32,7 +32,7 @@ class WarehouseDatatable extends DataTable
                 return view('components.common.action-buttons', [
                     'model' => 'warehouses',
                     'id' => $warehouse->id,
-                    'buttons' => ['edit', 'delete'],
+                    'buttons' => ['edit'],
                 ]);
             })
             ->addIndexColumn();

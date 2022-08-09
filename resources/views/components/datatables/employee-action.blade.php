@@ -9,6 +9,6 @@
 
 <x-common.action-buttons
     :buttons="['delete', 'edit']"
-    model="job-extras"
+    model="employees"
     :id="$employee->id"
 />
