@@ -36,7 +36,7 @@ class CreateUserAction
 
             $this->action->execute(
                 $user,
-                Arr::only($data, ['transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv'])
+                Arr::only($data, ['transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv', 'hr'])
             );
 
             if (isFeatureEnabled('Compensation Management')) {

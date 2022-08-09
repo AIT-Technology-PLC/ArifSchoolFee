@@ -76,6 +76,12 @@
                                     id="depends_on"
                                     name="depends_on"
                                 >
+                                    <option
+                                        disabled
+                                        selected
+                                    >
+                                        Select Compensation
+                                    </option>
                                     @foreach ($compensationNames as $compensationName)
                                         <option
                                             value="{{ $compensation->id }}"

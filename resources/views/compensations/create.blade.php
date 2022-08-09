@@ -108,6 +108,12 @@
                                                 x-bind:name="`compensation[${index}][depends_on]`"
                                                 x-model="compensation.depends_on"
                                             >
+                                                <option
+                                                    disabled
+                                                    selected
+                                                >
+                                                    Select Compensation
+                                                </option>
                                                 @foreach ($compensations as $compensation)
                                                     <option value="{{ $compensation->id }}">{{ $compensation->name }}</option>
                                                 @endforeach

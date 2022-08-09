@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 class SyncWarehousePermissionsAction
 {
     private $warehousePermissions = [
-        'transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv',
+        'transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv', 'hr'
     ];
 
     public function execute($user, $permissions = [])

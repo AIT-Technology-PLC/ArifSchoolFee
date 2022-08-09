@@ -746,6 +746,27 @@
                                 </x-forms.field>
                             </div>
                         </div>
+                        <div class="column is-3">
+                            <label
+                                for="hr[]"
+                                class="label text-green"
+                            > Human Resource <sup class="has-text-danger"></sup> </label>
+                            <x-forms.field>
+                                @foreach ($warehouses as $warehouse)
+                                    <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                        <input
+                                            name="hr[]"
+                                            value="{{ $warehouse->id }}"
+                                            type="checkbox"
+                                            {{ in_array($warehouse->id, old('hr', [])) == $warehouse->id ? 'checked' : '' }}
+                                        >
+                                        {{ $warehouse->name }}
+                                    </label>
+                                    <br>
+                                @endforeach
+                                <x-common.validation-error property="hr.*" />
+                            </x-forms.field>
+                        </div>
                     </div>
                 </section>
             </x-content.main>
