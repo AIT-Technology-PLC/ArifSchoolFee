@@ -170,6 +170,18 @@
                         </a>
                         <hr class="navbar-divider">
                         <a
+                            href="{{ route('leave-requests.createRequestLeave') }}"
+                            class="navbar-item text-green"
+                        >
+                            <span class="icon is-medium">
+                                <i class="fa-solid fa-umbrella-beach"></i>
+                            </span>
+                            <span>
+                                Request a leave
+                            </span>
+                        </a>
+                        <hr class="navbar-divider">
+                        <a
                             href="{{ route('password.edit') }}"
                             class="navbar-item text-green"
                         >

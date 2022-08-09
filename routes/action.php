@@ -347,3 +347,12 @@ Route::post('/announcements/{announcement}/approve',
 Route::get('/announcements/board',
     [Action\AnnouncementController::class, 'board'])
     ->name('announcements.board');
+
+// Request Leave
+Route::get('/leave-requests/createRequestLeave',
+    [Action\LeaveController::class, 'createRequestLeave'])
+    ->name('leave-requests.createRequestLeave');
+
+Route::post('/leave-requests/storeRequestLeave',
+    [Action\LeaveController::class, 'storeRequestLeave'])
+    ->name('leave-requests.storeRequestLeave');
