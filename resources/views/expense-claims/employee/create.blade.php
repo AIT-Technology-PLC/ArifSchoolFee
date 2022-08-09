@@ -7,7 +7,7 @@
         <x-content.header title="New Expense Claim" />
         <form
             id="formOne"
-            action="{{ route('expense-claims.store_expense_claims', authUser()->employee->id) }}"
+            action="{{ route('expense-claims.store_expense_claims') }}"
             method="POST"
             enctype="multipart/form-data"
             novalidate

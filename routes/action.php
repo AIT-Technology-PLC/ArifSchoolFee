@@ -338,7 +338,7 @@ Route::get('/expense-claims/create-expense-claims',
     [Action\ExpenseClaimController::class, 'createExpenseClaim'])
     ->name('expense-claims.create_expense_claims');
 
-Route::post('/expense-claims/{expense_claim}/store-expense-claims',
+Route::post('/expense-claims/store-expense-claims',
     [Action\ExpenseClaimController::class, 'storeExpenseClaim'])
     ->name('expense-claims.store_expense_claims');
 

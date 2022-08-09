@@ -170,14 +170,14 @@
                         </a>
                         <hr class="navbar-divider">
                         <a
-                            href="{{ route('expense-claims.create_expense_claims')}}"
+                            href="{{ route('expense-claims.create_expense_claims') }}"
                             class="navbar-item text-green"
                         >
                             <span class="icon is-medium">
                                 <i class="fa-solid fa-file-invoice-dollar"></i>
                             </span>
                             <span>
-                                Expense Claims
+                                Request Expense Claims
                             </span>
                         </a>
                         <hr class="navbar-divider">
