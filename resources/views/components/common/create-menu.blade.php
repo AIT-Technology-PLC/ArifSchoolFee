@@ -83,8 +83,20 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Earning Management', 'Announcement Management', 'Compensation Management'))
-                @canany(['Create Employee', 'Create Department', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement', 'Create Leave', 'Create Expense Claim', 'Create Earning', 'Create Announcement', 'Create Compensation'])
+            @if (isFeatureEnabled(
+                'Employee Management',
+                'Department Management',
+                'Employee Transfer',
+                'Attendance Management',
+                'Warning Management',
+                'Advancement Management',
+                'Leave Management',
+                'Expense Claim',
+                'Earning Management',
+                'Announcement Management',
+                'Compensation Management',
+                'Compensation Adjustment'))
+                @canany(['Create Employee', 'Create Department', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement', 'Create Leave', 'Create Expense Claim', 'Create Earning', 'Create Announcement', 'Create Compensation', 'Create Compensation Adjustment'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -291,6 +303,22 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Compensation </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Compensation Adjustment'))
+                                @can('Create Compensation Adjustment')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('compensation-adjustments.create') }}"
+                                            icon="fa-solid fa-circle-dollar-to-slot"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Adjustment </span>
                                     </div>
                                 @endcan
                             @endif

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Action as Action;
+use Illuminate\Support\Facades\Route;
 
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
@@ -193,9 +193,18 @@ Route::patch('/tender-checklist-assignments/{tender}',
     [Action\TenderChecklistAssignmentController::class, 'update'])
     ->name('tender-checklists-assignments.update');
 
+//Customers
 Route::post('/customers/import',
     [Action\CustomerController::class, 'import'])
     ->name('customers.import');
+
+Route::get('/customers/{customer}/settle',
+    [Action\CustomerController::class, 'settle'])
+    ->name('customers.settle');
+
+Route::post('/customers/{customer}/settle-credit',
+    [Action\CustomerController::class, 'settleCredit'])
+    ->name('customers.settle_credit');
 
 Route::post('/suppliers/import',
     [Action\SupplierController::class, 'import'])
@@ -333,6 +342,14 @@ Route::post('/expense-claims/{expense_claim}/approve',
 Route::post('/expense-claims/{expense_claim}/reject',
     [Action\ExpenseClaimController::class, 'reject'])
     ->name('expense-claims.reject');
+
+Route::get('/expense-claims/request/create',
+    [Action\ExpenseClaimController::class, 'createExpenseClaim'])
+    ->name('expense-claims.request.create');
+
+Route::post('/expense-claims/request',
+    [Action\ExpenseClaimController::class, 'storeExpenseClaim'])
+    ->name('expense-claims.request.store');
 
 // Earning
 Route::post('/earnings/{earning}/approve',

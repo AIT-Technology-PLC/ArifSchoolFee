@@ -65,6 +65,7 @@ class PermissionCategorization
         'employee' => [
             'label' => 'Employee',
             'feature' => 'User Management',
+            'exclude' => ['Employee Transfer'],
         ],
         'supplier' => [
             'label' => 'Supplier',
@@ -102,6 +103,10 @@ class PermissionCategorization
             'label' => 'Job',
             'feature' => 'Job Management',
         ],
+        'department' => [
+            'label' => 'Department',
+            'feature' => 'Department Management',
+        ],
         'employee transfer' => [
             'label' => 'Employee Transfer',
             'feature' => 'Employee Transfer',
@@ -137,6 +142,10 @@ class PermissionCategorization
         'compensation' => [
             'label' => 'Compensation',
             'feature' => 'Compensation Management',
+        ],
+        'compensation adjustment' => [
+            'label' => 'Compensation Adjustment',
+            'feature' => 'Compensation Adjustment',
         ],
     ];
 
