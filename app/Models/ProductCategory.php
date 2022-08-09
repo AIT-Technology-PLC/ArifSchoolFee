@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
-use Dyrynda\Database\Support\CascadeSoftDeletes;
+use App\Traits\HasUserstamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class ProductCategory extends Model
 {
@@ -40,8 +41,11 @@ class ProductCategory extends Model
         $this->attributes['properties'] = json_encode($properties);
     }
 
-    public function getNameAttribute($value)
+    public function name(): Attribute
     {
-        return str()->squish($value);
+        return Attribute::make(
+            get:fn($value) => str()->squish($value),
+            set:fn($value) => $this->attributes['name'] = str()->squish($value),
+        );
     }
 }
