@@ -168,30 +168,34 @@
                                 My Profile
                             </span>
                         </a>
-                        <hr class="navbar-divider">
-                        <a
-                            href="{{ route('leaves.request.create') }}"
-                            class="navbar-item text-green"
-                        >
-                            <span class="icon is-medium">
-                                <i class="fa-solid fa-umbrella-beach"></i>
-                            </span>
-                            <span>
-                                Request a leave
-                            </span>
-                        </a>
-                        <hr class="navbar-divider">
-                        <a
-                            href="{{ route('expense-claims.request.create') }}"
-                            class="navbar-item text-green"
-                        >
-                            <span class="icon is-medium">
-                                <i class="fa-solid fa-file-invoice-dollar"></i>
-                            </span>
-                            <span>
-                                Request Expense Claims
-                            </span>
-                        </a>
+                        @if (isFeatureEnabled('Leave Management'))
+                            <hr class="navbar-divider">
+                            <a
+                                href="{{ route('leaves.request.create') }}"
+                                class="navbar-item text-green"
+                            >
+                                <span class="icon is-medium">
+                                    <i class="fa-solid fa-umbrella-beach"></i>
+                                </span>
+                                <span>
+                                    Request Leave
+                                </span>
+                            </a>
+                        @endif
+                        @if (isFeatureEnabled('Expense Claim'))
+                            <hr class="navbar-divider">
+                            <a
+                                href="{{ route('expense-claims.request.create') }}"
+                                class="navbar-item text-green"
+                            >
+                                <span class="icon is-medium">
+                                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                                </span>
+                                <span>
+                                    Request Expense Claim
+                                </span>
+                            </a>
+                        @endif
                         <hr class="navbar-divider">
                         <a
                             href="{{ route('password.edit') }}"
