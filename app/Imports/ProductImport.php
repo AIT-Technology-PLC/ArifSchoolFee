@@ -69,6 +69,8 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
     public function prepareForValidation($data, $index)
     {
         $data['product_category_name'] = str()->squish($data['product_category_name']);
+        $data['product_name'] = str()->squish($data['product_name']);
+        $data['product_code'] = str()->squish($data['product_code']);
 
         return $data;
     }
