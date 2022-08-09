@@ -25,6 +25,7 @@ class PermissionCategorization
         'adjustment' => [
             'label' => 'Adjustment',
             'feature' => 'Inventory Adjustment',
+            'exclude' => ['Compensation Adjustment'],
         ],
         'siv' => [
             'label' => 'Store Issue Voucher',
@@ -142,6 +143,7 @@ class PermissionCategorization
         'compensation' => [
             'label' => 'Compensation',
             'feature' => 'Compensation Management',
+            'exclude' => ['Compensation Adjustment'],
         ],
         'compensation adjustment' => [
             'label' => 'Compensation Adjustment',
