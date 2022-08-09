@@ -334,13 +334,13 @@ Route::post('/expense-claims/{expense_claim}/reject',
     [Action\ExpenseClaimController::class, 'reject'])
     ->name('expense-claims.reject');
 
-Route::get('/expense-claims/create-expense-claims',
+Route::get('/expense-claims/request/create',
     [Action\ExpenseClaimController::class, 'createExpenseClaim'])
-    ->name('expense-claims.create_expense_claims');
+    ->name('expense-claims.request.create');
 
-Route::post('/expense-claims/store-expense-claims',
+Route::post('/expense-claims/request',
     [Action\ExpenseClaimController::class, 'storeExpenseClaim'])
-    ->name('expense-claims.store_expense_claims');
+    ->name('expense-claims.request.store');
 
 // Earning
 Route::post('/earnings/{earning}/approve',

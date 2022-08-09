@@ -170,7 +170,7 @@
                         </a>
                         <hr class="navbar-divider">
                         <a
-                            href="{{ route('expense-claims.create_expense_claims') }}"
+                            href="{{ route('expense-claims.request.create') }}"
                             class="navbar-item text-green"
                         >
                             <span class="icon is-medium">
