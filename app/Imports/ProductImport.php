@@ -66,6 +66,13 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
         ];
     }
 
+    public function prepareForValidation($data, $index)
+    {
+        $data['product_category_name'] = str()->squish($data['product_category_name']);
+
+        return $data;
+    }
+
     public function chunkSize(): int
     {
         return 500;
