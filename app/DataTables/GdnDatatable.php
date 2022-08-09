@@ -37,6 +37,7 @@ class GdnDatatable extends DataTable
                 userCompany()->currency.'. '.number_format($gdn->grandTotalPriceAfterDiscount, 2);
             })
             ->editColumn('customer', fn ($gdn) => $gdn->customer->company_name ?? 'N/A')
+            ->editColumn('customer_tin', fn ($gdn) => $gdn->customer->tin ?? 'N/A')
             ->editColumn('description', fn ($gdn) => view('components.datatables.searchable-description', ['description' => $gdn->description]))
             ->editColumn('issued_on', fn ($gdn) => $gdn->issued_on->toFormattedDateString())
             ->editColumn('prepared by', fn ($gdn) => $gdn->createdBy->name)
@@ -67,7 +68,7 @@ class GdnDatatable extends DataTable
                 'updatedBy:id,name',
                 'approvedBy:id,name',
                 'sale:id,code',
-                'customer:id,company_name',
+                'customer:id,company_name,tin',
                 'warehouse:id,name',
             ]);
     }
@@ -83,6 +84,7 @@ class GdnDatatable extends DataTable
             Column::make('payment_type')->visible(false),
             Column::computed('total price')->visible(false),
             Column::make('customer', 'customer.company_name'),
+            Column::make('customer_tin', 'customer.tin')->visible(false)->title('Customer TIN'),
             Column::make('description')->visible(false),
             Column::make('issued_on'),
             Column::make('prepared by', 'createdBy.name'),

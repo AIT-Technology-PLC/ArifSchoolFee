@@ -18,7 +18,7 @@ class Notifiables
     public static function byNextActionPermission($nextActionPermission, $creator = null)
     {
         if (authUser()->can($nextActionPermission)) {
-            return static::isCreatorValid($creator) ? $creator : [];
+            return static::isCreatorValid($creator) ? $creator : collect();
         }
 
         $users = User::query()
@@ -44,7 +44,7 @@ class Notifiables
     public static function byPermissionAndWarehouse($permission, $warehouseId, $creator = null)
     {
         if (is_numeric($warehouseId) && $warehouseId == authUser()->warehouse_id) {
-            return static::isCreatorValid($creator) ? $creator : [];
+            return static::isCreatorValid($creator) ? $creator : collect();
         }
 
         if (is_countable($warehouseId)) {
