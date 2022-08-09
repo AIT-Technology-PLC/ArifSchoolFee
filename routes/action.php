@@ -373,3 +373,12 @@ Route::get('/leaves/request/create',
 Route::post('/leaves/request',
     [Action\LeaveController::class, 'storeLeaveRequest'])
     ->name('leaves.request.store');
+
+// Compensation Adjustment
+Route::post('/compensation-adjustments/{compensation_adjustment}/approve',
+    [Action\CompensationAdjustmentController::class, 'approve'])
+    ->name('compensation-adjustments.approve');
+
+Route::post('/compensation-adjustments/{compensation_adjustment}/cancel',
+    [Action\CompensationAdjustmentController::class, 'cancel'])
+    ->name('compensation-adjustments.cancel');
