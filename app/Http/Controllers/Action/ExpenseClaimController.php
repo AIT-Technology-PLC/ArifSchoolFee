@@ -59,7 +59,7 @@ class ExpenseClaimController extends Controller
         }
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Expense Claim', $expenseClaim->warehouse_id, $expenseClaim->rejectedBy),
+            Notifiables::byPermissionAndWarehouse('Read Expense Claim', $expenseClaim->warehouse_id, $expenseClaim->createdBy),
             new ExpenseClaimRejected($expenseClaim)
         );
 
@@ -68,7 +68,7 @@ class ExpenseClaimController extends Controller
 
     public function createExpenseClaim()
     {
-        return view('expense-claims.employee.create');
+        return view('expense-claims.request.create');
     }
 
     public function storeExpenseClaim(StoreEmployeeExpenseClaimRequest $request)
