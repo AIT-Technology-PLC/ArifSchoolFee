@@ -50,6 +50,7 @@ class CustomerDatatable extends DataTable
             Column::make('tin')->content('N/A')->title('TIN No'),
             Column::make('credit limit', 'credit_amount_limit'),
             Column::make('address')->visible(false)->content('N/A'),
+            Column::make('phone')->content('N/A'),
             Column::make('contact_name')->content('N/A'),
             Column::make('email')->visible(false)->content('N/A'),
             Column::make('country')->visible(false)->content('N/A')->title('Country/City'),

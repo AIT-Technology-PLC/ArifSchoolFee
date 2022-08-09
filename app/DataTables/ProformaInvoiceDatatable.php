@@ -31,6 +31,7 @@ class ProformaInvoiceDatatable extends DataTable
                     ->when($keyword == 'cancelled', fn ($query) => $query->notPending()->notConverted());
             })
             ->editColumn('customer', fn ($proformaInvoice) => $proformaInvoice->customer->company_name ?? 'N/A')
+            ->editColumn('customer_tin', fn ($proformaInvoice) => $proformaInvoice->customer->tin ?? 'N/A')
             ->editColumn('terms', fn ($proformaInvoice) => view('components.datatables.searchable-description', ['description' => $proformaInvoice->description]))
             ->editColumn('issued_on', fn ($proformaInvoice) => $proformaInvoice->issued_on->toFormattedDateString())
             ->editColumn('expires_on', fn ($proformaInvoice) => $proformaInvoice->expires_on->toFormattedDateString())
@@ -58,7 +59,7 @@ class ProformaInvoiceDatatable extends DataTable
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
-                'customer:id,company_name',
+                'customer:id,company_name,tin',
                 'warehouse:id,name',
             ]);
     }
@@ -71,6 +72,7 @@ class ProformaInvoiceDatatable extends DataTable
             Column::make('code')->title('PI No'),
             Column::make('status')->orderable(false),
             Column::make('customer', 'customer.company_name'),
+            Column::make('customer_tin', 'customer.tin')->visible(false)->title('Customer TIN'),
             Column::make('terms')->visible(false),
             Column::make('issued_on'),
             Column::make('expires_on')->visible(false),
