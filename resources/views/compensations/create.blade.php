@@ -117,6 +117,7 @@
                                                 @foreach ($compensations as $compensation)
                                                     <option value="{{ $compensation->id }}">{{ $compensation->name }}</option>
                                                 @endforeach
+                                                <option value="">None</option>
                                             </x-forms.select>
                                             <x-common.icon
                                                 name="fas fa-sort"

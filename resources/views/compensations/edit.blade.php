@@ -88,6 +88,12 @@
                                             @selected($compensationName->id == $compensation->depends_on)
                                         >{{ $compensation->name }}</option>
                                     @endforeach
+                                    <option
+                                        value=""
+                                        @selected(is_null($compensation->depends_on))
+                                    >
+                                        None
+                                    </option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-sort"
