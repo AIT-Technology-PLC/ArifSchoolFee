@@ -193,9 +193,18 @@ Route::patch('/tender-checklist-assignments/{tender}',
     [Action\TenderChecklistAssignmentController::class, 'update'])
     ->name('tender-checklists-assignments.update');
 
+//Customers
 Route::post('/customers/import',
     [Action\CustomerController::class, 'import'])
     ->name('customers.import');
+
+Route::get('/customers/{customer}/settle',
+    [Action\CustomerController::class, 'settle'])
+    ->name('customers.settle');
+
+Route::post('/customers/{customer}/settle-credit',
+    [Action\CustomerController::class, 'settleCredit'])
+    ->name('customers.settle_credit');
 
 Route::post('/suppliers/import',
     [Action\SupplierController::class, 'import'])
