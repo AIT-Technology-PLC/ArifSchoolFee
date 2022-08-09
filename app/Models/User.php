@@ -14,7 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes, HasRoles, CascadeSoftDeletes, HasPushSubscriptions;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles, CascadeSoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'last_online_at'];
 
