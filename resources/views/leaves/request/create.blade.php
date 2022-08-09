@@ -7,7 +7,7 @@
         <x-content.header title="Create New Leave" />
         <form
             id="formOne"
-            action="{{ route('leave-requests.storeRequestLeave') }}"
+            action="{{ route('leaves.request.store') }}"
             method="post"
             enctype="multipart/form-data"
             novalidate

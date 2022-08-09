@@ -36,7 +36,7 @@ class LeaveController extends Controller
         }
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Leave', $leaf->warehouse_id, $leaf->createdBy)->push($leaf->employee->user),
+            Notifiables::byPermissionAndWarehouse('Read Leave', $leaf->warehouse_id, $leaf->createdBy),
             new LeaveApproved($leaf)
         );
 
@@ -60,23 +60,23 @@ class LeaveController extends Controller
         return back()->with('successMessage', $message);
     }
 
-    public function createRequestLeave()
+    public function createLeaveRequest()
     {
         $leaveCategories = LeaveCategory::orderBy('name')->get(['id', 'name']);
 
-        return view('leaves.leave-requests.create', compact('leaveCategories'));
+        return view('leaves.request.create', compact('leaveCategories'));
     }
 
-    public function storeRequestLeave(StoreUserLeaveRequest $request)
+    public function storeLeaveRequest(StoreUserLeaveRequest $request)
     {
-        $leaveRequest = DB::transaction(function () use ($request) {
-            $leaveRequest = Leave::create($request->validated() + ['employee_id' => authUser()->employee->id]);
+        $leave = DB::transaction(function () use ($request) {
+            $leave = Leave::create($request->validated() + ['employee_id' => authUser()->employee->id]);
 
-            Notification::send(Notifiables::byNextActionPermission('Approve Leave'), new LeaveCreated($leaveRequest));
+            Notification::send(Notifiables::byNextActionPermission('Approve Leave'), new LeaveCreated($leave));
 
-            return $leaveRequest;
+            return $leave;
         });
 
-        return redirect()->route('leaves.show', $leaveRequest->id);
+        return redirect()->route('leaves.show', $leave->id);
     }
 }

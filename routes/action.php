@@ -349,10 +349,10 @@ Route::get('/announcements/board',
     ->name('announcements.board');
 
 // Request Leave
-Route::get('/leave-requests/createRequestLeave',
-    [Action\LeaveController::class, 'createRequestLeave'])
-    ->name('leave-requests.createRequestLeave');
+Route::get('/leaves/request/create',
+    [Action\LeaveController::class, 'createLeaveRequest'])
+    ->name('leaves.request.create');
 
-Route::post('/leave-requests/storeRequestLeave',
-    [Action\LeaveController::class, 'storeRequestLeave'])
-    ->name('leave-requests.storeRequestLeave');
+Route::post('/leaves/request',
+    [Action\LeaveController::class, 'storeLeaveRequest'])
+    ->name('leaves.request.store');

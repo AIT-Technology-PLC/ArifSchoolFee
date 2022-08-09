@@ -170,7 +170,7 @@
                         </a>
                         <hr class="navbar-divider">
                         <a
-                            href="{{ route('leave-requests.createRequestLeave') }}"
+                            href="{{ route('leaves.request.create') }}"
                             class="navbar-item text-green"
                         >
                             <span class="icon is-medium">
