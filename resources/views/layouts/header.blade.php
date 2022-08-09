@@ -168,20 +168,30 @@
                                 My Profile
                             </span>
                         </a>
-                        @if (isFeatureEnabled('Expense Claim'))
-                            <hr class="navbar-divider">
-                            <a
-                                href="{{ route('expense-claims.request.create') }}"
-                                class="navbar-item text-green"
-                            >
-                                <span class="icon is-medium">
-                                    <i class="fa-solid fa-file-invoice-dollar"></i>
-                                </span>
-                                <span>
-                                    Request Expense Claims
-                                </span>
-                            </a>
-                        @endif
+                        <hr class="navbar-divider">
+                        <a
+                            href="{{ route('leaves.request.create') }}"
+                            class="navbar-item text-green"
+                        >
+                            <span class="icon is-medium">
+                                <i class="fa-solid fa-umbrella-beach"></i>
+                            </span>
+                            <span>
+                                Request a leave
+                            </span>
+                        </a>
+                        <hr class="navbar-divider">
+                        <a
+                            href="{{ route('expense-claims.request.create') }}"
+                            class="navbar-item text-green"
+                        >
+                            <span class="icon is-medium">
+                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                            </span>
+                            <span>
+                                Request Expense Claims
+                            </span>
+                        </a>
                         <hr class="navbar-divider">
                         <a
                             href="{{ route('password.edit') }}"

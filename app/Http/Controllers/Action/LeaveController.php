@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Action;
 use App\Actions\ApproveTransactionAction;
 use App\Actions\CancelTransactionAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreEmployeeLeaveRequest;
 use App\Models\Leave;
+use App\Models\LeaveCategory;
 use App\Notifications\LeaveApproved;
+use App\Notifications\LeaveCreated;
 use App\Utilities\Notifiables;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class LeaveController extends Controller
@@ -54,5 +58,25 @@ class LeaveController extends Controller
         }
 
         return back()->with('successMessage', $message);
+    }
+
+    public function createLeaveRequest()
+    {
+        $leaveCategories = LeaveCategory::orderBy('name')->get(['id', 'name']);
+
+        return view('leaves.request.create', compact('leaveCategories'));
+    }
+
+    public function storeLeaveRequest(StoreEmployeeLeaveRequest $request)
+    {
+        $leave = DB::transaction(function () use ($request) {
+            $leave = Leave::create($request->validated() + ['employee_id' => authUser()->employee->id]);
+
+            Notification::send(Notifiables::byNextActionPermission('Approve Leave'), new LeaveCreated($leave));
+
+            return $leave;
+        });
+
+        return redirect()->route('leaves.show', $leave->id);
     }
 }

@@ -365,6 +365,15 @@ Route::get('/announcements/board',
     [Action\AnnouncementController::class, 'board'])
     ->name('announcements.board');
 
+// Request Leave
+Route::get('/leaves/request/create',
+    [Action\LeaveController::class, 'createLeaveRequest'])
+    ->name('leaves.request.create');
+
+Route::post('/leaves/request',
+    [Action\LeaveController::class, 'storeLeaveRequest'])
+    ->name('leaves.request.store');
+
 // Compensation Adjustment
 Route::post('/compensation-adjustments/{compensation_adjustment}/approve',
     [Action\CompensationAdjustmentController::class, 'approve'])
