@@ -65,7 +65,7 @@ class PermissionCategorization
         'employee' => [
             'label' => 'Employee',
             'feature' => 'User Management',
-            'exclude' => ['Employee Transfer']
+            'exclude' => ['Employee Transfer'],
         ],
         'supplier' => [
             'label' => 'Supplier',
@@ -102,6 +102,10 @@ class PermissionCategorization
         'job' => [
             'label' => 'Job',
             'feature' => 'Job Management',
+        ],
+        'department' => [
+            'label' => 'Department',
+            'feature' => 'Department Management',
         ],
         'employee transfer' => [
             'label' => 'Employee Transfer',
