@@ -1,6 +1,7 @@
 <x-content.main
     x-data="employeeCompensationMasterDetailForm({{ Js::from($data) }})"
     x-init="$store.errors.setErrors({{ Js::from($errors->get('employeeCompensation.*')) }})"
+    class="is-shadowless is-borderless p-0"
 >
     <template
         x-for="(employeeCompensation, index) in employeeCompensations"

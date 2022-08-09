@@ -557,7 +557,16 @@
                 </section>
 
                 @if (isFeatureEnabled('Compensation Management'))
-                    @include('employees.partials.details-form', ['data' => ['employeeCompensation' => old('employeeCompensation') ?? $employee->employeeCompensations]])
+                    <section class="mt-5">
+                        <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3">
+                            <h1 class="text-green is-size-5">
+                                Compensations
+                            </h1>
+                        </div>
+                        <div class="box is-radiusless">
+                            @include('employees.partials.details-form', ['data' => ['employeeCompensation' => old('employeeCompensation') ?? $employee->employeeCompensations]])
+                        </div>
+                    </section>
                 @endif
 
                 @if (!$employee->user->hasRole('System Manager'))
