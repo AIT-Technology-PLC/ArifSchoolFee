@@ -22,9 +22,11 @@ class CompensationAdjustmentController extends Controller
     {
         $this->authorize('approve', $compensationAdjustment);
 
-        // if (!authUser()->hasWarehousePermission('hr', $compensationAdjustment->warehouse_id)) {
-        //     return back()->with('failedMessage', 'You do not have permission to approve this adjustment request.');
-        // }
+        foreach ($compensationAdjustment->compensationAdjustmentDetails as $compensationAdjustmentDetail) {
+            if (!authUser()->hasWarehousePermission('hr', $compensationAdjustmentDetail->employee->user->warehouse_id)) {
+                return back()->with('failedMessage', 'You do not have permission to approve this adjustment request.');
+            }
+        }
 
         if ($compensationAdjustment->isCancelled()) {
             return back()->with('failedMessage', 'You can not approve an adjustment that is cancelled.');
