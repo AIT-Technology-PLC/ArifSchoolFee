@@ -18,6 +18,10 @@ class AttendanceController extends Controller
     {
         $this->authorize('approve', $attendance);
 
+        if (!authUser()->hasWarehousePermission('hr', $attendance->warehouse_id)) {
+            return back()->with('failedMessage', 'You do not have permission to approve this attendance request.');
+        }
+
         if (!$attendance->attendanceEnded()) {
             return back()->with('failedMessage', 'You can not approve an attendance with ending period after today.');
         }
