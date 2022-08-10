@@ -38,7 +38,7 @@ class AdvancementController extends Controller
 
     public function create()
     {
-        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
 
         return view('advancements.create', compact('users'));
     }
@@ -71,7 +71,7 @@ class AdvancementController extends Controller
             return back()->with('failedMessage', 'You can not modify an advancement that is approved.');
         }
 
-        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
 
         $advancement->load(['advancementDetails']);
 

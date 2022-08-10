@@ -24,6 +24,10 @@ class AdvancementController extends Controller
     {
         $this->authorize('approve', $advancement);
 
+        if (!authUser()->hasWarehousePermission('hr', $advancement->warehouse_id)) {
+            return back()->with('failedMessage', 'You do not have permission to approve this advancement request.');
+        }
+
         [$isExecuted, $message] = $this->advancementService->approve($advancement);
 
         if (!$isExecuted) {
