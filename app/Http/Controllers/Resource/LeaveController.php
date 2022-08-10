@@ -42,7 +42,7 @@ class LeaveController extends Controller
     {
         $leaveCategories = LeaveCategory::orderBy('name')->get(['id', 'name']);
 
-        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
 
         return view('leaves.create', compact('users', 'leaveCategories'));
     }

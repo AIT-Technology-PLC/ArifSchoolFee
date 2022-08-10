@@ -25,6 +25,10 @@ class LeaveController extends Controller
     {
         $this->authorize('approve', $leaf);
 
+        if (!authUser()->hasWarehousePermission('hr', $leaf->warehouse_id)) {
+            return back()->with('failedMessage', 'You do not have permission to approve this leave request.');
+        }
+
         if ($leaf->isCancelled()) {
             return back()->with('failedMessage', 'You can not approve a leave that is cancelled.');
         }
