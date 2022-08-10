@@ -24,6 +24,10 @@ class EmployeeTransferController extends Controller
     {
         $this->authorize('approve', $employeeTransfer);
 
+        // if (!authUser()->hasWarehousePermission('hr', $employeeTransfer->warehouse_id)) {
+        //     return back()->with('failedMessage', 'You do not have permission to approve this employee transfer request.');
+        // }
+
         [$isExecuted, $message] = $this->employeeTransferService->approve($employeeTransfer);
 
         if (!$isExecuted) {
