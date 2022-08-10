@@ -53,9 +53,9 @@ class StoreEmployeeRequest extends FormRequest
             'emergency_name' => ['nullable', 'string', 'max:255', 'required_unless:emergency_phone,null'],
             'emergency_phone' => ['nullable', 'string', 'max:255', 'required_unless:emergency_name,null'],
             'department_id' => ['nullable', 'integer', Rule::when(!isFeatureEnabled('Department Management'), 'prohibited'), new MustBelongToCompany('departments')],
-            'employeeCompensation' => ['required', 'array', Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited')],
-            'employeeCompensation.*.compensation_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('compensations')],
-            'employeeCompensation.*.amount' => ['required', 'numeric'],
+            'employeeCompensation' => [Rule::when(isFeatureEnabled('Compensation Management'), 'required', 'prohibited'), 'array'],
+            'employeeCompensation.*.compensation_id' => [Rule::when(isFeatureEnabled('Compensation Management'), 'required', 'prohibited'), 'integer', 'distinct', new MustBelongToCompany('compensations')],
+            'employeeCompensation.*.amount' => [Rule::when(isFeatureEnabled('Compensation Management'), 'required', 'prohibited'), 'numeric'],
         ];
     }
 }

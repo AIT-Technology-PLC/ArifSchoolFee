@@ -587,7 +587,16 @@
                 </section>
 
                 @if (isFeatureEnabled('Compensation Management'))
-                    @include('employees.partials.details-form', ['data' => session()->getOldInput()])
+                    <section class="mt-5">
+                        <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3">
+                            <h1 class="text-green is-size-5">
+                                Compensations
+                            </h1>
+                        </div>
+                        <div class="box is-radiusless">
+                            @include('employees.partials.details-form', ['data' => session()->getOldInput()])
+                        </div>
+                    </section>
                 @endif
 
                 <section class="mt-5">
@@ -745,27 +754,27 @@
                                     <x-common.validation-error property="siv.*" />
                                 </x-forms.field>
                             </div>
-                        </div>
-                        <div class="column is-3">
-                            <label
-                                for="hr[]"
-                                class="label text-green"
-                            > Human Resource <sup class="has-text-danger"></sup> </label>
-                            <x-forms.field>
-                                @foreach ($warehouses as $warehouse)
-                                    <label class="checkbox mr-3 has-text-grey has-text-weight-light">
-                                        <input
-                                            name="hr[]"
-                                            value="{{ $warehouse->id }}"
-                                            type="checkbox"
-                                            {{ in_array($warehouse->id, old('hr', [])) == $warehouse->id ? 'checked' : '' }}
-                                        >
-                                        {{ $warehouse->name }}
-                                    </label>
-                                    <br>
-                                @endforeach
-                                <x-common.validation-error property="hr.*" />
-                            </x-forms.field>
+                            <div class="column is-3">
+                                <label
+                                    for="hr[]"
+                                    class="label text-green"
+                                > Human Resource <sup class="has-text-danger"></sup> </label>
+                                <x-forms.field>
+                                    @foreach ($warehouses as $warehouse)
+                                        <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                            <input
+                                                name="hr[]"
+                                                value="{{ $warehouse->id }}"
+                                                type="checkbox"
+                                                {{ in_array($warehouse->id, old('hr', [])) == $warehouse->id ? 'checked' : '' }}
+                                            >
+                                            {{ $warehouse->name }}
+                                        </label>
+                                        <br>
+                                    @endforeach
+                                    <x-common.validation-error property="hr.*" />
+                                </x-forms.field>
+                            </div>
                         </div>
                     </div>
                 </section>

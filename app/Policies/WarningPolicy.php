@@ -17,7 +17,7 @@ class WarningPolicy
 
     public function view(User $user, Warning $warning)
     {
-        return $user->can('Read Warning');
+        return $user->can('Read Warning') || $warning->employee_id == authUser()->employee_id;
     }
 
     public function create(User $user)

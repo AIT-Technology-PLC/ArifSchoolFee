@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
+use NotificationChannels\WebPush\HasPushSubscriptions;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes, HasRoles, CascadeSoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles, CascadeSoftDeletes, HasPushSubscriptions;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'last_online_at'];
 
@@ -65,14 +66,14 @@ class User extends Authenticatable
             return $this->getAllowedWarehouses($type)->contains($warehouses);
         }
 
-        if (! is_array($warehouses)) {
+        if (!is_array($warehouses)) {
             return false;
         }
 
         $allowedWarehouseIds = $this->getAllowedWarehouses($type)->pluck('id')->toArray();
 
         foreach ($warehouses as $warehouse) {
-            if (! in_array($warehouse, $allowedWarehouseIds)) {
+            if (!in_array($warehouse, $allowedWarehouseIds)) {
                 return false;
             }
         }
@@ -84,7 +85,7 @@ class User extends Authenticatable
     {
         $withOnlyCanBeSoldFromBranches = $type == 'sales' ? true : false;
 
-        $cacheKey = $this->id.'_'.$type.'_'.'allowedWarehouses';
+        $cacheKey = $this->id . '_' . $type . '_' . 'allowedWarehouses';
 
         if ($this->hasRole('System Manager')) {
             return Cache::store('array')

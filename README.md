@@ -22,20 +22,21 @@ With its number of modules & features, **Onrica SmartWork** allows businesses to
 
 At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) uses [**Laravel**](https://laravel.com) as a fullstack framework.
 
-| Frontend Tools     | Backend Tools                | Other Tools  |
-| ------------------ | ---------------------------- | ------------ |
-| Bulma              | Laravel                      | Laravel Pint |
-| Font Awesome Icons | Livewire                     |
-| jQuery             | Laravel DomPDF               |
-| AlpineJS           | Doctrine Dbal                |
-| Axios              | Spatie - Laravel Permission  |
-| jQuery DataTables  | Yajra - Laravel DataTables   |
-| Summernote Editor  | Laravel Debugbar             |
-| Select2 Dropdown   | LaraBug                      |
-| Sweetalert         | Flysystem Google Drive       |
-| Pace.js            | Spatie - Laravel Backup      |
-| Workbox            | laravel-cascade-soft-deletes |
-|                    | Maatwebsite - Laravel Excel  |
+| Frontend Tools     | Backend Tools                           | Other Tools  |
+| ------------------ | --------------------------------------- | ------------ |
+| Bulma              | Laravel                                 | Laravel Pint |
+| Font Awesome Icons | Livewire                                |
+| jQuery             | Laravel DomPDF                          |
+| AlpineJS           | Doctrine Dbal                           |
+| Axios              | Spatie - Laravel Permission             |
+| jQuery DataTables  | Yajra - Laravel DataTables              |
+| Summernote Editor  | Laravel Debugbar                        |
+| Select2 Dropdown   | LaraBug                                 |
+| Sweetalert         | Flysystem Google Drive                  |
+| Pace.js            | Spatie - Laravel Backup                 |
+| Workbox            | laravel-cascade-soft-deletes            |
+|                    | Maatwebsite - Laravel Excel             |
+|                    | Larave Notifications Channel - Web Push |
 
 ## Branches
 

@@ -14,6 +14,7 @@
         "dyrynda/laravel-cascade-soft-deletes": "^4.2",
         "guzzlehttp/guzzle": "^7.2",
         "larabug/larabug": "^2.5",
+        "laravel-notification-channels/webpush": "^7.0",
         "laravel/framework": "^9.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.0",
