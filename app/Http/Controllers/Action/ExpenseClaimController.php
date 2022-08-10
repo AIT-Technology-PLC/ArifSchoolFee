@@ -26,6 +26,10 @@ class ExpenseClaimController extends Controller
     {
         $this->authorize('approve', $expenseClaim);
 
+        if (!authUser()->hasWarehousePermission('hr', $expenseClaim->warehouse_id)) {
+            return back()->with('failedMessage', 'You do not have permission to approve this expense claim request.');
+        }
+
         if ($expenseClaim->isRejected()) {
             return back()->with('failedMessage', 'You can not approve an expense claims that is rejected.');
         }
