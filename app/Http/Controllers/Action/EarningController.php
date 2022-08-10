@@ -20,6 +20,10 @@ class EarningController extends Controller
     {
         $this->authorize('approve', $earning);
 
+        if (!authUser()->hasWarehousePermission('hr', $earning->warehouse_id)) {
+            return back()->with('failedMessage', 'You do not have permission to approve this earning request.');
+        }
+
         [$isExecuted, $message] = $action->execute($earning, EarningApproved::class);
 
         if (!$isExecuted) {
