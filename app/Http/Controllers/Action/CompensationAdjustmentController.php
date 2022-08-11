@@ -6,6 +6,7 @@ use App\Actions\ApproveTransactionAction;
 use App\Actions\CancelTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\CompensationAdjustment;
+use App\Models\User;
 use App\Notifications\CompensationAdjustmentApproved;
 use App\Notifications\CompensationAdjustmentCancelled;
 use App\Utilities\Notifiables;
@@ -22,10 +23,8 @@ class CompensationAdjustmentController extends Controller
     {
         $this->authorize('approve', $compensationAdjustment);
 
-        foreach ($compensationAdjustment->compensationAdjustmentDetails as $compensationAdjustmentDetail) {
-            if (!authUser()->hasWarehousePermission('hr', $compensationAdjustmentDetail->employee->user->warehouse_id)) {
-                return back()->with('failedMessage', 'You do not have permission to approve this adjustment request.');
-            }
+        if (!authUser()->hasWarehousePermission('hr', User::whereHas('employee', fn($q) => $q->whereIn('id', $compensationAdjustment->compensationAdjustmentDetails->pluck('employee_id')))->pluck('warehouse_id'))) {
+            return back()->with('failedMessage', 'You do not have permission to approve this adjustment request.');
         }
 
         if ($compensationAdjustment->isCancelled()) {

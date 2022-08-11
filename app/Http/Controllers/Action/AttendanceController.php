@@ -6,6 +6,7 @@ use App\Actions\ApproveTransactionAction;
 use App\Actions\CancelTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
+use App\Models\User;
 
 class AttendanceController extends Controller
 {
@@ -18,7 +19,7 @@ class AttendanceController extends Controller
     {
         $this->authorize('approve', $attendance);
 
-        if (!authUser()->hasWarehousePermission('hr', $attendance->warehouse_id)) {
+        if (!authUser()->hasWarehousePermission('hr', User::whereHas('employee', fn($q) => $q->whereIn('id', $attendance->attendanceDetails->pluck('employee_id')))->pluck('warehouse_id'))) {
             return back()->with('failedMessage', 'You do not have permission to approve this attendance request.');
         }
 

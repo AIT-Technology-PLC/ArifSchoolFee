@@ -20,7 +20,7 @@ class WarningController extends Controller
     {
         $this->authorize('approve', $warning);
 
-        if (!authUser()->hasWarehousePermission('hr', $warning->warehouse_id)) {
+        if (!authUser()->hasWarehousePermission('hr', $warning->employee->user->warehouse_id)) {
             return back()->with('failedMessage', 'You do not have permission to approve this warning request.');
         }
 
