@@ -154,3 +154,63 @@ self.addEventListener("activate", (event) => {
         })
     );
 });
+
+(() => {
+    'use strict'
+
+    const WebPush = {
+        init() {
+            self.addEventListener('push', this.notificationPush.bind(this))
+            self.addEventListener('notificationclick', this.notificationClick.bind(this))
+            self.addEventListener('notificationclose', this.notificationClose.bind(this))
+        },
+
+        notificationPush(event) {
+            if (!(self.Notification && self.Notification.permission === 'granted')) {
+                return
+            }
+
+            if (event.data) {
+                event.waitUntil(
+                    this.sendNotification(event.data.json())
+                )
+            }
+        },
+
+        notificationClick(event) {
+            if (event.action) {
+                self.clients.openWindow(event.action)
+            } else {
+                self.clients.openWindow('/')
+            }
+        },
+
+        notificationClose(event) {
+            self.registration.pushManager.getSubscription().then(subscription => {
+                if (subscription) {
+                    this.dismissNotification(event, subscription)
+                }
+            })
+        },
+
+        sendNotification(data) {
+            return self.registration.showNotification(data.title, data)
+        },
+
+        dismissNotification({ notification }, { endpoint }) {
+            if (!notification.data || !notification.data.id) {
+                return
+            }
+
+            const data = new FormData()
+            data.append('endpoint', endpoint)
+
+            fetch(`/notifications/${notification.data.id}`, {
+                method: 'PATCH',
+                body: data
+            })
+        }
+    }
+
+    WebPush.init()
+})()

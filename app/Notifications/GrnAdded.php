@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class GrnAdded extends Notification
 {
@@ -16,7 +18,7 @@ class GrnAdded extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -24,7 +26,16 @@ class GrnAdded extends Notification
         return [
             'icon' => 'file-import',
             'message' => 'GRN has been added to inventory',
-            'endpoint' => '/grns/'.$this->grn->id,
+            'endpoint' => '/grns/' . $this->grn->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('GRN Added')
+            ->body('GRN has been added to inventory')
+            ->action('View', '/grns/' . $this->grn->id, 'file-import')
+            ->data(['id' => $notification->id]);
     }
 }

@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class GrnPrepared extends Notification
 {
@@ -16,15 +18,24 @@ class GrnPrepared extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
     {
         return [
             'icon' => 'file-import',
-            'message' => 'Approval request for GRN prepared by '.ucfirst($this->grn->createdBy->name),
-            'endpoint' => '/grns/'.$this->grn->id,
+            'message' => 'Approval request for GRN prepared by ' . ucfirst($this->grn->createdBy->name),
+            'endpoint' => '/grns/' . $this->grn->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('GRN Prepared')
+            ->body('Approval request for GRN prepared by ' . ucfirst($this->grn->createdBy->name))
+            ->action('View', '/grns/' . $this->grn->id, 'file-import')
+            ->data(['id' => $notification->id]);
     }
 }

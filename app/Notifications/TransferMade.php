@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class TransferMade extends Notification
 {
@@ -16,21 +18,36 @@ class TransferMade extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
     {
-        $message = 'Transfer has been added to '.$this->transfer->transferredTo->name;
+        $message = 'Transfer has been added to ' . $this->transfer->transferredTo->name;
 
-        if (! $this->transfer->isAdded()) {
-            $message = 'Transfer has been subtracted from '.$this->transfer->transferredFrom->name;
+        if (!$this->transfer->isAdded()) {
+            $message = 'Transfer has been subtracted from ' . $this->transfer->transferredFrom->name;
         }
 
         return [
             'icon' => 'exchange-alt',
             'message' => $message,
-            'endpoint' => '/transfers/'.$this->transfer->id,
+            'endpoint' => '/transfers/' . $this->transfer->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        $message = 'Transfer has been added to ' . $this->transfer->transferredTo->name;
+
+        if (!$this->transfer->isAdded()) {
+            $message = 'Transfer has been subtracted from ' . $this->transfer->transferredFrom->name;
+        }
+
+        return (new WebPushMessage)
+            ->title('Transfer Made')
+            ->body($message)
+            ->action('View', '/transfers/' . $this->transfer->id, 'exchange-alt')
+            ->data(['id' => $notification->id]);
     }
 }

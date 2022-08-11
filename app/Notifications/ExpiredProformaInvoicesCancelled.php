@@ -5,6 +5,8 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class ExpiredProformaInvoicesCancelled extends Notification
 {
@@ -19,7 +21,7 @@ class ExpiredProformaInvoicesCancelled extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -40,5 +42,25 @@ class ExpiredProformaInvoicesCancelled extends Notification
             'message' => $message,
             'endpoint' => '/proforma-invoices',
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        $message = Str::of($this->totalCancelledProfromaInvoices)
+            ->append(
+                ' ',
+                Str::plural('proforma invoice', $this->totalCancelledProfromaInvoices),
+                ' ',
+                $this->totalCancelledProfromaInvoices == 1 ? 'was' : 'were',
+                ' expired and ',
+                $this->totalCancelledProfromaInvoices == 1 ? 'has' : 'have',
+                ' been cancelled'
+            );
+
+        return (new WebPushMessage)
+            ->title('Warning Approved')
+            ->body($message)
+            ->action('View', '/proforma-invoices', 'receipt')
+            ->data(['id' => $notification->id]);
     }
 }

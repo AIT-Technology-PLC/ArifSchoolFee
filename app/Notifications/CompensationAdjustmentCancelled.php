@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class CompensationAdjustmentCancelled extends Notification
 {
@@ -16,7 +18,7 @@ class CompensationAdjustmentCancelled extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -26,5 +28,14 @@ class CompensationAdjustmentCancelled extends Notification
             'message' => 'Compensation Adjustment has been cancelled by ' . ucfirst($this->compensationAdjustment->cancelledBy->name),
             'endpoint' => '/compensation-adjustments/' . $this->compensationAdjustment->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Compensation Adjustment Cancelled')
+            ->body('Compensation Adjustment has been cancelled by ' . ucfirst($this->compensationAdjustment->cancelledBy->name))
+            ->action('View', '/compensation-adjustments/' . $this->compensationAdjustment->id, 'fa-solid fa-circle-dollar-to-slot')
+            ->data(['id' => $notification->id]);
     }
 }

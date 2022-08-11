@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class AttendanceApproved extends Notification
 {
@@ -16,7 +18,7 @@ class AttendanceApproved extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -26,5 +28,15 @@ class AttendanceApproved extends Notification
             'message' => 'Attendance has been approved by ' . ucfirst($this->attendance->approvedBy->name),
             'endpoint' => '/attendances/' . $this->attendance->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Attendance Approved')
+            ->icon('clipboard-user')
+            ->body('Attendance has been approved by ' . ucfirst($this->attendance->approvedBy->name))
+            ->action('View', '/attendances/' . $this->attendance->id)
+            ->data(['id' => $notification->id]);
     }
 }

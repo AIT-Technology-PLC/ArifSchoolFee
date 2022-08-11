@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class ReturnAdded extends Notification
 {
@@ -16,7 +18,7 @@ class ReturnAdded extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -24,7 +26,16 @@ class ReturnAdded extends Notification
         return [
             'icon' => 'arrow-alt-circle-left',
             'message' => 'Returned products have been added to inventory',
-            'endpoint' => '/returns/'.$this->return->id,
+            'endpoint' => '/returns/' . $this->return->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Returned Added')
+            ->body('Returned products have been added to inventory')
+            ->action('View', '/returns/' . $this->return->id, 'arrow-alt-circle-left')
+            ->data(['id' => $notification->id]);
     }
 }

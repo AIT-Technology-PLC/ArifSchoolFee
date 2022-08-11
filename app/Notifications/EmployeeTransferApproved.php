@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class EmployeeTransferApproved extends Notification
 {
@@ -16,7 +18,7 @@ class EmployeeTransferApproved extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -26,5 +28,14 @@ class EmployeeTransferApproved extends Notification
             'message' => 'Employee Transfer has been approved by ' . ucfirst($this->employeeTransfer->approvedBy->name),
             'endpoint' => '/employee-transfers/' . $this->employeeTransfer->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Employee Transfer Approved')
+            ->body('Employee Transfer has been approved by ' . ucfirst($this->employeeTransfer->approvedBy->name))
+            ->action('View', '/employee-transfers/' . $this->employeeTransfer->id, 'fas fa-people-arrows-left-right')
+            ->data(['id' => $notification->id]);
     }
 }

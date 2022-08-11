@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class TransactionStatusUpdated extends Notification
 {
@@ -16,7 +18,7 @@ class TransactionStatusUpdated extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -26,5 +28,14 @@ class TransactionStatusUpdated extends Notification
             'message' => str()->singular($this->transaction->pad->name) . ' Status updated to ' . $this->transaction->status . ' by ' . ucfirst($this->transaction->updatedBy->name),
             'endpoint' => '/transactions/' . $this->transaction->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Transaction Status Updated')
+            ->body(str()->singular($this->transaction->pad->name) . ' Status updated to ' . $this->transaction->status . ' by ' . ucfirst($this->transaction->updatedBy->name))
+            ->action('View', '/transactions/' . $this->transaction->id, 'info')
+            ->data(['id' => $notification->id]);
     }
 }

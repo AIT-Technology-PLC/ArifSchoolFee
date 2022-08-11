@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class JobApproved extends Notification
 {
@@ -16,15 +18,24 @@ class JobApproved extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
     {
         return [
             'icon' => 'fas fa-cogs',
-            'message' => 'Job has been approved by '.ucfirst($this->job->approvedBy->name),
-            'endpoint' => '/jobs/'.$this->job->id,
+            'message' => 'Job has been approved by ' . ucfirst($this->job->approvedBy->name),
+            'endpoint' => '/jobs/' . $this->job->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Job Prepared')
+            ->body('Job has been approved by ' . ucfirst($this->job->approvedBy->name))
+            ->action('View', '/jobs/' . $this->job->id, 'fas fa-cogs')
+            ->data(['id' => $notification->id]);
     }
 }

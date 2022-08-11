@@ -5,6 +5,8 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class LowProductInventoryLevel extends Notification
 {
@@ -19,7 +21,7 @@ class LowProductInventoryLevel extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -38,5 +40,23 @@ class LowProductInventoryLevel extends Notification
             'message' => $message,
             'endpoint' => '/merchandises/available?level=limited',
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        $message = Str::of($this->totalLimitedProducts)
+            ->append(
+                ' ',
+                Str::plural('product', $this->totalLimitedProducts),
+                ' ',
+                $this->totalLimitedProducts == 1 ? 'has' : 'have',
+                ' reached low level'
+            );
+
+        return (new WebPushMessage)
+            ->title('Low Product Inventory Level')
+            ->body($message)
+            ->action('View', '/merchandises/available?level=limited', 'fas fa-circle-exclamation')
+            ->data(['id' => $notification->id]);
     }
 }

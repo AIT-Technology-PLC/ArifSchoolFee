@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class ReservationMade extends Notification
 {
@@ -16,7 +18,7 @@ class ReservationMade extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -24,7 +26,16 @@ class ReservationMade extends Notification
         return [
             'icon' => 'archive',
             'message' => 'Reservation is made successfully and products have been reserved',
-            'endpoint' => '/reservations/'.$this->reservation->id,
+            'endpoint' => '/reservations/' . $this->reservation->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Reservation Made')
+            ->body('Reservation is made successfully and products have been reserved')
+            ->action('View', '/reservations/' . $this->reservation->id, 'archive')
+            ->data(['id' => $notification->id]);
     }
 }

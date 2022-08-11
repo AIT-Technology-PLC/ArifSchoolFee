@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class TenderOpportunityStatusUpdated extends Notification
 {
@@ -21,7 +23,7 @@ class TenderOpportunityStatusUpdated extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -29,12 +31,24 @@ class TenderOpportunityStatusUpdated extends Notification
         return [
             'icon' => 'briefcase',
 
-            'message' => 'Tender Opportunity No \''.$this->tenderOpportunity->code.'\' status is changed from \''
-            .$this->originalStatus.'\' to \''
-            .$this->tenderOpportunity->tenderStatus->status
-            .'\' by '.$this->tenderOpportunity->updatedBy->name,
+            'message' => 'Tender Opportunity No \'' . $this->tenderOpportunity->code . '\' status is changed from \''
+            . $this->originalStatus . '\' to \''
+            . $this->tenderOpportunity->tenderStatus->status
+            . '\' by ' . $this->tenderOpportunity->updatedBy->name,
 
-            'endpoint' => '/tender-opportunities/'.$this->tenderOpportunity->id,
+            'endpoint' => '/tender-opportunities/' . $this->tenderOpportunity->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Tender Opportunity Status Updated')
+            ->body('Tender Opportunity No \'' . $this->tenderOpportunity->code . '\' status is changed from \''
+                . $this->originalStatus . '\' to \''
+                . $this->tenderOpportunity->tenderStatus->status
+                . '\' by ' . $this->tenderOpportunity->updatedBy->name)
+            ->action('View', '/tender-opportunities/' . $this->tenderOpportunity->id, 'briefcase')
+            ->data(['id' => $notification->id]);
     }
 }

@@ -5,6 +5,8 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class CreditDueDateIsClose extends Notification
 {
@@ -19,7 +21,7 @@ class CreditDueDateIsClose extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -36,5 +38,21 @@ class CreditDueDateIsClose extends Notification
             'message' => $message,
             'endpoint' => '/credits?type=due',
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        $message = Str::of($this->totalCredits)
+            ->append(
+                Str::plural(' credit', $this->totalCredits),
+                ' will be due',
+                ' after 7 days or less'
+            );
+
+        return (new WebPushMessage)
+            ->title('Compensation Adjustment Created')
+            ->body($message)
+            ->action('View', '/credits?type=due', 'fas fa-money-check')
+            ->data(['id' => $notification->id]);
     }
 }

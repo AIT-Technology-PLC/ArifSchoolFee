@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class AdjustmentMade extends Notification
 {
@@ -16,7 +18,7 @@ class AdjustmentMade extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -24,7 +26,16 @@ class AdjustmentMade extends Notification
         return [
             'icon' => 'eraser',
             'message' => 'Inventory adjustment has been made successfully',
-            'endpoint' => '/adjustments/'.$this->adjustment->id,
+            'endpoint' => '/adjustments/' . $this->adjustment->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Inventory Adjustment Made')
+            ->body('Inventory adjustment has been made by ' . ucfirst($this->adjustment->createdBy->name))
+            ->action('View', '/adjustments/' . $this->adjustment->id, 'eraser')
+            ->data(['id' => $notification->id]);
     }
 }

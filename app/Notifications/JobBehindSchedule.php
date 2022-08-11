@@ -5,6 +5,8 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class JobBehindSchedule extends Notification
 {
@@ -17,15 +19,24 @@ class JobBehindSchedule extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
     {
         return [
             'icon' => 'fas fa-cogs',
-            'message' => $this->jobs->count().' '.Str::plural('job', $this->jobs->count()).' '.($this->jobs->count() == 1 ? 'is' : 'are').' behind schedule.',
+            'message' => $this->jobs->count() . ' ' . Str::plural('job', $this->jobs->count()) . ' ' . ($this->jobs->count() == 1 ? 'is' : 'are') . ' behind schedule.',
             'endpoint' => '/jobs',
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Job Behind Schedule')
+            ->body($this->jobs->count() . ' ' . Str::plural('job', $this->jobs->count()) . ' ' . ($this->jobs->count() == 1 ? 'is' : 'are') . ' behind schedule.', )
+            ->action('View', '/jobs/', 'fas fa-cogs')
+            ->data(['id' => $notification->id]);
     }
 }
