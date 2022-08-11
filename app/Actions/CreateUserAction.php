@@ -39,7 +39,7 @@ class CreateUserAction
                 Arr::only($data, ['transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv', 'hr'])
             );
 
-            if (isFeatureEnabled('Compensation Management')) {
+            if (auth()->check() && isFeatureEnabled('Compensation Management')) {
                 $user->employee->employeeCompensations()->createMany($data['employeeCompensation']);
             }
 
