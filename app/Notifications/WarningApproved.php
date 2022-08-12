@@ -34,8 +34,9 @@ class WarningApproved extends Notification
     {
         return (new WebPushMessage)
             ->title('Warning Approved')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Warning has been approved by ' . ucfirst($this->warning->approvedBy->name))
-            ->action('View', '/warnings/' . $this->warning->id, 'fas fa-circle-exclamation')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/warnings/' . $this->warning->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -36,8 +36,9 @@ class TransferRequested extends Notification
     {
         return (new WebPushMessage)
             ->title('Transfer Requested')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New Transfer request is received from ' . ucfirst($this->transfer->transferredTo->name))
-            ->action('View', '/transfers/' . $this->transfer->id, 'exchange-alt')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/transfers/' . $this->transfer->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

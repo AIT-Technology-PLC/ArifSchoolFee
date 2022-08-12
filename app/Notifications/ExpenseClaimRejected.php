@@ -34,8 +34,9 @@ class ExpenseClaimRejected extends Notification
     {
         return (new WebPushMessage)
             ->title('Expense Claim Rejected')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Expense Claim has been rejected by ' . ucfirst($this->expenseClaim->rejectedBy->name))
-            ->action('View', '/expense-claims/' . $this->expenseClaim->id, 'fa-solid fa-file-invoice-dollar')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/expense-claims/' . $this->expenseClaim->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

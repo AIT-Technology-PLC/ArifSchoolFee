@@ -43,9 +43,10 @@ class ProformaInvoicePrepared extends Notification
 
         return (new WebPushMessage)
             ->title('Proforma Invoice Prepared')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New Proforma Invoice was prepared by ' .
                 ucfirst($this->proformaInvoice->createdBy->name) . $customer)
-            ->action('View', '/proforma-invoices/' . $this->proformaInvoice->id, 'file-invoice-dollar')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/proforma-invoices/' . $this->proformaInvoice->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

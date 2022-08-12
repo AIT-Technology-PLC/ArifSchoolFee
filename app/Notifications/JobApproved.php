@@ -34,8 +34,9 @@ class JobApproved extends Notification
     {
         return (new WebPushMessage)
             ->title('Job Approved')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Job has been approved by ' . ucfirst($this->job->approvedBy->name))
-            ->action('View', '/jobs/' . $this->job->id, 'fas fa-cogs')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/jobs/' . $this->job->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

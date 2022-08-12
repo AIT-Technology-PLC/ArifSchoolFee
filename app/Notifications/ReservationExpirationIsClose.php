@@ -35,8 +35,9 @@ class ReservationExpirationIsClose extends Notification
     {
         return (new WebPushMessage)
             ->title('Reservation Expiration Close')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body($this->reservations->count() . ' ' . Str::plural('reservation', $this->reservations->count()) . ' ' . ($this->reservations->count() == 1 ? 'has' : 'have') . ' 5 days or less remaining to be expired')
-            ->action('View', '/reservations/', 'archive')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/reservations/')
+            ->vibrate([500, 250, 500, 250]);
     }
 }

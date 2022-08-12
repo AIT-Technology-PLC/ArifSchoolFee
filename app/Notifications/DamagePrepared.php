@@ -34,8 +34,9 @@ class DamagePrepared extends Notification
     {
         return (new WebPushMessage)
             ->title('Damage Prepared')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for Damage claim prepared by ' . ucfirst($this->damage->createdBy->name))
-            ->action('View', '/damages/' . $this->damage->id, 'bolt')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/damages/' . $this->damage->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -34,8 +34,9 @@ class EarningApproved extends Notification
     {
         return (new WebPushMessage)
             ->title('Earning Approved')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Earning has been approved by ' . ucfirst($this->earning->approvedBy->name))
-            ->action('View', '/earnings/' . $this->earning->id, 'bolt')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/earnings/' . $this->earning->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

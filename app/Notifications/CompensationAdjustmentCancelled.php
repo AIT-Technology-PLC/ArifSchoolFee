@@ -34,8 +34,9 @@ class CompensationAdjustmentCancelled extends Notification
     {
         return (new WebPushMessage)
             ->title('Compensation Adjustment Cancelled')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Compensation Adjustment has been cancelled by ' . ucfirst($this->compensationAdjustment->cancelledBy->name))
-            ->action('View', '/compensation-adjustments/' . $this->compensationAdjustment->id, 'fa-solid fa-circle-dollar-to-slot')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/compensation-adjustments/' . $this->compensationAdjustment->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

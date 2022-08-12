@@ -33,8 +33,9 @@ class PurchaseApproved extends Notification
     {
         return (new WebPushMessage)
             ->title('Purchase Approved')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Purchase #' . $this->purchase->code . 'is approved by' . ucfirst($this->purchase->approvedBy->name))
-            ->action('View', '/purchases/' . $this->purchase->id, 'shopping-bag')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/purchases/' . $this->purchase->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

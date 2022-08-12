@@ -34,8 +34,9 @@ class TransactionAdded extends Notification
     {
         return (new WebPushMessage)
             ->title('Transaction Added')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Products in ' . str()->singular($this->transaction->pad->name) . ' #' . $this->transaction->code . ' are added to inventory by ' . $this->transaction->addedBy->name)
-            ->action('View', '/transactions/' . $this->transaction->id, $this->transaction->pad->icon)
-            ->data(['id' => $notification->id]);
+            ->action('View', '/transactions/' . $this->transaction->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -34,8 +34,9 @@ class AdjustmentMade extends Notification
     {
         return (new WebPushMessage)
             ->title('Inventory Adjustment Made')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Inventory adjustment has been made by ' . ucfirst($this->adjustment->createdBy->name))
-            ->action('View', '/adjustments/' . $this->adjustment->id, 'eraser')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/adjustments/' . $this->adjustment->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

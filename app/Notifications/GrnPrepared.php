@@ -34,8 +34,9 @@ class GrnPrepared extends Notification
     {
         return (new WebPushMessage)
             ->title('GRN Prepared')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for GRN prepared by ' . ucfirst($this->grn->createdBy->name))
-            ->action('View', '/grns/' . $this->grn->id, 'file-import')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/grns/' . $this->grn->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

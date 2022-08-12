@@ -45,8 +45,9 @@ class PriceUpdated extends Notification
 
         return (new WebPushMessage)
             ->title('Price Updated')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body($message)
-            ->action('View', '/prices', 'tags')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/prices')
+            ->vibrate([500, 250, 500, 250]);
     }
 }

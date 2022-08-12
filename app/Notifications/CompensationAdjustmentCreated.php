@@ -34,8 +34,9 @@ class CompensationAdjustmentCreated extends Notification
     {
         return (new WebPushMessage)
             ->title('Compensation Adjustment Created')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Compensation Adjustment has been created by ' . ucfirst($this->compensationAdjustment->createdBy->name))
-            ->action('View', '/compensation-adjustments/' . $this->compensationAdjustment->id, 'fa-solid fa-circle-dollar-to-slot')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/compensation-adjustments/' . $this->compensationAdjustment->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

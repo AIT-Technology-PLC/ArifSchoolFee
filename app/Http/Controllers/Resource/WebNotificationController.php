@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class WebNotificationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('isFeatureAccessible:Push Notification');
+    }
+
     public function update(Request $request)
     {
         $this->validate($request, ['endpoint' => 'required']);

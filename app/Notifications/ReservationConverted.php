@@ -34,8 +34,9 @@ class ReservationConverted extends Notification
     {
         return (new WebPushMessage)
             ->title('Delivery Order Approval Request')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for delivery order issued from reservation by ' . ucfirst($this->reservation->convertedBy->name))
-            ->action('View', '/gdns/' . $this->reservation->id, 'archive')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/gdns/' . $this->reservation->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -33,9 +33,10 @@ class ReturnPrepared extends Notification
     public function toWebPush($notifiable, $notification)
     {
         return (new WebPushMessage)
-            ->title('Returned Prepared')
+            ->title('Return Prepared')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for return voucher prepared by ' . ucfirst($this->return->createdBy->name))
-            ->action('View', '/returns/' . $this->return->id, 'arrow-alt-circle-left')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/returns/' . $this->return->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

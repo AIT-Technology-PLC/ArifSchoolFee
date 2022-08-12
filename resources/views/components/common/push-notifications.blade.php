@@ -1,3 +1,4 @@
+<hr class="navbar-divider">
 <div
     x-data="notification"
     class="navbar-item"

@@ -208,8 +208,9 @@
                                 Change Password
                             </span>
                         </a>
-                        <hr class="navbar-divider">
-                        <x-common.push-notifications />
+                        @if (isFeatureEnabled('Push Notification'))
+                            <x-common.push-notifications />
+                        @endif
                         <hr class="navbar-divider">
                         <form
                             class="navbar-item"

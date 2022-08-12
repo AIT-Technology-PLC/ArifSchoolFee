@@ -34,9 +34,9 @@ class AttendanceApproved extends Notification
     {
         return (new WebPushMessage)
             ->title('Attendance Approved')
-            ->icon('clipboard-user')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Attendance has been approved by ' . ucfirst($this->attendance->approvedBy->name))
             ->action('View', '/attendances/' . $this->attendance->id)
-            ->data(['id' => $notification->id]);
+            ->vibrate([500, 250, 500, 250]);
     }
 }

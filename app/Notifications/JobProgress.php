@@ -34,8 +34,9 @@ class JobProgress extends Notification
     {
         return (new WebPushMessage)
             ->title('Job Progress')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Job #' . $this->job->code . ' has new progress added by' . ucfirst($this->job->updatedBy->name))
-            ->action('View', '/jobs/' . $this->job->id, 'fas fa-cogs')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/jobs/' . $this->job->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

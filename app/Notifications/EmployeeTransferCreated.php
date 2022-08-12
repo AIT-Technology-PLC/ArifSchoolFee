@@ -34,8 +34,9 @@ class EmployeeTransferCreated extends Notification
     {
         return (new WebPushMessage)
             ->title('Employee Transfer Created')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New Employee Transfer has been created by ' . ucfirst($this->employeeTransfer->createdBy->name))
-            ->action('View', '/employee-transfers/' . $this->employeeTransfer->id, 'fas fa-people-arrows-left-right')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/employee-transfers/' . $this->employeeTransfer->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

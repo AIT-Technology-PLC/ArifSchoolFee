@@ -34,8 +34,9 @@ class DamageSubtracted extends Notification
     {
         return (new WebPushMessage)
             ->title('Damage Subtracted')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Damage claim products have been subtracted from inventory')
-            ->action('View', '/damages/' . $this->damage->id, 'bolt')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/damages/' . $this->damage->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

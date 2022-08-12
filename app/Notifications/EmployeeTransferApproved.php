@@ -34,8 +34,9 @@ class EmployeeTransferApproved extends Notification
     {
         return (new WebPushMessage)
             ->title('Employee Transfer Approved')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Employee Transfer has been approved by ' . ucfirst($this->employeeTransfer->approvedBy->name))
-            ->action('View', '/employee-transfers/' . $this->employeeTransfer->id, 'fas fa-people-arrows-left-right')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/employee-transfers/' . $this->employeeTransfer->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

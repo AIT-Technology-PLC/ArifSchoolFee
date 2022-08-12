@@ -45,11 +45,12 @@ class TenderStatusChanged extends Notification
     {
         return (new WebPushMessage)
             ->title('Tender Status Changed')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Tender No \'' . $this->tender->code . '\' status is changed from \''
                 . $this->originalStatus . '\' to \''
                 . $this->tender->status
                 . '\' by ' . $this->tender->updatedBy->name)
-            ->action('View', '/tenders/' . $this->tender->id, 'project-diagram')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/tenders/' . $this->tender->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -34,8 +34,9 @@ class TransactionStatusUpdated extends Notification
     {
         return (new WebPushMessage)
             ->title('Transaction Status Updated')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body(str()->singular($this->transaction->pad->name) . ' Status updated to ' . $this->transaction->status . ' by ' . ucfirst($this->transaction->updatedBy->name))
-            ->action('View', '/transactions/' . $this->transaction->id, 'info')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/transactions/' . $this->transaction->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }
