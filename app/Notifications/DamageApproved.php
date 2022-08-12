@@ -34,8 +34,9 @@ class DamageApproved extends Notification
     {
         return (new WebPushMessage)
             ->title('Damage Approved')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Damage claim has been approved by ' . ucfirst($this->damage->approvedBy->name))
-            ->action('View', '/damages/' . $this->damage->id, 'bolt')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/damages/' . $this->damage->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

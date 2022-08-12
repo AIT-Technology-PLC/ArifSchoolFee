@@ -34,8 +34,9 @@ class AdvancementApproved extends Notification
     {
         return (new WebPushMessage)
             ->title('Advancement Approved')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Advancement has been approved by ' . ucfirst($this->advancement->approvedBy->name))
-            ->action('View', '/advancements/' . $this->advancement->id, 'fas fa-arrows-up-down')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/advancements/' . $this->advancement->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

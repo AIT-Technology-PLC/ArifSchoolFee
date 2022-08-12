@@ -34,8 +34,9 @@ class AnnouncementCreated extends Notification
     {
         return (new WebPushMessage)
             ->title('Announcement Created')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New announcement has been created by ' . ucfirst($this->announcement->createdBy->name))
-            ->action('View', '/announcements/' . $this->announcement->id, 'fas fa-rss')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/announcements/' . $this->announcement->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

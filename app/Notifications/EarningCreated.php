@@ -34,8 +34,9 @@ class EarningCreated extends Notification
     {
         return (new WebPushMessage)
             ->title('Earning Created')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New earning has been created by ' . ucfirst($this->earning->createdBy->name))
-            ->action('View', '/earnings/' . $this->earning->id, 'fas fa-hand-holding-dollar')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/earnings/' . $this->earning->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -55,8 +55,9 @@ class LowProductInventoryLevel extends Notification
 
         return (new WebPushMessage)
             ->title('Low Product Inventory Level')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body($message)
-            ->action('View', '/merchandises/available?level=limited', 'fas fa-circle-exclamation')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/merchandises/available?level=limited')
+            ->vibrate([500, 250, 500, 250]);
     }
 }

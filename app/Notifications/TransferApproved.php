@@ -34,8 +34,9 @@ class TransferApproved extends Notification
     {
         return (new WebPushMessage)
             ->title('Transfer Approved')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Transfer has been approved by ' . ucfirst($this->transfer->approvedBy->name))
-            ->action('View', '/transfers/' . $this->transfer->id, 'exchange-alt')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/transfers/' . $this->transfer->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -33,9 +33,10 @@ class ReturnAdded extends Notification
     public function toWebPush($notifiable, $notification)
     {
         return (new WebPushMessage)
-            ->title('Returned Added')
+            ->title('Return Added')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Returned products have been added to inventory')
-            ->action('View', '/returns/' . $this->return->id, 'arrow-alt-circle-left')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/returns/' . $this->return->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

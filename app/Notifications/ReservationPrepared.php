@@ -34,8 +34,9 @@ class ReservationPrepared extends Notification
     {
         return (new WebPushMessage)
             ->title('Reservation Prepared')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for reservation prepared by ' . ucfirst($this->reservation->createdBy->name))
-            ->action('View', '/reservations/' . $this->reservation->id, 'archive')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/reservations/' . $this->reservation->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

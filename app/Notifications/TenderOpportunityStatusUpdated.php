@@ -44,11 +44,12 @@ class TenderOpportunityStatusUpdated extends Notification
     {
         return (new WebPushMessage)
             ->title('Tender Opportunity Status Updated')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Tender Opportunity No \'' . $this->tenderOpportunity->code . '\' status is changed from \''
                 . $this->originalStatus . '\' to \''
                 . $this->tenderOpportunity->tenderStatus->status
                 . '\' by ' . $this->tenderOpportunity->updatedBy->name)
-            ->action('View', '/tender-opportunities/' . $this->tenderOpportunity->id, 'briefcase')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/tender-opportunities/' . $this->tenderOpportunity->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

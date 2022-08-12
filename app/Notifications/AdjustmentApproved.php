@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
 use NotificationChannels\WebPush\WebPushMessage;
 
 class AdjustmentApproved extends Notification
@@ -33,8 +34,9 @@ class AdjustmentApproved extends Notification
     {
         return (new WebPushMessage)
             ->title('Inventory Adjustment Approved')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Inventory adjustment has been approved by ' . ucfirst($this->adjustment->approvedBy->name))
-            ->action('View', '/adjustments/' . $this->adjustment->id, 'eraser')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/adjustments/' . $this->adjustment->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -59,8 +59,9 @@ class ExpiredProformaInvoicesCancelled extends Notification
 
         return (new WebPushMessage)
             ->title('Expired Proforma Invoices Cancelled')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body($message)
-            ->action('View', '/proforma-invoices', 'receipt')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/proforma-invoices')
+            ->vibrate([500, 250, 500, 250]);
     }
 }

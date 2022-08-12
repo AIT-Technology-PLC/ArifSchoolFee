@@ -34,8 +34,9 @@ class LeaveApproved extends Notification
     {
         return (new WebPushMessage)
             ->title('Leave Approved')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Leave has been approved by ' . ucfirst($this->leaf->approvedBy->name))
-            ->action('View', '/leaves/' . $this->leaf->id, 'user-slash')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/leaves/' . $this->leaf->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

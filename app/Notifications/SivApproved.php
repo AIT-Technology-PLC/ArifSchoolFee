@@ -34,8 +34,9 @@ class SivApproved extends Notification
     {
         return (new WebPushMessage)
             ->title('SIV Approved')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('SIV has been approved by ' . ucfirst($this->siv->approvedBy->name))
-            ->action('View', '/sivs/' . $this->siv->id, 'file-export')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/sivs/' . $this->siv->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -34,8 +34,9 @@ class GrnAdded extends Notification
     {
         return (new WebPushMessage)
             ->title('GRN Added')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('GRN has been added to inventory')
-            ->action('View', '/grns/' . $this->grn->id, 'file-import')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/grns/' . $this->grn->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

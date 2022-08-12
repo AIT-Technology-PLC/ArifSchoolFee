@@ -59,8 +59,9 @@ class BidBondDeadlineIsClose extends Notification
 
         return (new WebPushMessage)
             ->title('Bid Bond Deadline Close')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body($message)
-            ->action('View', '/tenders', 'project-diagram')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/tenders')
+            ->vibrate([500, 250, 500, 250]);
     }
 }

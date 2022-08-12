@@ -34,8 +34,9 @@ class TransactionProductSubtracted extends Notification
     {
         return (new WebPushMessage)
             ->title('Transaction Product Subtracted')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body($this->transactionDetail['product'] . ' in ' . str()->singular($this->transactionDetail['transaction']->pad->name) . ' #' . $this->transactionDetail['transaction']->code . ' is subtracted from inventory by ' . authUser()->name)
-            ->action('View', '/transactions/' . $this->transactionDetail['transaction']->id, $this->transactionDetail['transaction']->pad->icon)
-            ->data(['id' => $notification->id]);
+            ->action('View', '/transactions/' . $this->transactionDetail['transaction']->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

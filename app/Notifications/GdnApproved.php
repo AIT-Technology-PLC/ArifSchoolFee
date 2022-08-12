@@ -34,8 +34,9 @@ class GdnApproved extends Notification
     {
         return (new WebPushMessage)
             ->title('Delivery Order Approved')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Delivery Order has been approved by ' . ucfirst($this->gdn->approvedBy->name))
-            ->action('View', '/gdns/' . $this->gdn->id, 'file-invoice')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/gdns/' . $this->gdn->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -34,8 +34,9 @@ class JobCreated extends Notification
     {
         return (new WebPushMessage)
             ->title('Job Created')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New job has been created by ' . ucfirst($this->job->createdBy->name))
-            ->action('View', '/jobs/' . $this->job->id, 'fas fa-cogs')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/jobs/' . $this->job->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

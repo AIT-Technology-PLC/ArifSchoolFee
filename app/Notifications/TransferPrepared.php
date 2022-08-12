@@ -34,8 +34,9 @@ class TransferPrepared extends Notification
     {
         return (new WebPushMessage)
             ->title('Transfer Prepared')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for Transfer prepared by ' . ucfirst($this->transfer->createdBy->name))
-            ->action('View', '/transfers/' . $this->transfer->id, 'exchange-alt')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/transfers/' . $this->transfer->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

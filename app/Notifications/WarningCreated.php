@@ -34,8 +34,9 @@ class WarningCreated extends Notification
     {
         return (new WebPushMessage)
             ->title('Warning Created')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New warning has been created by ' . ucfirst($this->warning->createdBy->name))
-            ->action('View', '/warnings/' . $this->warning->id, 'fas fa-circle-exclamation')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/warnings/' . $this->warning->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

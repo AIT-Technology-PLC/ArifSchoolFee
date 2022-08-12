@@ -59,8 +59,9 @@ class ExpiredReservationsCancelled extends Notification
 
         return (new WebPushMessage)
             ->title('Expired Reservations Cancelled')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body($message)
-            ->action('View', '/reservations', 'archive')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/reservations')
+            ->vibrate([500, 250, 500, 250]);
     }
 }

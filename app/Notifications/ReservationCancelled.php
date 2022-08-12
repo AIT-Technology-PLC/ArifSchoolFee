@@ -34,8 +34,9 @@ class ReservationCancelled extends Notification
     {
         return (new WebPushMessage)
             ->title('Reservation Cancelled')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Reservation has been cancelled by ' . ucfirst($this->reservation->cancelledBy->name))
-            ->action('View', '/reservations/' . $this->reservation->id, 'archive')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/reservations/' . $this->reservation->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

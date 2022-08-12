@@ -51,8 +51,9 @@ class CreditDueDateIsClose extends Notification
 
         return (new WebPushMessage)
             ->title('Credit Due Date Close')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body($message)
-            ->action('View', '/credits?type=due', 'fas fa-money-check')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/credits?type=due')
+            ->vibrate([500, 250, 500, 250]);
     }
 }

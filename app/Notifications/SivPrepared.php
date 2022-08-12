@@ -34,8 +34,9 @@ class SivPrepared extends Notification
     {
         return (new WebPushMessage)
             ->title('SIV Prepared')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for SIV prepared by ' . ucfirst($this->siv->createdBy->name))
-            ->action('View', '/sivs/' . $this->siv->id, 'file-export')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/sivs/' . $this->siv->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

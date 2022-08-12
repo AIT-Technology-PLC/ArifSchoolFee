@@ -34,8 +34,9 @@ class BillOfMaterialCreated extends Notification
     {
         return (new WebPushMessage)
             ->title('Bill Of Material Created')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Bill Of Material has been created by ' . ucfirst($this->billOfMaterial->createdBy->name))
-            ->action('View', '/bill-of-materials/' . $this->billOfMaterial->id, 'fas fa-clipboard-list')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/bill-of-materials/' . $this->billOfMaterial->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

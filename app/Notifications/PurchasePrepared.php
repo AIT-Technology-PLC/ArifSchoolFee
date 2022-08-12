@@ -33,8 +33,9 @@ class PurchasePrepared extends Notification
     {
         return (new WebPushMessage)
             ->title('Purchase Prepared')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for purchase request prepared by ' . ucfirst($this->purchase->createdBy->name))
-            ->action('View', '/purchases/' . $this->purchase->id, 'shopping-bag')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/purchases/' . $this->purchase->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }
