@@ -34,8 +34,9 @@ class GdnPrepared extends Notification
     {
         return (new WebPushMessage)
             ->title('Delivery Order Prepared')
+            ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for Delivery Order prepared by ' . ucfirst($this->gdn->createdBy->name))
-            ->action('View', '/gdns/' . $this->gdn->id, 'file-invoice')
-            ->data(['id' => $notification->id]);
+            ->action('View', '/notifications/' . $notification->id)
+            ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -106,7 +106,9 @@ class User extends Authenticatable
                     ->when($withOnlyCanBeSoldFromBranches, function ($query) {
                         return $query->where('warehouses.can_be_sold_from', 1);
                     })
-                    ->get(['warehouses.id', 'warehouses.name']);
+                    ->get(['warehouses.id', 'warehouses.name'])
+                    ->push($this->warehouse)
+                    ->unique();
             });
     }
 }
