@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class AdvancementApproved extends Notification
 {
@@ -16,7 +18,7 @@ class AdvancementApproved extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -26,5 +28,14 @@ class AdvancementApproved extends Notification
             'message' => 'Advancement has been approved by ' . ucfirst($this->advancement->approvedBy->name),
             'endpoint' => '/advancements/' . $this->advancement->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Advancement Approved')
+            ->body('Advancement has been approved by ' . ucfirst($this->advancement->approvedBy->name))
+            ->action('View', '/advancements/' . $this->advancement->id, 'fas fa-arrows-up-down')
+            ->data(['id' => $notification->id]);
     }
 }

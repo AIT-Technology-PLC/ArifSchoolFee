@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class TransferRequested extends Notification
 {
@@ -18,15 +20,24 @@ class TransferRequested extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
     {
         return [
             'icon' => 'exchange-alt',
-            'message' => 'New Transfer request is received from '.ucfirst($this->transfer->transferredTo->name),
-            'endpoint' => '/transfers/'.$this->transfer->id,
+            'message' => 'New Transfer request is received from ' . ucfirst($this->transfer->transferredTo->name),
+            'endpoint' => '/transfers/' . $this->transfer->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Transfer Requested')
+            ->body('New Transfer request is received from ' . ucfirst($this->transfer->transferredTo->name))
+            ->action('View', '/transfers/' . $this->transfer->id, 'exchange-alt')
+            ->data(['id' => $notification->id]);
     }
 }

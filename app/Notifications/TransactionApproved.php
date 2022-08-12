@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class TransactionApproved extends Notification
 {
@@ -16,7 +18,7 @@ class TransactionApproved extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -26,5 +28,14 @@ class TransactionApproved extends Notification
             'message' => str()->singular($this->transaction->pad->name) . ' #' . $this->transaction->code . ' is approved by ' . $this->transaction->approvedBy->name,
             'endpoint' => '/transactions/' . $this->transaction->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Transaction Approved')
+            ->body(str()->singular($this->transaction->pad->name) . ' #' . $this->transaction->code . ' is approved by ' . $this->transaction->approvedBy->name)
+            ->action('View', '/transactions/' . $this->transaction->id, $this->transaction->pad->icon)
+            ->data(['id' => $notification->id]);
     }
 }

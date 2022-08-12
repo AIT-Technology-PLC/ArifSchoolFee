@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class TenderOpportunityCreated extends Notification
 {
@@ -18,15 +20,24 @@ class TenderOpportunityCreated extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
     {
         return [
             'icon' => 'briefcase',
-            'message' => 'New tender opportunity is created by '.ucfirst($this->tenderOpportunity->createdBy->name),
-            'endpoint' => '/tender-opportunities/'.$this->tenderOpportunity->id,
+            'message' => 'New tender opportunity is created by ' . ucfirst($this->tenderOpportunity->createdBy->name),
+            'endpoint' => '/tender-opportunities/' . $this->tenderOpportunity->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Tender Opportunity Created')
+            ->body('New tender opportunity is created by ' . ucfirst($this->tenderOpportunity->createdBy->name))
+            ->action('View', '/tender-opportunities/' . $this->tenderOpportunity->id, 'briefcase')
+            ->data(['id' => $notification->id]);
     }
 }

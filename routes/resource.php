@@ -146,3 +146,15 @@ Route::resource('compensations', Resource\CompensationController::class)->except
 Route::resource('compensation-adjustments', Resource\CompensationAdjustmentController::class);
 
 Route::resource('compensation-adjustment-details', Resource\CompensationAdjustmentDetailController::class)->only(['destroy']);
+
+Route::post('subscriptions', [Resource\WebNotificationController::class, 'update']);
+
+Route::post('subscriptions/delete', [Resource\WebNotificationController::class, 'destroy']);
+
+// Manifest file (optional if VAPID is used)
+Route::get('manifest.json', function () {
+    return [
+        'name' => config('app.name'),
+        'gcm_sender_id' => config('webpush.gcm.sender_id'),
+    ];
+});

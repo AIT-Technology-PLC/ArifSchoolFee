@@ -7,6 +7,9 @@ use App\Actions\CancelTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\User;
+use App\Notifications\AttendanceApproved;
+use App\Utilities\Notifiables;
+use Illuminate\Support\Facades\Notification;
 
 class AttendanceController extends Controller
 {
@@ -32,6 +35,11 @@ class AttendanceController extends Controller
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read Attendance', $attendance->warehouse_id, $attendance->createdBy),
+            new AttendanceApproved($attendance)
+        );
 
         return back()->with('successMessage', $message);
     }

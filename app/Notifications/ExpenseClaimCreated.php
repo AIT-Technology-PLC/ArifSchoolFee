@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class ExpenseClaimCreated extends Notification
 {
@@ -16,7 +18,7 @@ class ExpenseClaimCreated extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -26,5 +28,14 @@ class ExpenseClaimCreated extends Notification
             'message' => 'Expense Claim has been created by ' . ucfirst($this->expenseClaim->createdBy->name),
             'endpoint' => '/expense-claims/' . $this->expenseClaim->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Expense Claim Created')
+            ->body('Expense Claim has been created by ' . ucfirst($this->expenseClaim->createdBy->name))
+            ->action('View', '/expense-claims/' . $this->expenseClaim->id, 'fa-solid fa-file-invoice-dollar')
+            ->data(['id' => $notification->id]);
     }
 }

@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class SivPrepared extends Notification
 {
@@ -16,15 +18,24 @@ class SivPrepared extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
     {
         return [
             'icon' => 'file-export',
-            'message' => 'Approval request for SIV prepared by '.ucfirst($this->siv->createdBy->name),
-            'endpoint' => '/sivs/'.$this->siv->id,
+            'message' => 'Approval request for SIV prepared by ' . ucfirst($this->siv->createdBy->name),
+            'endpoint' => '/sivs/' . $this->siv->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('SIV Prepared')
+            ->body('Approval request for SIV prepared by ' . ucfirst($this->siv->createdBy->name))
+            ->action('View', '/sivs/' . $this->siv->id, 'file-export')
+            ->data(['id' => $notification->id]);
     }
 }

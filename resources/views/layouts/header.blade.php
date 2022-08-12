@@ -209,6 +209,8 @@
                             </span>
                         </a>
                         <hr class="navbar-divider">
+                        <x-common.push-notifications />
+                        <hr class="navbar-divider">
                         <form
                             class="navbar-item"
                             action="{{ route('logout') }}"

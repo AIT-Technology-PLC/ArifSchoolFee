@@ -5,6 +5,8 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class TenderDeadlineIsClose extends Notification
 {
@@ -17,15 +19,24 @@ class TenderDeadlineIsClose extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
     {
         return [
             'icon' => 'project-diagram',
-            'message' => $this->tenders->count().' '.Str::plural('tender', $this->tenders->count()).' '.($this->tenders->count() == 1 ? 'has' : 'have').' 5 days or less remaining to reach closing date',
+            'message' => $this->tenders->count() . ' ' . Str::plural('tender', $this->tenders->count()) . ' ' . ($this->tenders->count() == 1 ? 'has' : 'have') . ' 5 days or less remaining to reach closing date',
             'endpoint' => '/tenders',
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Tender Deadline Close')
+            ->body($this->tenders->count() . ' ' . Str::plural('tender', $this->tenders->count()) . ' ' . ($this->tenders->count() == 1 ? 'has' : 'have') . ' 5 days or less remaining to reach closing date')
+            ->action('View', '/tenders', 'project-diagram')
+            ->data(['id' => $notification->id]);
     }
 }

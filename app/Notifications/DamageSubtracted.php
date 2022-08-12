@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class DamageSubtracted extends Notification
 {
@@ -16,7 +18,7 @@ class DamageSubtracted extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -24,7 +26,16 @@ class DamageSubtracted extends Notification
         return [
             'icon' => 'bolt',
             'message' => 'Damage claim products have been subtracted from inventory',
-            'endpoint' => '/damages/'.$this->damage->id,
+            'endpoint' => '/damages/' . $this->damage->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        return (new WebPushMessage)
+            ->title('Damage Subtracted')
+            ->body('Damage claim products have been subtracted from inventory')
+            ->action('View', '/damages/' . $this->damage->id, 'bolt')
+            ->data(['id' => $notification->id]);
     }
 }

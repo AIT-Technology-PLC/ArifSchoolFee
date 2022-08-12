@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class ProformaInvoicePrepared extends Notification
 {
@@ -18,20 +20,32 @@ class ProformaInvoicePrepared extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
     {
-        $customer = $this->proformaInvoice->customer ? (' for '.ucfirst($this->proformaInvoice->customer->company_name)) : '';
+        $customer = $this->proformaInvoice->customer ? (' for ' . ucfirst($this->proformaInvoice->customer->company_name)) : '';
 
         return [
             'icon' => 'file-invoice-dollar',
 
-            'message' => 'New Proforma Invoice was prepared by '.
-            ucfirst($this->proformaInvoice->createdBy->name).$customer,
+            'message' => 'New Proforma Invoice was prepared by ' .
+            ucfirst($this->proformaInvoice->createdBy->name) . $customer,
 
-            'endpoint' => '/proforma-invoices/'.$this->proformaInvoice->id,
+            'endpoint' => '/proforma-invoices/' . $this->proformaInvoice->id,
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        $customer = $this->proformaInvoice->customer ? (' for ' . ucfirst($this->proformaInvoice->customer->company_name)) : '';
+
+        return (new WebPushMessage)
+            ->title('Proforma Invoice Prepared')
+            ->body('New Proforma Invoice was prepared by ' .
+                ucfirst($this->proformaInvoice->createdBy->name) . $customer)
+            ->action('View', '/proforma-invoices/' . $this->proformaInvoice->id, 'file-invoice-dollar')
+            ->data(['id' => $notification->id]);
     }
 }

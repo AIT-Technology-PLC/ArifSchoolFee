@@ -5,6 +5,8 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
+use NotificationChannels\WebPush\WebPushChannel;
+use NotificationChannels\WebPush\WebPushMessage;
 
 class ExpiredReservationsCancelled extends Notification
 {
@@ -19,7 +21,7 @@ class ExpiredReservationsCancelled extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', WebPushChannel::class];
     }
 
     public function toArray($notifiable)
@@ -40,5 +42,25 @@ class ExpiredReservationsCancelled extends Notification
             'message' => $message,
             'endpoint' => '/reservations',
         ];
+    }
+
+    public function toWebPush($notifiable, $notification)
+    {
+        $message = Str::of($this->totalCancelledReservations)
+            ->append(
+                ' ',
+                Str::plural('reservation', $this->totalCancelledReservations),
+                ' ',
+                $this->totalCancelledReservations == 1 ? 'was' : 'were',
+                ' expired and ',
+                $this->totalCancelledReservations == 1 ? 'has' : 'have',
+                ' been cancelled'
+            );
+
+        return (new WebPushMessage)
+            ->title('Expired Reservations Cancelled')
+            ->body($message)
+            ->action('View', '/reservations', 'archive')
+            ->data(['id' => $notification->id]);
     }
 }
