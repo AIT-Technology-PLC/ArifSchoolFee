@@ -31,7 +31,7 @@
 
     <x-common.content-wrapper>
         <x-content.header title="Transfers">
-            @can('Create Transfer')
+            @can('Create Employee Transfer')
                 <x-common.button
                     tag="a"
                     href="{{ route('employee-transfers.create') }}"
