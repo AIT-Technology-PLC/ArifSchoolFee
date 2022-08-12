@@ -61,6 +61,7 @@ class ExpiredReservationsCancelled extends Notification
             ->title('Expired Reservations Cancelled')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body($message)
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

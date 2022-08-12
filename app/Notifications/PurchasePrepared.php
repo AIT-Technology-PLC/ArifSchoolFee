@@ -35,6 +35,7 @@ class PurchasePrepared extends Notification
             ->title('Purchase Prepared')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for purchase request prepared by ' . ucfirst($this->purchase->createdBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

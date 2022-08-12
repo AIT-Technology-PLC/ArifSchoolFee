@@ -36,6 +36,7 @@ class EarningCreated extends Notification
             ->title('Earning Created')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New earning has been created by ' . ucfirst($this->earning->createdBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

@@ -36,6 +36,7 @@ class ExpenseClaimRejected extends Notification
             ->title('Expense Claim Rejected')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Expense Claim has been rejected by ' . ucfirst($this->expenseClaim->rejectedBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

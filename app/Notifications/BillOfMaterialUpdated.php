@@ -38,6 +38,7 @@ class BillOfMaterialUpdated extends Notification
             ->title('Bill Of Material Updated')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Bill Of Material has been updated by ' . ucfirst($this->billOfMaterial->createdBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

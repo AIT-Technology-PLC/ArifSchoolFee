@@ -38,6 +38,7 @@ class TenderOpportunityCreated extends Notification
             ->title('Tender Opportunity Created')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New tender opportunity is created by ' . ucfirst($this->tenderOpportunity->createdBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

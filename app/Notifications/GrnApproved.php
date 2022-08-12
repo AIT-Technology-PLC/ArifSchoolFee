@@ -36,6 +36,7 @@ class GrnApproved extends Notification
             ->title('GRN Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('GRN has been approved by ' . ucfirst($this->grn->approvedBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

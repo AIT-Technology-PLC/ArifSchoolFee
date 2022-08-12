@@ -36,6 +36,7 @@ class LeaveCreated extends Notification
             ->title('leave Created')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New leave has been created by ' . ucfirst($this->leaf->createdBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

@@ -36,6 +36,7 @@ class CompensationAdjustmentCancelled extends Notification
             ->title('Compensation Adjustment Cancelled')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Compensation Adjustment has been cancelled by ' . ucfirst($this->compensationAdjustment->cancelledBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

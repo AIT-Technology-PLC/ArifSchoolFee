@@ -37,6 +37,7 @@ class JobBehindSchedule extends Notification
             ->title('Job Behind Schedule')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body($this->jobs->count() . ' ' . Str::plural('job', $this->jobs->count()) . ' ' . ($this->jobs->count() == 1 ? 'is' : 'are') . ' behind schedule.', )
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

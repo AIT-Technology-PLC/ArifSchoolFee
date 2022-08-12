@@ -36,6 +36,7 @@ class BillOfMaterialCreated extends Notification
             ->title('Bill Of Material Created')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Bill Of Material has been created by ' . ucfirst($this->billOfMaterial->createdBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

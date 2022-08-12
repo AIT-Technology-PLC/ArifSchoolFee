@@ -36,6 +36,7 @@ class JobProgress extends Notification
             ->title('Job Progress')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Job #' . $this->job->code . ' has new progress added by' . ucfirst($this->job->updatedBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

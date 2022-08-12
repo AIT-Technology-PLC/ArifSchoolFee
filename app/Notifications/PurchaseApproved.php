@@ -35,6 +35,7 @@ class PurchaseApproved extends Notification
             ->title('Purchase Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Purchase #' . $this->purchase->code . 'is approved by' . ucfirst($this->purchase->approvedBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

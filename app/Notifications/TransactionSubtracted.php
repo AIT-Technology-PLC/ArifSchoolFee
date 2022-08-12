@@ -36,6 +36,7 @@ class TransactionSubtracted extends Notification
             ->title('Transaction Subtracted')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Products in ' . str()->singular($this->transaction->pad->name) . ' #' . $this->transaction->code . ' are subtracted from inventory by ' . $this->transaction->subtractedBy->name)
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

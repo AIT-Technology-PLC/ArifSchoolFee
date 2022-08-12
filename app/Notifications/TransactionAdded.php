@@ -36,6 +36,7 @@ class TransactionAdded extends Notification
             ->title('Transaction Added')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Products in ' . str()->singular($this->transaction->pad->name) . ' #' . $this->transaction->code . ' are added to inventory by ' . $this->transaction->addedBy->name)
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

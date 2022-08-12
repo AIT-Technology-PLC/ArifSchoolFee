@@ -36,6 +36,7 @@ class TransferPrepared extends Notification
             ->title('Transfer Prepared')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for Transfer prepared by ' . ucfirst($this->transfer->createdBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

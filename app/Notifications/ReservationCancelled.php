@@ -36,6 +36,7 @@ class ReservationCancelled extends Notification
             ->title('Reservation Cancelled')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Reservation has been cancelled by ' . ucfirst($this->reservation->cancelledBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

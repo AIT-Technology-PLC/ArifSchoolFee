@@ -36,6 +36,7 @@ class AdjustmentMade extends Notification
             ->title('Inventory Adjustment Made')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Inventory adjustment has been made by ' . ucfirst($this->adjustment->createdBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

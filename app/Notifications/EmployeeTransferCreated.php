@@ -36,6 +36,7 @@ class EmployeeTransferCreated extends Notification
             ->title('Employee Transfer Created')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New Employee Transfer has been created by ' . ucfirst($this->employeeTransfer->createdBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

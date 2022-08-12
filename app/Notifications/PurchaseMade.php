@@ -35,6 +35,7 @@ class PurchaseMade extends Notification
             ->title('Purchase Made')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Purchase #' . $this->purchase->code . 'is assigned as purchased by' . ucfirst($this->purchase->purchasedBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

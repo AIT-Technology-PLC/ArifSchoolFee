@@ -36,6 +36,7 @@ class TransactionApproved extends Notification
             ->title('Transaction Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body(str()->singular($this->transaction->pad->name) . ' #' . $this->transaction->code . ' is approved by ' . $this->transaction->approvedBy->name)
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

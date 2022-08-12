@@ -36,6 +36,7 @@ class DamageSubtracted extends Notification
             ->title('Damage Subtracted')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Damage claim products have been subtracted from inventory')
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

@@ -36,6 +36,7 @@ class ReservationConverted extends Notification
             ->title('Delivery Order Approval Request')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for delivery order issued from reservation by ' . ucfirst($this->reservation->convertedBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }

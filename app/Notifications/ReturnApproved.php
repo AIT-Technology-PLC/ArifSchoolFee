@@ -36,6 +36,7 @@ class ReturnApproved extends Notification
             ->title('Return Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Return voucher has been approved by ' . ucfirst($this->return->approvedBy->name))
+            ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
