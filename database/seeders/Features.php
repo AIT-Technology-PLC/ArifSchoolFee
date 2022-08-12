@@ -202,7 +202,7 @@ class Features extends Seeder
             );
             Feature::updateOrCreate(
                 ['name' => 'Push Notification'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
 
             $standard = Plan::firstWhere('name', 'standard');
@@ -231,6 +231,7 @@ class Features extends Seeder
                         'General Settings',
                         'Notification Management',
                         'Return Management',
+                        'Push Notification',
                     ])
                     ->pluck('id')
                     ->toArray()
@@ -267,6 +268,7 @@ class Features extends Seeder
                         'General Settings',
                         'Notification Management',
                         'Tender Management',
+                        'Push Notification',
                     ])
                     ->pluck('id')
                     ->toArray()
