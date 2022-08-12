@@ -33,7 +33,7 @@ class JobApproved extends Notification
     public function toWebPush($notifiable, $notification)
     {
         return (new WebPushMessage)
-            ->title('Job Prepared')
+            ->title('Job Approved')
             ->body('Job has been approved by ' . ucfirst($this->job->approvedBy->name))
             ->action('View', '/jobs/' . $this->job->id, 'fas fa-cogs')
             ->data(['id' => $notification->id]);

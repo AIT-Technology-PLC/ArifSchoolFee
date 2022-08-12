@@ -35,7 +35,7 @@ class ReservationConverted extends Notification
         return (new WebPushMessage)
             ->title('Delivery Order Approval Request')
             ->body('Approval request for delivery order issued from reservation by ' . ucfirst($this->reservation->convertedBy->name))
-            ->action('View', '/reservations/' . $this->reservation->id, 'archive')
+            ->action('View', '/gdns/' . $this->reservation->id, 'archive')
             ->data(['id' => $notification->id]);
     }
 }

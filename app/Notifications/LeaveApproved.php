@@ -33,7 +33,7 @@ class LeaveApproved extends Notification
     public function toWebPush($notifiable, $notification)
     {
         return (new WebPushMessage)
-            ->title('Job Progress')
+            ->title('Leave Approved')
             ->body('Leave has been approved by ' . ucfirst($this->leaf->approvedBy->name))
             ->action('View', '/leaves/' . $this->leaf->id, 'user-slash')
             ->data(['id' => $notification->id]);

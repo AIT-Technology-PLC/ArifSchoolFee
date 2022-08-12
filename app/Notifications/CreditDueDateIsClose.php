@@ -50,7 +50,7 @@ class CreditDueDateIsClose extends Notification
             );
 
         return (new WebPushMessage)
-            ->title('Compensation Adjustment Created')
+            ->title('Credit Due Date Close')
             ->body($message)
             ->action('View', '/credits?type=due', 'fas fa-money-check')
             ->data(['id' => $notification->id]);

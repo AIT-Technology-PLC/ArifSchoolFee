@@ -58,7 +58,7 @@ class ExpiredProformaInvoicesCancelled extends Notification
             );
 
         return (new WebPushMessage)
-            ->title('Warning Approved')
+            ->title('Expired Proforma Invoices Cancelled')
             ->body($message)
             ->action('View', '/proforma-invoices', 'receipt')
             ->data(['id' => $notification->id]);
