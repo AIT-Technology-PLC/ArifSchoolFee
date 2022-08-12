@@ -6,7 +6,7 @@
     <button
         x-bind:disabled="pushButtonDisabled || loading"
         type="button"
-        class="button is-small is-borderless is-size-6-5"
+        class="button is-borderless is-size-6-5"
         :class="{ 'text-green': !isPushEnabled, 'text-purple': isPushEnabled }"
         @click="togglePush"
     >

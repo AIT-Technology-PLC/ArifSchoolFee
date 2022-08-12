@@ -42,6 +42,61 @@
                         class="btn-purple is-outlined is-small"
                     />
                 </form>
+                <x-common.dropdown
+                    name="More"
+                    class="ml-2"
+                >
+                    @if (isFeatureEnabled('Leave Management'))
+                        <x-common.dropdown-item>
+                            <hr class="navbar-divider">
+                            <a
+                                href="{{ route('leaves.request.create') }}"
+                                class="navbar-item text-green"
+                            >
+                                <span class="icon is-medium">
+                                    <i class="fa-solid fa-umbrella-beach"></i>
+                                </span>
+                                <span>
+                                    Request Leave
+                                </span>
+                            </a>
+                        </x-common.dropdown-item>
+                    @endif
+                    @if (isFeatureEnabled('Expense Claim'))
+                        <x-common.dropdown-item>
+                            <hr class="navbar-divider">
+                            <a
+                                href="{{ route('expense-claims.request.create') }}"
+                                class="navbar-item text-green"
+                            >
+                                <span class="icon is-medium">
+                                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                                </span>
+                                <span>
+                                    Request Expense Claim
+                                </span>
+                            </a>
+                        </x-common.dropdown-item>
+                    @endif
+                    <x-common.dropdown-item>
+                        <a
+                            href="{{ route('password.edit') }}"
+                            class="text-green"
+                        >
+                            <span class="icon is-medium">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            <span>
+                                Change Password
+                            </span>
+                        </a>
+                    </x-common.dropdown-item>
+                    <x-common.dropdown-item>
+                        @if (isFeatureEnabled('Push Notification'))
+                            <x-common.push-notifications />
+                        @endif
+                    </x-common.dropdown-item>
+                </x-common.dropdown>
             </div>
         </li>
     </ul>

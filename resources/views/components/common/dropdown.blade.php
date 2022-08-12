@@ -1,6 +1,6 @@
-@props(['name'])
+@props(['name', 'isLeft' => false])
 
-<div class="dropdown is-right is-hoverable">
+<div {{ $attributes->merge(['class' => 'dropdown is-hoverable ' . ($isLeft ? 'is-left' : 'is-right')]) }}>
     <div class="dropdown-trigger">
         <button class="button is-small btn-green is-outlined">
             <span>{{ $name }}</span>
