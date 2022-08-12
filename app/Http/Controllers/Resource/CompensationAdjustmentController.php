@@ -45,7 +45,7 @@ class CompensationAdjustmentController extends Controller
 
         $compensations = Compensation::orderBy('name')->get(['id', 'name']);
 
-        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
 
         return view('compensation-adjustments.create', compact('adjustmentCode', 'compensations', 'users'));
     }
@@ -94,7 +94,7 @@ class CompensationAdjustmentController extends Controller
 
         $compensations = Compensation::orderBy('name')->get(['id', 'name']);
 
-        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
 
         $compensationAdjustmentDetails = array_values($compensationAdjustment->load(['compensationAdjustmentDetails'])->compensationAdjustmentDetails->groupBy('employee_id')->toArray());
 

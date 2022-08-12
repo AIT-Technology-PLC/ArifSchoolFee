@@ -43,7 +43,7 @@ class EarningController extends Controller
 
         $categories = EarningCategory::orderBy('name')->get(['id', 'name']);
 
-        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
 
         return view('earnings.create', compact('currentEarningCode', 'categories', 'users'));
     }
@@ -88,7 +88,7 @@ class EarningController extends Controller
 
         $categories = EarningCategory::orderBy('name')->get(['id', 'name']);
 
-        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
 
         $earningDetails = array_values($earning->load(['earningDetails'])->earningDetails->groupBy('employee_id')->toArray());
 

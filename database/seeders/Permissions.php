@@ -396,6 +396,7 @@ class Permissions extends Seeder
                 'Approve Advancement',
                 'Approve Announcement',
                 'Approve Compensation Adjustment',
+                'Approve Employee Transfer',
                 'Cancel Attendance',
                 'Cancel Leave',
                 'Cancel Compensation Adjustment',

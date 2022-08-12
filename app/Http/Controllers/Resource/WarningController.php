@@ -29,14 +29,14 @@ class WarningController extends Controller
 
         $totalAffirmedWarning = Warning::affirmation()->count();
 
-        $totalFinalWarning = Warning::final()->count();
+        $totalFinalWarning = Warning::final ()->count();
 
         return $datatable->render('warnings.index', compact('totalWarnings', 'totalInitalWarning', 'totalAffirmedWarning', 'totalFinalWarning'));
     }
 
     public function create()
     {
-        $users = User::whereRelation('employee', 'company_id', '=', userCompany()->id)->with('employee')->orderBy('name')->get();
+        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
 
         return view('warnings.create', compact('users'));
     }
