@@ -33,7 +33,7 @@ class EarningApproved extends Notification
     public function toWebPush($notifiable, $notification)
     {
         return (new WebPushMessage)
-            ->title('Damage Subtracted')
+            ->title('Earning Approved')
             ->body('Earning has been approved by ' . ucfirst($this->earning->approvedBy->name))
             ->action('View', '/earnings/' . $this->earning->id, 'bolt')
             ->data(['id' => $notification->id]);

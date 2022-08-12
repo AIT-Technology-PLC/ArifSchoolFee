@@ -58,7 +58,7 @@ class ExpiredReservationsCancelled extends Notification
             );
 
         return (new WebPushMessage)
-            ->title('Warning Approved')
+            ->title('Expired Reservations Cancelled')
             ->body($message)
             ->action('View', '/reservations', 'archive')
             ->data(['id' => $notification->id]);
