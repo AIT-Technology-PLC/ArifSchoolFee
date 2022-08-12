@@ -161,10 +161,7 @@ self.addEventListener("activate", (event) => {
     const WebPush = {
         init() {
             self.addEventListener("push", this.notificationPush.bind(this));
-            self.addEventListener(
-                "notificationclick",
-                this.notificationClick.bind(this)
-            );
+            self.addEventListener("notificationclick", this.notificationClick);
         },
 
         notificationPush(event) {
@@ -183,11 +180,29 @@ self.addEventListener("activate", (event) => {
         },
 
         notificationClick(event) {
-            if (event.action) {
-                self.clients.openWindow(event.action);
-            } else {
-                self.clients.openWindow("/");
-            }
+            event.notification.close();
+
+            event.waitUntil(
+                clients
+                    .matchAll({
+                        type: "window",
+                    })
+                    .then((clientList) => {
+                        for (const client of clientList) {
+                            if ("focus" in client) {
+                                client.navigate(
+                                    event.notification.actions[0].action || "/"
+                                );
+                                client.focus();
+                                break;
+                            }
+                        }
+                        if (clients.openWindow)
+                            return clients.openWindow(
+                                event.notification.actions[0].action || "/"
+                            );
+                    })
+            );
         },
 
         sendNotification(data) {

@@ -6,12 +6,12 @@
     <button
         x-bind:disabled="pushButtonDisabled || loading"
         type="button"
-        class="button is-borderless is-size-6-5"
+        class="button is-borderless is-size-6-5 is-transparent-color"
         :class="{ 'text-green': !isPushEnabled, 'text-purple': isPushEnabled }"
         @click="togglePush"
     >
         <span
-            class="icon"
+            class="icon is-medium"
             :class="{ 'text-green': !isPushEnabled, 'text-purple': isPushEnabled }"
         >
             <i :class="{ 'fa-solid fa-bell': !isPushEnabled, 'fa-solid fa-bell-slash': isPushEnabled }"></i>
