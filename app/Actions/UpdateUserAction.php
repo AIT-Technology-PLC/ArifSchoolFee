@@ -33,7 +33,7 @@ class UpdateUserAction
                 Arr::only($data, ['transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv', 'hr'])
             );
 
-            if (isFeatureEnabled('Compensation Management')) {
+            if (auth()->check() && isFeatureEnabled('Compensation Management')) {
                 $user->employee->employeeCompensations()->forceDelete();
                 $user->employee->employeeCompensations()->createMany($data['employeeCompensation']);
             }
