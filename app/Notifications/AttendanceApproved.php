@@ -36,7 +36,7 @@ class AttendanceApproved extends Notification
             ->title('Attendance Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Attendance has been approved by ' . ucfirst($this->attendance->approvedBy->name))
-            ->action('View', '/attendances/' . $this->attendance->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -61,7 +61,7 @@ class BidBondDeadlineIsClose extends Notification
             ->title('Bid Bond Deadline Close')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body($message)
-            ->action('View', '/tenders')
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

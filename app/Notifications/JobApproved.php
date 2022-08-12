@@ -36,7 +36,7 @@ class JobApproved extends Notification
             ->title('Job Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Job has been approved by ' . ucfirst($this->job->approvedBy->name))
-            ->action('View', '/jobs/' . $this->job->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

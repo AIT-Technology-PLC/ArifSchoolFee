@@ -37,7 +37,7 @@ class TenderDeadlineIsClose extends Notification
             ->title('Tender Deadline Close')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body($this->tenders->count() . ' ' . Str::plural('tender', $this->tenders->count()) . ' ' . ($this->tenders->count() == 1 ? 'has' : 'have') . ' 5 days or less remaining to reach closing date')
-            ->action('View', '/tenders')
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

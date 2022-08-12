@@ -36,7 +36,7 @@ class DamagePrepared extends Notification
             ->title('Damage Prepared')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for Damage claim prepared by ' . ucfirst($this->damage->createdBy->name))
-            ->action('View', '/damages/' . $this->damage->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

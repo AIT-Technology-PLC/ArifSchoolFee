@@ -36,7 +36,7 @@ class ExpenseClaimCreated extends Notification
             ->title('Expense Claim Created')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Expense Claim has been created by ' . ucfirst($this->expenseClaim->createdBy->name))
-            ->action('View', '/expense-claims/' . $this->expenseClaim->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

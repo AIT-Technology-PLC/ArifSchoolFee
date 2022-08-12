@@ -36,7 +36,7 @@ class WarningApproved extends Notification
             ->title('Warning Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Warning has been approved by ' . ucfirst($this->warning->approvedBy->name))
-            ->action('View', '/warnings/' . $this->warning->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -38,7 +38,7 @@ class TransferRequested extends Notification
             ->title('Transfer Requested')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New Transfer request is received from ' . ucfirst($this->transfer->transferredTo->name))
-            ->action('View', '/transfers/' . $this->transfer->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -50,7 +50,7 @@ class TenderStatusChanged extends Notification
                 . $this->originalStatus . '\' to \''
                 . $this->tender->status
                 . '\' by ' . $this->tender->updatedBy->name)
-            ->action('View', '/tenders/' . $this->tender->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

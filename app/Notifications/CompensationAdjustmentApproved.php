@@ -36,7 +36,7 @@ class CompensationAdjustmentApproved extends Notification
             ->title('Compensation Adjustment Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Compensation Adjustment has been approved by ' . ucfirst($this->compensationAdjustment->approvedBy->name))
-            ->action('View', '/compensation-adjustments/' . $this->compensationAdjustment->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

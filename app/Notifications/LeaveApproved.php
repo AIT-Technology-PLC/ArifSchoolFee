@@ -36,7 +36,7 @@ class LeaveApproved extends Notification
             ->title('Leave Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Leave has been approved by ' . ucfirst($this->leaf->approvedBy->name))
-            ->action('View', '/leaves/' . $this->leaf->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

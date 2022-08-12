@@ -36,7 +36,7 @@ class ReturnAdded extends Notification
             ->title('Return Added')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Returned products have been added to inventory')
-            ->action('View', '/returns/' . $this->return->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

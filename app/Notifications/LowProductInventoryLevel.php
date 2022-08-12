@@ -57,7 +57,7 @@ class LowProductInventoryLevel extends Notification
             ->title('Low Product Inventory Level')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body($message)
-            ->action('View', '/merchandises/available?level=limited')
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

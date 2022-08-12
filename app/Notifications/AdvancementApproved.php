@@ -36,7 +36,7 @@ class AdvancementApproved extends Notification
             ->title('Advancement Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Advancement has been approved by ' . ucfirst($this->advancement->approvedBy->name))
-            ->action('View', '/advancements/' . $this->advancement->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

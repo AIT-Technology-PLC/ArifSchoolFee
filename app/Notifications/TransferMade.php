@@ -48,7 +48,7 @@ class TransferMade extends Notification
             ->title('Transfer Made')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body($message)
-            ->action('View', '/transfers/' . $this->transfer->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

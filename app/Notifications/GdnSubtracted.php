@@ -36,7 +36,7 @@ class GdnSubtracted extends Notification
             ->title('Products in Delivery Order Subtracted')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Products in delivery order #' . $this->gdn->code . ' are subtracted from inventory')
-            ->action('View', '/gdns/' . $this->gdn->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

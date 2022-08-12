@@ -36,7 +36,7 @@ class GrnPrepared extends Notification
             ->title('GRN Prepared')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for GRN prepared by ' . ucfirst($this->grn->createdBy->name))
-            ->action('View', '/grns/' . $this->grn->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

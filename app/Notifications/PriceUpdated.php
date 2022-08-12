@@ -47,7 +47,7 @@ class PriceUpdated extends Notification
             ->title('Price Updated')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body($message)
-            ->action('View', '/prices')
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

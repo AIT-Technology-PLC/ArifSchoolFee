@@ -36,7 +36,7 @@ class JobCreated extends Notification
             ->title('Job Created')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New job has been created by ' . ucfirst($this->job->createdBy->name))
-            ->action('View', '/jobs/' . $this->job->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

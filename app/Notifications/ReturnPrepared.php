@@ -36,7 +36,7 @@ class ReturnPrepared extends Notification
             ->title('Return Prepared')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for return voucher prepared by ' . ucfirst($this->return->createdBy->name))
-            ->action('View', '/returns/' . $this->return->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

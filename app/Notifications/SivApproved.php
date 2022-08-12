@@ -36,7 +36,7 @@ class SivApproved extends Notification
             ->title('SIV Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('SIV has been approved by ' . ucfirst($this->siv->approvedBy->name))
-            ->action('View', '/sivs/' . $this->siv->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -36,7 +36,7 @@ class EarningApproved extends Notification
             ->title('Earning Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Earning has been approved by ' . ucfirst($this->earning->approvedBy->name))
-            ->action('View', '/earnings/' . $this->earning->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

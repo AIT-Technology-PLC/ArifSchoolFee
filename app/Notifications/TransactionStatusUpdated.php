@@ -36,7 +36,7 @@ class TransactionStatusUpdated extends Notification
             ->title('Transaction Status Updated')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body(str()->singular($this->transaction->pad->name) . ' Status updated to ' . $this->transaction->status . ' by ' . ucfirst($this->transaction->updatedBy->name))
-            ->action('View', '/transactions/' . $this->transaction->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

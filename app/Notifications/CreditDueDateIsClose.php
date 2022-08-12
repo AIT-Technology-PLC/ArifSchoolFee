@@ -53,7 +53,7 @@ class CreditDueDateIsClose extends Notification
             ->title('Credit Due Date Close')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body($message)
-            ->action('View', '/credits?type=due')
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

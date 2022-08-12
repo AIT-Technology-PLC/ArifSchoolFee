@@ -36,7 +36,7 @@ class ReservationPrepared extends Notification
             ->title('Reservation Prepared')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Approval request for reservation prepared by ' . ucfirst($this->reservation->createdBy->name))
-            ->action('View', '/reservations/' . $this->reservation->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

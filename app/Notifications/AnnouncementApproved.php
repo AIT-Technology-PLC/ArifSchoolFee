@@ -36,7 +36,7 @@ class AnnouncementApproved extends Notification
             ->title('Announcement Posted')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New announcement is posted on the board by ' . ucfirst($this->announcement->approvedBy->name))
-            ->action('View', '/announcements/' . $this->announcement->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

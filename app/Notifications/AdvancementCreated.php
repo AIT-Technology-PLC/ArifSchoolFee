@@ -36,7 +36,7 @@ class AdvancementCreated extends Notification
             ->title('Advancement Created')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New advancement has been created by ' . ucfirst($this->advancement->createdBy->name))
-            ->action('View', '/advancements/' . $this->advancement->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

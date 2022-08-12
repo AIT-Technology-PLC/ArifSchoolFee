@@ -36,7 +36,7 @@ class AdjustmentApproved extends Notification
             ->title('Inventory Adjustment Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Inventory adjustment has been approved by ' . ucfirst($this->adjustment->approvedBy->name))
-            ->action('View', '/adjustments/' . $this->adjustment->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -36,7 +36,7 @@ class WarningCreated extends Notification
             ->title('Warning Created')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('New warning has been created by ' . ucfirst($this->warning->createdBy->name))
-            ->action('View', '/warnings/' . $this->warning->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

@@ -37,7 +37,7 @@ class ProformaInvoiceExpirationIsClose extends Notification
             ->title('Proforma Invoice Expiration Close')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body($this->proformaInvoices->count() . ' ' . Str::plural('proforma invoice', $this->proformaInvoices->count()) . ' ' . ($this->proformaInvoices->count() == 1 ? 'has' : 'have') . ' 5 days or less remaining to be expired')
-            ->action('View', '/proforma-invoices')
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

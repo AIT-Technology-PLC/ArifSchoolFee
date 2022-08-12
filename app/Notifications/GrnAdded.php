@@ -36,7 +36,7 @@ class GrnAdded extends Notification
             ->title('GRN Added')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('GRN has been added to inventory')
-            ->action('View', '/grns/' . $this->grn->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }

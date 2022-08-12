@@ -36,7 +36,7 @@ class DamageApproved extends Notification
             ->title('Damage Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body('Damage claim has been approved by ' . ucfirst($this->damage->approvedBy->name))
-            ->action('View', '/damages/' . $this->damage->id)
+            ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);
     }
 }
