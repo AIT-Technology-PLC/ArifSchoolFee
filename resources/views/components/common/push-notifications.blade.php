@@ -2,20 +2,20 @@
     x-data="notification"
     class="navbar-item"
 >
-    <span
-        class="icon"
-        :class="{ 'text-green': !isPushEnabled, 'text-purple': isPushEnabled }"
-    >
-        <i :class="{ 'fa-solid fa-bell': !isPushEnabled, 'fa-solid fa-bell-slash': isPushEnabled }"></i>
-    </span>
     <button
         x-bind:disabled="pushButtonDisabled || loading"
         type="button"
         class="button is-small is-borderless is-size-6-5"
         :class="{ 'text-green': !isPushEnabled, 'text-purple': isPushEnabled }"
         @click="togglePush"
-        x-text="isPushEnabled ? 'Disable Notification' : 'Enable Notification'"
     >
+        <span
+            class="icon"
+            :class="{ 'text-green': !isPushEnabled, 'text-purple': isPushEnabled }"
+        >
+            <i :class="{ 'fa-solid fa-bell': !isPushEnabled, 'fa-solid fa-bell-slash': isPushEnabled }"></i>
+        </span>
+        <span x-text="isPushEnabled ? 'Disable Notification' : 'Enable Notification'"></span>
     </button>
 </div>
 
@@ -32,10 +32,6 @@
                     window.Laravel = {!! json_encode([
                         'user' => Auth::user(),
                         'vapidPublicKey' => config('webpush.vapid.public_key'),
-                        'pusher' => [
-                            'key' => config('broadcasting.connections.pusher.key'),
-                            'cluster' => config('broadcasting.connections.pusher.options.cluster'),
-                        ],
                     ]) !!};
                     this.registerServiceWorker()
                 },
@@ -156,15 +152,6 @@
                     axios.post('/subscriptions/delete', {
                             endpoint: subscription.endpoint
                         })
-                        .then(() => {
-                            this.loading = false
-                        })
-                },
-
-                sendNotification() {
-                    this.loading = true
-                    axios.post('/notifications')
-                        .catch(error => console.log(error))
                         .then(() => {
                             this.loading = false
                         })
