@@ -12,7 +12,7 @@ class DeployRoutine extends Command
      *
      * @var string
      */
-    protected $signature = 'deploy';
+    protected $signature = 'deploy {withDowntime=1}';
 
     /**
      * The console command description.
@@ -38,12 +38,14 @@ class DeployRoutine extends Command
      */
     public function handle()
     {
-        Artisan::call('down');
+        if ($this->argument('withDowntime')) {
+            Artisan::call('down');
+        }
 
         if (env('APP_ENV') == 'production') {
-            $githubData = env('GITHUB_USERNAME').':'.env('GITHUB_PASSWORD');
+            $githubData = env('GITHUB_USERNAME') . ':' . env('GITHUB_PASSWORD');
 
-            $this->info(exec('git pull https://'.$githubData.'@github.com/onrica/smartwork.git main'));
+            $this->info(exec('git pull https://' . $githubData . '@github.com/onrica/smartwork.git main'));
 
             $this->newLine();
 
@@ -62,7 +64,9 @@ class DeployRoutine extends Command
 
         Artisan::call('optimize:cache');
 
-        Artisan::call('up');
+        if ($this->argument('withDowntime')) {
+            Artisan::call('up');
+        }
 
         $this->info('Deploy completed successfully');
 
