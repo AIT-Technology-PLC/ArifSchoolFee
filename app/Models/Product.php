@@ -175,4 +175,9 @@ class Product extends Model
     {
         return $this->min_on_hand >= $onHandQuantity;
     }
+
+    public function isTypeService()
+    {
+        return $this->type == 'Services';
+    }
 }

@@ -44,3 +44,11 @@
     value="Square Meter"
     {{ $selectedUnitType == 'Square Meter' ? 'selected' : '' }}
 >Square Meter</option>
+<option
+    value="Hour"
+    {{ $selectedUnitType == 'Hour' ? 'selected' : '' }}
+>Hours</option>
+<option
+    value="Day"
+    {{ $selectedUnitType == 'Day' ? 'selected' : '' }}
+>Days</option>

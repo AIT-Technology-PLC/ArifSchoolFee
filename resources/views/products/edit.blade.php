@@ -14,7 +14,7 @@
         >
             @csrf
             @method('PATCH')
-            <x-content.main>
+            <x-content.main x-data="productType('{{ $product->type }}', {{ $product->min_on_hand }}, {{ $product->supplier_id }})">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-12">
                         <x-forms.field>
@@ -26,6 +26,8 @@
                                     class="is-fullwidth"
                                     id="type"
                                     name="type"
+                                    x-model="type"
+                                    x-on:change="changeProductType"
                                 >
                                     <x-common.inventory-type-options :type="$product->type" />
                                 </x-forms.select>
@@ -61,7 +63,7 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="code">
-                                Product Code <sup class="has-text-danger"></sup>
+                                Code <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
@@ -132,7 +134,11 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isTypeService() }"
+                    >
                         <x-forms.field>
                             <x-forms.label for="min_on_hand">
                                 Minimum Level <sup class="has-text-danger">*</sup>
@@ -142,6 +148,7 @@
                                     id="min_on_hand"
                                     name="min_on_hand"
                                     type="number"
+                                    x-model="minOnHand"
                                     placeholder="What is considered low stock for this product?"
                                     value="{{ $product->min_on_hand ?? '0.00' }}"
                                 />
@@ -153,7 +160,11 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isTypeService() }"
+                    >
                         <x-forms.field>
                             <x-forms.label for="supplier_id">
                                 Product Supplier <sup class="has-text-danger"></sup>
@@ -163,6 +174,7 @@
                                     class="is-fullwidth"
                                     id="supplier_id"
                                     name="supplier_id"
+                                    x-model="supplierId"
                                 >
                                     <option
                                         selected
