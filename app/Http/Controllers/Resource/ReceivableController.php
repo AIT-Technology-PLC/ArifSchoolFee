@@ -15,14 +15,14 @@ class ReceivableController extends Controller
         $this->authorizeResource(Customer::class, 'customer');
     }
 
-   public function index(ReceivableDatatable $datatable)
+    public function index(ReceivableDatatable $datatable)
     {
-        $datatable->builder()->setTableId('receivables-datatable')->orderBy(1, 'desc'));
+        $datatable->builder()->setTableId('receivables-datatable')->orderBy(1, 'desc');
 
-        $totalUnSettledCredits = Customer::count();
+        $totalReceivables = Customer::count();
 
         $totalCustomersWithUnSettlement = Customer::count();
 
-        return $datatable->render('jobs.index', compact('totalUnSettledCredits', 'totalCustomersWithUnSettlment'));
+        return $datatable->render('receivables.index', compact('totalReceivables', 'totalCustomersWithUnSettlement'));
     }
 }
