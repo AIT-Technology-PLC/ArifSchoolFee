@@ -79,4 +79,14 @@ class Credit extends Model
     {
         return $this->credit_amount == $this->credit_amount_settled;
     }
+
+    public function scopeUnSettled($query)
+    {
+        return $query->whereColumn('credit_amount', '>', 'credit_amount_settled');
+    }
+
+    public function scopeCustomerWithUnSettlement($query)
+    {
+        return $query->whereColumn('credit_amount', '>', 'credit_amount_settled')->get()->unique('customer_id');
+    }
 }

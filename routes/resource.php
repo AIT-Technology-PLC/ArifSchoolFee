@@ -158,3 +158,5 @@ Route::get('manifest.json', function () {
         'gcm_sender_id' => config('webpush.gcm.sender_id'),
     ];
 });
+
+Route::resource('receivables', Resource\ReceivableController::class)->only(['index']);
