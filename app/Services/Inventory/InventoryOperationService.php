@@ -142,6 +142,16 @@ class InventoryOperationService
             return null;
         }
 
-        return $details;
+        $products = Product::all();
+
+        $inventoryTypeProducts = [];
+
+        foreach ($details as $detail) {
+            if (!$products->find($detail['product_id'])->isTypeService()) {
+                $inventoryTypeProducts[] = $detail;
+            }
+        }
+
+        return $inventoryTypeProducts;
     }
 }

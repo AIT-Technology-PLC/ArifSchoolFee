@@ -60,6 +60,7 @@ class ReservedInventoryDatatable extends DataTable
     public function query()
     {
         $reservedMerchandises = Merchandise::query()
+            ->where('products.type', '!=', 'Services')
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
