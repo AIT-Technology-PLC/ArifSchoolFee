@@ -51,8 +51,12 @@
 <option
     value="Roll"
     {{ $selectedUnitType == 'Roll' ? 'selected' : '' }}
->Rolls</option>
+>Roll</option>
 <option
     value="Square Meter"
     {{ $selectedUnitType == 'Square Meter' ? 'selected' : '' }}
 >Square Meter</option>
+<option
+    value="Week"
+    {{ $selectedUnitType == 'Week' ? 'selected' : '' }}
+>Week</option>

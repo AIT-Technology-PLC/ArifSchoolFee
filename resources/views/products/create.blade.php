@@ -83,7 +83,7 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="product_category_id">
-                                Product Category <sup class="has-text-danger">*</sup>
+                                Category <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.select
