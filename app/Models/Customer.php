@@ -88,4 +88,15 @@ class Customer extends Model
     {
         return $this->hasMany(BillOfMaterial::class);
     }
+
+    public function getCreditByPeriod($a, $b = null)
+    {
+        $credits = $this->credits()->unSettled()->where(now()->diffInDays($this->due_date) > $a)->when(!is_null($b), fn($q) => $q->where((now()->diffInDays($this->due_date) < $b))->get();
+
+        return $credits->sum('credit_amount') - $credits->sum('credit_amount_settled');
+
+        // if (now()->diffInDays($this->due_date) < 30) {
+        //     return $this->creditAmountUnsettled;
+        // }
+    }
 }
