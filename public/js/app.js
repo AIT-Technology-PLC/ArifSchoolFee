@@ -1,6 +1,6 @@
 const d = document;
 
-const addKeyValueInputFields = (function () {
+const addKeyValueInputFields = (function() {
     let index = 0;
     const newForm = d.getElementById("newForm");
 
@@ -653,4 +653,40 @@ document.addEventListener("alpine:init", () => {
             return this.errors[property];
         },
     });
+
+    Alpine.data(
+        "productType",
+        (
+            type = "",
+            minOnHand = "",
+            supplierId = "",
+        ) => ({
+            type: "",
+            minOnHand: "",
+            supplierId: "",
+
+            init() {
+                this.type = type;
+                this.minOnHand = minOnHand;
+                this.supplierId = supplierId;
+            },
+
+            changeProductType() {
+                if (this.type === "Services") {
+                    this.minOnHand = 0;
+                    this.supplierId = "";
+                }
+                if (this.type === "Finished Goods" || "Raw Material") {
+                    this.minOnHand = "";
+                    this.supplierId = "";
+                }
+            },
+
+            isTypeService() {
+                return (
+                    this.type === "Services"
+                );
+            },
+        })
+    );
 });

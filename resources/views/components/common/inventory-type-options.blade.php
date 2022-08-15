@@ -11,3 +11,7 @@
         {{ $type == 'Raw Material' ? 'selected' : '' }}
     >Raw Material</option>
 @endif
+<option
+    value="Services"
+    {{ $type == 'Services' ? 'selected' : '' }}
+>Services</option>

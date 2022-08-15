@@ -60,8 +60,9 @@ class OutOfStockInventoryDatatable extends DataTable
 
         $outOfStockProducts = $this->service
             ->getOutOfStockMerchandiseProductsQuery(user:authUser())->with('productCategory')
-            ->when(request('type') == 'finished goods', fn ($query) => $query->where('products.type', '=', 'Finished Goods'))
-            ->when(request('type') == 'raw material', fn ($query) => $query->where('products.type', '=', 'Raw Material'))
+            ->where('products.type', '!=', 'Services')
+            ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
+            ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
             ->get();
 
         $organizedoutOfStockProducts = collect();
@@ -96,6 +97,6 @@ class OutOfStockInventoryDatatable extends DataTable
 
     protected function filename()
     {
-        return 'InventoryLevel_'.date('YmdHis');
+        return 'InventoryLevel_' . date('YmdHis');
     }
 }

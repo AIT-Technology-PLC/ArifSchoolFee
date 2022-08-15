@@ -58,7 +58,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
     {
         return [
             'product_name' => ['required', 'string', 'max:255'],
-            'product_type' => ['required', 'string', 'max:255', Rule::when(userCompany()->plan->isPremium(), Rule::in(['Finished Goods', 'Raw Material']), Rule::in(['Finished Goods']))],
+            'product_type' => ['required', 'string', 'max:255', Rule::when(userCompany()->plan->isPremium(), Rule::in(['Finished Goods', 'Raw Material', 'Services']), Rule::in(['Finished Goods', 'Services']))],
             'product_code' => ['nullable', 'string', 'max:255'],
             'product_unit_of_measurement' => ['required', 'string', 'max:255'],
             'product_min_on_hand' => ['nullable', 'numeric'],
