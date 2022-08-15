@@ -15,35 +15,35 @@ class ReceivableDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('Customer', fn($customer) => $customer->company_name)
+            ->editColumn('company_name', fn($customer) => $customer->company_name)
             ->editColumn('current', function ($customer) {
-                return view('components.datatables.receivables-period', [
+                return view('components.datatables.receivable-period', [
+                    'amount' => $customer->getCurrentCredit(),
+                ]);
+            })
+            ->editColumn('1-30 days', function ($customer) {
+                return view('components.datatables.receivable-period', [
                     'amount' => $customer->getCreditByPeriod(1, 30),
                 ]);
             })
-            ->editColumn('1-30', function ($customer) {
-                return view('components.datatables.receivables-period', [
-                    'amount' => $customer->getCreditByPeriod(1, 30),
-                ]);
-            })
-            ->editColumn('31-60', function ($customer) {
-                return view('components.datatables.receivables-period', [
+            ->editColumn('31-60 days', function ($customer) {
+                return view('components.datatables.receivable-period', [
                     'amount' => $customer->getCreditByPeriod(31, 60),
                 ]);
             })
-            ->editColumn('61-90', function ($customer) {
-                return view('components.datatables.receivables-period', [
+            ->editColumn('61-90 days', function ($customer) {
+                return view('components.datatables.receivable-period', [
                     'amount' => $customer->getCreditByPeriod(61, 90),
                 ]);
             })
-            ->editColumn('> 90', function ($customer) {
-                return view('components.datatables.receivables-period', [
+            ->editColumn('> 90 days', function ($customer) {
+                return view('components.datatables.receivable-period', [
                     'amount' => $customer->getCreditByPeriod(91),
                 ]);
             })
             ->editColumn('total balance', function ($customer) {
                 return view('components.datatables.green-solid-tag', [
-                    'amount' => $customer->totalUnSettledAmount,
+                    'amount' => $customer->getCreditByPeriod(),
                     'unit' => '',
                 ]);
             })
@@ -56,6 +56,7 @@ class ReceivableDatatable extends DataTable
             ->newQuery()
             ->select('customers.*')
             ->with([
+                'credits',
             ]);
     }
 
@@ -63,7 +64,7 @@ class ReceivableDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('company_name'),
+            Column::make('company_name')->title('Customer'),
             Column::computed('current'),
             Column::computed('1-30 days'),
             Column::computed('31-60 days'),

@@ -16,13 +16,13 @@ class ReceivableController extends Controller
         $this->authorizeResource(Customer::class, 'customer');
     }
 
-    public function index(ReceivableDatatable $datatable, Customer $customer)
+    public function index(ReceivableDatatable $datatable)
     {
         $datatable->builder()->setTableId('receivables-datatable')->orderBy(1, 'desc');
 
-        $totalReceivables = Credit::unSettled()->count();
+        $totalReceivables = money(Credit::unsettled()->get()->sum('creditAmountUnsettled'));
 
-        $totalCustomersWithUnSettlement = Credit::customerWithUnSettlement()->count();
+        $totalCustomersWithUnSettlement = Credit::unsettled()->get()->unique('customer_id')->count();
 
         return $datatable->render('receivables.index', compact('totalReceivables', 'totalCustomersWithUnSettlement'));
     }
