@@ -20,11 +20,6 @@ class InventoryOperationService
         }
 
         foreach ($details as $detail) {
-            if ($detail->product->isTypeService());
-            {
-                continue;
-            }
-
             $merchandise = Merchandise::firstOrCreate(
                 [
                     'product_id' => $detail['product_id'],
@@ -52,11 +47,6 @@ class InventoryOperationService
         $merchandises = Merchandise::all();
 
         foreach ($details as $detail) {
-            if ($detail->product->isTypeService());
-            {
-                continue;
-            }
-
             $merchandise = $merchandises->where('product_id', $detail['product_id'])->where('warehouse_id', $detail['warehouse_id'])->where($from, '>=', $detail['quantity'])->first();
 
             $merchandise->$from = $merchandise->$from - $detail['quantity'];
@@ -80,11 +70,6 @@ class InventoryOperationService
         $warehouses = Warehouse::all();
 
         foreach ($details as $detail) {
-            if ($detail->product->isTypeService());
-            {
-                continue;
-            }
-
             $product = $products->find($detail['product_id']);
             $warehouse = $warehouses->find($detail['warehouse_id']);
 
@@ -118,11 +103,6 @@ class InventoryOperationService
         $warehouses = Warehouse::all();
 
         foreach ($details as $detail) {
-            if ($detail->product->isTypeService());
-            {
-                continue;
-            }
-
             $product = $products->find($detail['product_id']);
             $warehouse = $warehouses->find($detail['warehouse_id']);
 
@@ -162,6 +142,16 @@ class InventoryOperationService
             return null;
         }
 
-        return $details;
+        $products = Product::all();
+
+        $inventoryTypeProducts = [];
+
+        foreach ($details as $detail) {
+            if (!$products->find($detail['product_id'])->isTypeService()) {
+                $inventoryTypeProducts[] = $detail;
+            }
+        }
+
+        return $inventoryTypeProducts;
     }
 }

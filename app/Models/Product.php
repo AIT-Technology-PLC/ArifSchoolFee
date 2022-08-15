@@ -180,4 +180,9 @@ class Product extends Model
     {
         return $this->type == 'Services';
     }
+
+    public function scopeInventoryType($query)
+    {
+        return $query->where('type', '!=', 'Services');
+    }
 }
