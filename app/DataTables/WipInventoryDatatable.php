@@ -58,7 +58,6 @@ class WipInventoryDatatable extends DataTable
     public function query()
     {
         $wipMerchandises = Merchandise::query()
-            ->where('products.type', '!=', 'Services')
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
@@ -66,6 +65,7 @@ class WipInventoryDatatable extends DataTable
             ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
             ->where('merchandises.wip', '>', 0)
             ->whereIn('warehouses.id', authUser()->getAllowedWarehouses('read')->pluck('id'))
+            ->where('products.type', '!=', 'Services')
             ->select([
                 'merchandises.wip as wip',
                 'products.id as product_id',

@@ -64,7 +64,6 @@ class AvailableInventoryDatatable extends DataTable
         $limitedProducts = (new MerchandiseProductService)->getLimitedMerchandiseProductsQuery(user:authUser())->pluck('id');
 
         $availableMerchandises = Merchandise::query()
-            ->where('products.type', '!=', 'Services')
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
@@ -74,6 +73,7 @@ class AvailableInventoryDatatable extends DataTable
             ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
             ->where('merchandises.available', '>', 0)
             ->whereIn('warehouses.id', authUser()->getAllowedWarehouses('read')->pluck('id'))
+            ->where('products.type', '!=', 'Services')
             ->select([
                 'merchandises.available as available',
                 'products.id as product_id',

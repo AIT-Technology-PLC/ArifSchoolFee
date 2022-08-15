@@ -13,12 +13,12 @@
             novalidate
         >
             @csrf
-            <x-content.main x-data="productType('{{ old('type') }}', {{ old('min_on_hand') }} ',{{ old('supplier_id') }}')">
+            <x-content.main x-data="productType('{{ old('type') }}')">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="type">
-                                Product Type <sup class="has-text-danger">*</sup>
+                                Type <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.select
@@ -48,7 +48,7 @@
                                     id="name"
                                     name="name"
                                     type="text"
-                                    placeholder="Product Name"
+                                    placeholder="Product/Service Name"
                                     value="{{ old('name') ?? '' }}"
                                 />
                                 <x-common.icon
@@ -69,7 +69,7 @@
                                     id="code"
                                     name="code"
                                     type="text"
-                                    placeholder="Product Code"
+                                    placeholder="Product/Service Code"
                                     value="{{ old('code') ?? '' }}"
                                 />
                                 <x-common.icon
@@ -136,7 +136,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isTypeService() }"
+                        x-bind:class="{ 'is-hidden': isTypeService }"
                     >
                         <x-forms.field>
                             <x-forms.label for="min_on_hand">
@@ -147,7 +147,6 @@
                                     id="min_on_hand"
                                     name="min_on_hand"
                                     type="number"
-                                    x-model="minOnHand"
                                     placeholder="What is considered low stock for this product?"
                                     value="{{ old('min_on_hand') ?? '0.00' }}"
                                 />
@@ -162,7 +161,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isTypeService() }"
+                        x-bind:class="{ 'is-hidden': isTypeService }"
                     >
                         <x-forms.field>
                             <x-forms.label for="supplier_id">
@@ -173,7 +172,6 @@
                                     class="is-fullwidth"
                                     id="supplier_id"
                                     name="supplier_id"
-                                    x-model="supplierId"
                                 >
                                     <option
                                         selected
@@ -205,14 +203,9 @@
                                 <x-forms.textarea
                                     name="description"
                                     id="description"
-                                    rows="10"
-                                    class="textarea pl-6"
+                                    class="textarea summernote"
                                     placeholder="Description or note about the new category"
                                 >{{ old('description') ?? '' }}</x-forms.textarea>
-                                <x-common.icon
-                                    name="fas fa-edit"
-                                    class="is-large is-left"
-                                />
                                 <x-common.validation-error property="description" />
                             </x-forms.control>
                         </x-forms.field>

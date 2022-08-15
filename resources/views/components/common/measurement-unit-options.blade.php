@@ -13,6 +13,14 @@
     {{ $selectedUnitType == 'Centimeter' ? 'selected' : '' }}
 >Centimeter</option>
 <option
+    value="Day"
+    {{ $selectedUnitType == 'Day' ? 'selected' : '' }}
+>Days</option>
+<option
+    value="Hour"
+    {{ $selectedUnitType == 'Hour' ? 'selected' : '' }}
+>Hours</option>
+<option
     value="Kilogram"
     {{ $selectedUnitType == 'Kilogram' ? 'selected' : '' }}
 >Kilogram</option>
@@ -41,14 +49,10 @@
     {{ $selectedUnitType == 'Quintal' ? 'selected' : '' }}
 >Quintal</option>
 <option
+    value="Roll"
+    {{ $selectedUnitType == 'Roll' ? 'selected' : '' }}
+>Rolls</option>
+<option
     value="Square Meter"
     {{ $selectedUnitType == 'Square Meter' ? 'selected' : '' }}
 >Square Meter</option>
-<option
-    value="Hour"
-    {{ $selectedUnitType == 'Hour' ? 'selected' : '' }}
->Hours</option>
-<option
-    value="Day"
-    {{ $selectedUnitType == 'Day' ? 'selected' : '' }}
->Days</option>
