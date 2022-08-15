@@ -42,9 +42,8 @@ class ReceivableDatatable extends DataTable
                 ]);
             })
             ->editColumn('total balance', function ($customer) {
-                return view('components.datatables.green-solid-tag', [
+                return view('components.datatables.receivable-period', [
                     'amount' => $customer->credits->sum('credit_amount_unsettled'),
-                    'unit' => '',
                 ]);
             })
             ->addIndexColumn();
