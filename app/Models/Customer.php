@@ -89,17 +89,17 @@ class Customer extends Model
         return $this->hasMany(BillOfMaterial::class);
     }
 
-    public function getCurrentCredit()
+    public function getUndueCreditAmount()
     {
         $credits = $this->credits()->unsettled()->where('due_date', '>=', today())->get();
 
         return $credits->sum('credit_amount') - $credits->sum('credit_amount_settled');
     }
 
-    public function getCreditByPeriod($a = null, $b = null)
+    public function getOverdueCreditAmountByPeriod($a, $b = null)
     {
         $credits = $this->credits()->unsettled()
-            ->when(!is_null($a), fn($q) => $q->where('due_date', '<', now()->subDays($a)))
+            ->where('due_date', '<', now()->subDays($a))
             ->when(!is_null($b), fn($q) => $q->where('due_date', '>', now()->subDays($b)))
             ->get();
 

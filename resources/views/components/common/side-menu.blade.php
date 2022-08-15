@@ -962,8 +962,8 @@
         @endcan
     @endif
 
-    @if (isFeatureEnabled('Receivable Management'))
-        @canany(['Read Receivable'])
+    @if (isFeatureEnabled('Credit Management'))
+        @canany(['Read Credit'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -996,8 +996,8 @@
                         x-show="isAccordionOpen"
                         x-collapse
                     >
-                        @if (isFeatureEnabled('Receivable Management'))
-                            @can('Read Receivable')
+                        @if (isFeatureEnabled('Credit Management'))
+                            @can('Read Credit')
                                 <li>
                                     <x-common.button
                                         tag="a"

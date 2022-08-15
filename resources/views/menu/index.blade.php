@@ -937,8 +937,8 @@
             @endcan
         @endif
 
-        @if (isFeatureEnabled('Receivable Management'))
-            @canany(['Read Receivable'])
+        @if (isFeatureEnabled('Credit Management'))
+            @canany(['Read Credit'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -952,8 +952,8 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('Receivable Management'))
-                                @can('Read Receivable')
+                            @if (isFeatureEnabled('Credit Management'))
+                                @can('Read Credit')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
                                             href="{{ route('receivables.index') }}"

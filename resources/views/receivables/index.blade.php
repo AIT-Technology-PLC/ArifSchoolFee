@@ -1,19 +1,19 @@
 @extends('layouts.app')
 
-@section('title', 'Receivables')
+@section('title', 'Receivables & Aging Report')
 
 @section('content')
     <div class="columns is-marginless is-multiline">
         <div class="column is-6 p-lr-0">
             <x-common.total-model
-                model="Receivables"
-                :amount="$totalReceivables"
+                model="Total Receivables ({{ userCompany()->currency }})"
+                :amount="number_format($totalReceivables, 2)"
                 icon="fas fa-hand-holding-dollar"
             />
         </div>
         <div class="column is-6 p-lr-0">
             <x-common.index-insight
-                :amount="$totalCustomersWithUnSettlement"
+                :amount="$totalCustomers"
                 border-color="#3d8660"
                 text-color="text-green"
                 label="Customers"
@@ -22,11 +22,9 @@
     </div>
 
     <x-common.content-wrapper>
-        <x-content.header title="Receivables">
+        <x-content.header title="Receivables & Aging Report (as of {{ today()->toFormattedDateString() }})">
         </x-content.header>
         <x-content.footer>
-            <x-common.success-message :message="session('deleted')" />
-            <x-common.fail-message :message="session('failedMessage')" />
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>

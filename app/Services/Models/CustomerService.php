@@ -10,9 +10,7 @@ class CustomerService
     {
         $remainingAmount = $data['amount'];
 
-        $credits = $customer->credits()->partiallySettled()->orWhere(function ($query) {
-            $query->noSettlements();
-        })->oldest()->get();
+        $credits = $customer->credits()->unsettled()->oldest()->get();
 
         return DB::transaction(function () use ($data, $credits, $remainingAmount) {
             foreach ($credits as $credit) {

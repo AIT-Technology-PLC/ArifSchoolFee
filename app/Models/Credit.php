@@ -68,6 +68,11 @@ class Credit extends Model
         return $query->where('credit_amount_settled', 0);
     }
 
+    public function scopeUnsettled($query)
+    {
+        return $query->whereColumn('credit_amount', '>', 'credit_amount_settled');
+    }
+
     public function scopeAverageCreditSettlementDays($query)
     {
         return ($query->selectRaw('SUM(DATEDIFF(last_settled_at, issued_on)) / COUNT(id) as days')
@@ -78,10 +83,5 @@ class Credit extends Model
     public function isSettled()
     {
         return $this->credit_amount == $this->credit_amount_settled;
-    }
-
-    public function scopeUnsettled($query)
-    {
-        return $query->whereColumn('credit_amount', '>', 'credit_amount_settled');
     }
 }
