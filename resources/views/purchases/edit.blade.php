@@ -57,27 +57,6 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
-                        <x-forms.field>
-                            <x-forms.label for="discount">
-                                Discount <sup class="has-text-danger"> </sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.input
-                                    type="number"
-                                    id="discount"
-                                    name="discount"
-                                    placeholder="Discount in Percentage"
-                                    value="{{ $purchase->discount * 100 ?? '' }}"
-                                />
-                                <x-common.icon
-                                    name="fas fa-percent"
-                                    class="is-large is-left"
-                                />
-                                <x-common.validation-error property="discount" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="type">

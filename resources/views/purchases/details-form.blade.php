@@ -130,30 +130,6 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? '' : 'is-hidden' }}">
-                        <x-forms.label x-bind:for="`purchase[${index}][discount]`">
-                            Discount <sup class="has-text-danger"></sup>
-                        </x-forms.label>
-                        <x-forms.field>
-                            <x-forms.control class="has-icons-left is-expanded">
-                                <x-forms.input
-                                    type="number"
-                                    x-bind:id="`purchase[${index}][discount]`"
-                                    x-bind:name="`purchase[${index}][discount]`"
-                                    x-model="purchase.discount"
-                                    placeholder="Discount in Percentage"
-                                />
-                                <x-common.icon
-                                    name="fas fa-percent"
-                                    class="is-small is-left"
-                                />
-                                <span
-                                    class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`purchase.${index}.discount`)"
-                                ></span>
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
                 </div>
             </div>
         </div>

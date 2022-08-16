@@ -22,12 +22,10 @@ class StorePurchaseRequest extends FormRequest
             'purchase.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'purchase.*.quantity' => ['required', 'numeric', 'gt:0'],
             'purchase.*.unit_price' => ['required', 'numeric'],
-            'purchase.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'purchased_on' => ['required', 'date'],
             'payment_type' => ['required', 'string'],
             'description' => ['nullable', 'string'],
-            'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
         ];
     }
 }
