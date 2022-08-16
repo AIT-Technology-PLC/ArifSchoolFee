@@ -171,24 +171,19 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="description">
-                                Description <sup class="has-text-danger"> </sup>
+                                Description <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.textarea
                                     name="description"
                                     id="description"
-                                    class="pl-6"
+                                    class="summernote textarea"
                                     placeholder="Description or note to be taken"
-                                >
-                                    {{ old('description') ?? '' }}
+                                >{{ old('description') ?? '' }}
                                 </x-forms.textarea>
-                                <x-common.icon
-                                    name="fas fa-edit"
-                                    class="is-large is-left"
-                                />
                                 <x-common.validation-error property="description" />
                             </x-forms.control>
                         </x-forms.field>
