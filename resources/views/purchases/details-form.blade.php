@@ -99,7 +99,7 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.label x-bind:for="`purchase[${index}][unit_price]`">
-                            Unit Price<sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup> <sup class="has-text-danger">*</sup>
+                            Unit Price <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
@@ -130,6 +130,33 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label x-bind:for="`purchase[${index}][item_type]`">
+                                Item Type <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    x-bind:id="`purchase[${index}][item_type]`"
+                                    x-bind:name="`purchase[${index}][item_type]`"
+                                    x-model="purchase.item_type"
+                                >
+                                    <option value="Inventory Item">Inventory Item</option>
+                                    <option value="Non-Inventory Item">Non-Inventory Item</option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`purchase.${index}.item_type`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+
                 </div>
             </div>
         </div>

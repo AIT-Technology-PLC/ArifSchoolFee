@@ -447,6 +447,52 @@ document.addEventListener("alpine:init", () => {
         })
     );
 
+    Alpine.data(
+        "purchaseInformation",
+        (
+            purchaseType = "",
+            taxType = "",
+            currency = "",
+            exchangeRate = "",
+            unit_price = "",
+        ) => ({
+            purchaseType: "",
+            taxType: "",
+            currency: "",
+            exchangeRate: "",
+            unit_price: "",
+
+            init() {
+                this.purchaseType = purchaseType;
+                this.taxType = taxType;
+                this.currency = currency;
+                this.exchangeRate = exchangeRate;
+                this.unit_price = unit_price;
+            },
+            changePurchaseInformation() {
+                if (this.purchaseType === "Local Purchase") {
+                    this.taxType = "";
+                    this.currency = "";
+                    this.exchangeRate = "";
+                    this.unit_price = "";
+                }
+                if (this.purchaseType === "Import") {
+                    this.taxType = "";
+                    this.currency = "";
+                    this.exchangeRate = "";
+                    this.unit_price = "";
+                }
+            },
+
+            isPurchaseByImport() {
+                return (
+                    this.purchaseType === "" ||
+                    this.purchaseType === "Import"
+                );
+            },
+        })
+    );
+
     Alpine.data("productDataProvider", (productId, unitPrice = "") => ({
         product: {
             name: "",

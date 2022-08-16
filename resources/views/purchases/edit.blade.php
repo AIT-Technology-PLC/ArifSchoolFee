@@ -123,6 +123,39 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
+                            <x-forms.label for="tax_type">
+                                Tax Type <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="tax_type"
+                                    name="tax_type"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Tax Type</option>
+                                    <option
+                                        value="VAT"
+                                        @selected($purchase->tax_type == 'VAT')
+                                    >VAT</option>
+                                    <option
+                                        value="ToT"
+                                        @selected($purchase->tax_type == 'ToT')
+                                    >ToT</option>
+                                    <option value="">None</option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-file-invoice-dollar"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="tax_type" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
                             <x-forms.label for="supplier_id">
                                 Supplier <sup class="has-text-danger"> </sup>
                             </x-forms.label>

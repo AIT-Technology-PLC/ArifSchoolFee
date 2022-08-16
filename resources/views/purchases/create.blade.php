@@ -3,7 +3,12 @@
 @section('title', 'Create New Purchase')
 
 @section('content')
-    <x-common.content-wrapper>
+    <x-common.content-wrapper x-data="purchaseInformation('{{ old('type') }}',
+        '{{ old('tax_type') }}', '{{ old('currency') }}',
+        '{{ old('exchange_rate') }}'
+    }
+    }
+    ')">
         <x-content.header title="New Purchase" />
         <form
             id="formOne"
@@ -66,6 +71,8 @@
                                     class="is-fullwidth"
                                     id="type"
                                     name="type"
+                                    x-model="purchaseType"
+                                    x-on:change="changePurchaseInformation"
                                 >
                                     <option
                                         selected
@@ -111,6 +118,18 @@
                                         value="Credit Payment"
                                         @selected(old('payment_type') == 'Credit Payment')
                                     >Credit Payment</option>
+                                    <option
+                                        value="LC"
+                                        @selected(old('payment_type') == 'LC')
+                                    >LC</option>
+                                    <option
+                                        value="TT"
+                                        @selected(old('payment_type') == 'TT')
+                                    >TT</option>
+                                    <option
+                                        value="CAD"
+                                        @selected(old('payment_type') == 'CAD')
+                                    >CAD</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-credit-card"
@@ -147,6 +166,84 @@
                                     class="is-large is-left"
                                 />
                                 <x-common.validation-error property="supplier_id" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isPurchaseByImport() }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="tax_type">
+                                Tax Type <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="tax_type"
+                                    name="tax_type"
+                                    x-model="taxType"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Tax Type</option>
+                                    <option
+                                        value="VAT"
+                                        @selected(old('tax_type') == 'VAT')
+                                    >VAT</option>
+                                    <option
+                                        value="ToT"
+                                        @selected(old('tax_type') == 'ToT')
+                                    >ToT</option>
+                                    <option value="">None</option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-file-invoice-dollar"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="tax_type" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': !isPurchaseByImport() }"
+                    >
+                        <x-forms.label for="currency">
+                            Puchase Currency <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id="currency"
+                                    name="currency"
+                                    x-model="currency"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Currency</option>
+                                    <option value="ETB">ETB</option>
+                                    <option value="Dollar">Dollar</option>
+                                </x-forms.select>
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    type="number"
+                                    name="exchange_rate"
+                                    id="exchange_rate"
+                                    placeholder="exchange rate"
+                                    x-model="exchangeRate"
+                                />
+                                <x-common.icon
+                                    name="fas fa-money-bill"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="exchange_rate" />
+                                <x-common.validation-error property="currency" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
