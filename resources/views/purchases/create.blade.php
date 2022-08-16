@@ -3,12 +3,7 @@
 @section('title', 'Create New Purchase')
 
 @section('content')
-    <x-common.content-wrapper x-data="purchaseInformation('{{ old('type') }}',
-        '{{ old('tax_type') }}', '{{ old('currency') }}',
-        '{{ old('exchange_rate') }}'
-    }
-    }
-    ')">
+    <x-common.content-wrapper x-data="purchaseInformation('{{ old('type') }}')">
         <x-content.header title="New Purchase" />
         <form
             id="formOne"
@@ -172,7 +167,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isPurchaseByImport() }"
+                        x-bind:class="{ 'is-hidden': !isPurchaseByLocal() }"
                     >
                         <x-forms.field>
                             <x-forms.label for="tax_type">
@@ -210,7 +205,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': !isPurchaseByImport() }"
+                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
                     >
                         <x-forms.label for="currency">
                             Puchase Currency <sup class="has-text-danger">*</sup>
