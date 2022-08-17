@@ -230,4 +230,9 @@ class Company extends Model
             ->wherePivot('is_enabled', 1)
             ->exists();
     }
+
+    public function hasPrintTemplate()
+    {
+        return $this->print_template_image;
+    }
 }

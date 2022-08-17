@@ -28,6 +28,13 @@
         rel="stylesheet"
     >
     <style>
+        .company-background {
+            background: url({{ asset('storage/' . userCompany()->print_template_image) }}) no-repeat center center fixed;
+            background-size: cover;
+            background-color: transparent !important;
+            padding-top: {{ userCompany()->print_padding_top }}% !important;
+        }
+
         .page-break {
             page-break-inside: avoid;
         }
@@ -49,23 +56,27 @@
             padding-bottom: 0.25rem !important;
         }
 
+        .company-padding {
+            padding-right: {{ userCompany()->print_padding_horizontal }}%;
+            padding-left: {{ userCompany()->print_padding_horizontal }}%;
+        }
     </style>
 </head>
 
-<body>
-    <x-print.header :warehouse="$gdn->warehouse" />
+<body class="{{ userCompany()->hasPrintTemplate() ? 'company-background' : '' }}">
+    @if (!userCompany()->hasPrintTemplate())
+        <x-print.header :warehouse="$gdn->warehouse" />
+    @endif
 
-    <main>
+    <main class="{{ userCompany()->hasPrintTemplate() ? 'company-padding' : 'px-6' }}">
         <x-print.customer :customer="$gdn->customer ?? ''" />
 
-        <hr class="my-0">
-
-        <section class="is-clearfix has-background-white-bis pl-6 py-3">
+        <section class="is-clearfix py-3">
             <aside
                 class="is-pulled-left"
                 style="width: 25% !important"
             >
-                <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
+                <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
                     N<u>o</u>
                 </h1>
                 <h1 class="has-text-black is-size-6 pr-2">
@@ -76,7 +87,7 @@
                 class="is-pulled-left"
                 style="width: 25% !important"
             >
-                <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
+                <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
                     Issued On
                 </h1>
                 <h1 class="has-text-black is-size-6 pr-2">
@@ -87,7 +98,7 @@
                 class="is-pulled-left"
                 style="width: 25% !important"
             >
-                <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
+                <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
                     Payment Type
                 </h1>
                 <h1 class="has-text-black is-size-6 pr-2">
@@ -102,8 +113,8 @@
             </h1>
         </section>
 
-        <section class="px-6 table-breaked">
-            <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
+        <section class="table-breaked">
+            <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7 is-transparent-color">
                 <thead>
                     <tr class="is-borderless">
                         <td
@@ -198,7 +209,7 @@
                 </tbody>
             </table>
         </section>
-        <section class="pl-6 mt-5">
+        <section class="mt-5">
             <aside style="width: 40% !important">
                 <table class="table is-bordered is-striped is-hoverable is-fullwidth is-size-7">
                     <tbody>
@@ -240,8 +251,9 @@
 
     <div style="margin-bottom: 27% !important">&nbsp;</div>
 
-    <footer style="position:absolute;bottom: 14%;left: 0;right: 0;">
-        <aside class="pl-6 my-5">
+
+    <footer style="position:absolute;bottom: {{ userCompany()->hasPrintTemplate() ? userCompany()->print_padding_bottom + 14 : '14' }}%;left: 0;right: 0;">
+        <aside class="{{ userCompany()->hasPrintTemplate() ? 'company-padding' : 'px-6' }} my-5">
             <h1 class="title is-size-7 is-uppercase mb-6">
                 I received the above goods/services in good condition
                 <br>
@@ -250,9 +262,9 @@
         </aside>
     </footer>
     @if ($gdn->createdBy->is($gdn->approvedBy))
-        <footer style="position:absolute;bottom: 0%;left: 0;right: 0;">
-            <aside class="pl-6">
-                <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
+        <footer style="position:absolute;bottom: {{ userCompany()->hasPrintTemplate() ? userCompany()->print_padding_bottom : '0' }}%;left: 0;right: 0;">
+            <aside class="{{ userCompany()->hasPrintTemplate() ? 'company-padding' : 'pl-6' }}">
+                <h1 class="is-size-7 is-uppercase has-text-black-lighter has-text-weight-bold mt-3">
                     Prepared & Approved By
                 </h1>
                 <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
@@ -270,9 +282,9 @@
             </aside>
         </footer>
     @else
-        <footer style="position:absolute;bottom: 0%;left: 0;right: 0;">
-            <aside class="pl-6">
-                <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
+        <footer style="position:absolute;bottom: {{ userCompany()->hasPrintTemplate() ? userCompany()->print_padding_bottom : '0' }}%;left: 0;right: 0;">
+            <aside class="{{ userCompany()->hasPrintTemplate() ? 'company-padding' : 'pl-6' }}">
+                <h1 class="is-size-7 is-uppercase has-text-black-lighter has-text-weight-bold mt-3">
                     Prepared By
                 </h1>
                 <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
@@ -289,9 +301,9 @@
                 </h1>
             </aside>
         </footer>
-        <footer style="position:absolute;bottom: 0%;left: 15%;right: 0;margin-left: 40%">
-            <aside class="pl-6">
-                <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
+        <footer style="position:absolute;bottom: {{ userCompany()->hasPrintTemplate() ? userCompany()->print_padding_bottom : '0' }}%;left: 15%;right: 0;margin-left: 40%">
+            <aside class="{{ userCompany()->hasPrintTemplate() ? 'company-padding' : 'pl-6' }}">
+                <h1 class="is-size-7 is-uppercase has-text-black-lighter has-text-weight-bold mt-3">
                     Approved By
                 </h1>
                 <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
