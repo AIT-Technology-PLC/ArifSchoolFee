@@ -27,40 +27,8 @@
         href="{{ asset('css/app.css') }}"
         rel="stylesheet"
     >
-    <style>
-        .company-background {
-            background: url({{ asset('storage/' . userCompany()->print_template_image) }}) no-repeat center center fixed;
-            background-size: cover;
-            background-color: transparent !important;
-            padding-top: {{ userCompany()->print_padding_top }}% !important;
-        }
 
-        .page-break {
-            page-break-inside: avoid;
-        }
-
-        @media print {
-            .table-breaked {
-                page-break-before: auto;
-            }
-        }
-
-        .summernote-table table td,
-        .summernote-table table th {
-            border-width: 1px !important;
-            padding: 0 !important;
-        }
-
-        td {
-            padding-top: 0.25rem !important;
-            padding-bottom: 0.25rem !important;
-        }
-
-        .company-padding {
-            padding-right: {{ userCompany()->print_padding_horizontal }}%;
-            padding-left: {{ userCompany()->print_padding_horizontal }}%;
-        }
-    </style>
+    @include('assets.print-css')
 </head>
 
 <body class="{{ userCompany()->hasPrintTemplate() ? 'company-background' : '' }}">
@@ -68,10 +36,19 @@
         <x-print.header :warehouse="$gdn->warehouse" />
     @endif
 
-    <main class="{{ userCompany()->hasPrintTemplate() ? 'company-padding' : 'px-6' }}">
-        <x-print.customer :customer="$gdn->customer ?? ''" />
+    <main @class(['company-y-padding' => userCompany()->hasPrintTemplate()])>
+        <div @class([
+            'company-x-padding' => userCompany()->hasPrintTemplate(),
+            'px-6' => !userCompany()->hasPrintTemplate(),
+        ])>
+            <x-print.customer :customer="$gdn->customer ?? ''" />
+        </div>
 
-        <section class="is-clearfix py-3">
+        <section @class([
+            'is-clearfix py-3',
+            'company-x-padding' => userCompany()->hasPrintTemplate(),
+            'px-6' => !userCompany()->hasPrintTemplate(),
+        ])>
             <aside
                 class="is-pulled-left"
                 style="width: 25% !important"
@@ -94,6 +71,13 @@
                     {{ $gdn->issued_on->toFormattedDateString() }}
                 </h1>
             </aside>
+        </section>
+
+        <section @class([
+            'is-clearfix py-3',
+            'company-x-padding' => userCompany()->hasPrintTemplate(),
+            'px-6' => !userCompany()->hasPrintTemplate(),
+        ])>
             <aside
                 class="is-pulled-left"
                 style="width: 25% !important"
@@ -105,16 +89,50 @@
                     {{ $gdn->payment_type }}
                 </h1>
             </aside>
+            <aside
+                class="is-pulled-left"
+                style="width: 25% !important"
+            >
+                <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
+                    Cash Amount
+                </h1>
+                <h1 class="has-text-black is-size-6 pr-2">
+                    {{ number_format($gdn->payment_in_cash, 2) }}
+                    ({{ number_format($gdn->cashReceivedInPercentage, 2) }}%)
+                </h1>
+            </aside>
+            @if (!$gdn->isPaymentInCash())
+                <aside
+                    class="is-pulled-left"
+                    style="width: 25% !important"
+                >
+                    <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
+                        Credit Amount
+                    </h1>
+                    <h1 class="has-text-black is-size-6 pr-2">
+                        {{ number_format($gdn->payment_in_credit, 2) }}
+                        ({{ number_format($gdn->creditPayableInPercentage, 2) }}%)
+                    </h1>
+                </aside>
+            @endif
         </section>
 
-        <section class="pt-5 has-text-centered">
+        <section @class([
+            'pt-5 has-text-centered',
+            'company-x-padding' => userCompany()->hasPrintTemplate(),
+            'px-6' => !userCompany()->hasPrintTemplate(),
+        ])>
             <h1 class="is-uppercase has-text-grey-dark has-text-weight-bold is-size-4 is-underlined">
                 Delivery Note
             </h1>
         </section>
 
-        <section class="table-breaked">
-            <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7 is-transparent-color">
+        <section @class([
+            'table-breaked',
+            'company-x-padding has-background-white' => userCompany()->hasPrintTemplate(),
+            'px-6' => !userCompany()->hasPrintTemplate(),
+        ])>
+            <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
                 <thead>
                     <tr class="is-borderless">
                         <td
@@ -209,116 +227,67 @@
                 </tbody>
             </table>
         </section>
-        <section class="mt-5">
-            <aside style="width: 40% !important">
-                <table class="table is-bordered is-striped is-hoverable is-fullwidth is-size-7">
-                    <tbody>
-                        <tr>
-                            <td
-                                colspan="2"
-                                class="has-text-weight-bold"
-                            >Payment Details</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>
-                                    <span class="has-text-weight-bold is-uppercase">
-                                        In Cash ({{ number_format($gdn->cashReceivedInPercentage, 2) }}%)
-                                    </span>
-                                    <br>
-                                    <span>
-                                        {{ number_format($gdn->paymentInCash, 2) }}
-                                    </span>
-                                </p>
-                            </td>
-                            <td>
-                                <p>
-                                    <span class="has-text-weight-bold is-uppercase">
-                                        On Credit ({{ number_format($gdn->creditPayableInPercentage, 2) }}%)
-                                    </span>
-                                    <br>
-                                    <span>
-                                        {{ number_format($gdn->paymentInCredit, 2) }}
-                                    </span>
-                                </p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </aside>
-        </section>
     </main>
 
-    <div style="margin-bottom: 27% !important">&nbsp;</div>
+    <div style="margin-bottom: {{ userCompany()->hasPrintTemplate() ? userCompany()->print_padding_bottom + 18 : '18' }}% !important">&nbsp;</div>
 
-
-    <footer style="position:absolute;bottom: {{ userCompany()->hasPrintTemplate() ? userCompany()->print_padding_bottom + 14 : '14' }}%;left: 0;right: 0;">
-        <aside class="{{ userCompany()->hasPrintTemplate() ? 'company-padding' : 'px-6' }} my-5">
-            <h1 class="title is-size-7 is-uppercase mb-6">
-                I received the above goods/services in good condition
-                <br>
-            </h1>
-            <div style="border: 1px solid lightgrey;width: 50%"></div>
-        </aside>
+    <footer
+        @class([
+            'my-5',
+            'company-x-padding' => userCompany()->hasPrintTemplate(),
+            'pl-6' => !userCompany()->hasPrintTemplate(),
+        ])
+        style="position:absolute;bottom: {{ userCompany()->hasPrintTemplate() ? userCompany()->print_padding_bottom + 5 : '5' }}%;left: 0;right: 0;"
+    >
+        <h1 class="title is-size-7 is-uppercase mb-6">
+            I received the above goods/services in good condition
+            <br>
+        </h1>
+        <div style="border: 1px solid lightgrey;width: 50%"></div>
     </footer>
     @if ($gdn->createdBy->is($gdn->approvedBy))
-        <footer style="position:absolute;bottom: {{ userCompany()->hasPrintTemplate() ? userCompany()->print_padding_bottom : '0' }}%;left: 0;right: 0;">
-            <aside class="{{ userCompany()->hasPrintTemplate() ? 'company-padding' : 'pl-6' }}">
-                <h1 class="is-size-7 is-uppercase has-text-black-lighter has-text-weight-bold mt-3">
-                    Prepared & Approved By
-                </h1>
-                <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
-                    {{ $gdn->createdBy->name }}
-                </h1>
-                <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-4 mt-5">
-                    <div>
-                        Signature
-                    </div>
-                    <div
-                        class="mt-6"
-                        style="border: 1px solid lightgrey;width: 30%"
-                    ></div>
-                </h1>
-            </aside>
+        <footer
+            @class([
+                'company-x-padding' => userCompany()->hasPrintTemplate(),
+                'pl-6' => !userCompany()->hasPrintTemplate(),
+            ])
+            style="position:absolute;bottom: {{ userCompany()->hasPrintTemplate() ? userCompany()->print_padding_bottom : '0' }}%;left: 0;right: 0;"
+        >
+            <h1 class="is-size-7 is-uppercase has-text-black-lighter has-text-weight-bold mt-3">
+                Prepared & Approved By
+            </h1>
+            <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
+                {{ $gdn->createdBy->name }}
+            </h1>
         </footer>
     @else
-        <footer style="position:absolute;bottom: {{ userCompany()->hasPrintTemplate() ? userCompany()->print_padding_bottom : '0' }}%;left: 0;right: 0;">
-            <aside class="{{ userCompany()->hasPrintTemplate() ? 'company-padding' : 'pl-6' }}">
-                <h1 class="is-size-7 is-uppercase has-text-black-lighter has-text-weight-bold mt-3">
-                    Prepared By
-                </h1>
-                <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
-                    {{ $gdn->createdBy->name }}
-                </h1>
-                <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-4 mt-5">
-                    <div>
-                        Signature
-                    </div>
-                    <div
-                        class="mt-6"
-                        style="border: 1px solid lightgrey;width: 30%"
-                    ></div>
-                </h1>
-            </aside>
+        <footer
+            @class([
+                'company-x-padding' => userCompany()->hasPrintTemplate(),
+                'pl-6' => !userCompany()->hasPrintTemplate(),
+            ])
+            style="position:absolute;bottom: {{ userCompany()->hasPrintTemplate() ? userCompany()->print_padding_bottom : '0' }}%;left: 0;right: 0;"
+        >
+            <h1 class="is-size-7 is-uppercase has-text-black-lighter has-text-weight-bold mt-3">
+                Prepared By
+            </h1>
+            <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
+                {{ $gdn->createdBy->name }}
+            </h1>
         </footer>
-        <footer style="position:absolute;bottom: {{ userCompany()->hasPrintTemplate() ? userCompany()->print_padding_bottom : '0' }}%;left: 15%;right: 0;margin-left: 40%">
-            <aside class="{{ userCompany()->hasPrintTemplate() ? 'company-padding' : 'pl-6' }}">
-                <h1 class="is-size-7 is-uppercase has-text-black-lighter has-text-weight-bold mt-3">
-                    Approved By
-                </h1>
-                <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
-                    {{ $gdn->approvedBy->name }}
-                </h1>
-                <h1 class="title is-size-7 is-uppercase has-text-grey-light mb-4 mt-5">
-                    <div>
-                        Signature
-                    </div>
-                    <div
-                        class="mt-6"
-                        style="border: 1px solid lightgrey;width: 70%"
-                    ></div>
-                </h1>
-            </aside>
+        <footer
+            @class([
+                'company-x-padding' => userCompany()->hasPrintTemplate(),
+                'pl-6' => !userCompany()->hasPrintTemplate(),
+            ])
+            style="position:absolute;bottom: {{ userCompany()->hasPrintTemplate() ? userCompany()->print_padding_bottom : '0' }}%;left: 15%;right: 0;margin-left: 40%"
+        >
+            <h1 class="is-size-7 is-uppercase has-text-black-lighter has-text-weight-bold mt-3">
+                Approved By
+            </h1>
+            <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
+                {{ $gdn->approvedBy->name }}
+            </h1>
         </footer>
     @endif
 </body>
