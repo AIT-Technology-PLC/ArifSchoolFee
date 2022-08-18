@@ -35,6 +35,31 @@
                         label="Supplier"
                     />
                 </div>
+                @if (!$purchase->isImported())
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fa fa-file-invoice-dollar"
+                            :data="$purchase->tax_type"
+                            label="Tax Type"
+                        />
+                    </div>
+                @endif
+                @if ($purchase->isImported())
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-money-bill"
+                            :data="$purchase->currency"
+                            label="Currency"
+                        />
+                    </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-hashtag"
+                            :data="$purchase->exchange_rate"
+                            label="Exchange Rate"
+                        />
+                    </div>
+                @endif
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
@@ -42,14 +67,21 @@
                         label="Issued On"
                     />
                 </div>
-                <div class="column is-6">
-                    <x-common.show-data-section
-                        icon="fas fa-dollar-sign"
-                        :data="number_format($purchase->subtotalPrice, 2)"
-                        label="Subtotal Price ({{ userCompany()->currency }})"
-                    />
-                </div>
                 @if (!$purchase->isImported())
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-dollar-sign"
+                            :data="number_format($purchase->subtotalPrice, 2)"
+                            label="Subtotal Price ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fa fa-dollar-sign"
+                            :data="$purchase->vat"
+                            :label="$purchase->tax_type"
+                        />
+                    </div>
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-dollar-sign"
@@ -58,21 +90,12 @@
                         />
                     </div>
                 @endif
-                @if (!userCompany()->isDiscountBeforeVAT())
+                @if ($purchase->isImported())
                     <div class="column is-6">
                         <x-common.show-data-section
-                            icon="fas fa-percentage"
-                            data="{{ number_format($purchase->discount * 100, 2) }}%"
-                            label="Discount"
-                        />
-                    </div>
-                @endif
-                @if (!$purchase->isImported() && !userCompany()->isDiscountBeforeVAT())
-                    <div class="column is-6">
-                        <x-common.show-data-section
-                            icon="fas fa-dollar-sign"
-                            :data="number_format($purchase->grandTotalPriceAfterDiscount, 2)"
-                            label="Grand Total Price (After Discount)"
+                            icon="fa fa-dollar-sign"
+                            :data="number_format($purchase->purchaseDetails->sum('totalCostAfterTax'), 2)"
+                            label="Grand Total Cost After Tax"
                         />
                     </div>
                 @endif
@@ -174,7 +197,7 @@
         </x-content.footer>
     </x-common.content-wrapper>
 
-    @if (isFeatureEnabled('Grn Management'))
+    @if (isFeatureEnabled('Grn Management') && $purchase->grns->isNotEmpty())
         <x-common.content-wrapper class="mt-5">
             <x-content.header title="Goods Received Notes" />
             <x-content.footer>

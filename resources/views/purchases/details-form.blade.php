@@ -99,7 +99,7 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.label x-bind:for="`purchase[${index}][unit_price]`">
-                            Unit Price<sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup> <sup class="has-text-danger">*</sup>
+                            Unit Price <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
@@ -130,26 +130,198 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? '' : 'is-hidden' }}">
-                        <x-forms.label x-bind:for="`purchase[${index}][discount]`">
-                            Discount <sup class="has-text-danger"></sup>
-                        </x-forms.label>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                    >
                         <x-forms.field>
-                            <x-forms.control class="has-icons-left is-expanded">
+                            <x-forms.label x-bind:for="`purchase[${index}][freight_cost]`">
+                                Freight Cost <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
                                 <x-forms.input
                                     type="number"
-                                    x-bind:id="`purchase[${index}][discount]`"
-                                    x-bind:name="`purchase[${index}][discount]`"
-                                    x-model="purchase.discount"
-                                    placeholder="Discount in Percentage"
+                                    x-bind:id="`purchase[${index}][freight_cost]`"
+                                    x-bind:name="`purchase[${index}][freight_cost]`"
+                                    placeholder="Freight Cost"
+                                    x-model="purchase.freight_cost"
                                 />
                                 <x-common.icon
-                                    name="fas fa-percent"
-                                    class="is-small is-left"
+                                    name="fas fa-money-bill"
+                                    class="is-large is-left"
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`purchase.${index}.discount`)"
+                                    x-text="$store.errors.getErrors(`purchase.${index}.freight_cost`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label x-bind:for="`purchase[${index}][freight_insurance_cost]`">
+                                Freight Insurance Cost <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="number"
+                                    x-bind:id="`purchase[${index}][freight_insurance_cost]`"
+                                    x-bind:name="`purchase[${index}][freight_insurance_cost]`"
+                                    placeholder="Freight Insurance Cost"
+                                    x-model="purchase.freight_insurance_cost"
+                                />
+                                <x-common.icon
+                                    name="fas fa-money-bill"
+                                    class="is-large is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`purchase.${index}.freight_insurance_cost`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label x-bind:for="`purchase[${index}][duty_rate]`">
+                                Duty Rate (%) <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="number"
+                                    x-bind:id="`purchase[${index}][duty_rate]`"
+                                    x-bind:name="`purchase[${index}][duty_rate]`"
+                                    placeholder="Duty Rate in Percentage"
+                                    x-model="purchase.duty_rate"
+                                />
+                                <x-common.icon
+                                    name="fas fa-percent"
+                                    class="is-large is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`purchase.${index}.duty_rate`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label x-bind:for="`purchase[${index}][excise_tax]`">
+                                Excise Tax (%) <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="number"
+                                    x-bind:id="`purchase[${index}][excise_tax]`"
+                                    x-bind:name="`purchase[${index}][excise_tax]`"
+                                    placeholder="Excise Tax in Percentage"
+                                    x-model="purchase.excise_tax"
+                                />
+                                <x-common.icon
+                                    name="fas fa-percent"
+                                    class="is-large is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`purchase.${index}.excise_tax`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label x-bind:for="`purchase[${index}][vat_rate]`">
+                                VAT Rate (%) <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="number"
+                                    x-bind:id="`purchase[${index}][vat_rate]`"
+                                    x-bind:name="`purchase[${index}][vat_rate]`"
+                                    placeholder="VAT Rate in Percentage"
+                                    x-model="purchase.vat_rate"
+                                />
+                                <x-common.icon
+                                    name="fas fa-percent"
+                                    class="is-large is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`purchase.${index}.vat_rate`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label x-bind:for="`purchase[${index}][surtax]`">
+                                Surtax (%) <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="number"
+                                    x-bind:id="`purchase[${index}][surtax]`"
+                                    x-bind:name="`purchase[${index}][surtax]`"
+                                    placeholder="Surtax in Percentage"
+                                    x-model="purchase.surtax"
+                                />
+                                <x-common.icon
+                                    name="fas fa-percent"
+                                    class="is-large is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`purchase.${index}.surtax`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label x-bind:for="`purchase[${index}][with_holding_tax]`">
+                                Withholding Tax (%) <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="number"
+                                    x-bind:id="`purchase[${index}][with_holding_tax]`"
+                                    x-bind:name="`purchase[${index}][with_holding_tax]`"
+                                    placeholder="Withholding Tax in Percentage"
+                                    x-model="purchase.with_holding_tax"
+                                />
+                                <x-common.icon
+                                    name="fas fa-percent"
+                                    class="is-large is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`purchase.${index}.with_holding_tax`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>

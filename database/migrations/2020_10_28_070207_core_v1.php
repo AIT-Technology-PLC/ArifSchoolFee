@@ -236,9 +236,11 @@ return new class extends Migration
             $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->boolean('is_closed')->default(0);
-            $table->decimal('discount', 22)->nullable();
             $table->string('type');
             $table->string('payment_type');
+            $table->string('tax_type')->nullable();
+            $table->string('currency')->nullable();
+            $table->decimal('exchange_rate', 22)->nullable();
             $table->dateTime('purchased_on')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
@@ -256,7 +258,13 @@ return new class extends Migration
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22);
-            $table->decimal('discount', 22)->nullable();
+            $table->decimal('freight_cost', 22)->nullable();
+            $table->decimal('freight_insurance_cost', 22)->nullable();
+            $table->decimal('duty_rate', 22)->nullable();
+            $table->decimal('excise_tax', 22)->nullable();
+            $table->decimal('vat_rate', 22)->nullable();
+            $table->decimal('surtax', 22)->nullable();
+            $table->decimal('with_holding_tax', 22)->nullable();
             $table->timestamps();
             $table->softDeletes();
 
