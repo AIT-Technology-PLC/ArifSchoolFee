@@ -202,20 +202,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled(
-        'Employee Management',
-        'Department Management',
-        'Employee Transfer',
-        'Attendance Management',
-        'Warning Management',
-        'Advancement Management',
-        'Leave Management',
-        'Expense Claim',
-        'Earning Management',
-        'Announcement Management',
-        'Compensation Management',
-        'Compensation Adjustment'))
-        @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Earning', 'Read Announcement', 'Read Compensation', 'Read Compensation Adjustment'])
+    @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Announcement Management', 'Compensation Management', 'Compensation Adjustment'))
+        @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Announcement', 'Read Compensation', 'Read Compensation Adjustment'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -350,29 +338,6 @@
                                         label="Leaves"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('leaves.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('leaves.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                            @endcan
-                        @endif
-
-                        @if (isFeatureEnabled('Earning Management'))
-                            @can('Read Earning')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('earning-categories.index') }}"
-                                        label="Earning Categories"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('earning-categories.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('earning-categories.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('earnings.index') }}"
-                                        label="Earnings"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('earnings.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('earnings.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

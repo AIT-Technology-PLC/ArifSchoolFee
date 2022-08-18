@@ -185,10 +185,6 @@ class Features extends Seeder
                 ['is_enabled' => 0]
             );
             Feature::updateOrCreate(
-                ['name' => 'Earning Management'],
-                ['is_enabled' => 0]
-            );
-            Feature::updateOrCreate(
                 ['name' => 'Announcement Management'],
                 ['is_enabled' => 0]
             );

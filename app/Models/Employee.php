@@ -60,11 +60,6 @@ class Employee extends Model
         return $this->belongsTo(Department::class);
     }
 
-    public function earningDetails()
-    {
-        return $this->hasMany(EarningDetail::class);
-    }
-
     public function isMale()
     {
         return $this->gender == 'male';
